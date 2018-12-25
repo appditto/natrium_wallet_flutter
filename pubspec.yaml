@@ -49,6 +49,9 @@ flutter:
           weight: 600
         - asset: fonts/OverpassMono-Light.ttf
           weight: 100
+    - family:  KaliumIcons
+      fonts:
+        - asset: fonts/KaliumIcons.ttf
   assets:
     - assets/monkey.png
     - assets/monkeyQR.png

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
+import 'kalium_icons.dart';
 
 //Main Card
 Widget buildMainCard() {
@@ -21,7 +22,7 @@ Widget buildMainCard() {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                new Icon(Icons.settings, color: white90, size: 26),
+                new Icon(KaliumIcons.settings, color: white90, size: 24),
               ],
             ),
           ),
