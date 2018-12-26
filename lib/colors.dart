@@ -5,6 +5,7 @@ Color greyLight40 = const Color(0x662A2A2E);
 Color greyLightZero = const Color(0x002A2A2E);
 
 Color greyDark = const Color(0xFF212124);
+Color greyDarkZero = const Color(0x00212124);
 
 Color greyDarkest = const Color(0xFF1A1A1C);
 

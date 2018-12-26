@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'KaliumF',
       theme: ThemeData(
         primaryColor: yellow,
-        accentColor: yellow60,
+        accentColor: yellow,
         fontFamily: 'NunitoSans',
         brightness: Brightness.dark,
       ),
@@ -33,14 +33,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Modal modal = new Modal();
+  KaliumBottomSheet receive = new KaliumBottomSheet();
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
     return Scaffold(
-      drawer: new Drawer(
-        child: buildSettingsSheet(),
+      drawer: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: new Drawer(
+          child: buildSettingsSheet(),
+        ),
       ),
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -54,14 +57,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
             //Transactions Text
             Container(
-              margin: new EdgeInsets.fromLTRB(26.0, 20.0, 26.0, 0.0),
+              margin: new EdgeInsets.fromLTRB(30.0, 20.0, 26.0, 0.0),
               child: Row(
                 children: <Widget>[
                   Text(
                     "TRANSACTIONS",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 14.0,
                       fontWeight: FontWeight.w100,
                       color: white90,
                     ),
@@ -70,14 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ), //Transactions Text End
 
-            //List+Buttons
+            //Transactions List
             Expanded(
               child: Stack(
                 children: <Widget>[
-                  //Transactions List
                   Container(
                     child: ListView(
-                      padding: EdgeInsets.only(top: 5.0, bottom: 110.0),
+                      padding: EdgeInsets.only(top: 5.0, bottom: 15.0),
                       children: <Widget>[
                         buildReceivedCard('1520', 'ban_1rigge1...bbedwa'),
                         buildReceivedCard('13020', 'ban_1yekta1...fuuyek'),
@@ -95,9 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         buildSentCard('1201', '@rene'),
                       ],
                     ),
-                  ), //Transactions List End
+                  ),
 
-                  //Thin Strip
+                  //List Top Gradient End
                   Align(
                     alignment: Alignment.topCenter,
                     child: Container(
@@ -111,53 +113,57 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                     ),
-                  ), //Thin Strip End
+                  ), //List Top Gradient End
 
-                  //Buttons Area
+                  //List Bottom Gradient
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
+                      height: 30.0,
+                      width: double.infinity,
                       decoration: new BoxDecoration(
-                        color: greyDark,
                         gradient: new LinearGradient(
                           colors: [greyLightZero, greyLight],
-                          begin: new Alignment(0.5, -1.0),
-                          end: new Alignment(0.5, -0.5),
+                          begin: new Alignment(0.5, -1),
+                          end: new Alignment(0.5, 0.5),
                         ),
                       ),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              margin: new EdgeInsets.fromLTRB(
-                                  14.0, 40.0, 14.0, 22.0),
-                              child: new FlatButton(
-                                shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(100.0)),
-                                color: yellow,
-                                child: new Text('Receive',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 22.0,
-                                        fontWeight: FontWeight.w700,
-                                        color: greyLight)),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 14.0, horizontal: 20),
-                                onPressed: () => modal.mainBottomSheet(context),
-                                highlightColor: greyLight40,
-                                splashColor: greyLight40,
-                              ),
-                            ),
-                          ),
-                          buildKaliumButton("Send", 7.0, 40.0, 14.0, 22.0),
-                        ],
-                      ),
                     ),
-                  ), //Buttons Area
+                  ), //List Bottom Gradient End
                 ],
               ),
-            ), //List+Buttons End
+            ), //Transactions List End
+
+            //Buttons Area
+            Container(
+              color: greyLight,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      margin: new EdgeInsets.fromLTRB(14.0, 0.0, 7.0, 25.0),
+                      child: new FlatButton(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(100.0)),
+                        color: yellow,
+                        child: new Text('Receive',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w700,
+                                color: greyLight)),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 14.0, horizontal: 20),
+                        onPressed: () => receive.mainBottomSheet(context),
+                        highlightColor: greyLight40,
+                        splashColor: greyLight40,
+                      ),
+                    ),
+                  ),
+                  buildKaliumButton("Send", 7.0, 0.0, 14.0, 25.0),
+                ],
+              ),
+            ), //Buttons Area End
           ],
         ),
       ),

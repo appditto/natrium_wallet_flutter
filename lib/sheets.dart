@@ -6,280 +6,316 @@ import 'kalium_icons.dart';
 Widget buildSettingsSheet() {
   return Container(
     color: greyDark,
-    child: ListView(
-      padding: EdgeInsets.only(bottom: 10.0),
+    child: Column(
       children: <Widget>[
         Container(
-          margin: new EdgeInsets.only(left: 30.0, top: 40.0),
-          child: Text("Settings",
-              style: TextStyle(
-                  fontSize: 30.0, fontWeight: FontWeight.w800, color: white90)),
-        ),
-        Container(
-          margin: new EdgeInsets.only(left: 30.0, top: 20.0),
-          child: Text("Preferences",
-              style: TextStyle(
-                  fontSize: 16.0, fontWeight: FontWeight.w100, color: white60)),
-        ),
-        Divider(),
-        Container(
-          height: 50.0,
-          margin: new EdgeInsets.only(left: 30.0),
+          margin: new EdgeInsets.only(left: 30.0, top: 50.0, bottom: 10.0),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                  margin: new EdgeInsets.only(right: 16.0),
-                  child:
-                      new Icon(KaliumIcons.currency, color: yellow, size: 22)),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Change Currency",
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                        color: white90),
-                  ),
-                  Text(
-                    "\$ US Dollar",
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w100,
-                        color: white60),
-                  ),
-                ],
-              ),
+              Text("Settings",
+                  style: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.w800,
+                      color: white90))
             ],
           ),
         ),
-        Divider(),
-        Container(
-          height: 50.0,
-          margin: new EdgeInsets.only(left: 30.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  margin: new EdgeInsets.only(right: 16.0),
-                  child:
-                      new Icon(KaliumIcons.language, color: yellow, size: 22)),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Language",
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                        color: white90),
-                  ),
-                  Text(
-                    "System Default",
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w100,
-                        color: white60),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Divider(),
-        Container(
-          height: 50.0,
-          margin: new EdgeInsets.only(left: 30.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  margin: new EdgeInsets.only(right: 16.0),
-                  child: new Icon(KaliumIcons.fingerprint,
-                      color: yellow, size: 22)),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Authentication Method",
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                        color: white90),
-                  ),
-                  Text(
-                    "Fingerprint",
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w100,
-                        color: white60),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Divider(),
-        Container(
-          height: 50.0,
-          margin: new EdgeInsets.only(left: 30.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                  margin: new EdgeInsets.only(right: 16.0),
-                  child: new Icon(KaliumIcons.notifications,
-                      color: yellow, size: 22)),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Notifications",
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                        color: white90),
-                  ),
-                  Text(
-                    "On",
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w100,
-                        color: white60),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Divider(),
-        Container(
-          margin: new EdgeInsets.only(left: 30.0, top: 20.0),
-          child: Text("Manage",
-              style: TextStyle(
-                  fontSize: 16.0, fontWeight: FontWeight.w100, color: white60)),
-        ),
-        Divider(),
-        Container(
-          height: 50.0,
-          margin: new EdgeInsets.only(left: 30.0),
-          child: Row(
-            children: <Widget>[
-              Container(
-                  margin: new EdgeInsets.only(right: 16.0),
-                  child:
-                      new Icon(KaliumIcons.contacts, color: yellow, size: 22)),
-              Text(
-                "Contacts",
-                style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: white90),
-              ),
-            ],
-          ),
-        ),
-        Divider(),
-        Container(
-          height: 50.0,
-          margin: new EdgeInsets.only(left: 30.0),
-          child: Row(
-            children: <Widget>[
-              Container(
-                  margin: new EdgeInsets.only(right: 16.0),
-                  child: new Icon(KaliumIcons.backupseed,
-                      color: yellow, size: 22)),
-              Text(
-                "Backup Seed",
-                style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: white90),
-              ),
-            ],
-          ),
-        ),
-        Divider(),
-        Container(
-          height: 50.0,
-          margin: new EdgeInsets.only(left: 30.0),
-          child: Row(
-            children: <Widget>[
-              Container(
-                  margin: new EdgeInsets.only(right: 16.0),
-                  child: new Icon(KaliumIcons.transferfunds,
-                      color: yellow, size: 22)),
-              Text(
-                "Load from Paper Wallet",
-                style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: white90),
-              ),
-            ],
-          ),
-        ),
-        Divider(),
-        Container(
-          height: 50.0,
-          margin: new EdgeInsets.only(left: 30.0),
-          child: Row(
-            children: <Widget>[
-              Container(
-                  margin: new EdgeInsets.only(right: 16.0),
-                  child: new Icon(KaliumIcons.changerepresentative,
-                      color: yellow, size: 22)),
-              Text(
-                "Change Representative",
-                style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: white90),
-              ),
-            ],
-          ),
-        ),
-        Divider(),
-        Container(
-          height: 50.0,
-          margin: new EdgeInsets.only(left: 30.0),
-          child: Row(
-            children: <Widget>[
-              Container(
-                  margin: new EdgeInsets.only(right: 16.0),
-                  child: new Icon(KaliumIcons.logout, color: yellow, size: 22)),
-              Text(
-                "Logout",
-                style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: white90),
-              ),
-            ],
-          ),
-        ),
-        Divider(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Expanded(
+            child: Stack(
           children: <Widget>[
-            Text(
-              "KaliumF v0.1",
-              style: TextStyle(
-                  fontSize: 16.0, fontWeight: FontWeight.w100, color: white60),
+            ListView(
+              padding: EdgeInsets.only(bottom: 10.0, top: 15.0),
+              children: <Widget>[
+                Container(
+                  margin: new EdgeInsets.only(left: 30.0),
+                  child: Text("Preferences",
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w100,
+                          color: white60)),
+                ),
+                Divider(),
+                Container(
+                  height: 50.0,
+                  margin: new EdgeInsets.only(left: 30.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          margin: new EdgeInsets.only(right: 16.0),
+                          child: new Icon(KaliumIcons.currency,
+                              color: yellow, size: 24)),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Change Currency",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                                color: white90),
+                          ),
+                          Text(
+                            "\$ US Dollar",
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w100,
+                                color: white60),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(),
+                Container(
+                  height: 50.0,
+                  margin: new EdgeInsets.only(left: 30.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          margin: new EdgeInsets.only(right: 16.0),
+                          child: new Icon(KaliumIcons.language,
+                              color: yellow, size: 24)),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Language",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                                color: white90),
+                          ),
+                          Text(
+                            "System Default",
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w100,
+                                color: white60),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(),
+                Container(
+                  height: 50.0,
+                  margin: new EdgeInsets.only(left: 30.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          margin: new EdgeInsets.only(right: 16.0),
+                          child: new Icon(KaliumIcons.fingerprint,
+                              color: yellow, size: 24)),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Authentication Method",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                                color: white90),
+                          ),
+                          Text(
+                            "Fingerprint",
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w100,
+                                color: white60),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(),
+                Container(
+                  height: 50.0,
+                  margin: new EdgeInsets.only(left: 30.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                          margin: new EdgeInsets.only(right: 16.0),
+                          child: new Icon(KaliumIcons.notifications,
+                              color: yellow, size: 24)),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Notifications",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w600,
+                                color: white90),
+                          ),
+                          Text(
+                            "On",
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w100,
+                                color: white60),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(),
+                Container(
+                  margin: new EdgeInsets.only(left: 30.0, top: 20.0),
+                  child: Text("Manage",
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w100,
+                          color: white60)),
+                ),
+                Divider(),
+                Container(
+                  height: 50.0,
+                  margin: new EdgeInsets.only(left: 30.0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          margin: new EdgeInsets.only(right: 16.0),
+                          child: new Icon(KaliumIcons.contacts,
+                              color: yellow, size: 24)),
+                      Text(
+                        "Contacts",
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                            color: white90),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(),
+                Container(
+                  height: 50.0,
+                  margin: new EdgeInsets.only(left: 30.0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          margin: new EdgeInsets.only(right: 16.0),
+                          child: new Icon(KaliumIcons.backupseed,
+                              color: yellow, size: 24)),
+                      Text(
+                        "Backup Seed",
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                            color: white90),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(),
+                Container(
+                  height: 50.0,
+                  margin: new EdgeInsets.only(left: 30.0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          margin: new EdgeInsets.only(right: 16.0),
+                          child: new Icon(KaliumIcons.transferfunds,
+                              color: yellow, size: 24)),
+                      Text(
+                        "Load from Paper Wallet",
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                            color: white90),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(),
+                Container(
+                  height: 50.0,
+                  margin: new EdgeInsets.only(left: 30.0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          margin: new EdgeInsets.only(right: 16.0),
+                          child: new Icon(KaliumIcons.changerepresentative,
+                              color: yellow, size: 24)),
+                      Text(
+                        "Change Representative",
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                            color: white90),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(),
+                Container(
+                  height: 50.0,
+                  margin: new EdgeInsets.only(left: 30.0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          margin: new EdgeInsets.only(right: 16.0),
+                          child: new Icon(KaliumIcons.logout,
+                              color: yellow, size: 24)),
+                      Text(
+                        "Logout",
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                            color: white90),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "KaliumF v0.1",
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w100,
+                          color: white60),
+                    ),
+                  ],
+                ),
+              ],
             ),
+            //List Top Gradient End
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                height: 20.0,
+                width: double.infinity,
+                decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                    colors: [greyDark, greyDarkZero],
+                    begin: new Alignment(0.5, -1.0),
+                    end: new Alignment(0.5, 1.0),
+                  ),
+                ),
+              ),
+            ), //List Top Gradient End
           ],
-        ),
+        )),
       ],
     ),
   );
 }
-
-class Modal {
+class KaliumBottomSheet{
   mainBottomSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,

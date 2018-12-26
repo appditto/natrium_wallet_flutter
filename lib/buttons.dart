@@ -18,7 +18,7 @@ Widget buildKaliumButton(String buttonText, double marginLeft, double marginTop,
         child: new Text(buttonText,
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 22.0, fontWeight: FontWeight.w700, color: greyLight)),
+                fontSize: 20.0, fontWeight: FontWeight.w700, color: greyLight)),
         padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
         onPressed: () {
           doNothing();

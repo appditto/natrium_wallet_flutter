@@ -36,7 +36,7 @@ Widget buildMainCard() {
                     style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white54)),
+                        color: white60)),
                 new Text("312,000",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -48,7 +48,7 @@ Widget buildMainCard() {
                     style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w600,
-                        color: Colors.white54)),
+                        color: white60)),
               ],
             ),
           ),
@@ -69,24 +69,24 @@ Widget buildMainCard() {
 
 //Received Card
 Widget buildReceivedCard(String amount, String address) {
-  return new Container(
-    margin: new EdgeInsets.fromLTRB(14.0, 5.0, 14.0, 5.0),
-    decoration: new BoxDecoration(
+  return Container(
+    margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+    decoration: BoxDecoration(
       color: greyDark,
       borderRadius: BorderRadius.circular(10.0),
     ),
     child: Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Row(
               children: <Widget>[
                 Container(
-                    margin: new EdgeInsets.only(right: 12.0),
-                    child: new Icon(Icons.add_circle_outline,
-                        color: yellow60, size: 26)),
+                    margin: new EdgeInsets.only(right: 16.0),
+                    child: new Icon(KaliumIcons.received,
+                        color: yellow60, size: 20)),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -94,7 +94,7 @@ Widget buildReceivedCard(String amount, String address) {
                       "Received",
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 14.0,
                         fontWeight: FontWeight.w600,
                         color: white90,
                       ),
@@ -108,7 +108,7 @@ Widget buildReceivedCard(String amount, String address) {
                             text: amount,
                             style: new TextStyle(
                               color: yellow60,
-                              fontSize: 14.0,
+                              fontSize: 12.0,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -116,7 +116,7 @@ Widget buildReceivedCard(String amount, String address) {
                             text: " BAN",
                             style: new TextStyle(
                               color: yellow60,
-                              fontSize: 14.0,
+                              fontSize: 12.0,
                               fontWeight: FontWeight.w100,
                             ),
                           ),
@@ -146,24 +146,24 @@ Widget buildReceivedCard(String amount, String address) {
 
 //Sent Card
 Widget buildSentCard(String amount, String address) {
-  return new Container(
-    margin: new EdgeInsets.fromLTRB(14.0, 5.0, 14.0, 5.0),
+  return Container(
+    margin: new EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
     decoration: new BoxDecoration(
       color: greyDark,
       borderRadius: BorderRadius.circular(10.0),
     ),
     child: Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Row(
               children: <Widget>[
                 Container(
-                    margin: new EdgeInsets.only(right: 12.0),
-                    child: new Icon(Icons.remove_circle_outline,
-                        color: white60, size: 26)),
+                    margin: new EdgeInsets.only(right: 16.0),
+                    child: new Icon(KaliumIcons.sent,
+                        color: white60, size: 20)),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -171,7 +171,7 @@ Widget buildSentCard(String amount, String address) {
                       "Sent",
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 14.0,
                         fontWeight: FontWeight.w600,
                         color: white90,
                       ),
@@ -185,7 +185,7 @@ Widget buildSentCard(String amount, String address) {
                             text: amount,
                             style: new TextStyle(
                               color: yellow60,
-                              fontSize: 14.0,
+                              fontSize: 12.0,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -193,7 +193,7 @@ Widget buildSentCard(String amount, String address) {
                             text: " BAN",
                             style: new TextStyle(
                               color: yellow60,
-                              fontSize: 14.0,
+                              fontSize: 12.0,
                               fontWeight: FontWeight.w100,
                             ),
                           ),
