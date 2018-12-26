@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'buttons.dart';
 import 'kalium_icons.dart';
+import 'main.dart';
 
 Widget buildSettingsSheet() {
   return Container(
@@ -317,6 +318,89 @@ Widget buildSettingsSheet() {
 }
 
 class KaliumBottomSheet {
+  receiveAddressBuilder(String address) {
+    String stringPartOne = address.substring(0, 11);
+    String stringPartTwo = address.substring(11, 22);
+    String stringPartThree = address.substring(22, 44);
+    String stringPartFour = address.substring(44, 58);
+    String stringPartFive = address.substring(58, 64);
+    return Column(
+      children: <Widget>[
+        RichText(
+          textAlign: TextAlign.center,
+          text: new TextSpan(
+            text: '',
+            children: [
+              new TextSpan(
+                text: stringPartOne,
+                style: new TextStyle(
+                  color: yellow60,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w100,
+                  fontFamily: 'OverpassMono',
+                ),
+              ),
+              new TextSpan(
+                text: stringPartTwo,
+                style: new TextStyle(
+                  color: white60,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w100,
+                  fontFamily: 'OverpassMono',
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top:2.0, bottom: 2.0),
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: new TextSpan(
+              text: '',
+              children: [
+                new TextSpan(
+                  text: stringPartThree,
+                  style: new TextStyle(
+                    color: white60,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w100,
+                    fontFamily: 'OverpassMono',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        RichText(
+          textAlign: TextAlign.center,
+          text: new TextSpan(
+            text: '',
+            children: [
+              new TextSpan(
+                text: stringPartFour,
+                style: new TextStyle(
+                  color: white60,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w100,
+                  fontFamily: 'OverpassMono',
+                ),
+              ),
+              new TextSpan(
+                text: stringPartFive,
+                style: new TextStyle(
+                  color: yellow60,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w100,
+                  fontFamily: 'OverpassMono',
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
   mainBottomSheet(BuildContext context) {
     showRoundedModalBottomSheet(
         radius: 30.0,
@@ -335,47 +419,10 @@ class KaliumBottomSheet {
                     child: Icon(KaliumIcons.exit, size: 16, color:white90),
                   ),
                 ),
-                Container(
-                    margin: new EdgeInsets.only(left: 110.0, right: 110),
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: new TextSpan(
-                        text:'',
-                        children: [
-                          new TextSpan(
-                            text: 'ban_1yekta1',
-                            style: new TextStyle(
-                              color: yellow60,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w100,
-                              fontFamily: 'OverpassMono',
-                            ),                          
-                          ),
-                          new TextSpan(
-                            text: 'xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o',
-                            style: new TextStyle(
-                              color: white60,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w100,
-                              fontFamily: 'OverpassMono',
-                            ),
-                          ),
-                          new TextSpan(
-                            text: '4sdhd4',
-                            style: new TextStyle(
-                              color: yellow60,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w100,
-                              fontFamily: 'OverpassMono',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                ),
+                receiveAddressBuilder('ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4'),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(top:40, bottom:40),
+                    margin: EdgeInsets.only(top:35, bottom:35),
                     decoration: new BoxDecoration(
                       image: new DecorationImage(
                         image: new AssetImage('assets/monkeyQR.png'),
