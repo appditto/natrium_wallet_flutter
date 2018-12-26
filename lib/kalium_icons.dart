@@ -43,4 +43,6 @@ class KaliumIcons {
   static const IconData logout = const IconData(0xe814, fontFamily: _kFontFam);
   static const IconData sent = const IconData(0xe815, fontFamily: _kFontFam);
   static const IconData received = const IconData(0xe816, fontFamily: _kFontFam);
+  static const IconData btc = const IconData(0xe818, fontFamily: _kFontFam);
+  static const IconData bananocurrency = const IconData(0xe819, fontFamily: _kFontFam);
 }

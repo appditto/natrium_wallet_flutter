@@ -31,24 +31,43 @@ Widget buildMainCard() {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                new Text("€144",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w600,
-                        color: white60)),
-                new Text("312,000",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.w900,
-                        color: yellow)),
-                new Text("B0.0334",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w600,
-                        color: white60)),
+                Container(
+                  margin: EdgeInsets.only(right:5.0),
+                  child: Text("€144",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
+                          color: white60)),
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(right: 5.0),
+                      child: Icon(KaliumIcons.bananocurrency, color: yellow, size: 20)),
+                    Container(
+                      margin: EdgeInsets.only(right: 15.0),
+                      child: Text("412,580",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.w900,
+                              color: yellow)),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      child: Icon(KaliumIcons.btc, color: white60, size: 14)),
+                    Text("0.0334",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w600,
+                            color: white60)),
+                  ],
+                ),
               ],
             ),
           ),
@@ -162,8 +181,8 @@ Widget buildSentCard(String amount, String address) {
               children: <Widget>[
                 Container(
                     margin: new EdgeInsets.only(right: 16.0),
-                    child: new Icon(KaliumIcons.sent,
-                        color: white60, size: 20)),
+                    child:
+                        new Icon(KaliumIcons.sent, color: white60, size: 20)),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
