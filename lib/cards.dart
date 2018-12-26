@@ -33,7 +33,7 @@ Widget buildMainCard() {
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.only(right:5.0),
-                  child: Text("€144",
+                  child: Text("€534",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 14.0,
@@ -60,7 +60,7 @@ Widget buildMainCard() {
                   children: <Widget>[
                     Container(
                       child: Icon(KaliumIcons.btc, color: white60, size: 14)),
-                    Text("0.0334",
+                    Text("0.1534",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 14.0,
