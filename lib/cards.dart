@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'kalium_icons.dart';
+import 'buttons.dart';
+import 'main.dart';
+import 'sheets.dart';
 
 //Main Card
 Widget buildMainCard() {
@@ -32,7 +35,7 @@ Widget buildMainCard() {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(right:5.0),
+                  margin: EdgeInsets.only(right: 5.0),
                   child: Text("€534",
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -43,8 +46,9 @@ Widget buildMainCard() {
                 Row(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(right: 5.0),
-                      child: Icon(KaliumIcons.bananocurrency, color: yellow, size: 20)),
+                        margin: EdgeInsets.only(right: 5.0),
+                        child: Icon(KaliumIcons.bananocurrency,
+                            color: yellow, size: 20)),
                     Container(
                       margin: EdgeInsets.only(right: 15.0),
                       child: Text("412,580",
@@ -59,7 +63,7 @@ Widget buildMainCard() {
                 Row(
                   children: <Widget>[
                     Container(
-                      child: Icon(KaliumIcons.btc, color: white60, size: 14)),
+                        child: Icon(KaliumIcons.btc, color: white60, size: 14)),
                     Text("0.1534",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -87,76 +91,82 @@ Widget buildMainCard() {
 } //Main Card
 
 //Received Card
-Widget buildReceivedCard(String amount, String address) {
+Widget buildReceivedCard(String amount, String address, BuildContext context) {
+  KaliumSmallBottomSheet transactionDetails = new KaliumSmallBottomSheet();
   return Container(
     margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
-    decoration: BoxDecoration(
+    child: FlatButton(
+      highlightColor: white15,
+      splashColor: white15,
       color: greyDark,
-      borderRadius: BorderRadius.circular(10.0),
-    ),
-    child: Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Container(
-                    margin: new EdgeInsets.only(right: 16.0),
-                    child: new Icon(KaliumIcons.received,
-                        color: yellow60, size: 20)),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new Text(
-                      "Received",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w600,
-                        color: white90,
+      padding: EdgeInsets.all(0.0),
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0)),
+      onPressed: () => transactionDetails.mainBottomSheet(context),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Container(
+                      margin: new EdgeInsets.only(right: 16.0),
+                      child: new Icon(KaliumIcons.received,
+                          color: yellow60, size: 20)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      new Text(
+                        "Received",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
+                          color: white90,
+                        ),
                       ),
-                    ),
-                    new RichText(
-                      textAlign: TextAlign.left,
-                      text: new TextSpan(
-                        text: '',
-                        children: [
-                          new TextSpan(
-                            text: amount,
-                            style: new TextStyle(
-                              color: yellow60,
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w600,
+                      new RichText(
+                        textAlign: TextAlign.left,
+                        text: new TextSpan(
+                          text: '',
+                          children: [
+                            new TextSpan(
+                              text: amount,
+                              style: new TextStyle(
+                                color: yellow60,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          new TextSpan(
-                            text: " BAN",
-                            style: new TextStyle(
-                              color: yellow60,
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w100,
+                            new TextSpan(
+                              text: " BAN",
+                              style: new TextStyle(
+                                color: yellow60,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w100,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            new Text(
-              address,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 12.0,
-                fontFamily: 'OverpassMono',
-                fontWeight: FontWeight.w100,
-                color: white60,
+                    ],
+                  ),
+                ],
               ),
-            ),
-          ],
+              new Text(
+                address,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 12.0,
+                  fontFamily: 'OverpassMono',
+                  fontWeight: FontWeight.w100,
+                  color: white60,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     ),
@@ -164,76 +174,86 @@ Widget buildReceivedCard(String amount, String address) {
 } //Received End
 
 //Sent Card
-Widget buildSentCard(String amount, String address) {
+Widget buildSentCard(String amount, String address, BuildContext context) {
+  KaliumSmallBottomSheet transactionDetails = new KaliumSmallBottomSheet();
   return Container(
     margin: new EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
     decoration: new BoxDecoration(
       color: greyDark,
       borderRadius: BorderRadius.circular(10.0),
     ),
-    child: Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Container(
-                    margin: new EdgeInsets.only(right: 16.0),
-                    child:
-                        new Icon(KaliumIcons.sent, color: white60, size: 20)),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new Text(
-                      "Sent",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w600,
-                        color: white90,
+    child: FlatButton(
+      highlightColor: white15,
+      splashColor: white15,
+      color: greyDark,
+      padding: EdgeInsets.all(0.0),
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0)),
+      onPressed: () => transactionDetails.mainBottomSheet(context),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Container(
+                      margin: new EdgeInsets.only(right: 16.0),
+                      child:
+                          new Icon(KaliumIcons.sent, color: white60, size: 20)),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      new Text(
+                        "Sent",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
+                          color: white90,
+                        ),
                       ),
-                    ),
-                    new RichText(
-                      textAlign: TextAlign.left,
-                      text: new TextSpan(
-                        text: '',
-                        children: [
-                          new TextSpan(
-                            text: amount,
-                            style: new TextStyle(
-                              color: yellow60,
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w600,
+                      new RichText(
+                        textAlign: TextAlign.left,
+                        text: new TextSpan(
+                          text: '',
+                          children: [
+                            new TextSpan(
+                              text: amount,
+                              style: new TextStyle(
+                                color: yellow60,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          new TextSpan(
-                            text: " BAN",
-                            style: new TextStyle(
-                              color: yellow60,
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w100,
+                            new TextSpan(
+                              text: " BAN",
+                              style: new TextStyle(
+                                color: yellow60,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w100,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            new Text(
-              address,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 12.0,
-                fontFamily: 'OverpassMono',
-                fontWeight: FontWeight.w100,
-                color: white60,
+                    ],
+                  ),
+                ],
               ),
-            ),
-          ],
+              new Text(
+                address,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 12.0,
+                  fontFamily: 'OverpassMono',
+                  fontWeight: FontWeight.w100,
+                  color: white60,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     ),

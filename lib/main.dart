@@ -81,20 +81,20 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: ListView(
                       padding: EdgeInsets.only(top: 5.0, bottom: 15.0),
                       children: <Widget>[
-                        buildReceivedCard('1520', 'ban_1rigge1...bbedwa'),
-                        buildReceivedCard('13020', 'ban_1yekta1...fuuyek'),
-                        buildSentCard('100', '@fudcake'),
-                        buildSentCard('1201', '@rene'),
-                        buildReceivedCard('10', 'ban_1stfup1...smugge'),
-                        buildReceivedCard('10', 'ban_1stfup1...smugge'),
-                        buildSentCard('1201', '@rene'),
-                        buildReceivedCard('10', 'ban_1stfup1...smugge'),
-                        buildSentCard('1201', '@rene'),
-                        buildReceivedCard('10', 'ban_1stfup1...smugge'),
-                        buildReceivedCard('10', 'ban_1stfup1...smugge'),
-                        buildReceivedCard('10', 'ban_1stfup1...smugge'),
-                        buildSentCard('1201', '@rene'),
-                        buildSentCard('1201', '@rene'),
+                        buildReceivedCard('1520', 'ban_1rigge1...bbedwa', context),
+                        buildReceivedCard('13020', 'ban_1yekta1...fuuyek', context),
+                        buildSentCard('100', '@fudcake', context),
+                        buildSentCard('1201', '@rene', context),
+                        buildReceivedCard('10', 'ban_1stfup1...smugge', context),
+                        buildReceivedCard('10', 'ban_1stfup1...smugge', context),
+                        buildSentCard('1201', '@rene', context),
+                        buildReceivedCard('10', 'ban_1stfup1...smugge', context),
+                        buildSentCard('1201', '@rene', context),
+                        buildReceivedCard('10', 'ban_1stfup1...smugge', context),
+                        buildReceivedCard('10', 'ban_1stfup1...smugge', context),
+                        buildReceivedCard('10', 'ban_1stfup1...smugge', context),
+                        buildSentCard('1201', '@rene', context),
+                        buildSentCard('1201', '@rene', context),
                       ],
                     ),
                   ),
@@ -141,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Expanded(
                     child: Container(
-                      margin: new EdgeInsets.fromLTRB(14.0, 0.0, 7.0, 25.0),
+                      margin: new EdgeInsets.fromLTRB(14.0, 0.0, 7.0, 24.0),
                       child: new FlatButton(
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(100.0)),
@@ -160,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   ),
-                  buildKaliumButton("Send", 7.0, 0.0, 14.0, 25.0),
+                  buildKaliumButton("Send", 7.0, 0.0, 14.0, 24.0),
                 ],
               ),
             ), //Buttons Area End

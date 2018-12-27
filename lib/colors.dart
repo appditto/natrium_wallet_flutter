@@ -20,6 +20,8 @@ Color greenDark = const Color(0xFF276126);
 
 Color white90 = Colors.white.withOpacity(0.9);
 Color white60 = Colors.white.withOpacity(0.6);
+Color white30 = Colors.white.withOpacity(0.3);
+Color white15 = Colors.white.withOpacity(0.15);
 
 Color black70 = Colors.black.withOpacity(0.7);
 Color black80 = Colors.black.withOpacity(0.8);

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'buttons.dart';
 import 'kalium_icons.dart';
-import 'main.dart';
 
 Widget buildSettingsSheet() {
   return Container(
@@ -318,89 +317,6 @@ Widget buildSettingsSheet() {
 }
 
 class KaliumBottomSheet {
-  receiveAddressBuilder(String address) {
-    String stringPartOne = address.substring(0, 11);
-    String stringPartTwo = address.substring(11, 22);
-    String stringPartThree = address.substring(22, 44);
-    String stringPartFour = address.substring(44, 58);
-    String stringPartFive = address.substring(58, 64);
-    return Column(
-      children: <Widget>[
-        RichText(
-          textAlign: TextAlign.center,
-          text: new TextSpan(
-            text: '',
-            children: [
-              new TextSpan(
-                text: stringPartOne,
-                style: new TextStyle(
-                  color: yellow60,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'OverpassMono',
-                ),
-              ),
-              new TextSpan(
-                text: stringPartTwo,
-                style: new TextStyle(
-                  color: white60,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'OverpassMono',
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top:2.0, bottom: 2.0),
-          child: RichText(
-            textAlign: TextAlign.center,
-            text: new TextSpan(
-              text: '',
-              children: [
-                new TextSpan(
-                  text: stringPartThree,
-                  style: new TextStyle(
-                    color: white60,
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w100,
-                    fontFamily: 'OverpassMono',
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        RichText(
-          textAlign: TextAlign.center,
-          text: new TextSpan(
-            text: '',
-            children: [
-              new TextSpan(
-                text: stringPartFour,
-                style: new TextStyle(
-                  color: white60,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'OverpassMono',
-                ),
-              ),
-              new TextSpan(
-                text: stringPartFive,
-                style: new TextStyle(
-                  color: yellow60,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'OverpassMono',
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
-    );
-  }
   mainBottomSheet(BuildContext context) {
     showRoundedModalBottomSheet(
         radius: 30.0,
@@ -412,17 +328,46 @@ class KaliumBottomSheet {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 26.0, left: 26.0),
-                    child: Icon(KaliumIcons.exit, size: 16, color:white90),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      width: 50,
+                      height: 50,
+                      margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(KaliumIcons.close, size: 16, color: white90),
+                        padding: EdgeInsets.all(17.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100.0)),
+                        materialTapTargetSize: MaterialTapTargetSize.padded,
+                      ),
+                    ),
+
+                    //Container for the address text
+                    Container(
+                      margin: EdgeInsets.only(top: 30.0),
+                      child: receiveAddressBuilder(
+                          'ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4'),
+                    ),
+
+                    //This container is a temporary solution for the alignment problem
+                    Container(
+                      width: 50,
+                      height: 50,
+                      margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                    ),
+                  ],
                 ),
-                receiveAddressBuilder('ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4'),
+
+                //MonkeyQR which takes all the available space left from the buttons & address text
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(top:35, bottom:35),
+                    margin: EdgeInsets.only(top: 35, bottom: 35),
                     decoration: new BoxDecoration(
                       image: new DecorationImage(
                         image: new AssetImage('assets/monkeyQR.png'),
@@ -442,7 +387,7 @@ class KaliumBottomSheet {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(
-                            'Copy Address', 30.0, 8.0, 30.0, 25.0),
+                            'Copy Address', 30.0, 8.0, 30.0, 24.0),
                       ],
                     ),
                   ],
@@ -451,6 +396,91 @@ class KaliumBottomSheet {
             ),
           );
         });
+  }
+  receiveAddressBuilder(String address) {
+    String stringPartOne = address.substring(0, 11);
+    String stringPartTwo = address.substring(11, 22);
+    String stringPartThree = address.substring(22, 44);
+    String stringPartFour = address.substring(44, 58);
+    String stringPartFive = address.substring(58, 64);
+    return Column(
+      children: <Widget>[
+        RichText(
+          textAlign: TextAlign.center,
+          text: new TextSpan(
+            text: '',
+            children: [
+              new TextSpan(
+                text: stringPartOne,
+                style: new TextStyle(
+                  color: yellow60,
+                  fontSize: 15.0,
+                  height: 1.1,
+                  fontWeight: FontWeight.w100,
+                  fontFamily: 'OverpassMono',
+                ),
+              ),
+              new TextSpan(
+                text: stringPartTwo,
+                style: new TextStyle(
+                  color: white60,
+                  fontSize: 15.0,
+                  height: 1.1,
+                  fontWeight: FontWeight.w100,
+                  fontFamily: 'OverpassMono',
+                ),
+              ),
+            ],
+          ),
+        ),
+        RichText(
+          textAlign: TextAlign.center,
+          text: new TextSpan(
+            text: '',
+            children: [
+              new TextSpan(
+                text: stringPartThree,
+                style: new TextStyle(
+                  color: white60,
+                  fontSize: 15.0,
+                  height: 1.1,
+                  fontWeight: FontWeight.w100,
+                  fontFamily: 'OverpassMono',
+                ),
+              ),
+            ],
+          ),
+        ),
+        RichText(
+          textAlign: TextAlign.center,
+          text: new TextSpan(
+            text: '',
+            children: [
+              new TextSpan(
+                text: stringPartFour,
+                style: new TextStyle(
+                  color: white60,
+                  fontSize: 15.0,
+                  height: 1.1,
+                  fontWeight: FontWeight.w100,
+                  fontFamily: 'OverpassMono',
+                ),
+              ),
+              new TextSpan(
+                text: stringPartFive,
+                style: new TextStyle(
+                  color: yellow60,
+                  fontSize: 15.0,
+                  height: 1.1,
+                  fontWeight: FontWeight.w100,
+                  fontFamily: 'OverpassMono',
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
   }
 }
 
@@ -587,4 +617,39 @@ class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
 
   @override
   Duration get transitionDuration => Duration(milliseconds: 200);
+}
+
+class KaliumSmallBottomSheet {
+  mainBottomSheet(BuildContext context) {
+    showRoundedModalBottomSheet(
+        radius: 30.0,
+        color: greyDark,
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        buildKaliumButton(
+                            'Copy Address', 30.0, 24.0, 30.0, 8.0),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        buildKaliumOutlineButton(
+                            'View Details', 30.0, 8.0, 30.0, 24.0),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
 }

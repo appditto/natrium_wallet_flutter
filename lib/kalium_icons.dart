@@ -20,7 +20,7 @@ class KaliumIcons {
 
   static const _kFontFam = 'KaliumIcons';
 
-  static const IconData exit = const IconData(0xe800, fontFamily: _kFontFam);
+  static const IconData close = const IconData(0xe800, fontFamily: _kFontFam);
   static const IconData forward = const IconData(0xe801, fontFamily: _kFontFam);
   static const IconData settings = const IconData(0xe802, fontFamily: _kFontFam);
   static const IconData at = const IconData(0xe803, fontFamily: _kFontFam);
