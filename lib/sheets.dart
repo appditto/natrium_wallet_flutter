@@ -3,6 +3,8 @@ import 'colors.dart';
 import 'buttons.dart';
 import 'kalium_icons.dart';
 import 'settings_list_item.dart';
+import 'package:flutter/services.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 
 Widget buildSettingsSheet() {
   return Container(
@@ -310,40 +312,69 @@ class KaliumSendSheet {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 10.0),
-                          margin: EdgeInsets.only(left: 80, right: 80),
+                          margin: EdgeInsets.only(left: 70, right: 70),
+                          padding: EdgeInsets.symmetric(horizontal: 20),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: greyDarkest,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(25),
                           ),
-                          child: Text(
-                            "Enter Amount",
+                          child: TextField(
+                            cursorColor: yellow,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(13),
+                            ],
+                            textInputAction: TextInputAction.done,
+                            maxLines: null,
+                            autocorrect: false,
+                            decoration: InputDecoration(
+                              hintText: "Enter Amount",
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                  fontFamily: 'NunitoSans',
+                                  fontWeight: FontWeight.w100),
+                            ),
+                            keyboardType:
+                              TextInputType.numberWithOptions(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontWeight: FontWeight.w100,
+                              fontWeight: FontWeight.w700,
                               fontSize: 16.0,
-                              color: white60,
+                              color: yellow,
+                              fontFamily: 'NunitoSans',
                             ),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 10.0),
-                          margin: EdgeInsets.only(left: 80, right: 80, top:20),
+                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          margin: EdgeInsets.only(left: 70, right: 70, top: 20),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: greyDarkest,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(25),
                           ),
-                          child: Text(
-                            "Enter Address",
+                          child: TextField(
+                            cursorColor: yellow,
+                            keyboardAppearance: Brightness.dark,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(64),
+                            ],
+                            textInputAction: TextInputAction.done,
+                            maxLines: null,
+                            autocorrect: false,
+                            decoration: InputDecoration(
+                              hintText: "Enter Address",
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                  fontWeight: FontWeight.w100,
+                                  fontFamily: 'NunitoSans'),
+                            ),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w100,
                               fontSize: 16.0,
-                              color: white60,
+                              color: white90,
+                              fontFamily: 'OverpassMono',
                             ),
                           ),
                         ),
