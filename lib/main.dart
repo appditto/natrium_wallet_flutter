@@ -33,7 +33,8 @@ class MyHomePage extends StatefulWidget {
 }
 class _MyHomePageState extends State<MyHomePage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
-  KaliumBottomSheet receive = new KaliumBottomSheet();
+  KaliumReceiveSheet receive = new KaliumReceiveSheet();
+  KaliumSendSheet send = new KaliumSendSheet();
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
@@ -162,7 +163,27 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                     ),
-                    buildKaliumButton("Send", 7.0, 0.0, 14.0, 24.0),
+                    Expanded(
+                      child: Container(
+                        margin: new EdgeInsets.fromLTRB(7.0, 0.0, 14.0, 24.0),
+                        child: new FlatButton(
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(100.0)),
+                          color: yellow,
+                          child: new Text('Send',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w700,
+                                  color: greyLight)),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 14.0, horizontal: 20),
+                          onPressed: () => send.mainBottomSheet(context),
+                          highlightColor: greyLight40,
+                          splashColor: greyLight40,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ), //Buttons Area End

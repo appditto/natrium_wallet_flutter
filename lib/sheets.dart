@@ -67,12 +67,13 @@ Widget buildSettingsSheet() {
                 buildSettingsListItemSingleLine(
                     'Load from Paper Wallet', KaliumIcons.transferfunds),
                 Divider(height: 2),
-                buildSettingsListItemSingleLine('Change Representative', KaliumIcons.changerepresentative),
+                buildSettingsListItemSingleLine(
+                    'Change Representative', KaliumIcons.changerepresentative),
                 Divider(height: 2),
                 buildSettingsListItemSingleLine('Logout', KaliumIcons.logout),
                 Divider(height: 2),
                 Padding(
-                  padding: EdgeInsets.only(top:10.0, bottom: 10.0),
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -110,11 +111,9 @@ Widget buildSettingsSheet() {
   );
 }
 
-class KaliumBottomSheet {
+class KaliumReceiveSheet {
   mainBottomSheet(BuildContext context) {
-    showRoundedModalBottomSheet(
-        radius: 30.0,
-        color: greyDark,
+    showKaliumReceiveBottomSheet(
         context: context,
         builder: (BuildContext context) {
           return Container(
@@ -146,7 +145,7 @@ class KaliumBottomSheet {
                     //Container for the address text
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
-                      child: receiveAddressBuilder(
+                      child: threeLineAddressBuilder(
                           'ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4'),
                     ),
 
@@ -171,6 +170,8 @@ class KaliumBottomSheet {
                     ),
                   ),
                 ),
+
+                //A column with "Scan QR Code" and "Send" buttons
                 Column(
                   children: <Widget>[
                     Row(
@@ -192,114 +193,313 @@ class KaliumBottomSheet {
           );
         });
   }
+}
 
-  receiveAddressBuilder(String address) {
-    String stringPartOne = address.substring(0, 11);
-    String stringPartTwo = address.substring(11, 22);
-    String stringPartThree = address.substring(22, 44);
-    String stringPartFour = address.substring(44, 58);
-    String stringPartFive = address.substring(58, 64);
-    return Column(
-      children: <Widget>[
-        RichText(
-          textAlign: TextAlign.center,
-          text: new TextSpan(
-            text: '',
-            children: [
-              new TextSpan(
-                text: stringPartOne,
-                style: new TextStyle(
-                  color: yellow60,
-                  fontSize: 15.0,
-                  height: 1.1,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'OverpassMono',
+class KaliumSendSheet {
+  mainBottomSheet(BuildContext context) {
+    showKaliumSendBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      width: 50,
+                      height: 50,
+                      margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child:
+                            Icon(KaliumIcons.close, size: 16, color: white90),
+                        padding: EdgeInsets.all(17.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100.0)),
+                        materialTapTargetSize: MaterialTapTargetSize.padded,
+                      ),
+                    ),
+
+                    //Container for the header and address text
+                    Container(
+                      margin: EdgeInsets.only(top: 30.0),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            "SEND FROM",
+                            style: TextStyle(
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 10.0),
+                            child: threeLineAddressBuilder(
+                                'ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4'),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 6.0),
+                            child: RichText(
+                              textAlign: TextAlign.left,
+                              text: TextSpan(
+                                text: '',
+                                children: [
+                                  TextSpan(
+                                    text: "(",
+                                    style: TextStyle(
+                                      color: yellow60,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'NunitoSans',
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "412,580",
+                                    style: TextStyle(
+                                      color: yellow60,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: 'NunitoSans',
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: " BAN",
+                                    style: TextStyle(
+                                      color: yellow60,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'NunitoSans',
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: ")",
+                                    style: TextStyle(
+                                      color: yellow60,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'NunitoSans',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    //This container is a temporary solution for the alignment problem
+                    Container(
+                      width: 50,
+                      height: 50,
+                      margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                    ),
+                  ],
                 ),
-              ),
-              new TextSpan(
-                text: stringPartTwo,
-                style: new TextStyle(
-                  color: white60,
-                  fontSize: 15.0,
-                  height: 1.1,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'OverpassMono',
+
+                //A main container that holds "Enter Amount" and "Enter Address" text fields
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 35, bottom: 35),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          margin: EdgeInsets.only(left: 80, right: 80),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: greyDarkest,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            "Enter Amount",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w100,
+                              fontSize: 16.0,
+                              color: white60,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 10.0),
+                          margin: EdgeInsets.only(left: 80, right: 80, top:20),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: greyDarkest,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            "Enter Address",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w100,
+                              fontSize: 16.0,
+                              color: white60,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        RichText(
-          textAlign: TextAlign.center,
-          text: new TextSpan(
-            text: '',
-            children: [
-              new TextSpan(
-                text: stringPartThree,
-                style: new TextStyle(
-                  color: white60,
-                  fontSize: 15.0,
-                  height: 1.1,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'OverpassMono',
+
+                //A column with "Scan QR Code" and "Send" buttons
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        buildKaliumOutlineButton(
+                            'Scan QR Code', 30.0, 8.0, 30.0, 8.0),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        buildKaliumButton('Send', 30.0, 8.0, 30.0, 24.0),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ),
-        RichText(
-          textAlign: TextAlign.center,
-          text: new TextSpan(
-            text: '',
-            children: [
-              new TextSpan(
-                text: stringPartFour,
-                style: new TextStyle(
-                  color: white60,
-                  fontSize: 15.0,
-                  height: 1.1,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'OverpassMono',
-                ),
-              ),
-              new TextSpan(
-                text: stringPartFive,
-                style: new TextStyle(
-                  color: yellow60,
-                  fontSize: 15.0,
-                  height: 1.1,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'OverpassMono',
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
-    );
+              ],
+            ),
+          );
+        });
   }
 }
 
-/// Below is the usage for this function, you'll only have to import this file
-/// [radius] takes a double and will be the radius to the rounded corners of this modal
-/// [color] will color the modal itself, the default being `Colors.white`
-/// [builder] takes the content of the modal, if you're using [Column]
-/// or a similar widget, remember to set `mainAxisSize: MainAxisSize.min`
-/// so it will only take the needed space.
-///
-/// ```dart
-/// showRoundedModalBottomSheet(
-///    context: context,
-///    radius: 10.0,  // This is the default
-///    color: Colors.white,  // Also default
-///    builder: (context) => ???,
-/// );
-/// ```
-Future<T> showRoundedModalBottomSheet<T>({
+threeLineAddressBuilder(String address) {
+  String stringPartOne = address.substring(0, 11);
+  String stringPartTwo = address.substring(11, 22);
+  String stringPartThree = address.substring(22, 44);
+  String stringPartFour = address.substring(44, 58);
+  String stringPartFive = address.substring(58, 64);
+  return Column(
+    children: <Widget>[
+      RichText(
+        textAlign: TextAlign.center,
+        text: new TextSpan(
+          text: '',
+          children: [
+            new TextSpan(
+              text: stringPartOne,
+              style: new TextStyle(
+                color: yellow60,
+                fontSize: 14.0,
+                height: 1.2,
+                fontWeight: FontWeight.w100,
+                fontFamily: 'OverpassMono',
+              ),
+            ),
+            new TextSpan(
+              text: stringPartTwo,
+              style: new TextStyle(
+                color: white60,
+                fontSize: 14.0,
+                height: 1.2,
+                fontWeight: FontWeight.w100,
+                fontFamily: 'OverpassMono',
+              ),
+            ),
+          ],
+        ),
+      ),
+      RichText(
+        textAlign: TextAlign.center,
+        text: new TextSpan(
+          text: '',
+          children: [
+            new TextSpan(
+              text: stringPartThree,
+              style: new TextStyle(
+                color: white60,
+                fontSize: 14.0,
+                height: 1.2,
+                fontWeight: FontWeight.w100,
+                fontFamily: 'OverpassMono',
+              ),
+            ),
+          ],
+        ),
+      ),
+      RichText(
+        textAlign: TextAlign.center,
+        text: new TextSpan(
+          text: '',
+          children: [
+            new TextSpan(
+              text: stringPartFour,
+              style: new TextStyle(
+                color: white60,
+                fontSize: 14.0,
+                height: 1.2,
+                fontWeight: FontWeight.w100,
+                fontFamily: 'OverpassMono',
+              ),
+            ),
+            new TextSpan(
+              text: stringPartFive,
+              style: new TextStyle(
+                color: yellow60,
+                fontSize: 14.0,
+                height: 1.2,
+                fontWeight: FontWeight.w100,
+                fontFamily: 'OverpassMono',
+              ),
+            ),
+          ],
+        ),
+      )
+    ],
+  );
+}
+
+class KaliumSmallBottomSheet {
+  mainBottomSheet(BuildContext context) {
+    showKaliumReceiveBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        buildKaliumOutlineButton(
+                            'View Details', 30.0, 26.0, 30.0, 8.0),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        buildKaliumButton(
+                            'Copy Address', 30.0, 8.0, 30.0, 24.0),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
+}
+
+//Kalium Send Sheet
+Future<T> showKaliumSendBottomSheet<T>({
   @required BuildContext context,
   @required WidgetBuilder builder,
-  Color color = Colors.white,
-  double radius = 10.0,
+  Color color = greyDark,
+  double radius = 30.0,
 }) {
   assert(context != null);
   assert(builder != null);
@@ -307,7 +507,7 @@ Future<T> showRoundedModalBottomSheet<T>({
   assert(color != null && color != Colors.transparent);
   return Navigator.push<T>(
       context,
-      _RoundedCornerModalRoute<T>(
+      _KaliumSendModalRoute<T>(
         builder: builder,
         color: color,
         radius: radius,
@@ -316,8 +516,8 @@ Future<T> showRoundedModalBottomSheet<T>({
       ));
 }
 
-class _RoundedModalBottomSheetLayout extends SingleChildLayoutDelegate {
-  _RoundedModalBottomSheetLayout(this.progress);
+class _KaliumSendBottomSheetLayout extends SingleChildLayoutDelegate {
+  _KaliumSendBottomSheetLayout(this.progress);
 
   final double progress;
 
@@ -327,7 +527,7 @@ class _RoundedModalBottomSheetLayout extends SingleChildLayoutDelegate {
         minWidth: constraints.maxWidth,
         maxWidth: constraints.maxWidth,
         minHeight: 0.0,
-        maxHeight: constraints.maxHeight * 0.85);
+        maxHeight: constraints.maxHeight * 0.9);
   }
 
   @override
@@ -336,13 +536,13 @@ class _RoundedModalBottomSheetLayout extends SingleChildLayoutDelegate {
   }
 
   @override
-  bool shouldRelayout(_RoundedModalBottomSheetLayout oldDelegate) {
+  bool shouldRelayout(_KaliumSendBottomSheetLayout oldDelegate) {
     return progress != oldDelegate.progress;
   }
 }
 
-class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
-  _RoundedCornerModalRoute({
+class _KaliumSendModalRoute<T> extends PopupRoute<T> {
+  _KaliumSendModalRoute({
     this.builder,
     this.barrierLabel,
     this.color,
@@ -384,7 +584,7 @@ class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
         child: AnimatedBuilder(
           animation: animation,
           builder: (context, child) => CustomSingleChildLayout(
-                delegate: _RoundedModalBottomSheetLayout(animation.value),
+                delegate: _KaliumSendBottomSheetLayout(animation.value),
                 child: BottomSheet(
                   animationController: _animationController,
                   onClosing: () => Navigator.pop(context),
@@ -414,38 +614,126 @@ class _RoundedCornerModalRoute<T> extends PopupRoute<T> {
   @override
   Duration get transitionDuration => Duration(milliseconds: 200);
 }
+//Kalium Send Sheet End
 
-class KaliumSmallBottomSheet {
-  mainBottomSheet(BuildContext context) {
-    showRoundedModalBottomSheet(
-        radius: 30.0,
-        color: greyDark,
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        buildKaliumOutlineButton(
-                            'View Details', 30.0, 24.0, 30.0, 8.0),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        buildKaliumButton(
-                            'Copy Address', 30.0, 8.0, 30.0, 24.0),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
+//Kalium Receive Sheet
+Future<T> showKaliumReceiveBottomSheet<T>({
+  @required BuildContext context,
+  @required WidgetBuilder builder,
+  Color color = greyDark,
+  double radius = 30.0,
+}) {
+  assert(context != null);
+  assert(builder != null);
+  assert(radius != null && radius > 0.0);
+  assert(color != null && color != Colors.transparent);
+  return Navigator.push<T>(
+      context,
+      _KaliumReceiveModalRoute<T>(
+        builder: builder,
+        color: color,
+        radius: radius,
+        barrierLabel:
+            MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      ));
+}
+
+class _KaliumReceiveBottomSheetLayout extends SingleChildLayoutDelegate {
+  _KaliumReceiveBottomSheetLayout(this.progress);
+
+  final double progress;
+
+  @override
+  BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
+    return new BoxConstraints(
+        minWidth: constraints.maxWidth,
+        maxWidth: constraints.maxWidth,
+        minHeight: 0.0,
+        maxHeight: constraints.maxHeight * 0.8);
+  }
+
+  @override
+  Offset getPositionForChild(Size size, Size childSize) {
+    return new Offset(0.0, size.height - childSize.height * progress);
+  }
+
+  @override
+  bool shouldRelayout(_KaliumReceiveBottomSheetLayout oldDelegate) {
+    return progress != oldDelegate.progress;
   }
 }
+
+class _KaliumReceiveModalRoute<T> extends PopupRoute<T> {
+  _KaliumReceiveModalRoute({
+    this.builder,
+    this.barrierLabel,
+    this.color,
+    this.radius,
+    RouteSettings settings,
+  }) : super(settings: settings);
+
+  final WidgetBuilder builder;
+  final double radius;
+  final Color color;
+
+  @override
+  Color get barrierColor => black70;
+
+  @override
+  bool get barrierDismissible => true;
+
+  @override
+  String barrierLabel;
+
+  AnimationController _animationController;
+
+  @override
+  AnimationController createAnimationController() {
+    assert(_animationController == null);
+    _animationController =
+        BottomSheet.createAnimationController(navigator.overlay);
+    return _animationController;
+  }
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+    return MediaQuery.removePadding(
+      context: context,
+      removeTop: true,
+      child: Theme(
+        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+        child: AnimatedBuilder(
+          animation: animation,
+          builder: (context, child) => CustomSingleChildLayout(
+                delegate: _KaliumReceiveBottomSheetLayout(animation.value),
+                child: BottomSheet(
+                  animationController: _animationController,
+                  onClosing: () => Navigator.pop(context),
+                  builder: (context) => Container(
+                        decoration: BoxDecoration(
+                          color: this.color,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(this.radius),
+                            topRight: Radius.circular(this.radius),
+                          ),
+                        ),
+                        child: SafeArea(child: Builder(builder: this.builder)),
+                      ),
+                ),
+              ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool get maintainState => false;
+
+  @override
+  bool get opaque => false;
+
+  @override
+  Duration get transitionDuration => Duration(milliseconds: 200);
+}
+//Kalium Receive Sheet
