@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
@@ -197,12 +198,12 @@ class KaliumSendSheet {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY,
-                            'Scan QR Code', 30.0, 8.0, 30.0, 8.0),
+                            'Scan QR Code', Dimens.BUTTON_TOP_DIMENS),
                       ],
                     ),
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY, 'Send', 30.0, 8.0, 30.0, 24.0),
+                        buildKaliumButton(KaliumButtonType.PRIMARY, 'Send', Dimens.BUTTOM_BOTTOM_DIMENS),
                       ],
                     ),
                   ],

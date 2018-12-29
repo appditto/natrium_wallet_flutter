@@ -9,14 +9,13 @@ void doNothing() {
 }
 
 //Standard Yellow Kalium Button
-Widget buildKaliumButton(KaliumButtonType type, String buttonText, double marginLeft, double marginTop,
-    double marginRight, double marginButtom, { Function onPressed = doNothing } ) {
+Widget buildKaliumButton(KaliumButtonType type, String buttonText, List<double> dimens, { Function onPressed = doNothing } ) {
   switch (type) {
     case KaliumButtonType.PRIMARY:
       return Expanded(
         child: Container(
           margin:
-              EdgeInsets.fromLTRB(marginLeft, marginTop, marginRight, marginButtom),
+              EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
           child: FlatButton(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
@@ -38,7 +37,7 @@ Widget buildKaliumButton(KaliumButtonType type, String buttonText, double margin
   return Expanded(
     child: Container(
       margin:
-          EdgeInsets.fromLTRB(marginLeft, marginTop, marginRight, marginButtom),
+          EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
       child: OutlineButton(
         textColor: yellow,
         borderSide: BorderSide(color: yellow, width: 2.0),

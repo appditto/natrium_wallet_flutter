@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 
@@ -41,7 +42,7 @@ class IntroWelcomePage extends StatefulWidget {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY,
-                            'New Wallet', 30.0, 8.0, 30.0, 8.0,
+                            'New Wallet', Dimens.BUTTON_TOP_DIMENS,
                             onPressed: () {
                               Navigator.of(context).pushReplacement(
                                 new MaterialPageRoute(builder: (context) => new KaliumHomePage()));
@@ -51,7 +52,7 @@ class IntroWelcomePage extends StatefulWidget {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                            'Import Wallet', 30.0, 8.0, 30.0, 24.0,
+                            'Import Wallet', Dimens.BUTTOM_BOTTOM_DIMENS,
                             onPressed: () {
                               Navigator.of(context).pushReplacement(
                                 new MaterialPageRoute(builder: (context) => new KaliumHomePage()));

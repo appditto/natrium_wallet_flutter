@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/receive/receive_sheet.dart';
@@ -461,13 +462,13 @@ class TransactionDetailsSheet {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                            'View Details', 30.0, 26.0, 30.0, 8.0),
+                            'View Details', Dimens.BUTTON_LEFT_DIMENS),
                       ],
                     ),
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY,
-                            'Copy Address', 30.0, 8.0, 30.0, 24.0),
+                            'Copy Address', Dimens.BUTTON_RIGHT_DIMENS),
                       ],
                     ),
                   ],
