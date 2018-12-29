@@ -10,7 +10,7 @@ void doNothing() {
 
 //Standard Yellow Kalium Button
 Widget buildKaliumButton(KaliumButtonType type, String buttonText, double marginLeft, double marginTop,
-    double marginRight, double marginButtom, { Function onClicked = doNothing } ) {
+    double marginRight, double marginButtom, { Function onPressed = doNothing } ) {
   switch (type) {
     case KaliumButtonType.PRIMARY:
       return Expanded(
@@ -27,7 +27,7 @@ Widget buildKaliumButton(KaliumButtonType type, String buttonText, double margin
                     fontSize: 20.0, fontWeight: FontWeight.w700, color: greyLight)),
             padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
             onPressed: () {
-              onClicked();
+              onPressed();
             },
             highlightColor: greyLight40,
             splashColor: greyLight40,
@@ -53,7 +53,7 @@ Widget buildKaliumButton(KaliumButtonType type, String buttonText, double margin
                 fontSize: 20.0, fontWeight: FontWeight.w700, color: yellow)),
         padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
         onPressed: () {
-          onClicked();
+          onPressed();
         },
       ),
     ),

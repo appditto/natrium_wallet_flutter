@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
+import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'colors.dart';
 
@@ -22,7 +23,7 @@ class KaliumApp extends StatelessWidget {
         fontFamily: 'NunitoSans',
         brightness: Brightness.dark,
       ),
-      home: new KaliumHomePage(title:"KaliumF"),//new Splash(),
+      home: new Splash(),
     );
   }
 }
@@ -47,7 +48,7 @@ class SplashState extends State<Splash> {
       new MaterialPageRoute(builder: (context) => new KaliumHomePage(title:"KaliumF")));
     } else {
       Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(builder: (context) => new IntroScreen()));
+        new MaterialPageRoute(builder: (context) => new IntroWelcomePage()));
     }
   }
 
@@ -74,20 +75,8 @@ class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: new Center(
-        child: new Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          new Text('This is the intro page'),
-            new MaterialButton(
-            child: new Text('Gogo Home Page'),
-            onPressed: () {
-            Navigator.of(context).pushReplacement(
-            new MaterialPageRoute(builder: (context) => new KaliumHomePage()));
-            },
-            )
-          ],
-        ),
+      body: Container(
+
       ),
     );
   }
