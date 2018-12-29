@@ -460,13 +460,13 @@ class TransactionDetailsSheet {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        buildKaliumOutlineButton(
+                        buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
                             'View Details', 30.0, 26.0, 30.0, 8.0),
                       ],
                     ),
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(
+                        buildKaliumButton(KaliumButtonType.PRIMARY,
                             'Copy Address', 30.0, 8.0, 30.0, 24.0),
                       ],
                     ),

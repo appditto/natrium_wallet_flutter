@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/ui/util/exceptions.dart';
 
-doNothing() {
+enum KaliumButtonType { PRIMARY, PRIMARY_OUTLINE }
+
+void doNothing() {
   return;
 }
 
 //Standard Yellow Kalium Button
-Widget buildKaliumButton(String buttonText, double marginLeft, double marginTop,
-    double marginRight, double marginButtom) {
-  return Expanded(
-    child: Container(
-      margin:
-          EdgeInsets.fromLTRB(marginLeft, marginTop, marginRight, marginButtom),
-      child: FlatButton(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
-        color: yellow,
-        child: Text(buttonText,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 20.0, fontWeight: FontWeight.w700, color: greyLight)),
-        padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
-        onPressed: () {
-          doNothing();
-        },
-        highlightColor: greyLight40,
-        splashColor: greyLight40,
-      ),
-    ),
-  );
-} //
-
-//Outlined Yellow Kalium Button
-Widget buildKaliumOutlineButton(String buttonText, double marginLeft,
-    double marginTop, double marginRight, double marginButtom) {
+Widget buildKaliumButton(KaliumButtonType type, String buttonText, double marginLeft, double marginTop,
+    double marginRight, double marginButtom, { Function onClicked = doNothing } ) {
+  switch (type) {
+    case KaliumButtonType.PRIMARY:
+      return Expanded(
+        child: Container(
+          margin:
+              EdgeInsets.fromLTRB(marginLeft, marginTop, marginRight, marginButtom),
+          child: FlatButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+            color: yellow,
+            child: Text(buttonText,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 20.0, fontWeight: FontWeight.w700, color: greyLight)),
+            padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+            onPressed: () {
+              onClicked();
+            },
+            highlightColor: greyLight40,
+            splashColor: greyLight40,
+          ),
+        ),
+      );
+    case KaliumButtonType.PRIMARY_OUTLINE:
   return Expanded(
     child: Container(
       margin:
@@ -52,10 +53,12 @@ Widget buildKaliumOutlineButton(String buttonText, double marginLeft,
                 fontSize: 20.0, fontWeight: FontWeight.w700, color: yellow)),
         padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
         onPressed: () {
-          doNothing();
+          onClicked();
         },
       ),
     ),
   );
-}
-//
+    default:
+      throw new UIException("Invalid Button Type ${type}");
+  }
+} //
