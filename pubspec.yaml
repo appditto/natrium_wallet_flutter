@@ -33,6 +33,9 @@ dependencies:
   # Shared prefs
   shared_preferences: ^0.4.3
 
+  # Redux
+  flutter_redux: ^0.5.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

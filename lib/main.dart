@@ -1,12 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
+import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'colors.dart';
 
-Future<void> main() async {
-  // TODO load seed, go to intro if applicable, etc.
-  runApp(KaliumApp());
-}
+void main() => runApp(new KaliumApp());
+
 class KaliumApp extends StatelessWidget {
   // This widget is the root of the application.
   @override
@@ -20,8 +22,73 @@ class KaliumApp extends StatelessWidget {
         fontFamily: 'NunitoSans',
         brightness: Brightness.dark,
       ),
-      home: KaliumHomePage(title: 'KaliumF'),
+      home: new KaliumHomePage(title:"KaliumF"),//new Splash(),
     );
   }
 }
 
+class Splash extends StatefulWidget {
+  @override
+  SplashState createState() => new SplashState();
+}
+
+class SplashState extends State<Splash> {
+  Future checkLoggedIn() async {
+    // See if logged in already
+    bool isLoggedIn = false;
+    Vault v = new Vault();
+    var seed = await v.getSeed();
+    if (seed != null) {
+      isLoggedIn = true;
+    }
+
+    if (isLoggedIn) {
+    Navigator.of(context).pushReplacement(
+      new MaterialPageRoute(builder: (context) => new KaliumHomePage(title:"KaliumF")));
+    } else {
+      Navigator.of(context).pushReplacement(
+        new MaterialPageRoute(builder: (context) => new IntroScreen()));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    new Timer(new Duration(milliseconds: 200), () {
+      checkLoggedIn();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+  return new Scaffold(
+  body: new Center(
+    child: new Text('Loading...'),
+  ),
+  );
+  }
+}
+
+
+class IntroScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      body: new Center(
+        child: new Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          new Text('This is the intro page'),
+            new MaterialButton(
+            child: new Text('Gogo Home Page'),
+            onPressed: () {
+            Navigator.of(context).pushReplacement(
+            new MaterialPageRoute(builder: (context) => new KaliumHomePage()));
+            },
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
