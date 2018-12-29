@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'buttons.dart';
 import 'colors.dart';
-import 'kalium_icons.dart';
 
 //Settings item with a dropdown option
 Widget buildSettingsListItemDoubleLine(

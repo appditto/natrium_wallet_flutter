@@ -10,13 +10,13 @@ Widget buildKaliumButton(String buttonText, double marginLeft, double marginTop,
     double marginRight, double marginButtom) {
   return Expanded(
     child: Container(
-      margin: new EdgeInsets.fromLTRB(
-          marginLeft, marginTop, marginRight, marginButtom),
-      child: new FlatButton(
-        shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(100.0)),
+      margin:
+          EdgeInsets.fromLTRB(marginLeft, marginTop, marginRight, marginButtom),
+      child: FlatButton(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
         color: yellow,
-        child: new Text(buttonText,
+        child: Text(buttonText,
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20.0, fontWeight: FontWeight.w700, color: greyLight)),
@@ -29,7 +29,7 @@ Widget buildKaliumButton(String buttonText, double marginLeft, double marginTop,
       ),
     ),
   );
-}
+} //
 
 //Outlined Yellow Kalium Button
 Widget buildKaliumOutlineButton(String buttonText, double marginLeft,

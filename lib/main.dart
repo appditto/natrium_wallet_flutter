@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'colors.dart';
-import 'buttons.dart';
 import 'cards.dart';
 import 'sheets.dart';
 
@@ -43,8 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
       key: _scaffoldKey,
       drawer: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        child: new Drawer(
-          child: buildSettingsSheet(),
+        child: Drawer(
+          child: SettingsSheet(),
         ),
       ),
       body: GestureDetector(
@@ -60,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
               //Transactions Text
               Container(
-                margin: new EdgeInsets.fromLTRB(30.0, 20.0, 26.0, 0.0),
+                margin: EdgeInsets.fromLTRB(30.0, 20.0, 26.0, 0.0),
                 child: Row(
                   children: <Widget>[
                     Text(
@@ -108,15 +107,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Container(
                         height: 10.0,
                         width: double.infinity,
-                        decoration: new BoxDecoration(
-                          gradient: new LinearGradient(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
                             colors: [greyLight, greyLightZero],
-                            begin: new Alignment(0.5, -1.0),
-                            end: new Alignment(0.5, 1.0),
+                            begin: Alignment(0.5, -1.0),
+                            end: Alignment(0.5, 1.0),
                           ),
                         ),
                       ),
-                    ), //List Top Gradient End
+                    ), // List Top Gradient End
 
                     //List Bottom Gradient
                     Align(
@@ -124,11 +123,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Container(
                         height: 30.0,
                         width: double.infinity,
-                        decoration: new BoxDecoration(
-                          gradient: new LinearGradient(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
                             colors: [greyLightZero, greyLight],
-                            begin: new Alignment(0.5, -1),
-                            end: new Alignment(0.5, 0.5),
+                            begin: Alignment(0.5, -1),
+                            end: Alignment(0.5, 0.5),
                           ),
                         ),
                       ),
@@ -144,12 +143,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: <Widget>[
                     Expanded(
                       child: Container(
-                        margin: new EdgeInsets.fromLTRB(14.0, 0.0, 7.0, 24.0),
-                        child: new FlatButton(
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(100.0)),
+                        margin: EdgeInsets.fromLTRB(14.0, 0.0, 7.0, 24.0),
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100.0)),
                           color: yellow,
-                          child: new Text('Receive',
+                          child: Text('Receive',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 20.0,
@@ -165,12 +164,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     Expanded(
                       child: Container(
-                        margin: new EdgeInsets.fromLTRB(7.0, 0.0, 14.0, 24.0),
-                        child: new FlatButton(
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(100.0)),
+                        margin: EdgeInsets.fromLTRB(7.0, 0.0, 14.0, 24.0),
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100.0)),
                           color: yellow,
-                          child: new Text('Send',
+                          child: Text('Send',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 20.0,

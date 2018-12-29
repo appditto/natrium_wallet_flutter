@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kalium_wallet_flutter/sheets.dart';
 import 'colors.dart';
 import 'kalium_icons.dart';
-import 'sheets.dart';
 
 //Main Card
 Widget buildMainCard(BuildContext context, _scaffoldKey) {
-  return new Container(
-    decoration: new BoxDecoration(
+  return Container(
+    decoration: BoxDecoration(
       color: greyDark,
       borderRadius: BorderRadius.circular(12.0),
     ),
-    margin: new EdgeInsets.only(top: 42.0, left: 14.0, right: 14.0),
+    margin: EdgeInsets.only(top: 42.0, left: 14.0, right: 14.0),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,10 +29,10 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
                   onPressed: (){
                     _scaffoldKey.currentState.openDrawer();
                   },
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(50.0)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.0)),
                   padding: EdgeInsets.all(0.0),
-                  child: new Icon(KaliumIcons.settings, color: white90, size: 24)),
+                  child: Icon(KaliumIcons.settings, color: white90, size: 24)),
               ),
                 
             ],
@@ -85,9 +85,9 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
           ),
         ),
         Container(     
-          decoration: new BoxDecoration(
-            image: new DecorationImage(
-              image: new AssetImage('assets/monkey.png'),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/monkey.png'),
             ),
           ),
           width: 90.0,
@@ -100,7 +100,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
 
 //Received Card
 Widget buildReceivedCard(String amount, String address, BuildContext context) {
-  KaliumSmallBottomSheet transactionDetails = new KaliumSmallBottomSheet();
+  KaliumSmallBottomSheet transactionDetails = KaliumSmallBottomSheet();
   return Container(
     margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
     child: Container(
@@ -109,8 +109,8 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
         splashColor: white15,
         color: greyDark,
         padding: EdgeInsets.all(0.0),
-        shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(10.0)),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0)),
         onPressed: () => transactionDetails.mainBottomSheet(context),
         child: Center(
           child: Padding(
@@ -121,13 +121,13 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
                 Row(
                   children: <Widget>[
                     Container(
-                        margin: new EdgeInsets.only(right: 16.0),
-                        child: new Icon(KaliumIcons.received,
+                        margin: EdgeInsets.only(right: 16.0),
+                        child: Icon(KaliumIcons.received,
                             color: yellow60, size: 20)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        new Text(
+                        Text(
                           "Received",
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -136,22 +136,22 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
                             color: white90,
                           ),
                         ),
-                        new RichText(
+                        RichText(
                           textAlign: TextAlign.left,
-                          text: new TextSpan(
+                          text: TextSpan(
                             text: '',
                             children: [
-                              new TextSpan(
+                              TextSpan(
                                 text: amount,
-                                style: new TextStyle(
+                                style: TextStyle(
                                   color: yellow60,
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              new TextSpan(
+                              TextSpan(
                                 text: " BAN",
-                                style: new TextStyle(
+                                style: TextStyle(
                                   color: yellow60,
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.w100,
@@ -164,7 +164,7 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
                     ),
                   ],
                 ),
-                new Text(
+                Text(
                   address,
                   textAlign: TextAlign.left,
                   style: TextStyle(
@@ -185,10 +185,10 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
 
 //Sent Card
 Widget buildSentCard(String amount, String address, BuildContext context) {
-  KaliumSmallBottomSheet transactionDetails = new KaliumSmallBottomSheet();
+  KaliumSmallBottomSheet transactionDetails = KaliumSmallBottomSheet();
   return Container(
-    margin: new EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
-    decoration: new BoxDecoration(
+    margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+    decoration: BoxDecoration(
       color: greyDark,
       borderRadius: BorderRadius.circular(10.0),
     ),
@@ -197,8 +197,8 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
       splashColor: white15,
       color: greyDark,
       padding: EdgeInsets.all(0.0),
-      shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(10.0)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0)),
       onPressed: () => transactionDetails.mainBottomSheet(context),
       child: Center(
         child: Padding(
@@ -209,13 +209,13 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
               Row(
                 children: <Widget>[
                   Container(
-                      margin: new EdgeInsets.only(right: 16.0),
+                      margin: EdgeInsets.only(right: 16.0),
                       child:
-                          new Icon(KaliumIcons.sent, color: white60, size: 20)),
+                          Icon(KaliumIcons.sent, color: white60, size: 20)),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      new Text(
+                      Text(
                         "Sent",
                         textAlign: TextAlign.left,
                         style: TextStyle(
@@ -224,22 +224,22 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
                           color: white90,
                         ),
                       ),
-                      new RichText(
+                      RichText(
                         textAlign: TextAlign.left,
-                        text: new TextSpan(
+                        text: TextSpan(
                           text: '',
                           children: [
-                            new TextSpan(
+                            TextSpan(
                               text: amount,
-                              style: new TextStyle(
+                              style: TextStyle(
                                 color: yellow60,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            new TextSpan(
+                            TextSpan(
                               text: " BAN",
-                              style: new TextStyle(
+                              style: TextStyle(
                                 color: yellow60,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w100,
@@ -252,7 +252,7 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
                   ),
                 ],
               ),
-              new Text(
+              Text(
                 address,
                 textAlign: TextAlign.left,
                 style: TextStyle(
