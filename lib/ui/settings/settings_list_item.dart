@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'buttons.dart';
-import 'colors.dart';
+import 'package:kalium_wallet_flutter/colors.dart';
 
 //Settings item with a dropdown option
 Widget buildSettingsListItemDoubleLine(
     String heading, String option, IconData settingIcon) {
   return FlatButton(
     onPressed: () {
-      doNothing();
+      return;
     },
     padding: EdgeInsets.all(0.0),
     child: Container(
@@ -50,7 +49,7 @@ Widget buildSettingsListItemDoubleLine(
 Widget buildSettingsListItemSingleLine(String heading, IconData settingIcon) {
   return FlatButton(
     onPressed: () {
-      doNothing();
+      return;
     },
     padding: EdgeInsets.all(0.0),
     child: Container(

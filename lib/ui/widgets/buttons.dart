@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import 'package:kalium_wallet_flutter/colors.dart';
 
 doNothing() {
   return;
