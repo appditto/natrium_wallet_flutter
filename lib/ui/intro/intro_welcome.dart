@@ -60,8 +60,8 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY,
-                            'New Wallet', Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                        buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
+                            'Import Wallet', Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                               Navigator.of(context).pushReplacement(
                                 new MaterialPageRoute(builder: (context) => new KaliumHomePage()));
                             }),
@@ -69,8 +69,8 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                     ),
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                            'Import Wallet', Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                        buildKaliumButton(KaliumButtonType.PRIMARY,
+                            'New Wallet', Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                               Navigator.of(context).pushReplacement(
                                 new MaterialPageRoute(builder: (context) => new KaliumHomePage()));
                             }),
