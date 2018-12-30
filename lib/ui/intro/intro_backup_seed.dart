@@ -24,7 +24,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
         setState(() {
             _seed = result;
         });
-    });;
+    });
   }
 
   @override
