@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
+import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 
-class IntroWelcomePage extends StatefulWidget {
+class IntroBackupSeedPage extends StatefulWidget {
   @override
-  _IntroWelcomePageState createState() => _IntroWelcomePageState();
+  _IntroBackupSeedState createState() => _IntroBackupSeedState();
 }
 
-class _IntroWelcomePageState extends State<IntroWelcomePage> {
+class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
+  var _seed;
+
+  @override
+  void initState() {
+    var seed = NanoSeeds.generateSeed();
+    Vault v = new Vault();
+    v.writeSeed(seed).then((result) {
+        setState(() {
+            _seed = result;
+        });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +38,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                 width: double.infinity,
                 child: Column(
                   children: <Widget>[
-                    //A widget that holds welcome animation + text and expands to the rest of the available area
+                    //A widget
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.10),

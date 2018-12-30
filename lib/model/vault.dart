@@ -12,7 +12,8 @@ class Vault {
     return value;
   }
 
-  Future<void> writeSeed(String seed) async {
+  Future<String> writeSeed(String seed) async {
     await secureStorage.write(key: seedKey, value:seed);
+    return seed;
   }
 }
