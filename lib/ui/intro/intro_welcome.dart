@@ -18,25 +18,34 @@ class IntroWelcomePage extends StatefulWidget {
           .copyWith(statusBarIconBrightness: Brightness.light));
       return Scaffold(
         key: _scaffoldKey,
-        body: GestureDetector(
-                child: Container(
-            constraints: BoxConstraints.expand(),
-            color: greyLight,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+        body: LayoutBuilder(
+         builder: (context, constraints) =>
+         Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
+            Material(color: greyLight),
+            Positioned(
+              left: 0.0,
+              right: 0.0,
+              top: constraints.maxHeight / 2,
+              child: 
                 //Welcome Text
                 Container(
                   margin: EdgeInsets.only(right: 30, left: 30),
                   child:
                   Text("Welcome to Kalium. To begin you may create a new wallet or import an existing one",
                       style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 18.0,
                           fontFamily: 'NunitoSans',
                           color: white90))
                 ),
-
-                //New wallet/import wallet
+            ),
+            Positioned(
+              right:0.0,
+              left: 0.0,
+              bottom: 0.0,
+              child: 
+              //New wallet/import wallet
                 Column(
                   children: <Widget>[
                     Row(
@@ -61,10 +70,11 @@ class IntroWelcomePage extends StatefulWidget {
                     ),
                   ]
                 ),
-              ],
             ),
-          ),
-        ),
-      );
+          ],
+        )
+        )
+        )
+        ;
   }
 }

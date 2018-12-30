@@ -27,7 +27,7 @@ dependencies:
   # Nano core functions
   flutter_nano_core:
     git:
-      url: git@github.com:bbedward/flutter_nano_core.git
+      url: https://github.com/bbedward/flutter_nano_core.git
       ref: master
   
   # Shared prefs

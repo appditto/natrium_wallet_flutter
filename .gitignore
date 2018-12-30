@@ -1,3 +1,5 @@
+android/.project
+android/.settings
 # Miscellaneous
 *.class
 *.lock
