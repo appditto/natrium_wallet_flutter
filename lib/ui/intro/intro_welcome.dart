@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:kalium_wallet_flutter/ui/home_page.dart';
 
 class IntroWelcomePage extends StatefulWidget {
   @override
@@ -60,13 +61,19 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY,
-                            'New Wallet', Dimens.BUTTON_TOP_DIMENS),
+                            'New Wallet', Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                              Navigator.of(context).pushReplacement(
+                                new MaterialPageRoute(builder: (context) => new KaliumHomePage()));
+                            }),
                       ],
                     ),
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                            'Import Wallet', Dimens.BUTTOM_BOTTOM_DIMENS),
+                            'Import Wallet', Dimens.BUTTOM_BOTTOM_DIMENS, onPressed: () {
+                              Navigator.of(context).pushReplacement(
+                                new MaterialPageRoute(builder: (context) => new KaliumHomePage()));
+                            }),
                       ],
                     ),
                   ],
