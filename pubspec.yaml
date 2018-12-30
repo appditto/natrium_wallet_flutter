@@ -36,6 +36,9 @@ dependencies:
   # Redux
   flutter_redux: ^0.5.2
 
+  # Flare for animations
+  flare_flutter:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -73,6 +76,7 @@ flutter:
   assets:
     - assets/monkey.png
     - assets/monkeyQR.png
+    - assets/welcome_animation.flr
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
