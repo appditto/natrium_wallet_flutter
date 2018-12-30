@@ -81,7 +81,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                         Row(
                           children: <Widget>[
                             buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                                'Import Wallet', Dimens.BUTTOM_BOTTOM_DIMENS),
+                                'Import Wallet', Dimens.BUTTON_BOTTOM_DIMENS),
                           ],
                         ),
                       ],

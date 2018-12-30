@@ -15,6 +15,7 @@ class KaliumHomePage extends StatefulWidget {
   @override
   _KaliumHomePageState createState() => _KaliumHomePageState();
 }
+
 class _KaliumHomePageState extends State<KaliumHomePage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   KaliumReceiveSheet receive = new KaliumReceiveSheet();
@@ -25,155 +26,158 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
         .copyWith(statusBarIconBrightness: Brightness.light));
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: greyLight,
       drawer: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
         child: Drawer(
           child: SettingsSheet(),
         ),
       ),
-      body: GestureDetector(
-              child: Container(
-          constraints: BoxConstraints.expand(),
-          color: greyLight,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              //Main Card
-              buildMainCard(context, _scaffoldKey),
-              //Main Card End
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          //Main Card
+          buildMainCard(context, _scaffoldKey),
+          //Main Card End
 
-              //Transactions Text
-              Container(
-                margin: EdgeInsets.fromLTRB(30.0, 20.0, 26.0, 0.0),
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      "TRANSACTIONS",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w100,
-                        color: white90,
-                      ),
-                    ),
-                  ],
+          //Transactions Text
+          Container(
+            margin: EdgeInsets.fromLTRB(30.0, 20.0, 26.0, 0.0),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  "TRANSACTIONS",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w100,
+                    color: white90,
+                  ),
                 ),
-              ), //Transactions Text End
+              ],
+            ),
+          ), //Transactions Text End
 
-              //Transactions List
-              Expanded(
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      child: ListView(
-                        padding: EdgeInsets.only(top: 5.0, bottom: 15.0),
-                        children: <Widget>[
-                          buildReceivedCard('1520', 'ban_1rigge1...bbedwa', context),
-                          buildReceivedCard('13020', 'ban_1yekta1...fuuyek', context),
-                          buildSentCard('100', '@fudcake', context),
-                          buildSentCard('1201', '@rene', context),
-                          buildReceivedCard('10', 'ban_1stfup1...smugge', context),
-                          buildReceivedCard('10', 'ban_1stfup1...smugge', context),
-                          buildSentCard('1201', '@rene', context),
-                          buildReceivedCard('10', 'ban_1stfup1...smugge', context),
-                          buildSentCard('1201', '@rene', context),
-                          buildReceivedCard('10', 'ban_1stfup1...smugge', context),
-                          buildReceivedCard('10', 'ban_1stfup1...smugge', context),
-                          buildReceivedCard('10', 'ban_1stfup1...smugge', context),
-                          buildSentCard('1201', '@rene', context),
-                          buildSentCard('1201', '@rene', context),
-                        ],
-                      ),
-                    ),
-
-                    //List Top Gradient End
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        height: 10.0,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [greyLight, greyLightZero],
-                            begin: Alignment(0.5, -1.0),
-                            end: Alignment(0.5, 1.0),
-                          ),
-                        ),
-                      ),
-                    ), // List Top Gradient End
-
-                    //List Bottom Gradient
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: 30.0,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [greyLightZero, greyLight],
-                            begin: Alignment(0.5, -1),
-                            end: Alignment(0.5, 0.5),
-                          ),
-                        ),
-                      ),
-                    ), //List Bottom Gradient End
-                  ],
+          //Transactions List
+          Expanded(
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  child: ListView(
+                    padding: EdgeInsets.only(top: 5.0, bottom: 15.0),
+                    children: <Widget>[
+                      buildReceivedCard(
+                          '1520', 'ban_1rigge1...bbedwa', context),
+                      buildReceivedCard(
+                          '13020', 'ban_1yekta1...fuuyek', context),
+                      buildSentCard('100', '@fudcake', context),
+                      buildSentCard('1201', '@rene', context),
+                      buildReceivedCard(
+                          '10', 'ban_1stfup1...smugge', context),
+                      buildReceivedCard(
+                          '10', 'ban_1stfup1...smugge', context),
+                      buildSentCard('1201', '@rene', context),
+                      buildReceivedCard(
+                          '10', 'ban_1stfup1...smugge', context),
+                      buildSentCard('1201', '@rene', context),
+                      buildReceivedCard(
+                          '10', 'ban_1stfup1...smugge', context),
+                      buildReceivedCard(
+                          '10', 'ban_1stfup1...smugge', context),
+                      buildReceivedCard(
+                          '10', 'ban_1stfup1...smugge', context),
+                      buildSentCard('1201', '@rene', context),
+                      buildSentCard('1201', '@rene', context),
+                    ],
+                  ),
                 ),
-              ), //Transactions List End
 
-              //Buttons Area
-              Container(
-                color: greyLight,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(14.0, 0.0, 7.0, 24.0),
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100.0)),
-                          color: yellow,
-                          child: Text('Receive',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.w700,
-                                  color: greyLight)),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 14.0, horizontal: 20),
-                          onPressed: () => receive.mainBottomSheet(context),
-                          highlightColor: greyLight40,
-                          splashColor: greyLight40,
-                        ),
+                //List Top Gradient End
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height: 10.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [greyLight, greyLightZero],
+                        begin: Alignment(0.5, -1.0),
+                        end: Alignment(0.5, 1.0),
                       ),
                     ),
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(7.0, 0.0, 14.0, 24.0),
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100.0)),
-                          color: yellow,
-                          child: Text('Send',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.w700,
-                                  color: greyLight)),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 14.0, horizontal: 20),
-                          onPressed: () => send.mainBottomSheet(context),
-                          highlightColor: greyLight40,
-                          splashColor: greyLight40,
-                        ),
+                  ),
+                ), // List Top Gradient End
+
+                //List Bottom Gradient
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 30.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [greyLightZero, greyLight],
+                        begin: Alignment(0.5, -1),
+                        end: Alignment(0.5, 0.5),
                       ),
                     ),
-                  ],
+                  ),
+                ), //List Bottom Gradient End
+              ],
+            ),
+          ), //Transactions List End
+
+          //Buttons Area
+          Container(
+            color: greyLight,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(14.0, 0.0, 7.0, 24.0),
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0)),
+                      color: yellow,
+                      child: Text('Receive',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w700,
+                              color: greyLight)),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 14.0, horizontal: 20),
+                      onPressed: () => receive.mainBottomSheet(context),
+                      highlightColor: greyLight40,
+                      splashColor: greyLight40,
+                    ),
+                  ),
                 ),
-              ), //Buttons Area End
-            ],
-          ),
-        ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(7.0, 0.0, 14.0, 24.0),
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0)),
+                      color: yellow,
+                      child: Text('Send',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w700,
+                              color: greyLight)),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 14.0, horizontal: 20),
+                      onPressed: () => send.mainBottomSheet(context),
+                      highlightColor: greyLight40,
+                      splashColor: greyLight40,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ), //Buttons Area End
+        ],
       ),
     );
   }
@@ -198,19 +202,19 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top:5, left:5),
+                margin: EdgeInsets.only(top: 5, left: 5),
                 height: 50,
                 width: 50,
                 child: FlatButton(
-                  onPressed: (){
-                    _scaffoldKey.currentState.openDrawer();
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0)),
-                  padding: EdgeInsets.all(0.0),
-                  child: Icon(KaliumIcons.settings, color: white90, size: 24)),
+                    onPressed: () {
+                      _scaffoldKey.currentState.openDrawer();
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0)),
+                    padding: EdgeInsets.all(0.0),
+                    child:
+                        Icon(KaliumIcons.settings, color: white90, size: 24)),
               ),
-                
             ],
           ),
         ),
@@ -260,7 +264,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
             ],
           ),
         ),
-        Container(     
+        Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/monkey.png'),
@@ -285,12 +289,13 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
         splashColor: white15,
         color: greyDark,
         padding: EdgeInsets.all(0.0),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         onPressed: () => transactionDetails.mainBottomSheet(context),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -373,8 +378,7 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
       splashColor: white15,
       color: greyDark,
       padding: EdgeInsets.all(0.0),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       onPressed: () => transactionDetails.mainBottomSheet(context),
       child: Center(
         child: Padding(
@@ -386,8 +390,7 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
                 children: <Widget>[
                   Container(
                       margin: EdgeInsets.only(right: 16.0),
-                      child:
-                          Icon(KaliumIcons.sent, color: white60, size: 20)),
+                      child: Icon(KaliumIcons.sent, color: white60, size: 20)),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -446,7 +449,6 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
   );
 } //Sent Card End
 
-
 class TransactionDetailsSheet {
   mainBottomSheet(BuildContext context) {
     showKaliumHeightEightSheet(
@@ -462,13 +464,13 @@ class TransactionDetailsSheet {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY,
-                            'Copy Address', Dimens.BUTTON_LEFT_DIMENS),
+                            'Copy Address', Dimens.BUTTON_TOP_DIMENS),
                       ],
                     ),
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                            'View Details', Dimens.BUTTON_RIGHT_DIMENS),
+                            'View Details', Dimens.BUTTON_BOTTOM_DIMENS),
                       ],
                     ),
                   ],

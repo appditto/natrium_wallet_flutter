@@ -70,7 +70,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                            'Import Wallet', Dimens.BUTTOM_BOTTOM_DIMENS, onPressed: () {
+                            'Import Wallet', Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                               Navigator.of(context).pushReplacement(
                                 new MaterialPageRoute(builder: (context) => new KaliumHomePage()));
                             }),

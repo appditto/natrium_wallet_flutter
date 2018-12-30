@@ -188,7 +188,7 @@ class KaliumSeedBackupSheet {
                     ),
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY,'Send', Dimens.BUTTOM_BOTTOM_DIMENS),
+                        buildKaliumButton(KaliumButtonType.PRIMARY,'Send', Dimens.BUTTON_BOTTOM_DIMENS),
                       ],
                     ),
                   ],

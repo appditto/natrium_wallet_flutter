@@ -18,7 +18,7 @@ Widget buildKaliumButton(KaliumButtonType type, String buttonText, List<double> 
               EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
           child: FlatButton(
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
             color: yellow,
             child: Text(buttonText,
                 textAlign: TextAlign.center,
