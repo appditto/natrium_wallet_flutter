@@ -461,14 +461,14 @@ class TransactionDetailsSheet {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                            'View Details', Dimens.BUTTON_LEFT_DIMENS),
+                        buildKaliumButton(KaliumButtonType.PRIMARY,
+                            'Copy Address', Dimens.BUTTON_LEFT_DIMENS),
                       ],
                     ),
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY,
-                            'Copy Address', Dimens.BUTTON_RIGHT_DIMENS),
+                        buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
+                            'View Details', Dimens.BUTTON_RIGHT_DIMENS),
                       ],
                     ),
                   ],

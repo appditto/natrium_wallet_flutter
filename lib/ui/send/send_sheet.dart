@@ -198,12 +198,12 @@ class KaliumSendSheet {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY,
-                            'Scan QR Code', Dimens.BUTTON_TOP_DIMENS),
+                            'Send', Dimens.BUTTON_TOP_DIMENS),
                       ],
                     ),
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY, 'Send', Dimens.BUTTOM_BOTTOM_DIMENS),
+                        buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE, 'Scan QR Code', Dimens.BUTTOM_BOTTOM_DIMENS),
                       ],
                     ),
                   ],
