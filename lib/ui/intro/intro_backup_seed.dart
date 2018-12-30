@@ -17,13 +17,14 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
 
   @override
   void initState() {
+    super.initState();
     var seed = NanoSeeds.generateSeed();
     Vault v = new Vault();
     v.writeSeed(seed).then((result) {
         setState(() {
             _seed = result;
         });
-    });
+    });;
   }
 
   @override
