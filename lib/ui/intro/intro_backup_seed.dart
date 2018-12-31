@@ -71,8 +71,8 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             onTap: () {
                               Clipboard.setData(new ClipboardData(text: _seed));
                               setState(() {
-                                _seedTapColor = blue;
-                                _seedCopiedColor = blue;
+                                _seedTapColor = green;
+                                _seedCopiedColor = green;
                               });
                               // TODO - figure out how to cancel this task on subsequent clicks if it exists
                               Future.delayed(const Duration(milliseconds: 700), () {
@@ -97,8 +97,8 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                   color: _seedTapColor,
                                   fontSize: 17.0,
                                   height: 1.2,
-                                  fontWeight: FontWeight.w100,
                                   fontFamily: 'OverpassMono',
+                                  fontWeight: FontWeight.w100,
                                 ),
                               ),
                             )
@@ -111,7 +111,8 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             style: TextStyle(
                               fontSize: 12.0,
                               color: _seedCopiedColor,
-                              fontFamily: 'NunitoSansSemiBold'
+                              fontFamily: 'NunitoSans',
+                              fontWeight: FontWeight.w700,
                             )
                           ),
                         ),
