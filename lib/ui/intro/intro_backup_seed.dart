@@ -18,77 +18,95 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   @override
   void initState() {
     super.initState();
+    /* TODO - actually save the seed, for testing we don't care 
     Vault v = new Vault();
     v.writeSeed(NanoSeeds.generateSeed()).then((result) {
         setState(() {
             _seed = result;
         });
     });
+    */
+    setState(() {
+      _seed = NanoSeeds.generateSeed();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
     return Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: greyLight,
-        body: LayoutBuilder(
-          builder: (context, constraints) => Container(
-                width: double.infinity,
-                child: Column(
-                  children: <Widget>[
-                    //A widget
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            //Stuff inside this container except width won't be needed since it'll wrap the animation perfectly.
-                            Container(
-                              color: greyDark,
-                              width: double.infinity,
-                              height: MediaQuery.of(context).size.width * 0.5,
-                              child: Center(child: Text("ANIMATION")),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 50, vertical: 20),
-                              child: Text(
-                                "Welcome to Kalium. To begin you may create a new wallet or import an existing one.",
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w200,
-                                    fontFamily: 'NunitoSans',
-                                    color: white90),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    //A column with "New Wallet" and "Import Wallet" buttons
-                    Column(
+      key: _scaffoldKey,
+      backgroundColor: greyLight,
+      body: LayoutBuilder(
+        builder: (context, constraints) => Column(
+              children: <Widget>[
+                //A widget that holds welcome animation + text and expands to the rest of the available area
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            buildKaliumButton(KaliumButtonType.PRIMARY,
-                                'New Wallet', Dimens.BUTTON_TOP_DIMENS),
-                          ],
+                        //Container for the text
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 20),
+                          child: Text(
+                            "Below is your wallet's seed. It is crucial that you backup your seed and never store it as plaintext or a screenshot.",
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w200,
+                                fontFamily: 'NunitoSans',
+                                color: white90),
+                          ),
                         ),
-                        Row(
-                          children: <Widget>[
-                            buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                                'Import Wallet', Dimens.BUTTON_BOTTOM_DIMENS),
-                          ],
-                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
+                          margin: EdgeInsets.only(left: 60, right: 60, top: 20),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: greyDarkest,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child:  Text(
+                            _seed,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: white60,
+                              fontSize: 17.0,
+                              height: 1.2,
+                              fontWeight: FontWeight.w100,
+                              fontFamily: 'OverpassMono',
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+
+                //A column with next screen button
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        buildKaliumButton(
+                            KaliumButtonType.PRIMARY,
+                            'New Wallet',
+                            Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                          Navigator.of(context).push(
+                              new MaterialPageRoute(
+                                  builder: (context) => new IntroBackupSeedPage()));
+                        }),
                       ],
                     ),
                   ],
                 ),
-              ),
-        ));
+              ],
+            ),
+      ),
+    );
   }
 }

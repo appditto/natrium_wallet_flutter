@@ -4,6 +4,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
+import 'package:kalium_wallet_flutter/ui/intro/intro_backup_seed.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
 class IntroWelcomePage extends StatefulWidget {
@@ -80,9 +81,9 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                             KaliumButtonType.PRIMARY,
                             'New Wallet',
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                          Navigator.of(context).pushReplacement(
+                          Navigator.of(context).push(
                               new MaterialPageRoute(
-                                  builder: (context) => new KaliumHomePage()));
+                                  builder: (context) => new IntroBackupSeedPage()));
                         }),
                       ],
                     ),
