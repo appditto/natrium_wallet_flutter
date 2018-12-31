@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/model/vault.dart';
+import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
 import 'package:kalium_wallet_flutter/ui/settings/backup_seed.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
 
@@ -10,6 +12,12 @@ class SettingsSheet extends StatefulWidget {
 
 class _SettingsSheetState extends State<SettingsSheet> {
   KaliumSeedBackupSheet seedbackup = new KaliumSeedBackupSheet();
+  // TODO - This should be a singleton or in the inheritedwidget
+  Vault _vault;
+  _SettingsSheetState() {
+    _vault = new Vault();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -77,7 +85,13 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   buildSettingsListItemSingleLine('Change Representative',
                       KaliumIcons.changerepresentative),
                   Divider(height: 2),
-                  buildSettingsListItemSingleLine('Logout', KaliumIcons.logout),
+                  buildSettingsListItemSingleLine('Logout', KaliumIcons.logout,
+                    onPressed: () {
+                      _vault.deleteSeed().then((Null) {        
+                            Navigator.of(context).pushReplacement(
+                              new MaterialPageRoute(builder: (context) => new IntroWelcomePage()));
+                      });
+                    }),
                   Divider(height: 2),
                   Padding(
                     padding: EdgeInsets.only(top: 10.0, bottom: 10.0),

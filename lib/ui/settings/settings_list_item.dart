@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 
+void doNothing() {
+  return;
+}
+
 //Settings item with a dropdown option
 Widget buildSettingsListItemDoubleLine(
     String heading, String option, IconData settingIcon) {
@@ -46,10 +50,14 @@ Widget buildSettingsListItemDoubleLine(
 }
 
 //Settings item without any dropdown option but rather a direct functionality
-Widget buildSettingsListItemSingleLine(String heading, IconData settingIcon) {
+Widget buildSettingsListItemSingleLine(String heading, IconData settingIcon, { Function onPressed }) {
   return FlatButton(
     onPressed: () {
-      return;
+      if (onPressed != null) {
+        onPressed();
+      } else {
+        return;
+      }
     },
     padding: EdgeInsets.all(0.0),
     child: Container(

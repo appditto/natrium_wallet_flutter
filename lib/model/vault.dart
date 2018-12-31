@@ -16,4 +16,8 @@ class Vault {
     await secureStorage.write(key: seedKey, value:seed);
     return seed;
   }
+
+  Future<void> deleteSeed() async {
+    return await secureStorage.delete(key: seedKey);
+  }
 }

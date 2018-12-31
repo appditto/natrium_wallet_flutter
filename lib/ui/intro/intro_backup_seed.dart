@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
@@ -5,6 +6,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:kalium_wallet_flutter/ui/home_page.dart';
 
 class IntroBackupSeedPage extends StatefulWidget {
   @override
@@ -16,22 +18,18 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   var _seed;
   var _seedTapColor;
   var _seedCopiedColor;
+  Timer _seedCopiedTimer;
 
   @override
   void initState() {
     super.initState();
-    /* TODO - actually save the seed, for testing we don't care 
     Vault v = new Vault();
     v.writeSeed(NanoSeeds.generateSeed()).then((result) {
         setState(() {
             _seed = result;
+            _seedTapColor = KaliumColors.yellow;
+            _seedCopiedColor = Colors.transparent;
         });
-    });
-    */
-    setState(() {
-      _seed = NanoSeeds.generateSeed();
-      _seedTapColor = KaliumColors.text60;
-      _seedCopiedColor = Colors.transparent;
     });
   }
 
@@ -74,10 +72,12 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 _seedTapColor = KaliumColors.success;
                                 _seedCopiedColor = KaliumColors.success;
                               });
-                              // TODO - figure out how to cancel this task on subsequent clicks if it exists
-                              Future.delayed(const Duration(milliseconds: 700), () {
+                              if (_seedCopiedTimer != null) {
+                                _seedCopiedTimer.cancel();
+                              }
+                              _seedCopiedTimer = new Timer(const Duration(milliseconds: 700), () {
                                 setState(() {
-                                  _seedTapColor = KaliumColors.text60;
+                                  _seedTapColor = KaliumColors.yellow;
                                   _seedCopiedColor = Colors.transparent;
                                 });
                               });
@@ -132,7 +132,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                           Navigator.of(context).push(
                               new MaterialPageRoute(
-                                  builder: (context) => new IntroBackupSeedPage()));
+                                  builder: (context) => new KaliumHomePage()));
                         }),
                       ],
                     ),

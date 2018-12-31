@@ -3,12 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'colors.dart';
 
-void main() => runApp(new KaliumApp());
+void main() => runApp(new AppStateContainer(
+                          child:new KaliumApp()
+                      ));
 
 class KaliumApp extends StatelessWidget {
   // This widget is the root of the application.
@@ -67,17 +70,5 @@ class SplashState extends State<Splash> {
     child: new Text('Loading...'),
   ),
   );
-  }
-}
-
-
-class IntroScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      body: Container(
-
-      ),
-    );
   }
 }
