@@ -14,6 +14,7 @@ class IntroBackupSeedPage extends StatefulWidget {
 class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   var _seed;
+  var _seedTapColor;
 
   @override
   void initState() {
@@ -28,6 +29,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
     */
     setState(() {
       _seed = NanoSeeds.generateSeed();
+      _seedTapColor = white60;
     });
   }
 
@@ -63,23 +65,39 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
-                          margin: EdgeInsets.only(left: 60, right: 60, top: 20),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: greyDarkest,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child:  Text(
-                            _seed,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: white60,
-                              fontSize: 17.0,
-                              height: 1.2,
-                              fontWeight: FontWeight.w100,
-                              fontFamily: 'OverpassMono',
-                            ),
+                          child: new GestureDetector(
+                            onTap: () {
+                              Clipboard.setData(new ClipboardData(text: _seed));
+                              setState(() {
+                                _seedTapColor = blue;
+                              });
+                              // TODO - figure out how to cancel this task on subsequent clicks if it exists
+                              Future.delayed(const Duration(milliseconds: 500), () {
+                                setState(() {
+                                  _seedTapColor = white60;
+                                });
+                              });
+                            },
+                            child: new Container(
+                              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
+                              margin: EdgeInsets.only(left: 60, right: 60, top: 20),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: greyDarkest,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child:  Text(
+                                _seed,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: _seedTapColor,
+                                  fontSize: 17.0,
+                                  height: 1.2,
+                                  fontWeight: FontWeight.w100,
+                                  fontFamily: 'OverpassMono',
+                                ),
+                              ),
+                            )
                           ),
                         )
                       ],
