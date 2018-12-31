@@ -26,7 +26,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
         .copyWith(statusBarIconBrightness: Brightness.light));
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: greyLight,
+      backgroundColor: KaliumColors.background,
       drawer: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
         child: Drawer(
@@ -51,7 +51,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w100,
-                    color: white90,
+                    color: KaliumColors.text,
                   ),
                 ),
               ],
@@ -100,7 +100,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [greyLight, greyLightZero],
+                        colors: [KaliumColors.background, KaliumColors.background00],
                         begin: Alignment(0.5, -1.0),
                         end: Alignment(0.5, 1.0),
                       ),
@@ -116,7 +116,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [greyLightZero, greyLight],
+                        colors: [KaliumColors.background00, KaliumColors.background],
                         begin: Alignment(0.5, -1),
                         end: Alignment(0.5, 0.5),
                       ),
@@ -129,7 +129,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
 
           //Buttons Area
           Container(
-            color: greyLight,
+            color: KaliumColors.background,
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -138,18 +138,18 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),
-                      color: yellow,
+                      color: KaliumColors.primary,
                       child: Text('Receive',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 20.0,
                               fontWeight: FontWeight.w700,
-                              color: greyLight)),
+                              color: KaliumColors.background)),
                       padding: EdgeInsets.symmetric(
                           vertical: 14.0, horizontal: 20),
                       onPressed: () => receive.mainBottomSheet(context),
-                      highlightColor: greyLight40,
-                      splashColor: greyLight40,
+                      highlightColor: KaliumColors.background40,
+                      splashColor: KaliumColors.background40,
                     ),
                   ),
                 ),
@@ -159,18 +159,18 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),
-                      color: yellow,
+                      color: KaliumColors.primary,
                       child: Text('Send',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 20.0,
                               fontWeight: FontWeight.w700,
-                              color: greyLight)),
+                              color: KaliumColors.background)),
                       padding: EdgeInsets.symmetric(
                           vertical: 14.0, horizontal: 20),
                       onPressed: () => send.mainBottomSheet(context),
-                      highlightColor: greyLight40,
-                      splashColor: greyLight40,
+                      highlightColor: KaliumColors.background40,
+                      splashColor: KaliumColors.background40,
                     ),
                   ),
                 ),
@@ -187,7 +187,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
 Widget buildMainCard(BuildContext context, _scaffoldKey) {
   return Container(
     decoration: BoxDecoration(
-      color: greyDark,
+      color:KaliumColors.backgroundDark,
       borderRadius: BorderRadius.circular(12.0),
     ),
     margin: EdgeInsets.only(top: 42.0, left: 14.0, right: 14.0),
@@ -213,7 +213,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
                         borderRadius: BorderRadius.circular(50.0)),
                     padding: EdgeInsets.all(0.0),
                     child:
-                        Icon(KaliumIcons.settings, color: white90, size: 24)),
+                        Icon(KaliumIcons.settings, color: KaliumColors.text, size: 24)),
               ),
             ],
           ),
@@ -230,14 +230,14 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
                     style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w600,
-                        color: white60)),
+                        color: KaliumColors.text60)),
               ),
               Row(
                 children: <Widget>[
                   Container(
                       margin: EdgeInsets.only(right: 5.0),
                       child: Icon(KaliumIcons.bananocurrency,
-                          color: yellow, size: 20)),
+                          color: KaliumColors.primary, size: 20)),
                   Container(
                     margin: EdgeInsets.only(right: 15.0),
                     child: Text("412,580",
@@ -245,20 +245,20 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
                         style: TextStyle(
                             fontSize: 30.0,
                             fontWeight: FontWeight.w900,
-                            color: yellow)),
+                            color: KaliumColors.primary)),
                   ),
                 ],
               ),
               Row(
                 children: <Widget>[
                   Container(
-                      child: Icon(KaliumIcons.btc, color: white60, size: 14)),
+                      child: Icon(KaliumIcons.btc, color: KaliumColors.text60, size: 14)),
                   Text("0.1534",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w600,
-                          color: white60)),
+                          color: KaliumColors.text60)),
                 ],
               ),
             ],
@@ -285,9 +285,9 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
     margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
     child: Container(
       child: FlatButton(
-        highlightColor: white15,
-        splashColor: white15,
-        color: greyDark,
+        highlightColor: KaliumColors.text15,
+        splashColor: KaliumColors.text15,
+        color:KaliumColors.backgroundDark,
         padding: EdgeInsets.all(0.0),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -304,7 +304,7 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
                     Container(
                         margin: EdgeInsets.only(right: 16.0),
                         child: Icon(KaliumIcons.received,
-                            color: yellow60, size: 20)),
+                            color: KaliumColors.primary60, size: 20)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -314,7 +314,7 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
                           style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w600,
-                            color: white90,
+                            color: KaliumColors.text,
                           ),
                         ),
                         RichText(
@@ -325,7 +325,7 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
                               TextSpan(
                                 text: amount,
                                 style: TextStyle(
-                                  color: yellow60,
+                                  color: KaliumColors.primary60,
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -333,7 +333,7 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
                               TextSpan(
                                 text: " BAN",
                                 style: TextStyle(
-                                  color: yellow60,
+                                  color: KaliumColors.primary60,
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.w100,
                                 ),
@@ -352,7 +352,7 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
                     fontSize: 11.0,
                     fontFamily: 'OverpassMono',
                     fontWeight: FontWeight.w100,
-                    color: white60,
+                    color: KaliumColors.text60,
                   ),
                 ),
               ],
@@ -370,13 +370,13 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
   return Container(
     margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
     decoration: BoxDecoration(
-      color: greyDark,
+      color:KaliumColors.backgroundDark,
       borderRadius: BorderRadius.circular(10.0),
     ),
     child: FlatButton(
-      highlightColor: white15,
-      splashColor: white15,
-      color: greyDark,
+      highlightColor: KaliumColors.text15,
+      splashColor: KaliumColors.text15,
+      color:KaliumColors.backgroundDark,
       padding: EdgeInsets.all(0.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       onPressed: () => transactionDetails.mainBottomSheet(context),
@@ -390,7 +390,7 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
                 children: <Widget>[
                   Container(
                       margin: EdgeInsets.only(right: 16.0),
-                      child: Icon(KaliumIcons.sent, color: white60, size: 20)),
+                      child: Icon(KaliumIcons.sent, color: KaliumColors.text60, size: 20)),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -400,7 +400,7 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
                         style: TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w600,
-                          color: white90,
+                          color: KaliumColors.text,
                         ),
                       ),
                       RichText(
@@ -411,7 +411,7 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
                             TextSpan(
                               text: amount,
                               style: TextStyle(
-                                color: yellow60,
+                                color: KaliumColors.primary60,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -419,7 +419,7 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
                             TextSpan(
                               text: " BAN",
                               style: TextStyle(
-                                color: yellow60,
+                                color: KaliumColors.primary60,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w100,
                               ),
@@ -438,7 +438,7 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
                   fontSize: 11.0,
                   fontFamily: 'OverpassMono',
                   fontWeight: FontWeight.w100,
-                  color: white60,
+                  color: KaliumColors.text60,
                 ),
               ),
             ],

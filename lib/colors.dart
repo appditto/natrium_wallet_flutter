@@ -1,29 +1,56 @@
 import 'package:flutter/material.dart';
 
-const greyLight = const Color(0xFF2A2A2E);
-const greyLight40 = const Color(0x662A2A2E);
-const greyLightZero = const Color(0x002A2A2E);
+class KaliumColors {
+  static const yellow = Color(0xFFFBDD11);
+  static const yellow15 = Color(0x26FBDD11);
+  static const yellow30 = Color(0x4DFBDD11);
+  static const yellow60 = Color(0x99FBDD11);
+  static const yellowLight = Color(0xFFFFF940);
 
-const greyDark = const Color(0xFF212124);
-const greyDarkZero = const Color(0x00212124);
+  static const green = Color(0xFF4CBF4B);
+  static const greenDark = Color(0xFF276126);
 
-const greyDarkest = const Color(0xFF1A1A1C);
+  static const greyLight = Color(0xFF2A2A2E);
+  static const greyLight40 = Color(0x662A2A2E);
+  static const greyLight00 = Color(0x002A2A2E);
 
-const yellow = const Color(0xFFFBDD11);
-const yellow15 = const Color(0x26FBDD11);
-const yellow30 = const Color(0x4DFBDD11);
-const yellow60 = const Color(0x99FBDD11);
-const yellowLight = const Color(0xFFFFF940);
+  static const greyDark = Color(0xFF212124);
+  static const greyDark00 = Color(0x00212124);
 
-const green = const Color(0xFF4CBF4B);
-const greenDark = const Color(0xFF276126);
+  static const greyDarkest = Color(0xFF1A1A1C);
 
-const white90 = const Color(0xE6FFFFFF);
-const white60 = const Color(0x99FFFFFF);
-const white30 = const Color(0x4DFFFFFF);
-const white15 = const Color(0x26FFFFFF);
+  static const white90 = Color(0xE6FFFFFF);
+  static const white60 = Color(0x99FFFFFF);
+  static const white30 = Color(0x4DFFFFFF);
+  static const white15 = Color(0x26FFFFFF);
 
-const black70 = const Color(0xB3000000);
-const black80 = const Color(0xCC000000);
+  static const black70 = Color(0xB3000000);
+  static const black80 = Color(0xCC000000);
 
-const blue = const Color(0xFF4A90E2);
+  static const blue = Color(0xFF4A90E2);
+
+  static const primary = yellow;
+  static const primary60 = yellow60;
+  static const primary30 = yellow30;
+  static const primary15 = yellow15;
+
+  static const success = green;
+  static const successDark = greenDark;
+
+  static const background = greyLight;
+  static const background40 = greyLight40;
+  static const background00 = greyLight00;
+
+  static const backgroundDark = greyDark;
+  static const backgroundDark00 = greyDark00;
+
+  static const backgroundDarkest = greyDarkest;
+
+  static const text = white90;
+  static const text60 = white60;
+  static const text30 = white30;
+  static const text15 = white15;
+
+  static const overlay70= black70;
+  static const overlay80= black80;
+}

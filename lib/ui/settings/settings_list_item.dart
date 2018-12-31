@@ -17,7 +17,7 @@ Widget buildSettingsListItemDoubleLine(
         children: <Widget>[
           Container(
             margin: new EdgeInsets.only(right: 16.0),
-            child: new Icon(settingIcon, color: yellow, size: 24),
+            child: new Icon(settingIcon, color: KaliumColors.primary, size: 24),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -28,14 +28,14 @@ Widget buildSettingsListItemDoubleLine(
                 style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w600,
-                    color: white90),
+                    color: KaliumColors.text),
               ),
               Text(
                 option,
                 style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.w100,
-                    color: white60),
+                    color: KaliumColors.text60),
               ),
             ],
           ),
@@ -59,11 +59,11 @@ Widget buildSettingsListItemSingleLine(String heading, IconData settingIcon) {
         children: <Widget>[
           Container(
               margin: new EdgeInsets.only(right: 16.0),
-              child: new Icon(settingIcon, color: yellow, size: 24)),
+              child: new Icon(settingIcon, color: KaliumColors.primary, size: 24)),
           Text(
             heading,
             style: TextStyle(
-                fontSize: 16.0, fontWeight: FontWeight.w600, color: white90),
+                fontSize: 16.0, fontWeight: FontWeight.w600, color: KaliumColors.text),
           ),
         ],
       ),

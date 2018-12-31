@@ -26,7 +26,7 @@ class KaliumReceiveSheet {
                         Navigator.pop(context);
                       },
                       child:
-                          Icon(KaliumIcons.close, size: 16, color: white90),
+                          Icon(KaliumIcons.close, size: 16, color: KaliumColors.text),
                       padding: EdgeInsets.all(17.0),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),

@@ -30,7 +30,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
     */
     setState(() {
       _seed = NanoSeeds.generateSeed();
-      _seedTapColor = white60;
+      _seedTapColor = KaliumColors.text60;
       _seedCopiedColor = Colors.transparent;
     });
   }
@@ -41,7 +41,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
         .copyWith(statusBarIconBrightness: Brightness.light));
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: greyLight,
+      backgroundColor: KaliumColors.background,
       body: LayoutBuilder(
         builder: (context, constraints) => Column(
               children: <Widget>[
@@ -63,7 +63,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w200,
                                 fontFamily: 'NunitoSans',
-                                color: white90),
+                                color: KaliumColors.text),
                           ),
                         ),
                         Container(
@@ -71,13 +71,13 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             onTap: () {
                               Clipboard.setData(new ClipboardData(text: _seed));
                               setState(() {
-                                _seedTapColor = green;
-                                _seedCopiedColor = green;
+                                _seedTapColor = KaliumColors.success;
+                                _seedCopiedColor = KaliumColors.success;
                               });
                               // TODO - figure out how to cancel this task on subsequent clicks if it exists
                               Future.delayed(const Duration(milliseconds: 700), () {
                                 setState(() {
-                                  _seedTapColor = white60;
+                                  _seedTapColor = KaliumColors.text60;
                                   _seedCopiedColor = Colors.transparent;
                                 });
                               });
@@ -87,7 +87,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               margin: EdgeInsets.only(left: 60, right: 60, top: 20),
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: greyDarkest,
+                                color: KaliumColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child:  Text(

@@ -18,8 +18,8 @@ class KaliumApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'KaliumF',
       theme: ThemeData(
-        primaryColor: yellow,
-        accentColor: yellow,
+        primaryColor: KaliumColors.primary,
+        accentColor: KaliumColors.primary,
         fontFamily: 'NunitoSans',
         brightness: Brightness.dark,
       ),

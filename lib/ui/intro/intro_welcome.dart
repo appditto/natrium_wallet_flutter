@@ -21,7 +21,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
         .copyWith(statusBarIconBrightness: Brightness.light));
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: greyLight,
+      backgroundColor: KaliumColors.background,
       body: LayoutBuilder(
         builder: (context, constraints) => Column(
               children: <Widget>[
@@ -52,7 +52,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w200,
                                 fontFamily: 'NunitoSans',
-                                color: white90),
+                                color: KaliumColors.text),
                           ),
                         ),
                       ],

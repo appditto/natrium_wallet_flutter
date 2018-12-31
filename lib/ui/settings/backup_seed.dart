@@ -29,7 +29,7 @@ class KaliumSeedBackupSheet {
                           Navigator.pop(context);
                         },
                         child:
-                            Icon(KaliumIcons.close, size: 16, color: white90),
+                            Icon(KaliumIcons.close, size: 16, color: KaliumColors.text),
                         padding: EdgeInsets.all(17.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -59,7 +59,7 @@ class KaliumSeedBackupSheet {
                                   TextSpan(
                                     text: "(",
                                     style: TextStyle(
-                                      color: yellow60,
+                                      color: KaliumColors.primary60,
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.w100,
                                       fontFamily: 'NunitoSans',
@@ -68,7 +68,7 @@ class KaliumSeedBackupSheet {
                                   TextSpan(
                                     text: "412,580",
                                     style: TextStyle(
-                                      color: yellow60,
+                                      color: KaliumColors.primary60,
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.w700,
                                       fontFamily: 'NunitoSans',
@@ -77,7 +77,7 @@ class KaliumSeedBackupSheet {
                                   TextSpan(
                                     text: " BAN",
                                     style: TextStyle(
-                                      color: yellow60,
+                                      color: KaliumColors.primary60,
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.w100,
                                       fontFamily: 'NunitoSans',
@@ -111,11 +111,11 @@ class KaliumSeedBackupSheet {
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: greyDarkest,
+                            color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: TextField(
-                            cursorColor: yellow,
+                            cursorColor: KaliumColors.primary,
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(13),
                             ],
@@ -134,7 +134,7 @@ class KaliumSeedBackupSheet {
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 16.0,
-                              color: yellow,
+                              color: KaliumColors.primary,
                               fontFamily: 'NunitoSans',
                             ),
                           ),
@@ -144,11 +144,11 @@ class KaliumSeedBackupSheet {
                           margin: EdgeInsets.only(left: 70, right: 70, top: 20),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: greyDarkest,
+                            color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: TextField(
-                            cursorColor: yellow,
+                            cursorColor: KaliumColors.primary,
                             keyboardAppearance: Brightness.dark,
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(64),
@@ -167,7 +167,7 @@ class KaliumSeedBackupSheet {
                             style: TextStyle(
                               fontWeight: FontWeight.w100,
                               fontSize: 16.0,
-                              color: white90,
+                              color: KaliumColors.text,
                               fontFamily: 'OverpassMono',
                             ),
                           ),

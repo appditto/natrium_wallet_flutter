@@ -8,7 +8,7 @@ void doNothing() {
   return;
 }
 
-//Standard Yellow Kalium Button
+//Primary Kalium Button
 Widget buildKaliumButton(KaliumButtonType type, String buttonText, List<double> dimens, { Function onPressed = doNothing } ) {
   switch (type) {
     case KaliumButtonType.PRIMARY:
@@ -19,17 +19,17 @@ Widget buildKaliumButton(KaliumButtonType type, String buttonText, List<double> 
           child: FlatButton(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
-            color: yellow,
+            color: KaliumColors.primary,
             child: Text(buttonText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 20.0, fontWeight: FontWeight.w700, color: greyLight)),
+                    fontSize: 20.0, fontWeight: FontWeight.w700, color: KaliumColors.background)),
             padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
             onPressed: () {
               onPressed();
             },
-            highlightColor: greyLight40,
-            splashColor: greyLight40,
+            highlightColor: KaliumColors.background40,
+            splashColor: KaliumColors.background40,
           ),
         ),
       );
@@ -39,17 +39,17 @@ Widget buildKaliumButton(KaliumButtonType type, String buttonText, List<double> 
       margin:
           EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
       child: OutlineButton(
-        textColor: yellow,
-        borderSide: BorderSide(color: yellow, width: 2.0),
-        highlightedBorderColor: yellow,
-        splashColor: yellow30,
-        highlightColor: yellow15,
+        textColor: KaliumColors.primary,
+        borderSide: BorderSide(color: KaliumColors.primary, width: 2.0),
+        highlightedBorderColor: KaliumColors.primary,
+        splashColor: KaliumColors.primary30,
+        highlightColor: KaliumColors.primary15,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
         child: Text(buttonText,
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: 20.0, fontWeight: FontWeight.w700, color: yellow)),
+                fontSize: 20.0, fontWeight: FontWeight.w700, color: KaliumColors.primary)),
         padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
         onPressed: () {
           onPressed();

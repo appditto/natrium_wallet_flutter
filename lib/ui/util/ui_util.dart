@@ -17,7 +17,7 @@ threeLineAddressBuilder(String address) {
             TextSpan(
               text: stringPartOne,
               style: TextStyle(
-                color: yellow60,
+                color: KaliumColors.primary60,
                 fontSize: 14.0,
                 height: 1.2,
                 fontWeight: FontWeight.w100,
@@ -27,7 +27,7 @@ threeLineAddressBuilder(String address) {
             TextSpan(
               text: stringPartTwo,
               style: TextStyle(
-                color: white60,
+                color: KaliumColors.text60,
                 fontSize: 14.0,
                 height: 1.2,
                 fontWeight: FontWeight.w100,
@@ -45,7 +45,7 @@ threeLineAddressBuilder(String address) {
             TextSpan(
               text: stringPartThree,
               style: TextStyle(
-                color: white60,
+                color: KaliumColors.text60,
                 fontSize: 14.0,
                 height: 1.2,
                 fontWeight: FontWeight.w100,
@@ -63,7 +63,7 @@ threeLineAddressBuilder(String address) {
             TextSpan(
               text: stringPartFour,
               style: TextStyle(
-                color: white60,
+                color: KaliumColors.text60,
                 fontSize: 14.0,
                 height: 1.2,
                 fontWeight: FontWeight.w100,
@@ -73,7 +73,7 @@ threeLineAddressBuilder(String address) {
             TextSpan(
               text: stringPartFive,
               style: TextStyle(
-                color: yellow60,
+                color: KaliumColors.primary60,
                 fontSize: 14.0,
                 height: 1.2,
                 fontWeight: FontWeight.w100,

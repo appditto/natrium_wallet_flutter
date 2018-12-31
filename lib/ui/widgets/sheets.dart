@@ -7,7 +7,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 Future<T> showKaliumHeightNineSheet<T>({
   @required BuildContext context,
   @required WidgetBuilder builder,
-  Color color = greyDark,
+  Color color = KaliumColors.backgroundDark,
   double radius = 30.0,
 }) {
   assert(context != null);
@@ -64,7 +64,7 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
   final Color color;
 
   @override
-  Color get barrierColor => black70;
+  Color get barrierColor => KaliumColors.overlay70;
 
   @override
   bool get barrierDismissible => true;
@@ -129,7 +129,7 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
 Future<T> showKaliumHeightEightSheet<T>({
   @required BuildContext context,
   @required WidgetBuilder builder,
-  Color color = greyDark,
+  Color color = KaliumColors.backgroundDark,
   double radius = 30.0,
 }) {
   assert(context != null);
@@ -186,7 +186,7 @@ class _KaliumHeightEightModalRoute<T> extends PopupRoute<T> {
   final Color color;
 
   @override
-  Color get barrierColor => black70;
+  Color get barrierColor => KaliumColors.overlay70;
 
   @override
   bool get barrierDismissible => true;

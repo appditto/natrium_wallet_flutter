@@ -13,7 +13,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: greyDark,
+      color: KaliumColors.backgroundDark,
       child: Column(
         children: <Widget>[
           Container(
@@ -24,7 +24,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                     style: TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.w800,
-                        color: white90))
+                        color: KaliumColors.text))
               ],
             ),
           ),
@@ -40,7 +40,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w100,
-                            color: white60)),
+                            color: KaliumColors.text60)),
                   ),
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine('Change Currency',
@@ -62,7 +62,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w100,
-                            color: white60)),
+                            color: KaliumColors.text60)),
                   ),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
@@ -89,7 +89,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                           style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.w100,
-                              color: white60),
+                              color: KaliumColors.text60),
                         ),
                       ],
                     ),
@@ -104,7 +104,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [greyDark, greyDarkZero],
+                      colors: [KaliumColors.backgroundDark, KaliumColors.backgroundDark00],
                       begin: Alignment(0.5, -1.0),
                       end: Alignment(0.5, 1.0),
                     ),
