@@ -15,6 +15,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   var _seed;
   var _seedTapColor;
+  var _seedCopiedColor;
 
   @override
   void initState() {
@@ -30,6 +31,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
     setState(() {
       _seed = NanoSeeds.generateSeed();
       _seedTapColor = white60;
+      _seedCopiedColor = Colors.transparent;
     });
   }
 
@@ -70,11 +72,13 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               Clipboard.setData(new ClipboardData(text: _seed));
                               setState(() {
                                 _seedTapColor = blue;
+                                _seedCopiedColor = blue;
                               });
                               // TODO - figure out how to cancel this task on subsequent clicks if it exists
-                              Future.delayed(const Duration(milliseconds: 500), () {
+                              Future.delayed(const Duration(milliseconds: 700), () {
                                 setState(() {
                                   _seedTapColor = white60;
+                                  _seedCopiedColor = Colors.transparent;
                                 });
                               });
                             },
@@ -99,7 +103,18 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               ),
                             )
                           ),
-                        )
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: Text(
+                            'Seed Copied To Clipboard',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              color: _seedCopiedColor,
+                              fontFamily: 'NunitoSansSemiBold'
+                            )
+                          ),
+                        ),
                       ],
                     ),
                   ),
