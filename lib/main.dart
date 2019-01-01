@@ -21,8 +21,10 @@ class KaliumApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'KaliumF',
       theme: ThemeData(
+        dialogBackgroundColor: KaliumColors.backgroundDark,
         primaryColor: KaliumColors.primary,
         accentColor: KaliumColors.primary,
+        backgroundColor: KaliumColors.backgroundDark,
         fontFamily: 'NunitoSans',
         brightness: Brightness.dark,
       ),

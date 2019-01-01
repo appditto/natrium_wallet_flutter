@@ -6,7 +6,6 @@ class KaliumStyles {
   static const TextStyleParagraph = TextStyle(
                                       fontSize: KaliumFontSizes.medium,
                                       fontWeight: FontWeight.w200,
-                                      fontFamily: 'NunitoSans',
                                       color: KaliumColors.text);
   // Text style for primary button
   static const TextStyleButtonPrimary = TextStyle(
@@ -72,6 +71,19 @@ class KaliumStyles {
                                         fontSize: KaliumFontSizes.small,
                                         fontWeight: FontWeight.w100,
                                         color: KaliumColors.text60);
+  // Text style for alert dialog header
+  static const TextStyleDialogHeader = TextStyle(
+                                                  fontSize: KaliumFontSizes.large,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: KaliumColors.primary,
+                                                  );
+  // Text style for dialog button text
+  static const TextStyleDialogButtonText = TextStyle(
+                                                  fontSize: KaliumFontSizes.smallest,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: KaliumColors.primary,
+                                                  );
+
 }
 
 class KaliumFontSizes {

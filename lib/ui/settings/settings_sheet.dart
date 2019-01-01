@@ -94,9 +94,9 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   Divider(height: 2),
                   buildSettingsListItemSingleLine('Logout', KaliumIcons.logout,
                     onPressed: () {
-                      showConfirmDialog(context, "Warning",
+                      showConfirmDialog(context, "WARNING",
                                         "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
-                                        "Delete Seed and Logout",
+                                        "DELETE SEED AND LOGOUT",
                                         () {
                                           _vault.deleteSeed().then((Null) {
                                             Navigator.of(context).pushReplacement(
