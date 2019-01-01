@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/receive/receive_sheet.dart';
@@ -141,10 +142,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
                       color: KaliumColors.primary,
                       child: Text('Receive',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w700,
-                              color: KaliumColors.background)),
+                          style: KaliumStyles.TextStyleButtonPrimary),
                       padding: EdgeInsets.symmetric(
                           vertical: 14.0, horizontal: 20),
                       onPressed: () => receive.mainBottomSheet(context),
@@ -162,10 +160,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
                       color: KaliumColors.primary,
                       child: Text('Send',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w700,
-                              color: KaliumColors.background)),
+                          style: KaliumStyles.TextStyleButtonPrimary),
                       padding: EdgeInsets.symmetric(
                           vertical: 14.0, horizontal: 20),
                       onPressed: () => send.mainBottomSheet(context),
@@ -227,10 +222,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
                 margin: EdgeInsets.only(right: 5.0),
                 child: Text("€534",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w600,
-                        color: KaliumColors.text60)),
+                    style: KaliumStyles.TextStyleCurrencyAlt),
               ),
               Row(
                 children: <Widget>[
@@ -242,10 +234,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
                     margin: EdgeInsets.only(right: 15.0),
                     child: Text("412,580",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.w900,
-                            color: KaliumColors.primary)),
+                        style: KaliumStyles.TextStyleCurrency),
                   ),
                 ],
               ),
@@ -255,10 +244,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
                       child: Icon(KaliumIcons.btc, color: KaliumColors.text60, size: 14)),
                   Text("0.1534",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                          color: KaliumColors.text60)),
+                      style: KaliumStyles.TextStyleCurrencyAlt),
                 ],
               ),
             ],
@@ -311,11 +297,7 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
                         Text(
                           "Received",
                           textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w600,
-                            color: KaliumColors.text,
-                          ),
+                          style: KaliumStyles.TextStyleTransactionType,
                         ),
                         RichText(
                           textAlign: TextAlign.left,
@@ -324,19 +306,11 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
                             children: [
                               TextSpan(
                                 text: amount,
-                                style: TextStyle(
-                                  color: KaliumColors.primary60,
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                style: KaliumStyles.TextStyleTransactionAmount,
                               ),
                               TextSpan(
                                 text: " BAN",
-                                style: TextStyle(
-                                  color: KaliumColors.primary60,
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w100,
-                                ),
+                                style: KaliumStyles.TextStyleTransactionUnit,
                               ),
                             ],
                           ),
@@ -348,12 +322,7 @@ Widget buildReceivedCard(String amount, String address, BuildContext context) {
                 Text(
                   address,
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 11.0,
-                    fontFamily: 'OverpassMono',
-                    fontWeight: FontWeight.w100,
-                    color: KaliumColors.text60,
-                  ),
+                  style: KaliumStyles.TextStyleTransactionAddress,
                 ),
               ],
             ),
@@ -397,11 +366,7 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
                       Text(
                         "Sent",
                         textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                          color: KaliumColors.text,
-                        ),
+                        style: KaliumStyles.TextStyleTransactionType,
                       ),
                       RichText(
                         textAlign: TextAlign.left,
@@ -410,19 +375,11 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
                           children: [
                             TextSpan(
                               text: amount,
-                              style: TextStyle(
-                                color: KaliumColors.primary60,
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: KaliumStyles.TextStyleTransactionAmount,
                             ),
                             TextSpan(
                               text: " BAN",
-                              style: TextStyle(
-                                color: KaliumColors.primary60,
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w100,
-                              ),
+                              style: KaliumStyles.TextStyleTransactionUnit,
                             ),
                           ],
                         ),
@@ -434,12 +391,7 @@ Widget buildSentCard(String amount, String address, BuildContext context) {
               Text(
                 address,
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 11.0,
-                  fontFamily: 'OverpassMono',
-                  fontWeight: FontWeight.w100,
-                  color: KaliumColors.text60,
-                ),
+                style: KaliumStyles.TextStyleTransactionAddress,
               ),
             ],
           ),

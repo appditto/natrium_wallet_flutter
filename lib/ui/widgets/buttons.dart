@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/util/exceptions.dart';
 
 enum KaliumButtonType { PRIMARY, PRIMARY_OUTLINE }
@@ -22,8 +23,7 @@ Widget buildKaliumButton(KaliumButtonType type, String buttonText, List<double> 
             color: KaliumColors.primary,
             child: Text(buttonText,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 20.0, fontWeight: FontWeight.w700, color: KaliumColors.background)),
+                style: KaliumStyles.TextStyleButtonPrimary),
             padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
             onPressed: () {
               onPressed();
@@ -48,8 +48,7 @@ Widget buildKaliumButton(KaliumButtonType type, String buttonText, List<double> 
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
         child: Text(buttonText,
             textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 20.0, fontWeight: FontWeight.w700, color: KaliumColors.primary)),
+            style: KaliumStyles.TextStyleButtonPrimaryOutline),
         padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
         onPressed: () {
           onPressed();

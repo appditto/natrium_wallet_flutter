@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_backup_seed.dart';
@@ -48,11 +49,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                               horizontal: 50, vertical: 20),
                           child: Text(
                             "Welcome to Kalium. To begin you may create a new wallet or import an existing one.",
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w200,
-                                fontFamily: 'NunitoSans',
-                                color: KaliumColors.text),
+                            style: KaliumStyles.TextStyleParagraph,
                           ),
                         ),
                       ],

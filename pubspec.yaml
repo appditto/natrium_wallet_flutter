@@ -33,11 +33,8 @@ dependencies:
   # Shared prefs
   shared_preferences: ^0.4.3
 
-  # Redux
-  flutter_redux: ^0.5.2
-
   # Flare for animations
-  flare_flutter:
+  flare_flutter: any
 
 dev_dependencies:
   flutter_test:

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
@@ -57,11 +58,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               horizontal: 50, vertical: 20),
                           child: Text(
                             "Below is your wallet's seed. It is crucial that you backup your seed and never store it as plaintext or a screenshot.",
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w200,
-                                fontFamily: 'NunitoSans',
-                                color: KaliumColors.text),
+                            style: KaliumStyles.TextStyleParagraph
                           ),
                         ),
                         Container(

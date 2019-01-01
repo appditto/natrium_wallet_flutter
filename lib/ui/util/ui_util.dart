@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 
 threeLineAddressBuilder(String address) {
   String stringPartOne = address.substring(0, 11);
@@ -16,23 +17,11 @@ threeLineAddressBuilder(String address) {
           children: [
             TextSpan(
               text: stringPartOne,
-              style: TextStyle(
-                color: KaliumColors.primary60,
-                fontSize: 14.0,
-                height: 1.2,
-                fontWeight: FontWeight.w100,
-                fontFamily: 'OverpassMono',
-              ),
+              style: KaliumStyles.TextStyleAddressPrimary60,
             ),
             TextSpan(
               text: stringPartTwo,
-              style: TextStyle(
-                color: KaliumColors.text60,
-                fontSize: 14.0,
-                height: 1.2,
-                fontWeight: FontWeight.w100,
-                fontFamily: 'OverpassMono',
-              ),
+              style: KaliumStyles.TextStyleAddressText60,
             ),
           ],
         ),
@@ -44,13 +33,7 @@ threeLineAddressBuilder(String address) {
           children: [
             TextSpan(
               text: stringPartThree,
-              style: TextStyle(
-                color: KaliumColors.text60,
-                fontSize: 14.0,
-                height: 1.2,
-                fontWeight: FontWeight.w100,
-                fontFamily: 'OverpassMono',
-              ),
+              style: KaliumStyles.TextStyleAddressText60,
             ),
           ],
         ),
@@ -62,23 +45,11 @@ threeLineAddressBuilder(String address) {
           children: [
             TextSpan(
               text: stringPartFour,
-              style: TextStyle(
-                color: KaliumColors.text60,
-                fontSize: 14.0,
-                height: 1.2,
-                fontWeight: FontWeight.w100,
-                fontFamily: 'OverpassMono',
-              ),
+              style: KaliumStyles.TextStyleAddressText60,
             ),
             TextSpan(
               text: stringPartFive,
-              style: TextStyle(
-                color: KaliumColors.primary60,
-                fontSize: 14.0,
-                height: 1.2,
-                fontWeight: FontWeight.w100,
-                fontFamily: 'OverpassMono',
-              ),
+              style: KaliumStyles.TextStyleAddressPrimary60,
             ),
           ],
         ),

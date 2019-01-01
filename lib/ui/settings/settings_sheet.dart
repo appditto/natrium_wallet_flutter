@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
 import 'package:kalium_wallet_flutter/ui/settings/backup_seed.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 
 class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
@@ -87,10 +89,15 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   Divider(height: 2),
                   buildSettingsListItemSingleLine('Logout', KaliumIcons.logout,
                     onPressed: () {
-                      _vault.deleteSeed().then((Null) {        
-                            Navigator.of(context).pushReplacement(
-                              new MaterialPageRoute(builder: (context) => new IntroWelcomePage()));
-                      });
+                      showConfirmDialog(context, "Warning",
+                                        "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
+                                        "Delete Seed and Logout",
+                                        () {
+                                          _vault.deleteSeed().then((Null) {
+                                            Navigator.of(context).pushReplacement(
+                                            new MaterialPageRoute(builder: (context) => new IntroWelcomePage()));
+                                          });
+                                        });
                     }),
                   Divider(height: 2),
                   Padding(
@@ -100,11 +107,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                       children: <Widget>[
                         Text(
                           "KaliumF v0.1",
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w100,
-                              color: KaliumColors.text60),
-                        ),
+                          style: KaliumStyles.TextStyleVersion),
                       ],
                     ),
                   ),
