@@ -3,11 +3,11 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
-import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
 import 'package:kalium_wallet_flutter/ui/settings/backupseed_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/changerepresentative_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 
 class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
@@ -91,7 +91,9 @@ class _SettingsSheetState extends State<SettingsSheet> {
                         "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
                         "DELETE SEED AND LOGOUT", () {
                       Vault.inst.deleteSeed().then((Null) {
-                        Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                        SharedPrefsUtil.inst.setSeedBackedUp(false).then((result) {
+                          Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                        });
                       });
                     });
                   }),
