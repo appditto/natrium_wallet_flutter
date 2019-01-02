@@ -11,8 +11,6 @@ import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 
 class KaliumHomePage extends StatefulWidget {
-  KaliumHomePage({Key key, this.title}) : super(key: key);
-  final String title;
   @override
   _KaliumHomePageState createState() => _KaliumHomePageState();
 }

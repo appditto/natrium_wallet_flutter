@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
+import 'package:kalium_wallet_flutter/ui/intro/intro_backup_seed.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'colors.dart';
@@ -29,7 +30,13 @@ class KaliumApp extends StatelessWidget {
         fontFamily: 'NunitoSans',
         brightness: Brightness.dark,
       ),
-      home: new Splash(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Splash(),
+        '/intro_welcome': (context) => IntroWelcomePage(),
+        '/intro_backup': (context) => IntroBackupSeedPage(),
+        '/home': (context) => KaliumHomePage()
+      },
     );
   }
 }
@@ -51,11 +58,9 @@ class SplashState extends State<Splash> {
     if (isLoggedIn) {
       var stateContainer = StateContainer.of(context);
       stateContainer.updateWallet(address:NanoUtil.seedToAddress(seed));
-      Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(builder: (context) => new KaliumHomePage(title:"KaliumF")));
+      Navigator.of(context).pushReplacementNamed('/');
     } else {
-      Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(builder: (context) => new IntroWelcomePage()));
+      Navigator.of(context).pushReplacementNamed('/intro_welcome');
     }
   }
 

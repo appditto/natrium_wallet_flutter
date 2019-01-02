@@ -78,9 +78,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                             KaliumButtonType.PRIMARY,
                             'New Wallet',
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                          Navigator.of(context).push(
-                              new MaterialPageRoute(
-                                  builder: (context) => new IntroBackupSeedPage()));
+                              Navigator.of(context).pushNamed('/intro_backup');
                         }),
                       ],
                     ),

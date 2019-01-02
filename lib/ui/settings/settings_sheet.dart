@@ -91,9 +91,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                         "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
                         "DELETE SEED AND LOGOUT", () {
                       Vault.inst.deleteSeed().then((Null) {
-                        Navigator.of(context).pushReplacement(
-                            new MaterialPageRoute(
-                                builder: (context) => new IntroWelcomePage()));
+                        Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                       });
                     });
                   }),

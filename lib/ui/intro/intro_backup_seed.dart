@@ -175,8 +175,8 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                           splashColor: KaliumColors.primary30,
                           highlightColor: KaliumColors.primary15,
                           onPressed: () {
-                            Navigator.of(context).push(new MaterialPageRoute(
-                                builder: (context) => new KaliumHomePage()));
+                            Navigator.of(context)
+                              .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0)),
