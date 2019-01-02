@@ -49,7 +49,7 @@ class KaliumSendSheet {
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 10.0),
-                          child: threeLineAddressBuilder(
+                          child: threeLineAddressText(
                               'ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4'),
                         ),
                         Container(

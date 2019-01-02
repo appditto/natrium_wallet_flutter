@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 
-threeLineAddressBuilder(String address) {
+threeLineAddressText(String address) {
   String stringPartOne = address.substring(0, 11);
   String stringPartTwo = address.substring(11, 22);
   String stringPartThree = address.substring(22, 44);
@@ -54,6 +54,31 @@ threeLineAddressBuilder(String address) {
           ],
         ),
       )
+    ],
+  );
+}
+
+threeLineSeedText(String address) {
+  String stringPartOne = address.substring(0, 22);
+  String stringPartTwo = address.substring(22, 44);
+  String stringPartThree = address.substring(44, 64);
+  return Column(
+    children: <Widget>[
+      Text(
+        stringPartOne,
+        style: KaliumStyles.TextStyleSeed,
+        
+      ),
+      Text(
+        stringPartTwo,
+        style: KaliumStyles.TextStyleSeed,
+        
+      ),
+      Text(
+        stringPartThree,
+        style: KaliumStyles.TextStyleSeed,
+        
+      ),
     ],
   );
 }

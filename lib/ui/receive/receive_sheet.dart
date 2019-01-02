@@ -37,7 +37,7 @@ class KaliumReceiveSheet {
                   //Container for the address text
                   Container(
                     margin: EdgeInsets.only(top: 30.0),
-                    child: threeLineAddressBuilder(
+                    child: threeLineAddressText(
                         'ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4'),
                   ),
 

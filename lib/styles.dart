@@ -89,6 +89,7 @@ class KaliumStyles {
                                                   fontWeight: FontWeight.w100,
                                                   fontFamily: 'OverpassMono',
                                                   color: KaliumColors.primary,
+                                                  height: 1.3,
                                                   );
   // Text style for general headers like sheet headers
   static const TextStyleHeader = TextStyle(
