@@ -34,7 +34,13 @@ dependencies:
   shared_preferences: ^0.4.3
 
   # Flare for animations
-  flare_flutter: any
+  flare_flutter: ^1.0.7
+
+  # Websockets
+  web_socket_channel: ^1.0.9
+
+  # Platform-specific build info
+  package_info: ^0.3.2
 
 dev_dependencies:
   flutter_test:
