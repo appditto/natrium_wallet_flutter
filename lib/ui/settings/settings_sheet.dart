@@ -4,7 +4,7 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
-import 'package:kalium_wallet_flutter/ui/settings/backup_seed.dart';
+import 'package:kalium_wallet_flutter/ui/settings/backupseed_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 
@@ -15,7 +15,6 @@ class SettingsSheet extends StatefulWidget {
 }
 
 class _SettingsSheetState extends State<SettingsSheet> {
-  KaliumSeedBackupSheet seedbackup = new KaliumSeedBackupSheet();
   // TODO - This should be a singleton or in the inheritedwidget
   Vault _vault;
   _SettingsSheetState() {
@@ -33,10 +32,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
             child: Row(
               children: <Widget>[
                 Text("Settings",
-                    style: TextStyle(
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.w800,
-                        color: KaliumColors.text))
+                    style: KaliumStyles.TextStyleHeader),
               ],
             ),
           ),
@@ -81,38 +77,38 @@ class _SettingsSheetState extends State<SettingsSheet> {
                       'Contacts', KaliumIcons.contacts),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      'Backup Seed', KaliumIcons.backupseed),
+                      'Backup Seed', KaliumIcons.backupseed, onPressed: () {
+                    new KaliumSeedBackupSheet().mainBottomSheet(context);
+                  }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
                       'Load from Paper Wallet', KaliumIcons.transferfunds),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine('Change Representative',
-                      KaliumIcons.changerepresentative,
-                      onPressed: (){
-                        new KaliumReceiveSheet().mainBottomSheet(context);
-                      }),
+                      KaliumIcons.changerepresentative),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine('Logout', KaliumIcons.logout,
-                    onPressed: () {
-                      showConfirmDialog(context, "WARNING",
-                                        "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
-                                        "DELETE SEED AND LOGOUT",
-                                        () {
-                                          _vault.deleteSeed().then((Null) {
-                                            Navigator.of(context).pushReplacement(
-                                            new MaterialPageRoute(builder: (context) => new IntroWelcomePage()));
-                                          });
-                                        });
-                    }),
+                      onPressed: () {
+                    showConfirmDialog(
+                        context,
+                        "WARNING",
+                        "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
+                        "DELETE SEED AND LOGOUT", () {
+                      _vault.deleteSeed().then((Null) {
+                        Navigator.of(context).pushReplacement(
+                            new MaterialPageRoute(
+                                builder: (context) => new IntroWelcomePage()));
+                      });
+                    });
+                  }),
                   Divider(height: 2),
                   Padding(
                     padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          "KaliumF v0.1",
-                          style: KaliumStyles.TextStyleVersion),
+                        Text("KaliumF v0.1",
+                            style: KaliumStyles.TextStyleVersion),
                       ],
                     ),
                   ),
@@ -126,7 +122,10 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [KaliumColors.backgroundDark, KaliumColors.backgroundDark00],
+                      colors: [
+                        KaliumColors.backgroundDark,
+                        KaliumColors.backgroundDark00
+                      ],
                       begin: Alignment(0.5, -1.0),
                       end: Alignment(0.5, 1.0),
                     ),

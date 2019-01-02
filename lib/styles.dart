@@ -83,6 +83,19 @@ class KaliumStyles {
                                                   fontWeight: FontWeight.w600,
                                                   color: KaliumColors.primary,
                                                   );
+  // Text style seed text
+  static const TextStyleSeed = TextStyle(
+                                                  fontSize: KaliumFontSizes.small,
+                                                  fontWeight: FontWeight.w100,
+                                                  fontFamily: 'OverpassMono',
+                                                  color: KaliumColors.primary,
+                                                  );
+  // Text style seed text
+  static const TextStyleHeader = TextStyle(
+                                                  fontSize: KaliumFontSizes.largest,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: KaliumColors.text,
+                                                  );
 
 }
 

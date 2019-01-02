@@ -80,11 +80,11 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               });
                             },
                             child: new Container(
-                              padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
-                              margin: EdgeInsets.only(left: 60, right: 60, top: 20),
+                              padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 20),
+                              margin: EdgeInsets.only(left: 50, right: 50, top: 20),
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: KaliumColors.backgroundDarkest,
+                                color: KaliumColors.backgroundDark,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child:  Text(
@@ -92,7 +92,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: _seedTapColor,
-                                  fontSize: 17.0,
+                                  fontSize: 14.0,
                                   height: 1.2,
                                   fontFamily: 'OverpassMono',
                                   fontWeight: FontWeight.w100,
