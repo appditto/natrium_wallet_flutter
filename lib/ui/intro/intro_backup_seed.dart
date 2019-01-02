@@ -39,15 +39,6 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   }
 
   @override
-  void dispose() {
-
-    Vault.inst.deleteSeed().then((result) {
-      super.dispose();
-      StateContainer.of(context).updateWallet(address:null);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
