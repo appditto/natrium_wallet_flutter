@@ -12,6 +12,11 @@ class KaliumStyles {
                                           fontSize: KaliumFontSizes.large,
                                           fontWeight: FontWeight.w700,
                                           color: KaliumColors.background);
+  // green primary button
+  static const TextStyleButtonPrimaryGreen = TextStyle(
+                                          fontSize: KaliumFontSizes.large,
+                                          fontWeight: FontWeight.w700,
+                                          color: KaliumColors.greenDark);
   // Text style for outline button
   static const TextStyleButtonPrimaryOutline = TextStyle(
                                                   fontSize: KaliumFontSizes.large,

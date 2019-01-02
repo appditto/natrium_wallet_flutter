@@ -10,7 +10,8 @@ void doNothing() {
 }
 
 //Primary Kalium Button
-Widget buildKaliumButton(KaliumButtonType type, String buttonText, List<double> dimens, { Function onPressed = doNothing } ) {
+Widget buildKaliumButton(KaliumButtonType type, String buttonText, List<double> dimens, 
+                        { Function onPressed = doNothing } ) {
   switch (type) {
     case KaliumButtonType.PRIMARY:
       return Expanded(
