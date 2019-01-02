@@ -66,7 +66,7 @@ class KaliumStyles {
                                                 fontWeight: FontWeight.w100,
                                                 color: KaliumColors.text60,
                                               );
-  /* Settings */
+  // Version info in settings
   static const  TextStyleVersion = TextStyle(
                                         fontSize: KaliumFontSizes.small,
                                         fontWeight: FontWeight.w100,
@@ -83,20 +83,32 @@ class KaliumStyles {
                                                   fontWeight: FontWeight.w600,
                                                   color: KaliumColors.primary,
                                                   );
-  // Text style seed text
+  // Text style for seed text
   static const TextStyleSeed = TextStyle(
                                                   fontSize: KaliumFontSizes.small,
                                                   fontWeight: FontWeight.w100,
                                                   fontFamily: 'OverpassMono',
                                                   color: KaliumColors.primary,
                                                   );
-  // Text style seed text
+  // Text style for general headers like sheet headers
   static const TextStyleHeader = TextStyle(
                                                   fontSize: KaliumFontSizes.largest,
                                                   fontWeight: FontWeight.w700,
                                                   color: KaliumColors.text,
                                                   );
-
+  // Text style for setting item header
+  static const TextStyleSettingItemHeader = TextStyle(
+                                                  fontSize: KaliumFontSizes.medium,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: KaliumColors.text,
+                                                  );
+  // Text style for setting item subheader
+  static const TextStyleSettingItemSubheader= TextStyle(
+                                                  fontSize: KaliumFontSizes.smallest,
+                                                  fontWeight: FontWeight.w100,
+                                                  color: KaliumColors.text60,
+                                                  );
+                                                  
 }
 
 class KaliumFontSizes {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 
 void doNothing() {
   return;
@@ -29,17 +30,11 @@ Widget buildSettingsListItemDoubleLine(
             children: <Widget>[
               Text(
                 heading,
-                style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: KaliumColors.text),
+                style: KaliumStyles.TextStyleSettingItemHeader,
               ),
               Text(
                 option,
-                style: TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w100,
-                    color: KaliumColors.text60),
+                style: KaliumStyles.TextStyleSettingItemSubheader,
               ),
             ],
           ),
@@ -70,8 +65,7 @@ Widget buildSettingsListItemSingleLine(String heading, IconData settingIcon, { F
               child: new Icon(settingIcon, color: KaliumColors.primary, size: 24)),
           Text(
             heading,
-            style: TextStyle(
-                fontSize: 16.0, fontWeight: FontWeight.w600, color: KaliumColors.text),
+            style: KaliumStyles.TextStyleSettingItemHeader,
           ),
         ],
       ),
