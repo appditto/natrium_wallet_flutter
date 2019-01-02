@@ -58,7 +58,8 @@ threeLineAddressText(String address) {
   );
 }
 
-threeLineSeedText(String address) {
+threeLineSeedText(String address, {TextStyle textStyle}) {
+  textStyle = textStyle ?? KaliumStyles.TextStyleSeed;
   String stringPartOne = address.substring(0, 22);
   String stringPartTwo = address.substring(22, 44);
   String stringPartThree = address.substring(44, 64);
@@ -66,17 +67,17 @@ threeLineSeedText(String address) {
     children: <Widget>[
       Text(
         stringPartOne,
-        style: KaliumStyles.TextStyleSeed,
+        style: textStyle,
         
       ),
       Text(
         stringPartTwo,
-        style: KaliumStyles.TextStyleSeed,
+        style: textStyle,
         
       ),
       Text(
         stringPartThree,
-        style: KaliumStyles.TextStyleSeed,
+        style: textStyle,
         
       ),
     ],

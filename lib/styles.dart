@@ -96,6 +96,13 @@ class KaliumStyles {
                                                   color: KaliumColors.primary,
                                                   height: 1.3,
                                                   );
+  static const TextStyleSeedGreen = TextStyle(
+                                                  fontSize: KaliumFontSizes.small,
+                                                  fontWeight: FontWeight.w100,
+                                                  fontFamily: 'OverpassMono',
+                                                  color: KaliumColors.green,
+                                                  height: 1.3,
+                                                  );
   // Text style for general headers like sheet headers
   static const TextStyleHeader = TextStyle(
                                                   fontSize: KaliumFontSizes.largest,
