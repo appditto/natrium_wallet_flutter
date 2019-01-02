@@ -96,6 +96,12 @@ class KaliumStyles {
                                                   fontWeight: FontWeight.w700,
                                                   color: KaliumColors.text,
                                                   );
+  // Text style for primary color header
+  static const TextStyleHeaderColored = TextStyle(
+                                                  fontSize: KaliumFontSizes.largest,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: KaliumColors.primary,
+                                                  );
   // Text style for setting item header
   static const TextStyleSettingItemHeader = TextStyle(
                                                   fontSize: KaliumFontSizes.medium,
@@ -116,7 +122,7 @@ class KaliumFontSizes {
   static const small = 14.0;
   static const medium = 16.0;
   static const large = 20.0;
-  static const largest = 30.0;
+  static const largest = 28.0;
 }
 
 
