@@ -126,8 +126,8 @@ class KaliumReceiveSheet {
                                   });
                                 });
                               },
-                              highlightColor: KaliumColors.background40,
-                              splashColor: KaliumColors.background40,
+                              highlightColor: KaliumColors.success30,
+                              splashColor: KaliumColors.success,
                             ),
                           ),
                         )
