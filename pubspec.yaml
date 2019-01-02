@@ -42,10 +42,14 @@ dependencies:
   # Platform-specific build info
   package_info: ^0.3.2
 
+  # JSON Serialization
+  json_annotation: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  build_runner: ^1.1.2
+  json_serializable: ^2.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

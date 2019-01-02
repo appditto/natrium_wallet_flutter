@@ -34,10 +34,15 @@ class WebSocketsNotifications {
                                 'X-Client-Version': packageInfo.buildNumber
                                });
       _isConnected = true;
-      _channel.stream.listen(_onReceptionOfMessageFromServer);
+      _channel.stream.listen(_onReceptionOfMessageFromServer, onDone: connectionClosed, onError: connectionClosed);
     } catch(e){
       // TODO - error handling
+      _isConnected = false;
     }
+  }
+
+  void connectionClosed() {
+    _isConnected = false;
   }
 
   // Close connection

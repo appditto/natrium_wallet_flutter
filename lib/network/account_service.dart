@@ -1,13 +1,19 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
 import 'package:kalium_wallet_flutter/network/wsclient.dart';
 
 class AccountService {
   static final AccountService _singleton = new AccountService._internal();
   static AccountService get inst => _singleton;
 
+  Queue _requestQueue;
+
   AccountService._internal() {
+    // Initialize queue
+    _requestQueue = new Queue();
     // Init connection
     WebSocketsNotifications.inst.initCommunication();
     // Add listener
@@ -22,8 +28,14 @@ class AccountService {
     return;
   }
 
-  send(String data) {
-    WebSocketsNotifications.inst.send(json.encode({"data":data}));
+  /* Subcribe Request */
+  void _requestSubscribe(String account) {
+    SubscribeRequest subscribeRequest = new SubscribeRequest();
+    _send(subscribeRequest.toJson());
+  }
+
+  _send(var data) {
+    WebSocketsNotifications.inst.send(json.encode(data));
   }
 
   /// ==========================================================
