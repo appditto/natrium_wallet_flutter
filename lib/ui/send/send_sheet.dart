@@ -149,7 +149,7 @@ class KaliumSendSheet {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontSize: 16.0,
+                            fontSize: 14.0,
                             color:KaliumColors.primary,
                             fontFamily: 'NunitoSans',
                           ),
@@ -182,7 +182,7 @@ class KaliumSendSheet {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w100,
-                            fontSize: 16.0,
+                            fontSize: 14.0,
                             color: KaliumColors.text,
                             fontFamily: 'OverpassMono',
                           ),

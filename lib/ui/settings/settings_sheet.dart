@@ -5,6 +5,7 @@ import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
 import 'package:kalium_wallet_flutter/ui/settings/backupseed_sheet.dart';
+import 'package:kalium_wallet_flutter/ui/settings/changerepresentative_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 
@@ -78,7 +79,9 @@ class _SettingsSheetState extends State<SettingsSheet> {
                       'Load from Paper Wallet', KaliumIcons.transferfunds),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine('Change Representative',
-                      KaliumIcons.changerepresentative),
+                      KaliumIcons.changerepresentative, onPressed: () {
+                    new KaliumChangeRepresentativeSheet().mainBottomSheet(context);
+                  }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine('Logout', KaliumIcons.logout,
                       onPressed: () {
