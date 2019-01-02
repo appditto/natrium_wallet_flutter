@@ -61,7 +61,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               width: 50,
                               child: FlatButton(
                                   onPressed: () {
-                                    doNothing();
+                                    Navigator.pop(context);
                                   },
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
@@ -106,7 +106,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                   _seedCopiedTimer.cancel();
                                 }
                                 _seedCopiedTimer = new Timer(
-                                    const Duration(milliseconds: 700), () {
+                                    const Duration(milliseconds: 800), () {
                                   setState(() {
                                     _seedTapColor = KaliumColors.yellow;
                                     _seedCopiedColor = Colors.transparent;
@@ -140,10 +140,10 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                           margin: EdgeInsets.only(top: 5),
                           child: Text('Seed Copied To Clipboard',
                               style: TextStyle(
-                                fontSize: 12.0,
+                                fontSize: 14.0,
                                 color: _seedCopiedColor,
                                 fontFamily: 'NunitoSans',
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w600,
                               )),
                         ),
                       ],
