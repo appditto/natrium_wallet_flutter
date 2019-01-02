@@ -15,6 +15,7 @@ class KaliumSeedBackupSheet {
   String _seed;
   TextStyle _seedCopiedStyle = _initialSeedStyle;
   Timer _seedCopiedTimer;
+  var _seedCopiedColor = Colors.transparent;
 
   mainBottomSheet(BuildContext context) {
     Vault.inst.getSeed().then((result) {
@@ -22,7 +23,8 @@ class KaliumSeedBackupSheet {
       showKaliumHeightEightSheet(
           context: context,
           builder: (BuildContext context) {
-            return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+            return StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
               return Container(
                 width: double.infinity,
                 child: Column(
@@ -50,39 +52,56 @@ class KaliumSeedBackupSheet {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(left: 50, right: 50),
-                              child: Text(
-                              "Below is your wallet's seed. It is crucial that you backup your seed and never store it as plaintext or a screenshot.",
-                              style: KaliumStyles.TextStyleParagraph,
-                            )),
+                                margin: EdgeInsets.only(left: 50, right: 50),
+                                child: Text(
+                                  "Below is your wallet's seed. It is crucial that you backup your seed and never store it as plaintext or a screenshot.",
+                                  style: KaliumStyles.TextStyleParagraph,
+                                )),
                             new GestureDetector(
-                                onTap: () {
-                                  Clipboard.setData(
-                                      new ClipboardData(text: _seed));
+                              onTap: () {
+                                Clipboard.setData(
+                                    new ClipboardData(text: _seed));
+                                setState(() {
+                                  _seedCopiedStyle =
+                                      KaliumStyles.TextStyleSeedGreen;
+                                  _seedCopiedColor = KaliumColors.success;
+                                });
+                                if (_seedCopiedTimer != null) {
+                                  _seedCopiedTimer.cancel();
+                                }
+                                _seedCopiedTimer = new Timer(
+                                    const Duration(milliseconds: 800), () {
                                   setState(() {
-                                    _seedCopiedStyle = KaliumStyles.TextStyleSeedGreen;
+                                    _seedCopiedStyle = _initialSeedStyle;
+                                    _seedCopiedColor = Colors.transparent;
                                   });
-                                  if (_seedCopiedTimer != null) {
-                                    _seedCopiedTimer.cancel();
-                                  }
-                                  _seedCopiedTimer = new Timer(
-                                      const Duration(milliseconds: 800), () {
-                                    setState(() {
-                                      _seedCopiedStyle = _initialSeedStyle;
-                                    });
-                                  });
-                                },
-                                child:
+                                });
+                              },
+                              child: Column(
+                                children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.only(top:25),
+                                    margin: EdgeInsets.only(top: 25),
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 25.0, vertical: 15.0),
                                     decoration: BoxDecoration(
                                       color: KaliumColors.backgroundDarkest,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
-                                    child: threeLineSeedText(_seed, textStyle:_seedCopiedStyle),
+                                    child: threeLineSeedText(_seed,
+                                        textStyle: _seedCopiedStyle),
                                   ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    child: Text('Seed Copied To Clipboard',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: _seedCopiedColor,
+                                          fontFamily: 'NunitoSans',
+                                          fontWeight: FontWeight.w600,
+                                        )),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -107,6 +126,6 @@ class KaliumSeedBackupSheet {
               );
             });
           });
-      });
+    });
   }
 }
