@@ -149,7 +149,7 @@ class KaliumSendSheet {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontSize: 14.0,
+                            fontSize: 16.0,
                             color:KaliumColors.primary,
                             fontFamily: 'NunitoSans',
                           ),
@@ -182,7 +182,7 @@ class KaliumSendSheet {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w100,
-                            fontSize: 14.0,
+                            fontSize: 16.0,
                             color: KaliumColors.text,
                             fontFamily: 'OverpassMono',
                           ),
@@ -199,13 +199,13 @@ class KaliumSendSheet {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                            'Scan QR Code', Dimens.BUTTON_TOP_DIMENS),
+                        buildKaliumButton(KaliumButtonType.PRIMARY, 'Send', Dimens.BUTTON_TOP_DIMENS),
                       ],
                     ),
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY, 'Send', Dimens.BUTTON_BOTTOM_DIMENS),
+                        buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
+                            'Scan QR Code', Dimens.BUTTON_BOTTOM_DIMENS),
                       ],
                     ),
                   ],

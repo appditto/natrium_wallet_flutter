@@ -73,14 +73,14 @@ class KaliumReceiveSheet {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                          'Share Address', Dimens.BUTTON_TOP_DIMENS),
+                      buildKaliumButton(KaliumButtonType.PRIMARY,
+                          'Copy Address', Dimens.BUTTON_TOP_DIMENS),
                     ],
                   ),
                   Row(
                     children: <Widget>[
-                      buildKaliumButton(KaliumButtonType.PRIMARY,
-                          'Copy Address', Dimens.BUTTON_BOTTOM_DIMENS),
+                      buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
+                          'Share Address', Dimens.BUTTON_BOTTOM_DIMENS),
                     ],
                   ),
                 ],
