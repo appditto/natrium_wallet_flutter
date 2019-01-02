@@ -1,26 +1,17 @@
 
 /**
- * State representing the main wallet
+ * Represents the main wallet object
  */
-class WalletState {
-  final String privateKey;
-  final String publicKey;
-  final String address;
-  final String representative;
-  final String frontierBlock;
-  final String uuid;
-  final BigInt accountBalance;
-  final int blockCount;
+class KaliumWallet {
+  String _address;
 
-  WalletState({this.privateKey,
-               this.publicKey,
-               this.address,
-               this.representative,
-               this.frontierBlock,
-               this.uuid,
-               this.accountBalance,
-               this.blockCount = 0});
+  KaliumWallet({String address}) {
+    this._address = address;
+  }
 
-  factory WalletState.initial() =>
-    new WalletState();
+  String get address => _address;
+
+  void set address(String address) {
+    this._address = address;
+  }
 }

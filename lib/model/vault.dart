@@ -1,9 +1,13 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /**
- * Securely store and retrieve the seed(s) on device
+ * Singleton for keystore access methods in android/iOS
  */
 class Vault {
+  Vault._internal();
+  static final Vault _singleton = new Vault._internal();
+  static Vault get inst => _singleton;
+
   static const String seedKey = 'fkalium_seed';
   final FlutterSecureStorage secureStorage = new FlutterSecureStorage();
 

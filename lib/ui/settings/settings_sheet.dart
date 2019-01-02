@@ -8,18 +8,11 @@ import 'package:kalium_wallet_flutter/ui/settings/backupseed_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 
-import 'package:kalium_wallet_flutter/ui/receive/receive_sheet.dart';
-
 class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
 }
 
 class _SettingsSheetState extends State<SettingsSheet> {
-  // TODO - This should be a singleton or in the inheritedwidget
-  Vault _vault;
-  _SettingsSheetState() {
-    _vault = new Vault();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +87,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                         "WARNING",
                         "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
                         "DELETE SEED AND LOGOUT", () {
-                      _vault.deleteSeed().then((Null) {
+                      Vault.inst.deleteSeed().then((Null) {
                         Navigator.of(context).pushReplacement(
                             new MaterialPageRoute(
                                 builder: (context) => new IntroWelcomePage()));

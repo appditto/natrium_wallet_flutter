@@ -5,9 +5,14 @@ import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:kalium_wallet_flutter/model/wallet.dart';
+import 'package:kalium_wallet_flutter/appstate_container.dart';
 
 class KaliumReceiveSheet {
+  KaliumWallet _wallet;
   mainBottomSheet(BuildContext context) {
+    _wallet = StateContainer.of(context).wallet;
+
     showKaliumHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
@@ -38,7 +43,7 @@ class KaliumReceiveSheet {
                   Container(
                     margin: EdgeInsets.only(top: 30.0),
                     child: threeLineAddressText(
-                        'ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4'),
+                        _wallet.address),
                   ),
 
                   //This container is a temporary solution for the alignment problem

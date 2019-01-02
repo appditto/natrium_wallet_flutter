@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
+import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
-import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
+import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 
 class IntroBackupSeedPage extends StatefulWidget {
   @override
@@ -25,13 +25,25 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   @override
   void initState() {
     super.initState();
-    Vault v = new Vault();
-    v.writeSeed(NanoSeeds.generateSeed()).then((result) {
+        
+    Vault.inst.writeSeed(NanoSeeds.generateSeed()).then((result) {
+      // Update wallet
+      StateContainer.of(context).updateWallet(address:NanoUtil.seedToAddress(result));
+      // Update local state
       setState(() {
         _seed = result;
         _seedTapColor = KaliumColors.yellow;
         _seedCopiedColor = Colors.transparent;
       });
+    });
+  }
+
+  @override
+  void dispose() {
+
+    Vault.inst.deleteSeed().then((result) {
+      super.dispose();
+      StateContainer.of(context).updateWallet(address:null);
     });
   }
 

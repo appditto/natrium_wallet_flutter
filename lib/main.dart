@@ -7,9 +7,10 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
+import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'colors.dart';
 
-void main() => runApp(new AppStateContainer(
+void main() => runApp(new StateContainer(
                           child:new KaliumApp()
                       ));
 
@@ -42,15 +43,16 @@ class SplashState extends State<Splash> {
   Future checkLoggedIn() async {
     // See if logged in already
     bool isLoggedIn = false;
-    Vault v = new Vault();
-    var seed = await v.getSeed();
+    var seed = await Vault.inst.getSeed();
     if (seed != null) {
       isLoggedIn = true;
     }
 
     if (isLoggedIn) {
-    Navigator.of(context).pushReplacement(
-      new MaterialPageRoute(builder: (context) => new KaliumHomePage(title:"KaliumF")));
+      var stateContainer = StateContainer.of(context);
+      stateContainer.updateWallet(address:NanoUtil.seedToAddress(seed));
+      Navigator.of(context).pushReplacement(
+        new MaterialPageRoute(builder: (context) => new KaliumHomePage(title:"KaliumF")));
     } else {
       Navigator.of(context).pushReplacement(
         new MaterialPageRoute(builder: (context) => new IntroWelcomePage()));
