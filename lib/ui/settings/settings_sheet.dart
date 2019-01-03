@@ -89,13 +89,22 @@ class _SettingsSheetState extends State<SettingsSheet> {
                         context,
                         "WARNING",
                         "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
-                        "DELETE SEED AND LOGOUT", () {
-                      Vault.inst.deleteAll().then((Null) {
-                        SharedPrefsUtil.inst.deleteAll().then((result) {
-                          Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-                        });
+                        "DELETE SEED AND LOGOUT",
+                      () {
+                        // Show another confirm dialog
+                        showConfirmDialog(
+                          context,
+                          "Are you sure?",
+                          "As long as you've backed up your seed you have nothing to worry about.",
+                          "YES", 
+                          () {
+                            Vault.inst.deleteAll().then((Null) {
+                              SharedPrefsUtil.inst.deleteAll().then((result) {
+                                Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                              });
+                            });
+                          });
                       });
-                    });
                   }),
                   Divider(height: 2),
                   Padding(

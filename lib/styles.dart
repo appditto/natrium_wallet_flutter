@@ -96,6 +96,13 @@ class KaliumStyles {
                                                   color: KaliumColors.primary,
                                                   height: 1.3,
                                                   );
+  static const TextStyleSeedGray = TextStyle(
+                                                  fontSize: KaliumFontSizes.small,
+                                                  fontWeight: FontWeight.w100,
+                                                  fontFamily: 'OverpassMono',
+                                                  color: KaliumColors.text60,
+                                                  height: 1.3,
+                                                  );
   static const TextStyleSeedGreen = TextStyle(
                                                   fontSize: KaliumFontSizes.small,
                                                   fontWeight: FontWeight.w100,

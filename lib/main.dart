@@ -8,6 +8,7 @@ import 'package:kalium_wallet_flutter/ui/home_page.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_backup_seed.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_backup_confirm.dart';
+import 'package:kalium_wallet_flutter/ui/intro/intro_import_seed.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'colors.dart';
@@ -37,6 +38,7 @@ class KaliumApp extends StatelessWidget {
         '/intro_welcome': (context) => IntroWelcomePage(),
         '/intro_backup': (context) => IntroBackupSeedPage(),
         '/intro_backup_confirm': (context) => IntroBackupConfirm(),
+        '/intro_import': (context) => IntroImportSeedPage(),
         '/home': (context) => KaliumHomePage()
       },
     );
