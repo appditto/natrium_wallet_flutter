@@ -9,6 +9,7 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
+import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 
 class IntroBackupSeedPage extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   void initState() {
     super.initState();
         
-    Vault.inst.writeSeed(NanoSeeds.generateSeed()).then((result) {
+    Vault.inst.setSeed(NanoSeeds.generateSeed()).then((result) {
       // Update wallet
       StateContainer.of(context).updateWallet(address:NanoUtil.seedToAddress(result));
       // Update local state
@@ -46,7 +47,9 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
     // Back button pressed
     Future<bool> _onWillPop() async {
       // Delete seed
-      await Vault.inst.deleteSeed();
+      await Vault.inst.deleteAll();
+      // Delete any shared prefs
+      await Vault.inst.deleteAll();
       return true;
     }
 

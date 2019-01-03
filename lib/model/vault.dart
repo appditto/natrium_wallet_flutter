@@ -9,19 +9,45 @@ class Vault {
   static Vault get inst => _singleton;
 
   static const String seedKey = 'fkalium_seed';
+  static const String encryptionKey = 'fkalium_secret_phrase';
   final FlutterSecureStorage secureStorage = new FlutterSecureStorage();
 
-  Future<String> getSeed() async {
-    String value = await secureStorage.read(key: seedKey);
+  // Re-usable
+  Future<String> _write(String key, String value) async {
+    await secureStorage.write(key:key, value:value);
     return value;
   }
 
-  Future<String> writeSeed(String seed) async {
-    await secureStorage.write(key: seedKey, value:seed);
-    return seed;
+  Future<String> _read(String key, {String defaultValue}) async {
+    return await secureStorage.read(key:key) ?? defaultValue;
+  }
+
+  Future<void> deleteAll() async {
+    return await secureStorage.deleteAll();
+  }
+
+  // Specific keys
+  Future<String> getSeed() async {
+    return await _read(seedKey);
+  }
+
+  Future<String> setSeed(String seed) async {
+    return await _write(seedKey, seed);
   }
 
   Future<void> deleteSeed() async {
     return await secureStorage.delete(key: seedKey);
+  }
+
+  Future<String> getEncryptionPhrase() async {
+    return await _read(encryptionKey);
+  }
+
+  Future<String> writeEncryptionPhrase(String secret) async {
+    return await _write(encryptionKey, secret);
+  }
+
+  Future<void> deleteEncryptionPhrase() async {
+    return await secureStorage.delete(key: encryptionKey);
   }
 }
