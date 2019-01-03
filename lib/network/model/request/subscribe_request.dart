@@ -1,10 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kalium_wallet_flutter/network/model/request/actions.dart';
+import 'package:kalium_wallet_flutter/network/model/base_request.dart';
 
 part 'subscribe_request.g.dart';
 
 @JsonSerializable()
-class SubscribeRequest {
+class SubscribeRequest extends BaseRequest {
   @JsonKey(name:'action')
   String action;
 
@@ -20,8 +21,8 @@ class SubscribeRequest {
   @JsonKey(name:'fcm_token')
   String fcmToken;
 
-  SubscribeRequest({String account, String currency, String uuid, String fcmToken}) {
-    this.account = Actions.SUBSCRIBE_ACTION;
+  SubscribeRequest({String account, String currency, String uuid, String fcmToken}) : super() {
+    this.action = Actions.SUBSCRIBE;
     this.currency = currency ?? null;
     if (uuid != null) {
       this.uuid = uuid;
