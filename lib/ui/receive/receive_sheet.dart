@@ -20,15 +20,19 @@ class KaliumReceiveSheet {
   static const String _addressCopied = 'Address Copied';
   static const TextStyle _copyButtonStyleInitial = KaliumStyles.TextStyleButtonPrimary;
   static const Color _copyButtonColorInitial = KaliumColors.primary;
-  // Initial state
-  String _copyButtonText = _copyAddress;
-  TextStyle _copyButtonStyle = _copyButtonStyleInitial;
-  Color _copyButtonBackground =_copyButtonColorInitial;
+  // Current state references
+  String _copyButtonText;
+  TextStyle _copyButtonStyle;
+  Color _copyButtonBackground;
   // Timer reference so we can cancel repeated events
   Timer _addressCopiedTimer;
 
   mainBottomSheet(BuildContext context) {
     _wallet = StateContainer.of(context).wallet;
+    // Set initial state of copy button
+    _copyButtonText = _copyAddress;
+    _copyButtonStyle = _copyButtonStyleInitial;
+    _copyButtonBackground =_copyButtonColorInitial;
 
     showKaliumHeightEightSheet(
         context: context,

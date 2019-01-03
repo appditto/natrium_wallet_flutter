@@ -13,13 +13,16 @@ class KaliumSeedBackupSheet {
   // Seed copied state information
   static const TextStyle _initialSeedStyle = KaliumStyles.TextStyleSeed;
   String _seed;
-  TextStyle _seedCopiedStyle = _initialSeedStyle;
+  TextStyle _seedCopiedStyle;
   Timer _seedCopiedTimer;
-  var _seedCopiedColor = Colors.transparent;
+  var _seedCopiedColor;
 
   mainBottomSheet(BuildContext context) {
     Vault.inst.getSeed().then((result) {
       _seed = result;
+      // Set initial seed copy state
+      _seedCopiedStyle = _initialSeedStyle;
+      _seedCopiedColor = Colors.transparent;
       showKaliumHeightEightSheet(
           context: context,
           builder: (BuildContext context) {
