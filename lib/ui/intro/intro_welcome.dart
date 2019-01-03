@@ -63,25 +63,25 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(
-                            KaliumButtonType.PRIMARY_OUTLINE,
-                            'Import Wallet',
+                            KaliumButtonType.PRIMARY,
+                            'New Wallet',
                             Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                              new MaterialPageRoute(
-                                  builder: (context) => new KaliumHomePage()));
+                              Navigator.of(context).pushNamed('/intro_backup');
                         }),
                       ],
                     ),
                     Row(
                       children: <Widget>[
                         buildKaliumButton(
-                            KaliumButtonType.PRIMARY,
-                            'New Wallet',
+                            KaliumButtonType.PRIMARY_OUTLINE,
+                            'Import Wallet',
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                              Navigator.of(context).pushNamed('/intro_backup');
+                          Navigator.of(context).pushReplacement(
+                              new MaterialPageRoute(
+                                  builder: (context) => new KaliumHomePage()));
                         }),
                       ],
-                    ),
+                    ), 
                   ],
                 ),
               ],

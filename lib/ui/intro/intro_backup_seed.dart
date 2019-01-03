@@ -7,6 +7,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
+import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 
 class IntroBackupSeedPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class IntroBackupSeedPage extends StatefulWidget {
 class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   var _seed;
-  var _seedTapColor;
+  TextStyle _seedTapStyle;
   var _seedCopiedColor;
   Timer _seedCopiedTimer;
 
@@ -31,7 +32,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
       // Update local state
       setState(() {
         _seed = result;
-        _seedTapColor = KaliumColors.yellow;
+        _seedTapStyle = KaliumStyles.TextStyleSeed;
         _seedCopiedColor = Colors.transparent;
       });
     });
@@ -111,7 +112,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                   Clipboard.setData(
                                       new ClipboardData(text: _seed));
                                   setState(() {
-                                    _seedTapColor = KaliumColors.success;
+                                    _seedTapStyle = KaliumStyles.TextStyleSeedGreen;
                                     _seedCopiedColor = KaliumColors.success;
                                   });
                                   if (_seedCopiedTimer != null) {
@@ -120,7 +121,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                   _seedCopiedTimer = new Timer(
                                       const Duration(milliseconds: 800), () {
                                     setState(() {
-                                      _seedTapColor = KaliumColors.yellow;
+                                      _seedTapStyle = KaliumStyles.TextStyleSeed;
                                       _seedCopiedColor = Colors.transparent;
                                     });
                                   });
@@ -128,24 +129,13 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 child: new Container(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 25.0, vertical: 15),
-                                  margin: EdgeInsets.only(
-                                      left: 50, right: 50, top: 25),
-                                  width: double.infinity,
+                                  margin: EdgeInsets.only(top: 25),
                                   decoration: BoxDecoration(
                                     color: KaliumColors.backgroundDark,
                                     borderRadius: BorderRadius.circular(25),
                                   ),
-                                  child: Text(
-                                    _seed,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: _seedTapColor,
-                                      fontSize: 14.0,
-                                      height: 1.2,
-                                      fontFamily: 'OverpassMono',
-                                      fontWeight: FontWeight.w100,
-                                    ),
-                                  ),
+                                  child:
+                                    threeLineSeedText(_seed, textStyle: _seedTapStyle),    
                                 )),
                           ),
                           Container(

@@ -85,7 +85,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(
-                            KaliumButtonType.PRIMARY_OUTLINE,
+                            KaliumButtonType.PRIMARY,
                             'YES',
                             Dimens.BUTTON_TOP_DIMENS, 
                           onPressed: () {
@@ -99,7 +99,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(
-                            KaliumButtonType.PRIMARY,
+                            KaliumButtonType.PRIMARY_OUTLINE,
                             'NO',
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                               Navigator.of(context).pop();
