@@ -25,11 +25,8 @@ dependencies:
   flutter_secure_storage: ^3.1.2
 
   # Nano core functions
-  flutter_nano_core:
-    git:
-      url: https://github.com/bbedward/flutter_nano_core.git
-      ref: master
-  
+  flutter_nano_core: any
+
   # Shared prefs
   shared_preferences: ^0.4.3
 
