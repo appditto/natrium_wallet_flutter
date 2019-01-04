@@ -15,11 +15,20 @@ SubscribeRequest _$SubscribeRequestFromJson(Map<String, dynamic> json) {
     ..action = json['action'] as String;
 }
 
-Map<String, dynamic> _$SubscribeRequestToJson(SubscribeRequest instance) =>
-    <String, dynamic>{
-      'action': instance.action,
-      'account': instance.account,
-      'currency': instance.currency,
-      'uuid': instance.uuid,
-      'fcm_token': instance.fcmToken
-    };
+Map<String, dynamic> _$SubscribeRequestToJson(SubscribeRequest instance) {
+  final val = <String, dynamic>{
+    'action': instance.action,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('account', instance.account);
+  writeNotNull('currency', instance.currency);
+  writeNotNull('uuid', instance.uuid);
+  writeNotNull('fcm_token', instance.fcmToken);
+  return val;
+}

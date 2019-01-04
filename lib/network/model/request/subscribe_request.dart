@@ -9,16 +9,16 @@ class SubscribeRequest extends BaseRequest {
   @JsonKey(name:'action')
   String action;
 
-  @JsonKey(name:'account')
+  @JsonKey(name:'account', includeIfNull: false)
   String account;
 
-  @JsonKey(name:'currency')
+  @JsonKey(name:'currency', includeIfNull: false)
   String currency;
 
-  @JsonKey(name:'uuid')
+  @JsonKey(name:'uuid', includeIfNull: false)
   String uuid;
 
-  @JsonKey(name:'fcm_token')
+  @JsonKey(name:'fcm_token', includeIfNull: false)
   String fcmToken;
 
   SubscribeRequest({String account, String currency, String uuid, String fcmToken}) : super() {

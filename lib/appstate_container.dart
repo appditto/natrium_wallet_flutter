@@ -113,8 +113,7 @@ class StateContainerState extends State<StateContainer> {
   void requestUpdate() {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
-        new SubscribeRequest(account:wallet.address, currency:"USD", uuid:result);
-        accountService.queueRequest(new SubscribeRequest());
+        accountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:"USD", uuid:result));
         accountService.processQueue();
       });
       //TODO currency

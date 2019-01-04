@@ -15,9 +15,18 @@ AccountHistoryRequest _$AccountHistoryRequestFromJson(
 }
 
 Map<String, dynamic> _$AccountHistoryRequestToJson(
-        AccountHistoryRequest instance) =>
-    <String, dynamic>{
-      'action': instance.action,
-      'account': instance.account,
-      'count': instance.count
-    };
+    AccountHistoryRequest instance) {
+  final val = <String, dynamic>{
+    'action': instance.action,
+    'account': instance.account,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('count', instance.count);
+  return val;
+}
