@@ -13,9 +13,7 @@ import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'colors.dart';
 
-void main() => runApp(new StateContainer(
-                          child:new KaliumApp()
-                      ));
+void main() => runApp(new StateContainer(child: new KaliumApp()));
 
 class KaliumApp extends StatelessWidget {
   // This widget is the root of the application.
@@ -61,7 +59,7 @@ class SplashState extends State<Splash> {
 
     if (isLoggedIn) {
       var stateContainer = StateContainer.of(context);
-      stateContainer.updateWallet(address:NanoUtil.seedToAddress(seed));
+      stateContainer.updateWallet(address: NanoUtil.seedToAddress(seed));
       Navigator.of(context).pushReplacementNamed('/home');
     } else {
       Navigator.of(context).pushReplacementNamed('/intro_welcome');
@@ -78,10 +76,12 @@ class SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-  return new Scaffold(
-  body: new Center(
-    child: new Text('Loading...'),
-  ),
-  );
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
+        .copyWith(statusBarIconBrightness: Brightness.light));
+    return new Scaffold(
+      body: new Center(
+        child: new Text('Loading...'),
+      ),
+    );
   }
 }

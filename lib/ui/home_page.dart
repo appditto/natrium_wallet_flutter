@@ -133,7 +133,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
               children: <Widget>[
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.fromLTRB(14.0, 0.0, 7.0, 24.0),
+                    margin: EdgeInsets.fromLTRB(14.0, 0.0, 7.0, MediaQuery.of(context).size.height*0.035),
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),
@@ -151,7 +151,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.fromLTRB(7.0, 0.0, 14.0, 24.0),
+                    margin: EdgeInsets.fromLTRB(7.0, 0.0, 14.0, MediaQuery.of(context).size.height*0.035),
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),
@@ -183,7 +183,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
       color:KaliumColors.backgroundDark,
       borderRadius: BorderRadius.circular(12.0),
     ),
-    margin: EdgeInsets.only(top: 42.0, left: 14.0, right: 14.0),
+    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05, left: 14.0, right: 14.0),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -414,7 +414,7 @@ class TransactionDetailsSheet {
                     Row(
                       children: <Widget>[
                         buildKaliumButton(KaliumButtonType.PRIMARY,
-                            'Copy Address', Dimens.BUTTON_TOP_DIMENS),
+                            'Copy Address', Dimens.BUTTON_TOP_EXCEPTION_DIMENS),
                       ],
                     ),
                     Row(

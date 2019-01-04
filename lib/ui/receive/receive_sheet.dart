@@ -80,7 +80,7 @@ class KaliumReceiveSheet {
                 //MonkeyQR which takes all the available space left from the buttons & address text
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(top: 35, bottom: 35),
+                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05, bottom: MediaQuery.of(context).size.height*0.06),
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/monkeyQR.png'),
