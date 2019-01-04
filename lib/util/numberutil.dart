@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:decimal/decimal.dart';
 
 class NumberUtil {
-  static final BigInt rawPerBan = BigInt.from(pow(10, 29));
+  static final BigInt rawPerBan = BigInt.from(10).pow(29);
   static final int maxDecimalDigits = 2; // Max digits after decimal
 
   /**
@@ -14,7 +14,8 @@ class NumberUtil {
    */
   static Decimal getRawAsUsableDecimal(String raw) {
     Decimal amount = Decimal.parse(raw.toString());
-    return amount / Decimal.parse(rawPerBan.toString());
+    Decimal result = amount / Decimal.parse(rawPerBan.toString());
+    return result;
   }
 
   /**
@@ -35,6 +36,13 @@ class NumberUtil {
    */
   static String getRawAsUsableString(String raw) {
     NumberFormat nf = new NumberFormat.currency(locale:'en_US', decimalDigits: maxDecimalDigits, symbol:'');
-    return nf.format(truncateDecimal(getRawAsUsableDecimal(raw)));
+    String asString = nf.format(truncateDecimal(getRawAsUsableDecimal(raw)));
+    var split = asString.split(".");
+    if (split.length > 1) {
+      if (int.parse(split[1]) == 0) {
+        asString = split[0];
+      }
+    }
+    return asString;
   }
 }

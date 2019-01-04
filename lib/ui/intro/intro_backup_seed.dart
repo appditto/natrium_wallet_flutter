@@ -30,6 +30,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
     Vault.inst.setSeed(NanoSeeds.generateSeed()).then((result) {
       // Update wallet
       StateContainer.of(context).updateWallet(address:NanoUtil.seedToAddress(result));
+      StateContainer.of(context).requestUpdate();
       // Update local state
       setState(() {
         _seed = result;

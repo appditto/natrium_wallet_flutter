@@ -45,7 +45,8 @@ class AccountService {
     }
     Map msg = json.decode(message);
     // Determine response type
-    if (msg.containsKey("uuid")) {
+    if (msg.containsKey("uuid") || (msg.containsKey("frontier") && msg.containsKey("representative_block")) ||
+        msg.containsKey("error") && msg.containsKey("currency")) {
       // Subscribe response
       SubscribeResponse resp = SubscribeResponse.fromJson(msg);
       // Post to callbacks
@@ -86,8 +87,8 @@ class AccountService {
     }
   }
 
-  void _send(var data) {
-    sockets.send(json.encode(data));
+  void _send(String encodedData) {
+    sockets.send(encodedData);
   }
 
   // Methods to add/remove callback

@@ -219,7 +219,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(right: 5.0),
-                child: Text("€534",
+                child: Text(StateContainer.of(context).wallet.localCurrencyPrice,
                     textAlign: TextAlign.center,
                     style: KaliumStyles.TextStyleCurrencyAlt),
               ),
@@ -241,7 +241,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
                 children: <Widget>[
                   Container(
                       child: Icon(KaliumIcons.btc, color: KaliumColors.text60, size: 14)),
-                  Text("0.1534",
+                  Text(StateContainer.of(context).wallet.btcPrice,
                       textAlign: TextAlign.center,
                       style: KaliumStyles.TextStyleCurrencyAlt),
                 ],

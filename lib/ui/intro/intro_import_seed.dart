@@ -210,6 +210,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   Vault.inst.setSeed(_seedInputController.text).then((result) {
                                     // Update wallet
                                     StateContainer.of(context).updateWallet(address:NanoUtil.seedToAddress(result));
+                                    StateContainer.of(context).requestUpdate();
                                     Navigator.of(context)
                                         .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                                   });

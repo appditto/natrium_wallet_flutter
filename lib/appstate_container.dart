@@ -90,24 +90,26 @@ class StateContainerState extends State<StateContainer> {
   }
 
   void handleSubscribeResponse(SubscribeResponse response) {
-    wallet.frontier = response.frontier;
-    wallet.representative = response.representative;
-    wallet.representativeBlock = response.representativeBlock;
-    wallet.openBlock = response.openBlock;
-    wallet.blockCount = response.blockCount;
-    if (response.uuid != null) {
-      SharedPrefsUtil.inst.setUuid(response.uuid).then((result) {
-        wallet.uuid = response.uuid;
-      });
-    }
-    if (response.balance == null) {
-      wallet.accountBalance = BigInt.from(-1);
-    } else {
-      wallet.accountBalance = BigInt.tryParse(response.balance);
-    }
-    wallet.localCurrencyPrice = response.price;
-    wallet.nanoPrice = response.nanoPrice;
-    wallet.btcPrice = response.btcPrice;
+    setState(() {
+      wallet.frontier = response.frontier;
+      wallet.representative = response.representative;
+      wallet.representativeBlock = response.representativeBlock;
+      wallet.openBlock = response.openBlock;
+      wallet.blockCount = response.blockCount;
+      if (response.uuid != null) {
+        SharedPrefsUtil.inst.setUuid(response.uuid).then((result) {
+          wallet.uuid = response.uuid;
+        });
+      }
+      if (response.balance == null) {
+        wallet.accountBalance = BigInt.from(0);
+      } else {
+        wallet.accountBalance = BigInt.tryParse(response.balance);
+      }
+      wallet.localCurrencyPrice = response.price.toString();
+      wallet.nanoPrice = response.nanoPrice.toString();
+      wallet.btcPrice = response.btcPrice.toString();
+    });
   }
 
   void requestUpdate() {

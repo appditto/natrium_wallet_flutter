@@ -39,11 +39,11 @@ class SharedPrefsUtil {
     // Retrieve/Generate encryption password
     String secret = await Vault.inst.getEncryptionPhrase();
     if (secret == null) {
-      secret = AESEncrypter.generateEncryptionSecret();
+      secret = Salsa20Encryptor.generateEncryptionSecret(16) + ":" + Salsa20Encryptor.generateEncryptionSecret(8);
       await Vault.inst.writeEncryptionPhrase(secret);
     }
     // Encrypt and save
-    AESEncrypter encrypter = new AESEncrypter(secret);
+    Salsa20Encryptor encrypter = new Salsa20Encryptor(secret.split(":")[0], secret.split(":")[1]);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, encrypter.encrypt(value));
   }
@@ -52,7 +52,7 @@ class SharedPrefsUtil {
     String secret = await Vault.inst.getEncryptionPhrase();
     if (secret == null) return null;
     // Decrypt and return
-    AESEncrypter encrypter = new AESEncrypter(secret);
+    Salsa20Encryptor encrypter = new Salsa20Encryptor(secret.split(":")[0], secret.split(":")[1]);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String encrypted = prefs.get(key);
     if (encrypted == null) return null;

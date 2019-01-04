@@ -1,3 +1,5 @@
+import 'package:decimal/decimal.dart';
+import 'package:intl/intl.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
 /**
@@ -22,7 +24,7 @@ class KaliumWallet {
   KaliumWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
                 String representative, String localCurrencyPrice, String nanoPrice, String btcPrice, int blockCount, String uuid}) {
     this._address = address;
-    this._accountBalance = accountBalance ?? BigInt.from(-1);
+    this._accountBalance = accountBalance ?? BigInt.zero;
     this._frontier = frontier;
     this._openBlock = openBlock;
     this._representativeBlock = representativeBlock;
@@ -36,38 +38,48 @@ class KaliumWallet {
 
   String get address => _address;
 
-  void set address(String address) {
+  set address(String address) {
     this._address = address;
   }
 
   BigInt get accountBalance => _accountBalance;
 
-  void set accountBalance(BigInt accountBalance) {
+  set accountBalance(BigInt accountBalance) {
     this._accountBalance = accountBalance;
   }
 
   // Get pretty account balance version
   String getAccountBalanceDisplay() {
-    if (accountBalance == null || accountBalance < BigInt.zero) {
-      return "-1";
+    if (accountBalance == null) {
+      return "0";
     }
     return NumberUtil.getRawAsUsableString(_accountBalance.toString());
   }
 
 
-  String get localCurrencyPrice => _localCurrencyPrice;
+  String get localCurrencyPrice {
+    // TODO use real currency format
+    Decimal converted = Decimal.parse(_localCurrencyPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
+    return NumberFormat.simpleCurrency(locale:"en_US").format(converted.toDouble());
+  }
 
   set localCurrencyPrice(String value) {
     _localCurrencyPrice = value;
   }
 
-  String get btcPrice => _btcPrice;
+  String get btcPrice {
+    Decimal converted = Decimal.parse(_btcPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
+    return new NumberFormat("#,##0.00", "en_US").format(converted.toDouble());
+  }
 
   set btcPrice(String value) {
     _btcPrice = value;
   }
 
-  String get nanoPrice => _nanoPrice;
+  String get nanoPrice {
+    Decimal converted = Decimal.parse(_nanoPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
+    return new NumberFormat("#,##0.00", "en_US").format(converted.toDouble());
+  }
 
   set nanoPrice(String value) {
     _nanoPrice = value;

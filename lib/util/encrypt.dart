@@ -1,21 +1,23 @@
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:pointycastle/api.dart' show KeyParameter;
-import 'package:pointycastle/block/aes_fast.dart';
+import 'package:pointycastle/api.dart' show ParametersWithIV, KeyParameter;
+import 'package:pointycastle/stream/salsa20.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 
 /**
- * Encryption helpers using AES from pointycastle
- * 
- * Based on: https://github.com/leocavalcante/encrypt
+ * Encryption using Salsa20 from pointycastle
  */
-class AESEncrypter {
+class Salsa20Encryptor {
   final String key;
-  final KeyParameter _params;
-  final AESFastEngine _cipher = AESFastEngine();
+  final String iv;
+  final ParametersWithIV<KeyParameter> _params;
+  final Salsa20Engine _cipher = Salsa20Engine();
 
-  AESEncrypter(this.key) : _params = KeyParameter(Uint8List.fromList(key.codeUnits));
+  Salsa20Encryptor(this.key, this.iv)
+      : _params = ParametersWithIV<KeyParameter>(
+            KeyParameter(Uint8List.fromList(key.codeUnits)),
+            Uint8List.fromList(iv.codeUnits));
 
   String encrypt(String plainText) {
     _cipher
@@ -23,7 +25,7 @@ class AESEncrypter {
       ..init(true, _params);
 
     final input = Uint8List.fromList(plainText.codeUnits);
-    final output = _processBlocks(input);
+    final output = _cipher.process(input);
 
     return NanoHelpers.byteToHex(output);
   }
@@ -34,26 +36,16 @@ class AESEncrypter {
       ..init(false, _params);
 
     final input = NanoHelpers.hexToBytes(cipherText);
-    final output = _processBlocks(input);
+    final output = _cipher.process(input);
 
     return String.fromCharCodes(output);
   }
 
-  Uint8List _processBlocks(Uint8List input) {
-    var output = Uint8List(input.lengthInBytes);
-
-    for (int offset = 0; offset < input.lengthInBytes;) {
-      offset += _cipher.processBlock(input, offset, output, offset);
-    }
-
-    return output;
-  }
-
-  static String generateEncryptionSecret() {
+  static String generateEncryptionSecret(int length) {
     String result = ""; // Resulting passcode
     String chars = "abcdefghijklmnopqrstuvwxyz0123456789!?&+\\-'."; // Characters a passcode may contain
     var rng = new Random.secure();
-    for (int i = 0; i < 32; i ++) {
+    for (int i = 0; i < length; i ++) {
       result += chars[rng.nextInt(chars.length)];
     }
     return result;

@@ -2,6 +2,12 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'subscribe_response.g.dart';
 
+int _toInt(String v) => int.tryParse(v);
+
+double _toDouble(v) {
+  return double.tryParse(v.toString());
+}
+
 @JsonSerializable()
 class SubscribeResponse {
   @JsonKey(name:'frontier')
@@ -20,7 +26,7 @@ class SubscribeResponse {
   @JsonKey(name:'balance')
   String balance;
 
-  @JsonKey(name:'block_count')
+  @JsonKey(name:'block_count', fromJson: _toInt)
   int blockCount;
 
   @JsonKey(name:'pending')
@@ -30,14 +36,14 @@ class SubscribeResponse {
   @JsonKey(name:'uuid')
   String uuid;
 
-  @JsonKey(name:'price')
-  String price;
+  @JsonKey(name:'price', fromJson:_toDouble)
+  double price;
 
-  @JsonKey(name:'btc')
-  String btcPrice;
+  @JsonKey(name:'btc', fromJson:_toDouble)
+  double btcPrice;
 
-  @JsonKey(name:'nano')
-  String nanoPrice;
+  @JsonKey(name:'nano', fromJson:_toDouble)
+  double nanoPrice;
 
   SubscribeResponse() {}
 
