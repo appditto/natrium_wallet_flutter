@@ -91,6 +91,7 @@ flutter:
     - assets/monkeyQR.png
     - assets/welcome_animation.flr
     - assets/send_animation.flr
+    - assets/pulltorefresh_animation.flr
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
