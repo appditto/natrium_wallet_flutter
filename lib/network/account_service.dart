@@ -73,7 +73,7 @@ class AccountService {
           return;
         }
         requestItem.isProcessing = true;
-        String requestJson = requestItem.request.toJson();
+        String requestJson = json.encode(requestItem.request.toJson());
         log.fine("Sending: $requestJson");
         _send(requestJson);
       } else if (requestItem != null && (DateTime
