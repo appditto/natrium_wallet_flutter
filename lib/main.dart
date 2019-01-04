@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:logging/logging.dart';
+
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
@@ -13,7 +15,15 @@ import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'colors.dart';
 
-void main() => runApp(new StateContainer(child: new KaliumApp()));
+void main() async {
+  // Setup logger
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((LogRecord rec) {
+    print('${rec.level.name}: ${rec.time}: ${rec.message}');
+  });
+  // Run app
+  runApp(new StateContainer(child: new KaliumApp()));
+}
 
 class KaliumApp extends StatelessWidget {
   // This widget is the root of the application.
@@ -60,6 +70,7 @@ class SplashState extends State<Splash> {
     if (isLoggedIn) {
       var stateContainer = StateContainer.of(context);
       stateContainer.updateWallet(address: NanoUtil.seedToAddress(seed));
+      stateContainer.requestUpdate();
       Navigator.of(context).pushReplacementNamed('/home');
     } else {
       Navigator.of(context).pushReplacementNamed('/intro_welcome');

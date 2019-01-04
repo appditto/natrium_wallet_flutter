@@ -48,6 +48,9 @@ dependencies:
   # BigDecimal alternative
   decimal: ^0.3.0
 
+  # Logger
+  logging: ^0.11.3+2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

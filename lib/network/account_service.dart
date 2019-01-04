@@ -2,57 +2,99 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
+import 'package:kalium_wallet_flutter/network/model/base_request.dart';
+import 'package:kalium_wallet_flutter/network/model/request_item.dart';
+import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/wsclient.dart';
+import 'package:logging/logging.dart';
 
+AccountService accountService = new AccountService();
+
+/**
+ * AccountService singleton
+ */
 class AccountService {
-  static final AccountService _singleton = new AccountService._internal();
-  static AccountService get inst => _singleton;
+  static final AccountService _service = new AccountService._internal();
+  final Logger log = new Logger("AccountService");
 
-  Queue _requestQueue;
+  Queue<RequestItem> _requestQueue;
+  ObserverList<Function> _listeners = new ObserverList<Function>();
+
+  factory AccountService(){
+    return _service;
+  }
 
   AccountService._internal() {
     // Initialize queue
     _requestQueue = new Queue();
     // Init connection
-    WebSocketsNotifications.inst.initCommunication();
+    sockets.initCommunication();
     // Add listener
-    WebSocketsNotifications.inst.addListener(_onMessageReceived);
+    sockets.addListener(_onMessageReceived);
   }
 
   // Invoked when server sends a message
   _onMessageReceived(message) {
-    // Deserialize to json, `Map msg = json.decode(serverMessage);`
-    // TODO - here we need to determine what type of message was sent and handle
-    // it accordingly
+    log.fine("Received $message");
+    if (message == "connected" || message == "disconnected") {
+      // Post to callbacks
+      _listeners.forEach((Function callback){
+        callback(message);
+      });
+      return;
+    }
+    Map msg = json.decode(message);
+    // Determine response type
+    if (msg.containsKey("uuid")) {
+      // Subscribe response
+      SubscribeResponse resp = SubscribeResponse.fromJson(msg);
+      // Post to callbacks
+      _listeners.forEach((Function callback){
+        callback(resp);
+      });
+    }
     return;
   }
 
-  /* Subcribe Request */
-  void _requestSubscribe(String account) {
-    SubscribeRequest subscribeRequest = new SubscribeRequest();
-    _send(subscribeRequest.toJson());
+  /* Enqueue Request */
+  void queueRequest(BaseRequest request) {
+    _requestQueue.add(new RequestItem(request));
   }
 
-  _send(var data) {
-    WebSocketsNotifications.inst.send(json.encode(data));
+  /* Process Queue */
+  void processQueue() {
+    if (_requestQueue != null && _requestQueue.length > 0) {
+      RequestItem requestItem = _requestQueue.removeFirst();
+      if (requestItem != null && !requestItem.isProcessing) {
+        if (!sockets.isConnected) {
+          if (!sockets.isConnecting) {
+            sockets.initCommunication();
+          }
+          return;
+        }
+        requestItem.isProcessing = true;
+        String requestJson = requestItem.request.toJson();
+        log.fine("Sending: $requestJson");
+        _send(requestJson);
+      } else if (requestItem != null && (DateTime
+          .now()
+          .difference(requestItem.expireDt)
+          .inSeconds > RequestItem.EXPIRE_TIME_S)) {
+        _requestQueue.removeFirst();
+        processQueue();
+      }
+    }
   }
 
-  /// ==========================================================
-  ///
-  /// Listeners to allow the different pages to be notified
-  /// when messages come in
-  ///
-  ObserverList<Function> _listeners = new ObserverList<Function>();
+  void _send(var data) {
+    sockets.send(json.encode(data));
+  }
 
-  /// ---------------------------------------------------------
-  /// Adds a callback to be invoked in case of incoming
-  /// notification
-  /// ---------------------------------------------------------
+  // Methods to add/remove callback
   addListener(Function callback){
     _listeners.add(callback);
   }
-  removeListener(Function callback){
+  removeListener(Function callback) {
     _listeners.remove(callback);
   }
 }

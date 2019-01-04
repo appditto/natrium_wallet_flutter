@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
@@ -230,7 +231,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
                           color: KaliumColors.primary, size: 20)),
                   Container(
                     margin: EdgeInsets.only(right: 15.0),
-                    child: Text("412,580",
+                    child: Text(StateContainer.of(context).wallet.getAccountBalanceDisplay(),
                         textAlign: TextAlign.center,
                         style: KaliumStyles.TextStyleCurrency),
                   ),

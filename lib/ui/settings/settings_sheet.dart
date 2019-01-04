@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
@@ -100,6 +101,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                           () {
                             Vault.inst.deleteAll().then((Null) {
                               SharedPrefsUtil.inst.deleteAll().then((result) {
+                                StateContainer.of(context).logOut();
                                 Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                               });
                             });
