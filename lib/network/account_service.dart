@@ -63,8 +63,10 @@ class AccountService {
         callback(resp);
       });
     }
-    _requestQueue.removeFirst();
-    processQueue();
+    if (_requestQueue.length > 0) {
+      _requestQueue.removeFirst();
+      processQueue();
+    }
     return;
   }
 
