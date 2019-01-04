@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:kalium_wallet_flutter/network/model/base_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request_item.dart';
+import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/wsclient.dart';
 import 'package:logging/logging.dart';
@@ -49,11 +50,21 @@ class AccountService {
         msg.containsKey("error") && msg.containsKey("currency")) {
       // Subscribe response
       SubscribeResponse resp = SubscribeResponse.fromJson(msg);
+      // Check next request to update block count
+      if (resp.blockCount != null) {
+        _requestQueue.forEach((requestItem) {
+          if (requestItem.request is AccountHistoryRequest) {
+            requestItem.request.count = resp.blockCount;
+          }
+        });
+      }
       // Post to callbacks
       _listeners.forEach((Function callback){
         callback(resp);
       });
     }
+    _requestQueue.removeFirst();
+    processQueue();
     return;
   }
 

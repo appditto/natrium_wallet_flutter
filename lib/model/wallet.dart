@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:intl/intl.dart';
+import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
 /**
@@ -19,10 +20,12 @@ class KaliumWallet {
   String _btcPrice;
   String _uuid;
   int _blockCount;
+  List<AccountHistoryResponseItem> _history;
 
 
   KaliumWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
-                String representative, String localCurrencyPrice, String nanoPrice, String btcPrice, int blockCount, String uuid}) {
+                String representative, String localCurrencyPrice, String nanoPrice, String btcPrice, int blockCount, String uuid,
+                List<AccountHistoryResponseItem> history}) {
     this._address = address;
     this._accountBalance = accountBalance ?? BigInt.zero;
     this._frontier = frontier;
@@ -34,6 +37,7 @@ class KaliumWallet {
     this._btcPrice = btcPrice ?? "0";
     this._blockCount = blockCount ?? 0;
     this._uuid = uuid;
+    this._history = history ?? new List<AccountHistoryResponseItem>();
   }
 
   String get address => _address;
@@ -123,5 +127,9 @@ class KaliumWallet {
     _uuid = value;
   }
 
+  List<AccountHistoryResponseItem> get history => _history;
 
+  set history(List<AccountHistoryResponseItem> value) {
+    _history = value;
+  }
 }
