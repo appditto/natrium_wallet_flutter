@@ -40,13 +40,11 @@ class _KaliumHomePageState extends State<KaliumHomePage> implements FlareControl
   double _refreshIndicatorExtent;
   double _successTime = 0.0;
   double _loadingTime = 0.0;
-  double _cometTime = 0.0;
 
   void initialize(FlutterActorArtboard actor) {
     _pullAnimation = actor.getAnimation("pull");
     _successAnimation = actor.getAnimation("success");
     _loadingAnimation = actor.getAnimation("loading");
-    _cometAnimation = actor.getAnimation("idle comet");
   }
 
   void setViewTransform(Mat2D viewTransform) {}
@@ -54,10 +52,11 @@ class _KaliumHomePageState extends State<KaliumHomePage> implements FlareControl
   bool advance(FlutterActorArtboard artboard, double elapsed) {
     double animationPosition = _pulledExtent / _refreshTriggerPullDistance;
     animationPosition *= animationPosition;
-    _cometTime += elapsed;
-    _cometAnimation.apply(_cometTime % _cometAnimation.duration, artboard, 1.0);
     _pullAnimation.apply(
         _pullAnimation.duration * animationPosition, artboard, 1.0);
+    if (_refreshState == RefreshIndicatorMode.done){
+      _loadingAnimation.apply(0, artboard, 1.0);
+    }
     if (_refreshState == RefreshIndicatorMode.refresh ||
         _refreshState == RefreshIndicatorMode.armed) {
       _successTime += elapsed;
@@ -87,7 +86,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> implements FlareControl
     _refreshTriggerPullDistance = refreshTriggerPullDistance;
     _refreshIndicatorExtent = refreshIndicatorExtent;
 
-    return FlareActor("assets/Space Demo.flr",
+    return FlareActor("assets/pulltorefresh_animation.flr",
         alignment: Alignment.center,
         animation: "idle",
         fit: BoxFit.cover,
@@ -153,15 +152,14 @@ class _KaliumHomePageState extends State<KaliumHomePage> implements FlareControl
           Expanded(
               child: Stack(
                 children: <Widget>[
-                  
                   CustomScrollView(
                     slivers: <Widget>[
                       CupertinoSliverRefreshControl(
-                        refreshTriggerPullDistance: 190.0,
-                        refreshIndicatorExtent: 190.0,
+                        refreshTriggerPullDistance: MediaQuery.of(context).size.width/4,
+                        refreshIndicatorExtent: MediaQuery.of(context).size.width/4,
                         builder: buildRefreshWidget,
                         onRefresh: () {
-                          return Future<void>.delayed(const Duration(seconds: 5))
+                          return Future<void>.delayed(const Duration(seconds: 2))
                           ..then<void>((_) {
                           if (mounted) {
                           setState(() => repopulateList());
@@ -170,6 +168,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> implements FlareControl
                         },
                       ),
                       SliverSafeArea(
+                        minimum: EdgeInsets.only(top: 10, bottom:20),
                         top: false, // Top safe area is consumed by the navigation bar.
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate(
@@ -190,9 +189,9 @@ class _KaliumHomePageState extends State<KaliumHomePage> implements FlareControl
                       width: double.infinity,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [KaliumColors.background, KaliumColors.background00],
-                          begin: Alignment(0.5, -1.0),
-                          end: Alignment(0.5, 1.0),
+                          colors: [KaliumColors.background00, KaliumColors.background],
+                          begin: Alignment(0.5, 1.0),
+                          end: Alignment(0.5, -1.0),
                         ),
                       ),
                     ),
@@ -366,7 +365,7 @@ Widget buildTransactionCard(AccountHistoryResponseItem item, BuildContext contex
   } else {
     text = "Received";
     icon = KaliumIcons.received;
-    iconColor = KaliumColors.primary;
+    iconColor = KaliumColors.primary60;
   }
   return Container(
     margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
