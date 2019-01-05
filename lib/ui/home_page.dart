@@ -52,7 +52,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
   // Used to build list items that haven't been removed.
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
-    return buildTransactionCard(_historyList[index], context);
+    return buildTransactionCard(_historyList[index], animation, context);
   }
 
   // Refresh list
@@ -287,7 +287,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
 } //Main Card
 
 // Transaction Card
-Widget buildTransactionCard(AccountHistoryResponseItem item, BuildContext context) {
+Widget buildTransactionCard(AccountHistoryResponseItem item, Animation<double> animation, BuildContext context) {
   TransactionDetailsSheet transactionDetails = TransactionDetailsSheet();
   String text;
   IconData icon;
@@ -301,7 +301,10 @@ Widget buildTransactionCard(AccountHistoryResponseItem item, BuildContext contex
     icon = KaliumIcons.received;
     iconColor = KaliumColors.primary60;
   }
-  return Container(
+  return SizeTransition(
+      axis: Axis.vertical,
+      sizeFactor: animation,
+      child: Container(
     margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
     decoration: BoxDecoration(
       color:KaliumColors.backgroundDark,
@@ -363,6 +366,7 @@ Widget buildTransactionCard(AccountHistoryResponseItem item, BuildContext contex
         ),
       ),
     ),
+  ),
   );
 } //Sent Card End
 
