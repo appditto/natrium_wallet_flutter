@@ -84,7 +84,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
 
   // Refresh list
   Future<void> _refresh() async {
-    Future.delayed(new Duration(seconds: 3), () {
+    await Future.delayed(new Duration(seconds: 3), () {
       int randNum = new Random.secure().nextInt(100);
       AccountHistoryResponseItem test2 = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
           amount:(BigInt.from(randNum) * BigInt.from(10).pow(29)).toString(), hash: 'abcdefg1234');
