@@ -6,6 +6,7 @@ import 'package:kalium_wallet_flutter/network/model/request/account_history_requ
 import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/network/account_service.dart';
 
@@ -74,6 +75,12 @@ class StateContainerState extends State<StateContainer> {
       setState(() {
         wallet.historyLoading = false;
         wallet.history = message.history;
+      });
+    } else if (message is PriceResponse) {
+      setState(() {
+        wallet.nanoPrice = message.nanoPrice.toString();
+        wallet.btcPrice = message.btcPrice.toString();
+        wallet.localCurrencyPrice = message.price.toString();
       });
     }
   }

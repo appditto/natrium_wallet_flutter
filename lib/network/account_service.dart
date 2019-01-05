@@ -8,6 +8,7 @@ import 'package:kalium_wallet_flutter/network/model/request/account_history_requ
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
 import 'package:kalium_wallet_flutter/network/wsclient.dart';
 import 'package:logging/logging.dart';
 
@@ -65,8 +66,11 @@ class AccountService {
         callback(resp);
       });
     } else if (msg.containsKey("currency") && msg.containsKey("price") && msg.containsKey("btc")) {
-      // TODO handle price update, also get "nano" for banano
-      // Server pushes these periodically un-prompted while connected
+      // Price info sent from server
+      PriceResponse resp = PriceResponse.fromJson(msg);
+      _listeners.forEach((Function callback){
+        callback(resp);
+      });
     } else if (msg.containsKey("history")) {
       // Account history response
       if (msg['history'] == "") {
