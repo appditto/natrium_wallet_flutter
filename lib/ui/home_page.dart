@@ -1,13 +1,10 @@
-import 'package:flare_flutter/flare.dart';
-import 'package:flare_flutter/flare/animation/actor_animation.dart';
-import 'package:flare_flutter/flare/math/mat2d.dart';
-import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
+import 'package:kalium_wallet_flutter/model/list_model.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
@@ -23,97 +20,55 @@ class KaliumHomePage extends StatefulWidget {
   _KaliumHomePageState createState() => _KaliumHomePageState();
 }
 
-class _KaliumHomePageState extends State<KaliumHomePage> implements FlareController {
+class _KaliumHomePageState extends State<KaliumHomePage> {
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  // A separate unfortunate instance of this list, is a little unfortunate
+  // but seems the only way to handle the animations
+  ListModel<AccountHistoryResponseItem> _historyList;
+  List<AccountHistoryResponseItem> _testList = new List<AccountHistoryResponseItem>();
+
   KaliumReceiveSheet receive = new KaliumReceiveSheet();
   KaliumSendSheet send = new KaliumSendSheet();
-
-  // For pull to refresh animation
-  ActorAnimation _loadingAnimation;
-  ActorAnimation _successAnimation;
-  ActorAnimation _pullAnimation;
-  ActorAnimation _cometAnimation;
-
-  RefreshIndicatorMode _refreshState;
-  double _pulledExtent;
-  double _refreshTriggerPullDistance;
-  double _refreshIndicatorExtent;
-  double _successTime = 0.0;
-  double _loadingTime = 0.0;
-
-  void initialize(FlutterActorArtboard actor) {
-    _pullAnimation = actor.getAnimation("pull");
-    _successAnimation = actor.getAnimation("success");
-    _loadingAnimation = actor.getAnimation("loading");
-  }
-
-  void setViewTransform(Mat2D viewTransform) {}
-
-  bool advance(FlutterActorArtboard artboard, double elapsed) {
-    double animationPosition = _pulledExtent / _refreshTriggerPullDistance;
-    animationPosition *= animationPosition;
-    _pullAnimation.apply(
-        _pullAnimation.duration * animationPosition, artboard, 1.0);
-    if (_refreshState == RefreshIndicatorMode.done){
-      _loadingAnimation.apply(0, artboard, 1.0);
-    }
-    if (_refreshState == RefreshIndicatorMode.refresh ||
-        _refreshState == RefreshIndicatorMode.armed) {
-      _successTime += elapsed;
-      if (_successTime >= _successAnimation.duration) {
-        _loadingTime += elapsed;
-      }
-    } else {
-      _successTime = _loadingTime = 0.0;
-    }
-    if (_successTime >= _successAnimation.duration) {
-      _loadingAnimation.apply(
-          _loadingTime % _loadingAnimation.duration, artboard, 1.0);
-    } else if (_successTime > 0.0) {
-      _successAnimation.apply(_successTime, artboard, 1.0);
-    }
-    return true;
-  }
-
-  Widget buildRefreshWidget(
-      BuildContext context,
-      RefreshIndicatorMode refreshState,
-      double pulledExtent,
-      double refreshTriggerPullDistance,
-      double refreshIndicatorExtent) {
-    _refreshState = refreshState;
-    _pulledExtent = pulledExtent;
-    _refreshTriggerPullDistance = refreshTriggerPullDistance;
-    _refreshIndicatorExtent = refreshIndicatorExtent;
-
-    return FlareActor("assets/pulltorefresh_animation.flr",
-        alignment: Alignment.center,
-        animation: "idle",
-        fit: BoxFit.cover,
-        controller: this);
-  }
-
-  void repopulateList() {
-    AccountHistoryResponseItem test = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
-    amount:BigInt.from(10).pow(30).toString(), hash: 'abcdefg1234');
-    test.type = BlockTypes.RECEIVE;
-    AccountHistoryResponseItem test2 = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
-        amount:BigInt.from(10).pow(31).toString(), hash: 'abcdefg1234');
-    test2.type = BlockTypes.SEND;
-    StateContainer.of(context).wallet.history.add(test);
-    StateContainer.of(context).wallet.history.add(test2);
-  }
 
   @override
   void initState() {
     super.initState();
+    AccountHistoryResponseItem test = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
+        amount:BigInt.from(10).pow(30).toString(), hash: 'abcdefg1234');
+    test.type = BlockTypes.RECEIVE;
+    AccountHistoryResponseItem test2 = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
+        amount:BigInt.from(10).pow(31).toString(), hash: 'abcdefg1234');
+    test2.type = BlockTypes.SEND;
+    _testList.add(test);
+    _testList.add(test2);
+    _historyList = ListModel<AccountHistoryResponseItem>(
+      listKey: _listKey,
+      initialItems: _testList//StateContainer.of(context).wallet.history ?? new List<AccountHistoryResponseItem>(),
+    );
+  }
+
+  // Used to build list items that haven't been removed.
+  Widget _buildItem(
+      BuildContext context, int index, Animation<double> animation) {
+    return buildTransactionCard(_historyList[index], context);
+  }
+
+  // Refresh list
+  Future<void> _refresh() async {
+    int randNum = new Random.secure().nextInt(10);
+    AccountHistoryResponseItem test2 = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
+        amount:BigInt.from(randNum).pow(30).toString(), hash: 'abcdefg1234');
+    setState(() {
+      _historyList.insertAtTop(test2);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
-    repopulateList();
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: KaliumColors.background,
@@ -152,34 +107,13 @@ class _KaliumHomePageState extends State<KaliumHomePage> implements FlareControl
           Expanded(
               child: Stack(
                 children: <Widget>[
-                  CustomScrollView(
-                    slivers: <Widget>[
-                      CupertinoSliverRefreshControl(
-                        refreshTriggerPullDistance: MediaQuery.of(context).size.width/4,
-                        refreshIndicatorExtent: MediaQuery.of(context).size.width/4,
-                        builder: buildRefreshWidget,
-                        onRefresh: () {
-                          return Future<void>.delayed(const Duration(seconds: 2))
-                          ..then<void>((_) {
-                          if (mounted) {
-                          setState(() => repopulateList());
-                          }
-                          });
-                        },
-                      ),
-                      SliverSafeArea(
-                        minimum: EdgeInsets.only(top: 10, bottom:20),
-                        top: false, // Top safe area is consumed by the navigation bar.
-                        sliver: SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                                (BuildContext context, int index) {
-                              return buildTransactionCard(StateContainer.of(context).wallet.history[index], context);
-                            },
-                            childCount: StateContainer.of(context).wallet.history.length,
-                          ),
-                        ),
-                      ), //List Bottom Gradient End
-                    ],
+                  RefreshIndicator(
+                    child: AnimatedList(
+                      key: _listKey,
+                      initialItemCount: _historyList.length,
+                      itemBuilder: _buildItem,
+                    ),
+                    onRefresh: _refresh,
                   ),
                   //List Top Gradient End
                   Align(
