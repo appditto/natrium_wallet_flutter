@@ -39,4 +39,7 @@ class AccountHistoryResponseItem {
 
   factory AccountHistoryResponseItem.fromJson(Map<String, dynamic> json) => _$AccountHistoryResponseItemFromJson(json);
   Map<String, dynamic> toJson() => _$AccountHistoryResponseItemToJson(this);
+
+  bool operator ==(o) => o is AccountHistoryResponseItem && o.hash == hash;
+  int get hashCode => hash.hashCode;
 }

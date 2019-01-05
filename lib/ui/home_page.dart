@@ -5,7 +5,9 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/model/list_model.dart';
+import 'package:kalium_wallet_flutter/network/account_service.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
+import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
@@ -27,7 +29,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
   // A separate unfortunate instance of this list, is a little unfortunate
   // but seems the only way to handle the animations
   ListModel<AccountHistoryResponseItem> _historyList;
-  List<AccountHistoryResponseItem> _testList = new List<AccountHistoryResponseItem>();
+  List<AccountHistoryResponseItem> _initialItems;
 
   KaliumReceiveSheet receive = new KaliumReceiveSheet();
   KaliumSendSheet send = new KaliumSendSheet();
@@ -35,18 +37,23 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
   @override
   void initState() {
     super.initState();
-    AccountHistoryResponseItem test = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
-        amount:BigInt.from(10).pow(30).toString(), hash: 'abcdefg1234');
-    test.type = BlockTypes.RECEIVE;
-    AccountHistoryResponseItem test2 = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
-        amount:BigInt.from(10).pow(31).toString(), hash: 'abcdefg1234');
-    test2.type = BlockTypes.SEND;
-    _testList.add(test);
-    _testList.add(test2);
     _historyList = ListModel<AccountHistoryResponseItem>(
       listKey: _listKey,
-      initialItems: _testList//StateContainer.of(context).wallet.history ?? new List<AccountHistoryResponseItem>(),
+      initialItems: _initialItems,
     );
+    accountService.addListener(_onServerMessageReceived);
+  }
+
+  @override
+  void dispose() {
+    accountService.removeListener(_onServerMessageReceived);
+    super.dispose();
+  }
+
+  void _onServerMessageReceived(message) {
+    if (message is AccountHistoryResponse) {
+      diffAndUpdateHistoryList(message.history);
+    }
   }
 
   // Used to build list items that haven't been removed.
@@ -63,12 +70,38 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
     setState(() {
       _historyList.insertAtTop(test2);
     });
+    StateContainer.of(context).requestUpdate();
+  }
+
+  /**
+   * Because there's nothing convenient like DiffUtil, some manual logic
+   * to determine the differences between two lists and to add new items.
+   * 
+   * Depends on == being overriden in the AccountHistoryResponseItem class
+   * 
+   * Required to do it this way for the animation
+   */
+  void diffAndUpdateHistoryList(List<AccountHistoryResponseItem> newList) {
+    if (newList == null || newList.length == 0) return;
+    var reversedNew = newList.reversed;
+    var currentList = _historyList.items;
+
+    reversedNew.forEach((item) {
+      if (!currentList.contains(item)) {
+        setState(() {
+          _historyList.insertAtTop(item);
+        });
+      }
+    });
+
   }
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
+    // TODO figure out how to update these without animation initially
+    diffAndUpdateHistoryList(StateContainer.of(context).wallet.history);
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: KaliumColors.background,
@@ -110,6 +143,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
                   RefreshIndicator(
                     child: AnimatedList(
                       key: _listKey,
+                      padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
                       initialItemCount: _historyList.length,
                       itemBuilder: _buildItem,
                     ),
@@ -303,6 +337,7 @@ Widget buildTransactionCard(AccountHistoryResponseItem item, Animation<double> a
   }
   return SizeTransition(
       axis: Axis.vertical,
+      axisAlignment: -1.0,
       sizeFactor: animation,
       child: Container(
     margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),

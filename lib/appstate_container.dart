@@ -2,7 +2,9 @@
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
+import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/network/account_service.dart';
@@ -68,6 +70,10 @@ class StateContainerState extends State<StateContainer> {
       requestUpdate();
     } else if (message is SubscribeResponse) {
       handleSubscribeResponse(message);
+    } else if (message is AccountHistoryResponse) {
+      setState(() {
+        wallet.history = message.history;
+      });
     }
   }
 
@@ -78,7 +84,7 @@ class StateContainerState extends State<StateContainer> {
   // Widgets in the app that rely on the state you've changed.
   void updateWallet({address}) {
     if (wallet == null) {
-      wallet = new KaliumWallet(address: address);
+      wallet = new KaliumWallet(address: address, loading: true);
       setState(() {
         address = address;
       });
@@ -91,6 +97,7 @@ class StateContainerState extends State<StateContainer> {
 
   void handleSubscribeResponse(SubscribeResponse response) {
     setState(() {
+      wallet.loading = false;
       wallet.frontier = response.frontier;
       wallet.representative = response.representative;
       wallet.representativeBlock = response.representativeBlock;
@@ -111,11 +118,13 @@ class StateContainerState extends State<StateContainer> {
       wallet.btcPrice = response.btcPrice.toString();
     });
   }
+  
 
   void requestUpdate() {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
         accountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:"USD", uuid:result));
+        accountService.queueRequest(new AccountHistoryRequest(account: wallet.address));
         accountService.processQueue();
       });
       //TODO currency

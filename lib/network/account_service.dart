@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:kalium_wallet_flutter/network/model/base_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request_item.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
+import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/wsclient.dart';
 import 'package:logging/logging.dart';
@@ -62,6 +64,18 @@ class AccountService {
       _listeners.forEach((Function callback){
         callback(resp);
       });
+    } else if (msg.containsKey("currency") && msg.containsKey("price") && msg.containsKey("btc")) {
+      // TODO handle price update, also get "nano" for banano
+      // Server pushes these periodically un-prompted while connected
+    } else if (msg.containsKey("history")) {
+      // Account history response
+      if (msg['history'] == "") {
+        msg['history'] = new List<AccountHistoryResponseItem>();
+      }
+      AccountHistoryResponse resp = AccountHistoryResponse.fromJson(msg);
+      _listeners.forEach((Function callback){
+        callback(resp);
+      });
     }
     if (_requestQueue.length > 0) {
       _requestQueue.removeFirst();
@@ -78,7 +92,7 @@ class AccountService {
   /* Process Queue */
   void processQueue() {
     if (_requestQueue != null && _requestQueue.length > 0) {
-      RequestItem requestItem = _requestQueue.removeFirst();
+      RequestItem requestItem = _requestQueue.first;
       if (requestItem != null && !requestItem.isProcessing) {
         if (!sockets.isConnected) {
           if (!sockets.isConnecting) {

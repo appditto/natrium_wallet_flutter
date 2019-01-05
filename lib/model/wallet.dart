@@ -9,6 +9,7 @@ import 'package:kalium_wallet_flutter/util/numberutil.dart';
 class KaliumWallet {
   static const String defaultRepresentative = 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo';
 
+  bool _loading; // Whether or not app is initially loading
   String _address;
   BigInt _accountBalance;
   String _frontier;
@@ -25,7 +26,7 @@ class KaliumWallet {
 
   KaliumWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
                 String representative, String localCurrencyPrice, String nanoPrice, String btcPrice, int blockCount, String uuid,
-                List<AccountHistoryResponseItem> history}) {
+                List<AccountHistoryResponseItem> history, bool loading}) {
     this._address = address;
     this._accountBalance = accountBalance ?? BigInt.zero;
     this._frontier = frontier;
@@ -38,6 +39,7 @@ class KaliumWallet {
     this._blockCount = blockCount ?? 0;
     this._uuid = uuid;
     this._history = history ?? new List<AccountHistoryResponseItem>();
+    this._loading = loading ?? true;
   }
 
   String get address => _address;
@@ -132,4 +134,12 @@ class KaliumWallet {
   set history(List<AccountHistoryResponseItem> value) {
     _history = value;
   }
+
+  bool get loading => _loading;
+
+  set loading(bool value) {
+    _loading = value;
+  }
+
+
 }

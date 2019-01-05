@@ -17,6 +17,8 @@ class ListModel<E> {
   final GlobalKey<AnimatedListState> listKey;
   final List<E> _items;
 
+  List<E> get items => _items;
+
   AnimatedListState get _animatedList => listKey.currentState;
 
   void insertAtTop(E item) {
