@@ -26,7 +26,7 @@ class ListModel<E> {
     _animatedList.insertItem(0);
   }
 
-  int get length => _items.length;
+   int get length => _items.length;
 
   E operator [](int index) => _items[index];
 

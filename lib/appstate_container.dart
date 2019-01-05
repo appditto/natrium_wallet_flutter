@@ -72,6 +72,7 @@ class StateContainerState extends State<StateContainer> {
       handleSubscribeResponse(message);
     } else if (message is AccountHistoryResponse) {
       setState(() {
+        wallet.historyLoading = false;
         wallet.history = message.history;
       });
     }
@@ -124,7 +125,7 @@ class StateContainerState extends State<StateContainer> {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
         accountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:"USD", uuid:result));
-        accountService.queueRequest(new AccountHistoryRequest(account: wallet.address));
+        accountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
         accountService.processQueue();
       });
       //TODO currency

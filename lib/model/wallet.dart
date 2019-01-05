@@ -10,6 +10,7 @@ class KaliumWallet {
   static const String defaultRepresentative = 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo';
 
   bool _loading; // Whether or not app is initially loading
+  bool _historyLoading; // Whether or not we have received initial account history response
   String _address;
   BigInt _accountBalance;
   String _frontier;
@@ -26,7 +27,7 @@ class KaliumWallet {
 
   KaliumWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
                 String representative, String localCurrencyPrice, String nanoPrice, String btcPrice, int blockCount, String uuid,
-                List<AccountHistoryResponseItem> history, bool loading}) {
+                List<AccountHistoryResponseItem> history, bool loading, bool historyLoading}) {
     this._address = address;
     this._accountBalance = accountBalance ?? BigInt.zero;
     this._frontier = frontier;
@@ -40,6 +41,7 @@ class KaliumWallet {
     this._uuid = uuid;
     this._history = history ?? new List<AccountHistoryResponseItem>();
     this._loading = loading ?? true;
+    this._historyLoading = historyLoading  ?? true;
   }
 
   String get address => _address;
@@ -141,5 +143,9 @@ class KaliumWallet {
     _loading = value;
   }
 
+  bool get historyLoading => _historyLoading;
 
+  set historyLoading(bool value) {
+    _historyLoading = value;
+  }
 }

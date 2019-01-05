@@ -37,10 +37,6 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
   @override
   void initState() {
     super.initState();
-    _historyList = ListModel<AccountHistoryResponseItem>(
-      listKey: _listKey,
-      initialItems: _initialItems,
-    );
     accountService.addListener(_onServerMessageReceived);
   }
 
@@ -62,15 +58,41 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
     return buildTransactionCard(_historyList[index], animation, context);
   }
 
+  // Return widget for list
+  Widget _getListWidget(BuildContext context) {
+    if (StateContainer.of(context).wallet.historyLoading) {
+      // TODO add loading history animation
+      return Text("loading");
+    }
+    // Setup history list
+    setState(() {
+      _historyList = ListModel<AccountHistoryResponseItem>(
+        listKey: _listKey,
+        initialItems: StateContainer.of(context).wallet.history,
+      );
+    });
+    return RefreshIndicator(
+        child: AnimatedList(
+          key: _listKey,
+          padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
+          initialItemCount: _historyList.length,
+          itemBuilder: _buildItem,
+        ),
+        onRefresh: _refresh,
+      );
+  }
+
   // Refresh list
   Future<void> _refresh() async {
-    int randNum = new Random.secure().nextInt(100);
-    AccountHistoryResponseItem test2 = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
-        amount:(BigInt.from(randNum) * BigInt.from(10).pow(29)).toString(), hash: 'abcdefg1234');
-    setState(() {
-      _historyList.insertAtTop(test2);
+    Future.delayed(new Duration(seconds: 3), () {
+      int randNum = new Random.secure().nextInt(100);
+      AccountHistoryResponseItem test2 = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
+          amount:(BigInt.from(randNum) * BigInt.from(10).pow(29)).toString(), hash: 'abcdefg1234');
+      setState(() {
+        _historyList.insertAtTop(test2);
+      });
+      StateContainer.of(context).requestUpdate();
     });
-    StateContainer.of(context).requestUpdate();
   }
 
   /**
@@ -82,7 +104,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
    * Required to do it this way for the animation
    */
   void diffAndUpdateHistoryList(List<AccountHistoryResponseItem> newList) {
-    if (newList == null || newList.length == 0) return;
+    if (newList == null || newList.length == 0 || _historyList == null) return;
     var reversedNew = newList.reversed;
     var currentList = _historyList.items;
 
@@ -140,15 +162,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
           Expanded(
               child: Stack(
                 children: <Widget>[
-                  RefreshIndicator(
-                    child: AnimatedList(
-                      key: _listKey,
-                      padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
-                      initialItemCount: _historyList.length,
-                      itemBuilder: _buildItem,
-                    ),
-                    onRefresh: _refresh,
-                  ),
+                  _getListWidget(context),
                   //List Top Gradient End
                   Align(
                     alignment: Alignment.topCenter,
