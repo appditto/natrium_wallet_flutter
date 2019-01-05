@@ -65,12 +65,14 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
       return Text("loading");
     }
     // Setup history list
-    setState(() {
-      _historyList = ListModel<AccountHistoryResponseItem>(
-        listKey: _listKey,
-        initialItems: StateContainer.of(context).wallet.history,
-      );
-    });
+    if (_historyList == null) {
+      setState(() {
+        _historyList = ListModel<AccountHistoryResponseItem>(
+          listKey: _listKey,
+          initialItems: StateContainer.of(context).wallet.history,
+        );
+      });
+    }
     return RefreshIndicator(
         child: AnimatedList(
           key: _listKey,
@@ -84,15 +86,13 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
 
   // Refresh list
   Future<void> _refresh() async {
-    await Future.delayed(new Duration(seconds: 3), () {
-      int randNum = new Random.secure().nextInt(100);
-      AccountHistoryResponseItem test2 = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
-          amount:(BigInt.from(randNum) * BigInt.from(10).pow(29)).toString(), hash: 'abcdefg1234');
-      setState(() {
-        _historyList.insertAtTop(test2);
-      });
       StateContainer.of(context).requestUpdate();
-    });
+      await Future.delayed(new Duration(seconds: 3), () {
+        int randNum = new Random.secure().nextInt(100);
+        AccountHistoryResponseItem test2 = new AccountHistoryResponseItem(account: 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
+            amount:(BigInt.from(randNum) * BigInt.from(10).pow(29)).toString(), hash: 'abcdefg1234');
+      _historyList.insertAtTop(test2);
+      });
   }
 
   /**
@@ -115,15 +115,12 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
         });
       }
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
-    // TODO figure out how to update these without animation initially
-    diffAndUpdateHistoryList(StateContainer.of(context).wallet.history);
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: KaliumColors.background,
