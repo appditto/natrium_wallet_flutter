@@ -122,6 +122,15 @@ class AccountService {
     sockets.send(encodedData);
   }
 
+  // For dis/reconnecting
+  void closeConnection() {
+    sockets.reset();
+  }
+
+  void reconnect() {
+    sockets.initCommunication();
+  }
+
   // Methods to add/remove callback
   addListener(Function callback){
     _listeners.add(callback);

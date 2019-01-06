@@ -8,9 +8,7 @@ const String _SERVER_ADDRESS = "wss://kaba.banano.cc:443";
 
 WebSocketsNotifications sockets = new WebSocketsNotifications();
 
-/**
- * Singleton websocket client wrapper
- */
+/// Singleton websocket client wrapper
 class WebSocketsNotifications {
   final Logger log = new Logger("WebSocketNotifications");
   static final WebSocketsNotifications _sockets = new WebSocketsNotifications._internal();

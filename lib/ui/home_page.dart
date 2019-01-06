@@ -24,7 +24,7 @@ class KaliumHomePage extends StatefulWidget {
   _KaliumHomePageState createState() => _KaliumHomePageState();
 }
 
-class _KaliumHomePageState extends State<KaliumHomePage> {
+class _KaliumHomePageState extends State<KaliumHomePage> with WidgetsBindingObserver {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -38,12 +38,33 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
   void initState() {
     super.initState();
     accountService.addListener(_onServerMessageReceived);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     accountService.removeListener(_onServerMessageReceived);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Handle websocket connection when app is in background
+    // terminate it to be eco-friendly
+    switch (state) {
+      case AppLifecycleState.paused:
+        accountService.closeConnection();
+        super.didChangeAppLifecycleState(state);
+        break;
+      case AppLifecycleState.resumed:
+        accountService.reconnect();
+        super.didChangeAppLifecycleState(state);
+        break;
+      default:
+        super.didChangeAppLifecycleState(state);
+        break;
+    }
   }
 
   void _onServerMessageReceived(message) {
