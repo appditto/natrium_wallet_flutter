@@ -18,6 +18,7 @@ import 'package:kalium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 
 class KaliumHomePage extends StatefulWidget {
   @override
@@ -577,7 +578,13 @@ class TransactionDetailsSheet {
                       Row(
                         children: <Widget>[
                           buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                              'View Details', Dimens.BUTTON_BOTTOM_DIMENS),
+                              'View Details', Dimens.BUTTON_BOTTOM_DIMENS,
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (BuildContext context) {
+                                return showBlockExplorerWebview(_hash);
+                              }));
+                          }),
                         ],
                       ),
                     ],

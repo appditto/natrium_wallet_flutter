@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
+
+// TODO - put methods like these in a class
 
 threeLineAddressText(String address) {
   String stringPartOne = address.substring(0, 11);
@@ -81,5 +85,14 @@ threeLineSeedText(String address, {TextStyle textStyle}) {
         
       ),
     ],
+  );
+}
+
+Widget showBlockExplorerWebview(String hash) {
+  return  WebviewScaffold(
+    url: KaliumLocalization.BLOCK_EXPLORER_URL + hash,
+    appBar: new AppBar(
+      backgroundColor: KaliumColors.greyDark,
+    ),
   );
 }
