@@ -83,7 +83,8 @@ class StateBlock {
                       BigInt.parse(this.balance),
                       this.link
                   );
-
+    this.signature = NanoSignatures.signBlock(hash, privateKey);
+    return this.signature;
   }
 
   factory StateBlock.fromJson(Map<String, dynamic> json) => _$StateBlockFromJson(json);
