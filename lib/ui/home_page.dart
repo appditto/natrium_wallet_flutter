@@ -572,7 +572,6 @@ class TransactionDetailsSheet {
 // Dummy Transaction Card
 Widget buildDummyTransactionCard(
     String type, String amount, String address, BuildContext context) {
-  TransactionDetailsSheet transactionDetails = TransactionDetailsSheet();
   String text;
   IconData icon;
   Color iconColor;
@@ -597,7 +596,6 @@ Widget buildDummyTransactionCard(
       color: KaliumColors.backgroundDark,
       padding: EdgeInsets.all(0.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      onPressed: () => transactionDetails.mainBottomSheet(context),
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
