@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
@@ -16,7 +17,6 @@ import 'package:kalium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
-import 'package:flare_flutter/flare_actor.dart';
 
 class KaliumHomePage extends StatefulWidget {
   @override
@@ -62,10 +62,11 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
   // Return widget for list
   Widget _getListWidget(BuildContext context) {
     if (StateContainer.of(context).wallet.historyLoading) {
-      // Loading animation
+      // Loading Animation
       return Center(
         child: Container(
-          padding: EdgeInsets.all(MediaQuery.of(context).size.width*0.15),
+          margin: EdgeInsets.all(MediaQuery.of(context).size.width*0.2),
+          //Widgth/Height ratio is needed because BoxFit is not working as expected
           width: double.infinity,
           height: MediaQuery.of(context).size.width,
           child: FlareActor("assets/loading_animation.flr",
