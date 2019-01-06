@@ -9,6 +9,7 @@ import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
@@ -304,7 +305,9 @@ class KaliumSendSheet {
                           buildKaliumButton(KaliumButtonType.PRIMARY, 'Send',
                               Dimens.BUTTON_TOP_DIMENS,
                               onPressed: () {
-                                // TODO - Handle send button press
+                                String destination = 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo';
+                                String amount = "1000";
+                                KaliumSendConfirmSheet(amount, destination).mainBottomSheet(context);
                               }),
                         ],
                       ),

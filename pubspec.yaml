@@ -51,6 +51,9 @@ dependencies:
   # Logger
   logging: ^0.11.3+2
 
+  # Native webview plugin
+  flutter_webview_plugin: ^0.3.0+2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

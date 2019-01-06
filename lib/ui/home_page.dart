@@ -142,14 +142,14 @@ class _KaliumHomePageState extends State<KaliumHomePage> with WidgetsBindingObse
     });
   }
 
-  /**
-   * Because there's nothing convenient like DiffUtil, some manual logic
-   * to determine the differences between two lists and to add new items.
-   * 
-   * Depends on == being overriden in the AccountHistoryResponseItem class
-   * 
-   * Required to do it this way for the animation
-   */
+  ///
+  /// Because there's nothing convenient like DiffUtil, some manual logic
+  /// to determine the differences between two lists and to add new items.
+  ///
+  /// Depends on == being overriden in the AccountHistoryResponseItem class
+  ///
+  /// Required to do it this way for the animation
+  ///
   void diffAndUpdateHistoryList(List<AccountHistoryResponseItem> newList) {
     if (newList == null || newList.length == 0 || _historyList == null) return;
     var reversedNew = newList.reversed;
