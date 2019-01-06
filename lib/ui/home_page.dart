@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -30,10 +31,8 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
   // A separate unfortunate instance of this list, is a little unfortunate
   // but seems the only way to handle the animations
   ListModel<AccountHistoryResponseItem> _historyList;
-  List<AccountHistoryResponseItem> _initialItems;
 
   KaliumReceiveSheet receive = new KaliumReceiveSheet();
-  KaliumSendSheet send = new KaliumSendSheet();
 
   @override
   void initState() {
@@ -251,7 +250,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> {
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
-                      onPressed: () => send.mainBottomSheet(context),
+                      onPressed: () => KaliumSendSheet().mainBottomSheet(context),
                       highlightColor: KaliumColors.background40,
                       splashColor: KaliumColors.background40,
                     ),
@@ -304,48 +303,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
             ],
           ),
         ),
-        Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(right: 5.0),
-                child: Text(
-                    StateContainer.of(context).wallet.localCurrencyPrice,
-                    textAlign: TextAlign.center,
-                    style: KaliumStyles.TextStyleCurrencyAlt),
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                      margin: EdgeInsets.only(right: 5.0),
-                      child: Icon(KaliumIcons.bananocurrency,
-                          color: KaliumColors.primary, size: 20)),
-                  Container(
-                    margin: EdgeInsets.only(right: 15.0),
-                    child: Text(
-                        StateContainer.of(context)
-                            .wallet
-                            .getAccountBalanceDisplay(),
-                        textAlign: TextAlign.center,
-                        style: KaliumStyles.TextStyleCurrency),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Container(
-                      child: Icon(KaliumIcons.btc,
-                          color: KaliumColors.text60, size: 14)),
-                  Text(StateContainer.of(context).wallet.btcPrice,
-                      textAlign: TextAlign.center,
-                      style: KaliumStyles.TextStyleCurrencyAlt),
-                ],
-              ),
-            ],
-          ),
-        ),
+        getBalanceWidget(context),
         Container(
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -360,10 +318,64 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
   );
 } //Main Card
 
+// Get balance display
+Widget getBalanceWidget(BuildContext context) {
+  if (StateContainer.of(context).wallet.loading) {
+    return Text("Loading Balance");
+  }
+  return Container(
+    child: GestureDetector(
+      onTap: () {
+        // TODO cycle through BTC/NANO/No conversion price
+      },
+      child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(right: 5.0),
+          child: Text(
+              StateContainer.of(context).wallet.localCurrencyPrice,
+              textAlign: TextAlign.center,
+              style: KaliumStyles.TextStyleCurrencyAlt),
+        ),
+        Row(
+          children: <Widget>[
+            Container(
+                margin: EdgeInsets.only(right: 5.0),
+                child: Icon(KaliumIcons.bananocurrency,
+                    color: KaliumColors.primary, size: 20)),
+            Container(
+              margin: EdgeInsets.only(right: 15.0),
+              child: Text(
+                  StateContainer.of(context)
+                      .wallet
+                      .getAccountBalanceDisplay(),
+                  textAlign: TextAlign.center,
+                  style: KaliumStyles.TextStyleCurrency),
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Container(
+                child: Icon(KaliumIcons.btc,
+                    color: KaliumColors.text60, size: 14)),
+            Text(StateContainer.of(context).wallet.btcPrice,
+                textAlign: TextAlign.center,
+                style: KaliumStyles.TextStyleCurrencyAlt),
+          ],
+        ),
+      ],
+    ),
+    ),
+  );
+}
+
 // Transaction Card
 Widget buildTransactionCard(AccountHistoryResponseItem item,
     Animation<double> animation, BuildContext context) {
-  TransactionDetailsSheet transactionDetails = TransactionDetailsSheet();
+  TransactionDetailsSheet transactionDetails = TransactionDetailsSheet(item.hash, item.account);
   String text;
   IconData icon;
   Color iconColor;
@@ -446,37 +458,99 @@ Widget buildTransactionCard(AccountHistoryResponseItem item,
       ),
     ),
   );
-} //Sent Card End
+} //Transaction Card End
 
 class TransactionDetailsSheet {
+  String _hash;
+  String _address;
+  TransactionDetailsSheet(String hash, String address) : _hash=hash,_address=address;
+  // Address copied items
+  // Initial constants
+  static const String _copyAddress = 'Copy Address';
+  static const String _addressCopied = 'Address Copied';
+  static const TextStyle _copyButtonStyleInitial = KaliumStyles.TextStyleButtonPrimary;
+  static const Color _copyButtonColorInitial = KaliumColors.primary;
+  // Current state references
+  String _copyButtonText;
+  TextStyle _copyButtonStyle;
+  Color _copyButtonBackground;
+  // Timer reference so we can cancel repeated events
+  Timer _addressCopiedTimer;
+
   mainBottomSheet(BuildContext context) {
+    // Set initial state of copy button
+    _copyButtonText = _copyAddress;
+    _copyButtonStyle = _copyButtonStyleInitial;
+    _copyButtonBackground =_copyButtonColorInitial;
+
     showKaliumHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
-          return Container(
-            width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY,
-                            'Copy Address', Dimens.BUTTON_TOP_EXCEPTION_DIMENS),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                            'View Details', Dimens.BUTTON_BOTTOM_DIMENS),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
+          return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              width: double.infinity,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          // TODO move copy address stuff to a re-usable builder function
+                          Expanded(
+                            child: Container(
+                              margin:
+                                  EdgeInsets.fromLTRB(Dimens.BUTTON_TOP_EXCEPTION_DIMENS[0],
+                                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
+                                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[2],
+                                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[3]),
+                              child: FlatButton(
+                                shape:
+                                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+                                color: _copyButtonBackground,
+                                child: Text(_copyButtonText,
+                                    textAlign: TextAlign.center,
+                                    style: _copyButtonStyle),
+                                padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+                                onPressed: () {
+                                  Clipboard.setData(new ClipboardData(text: _address));
+                                  setState(() {
+                                    // Set copied style
+                                    _copyButtonText = _addressCopied;
+                                    _copyButtonStyle = KaliumStyles.TextStyleButtonPrimaryGreen;
+                                    _copyButtonBackground = KaliumColors.green;
+                                    if (_addressCopiedTimer != null) {
+                                      _addressCopiedTimer.cancel();
+                                    }
+                                    _addressCopiedTimer = new Timer(
+                                        const Duration(milliseconds: 800), () {
+                                      setState(() {
+                                        _copyButtonText = _copyAddress;
+                                        _copyButtonStyle = _copyButtonStyleInitial;
+                                        _copyButtonBackground = _copyButtonColorInitial;
+                                      });
+                                    });
+                                  });
+                                },
+                                highlightColor: KaliumColors.success30,
+                                splashColor: KaliumColors.successDark,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
+                              'View Details', Dimens.BUTTON_BOTTOM_DIMENS),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          });
         });
   }
 }
