@@ -591,6 +591,9 @@ Widget buildDummyTransactionCard(
       borderRadius: BorderRadius.circular(10.0),
     ),
     child: FlatButton(
+      onPressed: (){
+        return null;
+      },
       highlightColor: KaliumColors.text15,
       splashColor: KaliumColors.text15,
       color: KaliumColors.backgroundDark,
