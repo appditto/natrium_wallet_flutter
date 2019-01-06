@@ -6,6 +6,7 @@ import 'package:kalium_wallet_flutter/network/model/base_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request_item.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/blocks_info_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
@@ -80,6 +81,19 @@ class AccountService {
       _listeners.forEach((Function callback){
         callback(resp);
       });
+    } else if (msg.containsKey("blocks")) {
+      if (msg['blocks'] is Map && msg['blocks'].length > 0) {
+        Map<String, Map> blockMap = msg['blocks'];
+        if (blockMap != null && blockMap.length > 0) {
+          if (blockMap[blockMap.keys.first].containsKey('block_account')) {
+            // Blocks Info Response
+            BlocksInfoResponse resp = BlocksInfoResponse.fromJson(msg);
+            _listeners.forEach((Function callback){
+              callback(resp);
+            });
+          }
+        }
+      }
     }
     if (_requestQueue.length > 0) {
       _requestQueue.removeFirst();

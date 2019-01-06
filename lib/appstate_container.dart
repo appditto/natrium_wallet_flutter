@@ -2,9 +2,14 @@
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kalium_wallet_flutter/model/state_block.dart';
+import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
+import 'package:kalium_wallet_flutter/network/model/request/blocks_info_request.dart';
+import 'package:kalium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/blocks_info_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
@@ -50,9 +55,16 @@ class StateContainer extends StatefulWidget {
   StateContainerState createState() => new StateContainerState();
 }
 
+/// TODO
+/// since we're doing the bulk of the heavy lifting here, we should probably document it better
+/// and organize it a bit
 class StateContainerState extends State<StateContainer> {
   // Whichever properties you wanna pass around your app as state
   KaliumWallet wallet;
+
+  // This map stashes pending process requests, this is because we need to update these requests
+  // after a blocks_info with the balance after send, and sign the block
+  Map<String, StateBlock> previousPendingMap = new Map();
 
   @override
   void initState() {
@@ -82,6 +94,8 @@ class StateContainerState extends State<StateContainer> {
         wallet.btcPrice = message.btcPrice.toString();
         wallet.localCurrencyPrice = message.price.toString();
       });
+    } else if (message is BlocksInfoResponse) {
+      // TODO - handle
     }
   }
 
@@ -103,6 +117,7 @@ class StateContainerState extends State<StateContainer> {
     }
   }
 
+  /// Handle account_subscribe response
   void handleSubscribeResponse(SubscribeResponse response) {
     setState(() {
       wallet.loading = false;
@@ -127,7 +142,6 @@ class StateContainerState extends State<StateContainer> {
     });
   }
   
-
   void requestUpdate() {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
@@ -137,6 +151,31 @@ class StateContainerState extends State<StateContainer> {
       });
       //TODO currency
     }
+  }
+
+  ///
+  /// Create a state block send request
+  /// 
+  /// @param previous - Previous Hash
+  /// @param destination - Destination address
+  /// @param amount - Amount to send in RAW
+  /// 
+  void requestSend(String previous, String destination, String amount) {
+    // TODO - Allow user to set representative
+    String representative = wallet.representative;
+
+    StateBlock sendBlock = new StateBlock(
+      subtype:BlockTypes.SEND,
+      previous: previous,
+      representative: representative,
+      balance:amount,
+      link:destination,
+      account:wallet.address
+    );
+    previousPendingMap.putIfAbsent(previous, () => sendBlock);
+
+    accountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
+    accountService.processQueue();
   }
 
   void logOut() {
