@@ -71,6 +71,20 @@ class KaliumStyles {
                                                 fontWeight: FontWeight.w100,
                                                 color: KaliumColors.text60,
                                               );
+  // Transaction Welcome
+  static const TextStyleTransactionWelcome = TextStyle(
+                                                fontSize: KaliumFontSizes.small,
+                                                fontWeight: FontWeight.w200,
+                                                color: KaliumColors.text,
+                                                fontFamily: 'NunitoSans',
+                                              );
+  // Transaction Welcome "BANANO" Text
+  static const TextStyleTransactionWelcomePrimary = TextStyle(
+                                                fontSize: KaliumFontSizes.small,
+                                                fontWeight: FontWeight.w200,
+                                                color: KaliumColors.primary,
+                                                fontFamily: 'NunitoSans',
+                                              );
   // Version info in settings
   static const  TextStyleVersion = TextStyle(
                                         fontSize: KaliumFontSizes.small,
