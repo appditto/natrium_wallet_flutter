@@ -106,6 +106,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                           Container(
                             margin:
                                 EdgeInsets.only(left: 50, right: 50, top: 15.0),
+                            alignment: Alignment.centerLeft,
                             child: Text(
                                 "Below is your wallet's seed. It is crucial that you backup your seed and never store it as plaintext or a screenshot.",
                                 style: KaliumStyles.TextStyleParagraph),

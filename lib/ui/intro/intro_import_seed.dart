@@ -102,16 +102,18 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                           Container(
                             margin:
                                 EdgeInsets.only(left: 50, right: 50, top: 15.0),
+                            alignment: Alignment.centerLeft,
                             child: Text(
                                 "Please enter your seed below.",
-                                style: KaliumStyles.TextStyleParagraph),
+                                style: KaliumStyles.TextStyleParagraph,
+                                textAlign: TextAlign.left,),
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 50, right: 50, top: 20),
                             padding: EdgeInsets.only(left:20),
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: KaliumColors.backgroundDarkest,
+                              color: KaliumColors.backgroundDark,
                               borderRadius: BorderRadius.circular(25),
                             ),
                             child: TextField(

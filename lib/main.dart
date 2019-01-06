@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:logging/logging.dart';
 
 import 'package:kalium_wallet_flutter/appstate_container.dart';
@@ -90,9 +89,7 @@ class SplashState extends State<Splash> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
     return new Scaffold(
-      body: new Center(
-        child: new Text('Loading...'),
-      ),
+      backgroundColor: KaliumColors.background,
     );
   }
 }
