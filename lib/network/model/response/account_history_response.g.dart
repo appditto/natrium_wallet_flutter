@@ -13,13 +13,9 @@ AccountHistoryResponse _$AccountHistoryResponseFromJson(
           ?.map((e) => e == null
               ? null
               : AccountHistoryResponseItem.fromJson(e as Map<String, dynamic>))
-          ?.toList())
-    ..messageType = json['messageType'] as String;
+          ?.toList());
 }
 
 Map<String, dynamic> _$AccountHistoryResponseToJson(
         AccountHistoryResponse instance) =>
-    <String, dynamic>{
-      'messageType': instance.messageType,
-      'history': instance.history
-    };
+    <String, dynamic>{'history': instance.history};
