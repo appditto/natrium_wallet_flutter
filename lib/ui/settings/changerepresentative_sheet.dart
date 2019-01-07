@@ -109,19 +109,19 @@ class KaliumChangeRepresentativeSheet {
                             maxLines: null,
                             autocorrect: false,
                             decoration: InputDecoration(
-                              hintText: "Enter New Representative",
+                              hintText: "Enter New Rep",
                               suffixIcon: Container(
-                                width: 20,
-                                height: 20,
+                                width: 50.0,
                                 child: FlatButton(
+                                  padding: EdgeInsets.all(15.0),
                                   onPressed: () {
                                     return;
                                   },
                                   child: Icon(KaliumIcons.paste,
-                                      size: 20, color: KaliumColors.primary),
+                                      size: 20.0, color: KaliumColors.primary),
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
-                                          BorderRadius.circular(100.0)),
+                                          BorderRadius.circular(200.0)),
                                   materialTapTargetSize:
                                       MaterialTapTargetSize.padded,
                                 ),

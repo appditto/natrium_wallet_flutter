@@ -34,7 +34,7 @@ class KaliumApp extends StatelessWidget {
       theme: ThemeData(
         dialogBackgroundColor: KaliumColors.backgroundDark,
         primaryColor: KaliumColors.primary,
-        accentColor: KaliumColors.primary,
+        accentColor: KaliumColors.primary15,
         backgroundColor: KaliumColors.backgroundDark,
         fontFamily: 'NunitoSans',
         brightness: Brightness.dark,

@@ -181,7 +181,7 @@ class KaliumSendSheet {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(left: 70, right: 70),
+                          margin: EdgeInsets.only(left: 60, right: 60),
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -216,16 +216,17 @@ class KaliumSendSheet {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          margin: EdgeInsets.only(left: 70, right: 70, top: 20),
+                          margin: EdgeInsets.only(left: 60, right: 60, top: 20),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: TextField(
+                            textAlign:TextAlign.center,
                             focusNode: _sendAddressFocusNode,
                             controller: _sendAddressController,
+                            
                             cursorColor: KaliumColors.primary,
                             keyboardAppearance: Brightness.dark,
                             inputFormatters: [
@@ -238,12 +239,27 @@ class KaliumSendSheet {
                               hintText: _addressHint,
                               border: InputBorder.none,
                               hintStyle: TextStyle(
+                                fontSize: 16.0,
                                   fontWeight: FontWeight.w100,
                                   fontFamily: 'NunitoSans'),
-                              suffixIcon: Container(
-                                width: 20,
-                                height: 20,
+                              prefixIcon: Container(
+                                width: 50,
                                 child: FlatButton(
+                                  padding: EdgeInsets.all(15.0),
+                                  onPressed: () {
+                                    return null;
+                                  },
+                                  child: Icon(KaliumIcons.at,
+                                      size: 20, color: KaliumColors.primary),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(200.0)),
+                                ),
+                              ),
+                              suffixIcon: Container(
+                                width: 50,
+                                child: FlatButton(
+                                  padding: EdgeInsets.all(15.0),
                                   onPressed: () {
                                     Clipboard.getData("text/plain").then((ClipboardData data) {
                                       if (data == null || data.text == null) {
@@ -262,13 +278,10 @@ class KaliumSendSheet {
                                       size: 20, color: KaliumColors.primary),
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
-                                      BorderRadius.circular(100.0)),
-                                  materialTapTargetSize:
-                                  MaterialTapTargetSize.padded,
+                                      BorderRadius.circular(200.0)),
                                 ),
                               ),
                             ),
-                            textAlign: TextAlign.center,
                             style: _sendAddressStyle,
                             onChanged: (text) {
                               // Always reset the error message to be less annoying
