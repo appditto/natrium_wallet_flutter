@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
@@ -88,11 +89,13 @@ class UIUtil {
   }
 
   static Widget showBlockExplorerWebview(String hash) {
+
     return  WebviewScaffold(
       url: KaliumLocalization.BLOCK_EXPLORER_URL + hash,
       appBar: new AppBar(
-        backgroundColor: KaliumColors.greyDark,
-        brightness: Brightness.light,
+        backgroundColor: KaliumColors.background,
+        brightness: Brightness.dark,
+        iconTheme: IconThemeData(color: KaliumColors.text),
       ),
     );
   }
