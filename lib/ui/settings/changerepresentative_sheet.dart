@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
@@ -89,7 +90,7 @@ class KaliumChangeRepresentativeSheet {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: UIUtil.threeLineAddressText(
-                              "ban_1yekta1u3ymis5tji4jxpr4iz8a9bp4bjoz5qdw3wstbub3wgxwi3nfuuyek"),
+                              StateContainer.of(context).wallet.representative),
                         ),
                         Container(
                           margin: EdgeInsets.only(left: 50, right: 50, top: 20),
