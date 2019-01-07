@@ -21,146 +21,141 @@ class KaliumSendCompleteSheet {
         context: context,
         animationDurationMs: 100,
         removeUntilHome: true,
+        closeOnTap: true,
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return GestureDetector(
-              onTap: () {
-                // Close when tapped anywhere
-                Navigator.of(context).pop();
-              },
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            return Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      width: 50,
+                      height: 50,
+                      margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(KaliumIcons.close,
+                            size: 16, color: KaliumColors.text),
+                        padding: EdgeInsets.all(17.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100.0)),
+                        materialTapTargetSize: MaterialTapTargetSize.padded,
+                      ),
+                    ),
+
+                    //This container is a temporary solution for the alignment problem
+                    Container(
+                      width: 50,
+                      height: 50,
+                      margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                    ),
+                  ],
+                ),
+
+                Expanded(
+                  //A main container that holds the text fields
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        width: 50,
-                        height: 50,
-                        margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                        child: FlatButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(KaliumIcons.close,
-                              size: 16, color: KaliumColors.text),
-                          padding: EdgeInsets.all(17.0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100.0)),
-                          materialTapTargetSize: MaterialTapTargetSize.padded,
+                        margin: EdgeInsets.only(bottom: 10.0),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "SENT",
+                              style: TextStyle(
+                                fontSize: 28.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-
-                      //This container is a temporary solution for the alignment problem
                       Container(
-                        width: 50,
-                        height: 50,
-                        margin: EdgeInsets.only(top: 10.0, right: 10.0),
-                      ),
-                    ],
-                  ),
-
-                  Expanded(
-                    //A main container that holds the text fields
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 10.0),
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                "SENT",
+                        margin: EdgeInsets.only(left: 60, right: 60),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: KaliumColors.backgroundDarkest,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            text: '',
+                            children: [
+                              TextSpan(
+                                text: "$_amount",
                                 style: TextStyle(
-                                  fontSize: 28.0,
+                                  color: KaliumColors.primary,
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              TextSpan(
+                                text: " BAN",
+                                style: TextStyle(
+                                  color: KaliumColors.primary,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w100,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        Container(
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 30.0, bottom: 10),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "TO",
+                              style: TextStyle(
+                                fontSize: 28.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 25.0, vertical: 15.0),
                           margin: EdgeInsets.only(left: 60, right: 60),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: KaliumColors.backgroundDarkest,
-                            borderRadius: BorderRadius.circular(50),
+                            borderRadius: BorderRadius.circular(25),
                           ),
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: '',
-                              children: [
-                                TextSpan(
-                                  text: "$_amount",
-                                  style: TextStyle(
-                                    color: KaliumColors.primary,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: " BAN",
-                                  style: TextStyle(
-                                    color: KaliumColors.primary,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w100,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 30.0, bottom: 10),
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                "TO",
-                                style: TextStyle(
-                                  fontSize: 28.0,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 25.0, vertical: 15.0),
-                            margin: EdgeInsets.only(left: 60, right: 60),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: KaliumColors.backgroundDarkest,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: UIUtil.threeLineAddressText(_destination)),
-                      ],
-                    ),
+                          child: UIUtil.threeLineAddressText(_destination)),
+                    ],
                   ),
+                ),
 
-                  //A column with "Scan QR Code" and "Send" buttons
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            KaliumButton.buildKaliumButton(
-                                KaliumButtonType.PRIMARY_OUTLINE,
-                                'CLOSE',
-                                Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                              Navigator.of(context).pop();
-                            }),
-                          ],
-                        ),
-                      ],
-                    ),
+                //A column with "Scan QR Code" and "Send" buttons
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          KaliumButton.buildKaliumButton(
+                              KaliumButtonType.PRIMARY_OUTLINE,
+                              'CLOSE',
+                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                            Navigator.of(context).pop();
+                          }),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           });
         });

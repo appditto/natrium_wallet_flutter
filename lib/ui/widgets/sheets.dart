@@ -11,7 +11,8 @@ class KaliumSheets {
     double radius = 30.0,
     Color bgColor = KaliumColors.overlay70,
     int animationDurationMs = 200,
-    bool removeUntilHome = false
+    bool removeUntilHome = false,
+    bool closeOnTap = false
   }) {
     assert(context != null);
     assert(builder != null);
@@ -24,7 +25,8 @@ class KaliumSheets {
           barrierLabel:
               MaterialLocalizations.of(context).modalBarrierDismissLabel,
           bgColor: bgColor,
-          animationDurationMs: animationDurationMs
+          animationDurationMs: animationDurationMs,
+          closeOnTap: closeOnTap
     );
     if (removeUntilHome) {
       return Navigator.pushAndRemoveUntil<T>(
@@ -97,7 +99,8 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
     this.radius,
     RouteSettings settings,
     this.bgColor,
-    this.animationDurationMs
+    this.animationDurationMs,
+    this.closeOnTap
   }) : super(settings: settings);
 
   final WidgetBuilder builder;
@@ -105,6 +108,7 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
   final Color color;
   final Color bgColor;
   final int animationDurationMs;
+  final bool closeOnTap;
 
   @override
   Color get barrierColor => bgColor;
@@ -131,27 +135,35 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-        child: AnimatedBuilder(
-          animation: animation,
-          builder: (context, child) => CustomSingleChildLayout(
-                delegate: _KaliumHeightNineSheetLayout(animation.value),
-                child: BottomSheet(
-                  animationController: _animationController,
-                  onClosing: () => Navigator.pop(context),
-                  builder: (context) => Container(
-                        decoration: BoxDecoration(
-                          color: this.color,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(this.radius),
-                            topRight: Radius.circular(this.radius),
+      child: GestureDetector(
+        onTap: () {
+          if (closeOnTap) {
+            // Close when tapped anywhere
+            Navigator.of(context).pop();
+          }
+        },
+        child: Theme(
+          data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+          child: AnimatedBuilder(
+            animation: animation,
+            builder: (context, child) => CustomSingleChildLayout(
+                  delegate: _KaliumHeightNineSheetLayout(animation.value),
+                  child: BottomSheet(
+                    animationController: _animationController,
+                    onClosing: () => Navigator.pop(context),
+                    builder: (context) => Container(
+                          decoration: BoxDecoration(
+                            color: this.color,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(this.radius),
+                              topRight: Radius.circular(this.radius),
+                            ),
                           ),
+                          child: Builder(builder: this.builder),
                         ),
-                        child: Builder(builder: this.builder),
-                      ),
+                  ),
                 ),
-              ),
+          ),
         ),
       ),
     );
