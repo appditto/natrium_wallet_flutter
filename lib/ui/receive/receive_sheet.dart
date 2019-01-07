@@ -34,7 +34,7 @@ class KaliumReceiveSheet {
     _copyButtonStyle = _copyButtonStyleInitial;
     _copyButtonBackground =_copyButtonColorInitial;
 
-    showKaliumHeightEightSheet(
+    KaliumSheets.showKaliumHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
@@ -64,7 +64,7 @@ class KaliumReceiveSheet {
                     //Container for the address text
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
-                      child: threeLineAddressText(
+                      child: UIUtil.threeLineAddressText(
                           _wallet.address),
                     ),
 
@@ -139,7 +139,7 @@ class KaliumReceiveSheet {
                     ),
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
+                        KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
                             'Share Address', Dimens.BUTTON_BOTTOM_DIMENS),
                       ],
                     ),

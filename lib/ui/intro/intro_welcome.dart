@@ -62,7 +62,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(
+                        KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY,
                             'New Wallet',
                             Dimens.BUTTON_TOP_DIMENS, onPressed: () {
@@ -72,7 +72,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                     ),
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(
+                        KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY_OUTLINE,
                             'Import Wallet',
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {

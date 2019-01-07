@@ -86,14 +86,14 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   Divider(height: 2),
                   buildSettingsListItemSingleLine('Logout', KaliumIcons.logout,
                       onPressed: () {
-                    showConfirmDialog(
+                    KaliumDialogs.showConfirmDialog(
                         context,
                         "WARNING",
                         "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
                         "DELETE SEED AND LOGOUT",
                       () {
                         // Show another confirm dialog
-                        showConfirmDialog(
+                        KaliumDialogs.showConfirmDialog(
                           context,
                           "Are you sure?",
                           "As long as you've backed up your seed you have nothing to worry about.",

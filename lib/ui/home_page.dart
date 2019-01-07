@@ -77,7 +77,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> with WidgetsBindingObse
   // Used to build list items that haven't been removed.
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
-    return buildTransactionCard(_historyList[index], animation, context);
+    return _buildTransactionCard(_historyList[index], animation, context);
   }
 
   // Return widget for list
@@ -99,10 +99,10 @@ class _KaliumHomePageState extends State<KaliumHomePage> with WidgetsBindingObse
         child: ListView(
           padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
           children: <Widget>[
-            buildWelcomeTransactionCard(),
-            buildDummyTransactionCard(
+            _buildWelcomeTransactionCard(),
+            _buildDummyTransactionCard(
                 "Sent", "A little", "to a random monkey", context),
-            buildDummyTransactionCard(
+            _buildDummyTransactionCard(
                 "Received", "A lot of", "from a random monkey", context),
           ],
         ),
@@ -299,6 +299,237 @@ class _KaliumHomePageState extends State<KaliumHomePage> with WidgetsBindingObse
       ),
     );
   }
+
+// Transaction Card/List Item
+Widget _buildTransactionCard(AccountHistoryResponseItem item,
+    Animation<double> animation, BuildContext context) {
+  TransactionDetailsSheet transactionDetails = TransactionDetailsSheet(item.hash, item.account);
+  String text;
+  IconData icon;
+  Color iconColor;
+  if (item.type == BlockTypes.SEND) {
+    text = "Sent";
+    icon = KaliumIcons.sent;
+    iconColor = KaliumColors.text60;
+  } else {
+    text = "Received";
+    icon = KaliumIcons.received;
+    iconColor = KaliumColors.primary60;
+  }
+  return SizeTransition(
+    axis: Axis.vertical,
+    axisAlignment: -1.0,
+    sizeFactor: animation,
+    child: Container(
+      margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+      decoration: BoxDecoration(
+        color: KaliumColors.backgroundDark,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: FlatButton(
+        highlightColor: KaliumColors.text15,
+        splashColor: KaliumColors.text15,
+        color: KaliumColors.backgroundDark,
+        padding: EdgeInsets.all(0.0),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        onPressed: () => transactionDetails.mainBottomSheet(context),
+        child: Center(
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                        margin: EdgeInsets.only(right: 16.0),
+                        child: Icon(icon, color: iconColor, size: 20)),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          text,
+                          textAlign: TextAlign.left,
+                          style: KaliumStyles.TextStyleTransactionType,
+                        ),
+                        RichText(
+                          textAlign: TextAlign.left,
+                          text: TextSpan(
+                            text: '',
+                            children: [
+                              TextSpan(
+                                text: item.getFormattedAmount(),
+                                style: KaliumStyles.TextStyleTransactionAmount,
+                              ),
+                              TextSpan(
+                                text: " BAN",
+                                style: KaliumStyles.TextStyleTransactionUnit,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Text(
+                  item.getShortString(),
+                  textAlign: TextAlign.right,
+                  style: KaliumStyles.TextStyleTransactionAddress,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+} //Transaction Card End
+
+  // Dummy Transaction Card
+  Widget _buildDummyTransactionCard(
+      String type, String amount, String address, BuildContext context) {
+    String text;
+    IconData icon;
+    Color iconColor;
+    if (type == "Sent") {
+      text = "Sent";
+      icon = KaliumIcons.sent;
+      iconColor = KaliumColors.text60;
+    } else {
+      text = "Received";
+      icon = KaliumIcons.received;
+      iconColor = KaliumColors.primary60;
+    }
+    return Container(
+      margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+      decoration: BoxDecoration(
+        color: KaliumColors.backgroundDark,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: FlatButton(
+        onPressed: (){
+          return null;
+        },
+        highlightColor: KaliumColors.text15,
+        splashColor: KaliumColors.text15,
+        color: KaliumColors.backgroundDark,
+        padding: EdgeInsets.all(0.0),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                        margin: EdgeInsets.only(right: 16.0),
+                        child: Icon(icon, color: iconColor, size: 20)),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          text,
+                          textAlign: TextAlign.left,
+                          style: KaliumStyles.TextStyleTransactionType,
+                        ),
+                        RichText(
+                          textAlign: TextAlign.left,
+                          text: TextSpan(
+                            text: '',
+                            children: [
+                              TextSpan(
+                                text: amount,
+                                style: KaliumStyles.TextStyleTransactionAmount,
+                              ),
+                              TextSpan(
+                                text: " BAN",
+                                style: KaliumStyles.TextStyleTransactionUnit,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Text(
+                  address,
+                  textAlign: TextAlign.right,
+                  style: KaliumStyles.TextStyleTransactionAddress,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  } //Dummy Transaction Card End
+
+  // Welcome Card
+  Widget _buildWelcomeTransactionCard() {
+    return Container(
+      margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+      decoration: BoxDecoration(
+        color: KaliumColors.backgroundDark,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          children: <Widget>[
+            Container(
+              width: 7.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    bottomLeft: Radius.circular(10.0)),
+                color: KaliumColors.primary,
+              ),
+            ),
+            Flexible(
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 14.0, horizontal: 15.0),
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    text: '',
+                    children: [
+                      TextSpan(
+                        text: "Welcome to Kalium. Once you receive ",
+                        style: KaliumStyles.TextStyleTransactionWelcome,
+                      ),
+                      TextSpan(
+                        text: "BANANO",
+                        style: KaliumStyles.TextStyleTransactionWelcomePrimary,
+                      ),
+                      TextSpan(
+                        text: ", transaction will show up like below:",
+                        style: KaliumStyles.TextStyleTransactionWelcome,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width: 7.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10.0),
+                    bottomRight: Radius.circular(10.0)),
+                color: KaliumColors.primary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  } // Welcome Card End
 }
 
 //Main Card
@@ -408,94 +639,6 @@ Widget getBalanceWidget(BuildContext context) {
   );
 }
 
-// Transaction Card
-Widget buildTransactionCard(AccountHistoryResponseItem item,
-    Animation<double> animation, BuildContext context) {
-  TransactionDetailsSheet transactionDetails = TransactionDetailsSheet(item.hash, item.account);
-  String text;
-  IconData icon;
-  Color iconColor;
-  if (item.type == BlockTypes.SEND) {
-    text = "Sent";
-    icon = KaliumIcons.sent;
-    iconColor = KaliumColors.text60;
-  } else {
-    text = "Received";
-    icon = KaliumIcons.received;
-    iconColor = KaliumColors.primary60;
-  }
-  return SizeTransition(
-    axis: Axis.vertical,
-    axisAlignment: -1.0,
-    sizeFactor: animation,
-    child: Container(
-      margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
-      decoration: BoxDecoration(
-        color: KaliumColors.backgroundDark,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: FlatButton(
-        highlightColor: KaliumColors.text15,
-        splashColor: KaliumColors.text15,
-        color: KaliumColors.backgroundDark,
-        padding: EdgeInsets.all(0.0),
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        onPressed: () => transactionDetails.mainBottomSheet(context),
-        child: Center(
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                        margin: EdgeInsets.only(right: 16.0),
-                        child: Icon(icon, color: iconColor, size: 20)),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          text,
-                          textAlign: TextAlign.left,
-                          style: KaliumStyles.TextStyleTransactionType,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.left,
-                          text: TextSpan(
-                            text: '',
-                            children: [
-                              TextSpan(
-                                text: item.getFormattedAmount(),
-                                style: KaliumStyles.TextStyleTransactionAmount,
-                              ),
-                              TextSpan(
-                                text: " BAN",
-                                style: KaliumStyles.TextStyleTransactionUnit,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Text(
-                  item.getShortString(),
-                  textAlign: TextAlign.right,
-                  style: KaliumStyles.TextStyleTransactionAddress,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
-} //Transaction Card End
-
 class TransactionDetailsSheet {
   String _hash;
   String _address;
@@ -519,7 +662,7 @@ class TransactionDetailsSheet {
     _copyButtonStyle = _copyButtonStyleInitial;
     _copyButtonBackground =_copyButtonColorInitial;
 
-    showKaliumHeightEightSheet(
+    KaliumSheets.showKaliumHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
@@ -577,12 +720,12 @@ class TransactionDetailsSheet {
                       ),
                       Row(
                         children: <Widget>[
-                          buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
+                          KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
                               'View Details', Dimens.BUTTON_BOTTOM_DIMENS,
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(builder: (BuildContext context) {
-                                return showBlockExplorerWebview(_hash);
+                                return UIUtil.showBlockExplorerWebview(_hash);
                               }));
                           }),
                         ],
@@ -596,146 +739,3 @@ class TransactionDetailsSheet {
         });
   }
 }
-
-// Dummy Transaction Card
-Widget buildDummyTransactionCard(
-    String type, String amount, String address, BuildContext context) {
-  String text;
-  IconData icon;
-  Color iconColor;
-  if (type == "Sent") {
-    text = "Sent";
-    icon = KaliumIcons.sent;
-    iconColor = KaliumColors.text60;
-  } else {
-    text = "Received";
-    icon = KaliumIcons.received;
-    iconColor = KaliumColors.primary60;
-  }
-  return Container(
-    margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
-    decoration: BoxDecoration(
-      color: KaliumColors.backgroundDark,
-      borderRadius: BorderRadius.circular(10.0),
-    ),
-    child: FlatButton(
-      onPressed: (){
-        return null;
-      },
-      highlightColor: KaliumColors.text15,
-      splashColor: KaliumColors.text15,
-      color: KaliumColors.backgroundDark,
-      padding: EdgeInsets.all(0.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Container(
-                      margin: EdgeInsets.only(right: 16.0),
-                      child: Icon(icon, color: iconColor, size: 20)),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        text,
-                        textAlign: TextAlign.left,
-                        style: KaliumStyles.TextStyleTransactionType,
-                      ),
-                      RichText(
-                        textAlign: TextAlign.left,
-                        text: TextSpan(
-                          text: '',
-                          children: [
-                            TextSpan(
-                              text: amount,
-                              style: KaliumStyles.TextStyleTransactionAmount,
-                            ),
-                            TextSpan(
-                              text: " BAN",
-                              style: KaliumStyles.TextStyleTransactionUnit,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Text(
-                address,
-                textAlign: TextAlign.right,
-                style: KaliumStyles.TextStyleTransactionAddress,
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
-} //Dummy Transaction Card End
-
-// Welcome Card
-Widget buildWelcomeTransactionCard() {
-  return Container(
-    margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
-    decoration: BoxDecoration(
-      color: KaliumColors.backgroundDark,
-      borderRadius: BorderRadius.circular(10.0),
-    ),
-    child: IntrinsicHeight(
-      child: Row(
-        children: <Widget>[
-          Container(
-            width: 7.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0)),
-              color: KaliumColors.primary,
-            ),
-          ),
-          Flexible(
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 14.0, horizontal: 15.0),
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  text: '',
-                  children: [
-                    TextSpan(
-                      text: "Welcome to Kalium. Once you receive ",
-                      style: KaliumStyles.TextStyleTransactionWelcome,
-                    ),
-                    TextSpan(
-                      text: "BANANO",
-                      style: KaliumStyles.TextStyleTransactionWelcomePrimary,
-                    ),
-                    TextSpan(
-                      text: ", transaction will show up like below:",
-                      style: KaliumStyles.TextStyleTransactionWelcome,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Container(
-            width: 7.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0)),
-              color: KaliumColors.primary,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-} // Welcome Card End

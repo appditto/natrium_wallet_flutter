@@ -2,28 +2,52 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 
-//Kalium Ninty Height Sheet
-Future<T> showKaliumHeightNineSheet<T>({
-  @required BuildContext context,
-  @required WidgetBuilder builder,
-  Color color = KaliumColors.backgroundDark,
-  double radius = 30.0,
-}) {
-  assert(context != null);
-  assert(builder != null);
-  assert(radius != null && radius > 0.0);
-  assert(color != null && color != Colors.transparent);
-  return Navigator.push<T>(
-      context,
-      _KaliumHeightNineModalRoute<T>(
-        builder: builder,
-        color: color,
-        radius: radius,
-        barrierLabel:
-            MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      ));
-}
+class KaliumSheets {
+  //Kalium Ninty Height Sheet
+  static Future<T> showKaliumHeightNineSheet<T>({
+    @required BuildContext context,
+    @required WidgetBuilder builder,
+    Color color = KaliumColors.backgroundDark,
+    double radius = 30.0,
+  }) {
+    assert(context != null);
+    assert(builder != null);
+    assert(radius != null && radius > 0.0);
+    assert(color != null && color != Colors.transparent);
+    return Navigator.push<T>(
+        context,
+        _KaliumHeightNineModalRoute<T>(
+          builder: builder,
+          color: color,
+          radius: radius,
+          barrierLabel:
+              MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        ));
+  }
 
+
+  //Kalium Height Eigth Sheet
+  static Future<T> showKaliumHeightEightSheet<T>({
+    @required BuildContext context,
+    @required WidgetBuilder builder,
+    Color color = KaliumColors.backgroundDark,
+    double radius = 30.0,
+  }) {
+    assert(context != null);
+    assert(builder != null);
+    assert(radius != null && radius > 0.0);
+    assert(color != null && color != Colors.transparent);
+    return Navigator.push<T>(
+        context,
+        _KaliumHeightEightModalRoute<T>(
+          builder: builder,
+          color: color,
+          radius: radius,
+          barrierLabel:
+              MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        ));
+  }
+}
 class _KaliumHeightNineSheetLayout extends SingleChildLayoutDelegate {
   _KaliumHeightNineSheetLayout(this.progress);
 
@@ -123,28 +147,6 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
   Duration get transitionDuration => Duration(milliseconds: 200);
 }
 //Kalium Height Nine Sheet End
-
-//Kalium Height Eigth Sheet
-Future<T> showKaliumHeightEightSheet<T>({
-  @required BuildContext context,
-  @required WidgetBuilder builder,
-  Color color = KaliumColors.backgroundDark,
-  double radius = 30.0,
-}) {
-  assert(context != null);
-  assert(builder != null);
-  assert(radius != null && radius > 0.0);
-  assert(color != null && color != Colors.transparent);
-  return Navigator.push<T>(
-      context,
-      _KaliumHeightEightModalRoute<T>(
-        builder: builder,
-        color: color,
-        radius: radius,
-        barrierLabel:
-            MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      ));
-}
 
 class _KaliumHeightEightSheetLayout extends SingleChildLayoutDelegate {
   _KaliumHeightEightSheetLayout(this.progress);

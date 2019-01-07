@@ -23,7 +23,7 @@ class KaliumSendConfirmSheet {
   }
 
   mainBottomSheet(BuildContext context) {
-    showKaliumHeightNineSheet(
+    KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(builder: (BuildContext context, StateSetter setState)
@@ -66,7 +66,7 @@ class KaliumSendConfirmSheet {
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 10.0),
-                            child: threeLineAddressText(
+                            child: UIUtil.threeLineAddressText(
                                 StateContainer
                                     .of(context)
                                     .wallet
@@ -118,7 +118,7 @@ class KaliumSendConfirmSheet {
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: threeLineAddressText(_destination)
+                          child: UIUtil.threeLineAddressText(_destination)
                         ),
                       ],
                     ),
@@ -131,7 +131,7 @@ class KaliumSendConfirmSheet {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          buildKaliumButton(KaliumButtonType.PRIMARY, 'CONFIRM',
+                          KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY, 'CONFIRM',
                               Dimens.BUTTON_TOP_DIMENS,
                               onPressed: () {
                                 // TODO - Handle send button press
@@ -140,7 +140,7 @@ class KaliumSendConfirmSheet {
                       ),
                       Row(
                         children: <Widget>[
-                          buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
+                          KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
                               'CANCEL', Dimens.BUTTON_BOTTOM_DIMENS,
                               onPressed: () {
                                 Navigator.of(context).pop();

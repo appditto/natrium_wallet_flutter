@@ -38,7 +38,7 @@ class KaliumSendSheet {
   }
 
   mainBottomSheet(BuildContext context) {
-    showKaliumHeightNineSheet(
+    KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(builder: (BuildContext context, StateSetter setState)
@@ -105,7 +105,7 @@ class KaliumSendSheet {
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 10.0),
-                            child: threeLineAddressText(
+                            child: UIUtil.threeLineAddressText(
                                 StateContainer
                                     .of(context)
                                     .wallet
@@ -302,7 +302,7 @@ class KaliumSendSheet {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          buildKaliumButton(KaliumButtonType.PRIMARY, 'Send',
+                          KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY, 'Send',
                               Dimens.BUTTON_TOP_DIMENS,
                               onPressed: () {
                                 String destination = 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo';
@@ -313,7 +313,7 @@ class KaliumSendSheet {
                       ),
                       Row(
                         children: <Widget>[
-                          buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
+                          KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
                               'Scan QR Code', Dimens.BUTTON_BOTTOM_DIMENS,
                               onPressed: () {
                                 // TODO - Handle QR code pressed

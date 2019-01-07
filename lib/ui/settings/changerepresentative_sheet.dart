@@ -10,7 +10,7 @@ import 'package:kalium_wallet_flutter/kalium_icons.dart';
 
 class KaliumChangeRepresentativeSheet {
   mainBottomSheet(BuildContext context) {
-    showKaliumHeightNineSheet(
+    KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
           return Container(
@@ -54,7 +54,7 @@ class KaliumChangeRepresentativeSheet {
                       margin: EdgeInsets.only(top: 10.0, right: 10.0),
                       child: FlatButton(
                         onPressed: () {
-                          doNothing();
+                          return;
                         },
                         child: Icon(KaliumIcons.info,
                             size: 24, color: KaliumColors.text),
@@ -88,7 +88,7 @@ class KaliumChangeRepresentativeSheet {
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: threeLineAddressText(
+                          child: UIUtil.threeLineAddressText(
                               "ban_1yekta1u3ymis5tji4jxpr4iz8a9bp4bjoz5qdw3wstbub3wgxwi3nfuuyek"),
                         ),
                         Container(
@@ -115,7 +115,7 @@ class KaliumChangeRepresentativeSheet {
                                 height: 20,
                                 child: FlatButton(
                                   onPressed: () {
-                                    doNothing();
+                                    return;
                                   },
                                   child: Icon(KaliumIcons.paste,
                                       size: 20, color: KaliumColors.primary),
@@ -151,19 +151,19 @@ class KaliumChangeRepresentativeSheet {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(
+                        KaliumButton.buildKaliumButton(
                           KaliumButtonType.PRIMARY,
                           'CHANGE',
                           Dimens.BUTTON_TOP_DIMENS,
                           onPressed: () {
-                            doNothing();
+                            return;
                           },
                         ),
                       ],
                     ),
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(
+                        KaliumButton.buildKaliumButton(
                           KaliumButtonType.PRIMARY_OUTLINE,
                           'CLOSE',
                           Dimens.BUTTON_BOTTOM_DIMENS,

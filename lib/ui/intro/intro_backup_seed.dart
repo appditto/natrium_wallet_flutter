@@ -140,7 +140,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   child:
-                                    threeLineSeedText(_seed, textStyle: _seedTapStyle),    
+                                    UIUtil.threeLineSeedText(_seed, textStyle: _seedTapStyle),    
                                 )),
                           ),
                           Container(

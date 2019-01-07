@@ -23,7 +23,7 @@ class KaliumSeedBackupSheet {
       // Set initial seed copy state
       _seedCopiedStyle = _initialSeedStyle;
       _seedCopiedColor = Colors.transparent;
-      showKaliumHeightEightSheet(
+      KaliumSheets.showKaliumHeightEightSheet(
           context: context,
           builder: (BuildContext context) {
             return StatefulBuilder(
@@ -90,7 +90,7 @@ class KaliumSeedBackupSheet {
                                       color: KaliumColors.backgroundDarkest,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
-                                    child: threeLineSeedText(_seed,
+                                    child: UIUtil.threeLineSeedText(_seed,
                                         textStyle: _seedCopiedStyle),
                                   ),
                                   Container(
@@ -114,7 +114,7 @@ class KaliumSeedBackupSheet {
                     //A row with close button
                     Row(
                       children: <Widget>[
-                        buildKaliumButton(
+                        KaliumButton.buildKaliumButton(
                           KaliumButtonType.PRIMARY_OUTLINE,
                           'Close',
                           Dimens.BUTTON_BOTTOM_DIMENS,
