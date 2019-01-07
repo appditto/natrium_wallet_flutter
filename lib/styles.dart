@@ -35,9 +35,16 @@ class KaliumStyles {
                                     fontWeight: FontWeight.w100,
                                     fontFamily: 'OverpassMono',
                                   );
-  // General address/seed styles
-  static const TextStyleAddressSuccess60 = TextStyle(
-                                    color: KaliumColors.success60,
+  static const TextStyleAddressPrimary = TextStyle(
+                                    color: KaliumColors.primary,
+                                    fontSize: KaliumFontSizes.small,
+                                    height: 1.2,
+                                    fontWeight: FontWeight.w100,
+                                    fontFamily: 'OverpassMono',
+                                  );
+              
+  static const TextStyleAddressSuccess = TextStyle(
+                                    color: KaliumColors.success,
                                     fontSize: KaliumFontSizes.small,
                                     height: 1.2,
                                     fontWeight: FontWeight.w100,

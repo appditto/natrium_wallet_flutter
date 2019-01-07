@@ -102,7 +102,7 @@ class KaliumSendCompleteSheet {
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: UIUtil.threeLineAddressText(_destination, KaliumStyles.TextStyleAddressSuccess60)),
+                          child: UIUtil.threeLineAddressText(_destination, type: ThreeLineAddressTextType.SUCCESS)),
                     ],
                   ),
                 ),

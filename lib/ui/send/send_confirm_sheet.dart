@@ -143,7 +143,7 @@ class KaliumSendConfirmSheet {
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: UIUtil.threeLineAddressText(_destination, KaliumStyles.TextStyleAddressPrimary60)),
+                          child: UIUtil.threeLineAddressText(_destination)),
                     ],
                   ),
                 ),

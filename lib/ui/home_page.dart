@@ -562,7 +562,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     return Container(
       decoration: BoxDecoration(
         color: KaliumColors.backgroundDark,
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(10.0),
       ),
       margin: EdgeInsets.only(
           top: MediaQuery.of(context).size.height * 0.05,

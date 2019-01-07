@@ -51,8 +51,8 @@ class KaliumSendSheet {
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
-          return StatefulBuilder(builder: (BuildContext context, StateSetter setState)
-          {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
             // On amount focus change
             _sendAmountFocusNode.addListener(() {
               if (_sendAmountFocusNode.hasFocus) {
@@ -60,7 +60,7 @@ class KaliumSendSheet {
                   _amountHint = "";
                 });
               } else {
-                setState(()  {
+                setState(() {
                   _amountHint = _amountHintText;
                 });
               }
@@ -72,7 +72,7 @@ class KaliumSendSheet {
                   _addressHint = "";
                 });
               } else {
-                setState(()  {
+                setState(() {
                   _addressHint = _addressHintText;
                 });
               }
@@ -91,9 +91,8 @@ class KaliumSendSheet {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child:
-                        Icon(KaliumIcons.close, size: 16,
-                            color: KaliumColors.text),
+                        child: Icon(KaliumIcons.close,
+                            size: 16, color: KaliumColors.text),
                         padding: EdgeInsets.all(17.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -116,10 +115,7 @@ class KaliumSendSheet {
                           Container(
                             margin: EdgeInsets.only(top: 10.0),
                             child: UIUtil.threeLineAddressText(
-                                StateContainer
-                                    .of(context)
-                                    .wallet
-                                    .address, KaliumStyles.TextStyleAddressPrimary60),
+                                StateContainer.of(context).wallet.address, type: ThreeLineAddressTextType.PRIMARY60),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 6.0),
@@ -138,8 +134,7 @@ class KaliumSendSheet {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: StateContainer
-                                        .of(context)
+                                    text: StateContainer.of(context)
                                         .wallet
                                         .getAccountBalanceDisplay(),
                                     style: TextStyle(
@@ -223,7 +218,8 @@ class KaliumSendSheet {
                                   fontFamily: 'NunitoSans',
                                   fontWeight: FontWeight.w100),
                             ),
-                            keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                            keyboardType: TextInputType.numberWithOptions(
+                                signed: true, decimal: true),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
@@ -251,10 +247,9 @@ class KaliumSendSheet {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: TextField(
-                            textAlign:TextAlign.center,
+                            textAlign: TextAlign.center,
                             focusNode: _sendAddressFocusNode,
                             controller: _sendAddressController,
-                            
                             cursorColor: KaliumColors.primary,
                             keyboardAppearance: Brightness.dark,
                             inputFormatters: [
@@ -267,7 +262,7 @@ class KaliumSendSheet {
                               hintText: _addressHint,
                               border: InputBorder.none,
                               hintStyle: TextStyle(
-                                fontSize: 16.0,
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.w100,
                                   fontFamily: 'NunitoSans'),
                               prefixIcon: Container(
@@ -281,7 +276,7 @@ class KaliumSendSheet {
                                       size: 20, color: KaliumColors.primary),
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
-                                      BorderRadius.circular(200.0)),
+                                          BorderRadius.circular(200.0)),
                                 ),
                               ),
                               suffixIcon: Container(
@@ -289,17 +284,22 @@ class KaliumSendSheet {
                                 child: FlatButton(
                                   padding: EdgeInsets.all(15.0),
                                   onPressed: () {
-                                    Clipboard.getData("text/plain").then((ClipboardData data) {
+                                    Clipboard.getData("text/plain")
+                                        .then((ClipboardData data) {
                                       if (data == null || data.text == null) {
                                         return;
                                       }
                                       Address address = new Address(data.text);
-                                      if (NanoAccounts.isValid(NanoAccountType.BANANO, address.address)) {
+                                      if (NanoAccounts.isValid(
+                                          NanoAccountType.BANANO,
+                                          address.address)) {
                                         setState(() {
                                           _addressValidationText = "";
-                                          _sendAddressStyle = KaliumStyles.TextStyleAddressText90;
+                                          _sendAddressStyle = KaliumStyles
+                                              .TextStyleAddressText90;
                                         });
-                                        _sendAddressController.text = address.address;
+                                        _sendAddressController.text =
+                                            address.address;
                                       }
                                     });
                                   },
@@ -307,7 +307,7 @@ class KaliumSendSheet {
                                       size: 20, color: KaliumColors.primary),
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
-                                      BorderRadius.circular(200.0)),
+                                          BorderRadius.circular(200.0)),
                                 ),
                               ),
                             ),
@@ -318,15 +318,18 @@ class KaliumSendSheet {
                                 _addressValidationText = "";
                               });
                               print("focus change $text");
-                              if (NanoAccounts.isValid(NanoAccountType.BANANO, text)) {
+                              if (NanoAccounts.isValid(
+                                  NanoAccountType.BANANO, text)) {
                                 _sendAddressFocusNode.unfocus();
                                 setState(() {
-                                  _sendAddressStyle = KaliumStyles.TextStyleAddressText90;
+                                  _sendAddressStyle =
+                                      KaliumStyles.TextStyleAddressText90;
                                   _addressValidationText = "";
                                 });
                               } else {
                                 setState(() {
-                                  _sendAddressStyle = KaliumStyles.TextStyleAddressText60;
+                                  _sendAddressStyle =
+                                      KaliumStyles.TextStyleAddressText60;
                                 });
                               }
                             },
@@ -353,22 +356,26 @@ class KaliumSendSheet {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY, 'Send',
-                              Dimens.BUTTON_TOP_DIMENS,
-                              onPressed: () {
-                                if (_validateRequest(context, setState)) {
-                                  KaliumSendConfirmSheet(_sendAmountController.text, _sendAddressController.text).mainBottomSheet(context);
-                                }
-                              }),
+                          KaliumButton.buildKaliumButton(
+                              KaliumButtonType.PRIMARY,
+                              'Send',
+                              Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                            if (_validateRequest(context, setState)) {
+                              KaliumSendConfirmSheet(_sendAmountController.text,
+                                      _sendAddressController.text)
+                                  .mainBottomSheet(context);
+                            }
+                          }),
                         ],
                       ),
                       Row(
                         children: <Widget>[
-                          KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                              'Scan QR Code', Dimens.BUTTON_BOTTOM_DIMENS,
-                              onPressed: () {
-                                // TODO - Handle QR code pressed
-                              }),
+                          KaliumButton.buildKaliumButton(
+                              KaliumButtonType.PRIMARY_OUTLINE,
+                              'Scan QR Code',
+                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                            // TODO - Handle QR code pressed
+                          }),
                         ],
                       ),
                     ],
@@ -394,7 +401,8 @@ class KaliumSendSheet {
       });
     } else {
       BigInt balanceRaw = StateContainer.of(context).wallet.accountBalance;
-      BigInt sendAmount = BigInt.tryParse(NumberUtil.getAmountAsRaw(_sendAmountController.text));
+      BigInt sendAmount = BigInt.tryParse(
+          NumberUtil.getAmountAsRaw(_sendAmountController.text));
       if (sendAmount == null || sendAmount == BigInt.zero) {
         isValid = false;
         setState(() {
@@ -413,7 +421,8 @@ class KaliumSendSheet {
       setState(() {
         _addressValidationText = _addressRequiredText;
       });
-    } else if (!NanoAccounts.isValid(NanoAccountType.BANANO, _sendAddressController.text)) {
+    } else if (!NanoAccounts.isValid(
+        NanoAccountType.BANANO, _sendAddressController.text)) {
       isValid = false;
       setState(() {
         _addressValidationText = _addressInvalidText;

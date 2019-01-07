@@ -90,7 +90,7 @@ class KaliumChangeRepresentativeSheet {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: UIUtil.threeLineAddressText(
-                              StateContainer.of(context).wallet.representative, KaliumStyles.TextStyleAddressPrimary60),
+                              StateContainer.of(context).wallet.representative),
                         ),
                         Container(
                           margin: EdgeInsets.only(left: 50, right: 50, top: 20),
