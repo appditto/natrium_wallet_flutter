@@ -43,7 +43,7 @@ class StateBlock {
   /// then balance should be send amount (not balance after send).
   /// This is by design of this app, where we get previous balance in a server request 
   /// and update it later before signing
-  StateBlock({@required String subtype, @required String previous, @required String representative,
+  StateBlock({String subtype, @required String previous, @required String representative,
               @required String balance, @required String link, @required String account}) {
     this.link = link;
     this.subType = subtype;
