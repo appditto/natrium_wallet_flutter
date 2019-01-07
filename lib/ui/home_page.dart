@@ -19,6 +19,7 @@ import 'package:kalium_wallet_flutter/ui/settings/settings_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 
 class KaliumHomePage extends StatefulWidget {
   @override
@@ -35,11 +36,18 @@ class _KaliumHomePageState extends State<KaliumHomePage> with WidgetsBindingObse
 
   KaliumReceiveSheet receive = new KaliumReceiveSheet();
 
+  // Price conversion state (BTC, NANO, NONE)
+  PriceConversion _priceConversion;
+  TextStyle _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
+
   @override
   void initState() {
     super.initState();
     accountService.addListener(_onServerMessageReceived);
     WidgetsBinding.instance.addObserver(this);
+    SharedPrefsUtil.inst.getPriceConversion().then((result) {
+      _priceConversion = result;
+    });
   }
 
   @override
@@ -182,7 +190,7 @@ class _KaliumHomePageState extends State<KaliumHomePage> with WidgetsBindingObse
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           //Main Card
-          buildMainCard(context, _scaffoldKey),
+          _buildMainCard(context, _scaffoldKey),
           //Main Card End
 
           //Transactions Text
@@ -530,10 +538,9 @@ Widget _buildTransactionCard(AccountHistoryResponseItem item,
       ),
     );
   } // Welcome Card End
-}
 
 //Main Card
-Widget buildMainCard(BuildContext context, _scaffoldKey) {
+Widget _buildMainCard(BuildContext context, _scaffoldKey) {
   return Container(
     decoration: BoxDecoration(
       color: KaliumColors.backgroundDark,
@@ -570,7 +577,7 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
             ],
           ),
         ),
-        getBalanceWidget(context),
+        _getBalanceWidget(context),
         Container(
           decoration: BoxDecoration(
             image: DecorationImage(
@@ -585,58 +592,80 @@ Widget buildMainCard(BuildContext context, _scaffoldKey) {
   );
 } //Main Card
 
-// Get balance display
-Widget getBalanceWidget(BuildContext context) {
-  if (StateContainer.of(context).wallet.loading) {
-    return Text("Loading Balance");
-  }
-  return Container(
-    child: GestureDetector(
-      onTap: () {
-        // TODO cycle through BTC/NANO/No conversion price
-      },
-      child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(right: 5.0),
-          child: Text(
-              StateContainer.of(context).wallet.localCurrencyPrice,
-              textAlign: TextAlign.center,
-              style: KaliumStyles.TextStyleCurrencyAlt),
-        ),
-        Row(
-          children: <Widget>[
-            Container(
-                margin: EdgeInsets.only(right: 5.0),
-                child: Icon(KaliumIcons.bananocurrency,
-                    color: KaliumColors.primary, size: 20)),
-            Container(
-              margin: EdgeInsets.only(right: 15.0),
-              child: Text(
-                  StateContainer.of(context)
-                      .wallet
-                      .getAccountBalanceDisplay(),
-                  textAlign: TextAlign.center,
-                  style: KaliumStyles.TextStyleCurrency),
-            ),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Container(
-                child: Icon(KaliumIcons.btc,
-                    color: KaliumColors.text60, size: 14)),
-            Text(StateContainer.of(context).wallet.btcPrice,
+  // Get balance display
+  Widget _getBalanceWidget(BuildContext context) {
+    if (StateContainer.of(context).wallet.loading) {
+      return Text("Loading Balance");
+    }
+    return Container(
+      child: GestureDetector(
+        onTap: () {
+          if (_priceConversion == PriceConversion.BTC) {
+            // Cycle to NANO price
+            setState(() {
+              _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
+              _priceConversion = PriceConversion.NANO;
+            });
+            SharedPrefsUtil.inst.setPriceConversion(PriceConversion.NANO);
+          } else if (_priceConversion == PriceConversion.NANO) {
+            // Hide prices
+            setState(() {
+              _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAltHidden;
+              _priceConversion = PriceConversion.NONE;
+            });
+            SharedPrefsUtil.inst.setPriceConversion(PriceConversion.NONE);
+          } else {
+            // Cycle to BTC price
+            setState(() {
+              _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
+              _priceConversion = PriceConversion.BTC;
+            });
+            SharedPrefsUtil.inst.setPriceConversion(PriceConversion.BTC);            
+          }
+        },
+        child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 5.0),
+            child: Text(
+                StateContainer.of(context).wallet.localCurrencyPrice,
                 textAlign: TextAlign.center,
-                style: KaliumStyles.TextStyleCurrencyAlt),
-          ],
-        ),
-      ],
-    ),
-    ),
-  );
+                style: _convertedPriceStyle),
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                  margin: EdgeInsets.only(right: 5.0),
+                  child: Icon(KaliumIcons.bananocurrency,
+                      color: KaliumColors.primary, size: 20)),
+              Container(
+                margin: EdgeInsets.only(right: 15.0),
+                child: Text(
+                    StateContainer.of(context)
+                        .wallet
+                        .getAccountBalanceDisplay(),
+                    textAlign: TextAlign.center,
+                    style: KaliumStyles.TextStyleCurrency),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                  child: Icon(KaliumIcons.btc,
+                      color: _priceConversion == PriceConversion.NONE ? Colors.transparent : KaliumColors.text60, size: 14)),
+              Text(_priceConversion == PriceConversion.BTC ? StateContainer.of(context).wallet.btcPrice : StateContainer.of(context).wallet.nanoPrice,
+                  textAlign: TextAlign.center,
+                  style: _convertedPriceStyle),
+            ],
+          ),
+        ],
+      ),
+      ),
+    );
+  }
 }
 
 class TransactionDetailsSheet {

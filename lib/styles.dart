@@ -42,6 +42,10 @@ class KaliumStyles {
                                         fontSize: KaliumFontSizes.small,
                                         fontWeight: FontWeight.w600,
                                         color: KaliumColors.text60);
+  static const TextStyleCurrencyAltHidden = TextStyle(
+                                        fontSize: KaliumFontSizes.small,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.transparent);
   // Text style for primary currency on home page
   static const TextStyleCurrency = TextStyle(
                                       fontSize: KaliumFontSizes.largest,

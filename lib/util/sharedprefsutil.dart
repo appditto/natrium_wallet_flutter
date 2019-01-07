@@ -3,9 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kalium_wallet_flutter/util/encrypt.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 
-/**
- * Singleton wrapper for shared preferences
- */
+/// Price conversion preference values
+enum PriceConversion { BTC, NANO, NONE }
+
+/// Singleton wrapper for shared preferences
 class SharedPrefsUtil {
   SharedPrefsUtil._internal();
   static final SharedPrefsUtil _singleton = new SharedPrefsUtil._internal();
@@ -14,6 +15,7 @@ class SharedPrefsUtil {
   // Keys
   static const String seed_backed_up_key = 'fkalium_seed_backup';
   static const String app_uuid_key = 'fkalium_app_uuid';
+  static const String price_conversion = 'fkalium_price_conversion_pref';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -76,10 +78,20 @@ class SharedPrefsUtil {
     return await getEncrypted(app_uuid_key);
   }
 
+
+  Future<void> setPriceConversion(PriceConversion conversion) async {
+   return await set(price_conversion, conversion.index);
+  }
+
+  Future<PriceConversion> getPriceConversion() async {
+    return PriceConversion.values[await get(price_conversion, defaultValue: PriceConversion.BTC.index)];
+  }
+
   // For logging out
   Future<void> deleteAll() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove(seed_backed_up_key);
     prefs.remove(app_uuid_key);
+    prefs.remove(price_conversion);
   }
 }

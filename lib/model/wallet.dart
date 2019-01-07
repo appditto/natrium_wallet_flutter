@@ -77,7 +77,12 @@ class KaliumWallet {
 
   String get btcPrice {
     Decimal converted = Decimal.parse(_btcPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
-    return new NumberFormat("#,##0.00", "en_US").format(converted.toDouble());
+    // Show 4 decimal places for BTC price if its >= 0.0001 BTC, otherwise 6 decimals
+    if (converted >= Decimal.parse("0.0001")) {
+      return new NumberFormat("#,##0.0000", "en_US").format(converted.toDouble());
+    } else {
+      return new NumberFormat("#,##0.000000", "en_US").format(converted.toDouble());
+    }
   }
 
   set btcPrice(String value) {
@@ -86,7 +91,12 @@ class KaliumWallet {
 
   String get nanoPrice {
     Decimal converted = Decimal.parse(_nanoPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
-    return new NumberFormat("#,##0.00", "en_US").format(converted.toDouble());
+    // Show 2 decimal places for nano price if its >= 1 NANO, otherwise 4 decimals
+    if (converted >= Decimal.parse("1")) {
+      return new NumberFormat("#,##0.00", "en_US").format(converted.toDouble());
+    } else {
+      return new NumberFormat("#,##0.0000", "en_US").format(converted.toDouble());
+    }
   }
 
   set nanoPrice(String value) {
