@@ -603,7 +603,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     if (StateContainer.of(context).wallet.loading) {
       return Container(
           child: Icon(KaliumIcons.bananologo,
-              color: KaliumColors.primary, size: 50));
+              color: KaliumColors.primary, size: 40));
     }
     return Container(
       child: GestureDetector(

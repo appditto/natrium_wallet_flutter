@@ -88,7 +88,7 @@ class SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
     return new Scaffold(
       backgroundColor: KaliumColors.background,
