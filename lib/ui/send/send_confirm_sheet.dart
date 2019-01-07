@@ -20,36 +20,21 @@ class KaliumSendConfirmSheet {
   String _amountRaw;
   String _destination;
   bool _maxSend;
-  BuildContext _context;
 
   KaliumSendConfirmSheet(String amount, String destinaton, {bool maxSend}) {
     _amount = amount;
     _amountRaw = NumberUtil.getAmountAsRaw(amount);
     _destination = destinaton;
     _maxSend = maxSend ?? false;
-    accountService.addListener(_onProcessResponse);
-  }
-
-  void _onProcessResponse(message) {
-    if (message is ProcessResponse && _context != null) {
-      StateContainer.of(_context).requestUpdate();
-      KaliumSendCompleteSheet(_amount, _destination).mainBottomSheet(_context);
-    }
-  }
-
-  void _onDisposed() {
-    accountService.removeListener(_onProcessResponse);
   }
 
   mainBottomSheet(BuildContext context) {
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         animationDurationMs: 100,
-        onDisposed: _onDisposed,
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            _context = context;
             return Column(
               children: <Widget>[
                 Row(
