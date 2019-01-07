@@ -9,6 +9,8 @@ class KaliumSheets {
     @required WidgetBuilder builder,
     Color color = KaliumColors.backgroundDark,
     double radius = 30.0,
+    Color bgColor = KaliumColors.overlay70,
+    int animationDurationMs = 200
   }) {
     assert(context != null);
     assert(builder != null);
@@ -22,6 +24,8 @@ class KaliumSheets {
           radius: radius,
           barrierLabel:
               MaterialLocalizations.of(context).modalBarrierDismissLabel,
+          bgColor: bgColor,
+          animationDurationMs: animationDurationMs
         ));
   }
 
@@ -32,6 +36,8 @@ class KaliumSheets {
     @required WidgetBuilder builder,
     Color color = KaliumColors.backgroundDark,
     double radius = 30.0,
+    Color bgColor = KaliumColors.overlay70,
+    int animationDurationMs = 200
   }) {
     assert(context != null);
     assert(builder != null);
@@ -45,6 +51,8 @@ class KaliumSheets {
           radius: radius,
           barrierLabel:
               MaterialLocalizations.of(context).modalBarrierDismissLabel,
+          bgColor: bgColor,
+          animationDurationMs: animationDurationMs
         ));
   }
 }
@@ -80,14 +88,18 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
     this.color,
     this.radius,
     RouteSettings settings,
+    this.bgColor,
+    this.animationDurationMs
   }) : super(settings: settings);
 
   final WidgetBuilder builder;
   final double radius;
   final Color color;
+  final Color bgColor;
+  final int animationDurationMs;
 
   @override
-  Color get barrierColor => KaliumColors.overlay70;
+  Color get barrierColor => bgColor;
 
   @override
   bool get barrierDismissible => true;
@@ -144,7 +156,7 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
   bool get opaque => false;
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: 200);
+  Duration get transitionDuration => Duration(milliseconds: animationDurationMs);
 }
 //Kalium Height Nine Sheet End
 
@@ -180,14 +192,18 @@ class _KaliumHeightEightModalRoute<T> extends PopupRoute<T> {
     this.color,
     this.radius,
     RouteSettings settings,
+    this.bgColor,
+    this.animationDurationMs
   }) : super(settings: settings);
 
   final WidgetBuilder builder;
   final double radius;
   final Color color;
+  final Color bgColor;
+  final int animationDurationMs;
 
   @override
-  Color get barrierColor => KaliumColors.overlay70;
+  Color get barrierColor => bgColor;
 
   @override
   bool get barrierDismissible => true;
@@ -244,7 +260,7 @@ class _KaliumHeightEightModalRoute<T> extends PopupRoute<T> {
   bool get opaque => false;
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: 200);
+  Duration get transitionDuration => Duration(milliseconds: animationDurationMs);
 }
 //Kalium HeightEight Sheet End
 

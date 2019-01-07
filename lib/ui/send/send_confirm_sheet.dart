@@ -25,6 +25,8 @@ class KaliumSendConfirmSheet {
   mainBottomSheet(BuildContext context) {
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
+        animationDurationMs: 100,
+        bgColor: Colors.transparent,
         builder: (BuildContext context) {
           return StatefulBuilder(builder: (BuildContext context, StateSetter setState)
           {
