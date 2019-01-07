@@ -60,7 +60,7 @@ class StateBlock {
 
   /// Used to set balance after receiving previous balance info from server
   void setBalance(String previousBalance) {
-    if (this.sendAmount == null) { return null; }
+    if (this.sendAmount == null) { return; }
     BigInt previous = BigInt.parse(previousBalance);
     if (this.subType == BlockTypes.SEND) {
       // Subtract sendAmount from previous balance

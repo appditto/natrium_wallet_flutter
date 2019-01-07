@@ -10,6 +10,7 @@ import 'package:kalium_wallet_flutter/network/model/response/blocks_info_respons
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/process_response.dart';
 import 'package:kalium_wallet_flutter/network/wsclient.dart';
 import 'package:logging/logging.dart';
 
@@ -82,6 +83,7 @@ class AccountService {
         callback(resp);
       });
     } else if (msg.containsKey("blocks")) {
+      // This is either a 'blocks_info' response "or" a 'pending' response
       if (msg['blocks'] is Map && msg['blocks'].length > 0) {
         Map<String, Map> blockMap = msg['blocks'];
         if (blockMap != null && blockMap.length > 0) {
@@ -93,6 +95,12 @@ class AccountService {
             });
           }
         }
+      } else if (msg.containsKey("hash")) {
+        // process response
+        ProcessResponse resp = ProcessResponse.fromJson(msg);
+        _listeners.forEach((Function callback){
+          callback(resp);
+        });
       }
     }
     if (_requestQueue.length > 0) {

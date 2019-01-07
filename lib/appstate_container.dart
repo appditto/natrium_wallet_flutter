@@ -1,8 +1,10 @@
-// app_state_container.dart
+import 'dart:convert';
+
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
+import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
@@ -10,9 +12,11 @@ import 'package:kalium_wallet_flutter/network/model/request/blocks_info_request.
 import 'package:kalium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/blocks_info_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/process_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'package:kalium_wallet_flutter/network/account_service.dart';
 
 class _InheritedStateContainer extends InheritedWidget {
@@ -95,7 +99,11 @@ class StateContainerState extends State<StateContainer> {
         wallet.localCurrencyPrice = message.price.toString();
       });
     } else if (message is BlocksInfoResponse) {
-      // TODO - handle
+      handleBlocksInfoResponse(message);
+    } else if (message is ProcessResponse) {
+      // TODO handle processResponse
+      // We may not even want to handle this here, might be
+      // more relevan the screen that initiated the transaction
     }
   }
 
@@ -142,6 +150,27 @@ class StateContainerState extends State<StateContainer> {
     });
   }
   
+  /// Handle blocks_info response
+  /// Typically, this preceeds a process request. And we want to update
+  /// that request with data from the previous block (which is what we got from this request)
+  void handleBlocksInfoResponse(BlocksInfoResponse resp) {
+    String hash = resp.blocks.keys.first;
+    StateBlock previousBlock = StateBlock.fromJson(json.decode(resp.blocks[hash].contents));
+    StateBlock nextBlock = previousPendingMap.remove(hash);
+    if (nextBlock == null) {
+      return;
+    }
+
+    // Update data on our next pending request
+    nextBlock.representative = previousBlock.representative;
+    nextBlock.setBalance(previousBlock.balance);
+    _getPrivKey().then((result) {
+      nextBlock.sign(result);
+      accountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
+      accountService.processQueue();
+    });
+  }
+
   void requestUpdate() {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
@@ -180,6 +209,10 @@ class StateContainerState extends State<StateContainer> {
 
   void logOut() {
     wallet = new KaliumWallet();
+  }
+
+  Future<String> _getPrivKey() async {
+   return NanoUtil.seedToPrivate(await Vault.inst.getSeed(), 0);
   }
 
   // Simple build method that just passes this state through
