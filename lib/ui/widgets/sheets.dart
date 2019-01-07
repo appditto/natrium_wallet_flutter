@@ -10,7 +10,7 @@ class KaliumSheets {
     Color color = KaliumColors.backgroundDark,
     double radius = 30.0,
     Color bgColor = KaliumColors.overlay70,
-    int animationDurationMs = 200
+    int animationDurationMs = 200,
   }) {
     assert(context != null);
     assert(builder != null);

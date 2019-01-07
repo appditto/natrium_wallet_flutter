@@ -4,6 +4,7 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
@@ -26,10 +27,9 @@ class KaliumSendConfirmSheet {
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         animationDurationMs: 100,
-        bgColor: Colors.transparent,
         builder: (BuildContext context) {
-          return StatefulBuilder(builder: (BuildContext context, StateSetter setState)
-          {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
             return Column(
               children: <Widget>[
                 Row(
@@ -44,37 +44,12 @@ class KaliumSendConfirmSheet {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child:
-                        Icon(KaliumIcons.close, size: 16,
-                            color: KaliumColors.text),
+                        child: Icon(KaliumIcons.close,
+                            size: 16, color: KaliumColors.text),
                         padding: EdgeInsets.all(17.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
                         materialTapTargetSize: MaterialTapTargetSize.padded,
-                      ),
-                    ),
-
-                    //Container for the header and address text
-                    Container(
-                      margin: EdgeInsets.only(top: 30.0),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            "SEND FROM",
-                            style: TextStyle(
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10.0),
-                            child: UIUtil.threeLineAddressText(
-                                StateContainer
-                                    .of(context)
-                                    .wallet
-                                    .address),
-                          ),
-                        ],
                       ),
                     ),
 
@@ -87,43 +62,84 @@ class KaliumSendConfirmSheet {
                   ],
                 ),
 
-                //A main container that holds "Enter Amount" and "Enter Address" text fields
                 Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 35, bottom: 35),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 70, right: 70),
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: KaliumColors.backgroundDarkest,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: Text(
-                            "$_amount BAN",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16.0,
-                              color: KaliumColors.primary,
-                              fontFamily: 'NunitoSans',
+                  //A main container that holds the text fields
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10.0),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "SENDING",
+                              style: TextStyle(
+                                fontSize: 28.0,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 60, right: 60),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: KaliumColors.backgroundDarkest,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            text: '',
+                            children: [
+                              TextSpan(
+                                text: "$_amount",
+                                style: TextStyle(
+                                  color: KaliumColors.primary,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              TextSpan(
+                                text: " BAN",
+                                style: TextStyle(
+                                  color: KaliumColors.primary,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w100,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          margin: EdgeInsets.only(left: 70, right: 70, top: 20),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 30.0, bottom: 10),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "TO",
+                              style: TextStyle(
+                                fontSize: 28.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 25.0, vertical: 15.0),
+                          margin: EdgeInsets.only(left: 60, right: 60),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: UIUtil.threeLineAddressText(_destination)
-                        ),
-                      ],
-                    ),
+                          child: UIUtil.threeLineAddressText(_destination)),
+                    ],
                   ),
                 ),
 
@@ -133,20 +149,22 @@ class KaliumSendConfirmSheet {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY, 'CONFIRM',
-                              Dimens.BUTTON_TOP_DIMENS,
-                              onPressed: () {
-                                // TODO - Handle send button press
-                              }),
+                          KaliumButton.buildKaliumButton(
+                              KaliumButtonType.PRIMARY,
+                              'CONFIRM',
+                              Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                            // TODO - Handle send button press
+                          }),
                         ],
                       ),
                       Row(
                         children: <Widget>[
-                          KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                              'CANCEL', Dimens.BUTTON_BOTTOM_DIMENS,
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              }),
+                          KaliumButton.buildKaliumButton(
+                              KaliumButtonType.PRIMARY_OUTLINE,
+                              'CANCEL',
+                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                            Navigator.of(context).pop();
+                          }),
                         ],
                       ),
                     ],
