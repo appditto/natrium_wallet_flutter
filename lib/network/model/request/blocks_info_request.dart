@@ -16,7 +16,7 @@ class BlocksInfoRequest extends BaseRequest {
   bool balance;
 
   BlocksInfoRequest({List<String> hashes, bool balance}) {
-    this.action = Actions.PROCESS;
+    this.action = Actions.BLOCKS_INFO;
     this.hashes = hashes;
     this.balance = balance ?? true;
   }

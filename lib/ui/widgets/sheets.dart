@@ -12,7 +12,8 @@ class KaliumSheets {
     Color bgColor = KaliumColors.overlay70,
     int animationDurationMs = 200,
     bool removeUntilHome = false,
-    bool closeOnTap = false
+    bool closeOnTap = false,
+    Function onDisposed
   }) {
     assert(context != null);
     assert(builder != null);
@@ -26,7 +27,8 @@ class KaliumSheets {
               MaterialLocalizations.of(context).modalBarrierDismissLabel,
           bgColor: bgColor,
           animationDurationMs: animationDurationMs,
-          closeOnTap: closeOnTap
+          closeOnTap: closeOnTap,
+          onDisposed: onDisposed
     );
     if (removeUntilHome) {
       return Navigator.pushAndRemoveUntil<T>(
@@ -100,7 +102,8 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
     RouteSettings settings,
     this.bgColor,
     this.animationDurationMs,
-    this.closeOnTap
+    this.closeOnTap,
+    this.onDisposed
   }) : super(settings: settings);
 
   final WidgetBuilder builder;
@@ -109,6 +112,7 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
   final Color bgColor;
   final int animationDurationMs;
   final bool closeOnTap;
+  final Function onDisposed;
 
   @override
   Color get barrierColor => bgColor;
@@ -118,6 +122,12 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
 
   @override
   String barrierLabel;
+
+  @override
+  void didComplete(T result) {
+    if (onDisposed != null) { onDisposed(); }
+    super.didComplete(result);
+  }
 
   AnimationController _animationController;
 

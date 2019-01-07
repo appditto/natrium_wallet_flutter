@@ -109,7 +109,7 @@ class KaliumSendSheet {
                           Text(
                             "SEND FROM",
                             style: TextStyle(
-                              fontSize: 28.0,
+                              fontSize: 30.0,
                               fontWeight: FontWeight.w700,
                             ),
                           ),

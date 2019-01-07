@@ -81,9 +81,7 @@ class SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    new Timer(new Duration(milliseconds: 200), () {
-      checkLoggedIn();
-    });
+    checkLoggedIn();
   }
 
   @override

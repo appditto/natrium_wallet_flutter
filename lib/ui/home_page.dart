@@ -41,6 +41,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   PriceConversion _priceConversion;
   TextStyle _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
 
+  // Timeeout for refresh
+  StreamSubscription<dynamic> _refreshTimeout;
+
   @override
   void initState() {
     super.initState();
@@ -80,6 +83,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   void _onServerMessageReceived(message) {
     if (message is AccountHistoryResponse) {
       diffAndUpdateHistoryList(message.history);
+      if (_refreshTimeout != null) {
+        _refreshTimeout.cancel();
+      }
     }
   }
 
@@ -141,15 +147,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Refresh list
   Future<void> _refresh() async {
     StateContainer.of(context).requestUpdate();
-    await Future.delayed(new Duration(seconds: 3), () {
-      int randNum = new Random.secure().nextInt(100);
-      AccountHistoryResponseItem test2 = new AccountHistoryResponseItem(
-          account:
-              'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo',
-          amount: (BigInt.from(randNum) * BigInt.from(10).pow(29)).toString(),
-          hash: 'abcdefg1234');
-      _historyList.insertAtTop(test2);
-    });
+    // TODO figure out how to cancel this future when the server responds with
+    await Future.delayed(new Duration(seconds: 1), () { });
   }
 
   ///

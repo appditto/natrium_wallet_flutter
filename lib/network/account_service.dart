@@ -44,9 +44,7 @@ class AccountService {
     log.fine("Received $message");
     if (message == "connected" || message == "disconnected") {
       // Post to callbacks
-      _listeners.forEach((Function callback){
-        callback(message);
-      });
+      _doCallbacks(message);
       return;
     }
     Map msg = json.decode(message);
@@ -64,44 +62,35 @@ class AccountService {
         });
       }
       // Post to callbacks
-      _listeners.forEach((Function callback){
-        callback(resp);
-      });
+      _doCallbacks(resp);
     } else if (msg.containsKey("currency") && msg.containsKey("price") && msg.containsKey("btc")) {
       // Price info sent from server
       PriceResponse resp = PriceResponse.fromJson(msg);
-      _listeners.forEach((Function callback){
-        callback(resp);
-      });
+      _doCallbacks(resp);
     } else if (msg.containsKey("history")) {
       // Account history response
       if (msg['history'] == "") {
         msg['history'] = new List<AccountHistoryResponseItem>();
       }
       AccountHistoryResponse resp = AccountHistoryResponse.fromJson(msg);
-      _listeners.forEach((Function callback){
-        callback(resp);
-      });
+      _doCallbacks(resp);
     } else if (msg.containsKey("blocks")) {
       // This is either a 'blocks_info' response "or" a 'pending' response
       if (msg['blocks'] is Map && msg['blocks'].length > 0) {
-        Map<String, Map> blockMap = msg['blocks'];
+        Map<String, dynamic> blockMap = msg['blocks'];
         if (blockMap != null && blockMap.length > 0) {
           if (blockMap[blockMap.keys.first].containsKey('block_account')) {
             // Blocks Info Response
             BlocksInfoResponse resp = BlocksInfoResponse.fromJson(msg);
-            _listeners.forEach((Function callback){
-              callback(resp);
-            });
+            _doCallbacks(resp);
           }
         }
-      } else if (msg.containsKey("hash")) {
-        // process response
-        ProcessResponse resp = ProcessResponse.fromJson(msg);
-        _listeners.forEach((Function callback){
-          callback(resp);
-        });
       }
+    } else if (msg.containsKey("hash")) {
+        // process response
+        print('process_response');
+        ProcessResponse resp = ProcessResponse.fromJson(msg);
+        _doCallbacks(resp);
     }
     if (_requestQueue.length > 0) {
       _requestQueue.removeFirst();
@@ -155,9 +144,20 @@ class AccountService {
 
   // Methods to add/remove callback
   addListener(Function callback){
+    if (_listeners.contains(callback)) {
+      _listeners.remove(callback);
+    }
     _listeners.add(callback);
   }
   removeListener(Function callback) {
     _listeners.remove(callback);
+  }
+
+  void _doCallbacks(message) {
+    _listeners.forEach((Function callback){
+      if (callback != null) {
+        callback(message);
+      }
+    });
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
@@ -10,27 +11,44 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_complete_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
+import 'package:kalium_wallet_flutter/network/account_service.dart';
+import 'package:kalium_wallet_flutter/network/model/response/process_response.dart';
 
 class KaliumSendConfirmSheet {
   String _amount;
   String _amountRaw;
   String _destination;
   bool _maxSend;
+  BuildContext _context;
 
   KaliumSendConfirmSheet(String amount, String destinaton, {bool maxSend}) {
     _amount = amount;
     _amountRaw = NumberUtil.getAmountAsRaw(amount);
     _destination = destinaton;
     _maxSend = maxSend ?? false;
+    accountService.addListener(_onProcessResponse);
+  }
+
+  void _onProcessResponse(message) {
+    if (message is ProcessResponse && _context != null) {
+      StateContainer.of(_context).requestUpdate();
+      KaliumSendCompleteSheet(_amount, _destination).mainBottomSheet(_context);
+    }
+  }
+
+  void _onDisposed() {
+    accountService.removeListener(_onProcessResponse);
   }
 
   mainBottomSheet(BuildContext context) {
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         animationDurationMs: 100,
+        onDisposed: _onDisposed,
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
+            _context = context;
             return Column(
               children: <Widget>[
                 Row(
@@ -155,9 +173,10 @@ class KaliumSendConfirmSheet {
                               'CONFIRM',
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             Navigator.of(context).push(SendAnimationOverlay());
-                            Future.delayed(new Duration(seconds: 5), () {
-                              KaliumSendCompleteSheet(_amount, _destination).mainBottomSheet(context);
-                            });
+                            StateContainer.of(context).requestSend(
+                              StateContainer.of(context).wallet.frontier,
+                              _destination,
+                              _amountRaw);
                           }),
                         ],
                       ),
