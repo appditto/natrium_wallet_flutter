@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/colors.dart';
 
 class KaliumDialogs {
   static void showConfirmDialog(
@@ -35,6 +37,70 @@ class KaliumDialogs {
           ],
         );
       },
+    );
+  }
+}
+
+class SendAnimationOverlay extends ModalRoute<void> {
+  @override
+  Duration get transitionDuration => Duration(milliseconds: 100);
+
+  @override
+  bool get opaque => false;
+
+  @override
+  bool get barrierDismissible => false;
+
+  @override
+  Color get barrierColor => KaliumColors.overlay70;
+
+  @override
+  String get barrierLabel => null;
+
+  @override
+  bool get maintainState => false;
+
+  @override
+  Widget buildPage(
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      ) {
+    return Material(
+      type: MaterialType.transparency,
+      child: SafeArea(
+        child: _buildOverlayContent(context),
+      ),
+    );
+  }
+
+  Widget _buildOverlayContent(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            //Widgth/Height ratio is needed because BoxFit is not working as expected
+            width: double.infinity,
+            height: MediaQuery.of(context).size.width * 5/8,
+            child: FlareActor("assets/send_animation.flr",
+                animation: "main",
+                fit: BoxFit.contain),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget buildTransitions(
+      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+    return FadeTransition(
+      opacity: animation,
+      child: ScaleTransition(
+        scale: animation,
+        child: child,
+      ),
     );
   }
 }
