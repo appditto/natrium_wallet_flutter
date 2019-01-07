@@ -26,7 +26,8 @@ class KaliumHomePage extends StatefulWidget {
   _KaliumHomePageState createState() => _KaliumHomePageState();
 }
 
-class _KaliumHomePageState extends State<KaliumHomePage> with WidgetsBindingObserver {
+class _KaliumHomePageState extends State<KaliumHomePage>
+    with WidgetsBindingObserver {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -294,7 +295,8 @@ class _KaliumHomePageState extends State<KaliumHomePage> with WidgetsBindingObse
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
-                      onPressed: () => KaliumSendSheet().mainBottomSheet(context),
+                      onPressed: () =>
+                          KaliumSendSheet().mainBottomSheet(context),
                       highlightColor: KaliumColors.background40,
                       splashColor: KaliumColors.background40,
                     ),
@@ -309,92 +311,94 @@ class _KaliumHomePageState extends State<KaliumHomePage> with WidgetsBindingObse
   }
 
 // Transaction Card/List Item
-Widget _buildTransactionCard(AccountHistoryResponseItem item,
-    Animation<double> animation, BuildContext context) {
-  TransactionDetailsSheet transactionDetails = TransactionDetailsSheet(item.hash, item.account);
-  String text;
-  IconData icon;
-  Color iconColor;
-  if (item.type == BlockTypes.SEND) {
-    text = "Sent";
-    icon = KaliumIcons.sent;
-    iconColor = KaliumColors.text60;
-  } else {
-    text = "Received";
-    icon = KaliumIcons.received;
-    iconColor = KaliumColors.primary60;
-  }
-  return SizeTransition(
-    axis: Axis.vertical,
-    axisAlignment: -1.0,
-    sizeFactor: animation,
-    child: Container(
-      margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
-      decoration: BoxDecoration(
-        color: KaliumColors.backgroundDark,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: FlatButton(
-        highlightColor: KaliumColors.text15,
-        splashColor: KaliumColors.text15,
-        color: KaliumColors.backgroundDark,
-        padding: EdgeInsets.all(0.0),
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        onPressed: () => transactionDetails.mainBottomSheet(context),
-        child: Center(
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                        margin: EdgeInsets.only(right: 16.0),
-                        child: Icon(icon, color: iconColor, size: 20)),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          text,
-                          textAlign: TextAlign.left,
-                          style: KaliumStyles.TextStyleTransactionType,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.left,
-                          text: TextSpan(
-                            text: '',
-                            children: [
-                              TextSpan(
-                                text: item.getFormattedAmount(),
-                                style: KaliumStyles.TextStyleTransactionAmount,
-                              ),
-                              TextSpan(
-                                text: " BAN",
-                                style: KaliumStyles.TextStyleTransactionUnit,
-                              ),
-                            ],
+  Widget _buildTransactionCard(AccountHistoryResponseItem item,
+      Animation<double> animation, BuildContext context) {
+    TransactionDetailsSheet transactionDetails =
+        TransactionDetailsSheet(item.hash, item.account);
+    String text;
+    IconData icon;
+    Color iconColor;
+    if (item.type == BlockTypes.SEND) {
+      text = "Sent";
+      icon = KaliumIcons.sent;
+      iconColor = KaliumColors.text60;
+    } else {
+      text = "Received";
+      icon = KaliumIcons.received;
+      iconColor = KaliumColors.primary60;
+    }
+    return SizeTransition(
+      axis: Axis.vertical,
+      axisAlignment: -1.0,
+      sizeFactor: animation,
+      child: Container(
+        margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+        decoration: BoxDecoration(
+          color: KaliumColors.backgroundDark,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: FlatButton(
+          highlightColor: KaliumColors.text15,
+          splashColor: KaliumColors.text15,
+          color: KaliumColors.backgroundDark,
+          padding: EdgeInsets.all(0.0),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          onPressed: () => transactionDetails.mainBottomSheet(context),
+          child: Center(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                          margin: EdgeInsets.only(right: 16.0),
+                          child: Icon(icon, color: iconColor, size: 20)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            text,
+                            textAlign: TextAlign.left,
+                            style: KaliumStyles.TextStyleTransactionType,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Text(
-                  item.getShortString(),
-                  textAlign: TextAlign.right,
-                  style: KaliumStyles.TextStyleTransactionAddress,
-                ),
-              ],
+                          RichText(
+                            textAlign: TextAlign.left,
+                            text: TextSpan(
+                              text: '',
+                              children: [
+                                TextSpan(
+                                  text: item.getFormattedAmount(),
+                                  style:
+                                      KaliumStyles.TextStyleTransactionAmount,
+                                ),
+                                TextSpan(
+                                  text: " BAN",
+                                  style: KaliumStyles.TextStyleTransactionUnit,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Text(
+                    item.getShortString(),
+                    textAlign: TextAlign.right,
+                    style: KaliumStyles.TextStyleTransactionAddress,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-    ),
-  );
-} //Transaction Card End
+    );
+  } //Transaction Card End
 
   // Dummy Transaction Card
   Widget _buildDummyTransactionCard(
@@ -418,17 +422,19 @@ Widget _buildTransactionCard(AccountHistoryResponseItem item,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: FlatButton(
-        onPressed: (){
+        onPressed: () {
           return null;
         },
         highlightColor: KaliumColors.text15,
         splashColor: KaliumColors.text15,
         color: KaliumColors.backgroundDark,
         padding: EdgeInsets.all(0.0),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -500,8 +506,8 @@ Widget _buildTransactionCard(AccountHistoryResponseItem item,
             ),
             Flexible(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 14.0, horizontal: 15.0),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 14.0, horizontal: 15.0),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -540,62 +546,64 @@ Widget _buildTransactionCard(AccountHistoryResponseItem item,
   } // Welcome Card End
 
 //Main Card
-Widget _buildMainCard(BuildContext context, _scaffoldKey) {
-  return Container(
-    decoration: BoxDecoration(
-      color: KaliumColors.backgroundDark,
-      borderRadius: BorderRadius.circular(12.0),
-    ),
-    margin: EdgeInsets.only(
-        top: MediaQuery.of(context).size.height * 0.05,
-        left: 14.0,
-        right: 14.0),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Container(
-          width: 90.0,
-          height: 120.0,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 5, left: 5),
-                height: 50,
-                width: 50,
-                child: FlatButton(
-                    onPressed: () {
-                      _scaffoldKey.currentState.openDrawer();
-                    },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0)),
-                    padding: EdgeInsets.all(0.0),
-                    child: Icon(KaliumIcons.settings,
-                        color: KaliumColors.text, size: 24)),
-              ),
-            ],
-          ),
-        ),
-        _getBalanceWidget(context),
-        Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/monkey.png'),
+  Widget _buildMainCard(BuildContext context, _scaffoldKey) {
+    return Container(
+      decoration: BoxDecoration(
+        color: KaliumColors.backgroundDark,
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      margin: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height * 0.05,
+          left: 14.0,
+          right: 14.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(
+            width: 90.0,
+            height: 120.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 5, left: 5),
+                  height: 50,
+                  width: 50,
+                  child: FlatButton(
+                      onPressed: () {
+                        _scaffoldKey.currentState.openDrawer();
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0)),
+                      padding: EdgeInsets.all(0.0),
+                      child: Icon(KaliumIcons.settings,
+                          color: KaliumColors.text, size: 24)),
+                ),
+              ],
             ),
           ),
-          width: 90.0,
-          height: 90.0,
-        ),
-      ],
-    ),
-  );
-} //Main Card
+          _getBalanceWidget(context),
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/monkey.png'),
+              ),
+            ),
+            width: 90.0,
+            height: 90.0,
+          ),
+        ],
+      ),
+    );
+  } //Main Card
 
   // Get balance display
   Widget _getBalanceWidget(BuildContext context) {
     if (StateContainer.of(context).wallet.loading) {
-      return Text("Loading Balance");
+      return Container(
+          child: Icon(KaliumIcons.bananologo,
+              color: KaliumColors.primary, size: 50));
     }
     return Container(
       child: GestureDetector(
@@ -620,49 +628,55 @@ Widget _buildMainCard(BuildContext context, _scaffoldKey) {
               _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
               _priceConversion = PriceConversion.BTC;
             });
-            SharedPrefsUtil.inst.setPriceConversion(PriceConversion.BTC);            
+            SharedPrefsUtil.inst.setPriceConversion(PriceConversion.BTC);
           }
         },
         child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(right: 5.0),
-            child: Text(
-                StateContainer.of(context).wallet.localCurrencyPrice,
-                textAlign: TextAlign.center,
-                style: _convertedPriceStyle),
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(right: 5.0),
-                  child: Icon(KaliumIcons.bananocurrency,
-                      color: KaliumColors.primary, size: 20)),
-              Container(
-                margin: EdgeInsets.only(right: 15.0),
-                child: Text(
-                    StateContainer.of(context)
-                        .wallet
-                        .getAccountBalanceDisplay(),
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(right: 5.0),
+              child: Text(StateContainer.of(context).wallet.localCurrencyPrice,
+                  textAlign: TextAlign.center, style: _convertedPriceStyle),
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.only(right: 5.0),
+                    child: Icon(KaliumIcons.bananocurrency,
+                        color: KaliumColors.primary, size: 20)),
+                Container(
+                  margin: EdgeInsets.only(right: 15.0),
+                  child: Text(
+                      StateContainer.of(context)
+                          .wallet
+                          .getAccountBalanceDisplay(),
+                      textAlign: TextAlign.center,
+                      style: KaliumStyles.TextStyleCurrency),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                    child: Icon(_priceConversion == PriceConversion.BTC
+                            ? KaliumIcons.btc
+                            : KaliumIcons.nanocurrency,
+                        color: _priceConversion == PriceConversion.NONE
+                            ? Colors.transparent
+                            : KaliumColors.text60,
+                        size: 14)),
+                Text(
+                    _priceConversion == PriceConversion.BTC
+                        ? StateContainer.of(context).wallet.btcPrice
+                        : StateContainer.of(context).wallet.nanoPrice,
                     textAlign: TextAlign.center,
-                    style: KaliumStyles.TextStyleCurrency),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                  child: Icon(KaliumIcons.btc,
-                      color: _priceConversion == PriceConversion.NONE ? Colors.transparent : KaliumColors.text60, size: 14)),
-              Text(_priceConversion == PriceConversion.BTC ? StateContainer.of(context).wallet.btcPrice : StateContainer.of(context).wallet.nanoPrice,
-                  textAlign: TextAlign.center,
-                  style: _convertedPriceStyle),
-            ],
-          ),
-        ],
-      ),
+                    style: _convertedPriceStyle),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -671,12 +685,15 @@ Widget _buildMainCard(BuildContext context, _scaffoldKey) {
 class TransactionDetailsSheet {
   String _hash;
   String _address;
-  TransactionDetailsSheet(String hash, String address) : _hash=hash,_address=address;
+  TransactionDetailsSheet(String hash, String address)
+      : _hash = hash,
+        _address = address;
   // Address copied items
   // Initial constants
   static const String _copyAddress = 'Copy Address';
   static const String _addressCopied = 'Address Copied';
-  static const TextStyle _copyButtonStyleInitial = KaliumStyles.TextStyleButtonPrimary;
+  static const TextStyle _copyButtonStyleInitial =
+      KaliumStyles.TextStyleButtonPrimary;
   static const Color _copyButtonColorInitial = KaliumColors.primary;
   // Current state references
   String _copyButtonText;
@@ -689,12 +706,13 @@ class TransactionDetailsSheet {
     // Set initial state of copy button
     _copyButtonText = _copyAddress;
     _copyButtonStyle = _copyButtonStyleInitial;
-    _copyButtonBackground =_copyButtonColorInitial;
+    _copyButtonBackground = _copyButtonColorInitial;
 
     KaliumSheets.showKaliumHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
-          return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
             return Container(
               width: double.infinity,
               child: Column(
@@ -707,25 +725,28 @@ class TransactionDetailsSheet {
                           // TODO move copy address stuff to a re-usable builder function
                           Expanded(
                             child: Container(
-                              margin:
-                                  EdgeInsets.fromLTRB(Dimens.BUTTON_TOP_EXCEPTION_DIMENS[0],
-                                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
-                                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[2],
-                                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[3]),
+                              margin: EdgeInsets.fromLTRB(
+                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS[0],
+                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
+                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS[2],
+                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS[3]),
                               child: FlatButton(
-                                shape:
-                                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(100.0)),
                                 color: _copyButtonBackground,
                                 child: Text(_copyButtonText,
                                     textAlign: TextAlign.center,
                                     style: _copyButtonStyle),
-                                padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 14.0, horizontal: 20),
                                 onPressed: () {
-                                  Clipboard.setData(new ClipboardData(text: _address));
+                                  Clipboard.setData(
+                                      new ClipboardData(text: _address));
                                   setState(() {
                                     // Set copied style
                                     _copyButtonText = _addressCopied;
-                                    _copyButtonStyle = KaliumStyles.TextStyleButtonPrimaryGreen;
+                                    _copyButtonStyle = KaliumStyles
+                                        .TextStyleButtonPrimaryGreen;
                                     _copyButtonBackground = KaliumColors.green;
                                     if (_addressCopiedTimer != null) {
                                       _addressCopiedTimer.cancel();
@@ -734,8 +755,10 @@ class TransactionDetailsSheet {
                                         const Duration(milliseconds: 800), () {
                                       setState(() {
                                         _copyButtonText = _copyAddress;
-                                        _copyButtonStyle = _copyButtonStyleInitial;
-                                        _copyButtonBackground = _copyButtonColorInitial;
+                                        _copyButtonStyle =
+                                            _copyButtonStyleInitial;
+                                        _copyButtonBackground =
+                                            _copyButtonColorInitial;
                                       });
                                     });
                                   });
@@ -749,13 +772,14 @@ class TransactionDetailsSheet {
                       ),
                       Row(
                         children: <Widget>[
-                          KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                              'View Details', Dimens.BUTTON_BOTTOM_DIMENS,
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (BuildContext context) {
-                                return UIUtil.showBlockExplorerWebview(_hash);
-                              }));
+                          KaliumButton.buildKaliumButton(
+                              KaliumButtonType.PRIMARY_OUTLINE,
+                              'View Details',
+                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              return UIUtil.showBlockExplorerWebview(_hash);
+                            }));
                           }),
                         ],
                       ),

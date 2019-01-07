@@ -46,4 +46,9 @@ class KaliumIcons {
   static const IconData info = const IconData(0xe817, fontFamily: _kFontFam);
   static const IconData btc = const IconData(0xe818, fontFamily: _kFontFam);
   static const IconData bananocurrency = const IconData(0xe819, fontFamily: _kFontFam);
+  static const IconData success = const IconData(0xe81a, fontFamily: _kFontFam);
+  static const IconData nanocurrency = const IconData(0xe81b, fontFamily: _kFontFam);
+  static const IconData export_icon = const IconData(0xe81c, fontFamily: _kFontFam);
+  static const IconData import_icon = const IconData(0xe81d, fontFamily: _kFontFam);
+  static const IconData bananologo = const IconData(0xe81e, fontFamily: _kFontFam);
 }
