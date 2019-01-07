@@ -29,6 +29,9 @@ class StateBlock {
   @JsonKey(name:'signature')
   String signature;
 
+  @JsonKey(ignore:true)
+  String hash;
+
   // Represents the amount this block intends to send
   // should be used to calculate balance after this send
   @JsonKey(ignore:true)
@@ -75,7 +78,7 @@ class StateBlock {
   /// Returns signature if signed, null if this block is invalid and can't be signed
   String sign(String privateKey) {
     if (this.balance == null) { return null; }
-    String hash = NanoBlocks.computeStateHash(
+    this.hash = NanoBlocks.computeStateHash(
                       NanoAccountType.BANANO,
                       this.account,
                       this.previous,
@@ -83,7 +86,7 @@ class StateBlock {
                       BigInt.parse(this.balance),
                       this.link
                   );
-    this.signature = NanoSignatures.signBlock(hash, privateKey);
+    this.signature = NanoSignatures.signBlock(this.hash, privateKey);
     return this.signature;
   }
 

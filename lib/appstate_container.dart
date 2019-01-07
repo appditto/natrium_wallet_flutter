@@ -70,6 +70,10 @@ class StateContainerState extends State<StateContainer> {
   // after a blocks_info with the balance after send, and sign the block
   Map<String, StateBlock> previousPendingMap = new Map();
 
+  // Map for routing, if process response comes back with a hash in this map then
+  // We'll retrieve the block from it and route to send complete
+  Map<String, StateBlock> sendRequestMap = new Map();
+
   @override
   void initState() {
     super.initState();
@@ -101,9 +105,7 @@ class StateContainerState extends State<StateContainer> {
     } else if (message is BlocksInfoResponse) {
       handleBlocksInfoResponse(message);
     } else if (message is ProcessResponse) {
-      // TODO handle processResponse
-      // We may not even want to handle this here, might be
-      // more relevan the screen that initiated the transaction
+
     }
   }
 
@@ -166,6 +168,9 @@ class StateContainerState extends State<StateContainer> {
     nextBlock.setBalance(previousBlock.balance);
     _getPrivKey().then((result) {
       nextBlock.sign(result);
+      if (nextBlock.subType == BlockTypes.SEND) {
+        sendRequestMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+      }
       accountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
       accountService.processQueue();
     });

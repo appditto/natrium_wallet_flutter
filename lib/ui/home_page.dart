@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,19 +6,23 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/model/list_model.dart';
+import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/network/account_service.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
+import 'package:kalium_wallet_flutter/network/model/response/process_response.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_sheet.dart';
+import 'package:kalium_wallet_flutter/ui/send/send_complete_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
 class KaliumHomePage extends StatefulWidget {
   @override
@@ -85,6 +88,16 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       diffAndUpdateHistoryList(message.history);
       if (_refreshTimeout != null) {
         _refreshTimeout.cancel();
+      }
+    } else if (message is ProcessResponse) {
+      ProcessResponse resp = message;
+      // Route to send complete if received process response for send block
+      if (StateContainer.of(context).sendRequestMap.containsKey(resp.hash)) {
+        // Route to send complete
+        StateBlock sendStateBlock = StateContainer.of(context).sendRequestMap.remove(resp.hash);
+        String displayAmount = NumberUtil.getRawAsUsableString(sendStateBlock.sendAmount);
+        KaliumSendCompleteSheet(displayAmount, sendStateBlock.link).mainBottomSheet(context);
+        StateContainer.of(context).requestUpdate();
       }
     }
   }

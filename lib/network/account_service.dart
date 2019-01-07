@@ -88,7 +88,6 @@ class AccountService {
       }
     } else if (msg.containsKey("hash")) {
         // process response
-        print('process_response');
         ProcessResponse resp = ProcessResponse.fromJson(msg);
         _doCallbacks(resp);
     }
@@ -144,9 +143,6 @@ class AccountService {
 
   // Methods to add/remove callback
   addListener(Function callback){
-    if (_listeners.contains(callback)) {
-      _listeners.remove(callback);
-    }
     _listeners.add(callback);
   }
   removeListener(Function callback) {
@@ -155,9 +151,7 @@ class AccountService {
 
   void _doCallbacks(message) {
     _listeners.forEach((Function callback){
-      if (callback != null) {
-        callback(message);
-      }
+      callback(message);
     });
   }
 }
