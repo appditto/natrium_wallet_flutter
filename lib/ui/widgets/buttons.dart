@@ -3,12 +3,13 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/util/exceptions.dart';
 
-enum KaliumButtonType { PRIMARY, PRIMARY_OUTLINE }
+enum KaliumButtonType { PRIMARY, PRIMARY_OUTLINE, SUCCESS_OUTLINE }
 
 class KaliumButton {
   // Primary button builder
-  static Widget buildKaliumButton(KaliumButtonType type, String buttonText, List<double> dimens, 
-                          { Function onPressed } ) {
+  static Widget buildKaliumButton(
+      KaliumButtonType type, String buttonText, List<double> dimens,
+      {Function onPressed}) {
     switch (type) {
       case KaliumButtonType.PRIMARY:
         return Expanded(
@@ -16,8 +17,8 @@ class KaliumButton {
             margin:
                 EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
             child: FlatButton(
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100.0)),
               color: KaliumColors.primary,
               child: Text(buttonText,
                   textAlign: TextAlign.center,
@@ -35,31 +36,57 @@ class KaliumButton {
           ),
         );
       case KaliumButtonType.PRIMARY_OUTLINE:
-    return Expanded(
-      child: Container(
-        margin:
-            EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
-        child: OutlineButton(
-          textColor: KaliumColors.primary,
-          borderSide: BorderSide(color: KaliumColors.primary, width: 2.0),
-          highlightedBorderColor: KaliumColors.primary,
-          splashColor: KaliumColors.primary30,
-          highlightColor: KaliumColors.primary15,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
-          child: Text(buttonText,
-              textAlign: TextAlign.center,
-              style: KaliumStyles.TextStyleButtonPrimaryOutline),
-          padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
-          onPressed: () {
-            if (onPressed != null) {
-              onPressed();
-            }
-            return;
-          },
-        ),
-      ),
-    );
+        return Expanded(
+          child: Container(
+            margin:
+                EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
+            child: OutlineButton(
+              textColor: KaliumColors.primary,
+              borderSide: BorderSide(color: KaliumColors.primary, width: 2.0),
+              highlightedBorderColor: KaliumColors.primary,
+              splashColor: KaliumColors.primary30,
+              highlightColor: KaliumColors.primary15,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100.0)),
+              child: Text(buttonText,
+                  textAlign: TextAlign.center,
+                  style: KaliumStyles.TextStyleButtonPrimaryOutline),
+              padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+              onPressed: () {
+                if (onPressed != null) {
+                  onPressed();
+                }
+                return;
+              },
+            ),
+          ),
+        );
+      case KaliumButtonType.SUCCESS_OUTLINE:
+        return Expanded(
+          child: Container(
+            margin:
+                EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
+            child: OutlineButton(
+              textColor: KaliumColors.success,
+              borderSide: BorderSide(color: KaliumColors.success, width: 2.0),
+              highlightedBorderColor: KaliumColors.success,
+              splashColor: KaliumColors.success30,
+              highlightColor: KaliumColors.success15,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100.0)),
+              child: Text(buttonText,
+                  textAlign: TextAlign.center,
+                  style: KaliumStyles.TextStyleButtonSuccessOutline),
+              padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+              onPressed: () {
+                if (onPressed != null) {
+                  onPressed();
+                }
+                return;
+              },
+            ),
+          ),
+        );
       default:
         throw new UIException("Invalid Button Type $type");
     }

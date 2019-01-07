@@ -119,7 +119,7 @@ class KaliumSendSheet {
                                 StateContainer
                                     .of(context)
                                     .wallet
-                                    .address),
+                                    .address, KaliumStyles.TextStyleAddressPrimary60),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 6.0),

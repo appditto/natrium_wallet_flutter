@@ -6,7 +6,7 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 
 class UIUtil {
-  static Widget threeLineAddressText(String address) {
+  static Widget threeLineAddressText(String address, TextStyle addressStyle) {
     String stringPartOne = address.substring(0, 11);
     String stringPartTwo = address.substring(11, 22);
     String stringPartThree = address.substring(22, 44);
@@ -21,7 +21,7 @@ class UIUtil {
             children: [
               TextSpan(
                 text: stringPartOne,
-                style: KaliumStyles.TextStyleAddressPrimary60,
+                style: addressStyle,
               ),
               TextSpan(
                 text: stringPartTwo,
@@ -53,7 +53,7 @@ class UIUtil {
               ),
               TextSpan(
                 text: stringPartFive,
-                style: KaliumStyles.TextStyleAddressPrimary60,
+                style: addressStyle,
               ),
             ],
           ),

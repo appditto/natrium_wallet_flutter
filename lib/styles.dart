@@ -22,9 +22,22 @@ class KaliumStyles {
                                                   fontSize: KaliumFontSizes.large,
                                                   fontWeight: FontWeight.w700,
                                                   color: KaliumColors.primary);
+  // Text style for outline button
+  static const TextStyleButtonSuccessOutline = TextStyle(
+                                                  fontSize: KaliumFontSizes.large,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: KaliumColors.success);
   // General address/seed styles
   static const TextStyleAddressPrimary60 = TextStyle(
                                     color: KaliumColors.primary60,
+                                    fontSize: KaliumFontSizes.small,
+                                    height: 1.2,
+                                    fontWeight: FontWeight.w100,
+                                    fontFamily: 'OverpassMono',
+                                  );
+  // General address/seed styles
+  static const TextStyleAddressSuccess60 = TextStyle(
+                                    color: KaliumColors.success60,
                                     fontSize: KaliumFontSizes.small,
                                     height: 1.2,
                                     fontWeight: FontWeight.w100,

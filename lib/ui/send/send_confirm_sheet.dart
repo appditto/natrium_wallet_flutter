@@ -5,6 +5,7 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
@@ -157,7 +158,7 @@ class KaliumSendConfirmSheet {
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: UIUtil.threeLineAddressText(_destination)),
+                          child: UIUtil.threeLineAddressText(_destination, KaliumStyles.TextStyleAddressPrimary60)),
                     ],
                   ),
                 ),

@@ -75,20 +75,20 @@ class SendAnimationOverlay extends ModalRoute<void> {
   }
 
   Widget _buildOverlayContent(BuildContext context) {
-    return Center(
-      child: Column(
+    return Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Container(
+            margin: EdgeInsets.only(bottom: 10.0, left:90, right:90),
             //Widgth/Height ratio is needed because BoxFit is not working as expected
             width: double.infinity,
-            height: MediaQuery.of(context).size.width * 5/8,
+            height: MediaQuery.of(context).size.width,
             child: FlareActor("assets/send_animation.flr",
                 animation: "main",
                 fit: BoxFit.contain),
           ),
         ],
-      ),
     );
   }
 

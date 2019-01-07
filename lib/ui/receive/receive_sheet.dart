@@ -65,7 +65,7 @@ class KaliumReceiveSheet {
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
                       child: UIUtil.threeLineAddressText(
-                          _wallet.address),
+                          _wallet.address, KaliumStyles.TextStyleAddressPrimary60),
                     ),
 
                     //This container is a temporary solution for the alignment problem

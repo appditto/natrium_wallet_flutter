@@ -10,6 +10,7 @@ class KaliumColors {
   static const green = Color(0xFF4CBF4B);
   static const green60 = Color(0x994CBF4B);
   static const green30 = Color(0x4D4CBF4B);
+  static const green15 = Color(0x264CBF4B);
   static const greenDark = Color(0xFF276126);
   static const greenDark30 = Color(0x4D276126);
 
@@ -40,6 +41,7 @@ class KaliumColors {
   static const success = green;
   static const success60 = green60;
   static const success30 = green30;
+  static const success15 = green15;
   static const successDark = greenDark;
   static const successDark30 = greenDark30;
 

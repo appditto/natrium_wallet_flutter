@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
@@ -28,31 +29,12 @@ class KaliumSendCompleteSheet {
             return Column(
               children: <Widget>[
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      width: 50,
-                      height: 50,
-                      margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(KaliumIcons.close,
-                            size: 16, color: KaliumColors.text),
-                        padding: EdgeInsets.all(17.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100.0)),
-                        materialTapTargetSize: MaterialTapTargetSize.padded,
-                      ),
-                    ),
-
-                    //This container is a temporary solution for the alignment problem
-                    Container(
-                      width: 50,
-                      height: 50,
-                      margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                      margin: EdgeInsets.only(top:50),
+                      child: Icon(KaliumIcons.success, size: 100, color: KaliumColors.success),
                     ),
                   ],
                 ),
@@ -62,20 +44,6 @@ class KaliumSendCompleteSheet {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(bottom: 10.0),
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              "SENT",
-                              style: TextStyle(
-                                fontSize: 28.0,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                       Container(
                         margin: EdgeInsets.only(left: 60, right: 60),
                         padding:
@@ -93,7 +61,7 @@ class KaliumSendCompleteSheet {
                               TextSpan(
                                 text: "$_amount",
                                 style: TextStyle(
-                                  color: KaliumColors.primary,
+                                  color: KaliumColors.success,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -101,7 +69,7 @@ class KaliumSendCompleteSheet {
                               TextSpan(
                                 text: " BAN",
                                 style: TextStyle(
-                                  color: KaliumColors.primary,
+                                  color: KaliumColors.success,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w100,
                                 ),
@@ -115,10 +83,11 @@ class KaliumSendCompleteSheet {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              "TO",
+                              "SENT TO",
                               style: TextStyle(
                                 fontSize: 28.0,
                                 fontWeight: FontWeight.w700,
+                                color: KaliumColors.success,
                               ),
                             ),
                           ],
@@ -133,7 +102,7 @@ class KaliumSendCompleteSheet {
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: UIUtil.threeLineAddressText(_destination)),
+                          child: UIUtil.threeLineAddressText(_destination, KaliumStyles.TextStyleAddressSuccess60)),
                     ],
                   ),
                 ),
@@ -145,7 +114,7 @@ class KaliumSendCompleteSheet {
                       Row(
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
-                              KaliumButtonType.PRIMARY_OUTLINE,
+                              KaliumButtonType.SUCCESS_OUTLINE,
                               'CLOSE',
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.of(context).pop();
