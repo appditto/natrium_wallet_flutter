@@ -11,14 +11,13 @@ class KaliumSheets {
     double radius = 30.0,
     Color bgColor = KaliumColors.overlay70,
     int animationDurationMs = 200,
+    bool removeUntilHome = false
   }) {
     assert(context != null);
     assert(builder != null);
     assert(radius != null && radius > 0.0);
     assert(color != null && color != Colors.transparent);
-    return Navigator.push<T>(
-        context,
-        _KaliumHeightNineModalRoute<T>(
+    var route = _KaliumHeightNineModalRoute<T>(
           builder: builder,
           color: color,
           radius: radius,
@@ -26,7 +25,16 @@ class KaliumSheets {
               MaterialLocalizations.of(context).modalBarrierDismissLabel,
           bgColor: bgColor,
           animationDurationMs: animationDurationMs
-        ));
+    );
+    if (removeUntilHome) {
+      return Navigator.pushAndRemoveUntil<T>(
+        context,
+        route,
+        ModalRoute.withName('/home'));
+    }
+    return Navigator.push<T>(
+        context,
+        route);
   }
 
 

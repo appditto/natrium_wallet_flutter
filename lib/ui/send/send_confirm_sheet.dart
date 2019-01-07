@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
-import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:kalium_wallet_flutter/ui/send/send_complete_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
@@ -153,7 +152,7 @@ class KaliumSendConfirmSheet {
                               KaliumButtonType.PRIMARY,
                               'CONFIRM',
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                            // TODO - Handle send button press
+                            KaliumSendCompleteSheet(_amount, _destination).mainBottomSheet(context);
                           }),
                         ],
                       ),
