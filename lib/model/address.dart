@@ -19,6 +19,10 @@ class Address {
     return _address.substring(0, 11) + "..." + _address.substring(_address.length - 6);
   }
 
+  bool isValid() {
+    return NanoAccounts.isValid(NanoAccountType.BANANO, _address);
+  }
+
   void _parseAddressString(String value) {
     if (value != null) {
       value = value.toLowerCase();

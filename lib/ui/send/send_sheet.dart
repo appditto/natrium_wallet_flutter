@@ -12,8 +12,12 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:kalium_wallet_flutter/ui/util/formatters.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
+// TODO - We want to implement a max send, this can't just be balance
+// because there may be some off raw in the account. We want 0 as the balance_after_send
 
 class KaliumSendSheet {
   FocusNode _sendAddressFocusNode;
@@ -24,10 +28,16 @@ class KaliumSendSheet {
   // State initial constants
   static const String _amountHintText = "Enter Amount";
   static const String _addressHintText = "Enter Address";
+  static const String _addressInvalidText = "Address entered was invalid";
+  static const String _addressRequiredText = "Please Enter an Address";
+  static const String _amountRequiredText = "Please Enter an Amount";
+  static const String _amountInsufficientText = "Insufficient Balance";
   // States
   var _sendAddressStyle;
   var _amountHint = _amountHintText;
   var _addressHint = _addressHintText;
+  var _amountValidationText = "";
+  var _addressValidationText = "";
 
   KaliumSendSheet() {
     _sendAmountFocusNode = new FocusNode();
@@ -194,7 +204,15 @@ class KaliumSendSheet {
                             cursorColor: KaliumColors.primary,
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(13),
+                              WhitelistingTextInputFormatter(RegExp("[0-9.]")),
+                              CurrencyInputFormatter()
                             ],
+                            onChanged: (text) {
+                              // Always reset the error message to be less annoying
+                              setState(() {
+                                _amountValidationText = "";
+                              });
+                            },
                             textInputAction: TextInputAction.done,
                             maxLines: null,
                             autocorrect: false,
@@ -205,7 +223,7 @@ class KaliumSendSheet {
                                   fontFamily: 'NunitoSans',
                                   fontWeight: FontWeight.w100),
                             ),
-                            keyboardType: TextInputType.numberWithOptions(),
+                            keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
@@ -216,7 +234,17 @@ class KaliumSendSheet {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(left: 60, right: 60, top: 20),
+                          margin: EdgeInsets.only(top: 5, bottom: 5),
+                          child: Text(_amountValidationText,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: KaliumColors.primary,
+                                fontFamily: 'NunitoSans',
+                                fontWeight: FontWeight.w600,
+                              )),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 60, right: 60),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: KaliumColors.backgroundDarkest,
@@ -268,7 +296,8 @@ class KaliumSendSheet {
                                       Address address = new Address(data.text);
                                       if (NanoAccounts.isValid(NanoAccountType.BANANO, address.address)) {
                                         setState(() {
-                                          _sendAddressStyle = KaliumStyles.TextStyleAddressPrimary60;
+                                          _addressValidationText = "";
+                                          _sendAddressStyle = KaliumStyles.TextStyleAddressText90;
                                         });
                                         _sendAddressController.text = address.address;
                                       }
@@ -285,16 +314,15 @@ class KaliumSendSheet {
                             style: _sendAddressStyle,
                             onChanged: (text) {
                               // Always reset the error message to be less annoying
-                              /*
                               setState(() {
-                                _errorTextColor = _initialErrorTextColor;
+                                _addressValidationText = "";
                               });
-                              */
-                              // If valid address, clear focus/close keyboard
+                              print("focus change $text");
                               if (NanoAccounts.isValid(NanoAccountType.BANANO, text)) {
                                 _sendAddressFocusNode.unfocus();
                                 setState(() {
-                                  _sendAddressStyle = KaliumStyles.TextStyleAddressPrimary60;
+                                  _sendAddressStyle = KaliumStyles.TextStyleAddressText90;
+                                  _addressValidationText = "";
                                 });
                               } else {
                                 setState(() {
@@ -303,6 +331,16 @@ class KaliumSendSheet {
                               }
                             },
                           ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: Text(_addressValidationText,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: KaliumColors.primary,
+                                fontFamily: 'NunitoSans',
+                                fontWeight: FontWeight.w600,
+                              )),
                         ),
                       ],
                     ),
@@ -318,9 +356,9 @@ class KaliumSendSheet {
                           KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY, 'Send',
                               Dimens.BUTTON_TOP_DIMENS,
                               onPressed: () {
-                                String destination = 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo';
-                                String amount = "1000";
-                                KaliumSendConfirmSheet(amount, destination).mainBottomSheet(context);
+                                if (_validateRequest(context, setState)) {
+                                  KaliumSendConfirmSheet(_sendAmountController.text, _sendAddressController.text).mainBottomSheet(context);
+                                }
                               }),
                         ],
                       ),
@@ -340,5 +378,51 @@ class KaliumSendSheet {
             );
           });
         });
+  }
+
+  /// Validate form data to see if valid
+  /// @returns true if valid, false otherwise
+  bool _validateRequest(BuildContext context, StateSetter setState) {
+    bool isValid = true;
+    _sendAmountFocusNode.unfocus();
+    _sendAddressFocusNode.unfocus();
+    // Validate amount
+    if (_sendAmountController.text.trim().isEmpty) {
+      isValid = false;
+      setState(() {
+        _amountValidationText = _amountRequiredText;
+      });
+    } else {
+      BigInt balanceRaw = StateContainer.of(context).wallet.accountBalance;
+      BigInt sendAmount = BigInt.tryParse(NumberUtil.getAmountAsRaw(_sendAmountController.text));
+      if (sendAmount == null || sendAmount == BigInt.zero) {
+        isValid = false;
+        setState(() {
+          _amountValidationText = _amountRequiredText;
+        });
+      } else if (sendAmount > balanceRaw) {
+        isValid = false;
+        setState(() {
+          _amountValidationText = _amountInsufficientText;
+        });
+      }
+    }
+    // Validate address
+    if (_sendAddressController.text.trim().isEmpty) {
+      isValid = false;
+      setState(() {
+        _addressValidationText = _addressRequiredText;
+      });
+    } else if (!NanoAccounts.isValid(NanoAccountType.BANANO, _sendAddressController.text)) {
+      isValid = false;
+      setState(() {
+        _addressValidationText = _addressInvalidText;
+      });
+    } else {
+      setState(() {
+        _addressValidationText = "";
+      });
+    }
+    return isValid;
   }
 }

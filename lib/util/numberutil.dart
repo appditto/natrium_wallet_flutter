@@ -4,7 +4,7 @@ import 'package:decimal/decimal.dart';
 
 class NumberUtil {
   static final BigInt rawPerBan = BigInt.from(10).pow(29);
-  static final int maxDecimalDigits = 2; // Max digits after decimal
+  static const int maxDecimalDigits = 2; // Max digits after decimal
 
   /// Convert raw to ban and return as BigDecimal
   ///

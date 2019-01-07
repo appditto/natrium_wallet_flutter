@@ -37,6 +37,13 @@ class KaliumStyles {
                                           fontWeight: FontWeight.w100,
                                           fontFamily: 'OverpassMono',
                                         );
+  static const TextStyleAddressText90 = TextStyle(
+                                          color: KaliumColors.white90,
+                                          fontSize: KaliumFontSizes.small,
+                                          height: 1.2,
+                                          fontWeight: FontWeight.w100,
+                                          fontFamily: 'OverpassMono',
+                                        );
   // Text style for alternate currencies on home page
   static const TextStyleCurrencyAlt = TextStyle(
                                         fontSize: KaliumFontSizes.small,
