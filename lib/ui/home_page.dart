@@ -19,6 +19,7 @@ import 'package:kalium_wallet_flutter/ui/send/send_complete_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/kalium_drawer.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
@@ -195,7 +196,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       backgroundColor: KaliumColors.background,
       drawer: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        child: Drawer(
+        child: KaliumDrawer(
           child: SettingsSheet(),
         ),
       ),
