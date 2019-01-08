@@ -10,6 +10,7 @@ class Vault {
 
   static const String seedKey = 'fkalium_seed';
   static const String encryptionKey = 'fkalium_secret_phrase';
+  static const String pinKey = 'fkalium_pin';
   final FlutterSecureStorage secureStorage = new FlutterSecureStorage();
 
   // Re-usable
@@ -49,5 +50,17 @@ class Vault {
 
   Future<void> deleteEncryptionPhrase() async {
     return await secureStorage.delete(key: encryptionKey);
+  }
+
+  Future<String> getPin() async {
+    return await _read(pinKey);
+  }
+
+  Future<String> writePin(String pin) async {
+    return await _write(pinKey, pin);
+  }
+
+  Future<void> deletePin() async {
+    return await secureStorage.delete(key: pinKey);
   }
 }

@@ -54,6 +54,12 @@ dependencies:
   # Native webview plugin
   flutter_webview_plugin: ^0.3.0+2
 
+  # SQLite
+  sqflite: ^0.13.0+1
+
+  # Android/iOS path provider
+  path_provider: ^0.4.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
