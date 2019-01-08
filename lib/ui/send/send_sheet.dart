@@ -107,10 +107,7 @@ class KaliumSendSheet {
                         children: <Widget>[
                           Text(
                             "SEND FROM",
-                            style: TextStyle(
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.w700,
-                            ),
+                            style: KaliumStyles.TextStyleHeader,
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 10.0),

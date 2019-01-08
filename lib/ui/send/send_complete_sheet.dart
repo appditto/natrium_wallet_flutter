@@ -64,6 +64,7 @@ class KaliumSendCompleteSheet {
                                   color: KaliumColors.success,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w700,
+                                  fontFamily: 'NunitoSans',
                                 ),
                               ),
                               TextSpan(
@@ -72,6 +73,7 @@ class KaliumSendCompleteSheet {
                                   color: KaliumColors.success,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w100,
+                                  fontFamily: 'NunitoSans',
                                 ),
                               ),
                             ],
@@ -88,6 +90,7 @@ class KaliumSendCompleteSheet {
                                 fontSize: 28.0,
                                 fontWeight: FontWeight.w700,
                                 color: KaliumColors.success,
+                                fontFamily: 'NunitoSans',
                               ),
                             ),
                           ],

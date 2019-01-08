@@ -78,10 +78,7 @@ class KaliumSendConfirmSheet {
                           children: <Widget>[
                             Text(
                               "SENDING",
-                              style: TextStyle(
-                                fontSize: 28.0,
-                                fontWeight: FontWeight.w700,
-                              ),
+                              style: KaliumStyles.TextStyleHeader,
                             ),
                           ],
                         ),
@@ -106,6 +103,7 @@ class KaliumSendConfirmSheet {
                                   color: KaliumColors.primary,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w700,
+                                  fontFamily: 'NunitoSans',
                                 ),
                               ),
                               TextSpan(
@@ -114,6 +112,7 @@ class KaliumSendConfirmSheet {
                                   color: KaliumColors.primary,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w100,
+                                  fontFamily: 'NunitoSans',
                                 ),
                               ),
                             ],
@@ -126,10 +125,7 @@ class KaliumSendConfirmSheet {
                           children: <Widget>[
                             Text(
                               "TO",
-                              style: TextStyle(
-                                fontSize: 28.0,
-                                fontWeight: FontWeight.w700,
-                              ),
+                              style: KaliumStyles.TextStyleHeader,
                             ),
                           ],
                         ),
@@ -160,9 +156,9 @@ class KaliumSendConfirmSheet {
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             Navigator.of(context).push(SendAnimationOverlay());
                             StateContainer.of(context).requestSend(
-                              StateContainer.of(context).wallet.frontier,
-                              _destination,
-                              _amountRaw);
+                                StateContainer.of(context).wallet.frontier,
+                                _destination,
+                                _amountRaw);
                           }),
                         ],
                       ),
