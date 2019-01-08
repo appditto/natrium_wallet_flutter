@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
-import 'package:kalium_wallet_flutter/model/authentication_method.dart';
-import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:kalium_wallet_flutter/model/setting_item.dart';
 
 class KaliumSettings {
-  /// Build and handle changes for authentication method
-  static Widget buildAuthMethodOption(String heading, AuthenticationMethod defaultMethod) {
-    
-  }
-
   //Settings item with a dropdown option
-  static Widget _buildSettingsListItemDoubleLine(
-      String heading, String option, IconData settingIcon, Function onPressed) {
+  static Widget buildSettingsListItemDoubleLine(String heading, SettingSelectionItem defaultMethod, IconData icon, Function onPressed) {
     return FlatButton(
       onPressed: () {
-        return;
+        onPressed();
       },
       padding: EdgeInsets.all(0.0),
       child: Container(
@@ -26,7 +19,7 @@ class KaliumSettings {
           children: <Widget>[
             Container(
               margin: new EdgeInsets.only(right: 16.0),
-              child: new Icon(settingIcon, color: KaliumColors.primary, size: 24),
+              child: new Icon(icon, color: KaliumColors.primary, size: 24),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -37,7 +30,7 @@ class KaliumSettings {
                   style: KaliumStyles.TextStyleSettingItemHeader,
                 ),
                 Text(
-                  option,
+                  defaultMethod.getDisplayName(),
                   style: KaliumStyles.TextStyleSettingItemSubheader,
                 ),
               ],
