@@ -8,6 +8,7 @@ import 'package:kalium_wallet_flutter/ui/settings/backupseed_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/changerepresentative_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 
 class SettingsSheet extends StatefulWidget {
@@ -15,6 +16,10 @@ class SettingsSheet extends StatefulWidget {
 }
 
 class _SettingsSheetState extends State<SettingsSheet> {
+
+  void pinEnteredTest(String pin) {
+    print("Pin Entered $pin");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +82,13 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      'Load from Paper Wallet', KaliumIcons.transferfunds),
+                      'Load from Paper Wallet', KaliumIcons.transferfunds,
+                      onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              new PinScreen(PinOverlayType.NEW_PIN, "", pinEnteredTest);
+                            }));
+                      }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine('Change Representative',
                       KaliumIcons.changerepresentative, onPressed: () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
@@ -7,10 +8,10 @@ import 'package:kalium_wallet_flutter/styles.dart';
 enum PinOverlayType { NEW_PIN, ENTER_PIN }
 
 class PinScreen extends StatefulWidget {
-  PinOverlayType type;
-  String expectedPin;
-  String description;
-  Function pinSuccessCallback;
+  final PinOverlayType type;
+  final String expectedPin;
+  final String description;
+  final Function pinSuccessCallback;
 
   PinScreen(this.type, this.expectedPin, this.pinSuccessCallback, {this.description = ""});
 
@@ -162,10 +163,13 @@ class _PinScreenState extends State<PinScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
+        .copyWith(statusBarIconBrightness: Brightness.light));
+
     return Scaffold(
         body: Container(
           constraints: BoxConstraints.expand(),
-          color: KaliumColors.backgroundDark,
+          color: KaliumColors.white90,
           child: Column(
             children: <Widget>[
               Container(
