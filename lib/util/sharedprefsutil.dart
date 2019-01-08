@@ -89,12 +89,12 @@ class SharedPrefsUtil {
     return PriceConversion.values[await get(price_conversion, defaultValue: PriceConversion.BTC.index)];
   }
 
-    Future<void> setAuthMethod(AuthenticationMethod method) async {
+  Future<void> setAuthMethod(AuthenticationMethod method) async {
    return await set(auth_method, method.getIndex());
   }
 
   Future<AuthenticationMethod> getAuthMethod() async {
-    return AuthenticationMethod(AuthMethod.values[await get(auth_method, defaultValue: AuthMethod.BIOMETRICS)]);
+    return AuthenticationMethod(AuthMethod.values[await get(auth_method, defaultValue: AuthMethod.BIOMETRICS.index)]);
   }
 
   // For logging out

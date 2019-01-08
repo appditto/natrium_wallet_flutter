@@ -3,6 +3,7 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/settings/backupseed_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/changerepresentative_sheet.dart';
@@ -19,10 +20,10 @@ class SettingsSheet extends StatefulWidget {
 class _SettingsSheetState extends State<SettingsSheet> {
 
   bool _hasBiometrics = false;
+  AuthenticationMethod _curAuthMethod = AuthenticationMethod(AuthMethod.BIOMETRICS);
 
   void pinEnteredTest(String pin) {
     print("Pin Entered $pin");
-
   }
 
   @override
@@ -34,6 +35,47 @@ class _SettingsSheetState extends State<SettingsSheet> {
         _hasBiometrics = hasBiometrics;
       });
     });
+    SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
+      setState(() {
+        _curAuthMethod = authMethod;
+      });
+    });
+  }
+
+  Future<void> _authMethodDialog() async {
+    switch (await showDialog<AuthMethod>(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: const Text("Choose Authentication Method"),
+          children: <Widget>[
+            SimpleDialogOption(
+              onPressed: () { Navigator.pop(context, AuthMethod.PIN); },
+              child: const Text('PIN'),
+            ),
+            SimpleDialogOption(
+              onPressed: () { Navigator.pop(context, AuthMethod.BIOMETRICS); },
+              child: const Text('Biometrics'),
+            ),
+          ],
+        );
+      }
+    )) {
+      case AuthMethod.PIN:
+        SharedPrefsUtil.inst.setAuthMethod(AuthenticationMethod(AuthMethod.PIN)).then((result) {
+          setState(() {
+            _curAuthMethod = AuthenticationMethod(AuthMethod.PIN);            
+          });
+        });
+      break;
+      case AuthMethod.BIOMETRICS:
+        SharedPrefsUtil.inst.setAuthMethod(AuthenticationMethod(AuthMethod.BIOMETRICS)).then((result) {
+        setState(() {
+          _curAuthMethod = AuthenticationMethod(AuthMethod.BIOMETRICS);            
+        });
+      });
+      break;
+    }
   }
 
   bool notNull(Object o) => o != null;
@@ -73,8 +115,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   buildSettingsListItemDoubleLine(
                       'Language', 'System Default', KaliumIcons.language),
                   Divider(height: 2),
-                  _hasBiometrics ? buildSettingsListItemDoubleLine('Authentication Method',
-                      'Fingerprint', KaliumIcons.fingerprint) : null,
+                  _hasBiometrics ? KaliumSettings.buildAuthMethodOption("Authentication Method", _curAuthMethod, _authMethodDialog) : null,
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
                       'Notifications', 'On', KaliumIcons.notifications),
@@ -94,7 +135,29 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
                       'Backup Seed', KaliumIcons.backupseed, onPressed: () {
-                    new KaliumSeedBackupSheet().mainBottomSheet(context);
+                    // Authenticate
+                    SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
+                      BiometricUtil.hasBiometrics().then((hasBiometrics) {
+                        if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
+                          BiometricUtil.authenticateWithBiometrics("Backup Seed").then((authenticated) {
+                            if (authenticated) {
+                              new KaliumSeedBackupSheet().mainBottomSheet(context);
+                            }
+                          });
+                        } else {
+                          // PIN Authentication
+                          Vault.inst.getPin().then((expectedPin) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              return new PinScreen(PinOverlayType.ENTER_PIN, 
+                                                   (pin) => new KaliumSeedBackupSheet().mainBottomSheet(context),
+                                                   expectedPin:expectedPin,
+                                                   description: "Enter PIN to backup seed",);
+                            }));
+                          });
+                        }
+                      });
+                    });
                   }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
