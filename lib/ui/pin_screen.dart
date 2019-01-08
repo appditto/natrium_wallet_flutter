@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 
 void main() => runApp(MyApp());
 
@@ -48,16 +51,17 @@ Widget buildPinScreenButton(String buttonText) {
     height: 70,
     width: 70,
     child: FlatButton(
-      highlightColor: Color(0x26FBDD11),
-      splashColor: Color(0x4DFBDD11),
+      highlightColor: KaliumColors.primary15,
+      splashColor: KaliumColors.primary30,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(200.0)),
-      color: Color(0xFF2A2A2E),
       child: Text(
         buttonText,
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 20.0,
-          color: Color(0xFFFBDD11),
+          color: KaliumColors.primary,
+          fontFamily: 'NunitoSans',
+          fontWeight: FontWeight.w700,
         ),
       ),
       onPressed: () {
@@ -79,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
-        color: Color(0xFF2A2A2E),
+        color: KaliumColors.backgroundDark,
         child: Column(
           children: <Widget>[
             Container(
@@ -89,10 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Text(
                     "Header",
-                    style: TextStyle(
-                        color: Color(0xFFFFFFFF),
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold),
+                    style: KaliumStyles.TextStyleHeaderColored,
                     textAlign: TextAlign.center,
                   ),
                   Container(
@@ -100,41 +101,40 @@ class _MyHomePageState extends State<MyHomePage> {
                         EdgeInsets.symmetric(horizontal: 50.0, vertical: 15),
                     child: Text(
                       "Bunch of numbers and words chilling together in a sunny day.",
-                      style: TextStyle(
-                          color: Color(0xFFFFFFFF),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w300),
+                      style: KaliumStyles.TextStyleParagraph,
                       textAlign: TextAlign.center,
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.2, vertical: MediaQuery.of(context).size.height * 0.02),
+                    margin: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.2,
+                        vertical: MediaQuery.of(context).size.height * 0.02),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Icon(
-                          Icons.fiber_manual_record,
-                          color: Color(0xFFFBDD11),
+                          KaliumIcons.dotemtpy,
+                          color: KaliumColors.primary,
                         ),
                         Icon(
-                          Icons.fiber_manual_record,
-                          color: Color(0xFFFBDD11),
+                          KaliumIcons.dotemtpy,
+                          color: KaliumColors.primary,
                         ),
                         Icon(
-                          Icons.fiber_manual_record,
-                          color: Color(0xFFFBDD11),
+                          KaliumIcons.dotemtpy,
+                          color: KaliumColors.primary,
                         ),
                         Icon(
-                          Icons.fiber_manual_record,
-                          color: Color(0xFFFBDD11),
+                          KaliumIcons.dotemtpy,
+                          color: KaliumColors.primary,
                         ),
                         Icon(
-                          Icons.fiber_manual_record,
-                          color: Color(0xFFFBDD11),
+                          KaliumIcons.dotemtpy,
+                          color: KaliumColors.primary,
                         ),
                         Icon(
-                          Icons.fiber_manual_record,
-                          color: Color(0xFFFBDD11),
+                          KaliumIcons.dotemtpy,
+                          color: KaliumColors.primary,
                         ),
                       ],
                     ),
@@ -202,13 +202,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             height: 70,
                             width: 70,
                             child: FlatButton(
-                              highlightColor: Color(0x26FBDD11),
-                              splashColor: Color(0x4DFBDD11),
+                              highlightColor: KaliumColors.primary15,
+                              splashColor: KaliumColors.primary30,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(200.0)),
-                              color: Color(0xFF2A2A2E),
                               child: Icon(Icons.backspace,
-                                  color: Color(0xFFFBDD11)),
+                                  color: KaliumColors.primary),
                               onPressed: () {
                                 return null;
                               },
