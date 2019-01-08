@@ -30,7 +30,6 @@ class KaliumIcons {
   static const IconData changerepresentative = const IconData(0xe807, fontFamily: _kFontFam);
   static const IconData transferfunds = const IconData(0xe808, fontFamily: _kFontFam);
   static const IconData contacts = const IconData(0xe809, fontFamily: _kFontFam);
-  static const IconData swapcurrency = const IconData(0xe80a, fontFamily: _kFontFam);
   static const IconData search = const IconData(0xe80b, fontFamily: _kFontFam);
   static const IconData notifications = const IconData(0xe80c, fontFamily: _kFontFam);
   static const IconData importwallet = const IconData(0xe80d, fontFamily: _kFontFam);
@@ -53,4 +52,6 @@ class KaliumIcons {
   static const IconData bananologo = const IconData(0xe81e, fontFamily: _kFontFam);
   static const IconData dotfilled = const IconData(0xe81f, fontFamily: _kFontFam);
   static const IconData dotemtpy = const IconData(0xe820, fontFamily: _kFontFam);
+  static const IconData swapcurrency = const IconData(0xe822, fontFamily: _kFontFam);
+  static const IconData max = const IconData(0xe823, fontFamily: _kFontFam);
 }
