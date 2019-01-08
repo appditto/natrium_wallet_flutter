@@ -115,7 +115,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   buildSettingsListItemDoubleLine(
                       'Language', 'System Default', KaliumIcons.language),
                   Divider(height: 2),
-                  _hasBiometrics ? KaliumSettings.buildAuthMethodOption("Authentication Method", _curAuthMethod, _authMethodDialog) : null,
+                  _hasBiometrics ? KaliumSettings.buildSettingsListItemDoubleLine("Authentication Method", _curAuthMethod, KaliumIcons.fingerprint, _authMethodDialog) : null,
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
                       'Notifications', 'On', KaliumIcons.notifications),

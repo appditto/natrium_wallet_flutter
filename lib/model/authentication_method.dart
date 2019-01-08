@@ -1,8 +1,9 @@
+import 'package:kalium_wallet_flutter/model/setting_item.dart';
 
 enum AuthMethod { PIN, BIOMETRICS }
 
 /// Represent the available authentication methods our app supports
-class AuthenticationMethod {
+class AuthenticationMethod extends SettingSelectionItem {
   AuthMethod method;
 
   AuthenticationMethod(this.method);
