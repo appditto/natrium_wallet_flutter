@@ -534,7 +534,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                         style: KaliumStyles.TextStyleTransactionWelcomePrimary,
                       ),
                       TextSpan(
-                        text: ", transaction will show up like below:",
+                        text: ", transactions will show up like below.",
                         style: KaliumStyles.TextStyleTransactionWelcome,
                       ),
                     ],

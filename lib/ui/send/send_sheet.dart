@@ -112,7 +112,8 @@ class KaliumSendSheet {
                           Container(
                             margin: EdgeInsets.only(top: 10.0),
                             child: UIUtil.threeLineAddressText(
-                                StateContainer.of(context).wallet.address, type: ThreeLineAddressTextType.PRIMARY60),
+                                StateContainer.of(context).wallet.address,
+                                type: ThreeLineAddressTextType.PRIMARY60),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 6.0),
@@ -182,15 +183,17 @@ class KaliumSendSheet {
                     margin: EdgeInsets.only(top: 35, bottom: 35),
                     child: Column(
                       children: <Widget>[
+                        // Enter Amount Container
                         Container(
-                          margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.105,
+                              right: MediaQuery.of(context).size.width * 0.105),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: TextField(
+                          child: TextField(    
                             focusNode: _sendAmountFocusNode,
                             controller: _sendAmountController,
                             cursorColor: KaliumColors.primary,
@@ -212,8 +215,43 @@ class KaliumSendSheet {
                               hintText: _amountHint,
                               border: InputBorder.none,
                               hintStyle: TextStyle(
-                                  fontFamily: 'NunitoSans',
-                                  fontWeight: FontWeight.w100),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w100,
+                                  fontFamily: 'NunitoSans'),
+                              // Currency Switch Button
+                              prefixIcon: Container(
+                                width: 50,
+                                child: FlatButton(
+                                  padding: EdgeInsets.all(15.0),
+                                  highlightColor: KaliumColors.primary15,
+                                  splashColor: KaliumColors.primary30,
+                                  onPressed: () {
+                                    return null;
+                                  },
+                                  child: Icon(KaliumIcons.swapcurrency,
+                                      size: 20, color: KaliumColors.primary),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(200.0)),
+                                ),
+                              ),
+                              // MAX Button
+                              suffixIcon: Container(
+                                width: 50,
+                                child: FlatButton(
+                                  highlightColor: KaliumColors.primary15,
+                                  splashColor: KaliumColors.primary30,
+                                  padding: EdgeInsets.all(13.0),
+                                  onPressed: () {
+                                    return null;
+                                  },
+                                  child: Icon(KaliumIcons.max,
+                                      size: 24, color: KaliumColors.primary),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(200.0)),
+                                ),
+                              ),
                             ),
                             keyboardType: TextInputType.numberWithOptions(
                                 signed: true, decimal: true),
@@ -226,6 +264,7 @@ class KaliumSendSheet {
                             ),
                           ),
                         ),
+                        // Enter Amount Error Container
                         Container(
                           margin: EdgeInsets.only(top: 5, bottom: 5),
                           child: Text(_amountValidationText,
@@ -236,8 +275,11 @@ class KaliumSendSheet {
                                 fontWeight: FontWeight.w600,
                               )),
                         ),
+                        // Enter Address Container
                         Container(
-                          margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
+                          margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.105,
+                              right: MediaQuery.of(context).size.width * 0.105),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: KaliumColors.backgroundDarkest,
@@ -262,9 +304,12 @@ class KaliumSendSheet {
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w100,
                                   fontFamily: 'NunitoSans'),
+                              // @ BUTTON
                               prefixIcon: Container(
                                 width: 50,
                                 child: FlatButton(
+                                  highlightColor: KaliumColors.primary15,
+                                  splashColor: KaliumColors.primary30,
                                   padding: EdgeInsets.all(15.0),
                                   onPressed: () {
                                     return null;
@@ -276,9 +321,12 @@ class KaliumSendSheet {
                                           BorderRadius.circular(200.0)),
                                 ),
                               ),
+                              // PASTE BUTTTON
                               suffixIcon: Container(
                                 width: 50,
                                 child: FlatButton(
+                                  highlightColor: KaliumColors.primary15,
+                                  splashColor: KaliumColors.primary30,
                                   padding: EdgeInsets.all(15.0),
                                   onPressed: () {
                                     Clipboard.getData("text/plain")
@@ -332,6 +380,7 @@ class KaliumSendSheet {
                             },
                           ),
                         ),
+                        // Enter Address Error Container
                         Container(
                           margin: EdgeInsets.only(top: 5),
                           child: Text(_addressValidationText,
