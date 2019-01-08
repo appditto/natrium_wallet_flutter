@@ -48,7 +48,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
         builder: (BuildContext context) {
           return SimpleDialog(
             title: const Text(
-              "Choose Authentication Method",
+              "Authentication Method",
               style: KaliumStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
