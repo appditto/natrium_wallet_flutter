@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:kalium_wallet_flutter/appstate_container.dart';
@@ -9,11 +8,13 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
-import 'package:kalium_wallet_flutter/ui/send/send_complete_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
-import 'package:kalium_wallet_flutter/network/account_service.dart';
-import 'package:kalium_wallet_flutter/network/model/response/process_response.dart';
+import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:kalium_wallet_flutter/util/biometrics.dart';
+import 'package:kalium_wallet_flutter/model/authentication_method.dart';
+import 'package:kalium_wallet_flutter/model/vault.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 
 class KaliumSendConfirmSheet {
   String _amount;
@@ -154,11 +155,39 @@ class KaliumSendConfirmSheet {
                               KaliumButtonType.PRIMARY,
                               'CONFIRM',
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                            Navigator.of(context).push(SendAnimationOverlay());
-                            StateContainer.of(context).requestSend(
-                                StateContainer.of(context).wallet.frontier,
-                                _destination,
-                                _amountRaw);
+                              // Authenticate
+                              SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
+                                BiometricUtil.hasBiometrics().then((hasBiometrics) {
+                                  if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
+                                    BiometricUtil.authenticateWithBiometrics("Send $_amount BANANO?").then((authenticated) {
+                                      if (authenticated) {
+                                        Navigator.of(context).push(SendAnimationOverlay());
+                                        StateContainer.of(context).requestSend(
+                                            StateContainer.of(context).wallet.frontier,
+                                            _destination,
+                                            _amountRaw);
+                                      }
+                                    });
+                                  } else {
+                                    // PIN Authentication
+                                    Vault.inst.getPin().then((expectedPin) {
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (BuildContext context) {
+                                        return new PinScreen(PinOverlayType.ENTER_PIN, 
+                                                            (pin) {
+                                                              Navigator.of(context).push(SendAnimationOverlay());
+                                                              StateContainer.of(context).requestSend(
+                                                                  StateContainer.of(context).wallet.frontier,
+                                                                  _destination,
+                                                                  _amountRaw);
+                                                            },
+                                                            expectedPin:expectedPin,
+                                                            description: "Enter PIN to send $_amount BANANO",);
+                                      }));
+                                    });
+                                  }
+                                });
+                              });
                           }),
                         ],
                       ),
