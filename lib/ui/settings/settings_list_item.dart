@@ -1,7 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/model/authentication_method.dart';
+import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 
+class KaliumSettings {
+  /// Build and handle changes for authentication method
+  static Widget buildAuthMethodOption(String heading, AuthenticationMethod defaultMethod) {
+    
+  }
+
+  //Settings item with a dropdown option
+  static Widget _buildSettingsListItemDoubleLine(
+      String heading, String option, IconData settingIcon, Function onPressed) {
+    return FlatButton(
+      onPressed: () {
+        return;
+      },
+      padding: EdgeInsets.all(0.0),
+      child: Container(
+        height: 60.0,
+        margin: new EdgeInsets.only(left: 30.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              margin: new EdgeInsets.only(right: 16.0),
+              child: new Icon(settingIcon, color: KaliumColors.primary, size: 24),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  heading,
+                  style: KaliumStyles.TextStyleSettingItemHeader,
+                ),
+                Text(
+                  option,
+                  style: KaliumStyles.TextStyleSettingItemSubheader,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+// TODO - deprecate everything below this line
 void doNothing() {
   return;
 }

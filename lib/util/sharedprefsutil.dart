@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kalium_wallet_flutter/util/encrypt.dart';
+import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 
 /// Price conversion preference values
@@ -16,6 +17,7 @@ class SharedPrefsUtil {
   static const String seed_backed_up_key = 'fkalium_seed_backup';
   static const String app_uuid_key = 'fkalium_app_uuid';
   static const String price_conversion = 'fkalium_price_conversion_pref';
+  static const String auth_method = 'fkalium_auth_method';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -85,6 +87,14 @@ class SharedPrefsUtil {
 
   Future<PriceConversion> getPriceConversion() async {
     return PriceConversion.values[await get(price_conversion, defaultValue: PriceConversion.BTC.index)];
+  }
+
+    Future<void> setAuthMethod(AuthenticationMethod method) async {
+   return await set(auth_method, method.getIndex());
+  }
+
+  Future<AuthenticationMethod> getAuthMethod() async {
+    return AuthenticationMethod(AuthMethod.values[await get(auth_method, defaultValue: AuthMethod.BIOMETRICS)]);
   }
 
   // For logging out

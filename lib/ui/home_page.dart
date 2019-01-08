@@ -20,6 +20,7 @@ import 'package:kalium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_drawer.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/kalium_scaffold.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
@@ -33,7 +34,7 @@ class KaliumHomePage extends StatefulWidget {
 class _KaliumHomePageState extends State<KaliumHomePage>
     with WidgetsBindingObserver {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  var _scaffoldKey = new GlobalKey<ScaffoldState>();
+  var _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
 
   // A separate unfortunate instance of this list, is a little unfortunate
   // but seems the only way to handle the animations
@@ -191,7 +192,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
-    return Scaffold(
+    return KaliumScaffold(
       key: _scaffoldKey,
       backgroundColor: KaliumColors.background,
       drawer: SizedBox(

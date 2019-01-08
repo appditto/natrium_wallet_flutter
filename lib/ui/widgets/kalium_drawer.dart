@@ -1,3 +1,5 @@
+/// Modified to have larger drag area
+
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
@@ -9,7 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
 /// The possible alignments of a [Drawer].
-enum DrawerAlignment {
+enum KaliumDrawerAlignment {
   /// Denotes that the [Drawer] is at the start side of the [Scaffold].
   ///
   /// This corresponds to the left side when the text direction is left-to-right
@@ -140,9 +142,9 @@ class KaliumDrawer extends StatelessWidget {
   }
 }
 
-/// Signature for the callback that's called when a [DrawerController] is
+/// Signature for the callback that's called when a [KaliumDrawerController] is
 /// opened or closed.
-typedef DrawerCallback = void Function(bool isOpened);
+typedef KaliumDrawerCallback = void Function(bool isOpened);
 
 /// Provides interactive behavior for [Drawer] widgets.
 ///
@@ -158,13 +160,13 @@ typedef DrawerCallback = void Function(bool isOpened);
 ///
 ///  * [Drawer], a container with the default width of a drawer.
 ///  * [Scaffold.drawer], the [Scaffold] slot for showing a drawer.
-class DrawerController extends StatefulWidget {
+class KaliumDrawerController extends StatefulWidget {
   /// Creates a controller for a [Drawer].
   ///
   /// Rarely used directly.
   ///
   /// The [child] argument must not be null and is typically a [Drawer].
-  const DrawerController({
+  const KaliumDrawerController({
     GlobalKey key,
     @required this.child,
     @required this.alignment,
@@ -182,19 +184,19 @@ class DrawerController extends StatefulWidget {
   ///
   /// This controls the direction in which the user should swipe to open and
   /// close the drawer.
-  final DrawerAlignment alignment;
+  final KaliumDrawerAlignment alignment;
 
   /// Optional callback that is called when a [Drawer] is opened or closed.
-  final DrawerCallback drawerCallback;
+  final KaliumDrawerCallback drawerCallback;
 
   @override
-  DrawerControllerState createState() => DrawerControllerState();
+  KaliumDrawerControllerState createState() => KaliumDrawerControllerState();
 }
 
-/// State for a [DrawerController].
+/// State for a [KaliumDrawerController].
 ///
 /// Typically used by a [Scaffold] to [open] and [close] the drawer.
-class DrawerControllerState extends State<DrawerController> with SingleTickerProviderStateMixin {
+class KaliumDrawerControllerState extends State<KaliumDrawerController> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -282,9 +284,9 @@ class DrawerControllerState extends State<DrawerController> with SingleTickerPro
   void _move(DragUpdateDetails details) {
     double delta = details.primaryDelta / _width;
     switch (widget.alignment) {
-      case DrawerAlignment.start:
+      case KaliumDrawerAlignment.start:
         break;
-      case DrawerAlignment.end:
+      case KaliumDrawerAlignment.end:
         delta = -delta;
         break;
     }
@@ -309,9 +311,9 @@ class DrawerControllerState extends State<DrawerController> with SingleTickerPro
     if (details.velocity.pixelsPerSecond.dx.abs() >= _kMinFlingVelocity) {
       double visualVelocity = details.velocity.pixelsPerSecond.dx / _width;
       switch (widget.alignment) {
-        case DrawerAlignment.start:
+        case KaliumDrawerAlignment.start:
           break;
-        case DrawerAlignment.end:
+        case KaliumDrawerAlignment.end:
           visualVelocity = -visualVelocity;
           break;
       }
@@ -352,9 +354,9 @@ class DrawerControllerState extends State<DrawerController> with SingleTickerPro
   AlignmentDirectional get _drawerOuterAlignment {
     assert(widget.alignment != null);
     switch (widget.alignment) {
-      case DrawerAlignment.start:
+      case KaliumDrawerAlignment.start:
         return AlignmentDirectional.centerStart;
-      case DrawerAlignment.end:
+      case KaliumDrawerAlignment.end:
         return AlignmentDirectional.centerEnd;
     }
     return null;
@@ -363,16 +365,16 @@ class DrawerControllerState extends State<DrawerController> with SingleTickerPro
   AlignmentDirectional get _drawerInnerAlignment {
     assert(widget.alignment != null);
     switch (widget.alignment) {
-      case DrawerAlignment.start:
+      case KaliumDrawerAlignment.start:
         return AlignmentDirectional.centerEnd;
-      case DrawerAlignment.end:
+      case KaliumDrawerAlignment.end:
         return AlignmentDirectional.centerStart;
     }
     return null;
   }
 
   Widget _buildDrawer(BuildContext context) {
-    final bool drawerIsStart = widget.alignment == DrawerAlignment.start;
+    final bool drawerIsStart = widget.alignment == KaliumDrawerAlignment.start;
     final EdgeInsets padding = MediaQuery.of(context).padding;
     double dragAreaWidth = drawerIsStart ? padding.left : padding.right;
 
