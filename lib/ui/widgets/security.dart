@@ -180,7 +180,7 @@ class _PinScreenState extends State<PinScreen> {
     return Scaffold(
         body: Container(
           constraints: BoxConstraints.expand(),
-          color: KaliumColors.greyDark,
+          color: KaliumColors.backgroundDark,
           child: Column(
             children: <Widget>[
               Container(
@@ -188,50 +188,64 @@ class _PinScreenState extends State<PinScreen> {
                     top: MediaQuery.of(context).size.height * 0.1),
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      _header,
-                      style: KaliumStyles.TextStyleHeaderColored,
-                      textAlign: TextAlign.center,
-                    ),
                     Container(
                       margin:
-                          EdgeInsets.symmetric(horizontal: 50.0, vertical: 15),
+                          EdgeInsets.symmetric(horizontal: 40),
                       child: Text(
-                        description,
-                        style: KaliumStyles.TextStyleParagraph,
+                        _header,
+                        style: KaliumStyles.TextStylePinScreenHeaderColored,
                         textAlign: TextAlign.center,
                       ),
                     ),
                     Container(
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                      child: Wrap(
+                        children: <Widget>[
+                          Text(
+                          description,
+                          style: KaliumStyles.TextStyleParagraph,
+                          textAlign: TextAlign.center,
+                        ),
+                        ],
+                      ),
+                    ),
+                    Container(
                       margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.2,
+                          horizontal: MediaQuery.of(context).size.width * 0.25,
                           vertical: MediaQuery.of(context).size.height * 0.02),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Icon(
-                            _dotStates[5],
+                            _dotStates[0],
                             color: KaliumColors.primary,
-                          ),
-                          Icon(
-                            _dotStates[4],
-                            color: KaliumColors.primary,
-                          ),
-                          Icon(
-                            _dotStates[3],
-                            color: KaliumColors.primary,
-                          ),
-                          Icon(
-                            _dotStates[2],
-                            color: KaliumColors.primary,
+                            size: 20.0,
                           ),
                           Icon(
                             _dotStates[1],
                             color: KaliumColors.primary,
+                            size: 20.0,
                           ),
                           Icon(
-                            _dotStates[0],
+                            _dotStates[2],
                             color: KaliumColors.primary,
+                            size: 20.0,
+                          ),
+                          Icon(
+                            _dotStates[3],
+                            color: KaliumColors.primary,
+                            size: 20.0,
+                          ),
+                          Icon(
+                            _dotStates[4],
+                            color: KaliumColors.primary,
+                            size: 20.0,
+                          ),
+                          Icon(
+                            _dotStates[5],
+                            color: KaliumColors.primary,
+                            size: 20.0,
                           ),
                         ],
                       ),
@@ -304,7 +318,7 @@ class _PinScreenState extends State<PinScreen> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(200.0)),
                                 child: Icon(Icons.backspace,
-                                    color: KaliumColors.primary),
+                                    color: KaliumColors.primary, size:20.0),
                                 onPressed: () {
                                   _backSpace();
                                 },

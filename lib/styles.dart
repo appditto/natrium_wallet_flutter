@@ -183,6 +183,12 @@ class KaliumStyles {
     fontWeight: FontWeight.w700,
     color: KaliumColors.primary,
   );
+  static const TextStylePinScreenHeaderColored = TextStyle(
+    fontFamily: "NunitoSans",
+    fontSize: KaliumFontSizes.large,
+    fontWeight: FontWeight.w700,
+    color: KaliumColors.primary,
+  );
   // Text style for setting item header
   static const TextStyleSettingItemHeader = TextStyle(
     fontFamily: "NunitoSans",
@@ -204,5 +210,6 @@ class KaliumFontSizes {
   static const small = 14.0;
   static const medium = 16.0;
   static const large = 20.0;
+  static const larger = 24.0;
   static const largest = 28.0;
 }
