@@ -52,6 +52,8 @@ class _PinScreenState extends State<PinScreen> {
     } else {
       _header = _enterPin;
     }
+    _pin = "";
+    _pinConfirmed = "";
   }
 
   /// Set next character in the pin set
@@ -59,11 +61,11 @@ class _PinScreenState extends State<PinScreen> {
   bool _setCharacter(String character) {
     if (_awaitingConfirmation) {
       setState(() {
-        _pinConfirmed = character + _pin;
+        _pinConfirmed = _pinConfirmed + character;
       });
     } else {
       setState(() {
-        _pin = character + _pin;
+        _pin = _pin + character;
       });
     }
     for (int i = 0; i < _dotStates.length; i++) {
@@ -93,7 +95,11 @@ class _PinScreenState extends State<PinScreen> {
       }
       setState(() {
         _dotStates[lastFilledIndex] = KaliumIcons.dotemtpy;
-        _pin = _pin.substring(1);
+        if (_awaitingConfirmation) {
+          _pinConfirmed = _pinConfirmed.substring(0, _pinConfirmed.length - 1);
+        } else {
+          _pin = _pin.substring(0, _pin.length - 1);
+        }
       });
     }
   }
@@ -169,7 +175,7 @@ class _PinScreenState extends State<PinScreen> {
     return Scaffold(
         body: Container(
           constraints: BoxConstraints.expand(),
-          color: KaliumColors.white90,
+          color: KaliumColors.greyDark,
           child: Column(
             children: <Widget>[
               Container(

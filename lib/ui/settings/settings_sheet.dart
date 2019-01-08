@@ -86,7 +86,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                       onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) {
-                              new PinScreen(PinOverlayType.NEW_PIN, "", pinEnteredTest);
+                              return new PinScreen(PinOverlayType.NEW_PIN, "", pinEnteredTest);
                             }));
                       }),
                   Divider(height: 2),
