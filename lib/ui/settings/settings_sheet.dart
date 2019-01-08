@@ -18,9 +18,9 @@ class SettingsSheet extends StatefulWidget {
 }
 
 class _SettingsSheetState extends State<SettingsSheet> {
-
   bool _hasBiometrics = false;
-  AuthenticationMethod _curAuthMethod = AuthenticationMethod(AuthMethod.BIOMETRICS);
+  AuthenticationMethod _curAuthMethod =
+      AuthenticationMethod(AuthMethod.BIOMETRICS);
 
   void pinEnteredTest(String pin) {
     print("Pin Entered $pin");
@@ -44,37 +44,59 @@ class _SettingsSheetState extends State<SettingsSheet> {
 
   Future<void> _authMethodDialog() async {
     switch (await showDialog<AuthMethod>(
-      context: context,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          title: const Text("Choose Authentication Method"),
-          children: <Widget>[
-            SimpleDialogOption(
-              onPressed: () { Navigator.pop(context, AuthMethod.PIN); },
-              child: const Text('PIN'),
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: const Text(
+              "Choose Authentication Method",
+              style: KaliumStyles.TextStyleDialogHeader,
             ),
-            SimpleDialogOption(
-              onPressed: () { Navigator.pop(context, AuthMethod.BIOMETRICS); },
-              child: const Text('Biometrics'),
-            ),
-          ],
-        );
-      }
-    )) {
+            children: <Widget>[
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, AuthMethod.PIN);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: const Text(
+                    'PIN',
+                    style: KaliumStyles.TextStyleDialogOptions,
+                  ),
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, AuthMethod.BIOMETRICS);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: const Text(
+                    'Biometrics',
+                    style: KaliumStyles.TextStyleDialogOptions,
+                  ),
+                ),
+              ),
+            ],
+          );
+        })) {
       case AuthMethod.PIN:
-        SharedPrefsUtil.inst.setAuthMethod(AuthenticationMethod(AuthMethod.PIN)).then((result) {
+        SharedPrefsUtil.inst
+            .setAuthMethod(AuthenticationMethod(AuthMethod.PIN))
+            .then((result) {
           setState(() {
-            _curAuthMethod = AuthenticationMethod(AuthMethod.PIN);            
+            _curAuthMethod = AuthenticationMethod(AuthMethod.PIN);
           });
         });
-      break;
+        break;
       case AuthMethod.BIOMETRICS:
-        SharedPrefsUtil.inst.setAuthMethod(AuthenticationMethod(AuthMethod.BIOMETRICS)).then((result) {
-        setState(() {
-          _curAuthMethod = AuthenticationMethod(AuthMethod.BIOMETRICS);            
+        SharedPrefsUtil.inst
+            .setAuthMethod(AuthenticationMethod(AuthMethod.BIOMETRICS))
+            .then((result) {
+          setState(() {
+            _curAuthMethod = AuthenticationMethod(AuthMethod.BIOMETRICS);
+          });
         });
-      });
-      break;
+        break;
     }
   }
 
@@ -89,8 +111,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
             margin: EdgeInsets.only(left: 30.0, top: 60.0, bottom: 10.0),
             child: Row(
               children: <Widget>[
-                Text("Settings",
-                    style: KaliumStyles.TextStyleHeader),
+                Text("Settings", style: KaliumStyles.TextStyleHeader),
               ],
             ),
           ),
@@ -115,7 +136,13 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   buildSettingsListItemDoubleLine(
                       'Language', 'System Default', KaliumIcons.language),
                   Divider(height: 2),
-                  _hasBiometrics ? KaliumSettings.buildSettingsListItemDoubleLine("Authentication Method", _curAuthMethod, KaliumIcons.fingerprint, _authMethodDialog) : null,
+                  _hasBiometrics
+                      ? KaliumSettings.buildSettingsListItemDoubleLine(
+                          "Authentication Method",
+                          _curAuthMethod,
+                          KaliumIcons.fingerprint,
+                          _authMethodDialog)
+                      : null,
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
                       'Notifications', 'On', KaliumIcons.notifications),
@@ -138,10 +165,14 @@ class _SettingsSheetState extends State<SettingsSheet> {
                     // Authenticate
                     SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
                       BiometricUtil.hasBiometrics().then((hasBiometrics) {
-                        if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
-                          BiometricUtil.authenticateWithBiometrics("Backup Seed").then((authenticated) {
+                        if (authMethod.method == AuthMethod.BIOMETRICS &&
+                            hasBiometrics) {
+                          BiometricUtil.authenticateWithBiometrics(
+                                  "Backup Seed")
+                              .then((authenticated) {
                             if (authenticated) {
-                              new KaliumSeedBackupSheet().mainBottomSheet(context);
+                              new KaliumSeedBackupSheet()
+                                  .mainBottomSheet(context);
                             }
                           });
                         } else {
@@ -149,10 +180,13 @@ class _SettingsSheetState extends State<SettingsSheet> {
                           Vault.inst.getPin().then((expectedPin) {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) {
-                              return new PinScreen(PinOverlayType.ENTER_PIN, 
-                                                   (pin) => new KaliumSeedBackupSheet().mainBottomSheet(context),
-                                                   expectedPin:expectedPin,
-                                                   description: "Enter PIN to backup seed",);
+                              return new PinScreen(
+                                PinOverlayType.ENTER_PIN,
+                                (pin) => new KaliumSeedBackupSheet()
+                                    .mainBottomSheet(context),
+                                expectedPin: expectedPin,
+                                description: "Enter PIN to backup seed",
+                              );
                             }));
                           });
                         }
@@ -163,15 +197,18 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   buildSettingsListItemSingleLine(
                       'Load from Paper Wallet', KaliumIcons.transferfunds,
                       onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) {
-                              return new PinScreen(PinOverlayType.NEW_PIN, pinEnteredTest);
-                            }));
-                      }),
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return new PinScreen(
+                          PinOverlayType.NEW_PIN, pinEnteredTest);
+                    }));
+                  }),
                   Divider(height: 2),
-                  buildSettingsListItemSingleLine('Change Representative',
-                      KaliumIcons.changerepresentative, onPressed: () {
-                    new KaliumChangeRepresentativeSheet().mainBottomSheet(context);
+                  buildSettingsListItemSingleLine(
+                      'Change Representative', KaliumIcons.changerepresentative,
+                      onPressed: () {
+                    new KaliumChangeRepresentativeSheet()
+                        .mainBottomSheet(context);
                   }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine('Logout', KaliumIcons.logout,
@@ -180,23 +217,22 @@ class _SettingsSheetState extends State<SettingsSheet> {
                         context,
                         "WARNING",
                         "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
-                        "DELETE SEED AND LOGOUT",
-                      () {
-                        // Show another confirm dialog
-                        KaliumDialogs.showConfirmDialog(
+                        "DELETE SEED AND LOGOUT", () {
+                      // Show another confirm dialog
+                      KaliumDialogs.showConfirmDialog(
                           context,
                           "Are you sure?",
                           "As long as you've backed up your seed you have nothing to worry about.",
-                          "YES", 
-                          () {
-                            Vault.inst.deleteAll().then((Null) {
-                              SharedPrefsUtil.inst.deleteAll().then((result) {
-                                StateContainer.of(context).logOut();
-                                Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-                              });
-                            });
+                          "YES", () {
+                        Vault.inst.deleteAll().then((Null) {
+                          SharedPrefsUtil.inst.deleteAll().then((result) {
+                            StateContainer.of(context).logOut();
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/', (Route<dynamic> route) => false);
                           });
+                        });
                       });
+                    });
                   }),
                   Divider(height: 2),
                   Padding(

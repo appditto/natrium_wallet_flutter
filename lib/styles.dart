@@ -140,6 +140,13 @@ class KaliumStyles {
     fontWeight: FontWeight.w700,
     color: KaliumColors.primary,
   );
+  // Text style for dialog options
+  static const TextStyleDialogOptions = TextStyle(
+    fontFamily: "NunitoSans",
+    fontSize: KaliumFontSizes.medium,
+    fontWeight: FontWeight.w600,
+    color: KaliumColors.text,
+  );
   // Text style for dialog button text
   static const TextStyleDialogButtonText = TextStyle(
     fontFamily: "NunitoSans",
