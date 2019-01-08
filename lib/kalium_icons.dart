@@ -51,4 +51,6 @@ class KaliumIcons {
   static const IconData export_icon = const IconData(0xe81c, fontFamily: _kFontFam);
   static const IconData import_icon = const IconData(0xe81d, fontFamily: _kFontFam);
   static const IconData bananologo = const IconData(0xe81e, fontFamily: _kFontFam);
+  static const IconData dotfilled = const IconData(0xe81f, fontFamily: _kFontFam);
+  static const IconData dotemtpy = const IconData(0xe820, fontFamily: _kFontFam);
 }
