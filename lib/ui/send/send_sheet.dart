@@ -183,7 +183,7 @@ class KaliumSendSheet {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(left: 60, right: 60),
+                          margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -237,7 +237,7 @@ class KaliumSendSheet {
                               )),
                         ),
                         Container(
-                          margin: EdgeInsets.only(left: 60, right: 60),
+                          margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: KaliumColors.backgroundDarkest,
