@@ -209,10 +209,15 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                               _seedInputFocusNode.unfocus();
                               // If seed valid, log them in
                               if (NanoSeeds.isValidSeed(_seedInputController.text)) {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                  return new PinScreen(PinOverlayType.NEW_PIN, (_pinEnteredCallback));
-                                }));
+                                SharedPrefsUtil.inst.setSeedBackedUp(true).then((result) {
+                                  Vault.inst.setSeed(_seedInputController.text).then((result) {
+                                    StateContainer.of(context).updateWallet(address:NanoUtil.seedToAddress(result));
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (BuildContext context) {
+                                      return new PinScreen(PinOverlayType.NEW_PIN, (_pinEnteredCallback));
+                                    }));
+                                  });
+                                });
                               } else {
                                 // Display error
                                 setState(() {
@@ -236,16 +241,10 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
   }
 
   void _pinEnteredCallback(String pin) {
-    SharedPrefsUtil.inst.setSeedBackedUp(true).then((result) {
-      Vault.inst.setSeed(_seedInputController.text).then((result) {
-        Vault.inst.writePin(pin).then((result) {
-          // Update wallet
-          StateContainer.of(context).updateWallet(address:NanoUtil.seedToAddress(result));
-          StateContainer.of(context).requestUpdate();
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-        });
-      });
+    Vault.inst.writePin(pin).then((result) {
+      // Update wallet
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
     });
   }
 }

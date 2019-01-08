@@ -120,10 +120,12 @@ class StateContainerState extends State<StateContainer> {
       setState(() {
         address = address;
       });
+      requestUpdate();
     } else {
       setState(() {
         wallet.address = address ?? wallet.address;
       });
+      requestUpdate();
     }
   }
 
