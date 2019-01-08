@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 
 class ShareCard extends StatelessWidget {
   @override
@@ -37,10 +38,69 @@ class ShareCard extends StatelessWidget {
                   color: KaliumColors.primary,
                 ),
                 // Address
-                Container(
-                  width: 97.0,
-                  height: 50.0,
-                  color: KaliumColors.primary,
+                Column(
+                  children: <Widget>[
+                    Container(
+                      width: 97.0,
+                      height: 12.5,
+                      color: KaliumColors.primary,
+                      child: AutoSizeText(
+                        "ban_1yekta1u3ymi", 
+                        minFontSize: 1.0,
+                        stepGranularity: 0.1,
+                        style: TextStyle(
+                          color: KaliumColors.background,
+                          fontFamily: "OverpassMono",
+                        ),
+
+                      ),
+                    ),
+                    Container(
+                      width: 97.0,
+                      height: 12.5,
+                      color: KaliumColors.primary,
+                      child: AutoSizeText(
+                        "s5tji4jxpr4iz8a9", 
+                        minFontSize: 1.0,
+                        stepGranularity: 0.1,
+                        style: TextStyle(
+                          color: KaliumColors.background,
+                          fontFamily: "OverpassMono",
+                        ),
+
+                      ),
+                    ),
+                    Container(
+                      width: 97.0,
+                      height: 12.5,
+                      color: KaliumColors.primary,
+                      child: AutoSizeText(
+                        "bp4bjoz5qdw3wstb", 
+                        minFontSize: 1.0,
+                        stepGranularity: 0.1,
+                        style: TextStyle(
+                          color: KaliumColors.background,
+                          fontFamily: "OverpassMono",
+                        ),
+
+                      ),
+                    ),
+                    Container(
+                      width: 97.0,
+                      height: 12.5,
+                      color: KaliumColors.primary,
+                      child: AutoSizeText(
+                        "ub3wgxwi3nfuuyek", 
+                        minFontSize: 1.0,
+                        stepGranularity: 0.1,
+                        style: TextStyle(
+                          color: KaliumColors.background,
+                          fontFamily: "OverpassMono",
+                        ),
+
+                      ),
+                    ),
+                  ],
                 ),
                 // Ticker & Website
                 Container(

@@ -21,6 +21,7 @@ import 'package:kalium_wallet_flutter/ui/settings/settings_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_drawer.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_scaffold.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/share_card_test.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
@@ -508,6 +509,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       ),
       child: IntrinsicHeight(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
               width: 7.0,
