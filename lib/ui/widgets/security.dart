@@ -13,14 +13,19 @@ class PinScreen extends StatefulWidget {
   final String description;
   final Function pinSuccessCallback;
 
-  PinScreen(this.type, this.expectedPin, this.pinSuccessCallback, {this.description = ""});
+  PinScreen(this.type, this.pinSuccessCallback, {this.description = "", this.expectedPin = ""});
 
   @override
   _PinScreenState createState() => _PinScreenState(type, expectedPin, description, pinSuccessCallback);
 }
 
 class _PinScreenState extends State<PinScreen> {
-  _PinScreenState(this.type, this.expectedPin, this.description, this.successCallback);
+  _PinScreenState(this.type, this.expectedPin, this.description, this.successCallback) {
+    if (this.type == PinOverlayType.ENTER_PIN) {
+      assert(this.expectedPin == null || this.expectedPin.length != 6,
+            "In ENTER_PIN mode, but expectedPin is not a string of length 6");
+    }
+  }
 
   PinOverlayType type;
   String expectedPin;

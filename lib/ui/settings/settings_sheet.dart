@@ -10,6 +10,7 @@ import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:kalium_wallet_flutter/util/biometrics.dart';
 
 class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
@@ -17,10 +18,25 @@ class SettingsSheet extends StatefulWidget {
 
 class _SettingsSheetState extends State<SettingsSheet> {
 
+  bool _hasBiometrics = false;
+
   void pinEnteredTest(String pin) {
     print("Pin Entered $pin");
+
   }
 
+  @override
+  void initState() {
+    super.initState();
+    // Determine if they have face or fingerprint enrolled, if not hide the setting
+    BiometricUtil.hasBiometrics().then((bool hasBiometrics) {
+      setState(() {
+        _hasBiometrics = hasBiometrics;
+      });
+    });
+  }
+
+  bool notNull(Object o) => o != null;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,8 +73,8 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   buildSettingsListItemDoubleLine(
                       'Language', 'System Default', KaliumIcons.language),
                   Divider(height: 2),
-                  buildSettingsListItemDoubleLine('Authentication Method',
-                      'Fingerprint', KaliumIcons.fingerprint),
+                  _hasBiometrics ? buildSettingsListItemDoubleLine('Authentication Method',
+                      'Fingerprint', KaliumIcons.fingerprint) : null,
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
                       'Notifications', 'On', KaliumIcons.notifications),
@@ -86,7 +102,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                       onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) {
-                              return new PinScreen(PinOverlayType.NEW_PIN, "", pinEnteredTest);
+                              return new PinScreen(PinOverlayType.NEW_PIN, pinEnteredTest);
                             }));
                       }),
                   Divider(height: 2),
@@ -130,7 +146,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                       ],
                     ),
                   ),
-                ],
+                ].where(notNull).toList(),
               ),
               //List Top Gradient End
               Align(

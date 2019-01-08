@@ -64,8 +64,16 @@ class SplashState extends State<Splash> {
     // See if logged in already
     bool isLoggedIn = false;
     var seed = await Vault.inst.getSeed();
-    if (seed != null) {
+    var pin = await Vault.inst.getPin();
+    // If we have a seed set, but not a pin - or vice versa
+    // Then delete the seed and pin from device and start over.
+    // This would mean user did not complete the intro screen completely.
+    if (seed != null && pin != null) {
       isLoggedIn = true;
+    } else if (seed != null && pin == null) {
+      await Vault.inst.deleteSeed();
+    } else if (pin != null && seed ==null) {
+      await Vault.inst.deletePin();
     }
 
     if (isLoggedIn) {

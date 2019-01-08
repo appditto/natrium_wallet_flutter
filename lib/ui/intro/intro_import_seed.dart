@@ -6,6 +6,7 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 
@@ -208,15 +209,10 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                               _seedInputFocusNode.unfocus();
                               // If seed valid, log them in
                               if (NanoSeeds.isValidSeed(_seedInputController.text)) {
-                                SharedPrefsUtil.inst.setSeedBackedUp(true).then((result) {
-                                  Vault.inst.setSeed(_seedInputController.text).then((result) {
-                                    // Update wallet
-                                    StateContainer.of(context).updateWallet(address:NanoUtil.seedToAddress(result));
-                                    StateContainer.of(context).requestUpdate();
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-                                  });
-                                });
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                  return new PinScreen(PinOverlayType.NEW_PIN, (_pinEnteredCallback));
+                                }));
                               } else {
                                 // Display error
                                 setState(() {
@@ -237,5 +233,19 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
         ),
       )
     );
+  }
+
+  void _pinEnteredCallback(String pin) {
+    SharedPrefsUtil.inst.setSeedBackedUp(true).then((result) {
+      Vault.inst.setSeed(_seedInputController.text).then((result) {
+        Vault.inst.writePin(pin).then((result) {
+          // Update wallet
+          StateContainer.of(context).updateWallet(address:NanoUtil.seedToAddress(result));
+          StateContainer.of(context).requestUpdate();
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+        });
+      });
+    });
   }
 }

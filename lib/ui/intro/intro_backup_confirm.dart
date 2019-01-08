@@ -5,7 +5,9 @@ import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:kalium_wallet_flutter/model/vault.dart';
 
 class IntroBackupConfirm extends StatefulWidget {
   @override
@@ -89,10 +91,10 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                             'YES',
                             Dimens.BUTTON_TOP_DIMENS, 
                           onPressed: () {
-                            SharedPrefsUtil.inst.setSeedBackedUp(true).then((result) {
-                              Navigator.of(context)
-                                  .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-                            });
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              return new PinScreen(PinOverlayType.NEW_PIN, (_pinEnteredCallback));
+                            }));
                         }),
                       ],
                     ),
@@ -112,5 +114,14 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
             ),
       ),
     );
+  }
+
+  void _pinEnteredCallback(String pin) {
+    SharedPrefsUtil.inst.setSeedBackedUp(true).then((result) {
+      Vault.inst.writePin(pin).then((result) {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+      });
+    });
   }
 }
