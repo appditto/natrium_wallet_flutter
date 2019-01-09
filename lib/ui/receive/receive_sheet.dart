@@ -117,8 +117,9 @@ class KaliumReceiveSheet {
                           child: Container(
                             margin: EdgeInsets.only(top: devicewidth/6),
                             child: QrImage(
+                              padding: EdgeInsets.all(0.0),
+                              size: devicewidth /3.15,
                               data: _wallet.address,
-                              size: devicewidth /2.72,
                             ),
                           ),
                         ),
