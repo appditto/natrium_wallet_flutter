@@ -79,7 +79,6 @@ class SplashState extends State<Splash> {
     if (isLoggedIn) {
       var stateContainer = StateContainer.of(context);
       stateContainer.updateWallet(address: NanoUtil.seedToAddress(seed));
-      stateContainer.requestUpdate();
       Navigator.of(context).pushReplacementNamed('/home');
     } else {
       Navigator.of(context).pushReplacementNamed('/intro_welcome');

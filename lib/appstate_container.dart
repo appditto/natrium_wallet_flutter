@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
@@ -70,6 +71,7 @@ class StateContainer extends StatefulWidget {
 /// since we're doing the bulk of the heavy lifting here, we should probably document it better
 /// and organize it a bit
 class StateContainerState extends State<StateContainer> {
+  final Logger log = Logger("StateContainerState");
   // Whichever properties you wanna pass around your app as state
   KaliumWallet wallet;
 
@@ -90,15 +92,16 @@ class StateContainerState extends State<StateContainer> {
   void _registerBus() {
     RxBus.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
     RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
-      accountService.pop();
       setState(() {
         wallet.historyLoading = false;
         wallet.history = historyResponse.history;
       });
+      accountService.pop();
       accountService.processQueue();
       requestPending();
     });
     RxBus.register<PriceResponse>(tag: RX_PRICE_RESP_TAG).listen((priceResponse) {
+      // PriceResponse's get pushed periodically, it wasn't a request we made so don't pop the queue
       setState(() {
         wallet.nanoPrice = priceResponse.nanoPrice.toString();
         wallet.btcPrice = priceResponse.btcPrice.toString();
@@ -140,14 +143,13 @@ class StateContainerState extends State<StateContainer> {
   // Widgets in the app that rely on the state you've changed.
   void updateWallet({address}) {
     if (wallet == null) {
-      wallet = new KaliumWallet(address: address, loading: true);
       setState(() {
-        address = address;
+        wallet = new KaliumWallet(address: address, loading: true);
       });
       requestUpdate();
     } else {
       setState(() {
-        wallet.address = address ?? wallet.address;
+        wallet.address = address;
       });
       requestUpdate();
     }
@@ -161,12 +163,13 @@ class StateContainerState extends State<StateContainer> {
   void handleProcessResponse(ProcessResponse processResponse) {
     // see what type of request sent this response
     RequestItem requestItem = accountService.pop();
+    // This is a little redundant for now but in the future for transfer/paper wallet we need to know what previous request was
     if (requestItem != null) {
       if (requestItem.request is ProcessRequest) {
         ProcessRequest prq = requestItem.request;
         StateBlock blockRequest = StateBlock.fromJson(json.decode(prq.block));
         if (blockRequest != null) {
-          StateBlock previous = pendingResponseBlockMap.remove(blockRequest.previous);
+          StateBlock previous = pendingResponseBlockMap.remove(processResponse.hash);
           if (previous.subType == BlockTypes.OPEN) {
             setState(() {
               wallet.frontier = processResponse.hash;
@@ -183,9 +186,10 @@ class StateContainerState extends State<StateContainer> {
           }
         }
         requestUpdate();
+      } else {
+        accountService.processQueue();
       }
     }
-    accountService.processQueue();
   }
 
   // Handle pending response
@@ -196,7 +200,9 @@ class StateContainerState extends State<StateContainer> {
       pendingResponseItemN.hash = hash;
       handlePendingItem(pendingResponseItemN);
     });
-    accountService.processQueue();
+    if (response.blocks.length == 0) {
+      accountService.processQueue();
+    }
   }
 
   /// Handle account_subscribe response
@@ -230,7 +236,6 @@ class StateContainerState extends State<StateContainer> {
   /// Typically, this preceeds a process request. And we want to update
   /// that request with data from the previous block (which is what we got from this request)
   void handleBlocksInfoResponse(BlocksInfoResponse resp) {
-    accountService.pop();
     String hash = resp.blocks.keys.first;
     StateBlock previousBlock = StateBlock.fromJson(json.decode(resp.blocks[hash].contents));
     StateBlock nextBlock = previousPendingMap.remove(hash);
@@ -244,6 +249,7 @@ class StateContainerState extends State<StateContainer> {
     _getPrivKey().then((result) {
       nextBlock.sign(result);
       pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+      accountService.pop();
       accountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
       accountService.processQueue();
     });
@@ -252,14 +258,12 @@ class StateContainerState extends State<StateContainer> {
   /// Handle callback response
   /// Typically this means we need to pocket transactions
   void handleCallbackResponse(CallbackResponse resp) {
-    accountService.pop();
     if (resp.isSend != "true") {
       accountService.processQueue();
       return;
     }
     PendingResponseItem pendingItem = PendingResponseItem(hash: resp.hash, source: resp.account, amount: resp.amount);
     handlePendingItem(pendingItem);
-    accountService.processQueue();
   }
 
   void handlePendingItem(PendingResponseItem item) {
@@ -275,6 +279,7 @@ class StateContainerState extends State<StateContainer> {
   void requestUpdate() {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
+        accountService.removeSubscribeHistoryFromQueue();
         accountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:"USD", uuid:result));
         accountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
         accountService.processQueue();

@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/network/model/base_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request_item.dart';
+import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
@@ -170,6 +171,10 @@ class AccountService {
             RxBus.post(resp, tag: RX_PENDING_RESP_TAG);
           }
         }
+      } else {
+        // Possibly a response when there is no pendings
+        pop();
+        processQueue();
       }
     } else if (msg.containsKey("hash")) {
         // process response
@@ -178,8 +183,8 @@ class AccountService {
     } else if (msg.containsKey("block") && msg.containsKey("hash") && msg.containsKey("account")) {
       CallbackResponse resp = CallbackResponse.fromJson(msg);
       RxBus.post(resp, tag: RX_CALLBACK_TAG);
-    } else if (_requestQueue.length > 0) {
-      _requestQueue.removeFirst();
+    } else if (msg.containsKey("error")) {
+      pop();
       processQueue();
     }
     return;
@@ -187,11 +192,13 @@ class AccountService {
 
   /* Enqueue Request */
   void queueRequest(BaseRequest request) {
+    log.fine("requetest ${json.encode(request.toJson())}, q length: ${_requestQueue.length}");
     _requestQueue.add(new RequestItem(request));
   }
 
   /* Process Queue */
   void processQueue() {
+    log.fine("Request Queue length ${_requestQueue.length}");
     if (_requestQueue != null && _requestQueue.length > 0) {
       RequestItem requestItem = _requestQueue.first;
       if (requestItem != null && !requestItem.isProcessing) {
@@ -209,7 +216,7 @@ class AccountService {
           .now()
           .difference(requestItem.expireDt)
           .inSeconds > RequestItem.EXPIRE_TIME_S)) {
-        _requestQueue.removeFirst();
+        pop();
         processQueue();
       }
     }
@@ -248,7 +255,26 @@ class AccountService {
     return false;
   }
 
+  void removeSubscribeHistoryFromQueue() {
+    if (_requestQueue != null && _requestQueue.length > 0) {
+      List<RequestItem> toRemove = new List();
+      _requestQueue.forEach((requestItem) {
+        if ((requestItem.request is SubscribeRequest || requestItem.request is AccountHistoryRequest)
+              && !requestItem.isProcessing) {
+          toRemove.add(requestItem);
+        }
+      });
+      toRemove.forEach((requestItem) {
+        _requestQueue.remove(requestItem);
+      });
+    }    
+  }
+
   RequestItem pop() {
-    return _requestQueue.removeFirst();
+    return _requestQueue.length > 0 ? _requestQueue.removeFirst() : null;
+  }
+
+  RequestItem peek() {
+    return _requestQueue.length > 0 ? _requestQueue.first : null;
   }
 }
