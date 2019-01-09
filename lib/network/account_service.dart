@@ -58,6 +58,7 @@ class AccountService {
   AccountService._internal() {
     _suspended = false;
     _isConnected = false;
+    _isConnecting = false;
     // Initialize queue
     _requestQueue = new Queue();
     // Init connection
