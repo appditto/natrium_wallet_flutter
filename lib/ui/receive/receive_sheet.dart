@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
@@ -11,9 +14,12 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class KaliumReceiveSheet {
   KaliumWallet _wallet;
+
+  GlobalKey shareCardKey = GlobalKey();
 
   // Address copied items
   // Initial constants
@@ -29,6 +35,14 @@ class KaliumReceiveSheet {
   // Timer reference so we can cancel repeated events
   Timer _addressCopiedTimer;
 
+  Future<ByteData> _capturePng() async {
+    RenderRepaintBoundary boundary =
+        shareCardKey.currentContext.findRenderObject();
+    ui.Image image = await boundary.toImage();
+    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    return byteData;
+  }
+
   mainBottomSheet(BuildContext context) {
     _wallet = StateContainer.of(context).wallet;
     // Set initial state of copy button
@@ -39,7 +53,6 @@ class KaliumReceiveSheet {
     KaliumSheets.showKaliumHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
-          KaliumShareCard _card = new KaliumShareCard();
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
             return Column(
@@ -85,7 +98,7 @@ class KaliumReceiveSheet {
 
                 Expanded(
                   child: Center(
-                    child: _card,
+                    child: KaliumShareCard(shareCardKey),
                   ),
                 ),
 
@@ -146,7 +159,11 @@ class KaliumReceiveSheet {
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY_OUTLINE,
                             'Share Address',
-                            Dimens.BUTTON_BOTTOM_DIMENS),
+                            Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                              _capturePng().then((byteData) {
+                                EsysFlutterShare.shareImage("test.png", byteData, "bananano");
+                              });
+                            }),
                       ],
                     ),
                   ],

@@ -7,14 +7,18 @@ import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'dart:ui' as ui;
 
 class KaliumShareCard extends StatefulWidget {
-  KaliumShareCard({Key key}) : super(key: key);
+  GlobalKey key;
+
+  KaliumShareCard(this.key);
 
   @override
-  _KaliumShareCardState createState() => _KaliumShareCardState();
+  _KaliumShareCardState createState() => _KaliumShareCardState(key);
 }
 
 class _KaliumShareCardState extends State<KaliumShareCard> {
-  GlobalKey globalKey = GlobalKey();
+  GlobalKey globalKey;
+
+  _KaliumShareCardState(this.globalKey);
 
   Future<void> _capturePng() async {
     RenderRepaintBoundary boundary =
