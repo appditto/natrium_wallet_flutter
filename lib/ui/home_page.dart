@@ -95,11 +95,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     // terminate it to be eco-friendly
     switch (state) {
       case AppLifecycleState.paused:
-        accountService.reset();
+        accountService.reset(suspend: true);
         super.didChangeAppLifecycleState(state);
         break;
       case AppLifecycleState.resumed:
-        accountService.initCommunication();
+        accountService.initCommunication(unsuspend: true);
         super.didChangeAppLifecycleState(state);
         break;
       default:

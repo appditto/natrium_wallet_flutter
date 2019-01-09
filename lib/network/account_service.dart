@@ -45,6 +45,7 @@ class AccountService {
   // WS connection status
   bool _isConnected;
   bool _isConnecting;
+  var _suspended; // When the app explicity closes the connection
 
   bool get isConnected => _isConnected;
   bool get isConnecting => _isConnecting;
@@ -55,17 +56,24 @@ class AccountService {
 
   // Singleton Constructor
   AccountService._internal() {
+    _suspended = false;
     _isConnected = false;
     // Initialize queue
     _requestQueue = new Queue();
     // Init connection
-    _isConnecting = true;
     initCommunication();
   }
 
   // Connect to server
-  initCommunication() async {
+  initCommunication({bool unsuspend = false}) async {
+    if (_isConnected || _isConnecting) {
+      return;
+    } else if (_suspended && !unsuspend) {
+      return;
+    }
+    _suspended = false;
     reset();
+    _isConnecting = true;
 
     try {
       var packageInfo = await PackageInfo.fromPlatform();
@@ -107,7 +115,8 @@ class AccountService {
   }
 
   // Close connection
-  void reset(){
+  void reset({bool suspend = false}){
+    _suspended = suspend;
     if (_channel != null){
       if (_channel.sink != null){
         _channel.sink.close();
