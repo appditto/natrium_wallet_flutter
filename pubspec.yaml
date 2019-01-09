@@ -66,6 +66,9 @@ dependencies:
   # RXDart
   rxdart : ^0.20.0
 
+  # SVG
+  flutter_svg: ^0.9.0+1
+
   # QR Codes
   qr_flutter: ^1.1.5
 
@@ -107,6 +110,7 @@ flutter:
   assets:
     - assets/monkey.png
     - assets/monkeyQR.png
+    - assets/monkeyQR.svg
     - assets/welcome_animation.flr
     - assets/send_animation.flr
     - assets/pulltorefresh_animation.flr

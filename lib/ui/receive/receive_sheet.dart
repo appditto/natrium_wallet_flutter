@@ -14,6 +14,9 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
+import 'package:qr/qr.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class KaliumReceiveSheet {
   KaliumWallet _wallet;
@@ -48,6 +51,11 @@ class KaliumReceiveSheet {
     _copyButtonText = _copyAddress;
     _copyButtonStyle = _copyButtonStyleInitial;
     _copyButtonBackground = _copyButtonColorInitial;
+    double devicewidth = MediaQuery.of(context).size.width;
+    String assetName = 'assets/monkeyQR.svg';
+    Widget monkeyQRbackground = new SvgPicture.asset(
+      assetName,
+    );
 
     KaliumSheets.showKaliumHeightEightSheet(
         context: context,
@@ -97,6 +105,25 @@ class KaliumReceiveSheet {
 
                 Expanded(
                   child: Center(
+                    child: Stack(
+                      children: <Widget>[
+                        Center(
+                          child: Container(
+                            width: devicewidth / 1.5,
+                            child: monkeyQRbackground,
+                          ),
+                        ),
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.only(top: devicewidth/6),
+                            child: QrImage(
+                              data: _wallet.address,
+                              size: devicewidth /2.72,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
 
@@ -158,8 +185,8 @@ class KaliumReceiveSheet {
                             KaliumButtonType.PRIMARY_OUTLINE,
                             'Share Address',
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                              return null;
-                            }),
+                          return null;
+                        }),
                       ],
                     ),
                   ],
