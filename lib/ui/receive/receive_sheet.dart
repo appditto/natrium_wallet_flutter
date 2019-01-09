@@ -6,6 +6,7 @@ import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/share_card_test.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/model/wallet.dart';
@@ -18,7 +19,8 @@ class KaliumReceiveSheet {
   // Initial constants
   static const String _copyAddress = 'Copy Address';
   static const String _addressCopied = 'Address Copied';
-  static const TextStyle _copyButtonStyleInitial = KaliumStyles.TextStyleButtonPrimary;
+  static const TextStyle _copyButtonStyleInitial =
+      KaliumStyles.TextStyleButtonPrimary;
   static const Color _copyButtonColorInitial = KaliumColors.primary;
   // Current state references
   String _copyButtonText;
@@ -32,12 +34,14 @@ class KaliumReceiveSheet {
     // Set initial state of copy button
     _copyButtonText = _copyAddress;
     _copyButtonStyle = _copyButtonStyleInitial;
-    _copyButtonBackground =_copyButtonColorInitial;
+    _copyButtonBackground = _copyButtonColorInitial;
 
     KaliumSheets.showKaliumHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
-          return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+          KaliumShareCard _card = new KaliumShareCard();
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
             return Column(
               children: <Widget>[
                 Row(
@@ -52,8 +56,8 @@ class KaliumReceiveSheet {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child:
-                            Icon(KaliumIcons.close, size: 16, color: KaliumColors.text),
+                        child: Icon(KaliumIcons.close,
+                            size: 16, color: KaliumColors.text),
                         padding: EdgeInsets.all(17.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -64,8 +68,8 @@ class KaliumReceiveSheet {
                     //Container for the address text
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
-                      child: UIUtil.threeLineAddressText(
-                          _wallet.address, type: ThreeLineAddressTextType.PRIMARY60),
+                      child: UIUtil.threeLineAddressText(_wallet.address,
+                          type: ThreeLineAddressTextType.PRIMARY60),
                     ),
 
                     //This container is a temporary solution for the alignment problem
@@ -78,15 +82,10 @@ class KaliumReceiveSheet {
                 ),
 
                 //MonkeyQR which takes all the available space left from the buttons & address text
+
                 Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.05, bottom: MediaQuery.of(context).size.height*0.06),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/monkeyQR.png'),
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
+                  child: Center(
+                    child: _card,
                   ),
                 ),
 
@@ -97,25 +96,28 @@ class KaliumReceiveSheet {
                       children: <Widget>[
                         Expanded(
                           child: Container(
-                            margin:
-                                EdgeInsets.fromLTRB(Dimens.BUTTON_TOP_DIMENS[0],
-                                                    Dimens.BUTTON_TOP_DIMENS[1],
-                                                    Dimens.BUTTON_TOP_DIMENS[2],
-                                                    Dimens.BUTTON_TOP_DIMENS[3]),
+                            margin: EdgeInsets.fromLTRB(
+                                Dimens.BUTTON_TOP_DIMENS[0],
+                                Dimens.BUTTON_TOP_DIMENS[1],
+                                Dimens.BUTTON_TOP_DIMENS[2],
+                                Dimens.BUTTON_TOP_DIMENS[3]),
                             child: FlatButton(
-                              shape:
-                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100.0)),
                               color: _copyButtonBackground,
                               child: Text(_copyButtonText,
                                   textAlign: TextAlign.center,
                                   style: _copyButtonStyle),
-                              padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 14.0, horizontal: 20),
                               onPressed: () {
-                                Clipboard.setData(new ClipboardData(text: _wallet.address));
+                                Clipboard.setData(
+                                    new ClipboardData(text: _wallet.address));
                                 setState(() {
                                   // Set copied style
                                   _copyButtonText = _addressCopied;
-                                  _copyButtonStyle = KaliumStyles.TextStyleButtonPrimaryGreen;
+                                  _copyButtonStyle =
+                                      KaliumStyles.TextStyleButtonPrimaryGreen;
                                   _copyButtonBackground = KaliumColors.green;
                                   if (_addressCopiedTimer != null) {
                                     _addressCopiedTimer.cancel();
@@ -124,8 +126,10 @@ class KaliumReceiveSheet {
                                       const Duration(milliseconds: 800), () {
                                     setState(() {
                                       _copyButtonText = _copyAddress;
-                                      _copyButtonStyle = _copyButtonStyleInitial;
-                                      _copyButtonBackground = _copyButtonColorInitial;
+                                      _copyButtonStyle =
+                                          _copyButtonStyleInitial;
+                                      _copyButtonBackground =
+                                          _copyButtonColorInitial;
                                     });
                                   });
                                 });
@@ -139,8 +143,10 @@ class KaliumReceiveSheet {
                     ),
                     Row(
                       children: <Widget>[
-                        KaliumButton.buildKaliumButton(KaliumButtonType.PRIMARY_OUTLINE,
-                            'Share Address', Dimens.BUTTON_BOTTOM_DIMENS),
+                        KaliumButton.buildKaliumButton(
+                            KaliumButtonType.PRIMARY_OUTLINE,
+                            'Share Address',
+                            Dimens.BUTTON_BOTTOM_DIMENS),
                       ],
                     ),
                   ],
