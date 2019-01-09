@@ -121,6 +121,14 @@ class AccountService {
     if (_channel != null){
       if (_channel.sink != null && _isConnected){
         _channel.sink.add(message);
+      } else {
+        // Reset queue item statuses
+        _requestQueue.forEach((requestItem) {
+          requestItem.isProcessing = false;
+        });
+        if (!_isConnecting) {
+          initCommunication();
+        }
       }
     }
   }
