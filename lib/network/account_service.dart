@@ -1,7 +1,10 @@
 import 'dart:collection';
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:package_info/package_info.dart';
+import 'package:logging/logging.dart';
+
 import 'package:kalium_wallet_flutter/network/model/base_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request_item.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
@@ -11,10 +14,16 @@ import 'package:kalium_wallet_flutter/network/model/response/account_history_res
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/process_response.dart';
-import 'package:kalium_wallet_flutter/network/wsclient.dart';
-import 'package:logging/logging.dart';
+import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 
-AccountService accountService = new AccountService();
+// Server Connection String
+const String _SERVER_ADDRESS = "wss://kaba.banano.cc:443";
+
+// Singleton instance
+final AccountService accountService = new AccountService();
+
+// Bus event for connection status changing
+enum ConnectionChanged { CONNECTED, DISCONNECTED }
 
 /**
  * AccountService singleton
@@ -23,30 +32,99 @@ class AccountService {
   static final AccountService _service = new AccountService._internal();
   final Logger log = new Logger("AccountService");
 
+  // For all requests we place them on a queue with expiry to be processed sequentially
   Queue<RequestItem> _requestQueue;
-  ObserverList<Function> _listeners = new ObserverList<Function>();
+
+  // WS Client
+  IOWebSocketChannel _channel;
+
+  // WS connection status
+  bool _isConnected;
+  bool _isConnecting;
+
+  bool get isConnected => _isConnected;
+  bool get isConnecting => _isConnecting;
 
   factory AccountService(){
     return _service;
   }
 
+  // Singleton Constructor
   AccountService._internal() {
+    _isConnected = false;
     // Initialize queue
     _requestQueue = new Queue();
     // Init connection
-    sockets.initCommunication();
-    // Add listener
-    sockets.addListener(_onMessageReceived);
+    _isConnecting = true;
+    initCommunication();
   }
 
-  // Invoked when server sends a message
-  _onMessageReceived(message) {
-    log.fine("Received $message");
-    if (message == "connected" || message == "disconnected") {
-      // Post to callbacks
-      _doCallbacks(message);
-      return;
+  // Connect to server
+  initCommunication() async {
+    reset();
+
+    try {
+      var packageInfo = await PackageInfo.fromPlatform();
+
+      _isConnecting = true;
+      _channel = new IOWebSocketChannel
+                      .connect(_SERVER_ADDRESS,
+                               headers: {
+                                'X-Client-Version': packageInfo.buildNumber
+                               });
+      log.fine("Connected to service");
+      _isConnecting = false;
+      _isConnected = true;
+      RxBus.post(ConnectionChanged.CONNECTED, tag: RX_CONN_STATUS_TAG);
+      _channel.stream.listen(_onMessageReceived, onDone: connectionClosed, onError: connectionClosedError);
+    } catch(e){
+      log.severe("Error from service ${e.toString()}");
+      // TODO - error handling
+      _isConnected = false;
+      _isConnecting = false;
+      RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
     }
+  }
+
+  // Connection closed (normally)
+  void connectionClosed() {
+    _isConnected = false;
+    log.fine("disconnected from service");
+    // Send disconnected message
+    RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
+  }
+
+  // Connection closed (with error)
+  void connectionClosedError(e) {
+    _isConnected = false;
+    log.fine("disconnected from service with error ${e.toString()}");
+    // Send disconnected message
+    RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
+  }
+
+  // Close connection
+  void reset(){
+    if (_channel != null){
+      if (_channel.sink != null){
+        _channel.sink.close();
+        _isConnected = false;
+      }
+    }
+  }
+
+  // Send message
+  void _send(String message){
+    if (_channel != null){
+      if (_channel.sink != null && _isConnected){
+        _channel.sink.add(message);
+      }
+    }
+  }
+
+  _onMessageReceived(message) {
+    _isConnected = true;
+    _isConnecting = false;
+    log.fine("Received $message");
     Map msg = json.decode(message);
     // Determine response type
     if (msg.containsKey("uuid") || (msg.containsKey("frontier") && msg.containsKey("representative_block")) ||
@@ -62,18 +140,19 @@ class AccountService {
         });
       }
       // Post to callbacks
-      _doCallbacks(resp);
+      RxBus.post(resp, tag:RX_SUBSCRIBE_TAG);
     } else if (msg.containsKey("currency") && msg.containsKey("price") && msg.containsKey("btc")) {
       // Price info sent from server
       PriceResponse resp = PriceResponse.fromJson(msg);
-      _doCallbacks(resp);
+      RxBus.post(resp, tag: RX_PRICE_RESP_TAG);
     } else if (msg.containsKey("history")) {
       // Account history response
       if (msg['history'] == "") {
         msg['history'] = new List<AccountHistoryResponseItem>();
       }
       AccountHistoryResponse resp = AccountHistoryResponse.fromJson(msg);
-      _doCallbacks(resp);
+      RxBus.post(resp, tag: RX_HISTORY_TAG);
+      RxBus.post(resp, tag: RX_HISTORY_HOME_TAG);
     } else if (msg.containsKey("blocks")) {
       // This is either a 'blocks_info' response "or" a 'pending' response
       if (msg['blocks'] is Map && msg['blocks'].length > 0) {
@@ -82,14 +161,14 @@ class AccountService {
           if (blockMap[blockMap.keys.first].containsKey('block_account')) {
             // Blocks Info Response
             BlocksInfoResponse resp = BlocksInfoResponse.fromJson(msg);
-            _doCallbacks(resp);
+            RxBus.post(resp, tag: RX_BLOCKS_INFO_RESP_TAG);
           }
         }
       }
     } else if (msg.containsKey("hash")) {
         // process response
         ProcessResponse resp = ProcessResponse.fromJson(msg);
-        _doCallbacks(resp);
+        RxBus.post(resp, tag: RX_PROCESS_TAG);
     }
     if (_requestQueue.length > 0) {
       _requestQueue.removeFirst();
@@ -108,9 +187,9 @@ class AccountService {
     if (_requestQueue != null && _requestQueue.length > 0) {
       RequestItem requestItem = _requestQueue.first;
       if (requestItem != null && !requestItem.isProcessing) {
-        if (!sockets.isConnected) {
-          if (!sockets.isConnecting) {
-            sockets.initCommunication();
+        if (!isConnected) {
+          if (!isConnecting) {
+            initCommunication();
           }
           return;
         }
@@ -126,32 +205,5 @@ class AccountService {
         processQueue();
       }
     }
-  }
-
-  void _send(String encodedData) {
-    sockets.send(encodedData);
-  }
-
-  // For dis/reconnecting
-  void closeConnection() {
-    sockets.reset();
-  }
-
-  void reconnect() {
-    sockets.initCommunication();
-  }
-
-  // Methods to add/remove callback
-  addListener(Function callback){
-    _listeners.add(callback);
-  }
-  removeListener(Function callback) {
-    _listeners.remove(callback);
-  }
-
-  void _doCallbacks(message) {
-    _listeners.forEach((Function callback){
-      callback(message);
-    });
   }
 }

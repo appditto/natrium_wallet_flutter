@@ -21,11 +21,11 @@ import 'package:kalium_wallet_flutter/ui/settings/settings_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_drawer.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_scaffold.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/share_card_test.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
+import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 
 class KaliumHomePage extends StatefulWidget {
   @override
@@ -53,18 +53,42 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   @override
   void initState() {
     super.initState();
-    accountService.addListener(_onServerMessageReceived);
+    _registerBus();
     WidgetsBinding.instance.addObserver(this);
     SharedPrefsUtil.inst.getPriceConversion().then((result) {
       _priceConversion = result;
     });
   }
 
+  void _registerBus() {
+    RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_HOME_TAG).listen((historyResponse) {
+      diffAndUpdateHistoryList(historyResponse.history);
+      if (_refreshTimeout != null) {
+        _refreshTimeout.cancel();
+      }
+    });
+    RxBus.register<ProcessResponse>(tag: RX_PROCESS_TAG).listen((processResponse) {
+      // Route to send complete if received process response for send block
+      if (StateContainer.of(context).sendRequestMap.containsKey(processResponse.hash)) {
+        // Route to send complete
+        StateBlock sendStateBlock = StateContainer.of(context).sendRequestMap.remove(processResponse.hash);
+        String displayAmount = NumberUtil.getRawAsUsableString(sendStateBlock.sendAmount);
+        KaliumSendCompleteSheet(displayAmount, sendStateBlock.link).mainBottomSheet(context);
+        StateContainer.of(context).requestUpdate();
+      }
+    });
+  }
+
   @override
   void dispose() {
-    accountService.removeListener(_onServerMessageReceived);
+    _destroyBus();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  void _destroyBus() {
+    RxBus.destroy(tag: RX_HISTORY_HOME_TAG);
+    RxBus.destroy(tag: RX_PROCESS_TAG);
   }
 
   @override
@@ -73,35 +97,16 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     // terminate it to be eco-friendly
     switch (state) {
       case AppLifecycleState.paused:
-        accountService.closeConnection();
+        accountService.reset();
         super.didChangeAppLifecycleState(state);
         break;
       case AppLifecycleState.resumed:
-        accountService.reconnect();
+        accountService.initCommunication();
         super.didChangeAppLifecycleState(state);
         break;
       default:
         super.didChangeAppLifecycleState(state);
         break;
-    }
-  }
-
-  void _onServerMessageReceived(message) {
-    if (message is AccountHistoryResponse) {
-      diffAndUpdateHistoryList(message.history);
-      if (_refreshTimeout != null) {
-        _refreshTimeout.cancel();
-      }
-    } else if (message is ProcessResponse) {
-      ProcessResponse resp = message;
-      // Route to send complete if received process response for send block
-      if (StateContainer.of(context).sendRequestMap.containsKey(resp.hash)) {
-        // Route to send complete
-        StateBlock sendStateBlock = StateContainer.of(context).sendRequestMap.remove(resp.hash);
-        String displayAmount = NumberUtil.getRawAsUsableString(sendStateBlock.sendAmount);
-        KaliumSendCompleteSheet(displayAmount, sendStateBlock.link).mainBottomSheet(context);
-        StateContainer.of(context).requestUpdate();
-      }
     }
   }
 

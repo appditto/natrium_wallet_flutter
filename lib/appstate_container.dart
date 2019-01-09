@@ -12,12 +12,12 @@ import 'package:kalium_wallet_flutter/network/model/request/blocks_info_request.
 import 'package:kalium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/blocks_info_response.dart';
-import 'package:kalium_wallet_flutter/network/model/response/process_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'package:kalium_wallet_flutter/network/account_service.dart';
+import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 
 class _InheritedStateContainer extends InheritedWidget {
    // Data is your entire state. In our case just 'User' 
@@ -77,36 +77,44 @@ class StateContainerState extends State<StateContainer> {
   @override
   void initState() {
     super.initState();
-    accountService.addListener(_onServerMessageReceived);
+    _registerBus();
+  }
+
+  // Register RX event listeners
+  void _registerBus() {
+    RxBus.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
+    RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
+      setState(() {
+        wallet.historyLoading = false;
+        wallet.history = historyResponse.history;
+      });
+    });
+    RxBus.register<PriceResponse>(tag: RX_PRICE_RESP_TAG).listen((priceResponse) {
+      setState(() {
+        wallet.nanoPrice = priceResponse.nanoPrice.toString();
+        wallet.btcPrice = priceResponse.btcPrice.toString();
+        wallet.localCurrencyPrice = priceResponse.price.toString();
+      });
+    });
+    RxBus.register<BlocksInfoResponse>(tag: RX_BLOCKS_INFO_RESP_TAG).listen(handleBlocksInfoResponse);
+    RxBus.register<ConnectionChanged>(tag: RX_CONN_STATUS_TAG).listen((status) {
+      if (status == ConnectionChanged.CONNECTED) {
+        requestUpdate();
+      }
+    });
   }
 
   @override
   void dispose() {
-    accountService.removeListener(_onServerMessageReceived);
+    _destroyBus();
     super.dispose();
   }
 
-  void _onServerMessageReceived(message) {
-    if (message is String && message == 'connected') {
-      requestUpdate();
-    } else if (message is SubscribeResponse) {
-      handleSubscribeResponse(message);
-    } else if (message is AccountHistoryResponse) {
-      setState(() {
-        wallet.historyLoading = false;
-        wallet.history = message.history;
-      });
-    } else if (message is PriceResponse) {
-      setState(() {
-        wallet.nanoPrice = message.nanoPrice.toString();
-        wallet.btcPrice = message.btcPrice.toString();
-        wallet.localCurrencyPrice = message.price.toString();
-      });
-    } else if (message is BlocksInfoResponse) {
-      handleBlocksInfoResponse(message);
-    } else if (message is ProcessResponse) {
-
-    }
+  void _destroyBus() {
+    RxBus.destroy(tag: RX_SUBSCRIBE_TAG);
+    RxBus.destroy(tag: RX_HISTORY_TAG);
+    RxBus.destroy(tag: RX_PRICE_RESP_TAG);
+    RxBus.destroy(tag: RX_BLOCKS_INFO_RESP_TAG);
   }
 
   // You can (and probably will) have methods on your StateContainer

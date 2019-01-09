@@ -66,6 +66,9 @@ dependencies:
   # Sharing images
   esys_flutter_share: ^0.0.7
 
+  # RXDart
+  rxdart : ^0.20.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
