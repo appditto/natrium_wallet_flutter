@@ -63,11 +63,11 @@ dependencies:
   # TouchID/FaceID
   local_auth: ^0.3.1
 
-  # Sharing images
-  esys_flutter_share: ^0.0.7
-
   # RXDart
   rxdart : ^0.20.0
+
+  # QR Codes
+  qr_flutter: ^1.1.5
 
 dev_dependencies:
   flutter_test:

@@ -14,7 +14,6 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class KaliumReceiveSheet {
   KaliumWallet _wallet;
@@ -98,7 +97,6 @@ class KaliumReceiveSheet {
 
                 Expanded(
                   child: Center(
-                    child: KaliumShareCard(shareCardKey),
                   ),
                 ),
 
@@ -160,9 +158,7 @@ class KaliumReceiveSheet {
                             KaliumButtonType.PRIMARY_OUTLINE,
                             'Share Address',
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                              _capturePng().then((byteData) {
-                                EsysFlutterShare.shareImage("test.png", byteData, "bananano");
-                              });
+                              return null;
                             }),
                       ],
                     ),
