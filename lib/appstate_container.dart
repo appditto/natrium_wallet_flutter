@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:flutter/foundation.dart';
@@ -6,14 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
+import 'package:kalium_wallet_flutter/network/model/request_item.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/blocks_info_request.dart';
+import 'package:kalium_wallet_flutter/network/model/request/pending_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/callback_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/blocks_info_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/process_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/pending_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/pending_response_item.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'package:kalium_wallet_flutter/network/account_service.dart';
@@ -70,9 +77,8 @@ class StateContainerState extends State<StateContainer> {
   // after a blocks_info with the balance after send, and sign the block
   Map<String, StateBlock> previousPendingMap = new Map();
 
-  // Map for routing, if process response comes back with a hash in this map then
-  // We'll retrieve the block from it and route to send complete
-  Map<String, StateBlock> sendRequestMap = new Map();
+  // Maps previous block requested to next block
+  Map<String, StateBlock> pendingResponseBlockMap = new Map();
 
   @override
   void initState() {
@@ -84,10 +90,13 @@ class StateContainerState extends State<StateContainer> {
   void _registerBus() {
     RxBus.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
     RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
+      accountService.pop();
       setState(() {
         wallet.historyLoading = false;
         wallet.history = historyResponse.history;
       });
+      accountService.processQueue();
+      requestPending();
     });
     RxBus.register<PriceResponse>(tag: RX_PRICE_RESP_TAG).listen((priceResponse) {
       setState(() {
@@ -102,6 +111,9 @@ class StateContainerState extends State<StateContainer> {
         requestUpdate();
       }
     });
+    RxBus.register<CallbackResponse>(tag: RX_CALLBACK_TAG).listen(handleCallbackResponse);
+    RxBus.register<ProcessResponse>(tag: RX_PROCESS_TAG).listen(handleProcessResponse);
+    RxBus.register<PendingResponse>(tag: RX_PENDING_RESP_TAG).listen(handlePendingResponse);
   }
 
   @override
@@ -115,6 +127,10 @@ class StateContainerState extends State<StateContainer> {
     RxBus.destroy(tag: RX_HISTORY_TAG);
     RxBus.destroy(tag: RX_PRICE_RESP_TAG);
     RxBus.destroy(tag: RX_BLOCKS_INFO_RESP_TAG);
+    RxBus.destroy(tag: RX_CALLBACK_TAG);
+    RxBus.destroy(tag: RX_CONN_STATUS_TAG);
+    RxBus.destroy(tag: RX_PROCESS_TAG);
+    RxBus.destroy(tag: RX_PENDING_RESP_TAG);
   }
 
   // You can (and probably will) have methods on your StateContainer
@@ -135,6 +151,52 @@ class StateContainerState extends State<StateContainer> {
       });
       requestUpdate();
     }
+  }
+
+  ///
+  /// When a STATE block comes back successfully with a hash
+  ///
+  /// @param processResponse Process Response
+  ///
+  void handleProcessResponse(ProcessResponse processResponse) {
+    // see what type of request sent this response
+    RequestItem requestItem = accountService.pop();
+    if (requestItem != null) {
+      if (requestItem.request is ProcessRequest) {
+        ProcessRequest prq = requestItem.request;
+        StateBlock blockRequest = StateBlock.fromJson(json.decode(prq.block));
+        if (blockRequest != null) {
+          StateBlock previous = pendingResponseBlockMap.remove(blockRequest.previous);
+          if (previous.subType == BlockTypes.OPEN) {
+            setState(() {
+              wallet.frontier = processResponse.hash;
+              wallet.blockCount = 1;
+            });
+          } else {
+            setState(() {
+              wallet.frontier = processResponse.hash;
+              wallet.blockCount = wallet.blockCount + 1;
+            });
+            if (previous.subType == BlockTypes.SEND) {
+              RxBus.post(previous, tag:RX_SEND_COMPLETE_TAG);
+            }
+          }
+        }
+        requestUpdate();
+      }
+    }
+    accountService.processQueue();
+  }
+
+  // Handle pending response
+  void handlePendingResponse(PendingResponse response) {
+    accountService.pop();
+    response.blocks.forEach((hash, pendingResponseItem) {
+      PendingResponseItem pendingResponseItemN = pendingResponseItem;
+      pendingResponseItemN.hash = hash;
+      handlePendingItem(pendingResponseItemN);
+    });
+    accountService.processQueue();
   }
 
   /// Handle account_subscribe response
@@ -160,12 +222,15 @@ class StateContainerState extends State<StateContainer> {
       wallet.nanoPrice = response.nanoPrice.toString();
       wallet.btcPrice = response.btcPrice.toString();
     });
+    accountService.pop();
+    accountService.processQueue();
   }
   
   /// Handle blocks_info response
   /// Typically, this preceeds a process request. And we want to update
   /// that request with data from the previous block (which is what we got from this request)
   void handleBlocksInfoResponse(BlocksInfoResponse resp) {
+    accountService.pop();
     String hash = resp.blocks.keys.first;
     StateBlock previousBlock = StateBlock.fromJson(json.decode(resp.blocks[hash].contents));
     StateBlock nextBlock = previousPendingMap.remove(hash);
@@ -178,12 +243,33 @@ class StateContainerState extends State<StateContainer> {
     nextBlock.setBalance(previousBlock.balance);
     _getPrivKey().then((result) {
       nextBlock.sign(result);
-      if (nextBlock.subType == BlockTypes.SEND) {
-        sendRequestMap.putIfAbsent(nextBlock.hash, () => nextBlock);
-      }
+      pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
       accountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
       accountService.processQueue();
     });
+  }
+
+  /// Handle callback response
+  /// Typically this means we need to pocket transactions
+  void handleCallbackResponse(CallbackResponse resp) {
+    accountService.pop();
+    if (resp.isSend != "true") {
+      accountService.processQueue();
+      return;
+    }
+    PendingResponseItem pendingItem = PendingResponseItem(hash: resp.hash, source: resp.account, amount: resp.amount);
+    handlePendingItem(pendingItem);
+    accountService.processQueue();
+  }
+
+  void handlePendingItem(PendingResponseItem item) {
+    if (!accountService.queueContainsRequestWithHash(item.hash)) {
+      if (wallet.openBlock == null && !accountService.queueContainsOpenBlock()) {
+        requestOpen("0", item.hash, item.amount);
+      } else {
+        requestReceive(wallet.frontier, item.hash, item.amount);
+      }
+    }
   }
 
   void requestUpdate() {
@@ -194,6 +280,16 @@ class StateContainerState extends State<StateContainer> {
         accountService.processQueue();
       });
       //TODO currency
+    }
+  }
+
+  ///
+  /// Request pending blocks
+  /// 
+  void requestPending() {
+    if (wallet.address != null) {
+      accountService.queueRequest(new PendingRequest(account: wallet.address, count: max(wallet.blockCount, 0)));
+      accountService.processQueue();
     }
   }
 
@@ -217,6 +313,56 @@ class StateContainerState extends State<StateContainer> {
       account:wallet.address
     );
     previousPendingMap.putIfAbsent(previous, () => sendBlock);
+
+    accountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
+    accountService.processQueue();
+  }
+
+  ///
+  /// Create a state block receive request
+  /// 
+  /// @param previous - Previous Hash
+  /// @param source - source address
+  /// @param balance - balance in RAW
+  /// 
+  void requestReceive(String previous, String source, String balance) {
+    // TODO - Allow user to set representative
+    String representative = wallet.representative;
+
+    StateBlock receiveBlock = new StateBlock(
+      subtype:BlockTypes.RECEIVE,
+      previous: previous,
+      representative: representative,
+      balance:balance,
+      link:source,
+      account:wallet.address
+    );
+    previousPendingMap.putIfAbsent(previous, () => receiveBlock);
+
+    accountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
+    accountService.processQueue();
+  }
+
+  ///
+  /// Create a state block open request
+  /// 
+  /// @param previous - Previous Hash
+  /// @param source - source address
+  /// @param balance - balance in RAW
+  /// 
+  void requestOpen(String previous, String source, String balance) {
+    // TODO - Allow user to set representative
+    String representative = wallet.representative;
+
+    StateBlock openBlock = new StateBlock(
+      subtype:BlockTypes.OPEN,
+      previous: previous,
+      representative: representative,
+      balance:balance,
+      link:source,
+      account:wallet.address
+    );
+    pendingResponseBlockMap.putIfAbsent(previous, () => openBlock);
 
     accountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
     accountService.processQueue();

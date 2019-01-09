@@ -9,6 +9,9 @@ const String RX_HISTORY_HOME_TAG = 'fkalium_history_home_tag';
 const String RX_PRICE_RESP_TAG = 'fkalium_price_response_tag';
 const String RX_BLOCKS_INFO_RESP_TAG = 'fkalium_blocks_info_response_tag';
 const String RX_PROCESS_TAG = 'fkalium_process_tag';
+const String RX_CALLBACK_TAG = 'fkalium_callback_tag';
+const String RX_SEND_COMPLETE_TAG = 'fkalium_send_complete_tag';
+const String RX_PENDING_RESP_TAG = 'fkalium_pending_response';
 
 /**
  * RXBus using RXDart

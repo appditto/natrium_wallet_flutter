@@ -11,7 +11,6 @@ import 'package:kalium_wallet_flutter/network/account_service.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
-import 'package:kalium_wallet_flutter/network/model/response/process_response.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_sheet.dart';
@@ -67,13 +66,12 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         _refreshTimeout.cancel();
       }
     });
-    RxBus.register<ProcessResponse>(tag: RX_PROCESS_TAG).listen((processResponse) {
+    RxBus.register<StateBlock>(tag: RX_SEND_COMPLETE_TAG).listen((stateBlock) {
       // Route to send complete if received process response for send block
-      if (StateContainer.of(context).sendRequestMap.containsKey(processResponse.hash)) {
+      if (stateBlock != null) {
         // Route to send complete
-        StateBlock sendStateBlock = StateContainer.of(context).sendRequestMap.remove(processResponse.hash);
-        String displayAmount = NumberUtil.getRawAsUsableString(sendStateBlock.sendAmount);
-        KaliumSendCompleteSheet(displayAmount, sendStateBlock.link).mainBottomSheet(context);
+        String displayAmount = NumberUtil.getRawAsUsableString(stateBlock.sendAmount);
+        KaliumSendCompleteSheet(displayAmount, stateBlock.link).mainBottomSheet(context);
         StateContainer.of(context).requestUpdate();
       }
     });

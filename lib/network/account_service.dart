@@ -1,18 +1,21 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:package_info/package_info.dart';
 import 'package:logging/logging.dart';
 
+import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/network/model/base_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request_item.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
+import 'package:kalium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/blocks_info_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
+import 'package:kalium_wallet_flutter/network/model/response/callback_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/pending_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/process_response.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 
@@ -162,15 +165,20 @@ class AccountService {
             // Blocks Info Response
             BlocksInfoResponse resp = BlocksInfoResponse.fromJson(msg);
             RxBus.post(resp, tag: RX_BLOCKS_INFO_RESP_TAG);
+          } else if (blockMap[blockMap.keys.first].containsKey('source')) {
+            PendingResponse resp = PendingResponse.fromJson(msg);
+            RxBus.post(resp, tag: RX_PENDING_RESP_TAG);
           }
         }
       }
     } else if (msg.containsKey("hash")) {
         // process response
-        ProcessResponse resp = ProcessResponse.fromJson(msg);
-        RxBus.post(resp, tag: RX_PROCESS_TAG);
-    }
-    if (_requestQueue.length > 0) {
+      ProcessResponse resp = ProcessResponse.fromJson(msg);
+      RxBus.post(resp, tag: RX_PROCESS_TAG);
+    } else if (msg.containsKey("block") && msg.containsKey("hash") && msg.containsKey("account")) {
+      CallbackResponse resp = CallbackResponse.fromJson(msg);
+      RxBus.post(resp, tag: RX_CALLBACK_TAG);
+    } else if (_requestQueue.length > 0) {
       _requestQueue.removeFirst();
       processQueue();
     }
@@ -205,5 +213,42 @@ class AccountService {
         processQueue();
       }
     }
+  }
+
+  // Queue Utilities
+  bool queueContainsRequestWithHash(String hash) {
+    if (_requestQueue != null || _requestQueue.length == 0) {
+      return false;
+    }
+    _requestQueue.forEach((requestItem) {
+      if (requestItem.request is ProcessRequest) {
+        ProcessRequest request = requestItem.request;
+        StateBlock block = StateBlock.fromJson(json.decode(request.block));
+        if (block.hash == hash) {
+          return true;
+        }
+      }
+    });
+    return false;
+  }
+
+  bool queueContainsOpenBlock() {
+    if (_requestQueue != null || _requestQueue.length == 0) {
+      return false;
+    }
+    _requestQueue.forEach((requestItem) {
+      if (requestItem.request is ProcessRequest) {
+        ProcessRequest request = requestItem.request;
+        StateBlock block = StateBlock.fromJson(json.decode(request.block));
+        if (BigInt.tryParse(block.previous) == BigInt.zero) {
+          return true;
+        }
+      }
+    });
+    return false;
+  }
+
+  RequestItem pop() {
+    return _requestQueue.removeFirst();
   }
 }

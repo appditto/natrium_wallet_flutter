@@ -3,4 +3,5 @@ class Actions {
   static const String ACCOUNT_HISTORY = 'account_history';
   static const String PROCESS = 'process';
   static const String BLOCKS_INFO = 'blocks_info';
+  static const String PENDING = "pending";
 }
