@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
+import 'dart:ui' as ui;
 
 class KaliumShareCard extends StatefulWidget {
   KaliumShareCard({Key key}) : super(key: key);
