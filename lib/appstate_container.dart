@@ -258,7 +258,9 @@ class StateContainerState extends State<StateContainer> {
   /// Handle callback response
   /// Typically this means we need to pocket transactions
   void handleCallbackResponse(CallbackResponse resp) {
+    log.fine("Received callback ${json.encode(resp.toJson())}");
     if (resp.isSend != "true") {
+      log.fine("Is not send");
       AccountService.processQueue();
       return;
     }
@@ -293,7 +295,7 @@ class StateContainerState extends State<StateContainer> {
   /// 
   void requestPending() {
     if (wallet.address != null) {
-      AccountService.queueRequest(new PendingRequest(account: wallet.address, count: max(wallet.blockCount, 0)));
+      AccountService.queueRequest(new PendingRequest(account: wallet.address, count: max(wallet.blockCount ?? 0, 10)));
       AccountService.processQueue();
     }
   }
@@ -367,10 +369,13 @@ class StateContainerState extends State<StateContainer> {
       link:source,
       account:wallet.address
     );
-    pendingResponseBlockMap.putIfAbsent(previous, () => openBlock);
+    _getPrivKey().then((result) {
+      openBlock.sign(result);
+      pendingResponseBlockMap.putIfAbsent(openBlock.hash, () => openBlock);
 
-    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
-    AccountService.processQueue();
+      AccountService.queueRequest(ProcessRequest(block: json.encode(openBlock.toJson())));
+      AccountService.processQueue();
+    });
   }
 
   void logOut() {

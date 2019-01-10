@@ -9,7 +9,6 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
-import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 
 class IntroBackupSeedPage extends StatefulWidget {
   @override
@@ -18,8 +17,8 @@ class IntroBackupSeedPage extends StatefulWidget {
 
 class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
-  var _seed;
-  TextStyle _seedTapStyle;
+  String _seed = "";
+  TextStyle _seedTapStyle = KaliumStyles.TextStyleSeed;
   var _seedCopiedColor;
   Timer _seedCopiedTimer;
 
@@ -30,6 +29,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
     Vault.inst.setSeed(NanoSeeds.generateSeed()).then((result) {
       // Update wallet
       StateContainer.of(context).updateWallet(address:NanoUtil.seedToAddress(result));
+      StateContainer.of(context).requestUpdate();
       // Update local state
       setState(() {
         _seed = result;
