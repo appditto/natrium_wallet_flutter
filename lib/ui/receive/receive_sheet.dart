@@ -22,11 +22,12 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 class KaliumReceiveSheet {
   KaliumWallet _wallet;
 
-  GlobalKey shareCardKey = GlobalKey();
+  GlobalKey shareCardKey;
   Widget kaliumShareCard;
   ByteData shareImageData;
 
   KaliumReceiveSheet() {
+    shareCardKey = GlobalKey();
     kaliumShareCard = Container(
                         child: KaliumShareCard(shareCardKey),
                         alignment: Alignment(0.0, 0.0),
