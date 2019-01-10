@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
+import 'package:qr/qr.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class KaliumShareCard extends StatefulWidget {
   GlobalKey key;
@@ -15,7 +18,9 @@ class KaliumShareCard extends StatefulWidget {
 
 class _KaliumShareCardState extends State<KaliumShareCard> {
   GlobalKey globalKey;
-
+  Widget _sharecardBananoLogo = new SvgPicture.asset('assets/sharecard_bananologo.svg');
+  Widget _sharecardTickerWebsite = new SvgPicture.asset('assets/sharecard_tickerwebsite.svg');
+  Widget _monkeyQRBackground = new SvgPicture.asset('assets/monkeyQR.svg');
   _KaliumShareCardState(this.globalKey);
 
   @override
@@ -26,13 +31,12 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
         height: 125.0,
         width: 241.0,
         decoration: BoxDecoration(
-          color: KaliumColors.green,
+          color: KaliumColors.backgroundDark,
           borderRadius: BorderRadius.circular(12.5),
         ),
         child: Container(
-          color: Colors.pink,
           margin: EdgeInsets.only(
-              left: 12.5, right: 12.5, top: 13.75, bottom: 11.25),
+              left: 12.5, right: 12.5, top: 12.5, bottom: 12.5),
           constraints: BoxConstraints.expand(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,7 +46,29 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
               Container(
                 height: 100.0,
                 width: 105.0,
-                color: KaliumColors.primary,
+                child: Stack(
+                      children: <Widget>[
+                        Center(
+                          child: Container(
+                            width: 105,
+                            height: 100,
+                            child: _monkeyQRBackground,
+                          ),
+                        ),
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 26.25),
+                            child: QrImage(
+                              padding: EdgeInsets.all(0.0),
+                              size: 50.3194,
+                              data: StateContainer.of(context).wallet.address,
+                              version: 6,
+                              errorCorrectionLevel: QrErrorCorrectLevel.Q,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
               ),
               // Banano logo, address, ticker and website
               Column(
@@ -53,7 +79,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                   Container(
                     width: 97.0,
                     height: 15.0,
-                    color: KaliumColors.primary,
+                    child: _sharecardBananoLogo,
                   ),
                   // Address
                   Column(
@@ -61,56 +87,56 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                       Container(
                         width: 97.0,
                         height: 12.5,
-                        color: KaliumColors.primary,
                         child: AutoSizeText(
                           StateContainer.of(context).wallet.address.substring(0, 16),
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
-                            color: KaliumColors.background,
+                            color: KaliumColors.text,
                             fontFamily: "OverpassMono",
+                            fontWeight: FontWeight.w100,
                           ),
                         ),
                       ),
                       Container(
                         width: 97.0,
                         height: 12.5,
-                        color: KaliumColors.primary,
                         child: AutoSizeText(
                           StateContainer.of(context).wallet.address.substring(16, 32),
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
-                            color: KaliumColors.background,
+                            color: KaliumColors.text,
                             fontFamily: "OverpassMono",
+                            fontWeight: FontWeight.w100,
                           ),
                         ),
                       ),
                       Container(
                         width: 97.0,
                         height: 12.5,
-                        color: KaliumColors.primary,
                         child: AutoSizeText(
                           StateContainer.of(context).wallet.address.substring(32, 48),
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
-                            color: KaliumColors.background,
+                            color: KaliumColors.text,
                             fontFamily: "OverpassMono",
+                            fontWeight: FontWeight.w100,
                           ),
                         ),
                       ),
                       Container(
                         width: 97.0,
                         height: 12.5,
-                        color: KaliumColors.primary,
                         child: AutoSizeText(
                           StateContainer.of(context).wallet.address.substring(48),
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
-                            color: KaliumColors.background,
+                            color: KaliumColors.text,
                             fontFamily: "OverpassMono",
+                            fontWeight: FontWeight.w100,
                           ),
                         ),
                       ),
@@ -120,7 +146,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                   Container(
                     width: 97.0,
                     height: 12.5,
-                    color: KaliumColors.primary,
+                    child: _sharecardTickerWebsite,
                   ),
                 ],
               ),
