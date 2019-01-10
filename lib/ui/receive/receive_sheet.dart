@@ -21,9 +21,17 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 class KaliumReceiveSheet {
   KaliumWallet _wallet;
 
-  GlobalKey shareCardKey;
+  GlobalKey shareCardKey = GlobalKey();
   Widget kaliumShareCard;
   ByteData shareImageData;
+
+  KaliumReceiveSheet() {
+    GlobalKey();
+    kaliumShareCard = Container(
+                        child: KaliumShareCard(shareCardKey),
+                        alignment: Alignment(0.0, 0.0),
+                        );
+  }
 
   // Address copied items
   // Initial constants
@@ -63,11 +71,7 @@ class KaliumReceiveSheet {
     Widget monkeyQRbackground = new SvgPicture.asset(
       assetName,
     );
-    shareCardKey = GlobalKey();
-    kaliumShareCard = Container(
-                        child: KaliumShareCard(shareCardKey, StateContainer.of(context).wallet.address),
-                        alignment: Alignment(0.0, 0.0),
-                        );
+
     _showShareCard = false;
 
     KaliumSheets.showKaliumHeightEightSheet(

@@ -70,7 +70,8 @@ dependencies:
   flutter_svg: ^0.9.0+1
 
   # QR Codes
-  qr_flutter: ^1.1.5
+  qr_flutter: ^1.1.5 # Generator
+  barcode_scan: ^0.0.8 # Scanner
 
   # Share images/text
   esys_flutter_share: ^0.0.7

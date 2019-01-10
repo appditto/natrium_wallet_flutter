@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 
 import 'package:kalium_wallet_flutter/appstate_container.dart';
@@ -420,7 +421,24 @@ class KaliumSendSheet {
                               KaliumButtonType.PRIMARY_OUTLINE,
                               'Scan QR Code',
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                            // TODO - Handle QR code pressed
+                                try {
+                                  BarcodeScanner.scan().then((value) {
+                                    String account = NanoAccounts.findAccountInString(NanoAccountType.BANANO, value);
+                                    if (account == null || account.isEmpty) {
+                                      // Not a valid code
+                                    } else {
+                                      setState(() {
+                                        _sendAddressController.text = account;
+                                      });
+                                    }
+                                  });
+                                } catch (e) {
+                                  if (e.code == BarcodeScanner.CameraAccessDenied) {
+                                    // TODO - Permission Denied to use camera
+                                  } else {
+                                    // UNKNOWN ERROR
+                                  }
+                                }
                           }),
                         ],
                       ),

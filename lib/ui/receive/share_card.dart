@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 
 class KaliumShareCard extends StatefulWidget {
   GlobalKey key;
-  String address;
 
-  KaliumShareCard(this.key, this.address);
+  KaliumShareCard(this.key);
 
   @override
-  _KaliumShareCardState createState() => _KaliumShareCardState(key, address);
+  _KaliumShareCardState createState() => _KaliumShareCardState(key);
 }
 
 class _KaliumShareCardState extends State<KaliumShareCard> {
   GlobalKey globalKey;
-  String address;
 
-  _KaliumShareCardState(this.globalKey, this.address);
+  _KaliumShareCardState(this.globalKey);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                         height: 12.5,
                         color: KaliumColors.primary,
                         child: AutoSizeText(
-                          address.substring(0, 16),
+                          StateContainer.of(context).wallet.address.substring(0, 16),
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
@@ -78,7 +77,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                         height: 12.5,
                         color: KaliumColors.primary,
                         child: AutoSizeText(
-                          address.substring(16, 32),
+                          StateContainer.of(context).wallet.address.substring(16, 32),
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
@@ -92,7 +91,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                         height: 12.5,
                         color: KaliumColors.primary,
                         child: AutoSizeText(
-                          address.substring(32, 48),
+                          StateContainer.of(context).wallet.address.substring(32, 48),
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
@@ -106,7 +105,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                         height: 12.5,
                         color: KaliumColors.primary,
                         child: AutoSizeText(
-                          address.substring(48),
+                          StateContainer.of(context).wallet.address.substring(48),
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
