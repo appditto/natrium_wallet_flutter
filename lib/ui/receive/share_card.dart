@@ -78,7 +78,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                         height: 12.5,
                         color: KaliumColors.primary,
                         child: AutoSizeText(
-                          address.substring(17, 32),
+                          address.substring(16, 32),
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
@@ -92,7 +92,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                         height: 12.5,
                         color: KaliumColors.primary,
                         child: AutoSizeText(
-                          address.substring(33, 48),
+                          address.substring(32, 48),
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
@@ -106,7 +106,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                         height: 12.5,
                         color: KaliumColors.primary,
                         child: AutoSizeText(
-                          address.substring(49),
+                          address.substring(48),
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
