@@ -429,6 +429,9 @@ class KaliumSendSheet {
                                     } else {
                                       setState(() {
                                         _sendAddressController.text = account;
+                                        _addressValidationText = "";
+                                        _sendAddressStyle = KaliumStyles
+                                            .TextStyleAddressText90;
                                       });
                                     }
                                   });

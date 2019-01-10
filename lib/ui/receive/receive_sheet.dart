@@ -27,7 +27,6 @@ class KaliumReceiveSheet {
   ByteData shareImageData;
 
   KaliumReceiveSheet() {
-    GlobalKey();
     kaliumShareCard = Container(
                         child: KaliumShareCard(shareCardKey),
                         alignment: Alignment(0.0, 0.0),
