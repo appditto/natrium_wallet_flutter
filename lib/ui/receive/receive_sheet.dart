@@ -9,19 +9,21 @@ import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/share_card_test.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:kalium_wallet_flutter/ui/receive/share_card.dart';
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
-import 'package:qr/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class KaliumReceiveSheet {
   KaliumWallet _wallet;
 
   GlobalKey shareCardKey = GlobalKey();
+  Widget kaliumShareCard;
+  ByteData shareImageData;
 
   // Address copied items
   // Initial constants
@@ -34,13 +36,14 @@ class KaliumReceiveSheet {
   String _copyButtonText;
   TextStyle _copyButtonStyle;
   Color _copyButtonBackground;
+  bool _showShareCard;
   // Timer reference so we can cancel repeated events
   Timer _addressCopiedTimer;
 
   Future<ByteData> _capturePng() async {
     RenderRepaintBoundary boundary =
         shareCardKey.currentContext.findRenderObject();
-    ui.Image image = await boundary.toImage();
+    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
     ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     return byteData;
   }
@@ -56,6 +59,11 @@ class KaliumReceiveSheet {
     Widget monkeyQRbackground = new SvgPicture.asset(
       assetName,
     );
+    kaliumShareCard = Container(
+                        child: KaliumShareCard(shareCardKey, StateContainer.of(context).wallet.address),
+                        alignment: Alignment(0.0, 0.0),
+                        );
+    _showShareCard = false;
 
     KaliumSheets.showKaliumHeightEightSheet(
         context: context,
@@ -91,7 +99,6 @@ class KaliumReceiveSheet {
                       child: UIUtil.threeLineAddressText(_wallet.address,
                           type: ThreeLineAddressTextType.PRIMARY60),
                     ),
-
                     //This container is a temporary solution for the alignment problem
                     Container(
                       width: 50,
@@ -102,11 +109,11 @@ class KaliumReceiveSheet {
                 ),
 
                 //MonkeyQR which takes all the available space left from the buttons & address text
-
                 Expanded(
                   child: Center(
                     child: Stack(
                       children: <Widget>[
+                        _showShareCard ? kaliumShareCard : SizedBox(),
                         Center(
                           child: Container(
                             width: devicewidth / 1.5,
@@ -186,7 +193,22 @@ class KaliumReceiveSheet {
                             KaliumButtonType.PRIMARY_OUTLINE,
                             'Share Address',
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                          return null;
+                          setState(() {
+                            _showShareCard = true;
+                          });
+                          Future.delayed(new Duration(milliseconds: 50), () {
+                            if (_showShareCard) {
+                              _capturePng().then((byteData) {
+                                EsysFlutterShare.shareImage(
+                                  "${StateContainer.of(context).wallet.address}.png",
+                                  byteData,
+                                  StateContainer.of(context).wallet.address);
+                                setState(() {
+                                  _showShareCard = false;
+                                });
+                              });              
+                            }
+                          });
                         }),
                       ],
                     ),
