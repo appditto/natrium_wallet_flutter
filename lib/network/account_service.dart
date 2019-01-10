@@ -23,9 +23,6 @@ import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 // Server Connection String
 const String _SERVER_ADDRESS = "wss://kaba.banano.cc:443";
 
-// Singleton instance
-final AccountService accountService = new AccountService();
-
 // Bus event for connection status changing
 enum ConnectionChanged { CONNECTED, DISCONNECTED }
 
@@ -34,21 +31,18 @@ enum ConnectionChanged { CONNECTED, DISCONNECTED }
  */
 class AccountService {
   static final AccountService _service = new AccountService._internal();
-  final Logger log = new Logger("AccountService");
+  static final Logger log = new Logger("AccountService");
 
   // For all requests we place them on a queue with expiry to be processed sequentially
-  Queue<RequestItem> _requestQueue;
+  static final Queue<RequestItem> _requestQueue = Queue();
 
   // WS Client
-  IOWebSocketChannel _channel;
+  static IOWebSocketChannel _channel;
 
   // WS connection status
-  bool _isConnected;
-  bool _isConnecting;
-  var _suspended; // When the app explicity closes the connection
-
-  bool get isConnected => _isConnected;
-  bool get isConnecting => _isConnecting;
+  static bool _isConnected = false;
+  static bool _isConnecting = false;
+  static bool _suspended = false; // When the app explicity closes the connection
 
   factory AccountService(){
     return _service;
@@ -56,17 +50,11 @@ class AccountService {
 
   // Singleton Constructor
   AccountService._internal() {
-    _suspended = false;
-    _isConnected = false;
-    _isConnecting = false;
-    // Initialize queue
-    _requestQueue = new Queue();
-    // Init connection
     initCommunication();
   }
 
   // Connect to server
-  initCommunication({bool unsuspend = false}) async {
+  static void initCommunication({bool unsuspend = false}) async {
     if (_isConnected || _isConnecting) {
       return;
     } else if (_suspended && !unsuspend) {
@@ -100,7 +88,7 @@ class AccountService {
   }
 
   // Connection closed (normally)
-  void connectionClosed() {
+  static void connectionClosed() {
     _isConnected = false;
     log.fine("disconnected from service");
     // Send disconnected message
@@ -108,7 +96,7 @@ class AccountService {
   }
 
   // Connection closed (with error)
-  void connectionClosedError(e) {
+  static void connectionClosedError(e) {
     _isConnected = false;
     log.fine("disconnected from service with error ${e.toString()}");
     // Send disconnected message
@@ -116,7 +104,7 @@ class AccountService {
   }
 
   // Close connection
-  void reset({bool suspend = false}){
+  static void reset({bool suspend = false}){
     _suspended = suspend;
     if (_channel != null){
       if (_channel.sink != null){
@@ -127,7 +115,7 @@ class AccountService {
   }
 
   // Send message
-  void _send(String message){
+  static void _send(String message){
     if (_channel != null){
       if (_channel.sink != null && _isConnected){
         _channel.sink.add(message);
@@ -143,7 +131,7 @@ class AccountService {
     }
   }
 
-  _onMessageReceived(message) {
+  static void _onMessageReceived(message) {
     _isConnected = true;
     _isConnecting = false;
     log.fine("Received $message");
@@ -209,19 +197,19 @@ class AccountService {
   }
 
   /* Enqueue Request */
-  void queueRequest(BaseRequest request) {
+  static void queueRequest(BaseRequest request) {
     log.fine("requetest ${json.encode(request.toJson())}, q length: ${_requestQueue.length}");
     _requestQueue.add(new RequestItem(request));
   }
 
   /* Process Queue */
-  void processQueue() {
+  static void processQueue() {
     log.fine("Request Queue length ${_requestQueue.length}");
     if (_requestQueue != null && _requestQueue.length > 0) {
       RequestItem requestItem = _requestQueue.first;
       if (requestItem != null && !requestItem.isProcessing) {
-        if (!isConnected) {
-          if (!isConnecting) {
+        if (!_isConnected) {
+          if (!_isConnecting) {
             initCommunication();
           }
           return;
@@ -241,7 +229,7 @@ class AccountService {
   }
 
   // Queue Utilities
-  bool queueContainsRequestWithHash(String hash) {
+  static bool queueContainsRequestWithHash(String hash) {
     if (_requestQueue != null || _requestQueue.length == 0) {
       return false;
     }
@@ -257,7 +245,7 @@ class AccountService {
     return false;
   }
 
-  bool queueContainsOpenBlock() {
+  static bool queueContainsOpenBlock() {
     if (_requestQueue != null || _requestQueue.length == 0) {
       return false;
     }
@@ -273,7 +261,7 @@ class AccountService {
     return false;
   }
 
-  void removeSubscribeHistoryFromQueue() {
+  static void removeSubscribeHistoryFromQueue() {
     if (_requestQueue != null && _requestQueue.length > 0) {
       List<RequestItem> toRemove = new List();
       _requestQueue.forEach((requestItem) {
@@ -288,11 +276,11 @@ class AccountService {
     }    
   }
 
-  RequestItem pop() {
+  static RequestItem pop() {
     return _requestQueue.length > 0 ? _requestQueue.removeFirst() : null;
   }
 
-  RequestItem peek() {
+  static RequestItem peek() {
     return _requestQueue.length > 0 ? _requestQueue.first : null;
   }
 }
