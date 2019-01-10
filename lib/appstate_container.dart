@@ -374,7 +374,9 @@ class StateContainerState extends State<StateContainer> {
   }
 
   void logOut() {
-    wallet = new KaliumWallet();
+    setState(() {
+      wallet = new KaliumWallet();
+    });
   }
 
   Future<String> _getPrivKey() async {
