@@ -62,7 +62,6 @@ class AccountService {
     }
     _suspended = false;
     reset();
-    _isConnecting = true;
 
     try {
       var packageInfo = await PackageInfo.fromPlatform();
@@ -90,6 +89,7 @@ class AccountService {
   // Connection closed (normally)
   static void connectionClosed() {
     _isConnected = false;
+    _isConnecting = false;
     log.fine("disconnected from service");
     // Send disconnected message
     RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
@@ -98,6 +98,7 @@ class AccountService {
   // Connection closed (with error)
   static void connectionClosedError(e) {
     _isConnected = false;
+    _isConnecting = false;
     log.fine("disconnected from service with error ${e.toString()}");
     // Send disconnected message
     RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
@@ -110,16 +111,26 @@ class AccountService {
       if (_channel.sink != null){
         _channel.sink.close();
         _isConnected = false;
+        _isConnecting = false;
       }
     }
   }
 
   // Send message
-  static void _send(String message){
+  static void _send(String message) {
+    bool reset = false;
+    try {
     if (_channel != null){
       if (_channel.sink != null && _isConnected){
         _channel.sink.add(message);
       } else {
+        reset = true; // Re-establish connection
+      }
+    }
+    } catch (e) {
+      reset = true;
+    } finally {
+      if (reset) {
         // Reset queue item statuses
         _requestQueue.forEach((requestItem) {
           requestItem.isProcessing = false;
@@ -182,13 +193,13 @@ class AccountService {
         pop();
         processQueue();
       }
-    } else if (msg.containsKey("hash")) {
-        // process response
-      ProcessResponse resp = ProcessResponse.fromJson(msg);
-      RxBus.post(resp, tag: RX_PROCESS_TAG);
     } else if (msg.containsKey("block") && msg.containsKey("hash") && msg.containsKey("account")) {
       CallbackResponse resp = CallbackResponse.fromJson(msg);
       RxBus.post(resp, tag: RX_CALLBACK_TAG);
+    } else if (msg.containsKey("hash")) {
+      // process response
+      ProcessResponse resp = ProcessResponse.fromJson(msg);
+      RxBus.post(resp, tag: RX_PROCESS_TAG);
     } else if (msg.containsKey("error")) {
       pop();
       processQueue();
