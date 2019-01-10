@@ -294,4 +294,8 @@ class AccountService {
   static RequestItem peek() {
     return _requestQueue.length > 0 ? _requestQueue.first : null;
   }
+  
+  static void clearQueue() {
+    _requestQueue.clear();
+  }
 }

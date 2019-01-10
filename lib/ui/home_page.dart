@@ -40,8 +40,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // but seems the only way to handle the animations
   ListModel<AccountHistoryResponseItem> _historyList;
 
-  KaliumReceiveSheet receive = new KaliumReceiveSheet();
-
   // Price conversion state (BTC, NANO, NONE)
   PriceConversion _priceConversion;
   TextStyle _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
@@ -294,7 +292,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
-                      onPressed: () => receive.mainBottomSheet(context),
+                      onPressed: () => new KaliumReceiveSheet().mainBottomSheet(context),
                       highlightColor: KaliumColors.background40,
                       splashColor: KaliumColors.background40,
                     ),

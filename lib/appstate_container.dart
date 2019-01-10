@@ -82,6 +82,9 @@ class StateContainerState extends State<StateContainer> {
   // Maps previous block requested to next block
   Map<String, StateBlock> pendingResponseBlockMap = new Map();
 
+  // Maps all pending receives to previous blocks
+  Map<String, StateBlock> pendingBlockMap = new Map();
+
   @override
   void initState() {
     super.initState();
@@ -163,6 +166,7 @@ class StateContainerState extends State<StateContainer> {
   void handleProcessResponse(ProcessResponse processResponse) {
     // see what type of request sent this response
     RequestItem requestItem = AccountService.pop();
+    bool doUpdate = true;
     // This is a little redundant for now but in the future for transfer/paper wallet we need to know what previous request was
     if (requestItem != null) {
       if (requestItem.request is ProcessRequest) {
@@ -182,10 +186,29 @@ class StateContainerState extends State<StateContainer> {
             });
             if (previous.subType == BlockTypes.SEND) {
               RxBus.post(previous, tag:RX_SEND_COMPLETE_TAG);
+            } else if (previous.subType == BlockTypes.RECEIVE) {
+              // Handle next receive if there is one
+              StateBlock frontier = pendingBlockMap.remove(processResponse.hash);
+              if (frontier != null && pendingBlockMap.length > 0) {
+                StateBlock nextBlock = pendingBlockMap.remove(pendingBlockMap.keys.first);
+                nextBlock.previous = frontier.hash;
+                nextBlock.representative = frontier.representative;
+                nextBlock.setBalance(frontier.balance);
+                doUpdate = false;
+                _getPrivKey().then((result) {
+                  nextBlock.sign(result);
+                  pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+                  pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+                  AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
+                  AccountService.processQueue();
+                });
+              }
             }
           }
         }
-        requestUpdate();
+        if (doUpdate) {
+          requestUpdate();
+        }
       } else {
         AccountService.processQueue();
       }
@@ -249,6 +272,12 @@ class StateContainerState extends State<StateContainer> {
     _getPrivKey().then((result) {
       nextBlock.sign(result);
       pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+      // If this is of type RECEIVE, update its data in our pending map
+      StateBlock prevReceive = pendingBlockMap.remove(nextBlock.link);
+      if (prevReceive != null) {
+        print("put ${nextBlock.hash}");
+        pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+      }
       AccountService.pop();
       AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
       AccountService.processQueue();
@@ -269,11 +298,22 @@ class StateContainerState extends State<StateContainer> {
   }
 
   void handlePendingItem(PendingResponseItem item) {
-    if (!AccountService.queueContainsRequestWithHash(item.hash)) {
+    if (!AccountService.queueContainsRequestWithHash(item.hash) && !pendingBlockMap.containsKey(item.hash)) {
       if (wallet.openBlock == null && !AccountService.queueContainsOpenBlock()) {
         requestOpen("0", item.hash, item.amount);
+      } else if (pendingBlockMap.length == 0) {
+          requestReceive(wallet.frontier, item.hash, item.amount);
       } else {
-        requestReceive(wallet.frontier, item.hash, item.amount);
+        pendingBlockMap.putIfAbsent(item.hash, () {
+          return StateBlock(
+            subtype:BlockTypes.RECEIVE,
+            previous: wallet.frontier,
+            representative: wallet.representative,
+            balance:item.amount,
+            link:item.hash,
+            account:wallet.address
+          );
+        });
       }
     }
   }
@@ -345,6 +385,7 @@ class StateContainerState extends State<StateContainer> {
       account:wallet.address
     );
     previousPendingMap.putIfAbsent(previous, () => receiveBlock);
+    pendingBlockMap.putIfAbsent(source, () => receiveBlock);
 
     AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
     AccountService.processQueue();
@@ -382,6 +423,7 @@ class StateContainerState extends State<StateContainer> {
     setState(() {
       wallet = new KaliumWallet();
     });
+    AccountService.clearQueue();
   }
 
   Future<String> _getPrivKey() async {
