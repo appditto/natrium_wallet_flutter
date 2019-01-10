@@ -72,6 +72,9 @@ dependencies:
   # QR Codes
   qr_flutter: ^1.1.5
 
+  # Share images/text
+  esys_flutter_share: ^0.0.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
