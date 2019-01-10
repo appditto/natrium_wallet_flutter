@@ -111,8 +111,8 @@ class _PinScreenState extends State<PinScreen> {
 
   Widget _buildPinScreenButton(String buttonText) {
     return Container(
-      height: 70,
-      width: 70,
+      height: 80,
+      width: 80,
       child: FlatButton(
         highlightColor: KaliumColors.primary15,
         splashColor: KaliumColors.primary30,
@@ -300,18 +300,18 @@ class _PinScreenState extends State<PinScreen> {
                       ),
                       Container(
                         margin: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.01),
+                            bottom: MediaQuery.of(context).size.height * 0.009),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
                             Container(
-                              height: 70,
-                              width: 70,
+                              height: 80,
+                              width: 80,
                             ),
                             _buildPinScreenButton("0"),
                             Container(
-                              height: 70,
-                              width: 70,
+                              height: 80,
+                              width: 80,
                               child: FlatButton(
                                 highlightColor: KaliumColors.primary15,
                                 splashColor: KaliumColors.primary30,
