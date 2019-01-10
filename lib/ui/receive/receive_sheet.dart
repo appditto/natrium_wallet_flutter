@@ -53,7 +53,7 @@ class KaliumReceiveSheet {
     if (shareCardKey != null && shareCardKey.currentContext != null) {
       RenderRepaintBoundary boundary =
           shareCardKey.currentContext.findRenderObject();
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ui.Image image = await boundary.toImage(pixelRatio: 10.0);
       ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       return byteData;
     } else {
