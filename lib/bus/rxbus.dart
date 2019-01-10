@@ -16,7 +16,7 @@ const String RX_PENDING_RESP_TAG = 'fkalium_pending_response';
 /**
  * RXBus using RXDart
  * 
- * Based on https://github.com/ReactiveX/rxdart
+ * Based on https://github.com/huclengyue/FlutterRxBus
  */
 class Bus {
   PublishSubject _subject;

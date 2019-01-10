@@ -95,11 +95,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     // terminate it to be eco-friendly
     switch (state) {
       case AppLifecycleState.paused:
-        accountService.reset(suspend: true);
+        AccountService.reset(suspend: true);
         super.didChangeAppLifecycleState(state);
         break;
       case AppLifecycleState.resumed:
-        accountService.initCommunication(unsuspend: true);
+        AccountService.initCommunication(unsuspend: true);
         super.didChangeAppLifecycleState(state);
         break;
       default:
@@ -767,18 +767,18 @@ class TransactionDetailsSheet {
                                     _copyButtonStyle = KaliumStyles
                                         .TextStyleButtonPrimaryGreen;
                                     _copyButtonBackground = KaliumColors.green;
-                                    if (_addressCopiedTimer != null) {
-                                      _addressCopiedTimer.cancel();
-                                    }
-                                    _addressCopiedTimer = new Timer(
-                                        const Duration(milliseconds: 800), () {
-                                      setState(() {
-                                        _copyButtonText = _copyAddress;
-                                        _copyButtonStyle =
-                                            _copyButtonStyleInitial;
-                                        _copyButtonBackground =
-                                            _copyButtonColorInitial;
-                                      });
+                                  });
+                                  if (_addressCopiedTimer != null) {
+                                    _addressCopiedTimer.cancel();
+                                  }
+                                  _addressCopiedTimer = new Timer(
+                                      const Duration(milliseconds: 800), () {
+                                    setState(() {
+                                      _copyButtonText = _copyAddress;
+                                      _copyButtonStyle =
+                                          _copyButtonStyleInitial;
+                                      _copyButtonBackground =
+                                          _copyButtonColorInitial;
                                     });
                                   });
                                 },

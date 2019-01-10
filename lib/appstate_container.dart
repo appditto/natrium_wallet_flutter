@@ -96,8 +96,8 @@ class StateContainerState extends State<StateContainer> {
         wallet.historyLoading = false;
         wallet.history = historyResponse.history;
       });
-      accountService.pop();
-      accountService.processQueue();
+      AccountService.pop();
+      AccountService.processQueue();
       requestPending();
     });
     RxBus.register<PriceResponse>(tag: RX_PRICE_RESP_TAG).listen((priceResponse) {
@@ -162,7 +162,7 @@ class StateContainerState extends State<StateContainer> {
   ///
   void handleProcessResponse(ProcessResponse processResponse) {
     // see what type of request sent this response
-    RequestItem requestItem = accountService.pop();
+    RequestItem requestItem = AccountService.pop();
     // This is a little redundant for now but in the future for transfer/paper wallet we need to know what previous request was
     if (requestItem != null) {
       if (requestItem.request is ProcessRequest) {
@@ -187,21 +187,21 @@ class StateContainerState extends State<StateContainer> {
         }
         requestUpdate();
       } else {
-        accountService.processQueue();
+        AccountService.processQueue();
       }
     }
   }
 
   // Handle pending response
   void handlePendingResponse(PendingResponse response) {
-    accountService.pop();
+    AccountService.pop();
     response.blocks.forEach((hash, pendingResponseItem) {
       PendingResponseItem pendingResponseItemN = pendingResponseItem;
       pendingResponseItemN.hash = hash;
       handlePendingItem(pendingResponseItemN);
     });
     if (response.blocks.length == 0) {
-      accountService.processQueue();
+      AccountService.processQueue();
     }
   }
 
@@ -228,8 +228,8 @@ class StateContainerState extends State<StateContainer> {
       wallet.nanoPrice = response.nanoPrice.toString();
       wallet.btcPrice = response.btcPrice.toString();
     });
-    accountService.pop();
-    accountService.processQueue();
+    AccountService.pop();
+    AccountService.processQueue();
   }
   
   /// Handle blocks_info response
@@ -249,9 +249,9 @@ class StateContainerState extends State<StateContainer> {
     _getPrivKey().then((result) {
       nextBlock.sign(result);
       pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
-      accountService.pop();
-      accountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
-      accountService.processQueue();
+      AccountService.pop();
+      AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
+      AccountService.processQueue();
     });
   }
 
@@ -259,7 +259,7 @@ class StateContainerState extends State<StateContainer> {
   /// Typically this means we need to pocket transactions
   void handleCallbackResponse(CallbackResponse resp) {
     if (resp.isSend != "true") {
-      accountService.processQueue();
+      AccountService.processQueue();
       return;
     }
     PendingResponseItem pendingItem = PendingResponseItem(hash: resp.hash, source: resp.account, amount: resp.amount);
@@ -267,8 +267,8 @@ class StateContainerState extends State<StateContainer> {
   }
 
   void handlePendingItem(PendingResponseItem item) {
-    if (!accountService.queueContainsRequestWithHash(item.hash)) {
-      if (wallet.openBlock == null && !accountService.queueContainsOpenBlock()) {
+    if (!AccountService.queueContainsRequestWithHash(item.hash)) {
+      if (wallet.openBlock == null && !AccountService.queueContainsOpenBlock()) {
         requestOpen("0", item.hash, item.amount);
       } else {
         requestReceive(wallet.frontier, item.hash, item.amount);
@@ -279,10 +279,10 @@ class StateContainerState extends State<StateContainer> {
   void requestUpdate() {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
-        accountService.removeSubscribeHistoryFromQueue();
-        accountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:"USD", uuid:result));
-        accountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
-        accountService.processQueue();
+        AccountService.removeSubscribeHistoryFromQueue();
+        AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:"USD", uuid:result));
+        AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
+        AccountService.processQueue();
       });
       //TODO currency
     }
@@ -293,8 +293,8 @@ class StateContainerState extends State<StateContainer> {
   /// 
   void requestPending() {
     if (wallet.address != null) {
-      accountService.queueRequest(new PendingRequest(account: wallet.address, count: max(wallet.blockCount, 0)));
-      accountService.processQueue();
+      AccountService.queueRequest(new PendingRequest(account: wallet.address, count: max(wallet.blockCount, 0)));
+      AccountService.processQueue();
     }
   }
 
@@ -319,8 +319,8 @@ class StateContainerState extends State<StateContainer> {
     );
     previousPendingMap.putIfAbsent(previous, () => sendBlock);
 
-    accountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
-    accountService.processQueue();
+    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
+    AccountService.processQueue();
   }
 
   ///
@@ -344,8 +344,8 @@ class StateContainerState extends State<StateContainer> {
     );
     previousPendingMap.putIfAbsent(previous, () => receiveBlock);
 
-    accountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
-    accountService.processQueue();
+    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
+    AccountService.processQueue();
   }
 
   ///
@@ -369,12 +369,14 @@ class StateContainerState extends State<StateContainer> {
     );
     pendingResponseBlockMap.putIfAbsent(previous, () => openBlock);
 
-    accountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
-    accountService.processQueue();
+    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
+    AccountService.processQueue();
   }
 
   void logOut() {
-    wallet = new KaliumWallet();
+    setState(() {
+      wallet = new KaliumWallet();
+    });
   }
 
   Future<String> _getPrivKey() async {
