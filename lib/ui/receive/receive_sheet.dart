@@ -120,6 +120,8 @@ class KaliumReceiveSheet {
                               padding: EdgeInsets.all(0.0),
                               size: devicewidth /3.13,
                               data: _wallet.address,
+                              version: 6,
+                              errorCorrectionLevel: QrErrorCorrectLevel.Q,
                             ),
                           ),
                         ),
