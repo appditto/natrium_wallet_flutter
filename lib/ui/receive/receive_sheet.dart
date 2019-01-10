@@ -21,7 +21,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 class KaliumReceiveSheet {
   KaliumWallet _wallet;
 
-  GlobalKey shareCardKey = GlobalKey();
+  GlobalKey shareCardKey;
   Widget kaliumShareCard;
   ByteData shareImageData;
 
@@ -41,11 +41,15 @@ class KaliumReceiveSheet {
   Timer _addressCopiedTimer;
 
   Future<ByteData> _capturePng() async {
-    RenderRepaintBoundary boundary =
-        shareCardKey.currentContext.findRenderObject();
-    ui.Image image = await boundary.toImage(pixelRatio: 3.0);
-    ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    return byteData;
+    if (shareCardKey != null && shareCardKey.currentContext != null) {
+      RenderRepaintBoundary boundary =
+          shareCardKey.currentContext.findRenderObject();
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      return byteData;
+    } else {
+      return null;
+    }
   }
 
   mainBottomSheet(BuildContext context) {
@@ -59,6 +63,7 @@ class KaliumReceiveSheet {
     Widget monkeyQRbackground = new SvgPicture.asset(
       assetName,
     );
+    shareCardKey = GlobalKey();
     kaliumShareCard = Container(
                         child: KaliumShareCard(shareCardKey, StateContainer.of(context).wallet.address),
                         alignment: Alignment(0.0, 0.0),
@@ -113,7 +118,7 @@ class KaliumReceiveSheet {
                   child: Center(
                     child: Stack(
                       children: <Widget>[
-                        _showShareCard ? kaliumShareCard : SizedBox(),
+                      _showShareCard ? kaliumShareCard : SizedBox(),
                         Center(
                           child: Container(
                             width: devicewidth / 1.5,
@@ -201,10 +206,14 @@ class KaliumReceiveSheet {
                           Future.delayed(new Duration(milliseconds: 50), () {
                             if (_showShareCard) {
                               _capturePng().then((byteData) {
-                                EsysFlutterShare.shareImage(
-                                  "${StateContainer.of(context).wallet.address}.png",
-                                  byteData,
-                                  StateContainer.of(context).wallet.address);
+                                if (byteData != null) {
+                                  EsysFlutterShare.shareImage(
+                                    "${StateContainer.of(context).wallet.address}.png",
+                                    byteData,
+                                    StateContainer.of(context).wallet.address);
+                                } else {
+                                  // TODO - show a something went wrong message
+                                }
                                 setState(() {
                                   _showShareCard = false;
                                 });
