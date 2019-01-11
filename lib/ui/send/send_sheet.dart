@@ -182,215 +182,232 @@ class KaliumSendSheet {
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(top: 35, bottom: 35),
-                    child: Column(
+                    child: Stack(
                       children: <Widget>[
-                        // Enter Amount Container
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.105,
-                              right: MediaQuery.of(context).size.width * 0.105),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: KaliumColors.backgroundDarkest,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: TextField(    
-                            focusNode: _sendAmountFocusNode,
-                            controller: _sendAmountController,
-                            cursorColor: KaliumColors.primary,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(13),
-                              WhitelistingTextInputFormatter(RegExp("[0-9.]")),
-                              CurrencyInputFormatter()
-                            ],
-                            onChanged: (text) {
-                              // Always reset the error message to be less annoying
-                              setState(() {
-                                _amountValidationText = "";
-                              });
-                            },
-                            textInputAction: TextInputAction.done,
-                            maxLines: null,
-                            autocorrect: false,
-                            decoration: InputDecoration(
-                              hintText: _amountHint,
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: 'NunitoSans'),
-                              // Currency Switch Button
-                              prefixIcon: Container(
-                                width: 50,
-                                child: FlatButton(
-                                  padding: EdgeInsets.all(15.0),
-                                  highlightColor: KaliumColors.primary15,
-                                  splashColor: KaliumColors.primary30,
-                                  onPressed: () {
-                                    return null;
-                                  },
-                                  child: Icon(KaliumIcons.swapcurrency,
-                                      size: 20, color: KaliumColors.primary),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(200.0)),
-                                ),
-                              ),
-                              // MAX Button
-                              suffixIcon: Container(
-                                width: 50,
-                                child: FlatButton(
-                                  highlightColor: KaliumColors.primary15,
-                                  splashColor: KaliumColors.primary30,
-                                  padding: EdgeInsets.all(13.0),
-                                  onPressed: () {
-                                    return null;
-                                  },
-                                  child: Icon(KaliumIcons.max,
-                                      size: 24, color: KaliumColors.primary),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(200.0)),
-                                ),
-                              ),
-                            ),
-                            keyboardType: TextInputType.numberWithOptions(
-                                signed: true, decimal: true),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16.0,
-                              color: KaliumColors.primary,
-                              fontFamily: 'NunitoSans',
-                            ),
+                        GestureDetector(
+                          onTap: () {
+                            // Clear focus of our fields when tapped in this empty space
+                            _sendAddressFocusNode.unfocus();
+                            _sendAmountFocusNode.unfocus();
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: SizedBox.expand(),
+                            constraints: BoxConstraints.expand(),
                           ),
                         ),
-                        // Enter Amount Error Container
-                        Container(
-                          margin: EdgeInsets.only(top: 5, bottom: 5),
-                          child: Text(_amountValidationText,
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: KaliumColors.primary,
-                                fontFamily: 'NunitoSans',
-                                fontWeight: FontWeight.w600,
-                              )),
-                        ),
-                        // Enter Address Container
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.105,
-                              right: MediaQuery.of(context).size.width * 0.105),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: KaliumColors.backgroundDarkest,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: TextField(
-                            textAlign: TextAlign.center,
-                            focusNode: _sendAddressFocusNode,
-                            controller: _sendAddressController,
-                            cursorColor: KaliumColors.primary,
-                            keyboardAppearance: Brightness.dark,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(64),
-                            ],
-                            textInputAction: TextInputAction.done,
-                            maxLines: null,
-                            autocorrect: false,
-                            decoration: InputDecoration(
-                              hintText: _addressHint,
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: 'NunitoSans'),
-                              // @ BUTTON
-                              prefixIcon: Container(
-                                width: 50,
-                                child: FlatButton(
-                                  highlightColor: KaliumColors.primary15,
-                                  splashColor: KaliumColors.primary30,
-                                  padding: EdgeInsets.all(15.0),
-                                  onPressed: () {
-                                    return null;
-                                  },
-                                  child: Icon(KaliumIcons.at,
-                                      size: 20, color: KaliumColors.primary),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(200.0)),
-                                ),
+                        Column(
+                          children: <Widget>[
+                            // Enter Amount Container
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width * 0.105,
+                                  right: MediaQuery.of(context).size.width * 0.105),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: KaliumColors.backgroundDarkest,
+                                borderRadius: BorderRadius.circular(25),
                               ),
-                              // PASTE BUTTTON
-                              suffixIcon: Container(
-                                width: 50,
-                                child: FlatButton(
-                                  highlightColor: KaliumColors.primary15,
-                                  splashColor: KaliumColors.primary30,
-                                  padding: EdgeInsets.all(15.0),
-                                  onPressed: () {
-                                    Clipboard.getData("text/plain")
-                                        .then((ClipboardData data) {
-                                      if (data == null || data.text == null) {
-                                        return;
-                                      }
-                                      Address address = new Address(data.text);
-                                      if (NanoAccounts.isValid(
-                                          NanoAccountType.BANANO,
-                                          address.address)) {
-                                        setState(() {
-                                          _addressValidationText = "";
-                                          _sendAddressStyle = KaliumStyles
-                                              .TextStyleAddressText90;
+                              child: TextField(    
+                                focusNode: _sendAmountFocusNode,
+                                controller: _sendAmountController,
+                                cursorColor: KaliumColors.primary,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(13),
+                                  WhitelistingTextInputFormatter(RegExp("[0-9.]")),
+                                  CurrencyInputFormatter()
+                                ],
+                                onChanged: (text) {
+                                  // Always reset the error message to be less annoying
+                                  setState(() {
+                                    _amountValidationText = "";
+                                  });
+                                },
+                                textInputAction: TextInputAction.next,
+                                maxLines: null,
+                                autocorrect: false,
+                                decoration: InputDecoration(
+                                  hintText: _amountHint,
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'NunitoSans'),
+                                  // Currency Switch Button
+                                  prefixIcon: Container(
+                                    width: 50,
+                                    child: FlatButton(
+                                      padding: EdgeInsets.all(15.0),
+                                      highlightColor: KaliumColors.primary15,
+                                      splashColor: KaliumColors.primary30,
+                                      onPressed: () {
+                                        return null;
+                                      },
+                                      child: Icon(KaliumIcons.swapcurrency,
+                                          size: 20, color: KaliumColors.primary),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(200.0)),
+                                    ),
+                                  ),
+                                  // MAX Button
+                                  suffixIcon: Container(
+                                    width: 50,
+                                    child: FlatButton(
+                                      highlightColor: KaliumColors.primary15,
+                                      splashColor: KaliumColors.primary30,
+                                      padding: EdgeInsets.all(13.0),
+                                      onPressed: () {
+                                        return null;
+                                      },
+                                      child: Icon(KaliumIcons.max,
+                                          size: 24, color: KaliumColors.primary),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(200.0)),
+                                    ),
+                                  ),
+                                ),
+                                keyboardType: TextInputType.numberWithOptions(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16.0,
+                                  color: KaliumColors.primary,
+                                  fontFamily: 'NunitoSans',
+                                ),
+                                onSubmitted: (text) {
+                                  FocusScope.of(context).requestFocus(_sendAddressFocusNode);
+                                },
+                              ),
+                            ),
+                            // Enter Amount Error Container
+                            Container(
+                              margin: EdgeInsets.only(top: 5, bottom: 5),
+                              child: Text(_amountValidationText,
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: KaliumColors.primary,
+                                    fontFamily: 'NunitoSans',
+                                    fontWeight: FontWeight.w600,
+                                  )),
+                            ),
+                            // Enter Address Container
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width * 0.105,
+                                  right: MediaQuery.of(context).size.width * 0.105),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: KaliumColors.backgroundDarkest,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                focusNode: _sendAddressFocusNode,
+                                controller: _sendAddressController,
+                                cursorColor: KaliumColors.primary,
+                                keyboardAppearance: Brightness.dark,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(64),
+                                ],
+                                textInputAction: TextInputAction.done,
+                                maxLines: null,
+                                autocorrect: false,
+                                decoration: InputDecoration(
+                                  hintText: _addressHint,
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w100,
+                                      fontFamily: 'NunitoSans'),
+                                  // @ BUTTON
+                                  prefixIcon: Container(
+                                    width: 50,
+                                    child: FlatButton(
+                                      highlightColor: KaliumColors.primary15,
+                                      splashColor: KaliumColors.primary30,
+                                      padding: EdgeInsets.all(15.0),
+                                      onPressed: () {
+                                        return null;
+                                      },
+                                      child: Icon(KaliumIcons.at,
+                                          size: 20, color: KaliumColors.primary),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(200.0)),
+                                    ),
+                                  ),
+                                  // PASTE BUTTTON
+                                  suffixIcon: Container(
+                                    width: 50,
+                                    child: FlatButton(
+                                      highlightColor: KaliumColors.primary15,
+                                      splashColor: KaliumColors.primary30,
+                                      padding: EdgeInsets.all(15.0),
+                                      onPressed: () {
+                                        Clipboard.getData("text/plain")
+                                            .then((ClipboardData data) {
+                                          if (data == null || data.text == null) {
+                                            return;
+                                          }
+                                          Address address = new Address(data.text);
+                                          if (NanoAccounts.isValid(
+                                              NanoAccountType.BANANO,
+                                              address.address)) {
+                                            setState(() {
+                                              _addressValidationText = "";
+                                              _sendAddressStyle = KaliumStyles
+                                                  .TextStyleAddressText90;
+                                            });
+                                            _sendAddressController.text =
+                                                address.address;
+                                          }
                                         });
-                                        _sendAddressController.text =
-                                            address.address;
-                                      }
-                                    });
-                                  },
-                                  child: Icon(KaliumIcons.paste,
-                                      size: 20, color: KaliumColors.primary),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(200.0)),
+                                      },
+                                      child: Icon(KaliumIcons.paste,
+                                          size: 20, color: KaliumColors.primary),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(200.0)),
+                                    ),
+                                  ),
                                 ),
+                                style: _sendAddressStyle,
+                                onChanged: (text) {
+                                  // Always reset the error message to be less annoying
+                                  setState(() {
+                                    _addressValidationText = "";
+                                  });
+                                  if (NanoAccounts.isValid(
+                                      NanoAccountType.BANANO, text)) {
+                                    _sendAddressFocusNode.unfocus();
+                                    setState(() {
+                                      _sendAddressStyle =
+                                          KaliumStyles.TextStyleAddressText90;
+                                      _addressValidationText = "";
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _sendAddressStyle =
+                                          KaliumStyles.TextStyleAddressText60;
+                                    });
+                                  }
+                                },
                               ),
                             ),
-                            style: _sendAddressStyle,
-                            onChanged: (text) {
-                              // Always reset the error message to be less annoying
-                              setState(() {
-                                _addressValidationText = "";
-                              });
-                              print("focus change $text");
-                              if (NanoAccounts.isValid(
-                                  NanoAccountType.BANANO, text)) {
-                                _sendAddressFocusNode.unfocus();
-                                setState(() {
-                                  _sendAddressStyle =
-                                      KaliumStyles.TextStyleAddressText90;
-                                  _addressValidationText = "";
-                                });
-                              } else {
-                                setState(() {
-                                  _sendAddressStyle =
-                                      KaliumStyles.TextStyleAddressText60;
-                                });
-                              }
-                            },
-                          ),
-                        ),
-                        // Enter Address Error Container
-                        Container(
-                          margin: EdgeInsets.only(top: 5),
-                          child: Text(_addressValidationText,
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: KaliumColors.primary,
-                                fontFamily: 'NunitoSans',
-                                fontWeight: FontWeight.w600,
-                              )),
+                            // Enter Address Error Container
+                            Container(
+                              margin: EdgeInsets.only(top: 5),
+                              child: Text(_addressValidationText,
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: KaliumColors.primary,
+                                    fontFamily: 'NunitoSans',
+                                    fontWeight: FontWeight.w600,
+                                  )),
+                            ),
+                          ],
                         ),
                       ],
                     ),
