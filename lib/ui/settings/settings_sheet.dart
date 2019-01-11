@@ -25,13 +25,18 @@ class _SettingsSheetState extends State<SettingsSheet> {
   AvailableCurrency _curCurrency =
       AvailableCurrency(AvailableCurrencyEnum.USD); // TODO use device locale
 
+  bool _contactsOpen;
+
   void pinEnteredTest(String pin) {
     print("Pin Entered $pin");
   }
 
+  bool notNull(Object o) => o != null;
+
   @override
   void initState() {
     super.initState();
+    _contactsOpen = false;
     // Determine if they have face or fingerprint enrolled, if not hide the setting
     BiometricUtil.hasBiometrics().then((bool hasBiometrics) {
       setState(() {
@@ -153,9 +158,33 @@ class _SettingsSheetState extends State<SettingsSheet> {
     });
   }
 
-  bool notNull(Object o) => o != null;
+  Future<bool> _onBackButtonPressed() async {
+    if (_contactsOpen) {
+      setState(() {
+        _contactsOpen = false;
+      });
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Drawer in flutter doesn't have a built-in way to push/pop elements
+    // on top of it like our Android counterpart. So we can override back button
+    // presses and replace the main settings widget with contacts based on a bool
+    return new WillPopScope(
+      onWillPop: _onBackButtonPressed,
+      child: AnimatedCrossFade(
+        duration: const Duration(milliseconds: 500),
+        firstChild: buildMainSettings(context),
+        secondChild: buildContacts(context),
+        crossFadeState: _contactsOpen ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+      )
+    );
+  }
+
+  Widget buildMainSettings(BuildContext context) {
     return Container(
       color: KaliumColors.backgroundDark,
       child: Column(
@@ -211,7 +240,11 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   ),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      'Contacts', KaliumIcons.contacts),
+                      'Contacts', KaliumIcons.contacts, onPressed: () {
+                        setState(() {
+                          _contactsOpen = true;
+                        });
+                      }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
                       'Backup Seed', KaliumIcons.backupseed, onPressed: () {
@@ -322,6 +355,13 @@ class _SettingsSheetState extends State<SettingsSheet> {
           )),
         ],
       ),
+    );
+  }
+
+  Widget buildContacts(BuildContext context) {
+    return Container(
+      color: KaliumColors.backgroundDark,
+      child: Text("CONTACTS", style: KaliumStyles.TextStyleHeader)
     );
   }
 }
