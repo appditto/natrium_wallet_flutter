@@ -184,6 +184,18 @@ class StateContainerState extends State<StateContainer> {
     }
   }
 
+  void updateDeviceLocale(Locale locale) {
+    setState(() {
+      deviceLocale = locale;
+    });
+  }
+
+  void updateCurrency(AvailableCurrency currency) {
+    setState(() {
+      curCurrency = currency;
+    });
+  }
+
   ///
   /// When a STATE block comes back successfully with a hash
   ///
