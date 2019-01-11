@@ -12,6 +12,7 @@ const String RX_PROCESS_TAG = 'fkalium_process_tag';
 const String RX_CALLBACK_TAG = 'fkalium_callback_tag';
 const String RX_SEND_COMPLETE_TAG = 'fkalium_send_complete_tag';
 const String RX_PENDING_RESP_TAG = 'fkalium_pending_response';
+const String RX_REP_CHANGED_TAG = 'fkalium_rep_changed_tag';
 
 /**
  * RXBus using RXDart

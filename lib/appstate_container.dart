@@ -212,6 +212,8 @@ class StateContainerState extends State<StateContainer> {
                   AccountService.processQueue();
                 });
               }
+            } else if (previous.subType == BlockTypes.CHANGE) {
+              RxBus.post(previous, tag:RX_REP_CHANGED_TAG);
             }
           }
         }
@@ -376,7 +378,6 @@ class StateContainerState extends State<StateContainer> {
   /// @param amount - Amount to send in RAW
   /// 
   void requestSend(String previous, String destination, String amount) {
-    // TODO - Allow user to set representative
     String representative = wallet.representative;
 
     StateBlock sendBlock = new StateBlock(
@@ -401,7 +402,6 @@ class StateContainerState extends State<StateContainer> {
   /// @param balance - balance in RAW
   /// 
   void requestReceive(String previous, String source, String balance) {
-    // TODO - Allow user to set representative
     String representative = wallet.representative;
 
     StateBlock receiveBlock = new StateBlock(
@@ -427,7 +427,6 @@ class StateContainerState extends State<StateContainer> {
   /// @param balance - balance in RAW
   /// 
   void requestOpen(String previous, String source, String balance) {
-    // TODO - Allow user to set representative
     String representative = wallet.representative;
 
     StateBlock openBlock = new StateBlock(
@@ -443,6 +442,31 @@ class StateContainerState extends State<StateContainer> {
       pendingResponseBlockMap.putIfAbsent(openBlock.hash, () => openBlock);
 
       AccountService.queueRequest(ProcessRequest(block: json.encode(openBlock.toJson())));
+      AccountService.processQueue();
+    });
+  }
+
+  ///
+  /// Create a state block change request
+  /// 
+  /// @param previous - Previous Hash
+  /// @param balance - Current balance
+  /// @param representative - New representative
+  /// 
+  void requestChange(String previous, String balance, String representative) {
+    StateBlock changeBlock = new StateBlock(
+      subtype:BlockTypes.CHANGE,
+      previous: previous,
+      representative: representative,
+      balance:balance,
+      link:"0000000000000000000000000000000000000000000000000000000000000000",
+      account:wallet.address
+    );
+    _getPrivKey().then((result) {
+      changeBlock.sign(result);
+      pendingResponseBlockMap.putIfAbsent(changeBlock.hash, () => changeBlock);
+
+      AccountService.queueRequest(ProcessRequest(block: json.encode(changeBlock.toJson())));
       AccountService.processQueue();
     });
   }

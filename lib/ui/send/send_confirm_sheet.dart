@@ -159,7 +159,7 @@ class KaliumSendConfirmSheet {
                               SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
                                 BiometricUtil.hasBiometrics().then((hasBiometrics) {
                                   if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
-                                    BiometricUtil.authenticateWithBiometrics("Send $_amount BANANO?").then((authenticated) {
+                                    BiometricUtil.authenticateWithBiometrics("Send $_amount BANANO").then((authenticated) {
                                       if (authenticated) {
                                         Navigator.of(context).push(SendAnimationOverlay());
                                         StateContainer.of(context).requestSend(

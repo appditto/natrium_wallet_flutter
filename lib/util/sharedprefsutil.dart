@@ -4,6 +4,7 @@ import 'package:kalium_wallet_flutter/util/encrypt.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/available_currency.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
+import 'package:kalium_wallet_flutter/model/wallet.dart';
 
 /// Price conversion preference values
 enum PriceConversion { BTC, NANO, NONE }
@@ -20,6 +21,7 @@ class SharedPrefsUtil {
   static const String price_conversion = 'fkalium_price_conversion_pref';
   static const String auth_method = 'fkalium_auth_method';
   static const String cur_currency = 'fkalium_currency_pref';
+  static const String user_representative = 'fkalium_user_rep'; // For when non-opened accounts have set a representative
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -106,6 +108,14 @@ class SharedPrefsUtil {
   Future<AvailableCurrency> getCurrency() async {
     // TODO - default to the device locale
     return AvailableCurrency(AvailableCurrencyEnum.values[await get(cur_currency, defaultValue: AvailableCurrencyEnum.USD.index)]);
+  }
+
+  Future<void> setRepresentative(String rep) async {
+    return await set(user_representative, rep);
+  }
+
+  Future<String> getRepresentative() async {
+    return get(user_representative, defaultValue: KaliumWallet.defaultRepresentative);
   }
 
   // For logging out

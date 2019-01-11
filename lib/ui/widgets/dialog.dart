@@ -39,6 +39,33 @@ class KaliumDialogs {
       },
     );
   }
+
+  static void showInfoDialog(
+      var context, var title, var content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            style: KaliumStyles.TextStyleButtonPrimaryOutline,
+          ),
+          content: Text(content, style: KaliumStyles.TextStyleParagraph),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                "CANCEL",
+                style: KaliumStyles.TextStyleDialogButtonText,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class SendAnimationOverlay extends ModalRoute<void> {

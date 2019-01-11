@@ -75,6 +75,15 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         StateContainer.of(context).requestUpdate();
       }
     });
+    RxBus.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {
+      if (stateBlock != null) {
+        Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+        StateContainer.of(context).wallet.representative = stateBlock.representative;
+        _scaffoldKey.currentState.showSnackBar(new SnackBar(
+          content: new Text("Representative Changed Successfully", style: KaliumStyles.TextStyleParagraph),
+        ));
+      }
+    });
   }
 
   @override
