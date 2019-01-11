@@ -58,13 +58,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   StreamSubscription<dynamic> _refreshTimeout;
 
   Future<File> downloadOrRetrieveMonkey(String path) async {
-    /*
     if (path != null) {
       if (await File(path).exists()) {
         return File(path);
       }
     }
-    */
     HttpClient httpClient = new HttpClient();
     String address = StateContainer.of(context).wallet.address;
     var request = await httpClient.getUrl(Uri.parse(KaliumLocalization.MONKEY_DOWNLOAD_URL + address));
