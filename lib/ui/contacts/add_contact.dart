@@ -26,13 +26,14 @@ class AddContactSheet {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    //Emtpy Container
+                    //Empty container
                     Container(
                       width: 50,
                       height: 50,
+                      margin: EdgeInsets.only(top: 10.0, right: 10.0),
                     ),
 
-                    //Container for the header
+                    //The header of the sheet
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
                       child: Column(
@@ -45,7 +46,7 @@ class AddContactSheet {
                       ),
                     ),
 
-                    //QR Scan Button
+                    //Scan QR Button
                     Container(
                       width: 50,
                       height: 50,
@@ -186,7 +187,7 @@ class AddContactSheet {
                   ),
                 ),
 
-                //A column with "Scan QR Code" and "Send" buttons
+                //A column with "Add Contact" and "Close" buttons
                 Container(
                   child: Column(
                     children: <Widget>[

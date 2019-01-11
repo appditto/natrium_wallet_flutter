@@ -72,7 +72,7 @@ class SplashState extends State<Splash> {
       isLoggedIn = true;
     } else if (seed != null && pin == null) {
       await Vault.inst.deleteSeed();
-    } else if (pin != null && seed ==null) {
+    } else if (pin != null && seed == null) {
       await Vault.inst.deletePin();
     }
 
@@ -88,8 +88,6 @@ class SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    // This seems to be the earliest place we can retrieve the device Locale
-    StateContainer.of(context).deviceLocale = Localizations.localeOf(context);
     checkLoggedIn();
   }
 
@@ -97,6 +95,8 @@ class SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
+    // This seems to be the earliest place we can retrieve the device Locale
+    StateContainer.of(context).deviceLocale = Localizations.localeOf(context);
     return new Scaffold(
       backgroundColor: KaliumColors.background,
     );

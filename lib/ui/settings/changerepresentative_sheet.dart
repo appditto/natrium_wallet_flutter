@@ -41,8 +41,8 @@ class KaliumChangeRepresentativeSheet {
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
-            return StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
             // On address focus change
             _repFocusNode.addListener(() {
               if (_repFocusNode.hasFocus) {
@@ -96,7 +96,10 @@ class KaliumChangeRepresentativeSheet {
                         margin: EdgeInsets.only(top: 10.0, right: 10.0),
                         child: FlatButton(
                           onPressed: () {
-                            KaliumDialogs.showInfoDialog(context, "What is a representative?","A representative is an account that votes for network consensus. Voting power is weighted by balance, you may delegate your balance to increase the voting weight of a representative you trust. Your representative does not have spending power over your funds. You should choose a representative that has little downtime and is trustworthy.");
+                            KaliumDialogs.showInfoDialog(
+                                context,
+                                "What is a representative?",
+                                "A representative is an account that votes for network consensus. Voting power is weighted by balance, you may delegate your balance to increase the voting weight of a representative you trust. Your representative does not have spending power over your funds. You should choose a representative that has little downtime and is trustworthy.");
                           },
                           child: Icon(KaliumIcons.info,
                               size: 24, color: KaliumColors.text),
@@ -113,20 +116,19 @@ class KaliumChangeRepresentativeSheet {
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.only(top: 35, bottom: 35),
-                      child: Stack(
-                        children: <Widget> [
-                          GestureDetector(
-                            onTap: () {
-                              // Clear focus of our fields when tapped in this empty space
-                              _repFocusNode.unfocus();
-                            },
-                            child: Container(
-                              color: Colors.transparent,
-                              child: SizedBox.expand(),
-                              constraints: BoxConstraints.expand(),
-                            ),
+                      child: Stack(children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            // Clear focus of our fields when tapped in this empty space
+                            _repFocusNode.unfocus();
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: SizedBox.expand(),
+                            constraints: BoxConstraints.expand(),
                           ),
-                          Column(
+                        ),
+                        Column(
                           children: <Widget>[
                             Container(
                                 margin: EdgeInsets.only(left: 50, right: 50),
@@ -136,7 +138,8 @@ class KaliumChangeRepresentativeSheet {
                                 )),
                             Container(
                               width: double.infinity,
-                              margin: EdgeInsets.only(left: 50, right: 50, top: 10),
+                              margin:
+                                  EdgeInsets.only(left: 50, right: 50, top: 10),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 25.0, vertical: 15.0),
                               decoration: BoxDecoration(
@@ -144,19 +147,22 @@ class KaliumChangeRepresentativeSheet {
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child: UIUtil.threeLineAddressText(
-                                  StateContainer.of(context).wallet.representative),
+                                  StateContainer.of(context)
+                                      .wallet
+                                      .representative),
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: 50, right: 50, top: 20),
-                              padding: EdgeInsets.only(left:20),
+                              margin:
+                                  EdgeInsets.only(left: 50, right: 50, top: 20),
+                              padding: EdgeInsets.only(left: 20),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: KaliumColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child: TextField(
-                              focusNode: _repFocusNode,
-                              controller: _repController,
+                                focusNode: _repFocusNode,
+                                controller: _repController,
                                 textAlign: TextAlign.center,
                                 cursorColor: KaliumColors.primary,
                                 inputFormatters: [
@@ -174,10 +180,12 @@ class KaliumChangeRepresentativeSheet {
                                       onPressed: () {
                                         Clipboard.getData("text/plain")
                                             .then((ClipboardData data) {
-                                          if (data == null || data.text == null) {
+                                          if (data == null ||
+                                              data.text == null) {
                                             return;
                                           }
-                                          Address address = new Address(data.text);
+                                          Address address =
+                                              new Address(data.text);
                                           if (NanoAccounts.isValid(
                                               NanoAccountType.BANANO,
                                               address.address)) {
@@ -191,7 +199,8 @@ class KaliumChangeRepresentativeSheet {
                                         });
                                       },
                                       child: Icon(KaliumIcons.paste,
-                                          size: 20.0, color: KaliumColors.primary),
+                                          size: 20.0,
+                                          color: KaliumColors.primary),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(200.0)),
@@ -221,13 +230,12 @@ class KaliumChangeRepresentativeSheet {
                                           KaliumStyles.TextStyleAddressText60;
                                     });
                                   }
-                              },
+                                },
                               ),
                             ),
                           ],
                         ),
-                        ]
-                      ),
+                      ]),
                     ),
                   ),
 
@@ -241,51 +249,105 @@ class KaliumChangeRepresentativeSheet {
                             'CHANGE',
                             Dimens.BUTTON_TOP_DIMENS,
                             onPressed: () {
-                              if (!NanoAccounts.isValid(NanoAccountType.BANANO, _repController.text)) {
+                              if (!NanoAccounts.isValid(NanoAccountType.BANANO,
+                                  _repController.text)) {
                                 return;
                               }
                               // Authenticate
-                              SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
-                                BiometricUtil.hasBiometrics().then((hasBiometrics) {
-                                  if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
-                                    BiometricUtil.authenticateWithBiometrics("Change Representative").then((authenticated) {
+                              SharedPrefsUtil.inst
+                                  .getAuthMethod()
+                                  .then((authMethod) {
+                                BiometricUtil.hasBiometrics()
+                                    .then((hasBiometrics) {
+                                  if (authMethod.method ==
+                                          AuthMethod.BIOMETRICS &&
+                                      hasBiometrics) {
+                                    BiometricUtil.authenticateWithBiometrics(
+                                            "Change Representative")
+                                        .then((authenticated) {
                                       if (authenticated) {
-                                        Navigator.of(context).push(SendAnimationOverlay());
+                                        Navigator.of(context)
+                                            .push(SendAnimationOverlay());
                                         // If account isnt open, just store the account in sharedprefs
-                                        if (StateContainer.of(context).wallet.openBlock == null ) {
-                                          SharedPrefsUtil.inst.setRepresentative(_repController.text).then((result) {
-                                            RxBus.post(new StateBlock(representative:_repController.text, previous: "", link:"", balance:"", account:""), tag: RX_REP_CHANGED_TAG);
+                                        if (StateContainer.of(context)
+                                                .wallet
+                                                .openBlock ==
+                                            null) {
+                                          SharedPrefsUtil.inst
+                                              .setRepresentative(
+                                                  _repController.text)
+                                              .then((result) {
+                                            RxBus.post(
+                                                new StateBlock(
+                                                    representative:
+                                                        _repController.text,
+                                                    previous: "",
+                                                    link: "",
+                                                    balance: "",
+                                                    account: ""),
+                                                tag: RX_REP_CHANGED_TAG);
                                           });
                                         } else {
-                                          StateContainer.of(context).requestChange(
-                                              StateContainer.of(context).wallet.frontier,
-                                              StateContainer.of(context).wallet.accountBalance.toString(),
-                                              _repController.text);
+                                          StateContainer.of(context)
+                                              .requestChange(
+                                                  StateContainer.of(context)
+                                                      .wallet
+                                                      .frontier,
+                                                  StateContainer.of(context)
+                                                      .wallet
+                                                      .accountBalance
+                                                      .toString(),
+                                                  _repController.text);
                                         }
                                       }
                                     });
                                   } else {
                                     // PIN Authentication
                                     Vault.inst.getPin().then((expectedPin) {
-                                      Navigator.of(context).push(MaterialPageRoute(
-                                          builder: (BuildContext context) {
-                                        return new PinScreen(PinOverlayType.ENTER_PIN, 
-                                                            (pin) {
-                                                              Navigator.of(context).push(SendAnimationOverlay());
-                                                              // If account isnt open, just store the account in sharedprefs
-                                                              if (StateContainer.of(context).wallet.openBlock == null ) {
-                                                                SharedPrefsUtil.inst.setRepresentative(_repController.text).then((result) {
-                                                                  RxBus.post(new StateBlock(representative:_repController.text, previous: "", link:"", balance:"", account:""), tag: RX_REP_CHANGED_TAG);
-                                                                });
-                                                              } else {
-                                                                StateContainer.of(context).requestChange(
-                                                                    StateContainer.of(context).wallet.frontier,
-                                                                    StateContainer.of(context).wallet.accountBalance.toString(),
-                                                                    _repController.text);
-                                                              }
-                                                            },
-                                                            expectedPin:expectedPin,
-                                                            description: "Enter PIN to change representative.",);
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) {
+                                        return new PinScreen(
+                                          PinOverlayType.ENTER_PIN,
+                                          (pin) {
+                                            Navigator.of(context)
+                                                .push(SendAnimationOverlay());
+                                            // If account isnt open, just store the account in sharedprefs
+                                            if (StateContainer.of(context)
+                                                    .wallet
+                                                    .openBlock ==
+                                                null) {
+                                              SharedPrefsUtil.inst
+                                                  .setRepresentative(
+                                                      _repController.text)
+                                                  .then((result) {
+                                                RxBus.post(
+                                                    new StateBlock(
+                                                        representative:
+                                                            _repController.text,
+                                                        previous: "",
+                                                        link: "",
+                                                        balance: "",
+                                                        account: ""),
+                                                    tag: RX_REP_CHANGED_TAG);
+                                              });
+                                            } else {
+                                              StateContainer.of(context)
+                                                  .requestChange(
+                                                      StateContainer.of(context)
+                                                          .wallet
+                                                          .frontier,
+                                                      StateContainer.of(context)
+                                                          .wallet
+                                                          .accountBalance
+                                                          .toString(),
+                                                      _repController.text);
+                                            }
+                                          },
+                                          expectedPin: expectedPin,
+                                          description:
+                                              "Enter PIN to change representative.",
+                                        );
                                       }));
                                     });
                                   }
