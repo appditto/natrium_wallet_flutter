@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
@@ -9,6 +10,7 @@ import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/settings/backupseed_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/changerepresentative_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
@@ -117,21 +119,20 @@ class _SettingsSheetState extends State<SettingsSheet> {
     List<Widget> ret = new List();
     AvailableCurrencyEnum.values.forEach((AvailableCurrencyEnum value) {
       ret.add(SimpleDialogOption(
-                onPressed: () {
-                  Navigator.pop(context, value);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    AvailableCurrency(value).getDisplayName(),
-                    style: KaliumStyles.TextStyleDialogOptions,
-                  ),
-                ),
-              )
-      );
+        onPressed: () {
+          Navigator.pop(context, value);
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            AvailableCurrency(value).getDisplayName(),
+            style: KaliumStyles.TextStyleDialogOptions,
+          ),
+        ),
+      ));
     });
     return ret;
-  }  
+  }
 
   Future<void> _currencyDialog() async {
     AvailableCurrencyEnum selection = await showDialog<AvailableCurrencyEnum>(
@@ -139,7 +140,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
         builder: (BuildContext context) {
           return SimpleDialog(
             title: Padding(
-              padding: const EdgeInsets.only(bottom:10.0),
+              padding: const EdgeInsets.only(bottom: 10.0),
               child: const Text(
                 "Change Currency",
                 style: KaliumStyles.TextStyleDialogHeader,
@@ -148,7 +149,9 @@ class _SettingsSheetState extends State<SettingsSheet> {
             children: _buildCurrencyOptions(),
           );
         });
-    SharedPrefsUtil.inst.setCurrency(AvailableCurrency(selection)).then((result) {
+    SharedPrefsUtil.inst
+        .setCurrency(AvailableCurrency(selection))
+        .then((result) {
       if (_curCurrency.currency != selection) {
         setState(() {
           _curCurrency = AvailableCurrency(selection);
@@ -174,14 +177,15 @@ class _SettingsSheetState extends State<SettingsSheet> {
     // on top of it like our Android counterpart. So we can override back button
     // presses and replace the main settings widget with contacts based on a bool
     return new WillPopScope(
-      onWillPop: _onBackButtonPressed,
-      child: AnimatedCrossFade(
-        duration: const Duration(milliseconds: 500),
-        firstChild: buildMainSettings(context),
-        secondChild: buildContacts(context),
-        crossFadeState: _contactsOpen ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-      )
-    );
+        onWillPop: _onBackButtonPressed,
+        child: AnimatedCrossFade(
+          duration: const Duration(milliseconds: 500),
+          firstChild: buildMainSettings(context),
+          secondChild: buildContacts(context),
+          crossFadeState: _contactsOpen
+              ? CrossFadeState.showSecond
+              : CrossFadeState.showFirst,
+        ));
   }
 
   Widget buildMainSettings(BuildContext context) {
@@ -212,8 +216,11 @@ class _SettingsSheetState extends State<SettingsSheet> {
                             color: KaliumColors.text60)),
                   ),
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemDoubleLine('Change Currency',
-                      _curCurrency, KaliumIcons.currency, _currencyDialog),
+                  KaliumSettings.buildSettingsListItemDoubleLine(
+                      'Change Currency',
+                      _curCurrency,
+                      KaliumIcons.currency,
+                      _currencyDialog),
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
                       'Language', 'System Default', KaliumIcons.language),
@@ -241,10 +248,10 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
                       'Contacts', KaliumIcons.contacts, onPressed: () {
-                        setState(() {
-                          _contactsOpen = true;
-                        });
-                      }),
+                    setState(() {
+                      _contactsOpen = true;
+                    });
+                  }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
                       'Backup Seed', KaliumIcons.backupseed, onPressed: () {
@@ -361,7 +368,204 @@ class _SettingsSheetState extends State<SettingsSheet> {
   Widget buildContacts(BuildContext context) {
     return Container(
       color: KaliumColors.backgroundDark,
-      child: Text("CONTACTS", style: KaliumStyles.TextStyleHeader)
+      child: Column(
+        children: <Widget>[
+          // Back button and Contacts Text
+          Container(
+            margin: EdgeInsets.only(top: 60.0, bottom: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    //Back button
+                    Container(
+                      height: 40,
+                      width: 40,
+                      margin: EdgeInsets.only(right: 10, left: 10),
+                      child: FlatButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0)),
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(KaliumIcons.back,
+                              color: KaliumColors.text, size: 24)),
+                    ),
+                    //Contacts Header Text
+                    Text("Contacts", style: KaliumStyles.TextStyleHeader),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    //Import button
+                    Container(
+                      height: 40,
+                      width: 40,
+                      margin: EdgeInsets.only(right: 5),
+                      child: FlatButton(
+                          onPressed: () {
+                            return null;
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0)),
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(KaliumIcons.import_icon,
+                              color: KaliumColors.text, size: 24)),
+                    ),
+                    //Export button
+                    Container(
+                      height: 40,
+                      width: 40,
+                      margin: EdgeInsets.only(right: 20),
+                      child: FlatButton(
+                          onPressed: () {
+                            return null;
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0)),
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(KaliumIcons.export_icon,
+                              color: KaliumColors.text, size: 24)),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          // Contacts list + top and bottom gradients
+          Expanded(
+            child: Stack(
+              children: <Widget>[
+                // Contacts list
+                ListView(
+                  padding: EdgeInsets.only(top: 15.0),
+                  children: <Widget>[
+                    Divider(height: 2),
+                    buildSingleContact(
+                        context, "@anemone", "ban_1soaked…and21a"),
+                    Divider(height: 2),
+                    buildSingleContact(
+                        context, "@bbedward", "ban_1bbedwa…rigged"),
+                    Divider(height: 2),
+                    buildSingleContact(context, "@yekta", "ban_1yekta1…stfup1"),
+                    Divider(height: 2),
+                    buildSingleContact(
+                        context, "@anemone", "ban_1soaked…and21a"),
+                    Divider(height: 2),
+                    buildSingleContact(
+                        context, "@bbedward", "ban_1bbedwa…rigged"),
+                    Divider(height: 2),
+                    buildSingleContact(context, "@yekta", "ban_1yekta1…stfup1"),
+                    Divider(height: 2),
+                    buildSingleContact(
+                        context, "@anemone", "ban_1soaked…and21a"),
+                    Divider(height: 2),
+                    buildSingleContact(
+                        context, "@bbedward", "ban_1bbedwa…rigged"),
+                    Divider(height: 2),
+                    buildSingleContact(context, "@yekta", "ban_1yekta1…stfup1"),
+                    Divider(height: 2),
+                  ],
+                ),
+                //List Top Gradient End
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height: 20.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          KaliumColors.backgroundDark,
+                          KaliumColors.backgroundDark00
+                        ],
+                        begin: Alignment(0.5, -1.0),
+                        end: Alignment(0.5, 1.0),
+                      ),
+                    ),
+                  ),
+                ),
+                //List Bottom Gradient End
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 15.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          KaliumColors.backgroundDark00,
+                          KaliumColors.backgroundDark,
+                        ],
+                        begin: Alignment(0.5, -1.0),
+                        end: Alignment(0.5, 1.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Row(
+              children: <Widget>[
+                KaliumButton.buildKaliumButton(KaliumButtonType.TEXT_OUTLINE,
+                    'Add Contact', Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                  return null;
+                }),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSingleContact(
+      BuildContext context, String contactName, String contactAddress) {
+    return FlatButton(
+      onPressed: () {
+        return null;
+      },
+      padding: EdgeInsets.all(0.0),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10.0),
+        margin: new EdgeInsets.only(left: 30.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            //Container for monKey
+            Container(
+              margin: new EdgeInsets.only(right: 16.0),
+              child: new Container(
+                color: KaliumColors.primary,
+                height: 40,
+                width: 40,
+              ),
+            ),
+            //Contact info
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                //Contact name
+                Text(
+                  contactName,
+                  style: KaliumStyles.TextStyleSettingItemHeader,
+                ),
+                //Contact address
+                Text(
+                  contactAddress,
+                  style: KaliumStyles.TextStyleTransactionAddress,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
