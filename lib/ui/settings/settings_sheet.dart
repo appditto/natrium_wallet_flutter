@@ -26,8 +26,6 @@ class _SettingsSheetState extends State<SettingsSheet> {
   bool _hasBiometrics = false;
   AuthenticationMethod _curAuthMethod =
       AuthenticationMethod(AuthMethod.BIOMETRICS);
-  AvailableCurrency _curCurrency =
-      AvailableCurrency(AvailableCurrencyEnum.USD); // TODO use device locale
 
   bool _contactsOpen;
 
@@ -50,11 +48,6 @@ class _SettingsSheetState extends State<SettingsSheet> {
     SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
       setState(() {
         _curAuthMethod = authMethod;
-      });
-    });
-    SharedPrefsUtil.inst.getCurrency(StateContainer.of(context).deviceLocale).then((currency) {
-      setState(() {
-        _curCurrency = currency;
       });
     });
   }
@@ -154,9 +147,9 @@ class _SettingsSheetState extends State<SettingsSheet> {
     SharedPrefsUtil.inst
         .setCurrency(AvailableCurrency(selection))
         .then((result) {
-      if (_curCurrency.currency != selection) {
+      if (StateContainer.of(context).curCurrency.currency != selection) {
         setState(() {
-          _curCurrency = AvailableCurrency(selection);
+          StateContainer.of(context).curCurrency = AvailableCurrency(selection);
         });
         StateContainer.of(context).requestSubscribe();
       }
@@ -220,7 +213,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemDoubleLine(
                       'Change Currency',
-                      _curCurrency,
+                      StateContainer.of(context).curCurrency,
                       KaliumIcons.currency,
                       _currencyDialog),
                   Divider(height: 2),

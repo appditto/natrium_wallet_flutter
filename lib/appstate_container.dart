@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:package_info/package_info.dart';
+import 'package:kalium_wallet_flutter/model/available_currency.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
@@ -53,13 +54,15 @@ class StateContainer extends StatefulWidget {
   final String currencyLocale;
   final Locale deviceLocale;
   final String appVersionString;
+  final AvailableCurrency curCurrency;
 
   StateContainer({
     @required this.child,
     this.wallet,
     this.currencyLocale,
     this.deviceLocale,
-    this.appVersionString
+    this.appVersionString,
+    this.curCurrency
   });
 
   // This is the secret sauce. Write your own 'of' method that will behave
@@ -84,6 +87,7 @@ class StateContainerState extends State<StateContainer> {
   String currencyLocale;
   Locale deviceLocale = Locale('en', 'US');
   String appVersionString;
+  AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
 
   // This map stashes pending process requests, this is because we need to update these requests
   // after a blocks_info with the balance after send, and sign the block
@@ -103,6 +107,7 @@ class StateContainerState extends State<StateContainer> {
     SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
       setState(() {
         currencyLocale = currency.getLocale().toString();
+        curCurrency = currency;
       });
     });
     PackageInfo.fromPlatform().then((packageInfo) {
@@ -257,6 +262,7 @@ class StateContainerState extends State<StateContainer> {
     SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
       setState(() {
         currencyLocale = currency.getLocale().toString();
+        curCurrency = currency;
       });
     });
     setState(() {
@@ -349,25 +355,21 @@ class StateContainerState extends State<StateContainer> {
 
   void requestUpdate() {
     if (wallet != null && wallet.address != null) {
-      SharedPrefsUtil.inst.getUuid().then((result) {
-        SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
-          AccountService.removeSubscribeHistoryPendingFromQueue();
-          AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:currency.getIso4217Code(), uuid:result));
-          AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
-          AccountService.processQueue();
-        }); 
-      });
+        SharedPrefsUtil.inst.getUuid().then((result) {
+        AccountService.removeSubscribeHistoryPendingFromQueue();
+        AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
+        AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
+        AccountService.processQueue();
+      }); 
     }
   }
 
   void requestSubscribe() {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
-        SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
-          AccountService.removeSubscribeHistoryPendingFromQueue();
-          AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:currency.getIso4217Code(), uuid:result));
-          AccountService.processQueue();
-        }); 
+        AccountService.removeSubscribeHistoryPendingFromQueue();
+        AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
+        AccountService.processQueue();
       });
     }
   }

@@ -12,6 +12,7 @@ import 'package:kalium_wallet_flutter/ui/intro/intro_backup_confirm.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_import_seed.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
+import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'colors.dart';
 
 void main() async {
@@ -97,6 +98,9 @@ class SplashState extends State<Splash> {
         .copyWith(statusBarIconBrightness: Brightness.light));
     // This seems to be the earliest place we can retrieve the device Locale
     StateContainer.of(context).deviceLocale = Localizations.localeOf(context);
+    SharedPrefsUtil.inst.getCurrency(StateContainer.of(context).deviceLocale).then((currency) {
+      StateContainer.of(context).curCurrency = currency;
+    });
     return new Scaffold(
       backgroundColor: KaliumColors.background,
     );
