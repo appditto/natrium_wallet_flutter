@@ -39,7 +39,7 @@ enum KaliumDrawerAlignment {
 // The right nav can vary depending on content.
 
 const double _kWidth = 304.0;
-const double _kEdgeDragWidth = 150.0;
+const double _kEdgeDragWidth = 200.0;
 const double _kMinFlingVelocity = 365.0;
 const Duration _kBaseSettleDuration = Duration(milliseconds: 246);
 
