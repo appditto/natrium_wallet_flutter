@@ -339,7 +339,7 @@ class StateContainerState extends State<StateContainer> {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
         SharedPrefsUtil.inst.getCurrency().then((currency) {
-          AccountService.removeSubscribeHistoryFromQueue();
+          AccountService.removeSubscribeHistoryPendingFromQueue();
           AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:currency.getIso4217Code(), uuid:result));
           AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
           AccountService.processQueue();

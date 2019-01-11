@@ -8,6 +8,8 @@ import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/available_currency.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/settings/backupseed_sheet.dart';
+import 'package:kalium_wallet_flutter/ui/contacts/add_contact.dart';
+import 'package:kalium_wallet_flutter/ui/contacts/contact_details.dart';
 import 'package:kalium_wallet_flutter/ui/settings/changerepresentative_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
@@ -179,7 +181,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
     return new WillPopScope(
         onWillPop: _onBackButtonPressed,
         child: AnimatedCrossFade(
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 200),
           firstChild: buildMainSettings(context),
           secondChild: buildContacts(context),
           crossFadeState: _contactsOpen
@@ -514,7 +516,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
               children: <Widget>[
                 KaliumButton.buildKaliumButton(KaliumButtonType.TEXT_OUTLINE,
                     'Add Contact', Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                  return null;
+                  AddContactSheet().mainBottomSheet(context);
                 }),
               ],
             ),
@@ -528,7 +530,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
       BuildContext context, String contactName, String contactAddress) {
     return FlatButton(
       onPressed: () {
-        return null;
+        ContactDetails().mainBottomSheet(context);
       },
       padding: EdgeInsets.all(0.0),
       child: Container(

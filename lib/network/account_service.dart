@@ -9,6 +9,7 @@ import 'package:kalium_wallet_flutter/network/model/base_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request_item.dart';
 import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
+import 'package:kalium_wallet_flutter/network/model/request/pending_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/blocks_info_response.dart';
@@ -272,11 +273,11 @@ class AccountService {
     return false;
   }
 
-  static void removeSubscribeHistoryFromQueue() {
+  static void removeSubscribeHistoryPendingFromQueue() {
     if (_requestQueue != null && _requestQueue.length > 0) {
       List<RequestItem> toRemove = new List();
       _requestQueue.forEach((requestItem) {
-        if ((requestItem.request is SubscribeRequest || requestItem.request is AccountHistoryRequest)
+        if ((requestItem.request is SubscribeRequest || requestItem.request is AccountHistoryRequest || requestItem.request is PendingRequest)
               && !requestItem.isProcessing) {
           toRemove.add(requestItem);
         }
