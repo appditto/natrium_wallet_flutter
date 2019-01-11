@@ -58,28 +58,24 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   StreamSubscription<dynamic> _refreshTimeout;
 
   Future<File> downloadOrRetrieveMonkey(String path) async {
+    /*
     if (path != null) {
       if (await File(path).exists()) {
         return File(path);
       }
     }
+    */
     HttpClient httpClient = new HttpClient();
     String address = StateContainer.of(context).wallet.address;
     var request = await httpClient.getUrl(Uri.parse(KaliumLocalization.MONKEY_DOWNLOAD_URL + address));
     var response = await request.close();
     var bytes = await consolidateHttpClientResponseBytes(response);
     String dir = (await getApplicationDocumentsDirectory()).path;
-    String fileName = '$dir/$address.svg';
+    String fileName = '$dir/$address.png';
     File file = new File(fileName);
     await file.writeAsBytes(bytes);
     await SharedPrefsUtil.inst.setMonkeyLocation(fileName);
     return file;
-  }
-
-  Widget _buildMonkeyWidget(File f) {
-    setState(() {
-      _monKey = SvgPicture.file(f);
-    });
   }
 
   @override
@@ -94,7 +90,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     SharedPrefsUtil.inst.getMonkeyLocation().then((result) {
       downloadOrRetrieveMonkey(result).then((file) {
         if (file != null) {
-          _buildMonkeyWidget(file);
+          setState(() {
+            _monKey = Image.file(file);
+          });
         }
       });
     });

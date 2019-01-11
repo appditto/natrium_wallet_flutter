@@ -133,5 +133,9 @@ class SharedPrefsUtil {
     prefs.remove(seed_backed_up_key);
     prefs.remove(app_uuid_key);
     prefs.remove(price_conversion);
+    prefs.remove(monkey_file_location);
+    prefs.remove(user_representative);
+    prefs.remove(cur_currency);
+    prefs.remove(auth_method);
   }
 }
