@@ -8,22 +8,24 @@ import 'package:qr/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class KaliumShareCard extends StatefulWidget {
-  GlobalKey key;
+  final GlobalKey key;
+  final Widget monkeySvg;
+  final Widget logoSvg;
+  final Widget tickerSvg;
 
-  KaliumShareCard(this.key);
+  KaliumShareCard(this.key, this.monkeySvg, this.logoSvg, this.tickerSvg);
 
   @override
-  _KaliumShareCardState createState() => _KaliumShareCardState(key);
+  _KaliumShareCardState createState() => _KaliumShareCardState(key, monkeySvg, logoSvg, tickerSvg);
 }
 
 class _KaliumShareCardState extends State<KaliumShareCard> {
   GlobalKey globalKey;
-  Widget _sharecardBananoLogo =
-      new SvgPicture.asset('assets/sharecard_bananologo.svg');
-  Widget _sharecardTickerWebsite =
-      new SvgPicture.asset('assets/sharecard_tickerwebsite.svg');
-  Widget _monkeyQRBackground = new SvgPicture.asset('assets/monkeyQR.svg');
-  _KaliumShareCardState(this.globalKey);
+  Widget monkeySvg;
+  Widget logoSvg;
+  Widget tickerSvg;
+
+  _KaliumShareCardState(this.globalKey, this.monkeySvg, this.logoSvg, this.tickerSvg);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                       child: Container(
                         width: 105,
                         height: 100.0,
-                        child: _monkeyQRBackground,
+                        child: monkeySvg,
                       ),
                     ),
                     Center(
@@ -81,7 +83,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                   Container(
                     width: 97,
                     height: 15,
-                    child: _sharecardBananoLogo,
+                    child: logoSvg,
                   ),
                   // Address
                   Column(
@@ -204,7 +206,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                   Container(
                     width: 97,
                     height: 12.5,
-                    child: _sharecardTickerWebsite,
+                    child: tickerSvg,
                   ),
                 ],
               ),

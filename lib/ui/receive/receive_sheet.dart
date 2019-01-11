@@ -26,16 +26,18 @@ class KaliumReceiveSheet {
   Widget kaliumShareCard;
   ByteData shareImageData;
   Widget monkeySVGBorder;
+  Widget shareCardLogoSvg;
+  Widget shareCardTickerSvg;
 
   KaliumReceiveSheet() {
     // Create our SVG-heavy things in the constructor because they are slower operations
-    monkeySVGBorder = new SvgPicture.asset(
-      'assets/monkeyQR.svg',
-    );
+    monkeySVGBorder = SvgPicture.asset('assets/monkeyQR.svg');
+    shareCardLogoSvg = SvgPicture.asset('assets/sharecard_bananologo.svg');
+    shareCardTickerSvg = SvgPicture.asset('assets/sharecard_tickerwebsite.svg');
     // Share card initialization
     shareCardKey = GlobalKey();
     kaliumShareCard = Container(
-      child: KaliumShareCard(shareCardKey),
+      child: KaliumShareCard(shareCardKey, monkeySVGBorder, shareCardLogoSvg, shareCardTickerSvg),
       alignment: Alignment(0.0, 0.0),
     );
   }
@@ -213,21 +215,20 @@ class KaliumReceiveSheet {
                       children: <Widget>[
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY_OUTLINE,
-                            'Share Address',
-                            Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                            _showShareCard ? "Loading" : 'Share Address',
+                            Dimens.BUTTON_BOTTOM_DIMENS, disabled: _showShareCard,
+                             onPressed: () {
                           setState(() {
                             _showShareCard = true;
                           });
-                          Future.delayed(new Duration(milliseconds: 50), () {
+                          Future.delayed(new Duration(milliseconds: 200), () {
                             if (_showShareCard) {
                               _capturePng().then((byteData) {
                                 if (byteData != null) {
                                   EsysFlutterShare.shareImage(
                                       "${StateContainer.of(context).wallet.address}.png",
                                       byteData,
-                                      StateContainer.of(context)
-                                          .wallet
-                                          .address);
+                                      "Share Via...");
                                 } else {
                                   // TODO - show a something went wrong message
                                 }

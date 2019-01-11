@@ -64,136 +64,150 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                     child: Container(
                       margin: EdgeInsets.symmetric(
                           vertical: MediaQuery.of(context).size.height * 0.075),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Stack(
                         children: <Widget>[
-                          Row(
+                          GestureDetector(
+                            onTap: () {
+                              // Clear focus of our fields when tapped in this empty space
+                              _seedInputFocusNode.unfocus();
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: SizedBox.expand(),
+                              constraints: BoxConstraints.expand(),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(left: 20),
+                                    height: 50,
+                                    width: 50,
+                                    child: FlatButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50.0)),
+                                        padding: EdgeInsets.all(0.0),
+                                        child: Icon(KaliumIcons.back,
+                                            color: KaliumColors.text, size: 24)),
+                                  ),
+                                ],
+                              ),
                               Container(
-                                margin: EdgeInsets.only(left: 20),
-                                height: 50,
-                                width: 50,
-                                child: FlatButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0)),
-                                    padding: EdgeInsets.all(0.0),
-                                    child: Icon(KaliumIcons.back,
-                                        color: KaliumColors.text, size: 24)),
+                                margin: EdgeInsets.only(top: 15.0, left: 50),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Import seed",
+                                      style: KaliumStyles.TextStyleHeaderColored,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              //Container for the text
+                              Container(
+                                margin:
+                                    EdgeInsets.only(left: 50, right: 50, top: 15.0),
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                    "Please enter your seed below.",
+                                    style: KaliumStyles.TextStyleParagraph,
+                                    textAlign: TextAlign.left,),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 50, right: 50, top: 20),
+                                padding: EdgeInsets.only(left:20),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: KaliumColors.backgroundDark,
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                child: TextField(
+                                  focusNode: _seedInputFocusNode,
+                                  controller: _seedInputController,
+                                  textAlign: TextAlign.center,
+                                  cursorColor: KaliumColors.primary,
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(64),
+                                  ],
+                                  textInputAction: TextInputAction.done,
+                                  maxLines: null,
+                                  autocorrect: false,
+                                  decoration: InputDecoration(
+                                    suffixIcon: Container(
+                                      width: 20,
+                                      height: 20,
+                                      child: FlatButton(
+                                        onPressed: () {
+                                          Clipboard.getData("text/plain").then((ClipboardData data) {
+                                            if (data == null || data.text == null) {
+                                              return;
+                                            } else if (NanoSeeds.isValidSeed(data.text)) {
+                                              _seedInputController.text = data.text;
+                                              _seedTextStyle = _validSeedTextStyle;
+                                            }
+                                          });
+                                        },
+                                        child: Icon(KaliumIcons.paste,
+                                            size: 20, color: KaliumColors.primary),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(100.0)),
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.padded,
+                                      ),
+                                    ),
+                                    border: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                        fontFamily: 'NunitoSans',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w100),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  style: _seedTextStyle,
+                                  onChanged: (text) {
+                                    // Always reset the error message to be less annoying
+                                    setState(() {
+                                      _errorTextColor = _initialErrorTextColor;
+                                    });
+                                    // If valid seed, clear focus/close keyboard
+                                    if (NanoSeeds.isValidSeed(text)) {
+                                      _seedInputFocusNode.unfocus();
+                                      setState(() {
+                                        _seedTextStyle = _validSeedTextStyle;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        _seedTextStyle = _initialSeedTextStyle;
+                                      });
+                                    }
+                                  },
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                child: Text('Invalid Seed',
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: _errorTextColor,
+                                      fontFamily: 'NunitoSans',
+                                      fontWeight: FontWeight.w600,
+                                    )),
                               ),
                             ],
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 15.0, left: 50),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "Import seed",
-                                  style: KaliumStyles.TextStyleHeaderColored,
-                                ),
-                              ],
-                            ),
-                          ),
-                          //Container for the text
-                          Container(
-                            margin:
-                                EdgeInsets.only(left: 50, right: 50, top: 15.0),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                                "Please enter your seed below.",
-                                style: KaliumStyles.TextStyleParagraph,
-                                textAlign: TextAlign.left,),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 50, right: 50, top: 20),
-                            padding: EdgeInsets.only(left:20),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: KaliumColors.backgroundDark,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: TextField(
-                              focusNode: _seedInputFocusNode,
-                              controller: _seedInputController,
-                              textAlign: TextAlign.center,
-                              cursorColor: KaliumColors.primary,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(64),
-                              ],
-                              textInputAction: TextInputAction.done,
-                              maxLines: null,
-                              autocorrect: false,
-                              decoration: InputDecoration(
-                                suffixIcon: Container(
-                                  width: 20,
-                                  height: 20,
-                                  child: FlatButton(
-                                    onPressed: () {
-                                      Clipboard.getData("text/plain").then((ClipboardData data) {
-                                        if (data == null || data.text == null) {
-                                          return;
-                                        } else if (NanoSeeds.isValidSeed(data.text)) {
-                                          _seedInputController.text = data.text;
-                                          _seedTextStyle = _validSeedTextStyle;
-                                        }
-                                      });
-                                    },
-                                    child: Icon(KaliumIcons.paste,
-                                        size: 20, color: KaliumColors.primary),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(100.0)),
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.padded,
-                                  ),
-                                ),
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                    fontFamily: 'NunitoSans',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w100),
-                              ),
-                              keyboardType: TextInputType.text,
-                              style: _seedTextStyle,
-                              onChanged: (text) {
-                                // Always reset the error message to be less annoying
-                                setState(() {
-                                  _errorTextColor = _initialErrorTextColor;
-                                });
-                                // If valid seed, clear focus/close keyboard
-                                if (NanoSeeds.isValidSeed(text)) {
-                                  _seedInputFocusNode.unfocus();
-                                  setState(() {
-                                    _seedTextStyle = _validSeedTextStyle;
-                                  });
-                                } else {
-                                  setState(() {
-                                    _seedTextStyle = _initialSeedTextStyle;
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 5),
-                            child: Text('Invalid Seed',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: _errorTextColor,
-                                  fontFamily: 'NunitoSans',
-                                  fontWeight: FontWeight.w600,
-                                )),
                           ),
                         ],
                       ),
                     ),
                   ),
-
                   //A column with next screen button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

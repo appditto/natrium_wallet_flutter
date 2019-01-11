@@ -32,6 +32,11 @@ class KaliumStyles {
       fontSize: KaliumFontSizes.large,
       fontWeight: FontWeight.w700,
       color: KaliumColors.primary);
+  static const TextStyleButtonPrimaryOutlineDisabled = TextStyle(
+      fontFamily: "NunitoSans",
+      fontSize: KaliumFontSizes.large,
+      fontWeight: FontWeight.w700,
+      color: KaliumColors.primary60);
   // Text style for outline button
   static const TextStyleButtonSuccessOutline = TextStyle(
       fontFamily: "NunitoSans",

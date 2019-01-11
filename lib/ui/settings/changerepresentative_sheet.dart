@@ -113,105 +113,120 @@ class KaliumChangeRepresentativeSheet {
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.only(top: 35, bottom: 35),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                              margin: EdgeInsets.only(left: 50, right: 50),
-                              child: Text(
-                                "Currently Representative By",
-                                style: KaliumStyles.TextStyleParagraph,
-                              )),
-                          Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.only(left: 50, right: 50, top: 10),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 25.0, vertical: 15.0),
-                            decoration: BoxDecoration(
-                              color: KaliumColors.backgroundDarkest,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: UIUtil.threeLineAddressText(
-                                StateContainer.of(context).wallet.representative),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 50, right: 50, top: 20),
-                            padding: EdgeInsets.only(left:20),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: KaliumColors.backgroundDarkest,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: TextField(
-                            focusNode: _repFocusNode,
-                            controller: _repController,
-                              textAlign: TextAlign.center,
-                              cursorColor: KaliumColors.primary,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(64),
-                              ],
-                              textInputAction: TextInputAction.done,
-                              maxLines: null,
-                              autocorrect: false,
-                              decoration: InputDecoration(
-                                hintText: "Enter New Rep",
-                                suffixIcon: Container(
-                                  width: 50.0,
-                                  child: FlatButton(
-                                    padding: EdgeInsets.all(15.0),
-                                    onPressed: () {
-                                      Clipboard.getData("text/plain")
-                                          .then((ClipboardData data) {
-                                        if (data == null || data.text == null) {
-                                          return;
-                                        }
-                                        Address address = new Address(data.text);
-                                        if (NanoAccounts.isValid(
-                                            NanoAccountType.BANANO,
-                                            address.address)) {
-                                          setState(() {
-                                            _repAddressStyle = KaliumStyles
-                                                .TextStyleAddressText90;
-                                          });
-                                          _repController.text =
-                                              address.address;
-                                        }
-                                      });
-                                    },
-                                    child: Icon(KaliumIcons.paste,
-                                        size: 20.0, color: KaliumColors.primary),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(200.0)),
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.padded,
-                                  ),
-                                ),
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                    fontFamily: 'NunitoSans',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w100),
-                              ),
-                              keyboardType: TextInputType.text,
-                              style: _repAddressStyle,
-                              onChanged: (text) {
-                                if (NanoAccounts.isValid(
-                                    NanoAccountType.BANANO, text)) {
-                                  _repFocusNode.unfocus();
-                                  setState(() {
-                                    _repAddressStyle =
-                                        KaliumStyles.TextStyleAddressText90;
-                                  });
-                                } else {
-                                  setState(() {
-                                    _repAddressStyle =
-                                        KaliumStyles.TextStyleAddressText60;
-                                  });
-                                }
+                      child: Stack(
+                        children: <Widget> [
+                          GestureDetector(
+                            onTap: () {
+                              // Clear focus of our fields when tapped in this empty space
+                              _repFocusNode.unfocus();
                             },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: SizedBox.expand(),
+                              constraints: BoxConstraints.expand(),
                             ),
                           ),
-                        ],
+                          Column(
+                          children: <Widget>[
+                            Container(
+                                margin: EdgeInsets.only(left: 50, right: 50),
+                                child: Text(
+                                  "Currently Representative By",
+                                  style: KaliumStyles.TextStyleParagraph,
+                                )),
+                            Container(
+                              width: double.infinity,
+                              margin: EdgeInsets.only(left: 50, right: 50, top: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 25.0, vertical: 15.0),
+                              decoration: BoxDecoration(
+                                color: KaliumColors.backgroundDarkest,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: UIUtil.threeLineAddressText(
+                                  StateContainer.of(context).wallet.representative),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 50, right: 50, top: 20),
+                              padding: EdgeInsets.only(left:20),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: KaliumColors.backgroundDarkest,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: TextField(
+                              focusNode: _repFocusNode,
+                              controller: _repController,
+                                textAlign: TextAlign.center,
+                                cursorColor: KaliumColors.primary,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(64),
+                                ],
+                                textInputAction: TextInputAction.done,
+                                maxLines: null,
+                                autocorrect: false,
+                                decoration: InputDecoration(
+                                  hintText: "Enter New Rep",
+                                  suffixIcon: Container(
+                                    width: 50.0,
+                                    child: FlatButton(
+                                      padding: EdgeInsets.all(15.0),
+                                      onPressed: () {
+                                        Clipboard.getData("text/plain")
+                                            .then((ClipboardData data) {
+                                          if (data == null || data.text == null) {
+                                            return;
+                                          }
+                                          Address address = new Address(data.text);
+                                          if (NanoAccounts.isValid(
+                                              NanoAccountType.BANANO,
+                                              address.address)) {
+                                            setState(() {
+                                              _repAddressStyle = KaliumStyles
+                                                  .TextStyleAddressText90;
+                                            });
+                                            _repController.text =
+                                                address.address;
+                                          }
+                                        });
+                                      },
+                                      child: Icon(KaliumIcons.paste,
+                                          size: 20.0, color: KaliumColors.primary),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(200.0)),
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.padded,
+                                    ),
+                                  ),
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                      fontFamily: 'NunitoSans',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w100),
+                                ),
+                                keyboardType: TextInputType.text,
+                                style: _repAddressStyle,
+                                onChanged: (text) {
+                                  if (NanoAccounts.isValid(
+                                      NanoAccountType.BANANO, text)) {
+                                    _repFocusNode.unfocus();
+                                    setState(() {
+                                      _repAddressStyle =
+                                          KaliumStyles.TextStyleAddressText90;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _repAddressStyle =
+                                          KaliumStyles.TextStyleAddressText60;
+                                    });
+                                  }
+                              },
+                              ),
+                            ),
+                          ],
+                        ),
+                        ]
                       ),
                     ),
                   ),
