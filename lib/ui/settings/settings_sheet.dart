@@ -133,9 +133,12 @@ class _SettingsSheetState extends State<SettingsSheet> {
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
-            title: const Text(
-              "Change Currency",
-              style: KaliumStyles.TextStyleDialogHeader,
+            title: Padding(
+              padding: const EdgeInsets.only(bottom:10.0),
+              child: const Text(
+                "Change Currency",
+                style: KaliumStyles.TextStyleDialogHeader,
+              ),
             ),
             children: _buildCurrencyOptions(),
           );
