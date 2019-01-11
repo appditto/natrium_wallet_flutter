@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kalium_wallet_flutter/util/encrypt.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
+import 'package:kalium_wallet_flutter/model/available_currency.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 
 /// Price conversion preference values
@@ -18,6 +19,7 @@ class SharedPrefsUtil {
   static const String app_uuid_key = 'fkalium_app_uuid';
   static const String price_conversion = 'fkalium_price_conversion_pref';
   static const String auth_method = 'fkalium_auth_method';
+  static const String cur_currency = 'fkalium_currency_pref';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -95,6 +97,15 @@ class SharedPrefsUtil {
 
   Future<AuthenticationMethod> getAuthMethod() async {
     return AuthenticationMethod(AuthMethod.values[await get(auth_method, defaultValue: AuthMethod.BIOMETRICS.index)]);
+  }
+
+  Future<void> setCurrency(AvailableCurrency currency) async {
+   return await set(cur_currency, currency.getIndex());
+  }
+
+  Future<AvailableCurrency> getCurrency() async {
+    // TODO - default to the device locale
+    return AvailableCurrency(AvailableCurrencyEnum.values[await get(cur_currency, defaultValue: AvailableCurrencyEnum.USD.index)]);
   }
 
   // For logging out

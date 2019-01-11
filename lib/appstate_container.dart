@@ -49,10 +49,12 @@ class StateContainer extends StatefulWidget {
    // You must pass through a child. 
   final Widget child;
   final KaliumWallet wallet;
+  final String currencyLocale;
 
   StateContainer({
     @required this.child,
-    this.wallet
+    this.wallet,
+    this.currencyLocale
   });
 
   // This is the secret sauce. Write your own 'of' method that will behave
@@ -74,6 +76,7 @@ class StateContainerState extends State<StateContainer> {
   final Logger log = Logger("StateContainerState");
   // Whichever properties you wanna pass around your app as state
   KaliumWallet wallet;
+  String currencyLocale;
 
   // This map stashes pending process requests, this is because we need to update these requests
   // after a blocks_info with the balance after send, and sign the block
@@ -89,6 +92,12 @@ class StateContainerState extends State<StateContainer> {
   void initState() {
     super.initState();
     _registerBus();
+    // Set currency locale here for the UI to access
+    SharedPrefsUtil.inst.getCurrency().then((currency) {
+      setState(() {
+        currencyLocale = currency.getLocale().toString();
+      });
+    });
   }
 
   // Register RX event listeners
@@ -230,6 +239,12 @@ class StateContainerState extends State<StateContainer> {
 
   /// Handle account_subscribe response
   void handleSubscribeResponse(SubscribeResponse response) {
+    // Set currency locale here for the UI to access
+    SharedPrefsUtil.inst.getCurrency().then((currency) {
+      setState(() {
+        currencyLocale = currency.getLocale().toString();
+      });
+    });
     setState(() {
       wallet.loading = false;
       wallet.frontier = response.frontier;
@@ -321,12 +336,25 @@ class StateContainerState extends State<StateContainer> {
   void requestUpdate() {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
-        AccountService.removeSubscribeHistoryFromQueue();
-        AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:"USD", uuid:result));
-        AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
-        AccountService.processQueue();
+        SharedPrefsUtil.inst.getCurrency().then((currency) {
+          AccountService.removeSubscribeHistoryFromQueue();
+          AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:currency.getIso4217Code(), uuid:result));
+          AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
+          AccountService.processQueue();
+        }); 
       });
-      //TODO currency
+    }
+  }
+
+  void requestSubscribe() {
+    if (wallet != null && wallet.address != null) {
+      SharedPrefsUtil.inst.getUuid().then((result) {
+        SharedPrefsUtil.inst.getCurrency().then((currency) {
+          AccountService.removeSubscribeHistoryFromQueue();
+          AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:currency.getIso4217Code(), uuid:result));
+          AccountService.processQueue();
+        }); 
+      });
     }
   }
 

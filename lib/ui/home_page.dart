@@ -656,7 +656,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(right: 5.0),
-              child: Text(StateContainer.of(context).wallet.localCurrencyPrice,
+              child: Text(StateContainer.of(context).wallet.getLocalCurrencyPrice(locale: StateContainer.of(context).currencyLocale),
                   textAlign: TextAlign.center, style: _convertedPriceStyle),
             ),
             Row(

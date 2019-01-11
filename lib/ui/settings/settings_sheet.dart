@@ -4,6 +4,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
+import 'package:kalium_wallet_flutter/model/available_currency.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/settings/backupseed_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/changerepresentative_sheet.dart';
@@ -21,6 +22,8 @@ class _SettingsSheetState extends State<SettingsSheet> {
   bool _hasBiometrics = false;
   AuthenticationMethod _curAuthMethod =
       AuthenticationMethod(AuthMethod.BIOMETRICS);
+  AvailableCurrency _curCurrency =
+      AvailableCurrency(AvailableCurrencyEnum.USD); // TODO use device locale
 
   void pinEnteredTest(String pin) {
     print("Pin Entered $pin");
@@ -38,6 +41,11 @@ class _SettingsSheetState extends State<SettingsSheet> {
     SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
       setState(() {
         _curAuthMethod = authMethod;
+      });
+    });
+    SharedPrefsUtil.inst.getCurrency().then((currency) {
+      setState(() {
+        _curCurrency = currency;
       });
     });
   }
@@ -100,6 +108,48 @@ class _SettingsSheetState extends State<SettingsSheet> {
     }
   }
 
+  List<Widget> _buildCurrencyOptions() {
+    List<Widget> ret = new List();
+    AvailableCurrencyEnum.values.forEach((AvailableCurrencyEnum value) {
+      ret.add(SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, value);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    AvailableCurrency(value).getDisplayName(),
+                    style: KaliumStyles.TextStyleDialogOptions,
+                  ),
+                ),
+              )
+      );
+    });
+    return ret;
+  }  
+
+  Future<void> _currencyDialog() async {
+    AvailableCurrencyEnum selection = await showDialog<AvailableCurrencyEnum>(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: const Text(
+              "Change Currency",
+              style: KaliumStyles.TextStyleDialogHeader,
+            ),
+            children: _buildCurrencyOptions(),
+          );
+        });
+    SharedPrefsUtil.inst.setCurrency(AvailableCurrency(selection)).then((result) {
+      if (_curCurrency.currency != selection) {
+        setState(() {
+          _curCurrency = AvailableCurrency(selection);
+        });
+        StateContainer.of(context).requestSubscribe();
+      }
+    });
+  }
+
   bool notNull(Object o) => o != null;
   @override
   Widget build(BuildContext context) {
@@ -130,8 +180,8 @@ class _SettingsSheetState extends State<SettingsSheet> {
                             color: KaliumColors.text60)),
                   ),
                   Divider(height: 2),
-                  buildSettingsListItemDoubleLine('Change Currency',
-                      'System Default', KaliumIcons.currency),
+                  KaliumSettings.buildSettingsListItemDoubleLine('Change Currency',
+                      _curCurrency, KaliumIcons.currency, _currencyDialog),
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
                       'Language', 'System Default', KaliumIcons.language),

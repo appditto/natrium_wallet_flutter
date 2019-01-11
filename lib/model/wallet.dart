@@ -65,10 +65,9 @@ class KaliumWallet {
   }
 
 
-  String get localCurrencyPrice {
-    // TODO use real currency format
+  String getLocalCurrencyPrice({String locale = "en_US"}) {
     Decimal converted = Decimal.parse(_localCurrencyPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
-    return NumberFormat.simpleCurrency(locale:"en_US").format(converted.toDouble());
+    return NumberFormat.simpleCurrency(locale:locale).format(converted.toDouble());
   }
 
   set localCurrencyPrice(String value) {
