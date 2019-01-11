@@ -25,8 +25,14 @@ class KaliumReceiveSheet {
   GlobalKey shareCardKey;
   Widget kaliumShareCard;
   ByteData shareImageData;
+  Widget monkeySVGBorder;
 
   KaliumReceiveSheet() {
+    // Create our SVG-heavy things in the constructor because they are slower operations
+    monkeySVGBorder = new SvgPicture.asset(
+      'assets/monkeyQR.svg',
+    );
+    // Share card initialization
     shareCardKey = GlobalKey();
     kaliumShareCard = Container(
       child: KaliumShareCard(shareCardKey),
@@ -69,10 +75,6 @@ class KaliumReceiveSheet {
     _copyButtonStyle = _copyButtonStyleInitial;
     _copyButtonBackground = _copyButtonColorInitial;
     double devicewidth = MediaQuery.of(context).size.width;
-    String assetName = 'assets/monkeyQR.svg';
-    Widget monkeyQRbackground = new SvgPicture.asset(
-      assetName,
-    );
 
     _showShareCard = false;
 
@@ -135,7 +137,7 @@ class KaliumReceiveSheet {
                         Center(
                           child: Container(
                             width: devicewidth / 1.5,
-                            child: monkeyQRbackground,
+                            child: monkeySVGBorder,
                           ),
                         ),
                         Center(

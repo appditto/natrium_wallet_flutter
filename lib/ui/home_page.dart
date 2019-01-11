@@ -36,6 +36,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   var _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
 
+  KaliumReceiveSheet receive = new KaliumReceiveSheet();
+
   // A separate unfortunate instance of this list, is a little unfortunate
   // but seems the only way to handle the animations
   ListModel<AccountHistoryResponseItem> _historyList;
@@ -292,7 +294,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
-                      onPressed: () => new KaliumReceiveSheet().mainBottomSheet(context),
+                      onPressed: () => receive.mainBottomSheet(context),
                       highlightColor: KaliumColors.background40,
                       splashColor: KaliumColors.background40,
                     ),
