@@ -67,7 +67,14 @@ class KaliumWallet {
 
   String getLocalCurrencyPrice({String locale = "en_US"}) {
     Decimal converted = Decimal.parse(_localCurrencyPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
-    return NumberFormat.simpleCurrency(locale:locale).format(converted.toDouble());
+    switch (locale) {
+      case "es_VE":
+        return NumberFormat.currency(locale:locale, symbol: "Bs.S").format(converted.toDouble());
+      case "tr_TR":
+        return NumberFormat.currency(locale:locale, symbol: "₺").format(converted.toDouble());
+      default:
+        return NumberFormat.simpleCurrency(locale:locale).format(converted.toDouble());
+    }
   }
 
   set localCurrencyPrice(String value) {

@@ -169,21 +169,21 @@ class AvailableCurrency extends SettingSelectionItem {
       case "AUD":
           return new Locale("en", "AU");
       case "BRL":
-          return new Locale("en", "BR");
+          return new Locale("pt", "BR");
       case "CAD":
-          return new Locale("en", "US");
+          return new Locale("en", "CA");
       case "CHF":
-          return new Locale("en", "CH");
+          return new Locale("de", "CH");
       case "CLP":
-          return new Locale("en", "US");
+          return new Locale("es", "CL");
       case "CNY":
           return new Locale("zh", "CN");
       case "CZK":
           return new Locale("cs", "CZ");
       case "DKK":
-          return new Locale("en", "DK");
+          return new Locale("da", "DK");
       case "EUR":
-          return new Locale("en", "EU");
+          return new Locale("fr", "FR");
       case "GBP":
           return new Locale("en", "GB");
       case "HKD":
@@ -193,9 +193,9 @@ class AvailableCurrency extends SettingSelectionItem {
       case "IDR":
           return new Locale("id", "ID");
       case "ILS":
-          return new Locale("en", "IL");
+          return new Locale("he", "IL");
       case "INR":
-          return new Locale("en", "IN");
+          return new Locale("hi", "IN");
       case "JPY":
           return new Locale("ja", "JP");
       case "KRW":
@@ -209,17 +209,17 @@ class AvailableCurrency extends SettingSelectionItem {
       case "NZD":
           return new Locale("en", "NZ");
       case "PHP":
-          return new Locale("fil", "PH");
+          return new Locale("tl", "PH");
       case "PKR":
-          return new Locale("en", "MU");
+          return new Locale("ur", "PK");
       case "PLN":
           return new Locale("pl", "PL");
       case "RUB":
           return new Locale("ru", "RU");
       case "SEK":
-          return new Locale("en", "SE");
+          return new Locale("sv", "SE");
       case "SGD":
-          return new Locale("en", "US");
+          return new Locale("zh", "SG");
       case "THB":
           return new Locale("th", "TH");
       case "TRY":
@@ -229,7 +229,7 @@ class AvailableCurrency extends SettingSelectionItem {
       case "VES":
           return new Locale("es", "VE");
       case "ZAR":
-          return new Locale("pt", "BR");
+          return new Locale("en", "ZA");
       case "USD":
       default:
           return new Locale("en", "US");
