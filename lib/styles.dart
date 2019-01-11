@@ -37,12 +37,18 @@ class KaliumStyles {
       fontSize: KaliumFontSizes.large,
       fontWeight: FontWeight.w700,
       color: KaliumColors.primary60);
-  // Text style for outline button
+  // Text style for success outline button
   static const TextStyleButtonSuccessOutline = TextStyle(
       fontFamily: "NunitoSans",
       fontSize: KaliumFontSizes.large,
       fontWeight: FontWeight.w700,
       color: KaliumColors.success);
+  // Text style for text outline button
+  static const TextStyleButtonTextOutline = TextStyle(
+      fontFamily: "NunitoSans",
+      fontSize: KaliumFontSizes.large,
+      fontWeight: FontWeight.w700,
+      color: KaliumColors.text);
   // General address/seed styles
   static const TextStyleAddressPrimary60 = TextStyle(
     color: KaliumColors.primary60,
