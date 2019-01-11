@@ -97,9 +97,9 @@ class SplashState extends State<Splash> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
     // This seems to be the earliest place we can retrieve the device Locale
-    StateContainer.of(context).updateDeviceLocale(Localizations.localeOf(context));
+    StateContainer.of(context).deviceLocale = Localizations.localeOf(context);
     SharedPrefsUtil.inst.getCurrency(StateContainer.of(context).deviceLocale).then((currency) {
-      StateContainer.of(context).updateCurrency(currency);
+      StateContainer.of(context).curCurrency = currency;
     });
     return new Scaffold(
       backgroundColor: KaliumColors.background,

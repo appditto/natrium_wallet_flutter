@@ -149,7 +149,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
         .then((result) {
       if (StateContainer.of(context).curCurrency.currency != selection) {
         setState(() {
-          StateContainer.of(context).updateCurrency(AvailableCurrency(selection));
+          StateContainer.of(context).curCurrency = AvailableCurrency(selection);
         });
         StateContainer.of(context).requestSubscribe();
       }
