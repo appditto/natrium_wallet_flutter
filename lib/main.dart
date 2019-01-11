@@ -88,6 +88,8 @@ class SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
+    // This seems to be the earliest place we can retrieve the device Locale
+    StateContainer.of(context).deviceLocale = Localizations.localeOf(context);
     checkLoggedIn();
   }
 

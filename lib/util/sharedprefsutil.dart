@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:ui';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kalium_wallet_flutter/util/encrypt.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
@@ -106,9 +106,8 @@ class SharedPrefsUtil {
    return await set(cur_currency, currency.getIndex());
   }
 
-  Future<AvailableCurrency> getCurrency() async {
-    // TODO - default to the device locale
-    return AvailableCurrency(AvailableCurrencyEnum.values[await get(cur_currency, defaultValue: AvailableCurrencyEnum.USD.index)]);
+  Future<AvailableCurrency> getCurrency(Locale deviceLocale) async {
+    return AvailableCurrency(AvailableCurrencyEnum.values[await get(cur_currency, defaultValue: AvailableCurrency.getBestForLocale(deviceLocale).currency.index)]);
   }
 
   Future<void> setRepresentative(String rep) async {
