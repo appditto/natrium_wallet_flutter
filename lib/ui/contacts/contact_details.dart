@@ -27,7 +27,7 @@ class ContactDetails {
                     Container(
                       width: 50,
                       height: 50,
-                      margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                      margin: EdgeInsets.only(top: 10.0, left: 10.0),
                       child: FlatButton(
                         onPressed: () {
                           return null;
@@ -76,70 +76,68 @@ class ContactDetails {
 
                 //A main container that holds monKey, Contact Name and Contact Address
                 Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 35, bottom: 35),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        // monKey
-                        Container(
-                          height: 120,
-                          width: 120,
-                          color: KaliumColors.primary,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      // monKey
+                      Container(
+                        height: 100,
+                        width: 100,
+                        color: KaliumColors.primary,
+                      ),
+                      // Contact Name
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * 0.105,
+                          right: MediaQuery.of(context).size.width * 0.105,
+                          top: 15,
                         ),
-                        // Contact Name
-                        Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 25.0, vertical: 12.0),
+                        decoration: BoxDecoration(
+                          color: KaliumColors.backgroundDarkest,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Text(
+                          "@yekta",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16.0,
+                            color: KaliumColors.primary,
+                            fontFamily: 'NunitoSans',
+                          ),
+                        ),
+                      ),
+                      // Contact Address
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(
                             left: MediaQuery.of(context).size.width * 0.105,
                             right: MediaQuery.of(context).size.width * 0.105,
-                            top: 10,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 25.0, vertical: 15.0),
-                          decoration: BoxDecoration(
-                            color: KaliumColors.backgroundDarkest,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: Text(
-                            "@yekta",
+                            top: 15),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 25.0, vertical: 15.0),
+                        decoration: BoxDecoration(
+                          color: KaliumColors.backgroundDarkest,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: UIUtil.threeLineAddressText(
+                            "ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4"),
+                      ),
+                      // Address Copie
+                      Container(
+                        margin: EdgeInsets.only(top: 5, bottom: 5),
+                        child: Text("Address Copied",
                             style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16.0,
-                              color: KaliumColors.text,
+                              fontSize: 14.0,
+                              color: KaliumColors.success,
                               fontFamily: 'NunitoSans',
-                            ),
-                          ),
-                        ),
-                        // Contact Address
-                        Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.105,
-                              right: MediaQuery.of(context).size.width * 0.105,
-                              top: 10),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 25.0, vertical: 15.0),
-                          decoration: BoxDecoration(
-                            color: KaliumColors.backgroundDarkest,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: UIUtil.threeLineAddressText(
-                              "ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4"),
-                        ),
-                        // Address Copie
-                        Container(
-                          margin: EdgeInsets.only(top: 5, bottom: 5),
-                          child: Text("Address Copied",
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: KaliumColors.success,
-                                fontFamily: 'NunitoSans',
-                                fontWeight: FontWeight.w600,
-                              )),
-                        ),
-                      ],
-                    ),
+                              fontWeight: FontWeight.w600,
+                            )),
+                      ),
+                    ],
                   ),
                 ),
 
