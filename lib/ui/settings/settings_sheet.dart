@@ -52,7 +52,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
         _curAuthMethod = authMethod;
       });
     });
-    SharedPrefsUtil.inst.getCurrency().then((currency) {
+    SharedPrefsUtil.inst.getCurrency(StateContainer.of(context).deviceLocale).then((currency) {
       setState(() {
         _curCurrency = currency;
       });
@@ -335,7 +335,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("KaliumF v0.1",
+                        Text(StateContainer.of(context).appVersionString,
                             style: KaliumStyles.TextStyleVersion),
                       ],
                     ),

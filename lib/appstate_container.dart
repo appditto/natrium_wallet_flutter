@@ -5,6 +5,7 @@ import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:package_info/package_info.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
@@ -50,11 +51,15 @@ class StateContainer extends StatefulWidget {
   final Widget child;
   final KaliumWallet wallet;
   final String currencyLocale;
+  final Locale deviceLocale;
+  final String appVersionString;
 
   StateContainer({
     @required this.child,
     this.wallet,
-    this.currencyLocale
+    this.currencyLocale,
+    this.deviceLocale,
+    this.appVersionString
   });
 
   // This is the secret sauce. Write your own 'of' method that will behave
@@ -77,6 +82,8 @@ class StateContainerState extends State<StateContainer> {
   // Whichever properties you wanna pass around your app as state
   KaliumWallet wallet;
   String currencyLocale;
+  Locale deviceLocale = Locale('en', 'US');
+  String appVersionString;
 
   // This map stashes pending process requests, this is because we need to update these requests
   // after a blocks_info with the balance after send, and sign the block
@@ -93,9 +100,14 @@ class StateContainerState extends State<StateContainer> {
     super.initState();
     _registerBus();
     // Set currency locale here for the UI to access
-    SharedPrefsUtil.inst.getCurrency().then((currency) {
+    SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
       setState(() {
         currencyLocale = currency.getLocale().toString();
+      });
+    });
+    PackageInfo.fromPlatform().then((packageInfo) {
+      setState(() {
+        appVersionString = "${packageInfo.appName} v${packageInfo.version}";        
       });
     });
   }
@@ -242,7 +254,7 @@ class StateContainerState extends State<StateContainer> {
   /// Handle account_subscribe response
   void handleSubscribeResponse(SubscribeResponse response) {
     // Set currency locale here for the UI to access
-    SharedPrefsUtil.inst.getCurrency().then((currency) {
+    SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
       setState(() {
         currencyLocale = currency.getLocale().toString();
       });
@@ -338,7 +350,7 @@ class StateContainerState extends State<StateContainer> {
   void requestUpdate() {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
-        SharedPrefsUtil.inst.getCurrency().then((currency) {
+        SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
           AccountService.removeSubscribeHistoryPendingFromQueue();
           AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:currency.getIso4217Code(), uuid:result));
           AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
@@ -351,7 +363,7 @@ class StateContainerState extends State<StateContainer> {
   void requestSubscribe() {
     if (wallet != null && wallet.address != null) {
       SharedPrefsUtil.inst.getUuid().then((result) {
-        SharedPrefsUtil.inst.getCurrency().then((currency) {
+        SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
           AccountService.removeSubscribeHistoryPendingFromQueue();
           AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:currency.getIso4217Code(), uuid:result));
           AccountService.processQueue();

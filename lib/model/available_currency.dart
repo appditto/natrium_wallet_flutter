@@ -240,4 +240,16 @@ class AvailableCurrency extends SettingSelectionItem {
   int getIndex() {
     return currency.index;
   }
+
+  // Get best currency for a given locale
+  // Default to USD
+  static AvailableCurrency getBestForLocale(Locale locale) {
+    AvailableCurrencyEnum.values.forEach((value) {
+      AvailableCurrency currency = AvailableCurrency(value);
+      if (currency.getLocale().countryCode.toUpperCase() == locale.countryCode.toUpperCase()) {
+        return currency;
+      }
+    });
+    return AvailableCurrency(AvailableCurrencyEnum.USD);
+  }
 }
