@@ -29,9 +29,9 @@ class KaliumReceiveSheet {
   KaliumReceiveSheet() {
     shareCardKey = GlobalKey();
     kaliumShareCard = Container(
-                        child: KaliumShareCard(shareCardKey),
-                        alignment: Alignment(0.0, 0.0),
-                        );
+      child: KaliumShareCard(shareCardKey),
+      alignment: Alignment(0.0, 0.0),
+    );
   }
 
   // Address copied items
@@ -53,8 +53,9 @@ class KaliumReceiveSheet {
     if (shareCardKey != null && shareCardKey.currentContext != null) {
       RenderRepaintBoundary boundary =
           shareCardKey.currentContext.findRenderObject();
-      ui.Image image = await boundary.toImage(pixelRatio: 10.0);
-      ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      ui.Image image = await boundary.toImage(pixelRatio: 25.0);
+      ByteData byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
       return byteData;
     } else {
       return null;
@@ -123,7 +124,14 @@ class KaliumReceiveSheet {
                   child: Center(
                     child: Stack(
                       children: <Widget>[
-                      _showShareCard ? kaliumShareCard : SizedBox(),
+                        _showShareCard ? kaliumShareCard : SizedBox(),
+                        Center(
+                          child: Container(
+                            width: 260,
+                            height: 150,
+                            color: KaliumColors.backgroundDark,
+                          ),
+                        ),
                         Center(
                           child: Container(
                             width: devicewidth / 1.5,
@@ -132,10 +140,10 @@ class KaliumReceiveSheet {
                         ),
                         Center(
                           child: Container(
-                            margin: EdgeInsets.only(top: devicewidth/6),
+                            margin: EdgeInsets.only(top: devicewidth / 6),
                             child: QrImage(
                               padding: EdgeInsets.all(0.0),
-                              size: devicewidth /3.13,
+                              size: devicewidth / 3.13,
                               data: _wallet.address,
                               version: 6,
                               errorCorrectionLevel: QrErrorCorrectLevel.Q,
@@ -213,16 +221,18 @@ class KaliumReceiveSheet {
                               _capturePng().then((byteData) {
                                 if (byteData != null) {
                                   EsysFlutterShare.shareImage(
-                                    "${StateContainer.of(context).wallet.address}.png",
-                                    byteData,
-                                    StateContainer.of(context).wallet.address);
+                                      "${StateContainer.of(context).wallet.address}.png",
+                                      byteData,
+                                      StateContainer.of(context)
+                                          .wallet
+                                          .address);
                                 } else {
                                   // TODO - show a something went wrong message
                                 }
                                 setState(() {
                                   _showShareCard = false;
                                 });
-                              });              
+                              });
                             }
                           });
                         }),
