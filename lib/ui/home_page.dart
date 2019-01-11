@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
@@ -12,6 +16,7 @@ import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_complete_sheet.dart';
@@ -42,6 +47,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // but seems the only way to handle the animations
   ListModel<AccountHistoryResponseItem> _historyList;
 
+  // monKey widget
+  Widget _monKey;
+
   // Price conversion state (BTC, NANO, NONE)
   PriceConversion _priceConversion;
   TextStyle _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
@@ -49,13 +57,46 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Timeeout for refresh
   StreamSubscription<dynamic> _refreshTimeout;
 
+  Future<File> downloadOrRetrieveMonkey(String path) async {
+    if (path != null) {
+      if (await File(path).exists()) {
+        return File(path);
+      }
+    }
+    HttpClient httpClient = new HttpClient();
+    String address = StateContainer.of(context).wallet.address;
+    var request = await httpClient.getUrl(Uri.parse(KaliumLocalization.MONKEY_DOWNLOAD_URL + address));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    String fileName = '$dir/$address.svg';
+    File file = new File(fileName);
+    await file.writeAsBytes(bytes);
+    await SharedPrefsUtil.inst.setMonkeyLocation(fileName);
+    return file;
+  }
+
+  Widget _buildMonkeyWidget(File f) {
+    setState(() {
+      _monKey = SvgPicture.file(f);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _registerBus();
+    _monKey = SizedBox();
     WidgetsBinding.instance.addObserver(this);
     SharedPrefsUtil.inst.getPriceConversion().then((result) {
       _priceConversion = result;
+    });
+    SharedPrefsUtil.inst.getMonkeyLocation().then((result) {
+      downloadOrRetrieveMonkey(result).then((file) {
+        if (file != null) {
+          _buildMonkeyWidget(file);
+        }
+      });
     });
   }
 
@@ -573,7 +614,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     );
   } // Welcome Card End
 
-//Main Card
+  //Main Card
   Widget _buildMainCard(BuildContext context, _scaffoldKey) {
     return Container(
       decoration: BoxDecoration(
@@ -613,11 +654,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
           ),
           _getBalanceWidget(context),
           Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/monkey.png'),
-              ),
-            ),
+            child: _monKey,
             width: 90.0,
             height: 90.0,
           ),
