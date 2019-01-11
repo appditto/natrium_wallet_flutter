@@ -214,7 +214,7 @@ class KaliumSendSheet {
                                 cursorColor: KaliumColors.primary,
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(13),
-                                  WhitelistingTextInputFormatter(RegExp("[0-9.]")),
+                                  WhitelistingTextInputFormatter(RegExp("[0-9.,]")),
                                   CurrencyInputFormatter()
                                 ],
                                 onChanged: (text) {

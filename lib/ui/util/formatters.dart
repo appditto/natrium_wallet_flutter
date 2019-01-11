@@ -7,11 +7,20 @@ class CurrencyInputFormatter extends TextInputFormatter {
 
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     bool returnOriginal = true;
-    if(newValue.selection.baseOffset == 0 || !newValue.text.contains(".")){
+    if (newValue.text.contains(".") || newValue.text.contains(",")) {
+      returnOriginal = false;
+    }
+    // If no text, or text doesnt contain a period of comma, no work to do here
+    if(newValue.selection.baseOffset == 0 || returnOriginal) {
       return newValue;
     }
 
-    List<String> splitStr = newValue.text.split('.');
+    String workingText = newValue.text.replaceAll(r",", ".");
+    if (workingText.startsWith(".")) {
+      workingText = "0" + workingText;
+    }
+
+    List<String> splitStr = workingText.split('.');
     // If this string contains more than 1 decimal, move all characters to after the first decimal
     if (splitStr.length > 2) {
       returnOriginal = false;
