@@ -52,18 +52,14 @@ class KaliumSendSheet {
     // Decide if 1 or 3 line address text should be used
     oneOrThreeLineAddressText() {
       if (MediaQuery.of(context).size.height < 667)
-        return Container(
-          margin: EdgeInsets.only(top: 10.0),
-          child: UIUtil.oneLineAddressText(
-              StateContainer.of(context).wallet.address,
-              type: OneLineAddressTextType.PRIMARY60),
+        return UIUtil.oneLineAddressText(
+          StateContainer.of(context).wallet.address,
+          type: OneLineAddressTextType.PRIMARY60,
         );
       else
-        return Container(
-          margin: EdgeInsets.only(top: 10.0),
-          child: UIUtil.oneLineAddressText(
-              StateContainer.of(context).wallet.address,
-              type: OneLineAddressTextType.PRIMARY60),
+        return UIUtil.threeLineAddressText(
+          StateContainer.of(context).wallet.address,
+          type: ThreeLineAddressTextType.PRIMARY60,
         );
     }
 
@@ -129,7 +125,10 @@ class KaliumSendSheet {
                             style: KaliumStyles.TextStyleHeader,
                           ),
                           //Address Text
-                          oneOrThreeLineAddressText(),
+                          Container(
+                            margin: EdgeInsets.only(top: 10.0),
+                            child: oneOrThreeLineAddressText(),
+                          ),
                           //Adress Balance Text
                           Container(
                             margin: EdgeInsets.only(top: 6.0),
