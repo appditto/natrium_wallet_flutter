@@ -308,10 +308,12 @@ class StateContainerState extends State<StateContainer> {
       nextBlock.sign(result);
       pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
       // If this is of type RECEIVE, update its data in our pending map
-      StateBlock prevReceive = pendingBlockMap.remove(nextBlock.link);
-      if (prevReceive != null) {
-        print("put ${nextBlock.hash}");
-        pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+      if (nextBlock.subType == BlockTypes.RECEIVE) {
+        StateBlock prevReceive = pendingBlockMap.remove(nextBlock.link);
+        if (prevReceive != null) {
+          print("put ${nextBlock.hash}");
+          pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+        }
       }
       AccountService.pop();
       AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
@@ -356,7 +358,10 @@ class StateContainerState extends State<StateContainer> {
   void requestUpdate() {
     if (wallet != null && wallet.address != null) {
         SharedPrefsUtil.inst.getUuid().then((result) {
-        AccountService.removeSubscribeHistoryPendingFromQueue();
+        AccountService.clearQueue();
+        pendingBlockMap.clear();
+        pendingResponseBlockMap.clear();
+        previousPendingMap.clear();
         AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
         AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
         AccountService.processQueue();
