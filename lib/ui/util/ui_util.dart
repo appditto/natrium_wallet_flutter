@@ -7,6 +7,7 @@ import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/ui/util/exceptions.dart';
 
 enum ThreeLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS }
+enum OneLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS }
 
 class UIUtil {
   static Widget threeLineAddressText(String address, { ThreeLineAddressTextType type = ThreeLineAddressTextType.PRIMARY }) {
@@ -165,6 +166,90 @@ class UIUtil {
         );
       default:
         throw new UIException("Invalid threeLineAddressText Type $type");
+    }
+  }
+
+  static Widget oneLineAddressText(String address, { OneLineAddressTextType type = OneLineAddressTextType.PRIMARY }) {
+    String stringPartOne = address.substring(0, 11);
+    String stringPartFive = address.substring(58, 64);
+    switch (type) {
+      case OneLineAddressTextType.PRIMARY60:
+        return Column(
+          children: <Widget>[
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: '',
+                children: [
+                  TextSpan(
+                    text: stringPartOne,
+                    style: KaliumStyles.TextStyleAddressPrimary60,
+                  ),
+                  TextSpan(
+                    text: "...",
+                    style: KaliumStyles.TextStyleAddressText60,
+                  ),
+                  TextSpan(
+                    text: stringPartFive,
+                    style: KaliumStyles.TextStyleAddressPrimary60,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      case OneLineAddressTextType.PRIMARY:
+        return Column(
+          children: <Widget>[
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: '',
+                children: [
+                  TextSpan(
+                    text: stringPartOne,
+                    style: KaliumStyles.TextStyleAddressPrimary,
+                  ),
+                  TextSpan(
+                    text: "...",
+                    style: KaliumStyles.TextStyleAddressText90,
+                  ),
+                  TextSpan(
+                    text: stringPartFive,
+                    style: KaliumStyles.TextStyleAddressPrimary,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+        case OneLineAddressTextType.SUCCESS:
+        return Column(
+          children: <Widget>[
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: '',
+                children: [
+                  TextSpan(
+                    text: stringPartOne,
+                    style: KaliumStyles.TextStyleAddressSuccess,
+                  ),
+                  TextSpan(
+                    text: "...",
+                    style: KaliumStyles.TextStyleAddressText90,
+                  ),
+                  TextSpan(
+                    text: stringPartFive,
+                    style: KaliumStyles.TextStyleAddressSuccess,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      default:
+        throw new UIException("Invalid oneLineAddressText Type $type");
     }
   }
 

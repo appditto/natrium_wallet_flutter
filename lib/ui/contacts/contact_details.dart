@@ -124,7 +124,7 @@ class ContactDetails {
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: UIUtil.threeLineAddressText(
-                            "ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4"),
+                            "ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4",),
                       ),
                       // Address Copie
                       Container(

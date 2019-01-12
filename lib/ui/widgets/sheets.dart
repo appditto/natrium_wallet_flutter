@@ -1,56 +1,47 @@
-
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 
 class KaliumSheets {
   //Kalium Ninty Height Sheet
-  static Future<T> showKaliumHeightNineSheet<T>({
-    @required BuildContext context,
-    @required WidgetBuilder builder,
-    Color color = KaliumColors.backgroundDark,
-    double radius = 30.0,
-    Color bgColor = KaliumColors.overlay70,
-    int animationDurationMs = 200,
-    bool removeUntilHome = false,
-    bool closeOnTap = false,
-    Function onDisposed
-  }) {
+  static Future<T> showKaliumHeightNineSheet<T>(
+      {@required BuildContext context,
+      @required WidgetBuilder builder,
+      Color color = KaliumColors.backgroundDark,
+      double radius = 30.0,
+      Color bgColor = KaliumColors.overlay70,
+      int animationDurationMs = 200,
+      bool removeUntilHome = false,
+      bool closeOnTap = false,
+      Function onDisposed}) {
     assert(context != null);
     assert(builder != null);
     assert(radius != null && radius > 0.0);
     assert(color != null && color != Colors.transparent);
     var route = _KaliumHeightNineModalRoute<T>(
-          builder: builder,
-          color: color,
-          radius: radius,
-          barrierLabel:
-              MaterialLocalizations.of(context).modalBarrierDismissLabel,
-          bgColor: bgColor,
-          animationDurationMs: animationDurationMs,
-          closeOnTap: closeOnTap,
-          onDisposed: onDisposed
-    );
+        builder: builder,
+        color: color,
+        radius: radius,
+        barrierLabel:
+            MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        bgColor: bgColor,
+        animationDurationMs: animationDurationMs,
+        closeOnTap: closeOnTap,
+        onDisposed: onDisposed);
     if (removeUntilHome) {
       return Navigator.pushAndRemoveUntil<T>(
-        context,
-        route,
-        ModalRoute.withName('/home'));
+          context, route, ModalRoute.withName('/home'));
     }
-    return Navigator.push<T>(
-        context,
-        route);
+    return Navigator.push<T>(context, route);
   }
 
-
   //Kalium Height Eigth Sheet
-  static Future<T> showKaliumHeightEightSheet<T>({
-    @required BuildContext context,
-    @required WidgetBuilder builder,
-    Color color = KaliumColors.backgroundDark,
-    double radius = 30.0,
-    Color bgColor = KaliumColors.overlay70,
-    int animationDurationMs = 200
-  }) {
+  static Future<T> showKaliumHeightEightSheet<T>(
+      {@required BuildContext context,
+      @required WidgetBuilder builder,
+      Color color = KaliumColors.backgroundDark,
+      double radius = 30.0,
+      Color bgColor = KaliumColors.overlay70,
+      int animationDurationMs = 200}) {
     assert(context != null);
     assert(builder != null);
     assert(radius != null && radius > 0.0);
@@ -58,16 +49,16 @@ class KaliumSheets {
     return Navigator.push<T>(
         context,
         _KaliumHeightEightModalRoute<T>(
-          builder: builder,
-          color: color,
-          radius: radius,
-          barrierLabel:
-              MaterialLocalizations.of(context).modalBarrierDismissLabel,
-          bgColor: bgColor,
-          animationDurationMs: animationDurationMs
-        ));
+            builder: builder,
+            color: color,
+            radius: radius,
+            barrierLabel:
+                MaterialLocalizations.of(context).modalBarrierDismissLabel,
+            bgColor: bgColor,
+            animationDurationMs: animationDurationMs));
   }
 }
+
 class _KaliumHeightNineSheetLayout extends SingleChildLayoutDelegate {
   _KaliumHeightNineSheetLayout(this.progress);
 
@@ -75,11 +66,18 @@ class _KaliumHeightNineSheetLayout extends SingleChildLayoutDelegate {
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
-    return BoxConstraints(
-        minWidth: constraints.maxWidth,
-        maxWidth: constraints.maxWidth,
-        minHeight: 0.0,
-        maxHeight: constraints.maxHeight * 0.9);
+    if (constraints.maxHeight < 667)
+      return BoxConstraints(
+          minWidth: constraints.maxWidth,
+          maxWidth: constraints.maxWidth,
+          minHeight: 0.0,
+          maxHeight: constraints.maxHeight * 0.95);
+    else
+      return BoxConstraints(
+          minWidth: constraints.maxWidth,
+          maxWidth: constraints.maxWidth,
+          minHeight: 0.0,
+          maxHeight: constraints.maxHeight * 0.9);
   }
 
   @override
@@ -94,17 +92,17 @@ class _KaliumHeightNineSheetLayout extends SingleChildLayoutDelegate {
 }
 
 class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
-  _KaliumHeightNineModalRoute({
-    this.builder,
-    this.barrierLabel,
-    this.color,
-    this.radius,
-    RouteSettings settings,
-    this.bgColor,
-    this.animationDurationMs,
-    this.closeOnTap,
-    this.onDisposed
-  }) : super(settings: settings);
+  _KaliumHeightNineModalRoute(
+      {this.builder,
+      this.barrierLabel,
+      this.color,
+      this.radius,
+      RouteSettings settings,
+      this.bgColor,
+      this.animationDurationMs,
+      this.closeOnTap,
+      this.onDisposed})
+      : super(settings: settings);
 
   final WidgetBuilder builder;
   final double radius;
@@ -125,7 +123,9 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
 
   @override
   void didComplete(T result) {
-    if (onDisposed != null) { onDisposed(); }
+    if (onDisposed != null) {
+      onDisposed();
+    }
     super.didComplete(result);
   }
 
@@ -186,7 +186,8 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
   bool get opaque => false;
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: animationDurationMs);
+  Duration get transitionDuration =>
+      Duration(milliseconds: animationDurationMs);
 }
 //Kalium Height Nine Sheet End
 
@@ -197,11 +198,24 @@ class _KaliumHeightEightSheetLayout extends SingleChildLayoutDelegate {
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
-    return BoxConstraints(
-        minWidth: constraints.maxWidth,
-        maxWidth: constraints.maxWidth,
-        minHeight: 0.0,
-        maxHeight: constraints.maxHeight * 0.8);
+    if (constraints.maxHeight / constraints.maxWidth > 1.9)
+      return BoxConstraints(
+          minWidth: constraints.maxWidth,
+          maxWidth: constraints.maxWidth,
+          minHeight: 0.0,
+          maxHeight: constraints.maxHeight * 0.7);
+    if (constraints.maxHeight < 667)
+      return BoxConstraints(
+          minWidth: constraints.maxWidth,
+          maxWidth: constraints.maxWidth,
+          minHeight: 0.0,
+          maxHeight: constraints.maxHeight * 0.9);
+    else
+      return BoxConstraints(
+          minWidth: constraints.maxWidth,
+          maxWidth: constraints.maxWidth,
+          minHeight: 0.0,
+          maxHeight: constraints.maxHeight * 0.8);
   }
 
   @override
@@ -216,15 +230,15 @@ class _KaliumHeightEightSheetLayout extends SingleChildLayoutDelegate {
 }
 
 class _KaliumHeightEightModalRoute<T> extends PopupRoute<T> {
-  _KaliumHeightEightModalRoute({
-    this.builder,
-    this.barrierLabel,
-    this.color,
-    this.radius,
-    RouteSettings settings,
-    this.bgColor,
-    this.animationDurationMs
-  }) : super(settings: settings);
+  _KaliumHeightEightModalRoute(
+      {this.builder,
+      this.barrierLabel,
+      this.color,
+      this.radius,
+      RouteSettings settings,
+      this.bgColor,
+      this.animationDurationMs})
+      : super(settings: settings);
 
   final WidgetBuilder builder;
   final double radius;
@@ -290,7 +304,7 @@ class _KaliumHeightEightModalRoute<T> extends PopupRoute<T> {
   bool get opaque => false;
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: animationDurationMs);
+  Duration get transitionDuration =>
+      Duration(milliseconds: animationDurationMs);
 }
 //Kalium HeightEight Sheet End
-

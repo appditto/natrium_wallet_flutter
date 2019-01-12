@@ -49,6 +49,24 @@ class KaliumSendSheet {
   }
 
   mainBottomSheet(BuildContext context) {
+    // Decide if 1 or 3 line address text should be used
+    oneOrThreeLineAddressText() {
+      if (MediaQuery.of(context).size.height < 667)
+        return Container(
+          margin: EdgeInsets.only(top: 10.0),
+          child: UIUtil.oneLineAddressText(
+              StateContainer.of(context).wallet.address,
+              type: OneLineAddressTextType.PRIMARY60),
+        );
+      else
+        return Container(
+          margin: EdgeInsets.only(top: 10.0),
+          child: UIUtil.oneLineAddressText(
+              StateContainer.of(context).wallet.address,
+              type: OneLineAddressTextType.PRIMARY60),
+        );
+    }
+
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
@@ -110,12 +128,9 @@ class KaliumSendSheet {
                             "SEND FROM",
                             style: KaliumStyles.TextStyleHeader,
                           ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10.0),
-                            child: UIUtil.threeLineAddressText(
-                                StateContainer.of(context).wallet.address,
-                                type: ThreeLineAddressTextType.PRIMARY60),
-                          ),
+                          //Address Text
+                          oneOrThreeLineAddressText(),
+                          //Adress Balance Text
                           Container(
                             margin: EdgeInsets.only(top: 6.0),
                             child: RichText(
@@ -201,20 +216,23 @@ class KaliumSendSheet {
                             // Enter Amount Container
                             Container(
                               margin: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width * 0.105,
-                                  right: MediaQuery.of(context).size.width * 0.105),
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.105,
+                                  right: MediaQuery.of(context).size.width *
+                                      0.105),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: KaliumColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
-                              child: TextField(    
+                              child: TextField(
                                 focusNode: _sendAmountFocusNode,
                                 controller: _sendAmountController,
                                 cursorColor: KaliumColors.primary,
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(13),
-                                  WhitelistingTextInputFormatter(RegExp("[0-9.,]")),
+                                  WhitelistingTextInputFormatter(
+                                      RegExp("[0-9.,]")),
                                   CurrencyInputFormatter()
                                 ],
                                 onChanged: (text) {
@@ -244,7 +262,8 @@ class KaliumSendSheet {
                                         return null;
                                       },
                                       child: Icon(KaliumIcons.swapcurrency,
-                                          size: 20, color: KaliumColors.primary),
+                                          size: 20,
+                                          color: KaliumColors.primary),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(200.0)),
@@ -261,7 +280,8 @@ class KaliumSendSheet {
                                         return null;
                                       },
                                       child: Icon(KaliumIcons.max,
-                                          size: 24, color: KaliumColors.primary),
+                                          size: 24,
+                                          color: KaliumColors.primary),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(200.0)),
@@ -277,7 +297,8 @@ class KaliumSendSheet {
                                   fontFamily: 'NunitoSans',
                                 ),
                                 onSubmitted: (text) {
-                                  FocusScope.of(context).requestFocus(_sendAddressFocusNode);
+                                  FocusScope.of(context)
+                                      .requestFocus(_sendAddressFocusNode);
                                 },
                               ),
                             ),
@@ -295,8 +316,10 @@ class KaliumSendSheet {
                             // Enter Address Container
                             Container(
                               margin: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width * 0.105,
-                                  right: MediaQuery.of(context).size.width * 0.105),
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.105,
+                                  right: MediaQuery.of(context).size.width *
+                                      0.105),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: KaliumColors.backgroundDarkest,
@@ -332,7 +355,8 @@ class KaliumSendSheet {
                                         return null;
                                       },
                                       child: Icon(KaliumIcons.at,
-                                          size: 20, color: KaliumColors.primary),
+                                          size: 20,
+                                          color: KaliumColors.primary),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(200.0)),
@@ -348,10 +372,12 @@ class KaliumSendSheet {
                                       onPressed: () {
                                         Clipboard.getData("text/plain")
                                             .then((ClipboardData data) {
-                                          if (data == null || data.text == null) {
+                                          if (data == null ||
+                                              data.text == null) {
                                             return;
                                           }
-                                          Address address = new Address(data.text);
+                                          Address address =
+                                              new Address(data.text);
                                           if (NanoAccounts.isValid(
                                               NanoAccountType.BANANO,
                                               address.address)) {
@@ -366,7 +392,8 @@ class KaliumSendSheet {
                                         });
                                       },
                                       child: Icon(KaliumIcons.paste,
-                                          size: 20, color: KaliumColors.primary),
+                                          size: 20,
+                                          color: KaliumColors.primary),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(200.0)),
@@ -438,27 +465,29 @@ class KaliumSendSheet {
                               KaliumButtonType.PRIMARY_OUTLINE,
                               'Scan QR Code',
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                                try {
-                                  BarcodeScanner.scan().then((value) {
-                                    String account = NanoAccounts.findAccountInString(NanoAccountType.BANANO, value);
-                                    if (account == null || account.isEmpty) {
-                                      // Not a valid code
-                                    } else {
-                                      setState(() {
-                                        _sendAddressController.text = account;
-                                        _addressValidationText = "";
-                                        _sendAddressStyle = KaliumStyles
-                                            .TextStyleAddressText90;
-                                      });
-                                    }
+                            try {
+                              BarcodeScanner.scan().then((value) {
+                                String account =
+                                    NanoAccounts.findAccountInString(
+                                        NanoAccountType.BANANO, value);
+                                if (account == null || account.isEmpty) {
+                                  // Not a valid code
+                                } else {
+                                  setState(() {
+                                    _sendAddressController.text = account;
+                                    _addressValidationText = "";
+                                    _sendAddressStyle =
+                                        KaliumStyles.TextStyleAddressText90;
                                   });
-                                } catch (e) {
-                                  if (e.code == BarcodeScanner.CameraAccessDenied) {
-                                    // TODO - Permission Denied to use camera
-                                  } else {
-                                    // UNKNOWN ERROR
-                                  }
                                 }
+                              });
+                            } catch (e) {
+                              if (e.code == BarcodeScanner.CameraAccessDenied) {
+                                // TODO - Permission Denied to use camera
+                              } else {
+                                // UNKNOWN ERROR
+                              }
+                            }
                           }),
                         ],
                       ),
