@@ -65,7 +65,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     }
     HttpClient httpClient = new HttpClient();
     String address = StateContainer.of(context).wallet.address;
-    var request = await httpClient.getUrl(Uri.parse(KaliumLocalization.MONKEY_DOWNLOAD_URL + address));
+    var request = await httpClient
+        .getUrl(Uri.parse(KaliumLocalization.MONKEY_DOWNLOAD_URL + address));
     var response = await request.close();
     var bytes = await consolidateHttpClientResponseBytes(response);
     String dir = (await getApplicationDocumentsDirectory()).path;
@@ -97,7 +98,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   }
 
   void _registerBus() {
-    RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_HOME_TAG).listen((historyResponse) {
+    RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_HOME_TAG)
+        .listen((historyResponse) {
       diffAndUpdateHistoryList(historyResponse.history);
       if (_refreshTimeout != null) {
         _refreshTimeout.cancel();
@@ -107,17 +109,21 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       // Route to send complete if received process response for send block
       if (stateBlock != null) {
         // Route to send complete
-        String displayAmount = NumberUtil.getRawAsUsableString(stateBlock.sendAmount);
-        KaliumSendCompleteSheet(displayAmount, stateBlock.link).mainBottomSheet(context);
+        String displayAmount =
+            NumberUtil.getRawAsUsableString(stateBlock.sendAmount);
+        KaliumSendCompleteSheet(displayAmount, stateBlock.link)
+            .mainBottomSheet(context);
         StateContainer.of(context).requestUpdate();
       }
     });
     RxBus.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {
       if (stateBlock != null) {
         Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-        StateContainer.of(context).wallet.representative = stateBlock.representative;
+        StateContainer.of(context).wallet.representative =
+            stateBlock.representative;
         _scaffoldKey.currentState.showSnackBar(new SnackBar(
-          content: new Text("Representative Changed Successfully", style: KaliumStyles.TextStyleParagraph),
+          content: new Text("Representative Changed Successfully",
+              style: KaliumStyles.TextStyleParagraph),
         ));
       }
     });
@@ -213,7 +219,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   Future<void> _refresh() async {
     StateContainer.of(context).requestUpdate();
     // TODO figure out how to cancel this future when the server responds with
-    await Future.delayed(new Duration(seconds: 1), () { });
+    await Future.delayed(new Duration(seconds: 1), () {});
   }
 
   ///
@@ -240,13 +246,20 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   @override
   Widget build(BuildContext context) {
+    drawerWidth() {
+      if (MediaQuery.of(context).size.width < 375)
+        return MediaQuery.of(context).size.width * 0.94;
+      else
+        return MediaQuery.of(context).size.width * 0.85;
+    }
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
     return KaliumScaffold(
       key: _scaffoldKey,
       backgroundColor: KaliumColors.background,
       drawer: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.85,
+        width: drawerWidth(),
         child: KaliumDrawer(
           child: SettingsSheet(),
         ),
@@ -698,8 +711,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(right: 5.0),
-              child: Text(StateContainer.of(context).wallet.getLocalCurrencyPrice(locale: StateContainer.of(context).currencyLocale),
-                  textAlign: TextAlign.center, style: _convertedPriceStyle),
+              child: Text(
+                  StateContainer.of(context).wallet.getLocalCurrencyPrice(
+                      locale: StateContainer.of(context).currencyLocale),
+                  textAlign: TextAlign.center,
+                  style: _convertedPriceStyle),
             ),
             Row(
               children: <Widget>[
@@ -721,7 +737,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             Row(
               children: <Widget>[
                 Container(
-                    child: Icon(_priceConversion == PriceConversion.BTC
+                    child: Icon(
+                        _priceConversion == PriceConversion.BTC
                             ? KaliumIcons.btc
                             : KaliumIcons.nanocurrency,
                         color: _priceConversion == PriceConversion.NONE
