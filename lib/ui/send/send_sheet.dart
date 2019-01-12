@@ -39,6 +39,8 @@ class KaliumSendSheet {
   var _addressHint = _addressHintText;
   var _amountValidationText = "";
   var _addressValidationText = "";
+  // Buttons States (Used because we hide the buttons under certain conditions)
+  bool _pasteButtonVisible = true;
 
   KaliumSendSheet() {
     _sendAmountFocusNode = new FocusNode();
@@ -366,7 +368,7 @@ class KaliumSendSheet {
                                     ),
                                   ),
                                   // PASTE BUTTTON
-                                  suffixIcon: Container(
+                                  suffixIcon: _pasteButtonVisible ? Container(
                                     width: 48.0,
                                     height: 48.0,
                                     child: FlatButton(
@@ -389,6 +391,7 @@ class KaliumSendSheet {
                                               _addressValidationText = "";
                                               _sendAddressStyle = KaliumStyles
                                                   .TextStyleAddressText90;
+                                              _pasteButtonVisible = false;
                                             });
                                             _sendAddressController.text =
                                                 address.address;
@@ -402,7 +405,7 @@ class KaliumSendSheet {
                                           borderRadius:
                                               BorderRadius.circular(200.0)),
                                     ),
-                                  ),
+                                  ) : SizedBox(),
                                 ),
                                 style: _sendAddressStyle,
                                 onChanged: (text) {
@@ -417,11 +420,13 @@ class KaliumSendSheet {
                                       _sendAddressStyle =
                                           KaliumStyles.TextStyleAddressText90;
                                       _addressValidationText = "";
+                                      _pasteButtonVisible = false;
                                     });
                                   } else {
                                     setState(() {
                                       _sendAddressStyle =
                                           KaliumStyles.TextStyleAddressText60;
+                                      _pasteButtonVisible = true;
                                     });
                                   }
                                 },
@@ -482,6 +487,7 @@ class KaliumSendSheet {
                                     _addressValidationText = "";
                                     _sendAddressStyle =
                                         KaliumStyles.TextStyleAddressText90;
+                                    _pasteButtonVisible = false;
                                   });
                                 }
                               });
@@ -537,16 +543,19 @@ class KaliumSendSheet {
       isValid = false;
       setState(() {
         _addressValidationText = _addressRequiredText;
+        _pasteButtonVisible = true;
       });
     } else if (!NanoAccounts.isValid(
         NanoAccountType.BANANO, _sendAddressController.text)) {
       isValid = false;
       setState(() {
         _addressValidationText = _addressInvalidText;
+        _pasteButtonVisible = true;
       });
     } else {
       setState(() {
         _addressValidationText = "";
+        _pasteButtonVisible = false;
       });
     }
     return isValid;
