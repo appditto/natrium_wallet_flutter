@@ -72,12 +72,6 @@ class _KaliumHeightNineSheetLayout extends SingleChildLayoutDelegate {
           maxWidth: constraints.maxWidth,
           minHeight: 0.0,
           maxHeight: constraints.maxHeight * 0.95);
-    if (constraints.maxHeight / constraints.maxWidth > 2.3)
-      return BoxConstraints(
-          minWidth: constraints.maxWidth,
-          maxWidth: constraints.maxWidth,
-          minHeight: 0.0,
-          maxHeight: constraints.maxHeight * 0.85);
     else
       return BoxConstraints(
           minWidth: constraints.maxWidth,
@@ -210,12 +204,6 @@ class _KaliumHeightEightSheetLayout extends SingleChildLayoutDelegate {
           maxWidth: constraints.maxWidth,
           minHeight: 0.0,
           maxHeight: constraints.maxHeight * 0.9);
-    if (constraints.maxHeight / constraints.maxWidth > 2.3)
-      return BoxConstraints(
-          minWidth: constraints.maxWidth,
-          maxWidth: constraints.maxWidth,
-          minHeight: 0.0,
-          maxHeight: constraints.maxHeight * 0.65);
     if (constraints.maxHeight / constraints.maxWidth > 2)
       return BoxConstraints(
           minWidth: constraints.maxWidth,
