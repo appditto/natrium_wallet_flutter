@@ -56,8 +56,8 @@ class AddContactSheet {
                           return null;
                         },
                         child: Icon(KaliumIcons.scan,
-                            size: 24, color: KaliumColors.text),
-                        padding: EdgeInsets.all(13.0),
+                            size: 28, color: KaliumColors.text),
+                        padding: EdgeInsets.all(11.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
                         materialTapTargetSize: MaterialTapTargetSize.padded,

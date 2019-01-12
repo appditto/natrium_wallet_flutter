@@ -154,7 +154,6 @@ class KaliumChangeRepresentativeSheet {
                             Container(
                               margin:
                                   EdgeInsets.only(left: 50, right: 50, top: 20),
-                              padding: EdgeInsets.only(left: 20),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: KaliumColors.backgroundDarkest,
@@ -173,6 +172,12 @@ class KaliumChangeRepresentativeSheet {
                                 autocorrect: false,
                                 decoration: InputDecoration(
                                   hintText: "Enter New Rep",
+                                  // Empty Container
+                                  prefixIcon: Container(
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                                  // Paste Button
                                   suffixIcon: Container(
                                     width: 50.0,
                                     child: FlatButton(
