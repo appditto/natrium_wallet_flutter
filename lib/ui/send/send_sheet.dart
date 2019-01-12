@@ -183,11 +183,10 @@ class KaliumSendSheet {
                       ),
                     ),
 
-                    //This container is a temporary solution for the alignment problem
-                    Container(
-                      width: 50,
-                      height: 50,
-                      margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                    //Empty SizedBox
+                    SizedBox(
+                      width: 60,
+                      height: 60,
                     ),
                   ],
                 ),
@@ -224,6 +223,7 @@ class KaliumSendSheet {
                                 color: KaliumColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
+                              // Amount Text Field
                               child: TextField(
                                 focusNode: _sendAmountFocusNode,
                                 controller: _sendAmountController,
@@ -252,9 +252,10 @@ class KaliumSendSheet {
                                       fontFamily: 'NunitoSans'),
                                   // Currency Switch Button
                                   prefixIcon: Container(
-                                    width: 50,
+                                    width: 48,
+                                    height: 48,
                                     child: FlatButton(
-                                      padding: EdgeInsets.all(15.0),
+                                      padding: EdgeInsets.all(14.0),
                                       highlightColor: KaliumColors.primary15,
                                       splashColor: KaliumColors.primary30,
                                       onPressed: () {
@@ -270,11 +271,12 @@ class KaliumSendSheet {
                                   ),
                                   // MAX Button
                                   suffixIcon: Container(
-                                    width: 50,
+                                    width: 48,
+                                    height: 48,
                                     child: FlatButton(
                                       highlightColor: KaliumColors.primary15,
                                       splashColor: KaliumColors.primary30,
-                                      padding: EdgeInsets.all(13.0),
+                                      padding: EdgeInsets.all(12.0),
                                       onPressed: () {
                                         return null;
                                       },
@@ -324,6 +326,7 @@ class KaliumSendSheet {
                                 color: KaliumColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
+                              // Enter Address Text field
                               child: TextField(
                                 textAlign: TextAlign.center,
                                 focusNode: _sendAddressFocusNode,
@@ -345,11 +348,12 @@ class KaliumSendSheet {
                                       fontFamily: 'NunitoSans'),
                                   // @ BUTTON
                                   prefixIcon: Container(
-                                    width: 50,
+                                    width: 48.0,
+                                    height: 48.0,
                                     child: FlatButton(
                                       highlightColor: KaliumColors.primary15,
                                       splashColor: KaliumColors.primary30,
-                                      padding: EdgeInsets.all(15.0),
+                                      padding: EdgeInsets.all(14.0),
                                       onPressed: () {
                                         return null;
                                       },
@@ -363,11 +367,12 @@ class KaliumSendSheet {
                                   ),
                                   // PASTE BUTTTON
                                   suffixIcon: Container(
-                                    width: 50,
+                                    width: 48.0,
+                                    height: 48.0,
                                     child: FlatButton(
                                       highlightColor: KaliumColors.primary15,
                                       splashColor: KaliumColors.primary30,
-                                      padding: EdgeInsets.all(15.0),
+                                      padding: EdgeInsets.all(14.0),
                                       onPressed: () {
                                         Clipboard.getData("text/plain")
                                             .then((ClipboardData data) {

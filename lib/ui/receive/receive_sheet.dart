@@ -91,6 +91,7 @@ class KaliumReceiveSheet {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    //Close Button
                     Container(
                       width: 50,
                       height: 50,
@@ -114,11 +115,10 @@ class KaliumReceiveSheet {
                       child: UIUtil.threeLineAddressText(_wallet.address,
                           type: ThreeLineAddressTextType.PRIMARY60),
                     ),
-                    //This container is a temporary solution for the alignment problem
-                    Container(
-                      width: 50,
-                      height: 50,
-                      margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                    //Empty SizedBox
+                    SizedBox(
+                      width: 60,
+                      height: 60,
                     ),
                   ],
                 ),

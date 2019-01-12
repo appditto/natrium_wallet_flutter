@@ -26,11 +26,10 @@ class AddContactSheet {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    //Empty container
-                    Container(
-                      width: 50,
-                      height: 50,
-                      margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                    //Empty SizedBox
+                    SizedBox(
+                      width: 60,
+                      height: 60,
                     ),
 
                     //The header of the sheet
@@ -146,18 +145,18 @@ class AddContactSheet {
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w100,
                                   fontFamily: 'NunitoSans'),
-                              // Empty Container
-                              prefixIcon: Container(
-                                width: 50,
-                                height: 50,
+                              // Empty SizedBox
+                              prefixIcon: SizedBox(
+                                width: 48,
+                                height: 48,
                               ),
                               // PASTE BUTTTON
                               suffixIcon: Container(
-                                width: 50,
+                                width: 48,
                                 child: FlatButton(
                                   highlightColor: KaliumColors.primary15,
                                   splashColor: KaliumColors.primary30,
-                                  padding: EdgeInsets.all(15.0),
+                                  padding: EdgeInsets.all(14.0),
                                   onPressed: () {
                                     return null;
                                   },

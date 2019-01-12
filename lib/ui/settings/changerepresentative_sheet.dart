@@ -131,7 +131,7 @@ class KaliumChangeRepresentativeSheet {
                         Column(
                           children: <Widget>[
                             Container(
-                                margin: EdgeInsets.only(left: 50, right: 50),
+                                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.105, right: MediaQuery.of(context).size.width * 0.105),
                                 child: Text(
                                   "Currently Representative By",
                                   style: KaliumStyles.TextStyleParagraph,
@@ -139,7 +139,7 @@ class KaliumChangeRepresentativeSheet {
                             Container(
                               width: double.infinity,
                               margin:
-                                  EdgeInsets.only(left: 50, right: 50, top: 10),
+                                  EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.105, right: MediaQuery.of(context).size.width * 0.105, top: 10),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 25.0, vertical: 15.0),
                               decoration: BoxDecoration(
@@ -153,7 +153,7 @@ class KaliumChangeRepresentativeSheet {
                             ),
                             Container(
                               margin:
-                                  EdgeInsets.only(left: 50, right: 50, top: 20),
+                                  EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.105, right: MediaQuery.of(context).size.width * 0.105, top: 20),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: KaliumColors.backgroundDarkest,
@@ -174,12 +174,13 @@ class KaliumChangeRepresentativeSheet {
                                   hintText: "Enter New Rep",
                                   // Empty Container
                                   prefixIcon: Container(
-                                    width: 50,
-                                    height: 50,
+                                    width: 48.0,
+                                    height: 48.0,
                                   ),
                                   // Paste Button
                                   suffixIcon: Container(
-                                    width: 50.0,
+                                    width: 48.0,
+                                    height: 48.0,
                                     child: FlatButton(
                                       padding: EdgeInsets.all(15.0),
                                       onPressed: () {

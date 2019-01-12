@@ -70,7 +70,7 @@ dependencies:
   rxdart : ^0.20.0
 
   # SVG
-  flutter_svg: ^0.9.0+1
+  flutter_svg: ^0.10.0
 
   # QR Codes
   qr_flutter: ^1.1.5 # Generator

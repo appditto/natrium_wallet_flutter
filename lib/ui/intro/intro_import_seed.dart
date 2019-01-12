@@ -124,7 +124,6 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                               ),
                               Container(
                                 margin: EdgeInsets.only(left: 50, right: 50, top: 20),
-                                padding: EdgeInsets.only(left:20),
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   color: KaliumColors.backgroundDark,
@@ -142,10 +141,21 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   maxLines: null,
                                   autocorrect: false,
                                   decoration: InputDecoration(
+                                    //Emtpy SizedBox
+                                    prefixIcon: SizedBox(
+                                      width: 48,
+                                      height: 48,
+                                    ),
                                     suffixIcon: Container(
-                                      width: 20,
-                                      height: 20,
+                                      width: 48,
+                                      height: 48,
                                       child: FlatButton(
+                                        child: Icon(KaliumIcons.paste,
+                                            size: 20, color: KaliumColors.primary),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(100.0)),
+                                        padding: EdgeInsets.all(14.0),
                                         onPressed: () {
                                           Clipboard.getData("text/plain").then((ClipboardData data) {
                                             if (data == null || data.text == null) {
@@ -156,14 +166,8 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                             }
                                           });
                                         },
-                                        child: Icon(KaliumIcons.paste,
-                                            size: 20, color: KaliumColors.primary),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(100.0)),
-                                        materialTapTargetSize:
-                                            MaterialTapTargetSize.padded,
                                       ),
+                                      
                                     ),
                                     border: InputBorder.none,
                                     hintStyle: TextStyle(
