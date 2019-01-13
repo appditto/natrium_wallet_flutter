@@ -322,6 +322,7 @@ class AddContactSheet {
                               Contact newContact = Contact(name: _nameController.text, address: _addressController.text);
                               dbHelper.saveContact(newContact).then((id) {
                                 RxBus.post(newContact, tag: RX_CONTACT_ADDED_TAG);
+                                RxBus.post(newContact, tag: RX_CONTACT_MODIFIED_TAG);
                                 Navigator.of(context).pop();
                               });
                             });

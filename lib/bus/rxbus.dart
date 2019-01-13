@@ -13,8 +13,11 @@ const String RX_CALLBACK_TAG = 'fkalium_callback_tag';
 const String RX_SEND_COMPLETE_TAG = 'fkalium_send_complete_tag';
 const String RX_PENDING_RESP_TAG = 'fkalium_pending_response';
 const String RX_REP_CHANGED_TAG = 'fkalium_rep_changed_tag';
+// Contact added/removed on settings sheet
 const String RX_CONTACT_ADDED_TAG = 'fkalium_contact_added_tag';
 const String RX_CONTACT_REMOVED_TAG = 'fkalium_contact_removed_tag';
+// Contact added/removed for home page
+const String RX_CONTACT_MODIFIED_TAG = 'fkalium_contact_modified_tag';
 
 /**
  * RXBus using RXDart

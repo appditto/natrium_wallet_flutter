@@ -54,6 +54,7 @@ class ContactDetailsSheet {
                             dbHelper.deleteContact(contact).then((deleted) {
                               if (deleted) {
                                 RxBus.post(contact, tag: RX_CONTACT_REMOVED_TAG);
+                                RxBus.post(contact, tag: RX_CONTACT_MODIFIED_TAG);
                                 Navigator.of(context).pop();
                               } else {
                                 // TODO - error for failing to delete contact

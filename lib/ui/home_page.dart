@@ -11,6 +11,8 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/model/list_model.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
+import 'package:kalium_wallet_flutter/model/db/contact.dart';
+import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
 import 'package:kalium_wallet_flutter/network/account_service.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
@@ -49,6 +51,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   // monKey widget
   Widget _monKey;
+
+  // List of contacts (Store it so we only have to query the DB once for transaction cards)
+  List<Contact> _contacts = List();
 
   // Price conversion state (BTC, NANO, NONE)
   PriceConversion _priceConversion;
@@ -95,6 +100,15 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         }
       });
     });
+    _updateContacts();
+  }
+
+  void _updateContacts() {
+    DBHelper().getContacts().then((contacts) {
+      setState(() {
+        _contacts = contacts;
+      });
+    });
   }
 
   void _registerBus() {
@@ -127,6 +141,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         ));
       }
     });
+    RxBus.register<Contact>(tag: RX_CONTACT_MODIFIED_TAG).listen((contact) {
+      _updateContacts();
+    });
   }
 
   @override
@@ -139,6 +156,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   void _destroyBus() {
     RxBus.destroy(tag: RX_HISTORY_HOME_TAG);
     RxBus.destroy(tag: RX_PROCESS_TAG);
+    RxBus.destroy(tag: RX_CONTACT_MODIFIED_TAG);
   }
 
   @override
@@ -163,7 +181,13 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Used to build list items that haven't been removed.
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
-    return _buildTransactionCard(_historyList[index], animation, context);
+    String displayName = _historyList[index].getShortString();
+    _contacts.forEach((contact) {
+      if (contact.address == _historyList[index].account) {
+        displayName = contact.name;
+      }
+    });
+    return _buildTransactionCard(_historyList[index], animation, displayName, context);
   }
 
   // Return widget for list
@@ -388,8 +412,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   }
 
 // Transaction Card/List Item
-  Widget _buildTransactionCard(AccountHistoryResponseItem item,
-      Animation<double> animation, BuildContext context) {
+Widget _buildTransactionCard(AccountHistoryResponseItem item,
+      Animation<double> animation, String displayName, BuildContext context) {
     TransactionDetailsSheet transactionDetails =
         TransactionDetailsSheet(item.hash, item.account);
     String text;
@@ -464,7 +488,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     ],
                   ),
                   Text(
-                    item.getShortString(),
+                    displayName,
                     textAlign: TextAlign.right,
                     style: KaliumStyles.TextStyleTransactionAddress,
                   ),
