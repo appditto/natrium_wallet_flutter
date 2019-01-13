@@ -6,6 +6,8 @@ part 'contact.g.dart';
 
 @JsonSerializable()
 class Contact {
+  @JsonKey(ignore:true)
+  int id;
   @JsonKey(name:'name')
   String name;
   @JsonKey(name:'address')
@@ -13,7 +15,7 @@ class Contact {
   @JsonKey(ignore:true)
   String monkeyPath;
 
-  Contact({@required this.name, @required this.address, this.monkeyPath});
+  Contact({@required this.name, @required this.address, this.monkeyPath, int id});
 
   factory Contact.fromJson(Map<String, dynamic> json) => _$ContactFromJson(json);
   Map<String, dynamic> toJson() => _$ContactToJson(this);

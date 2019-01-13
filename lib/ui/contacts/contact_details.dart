@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
@@ -5,12 +6,25 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/bus/rxbus.dart';
+import 'package:kalium_wallet_flutter/model/db/contact.dart';
+import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 
 // Contact Details Sheet
 class ContactDetailsSheet {
+  Contact contact;
+
+  ContactDetailsSheet(this.contact);
+
+  // State variables
+  bool _addressCopied = false;
+  // Timer reference so we can cancel repeated events
+  Timer _addressCopiedTimer;
+
   mainBottomSheet(BuildContext context) {
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
@@ -31,7 +45,23 @@ class ContactDetailsSheet {
                       margin: EdgeInsets.only(top: 10.0, left: 10.0),
                       child: FlatButton(
                         onPressed: () {
-                          return null;
+                          KaliumDialogs.showConfirmDialog(context,
+                                                          "Remove Contact",
+                                                          "Are you sure you want to delete ${contact.name}?",
+                                                          "YES",
+                          () {
+                            DBHelper dbHelper = DBHelper();
+                            dbHelper.deleteContact(contact).then((deleted) {
+                              if (deleted) {
+                                RxBus.post(contact, tag: RX_CONTACT_REMOVED_TAG);
+                                RxBus.post(contact, tag: RX_CONTACT_MODIFIED_TAG);
+                                Navigator.of(context).pop();
+                              } else {
+                                // TODO - error for failing to delete contact
+                              }
+                            });
+                          },
+                          cancelText: "NO");
                         },
                         child: Icon(KaliumIcons.trashcan,
                             size: 24, color: KaliumColors.text),
@@ -60,7 +90,10 @@ class ContactDetailsSheet {
                       margin: EdgeInsets.only(top: 10.0, right: 10.0),
                       child: FlatButton(
                         onPressed: () {
-                          return null;
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) {
+                            return UIUtil.showAccountWebview(contact.address);
+                          }));
                         },
                         child: Icon(KaliumIcons.search,
                             size: 24, color: KaliumColors.text),
@@ -99,7 +132,7 @@ class ContactDetailsSheet {
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Text(
-                          "@yekta",
+                          contact.name,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -110,26 +143,45 @@ class ContactDetailsSheet {
                         ),
                       ),
                       // Contact Address
-                      Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width * 0.105,
-                            right: MediaQuery.of(context).size.width * 0.105,
-                            top: 15),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 25.0, vertical: 15.0),
-                        decoration: BoxDecoration(
-                          color: KaliumColors.backgroundDarkest,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: UIUtil.threeLineAddressText(
-                          "ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4",
+                      GestureDetector(
+                        onTap: () {
+                          Clipboard.setData(
+                              new ClipboardData(text: contact.address));
+                          setState(() {
+                            _addressCopied = true;
+                          });
+                          if (_addressCopiedTimer != null) {
+                            _addressCopiedTimer.cancel();
+                          }
+                          _addressCopiedTimer = new Timer(
+                              const Duration(milliseconds: 800), () {
+                            setState(() {
+                              _addressCopied = false;
+                            });
+                          });
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.105,
+                              right: MediaQuery.of(context).size.width * 0.105,
+                              top: 15),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 25.0, vertical: 15.0),
+                          decoration: BoxDecoration(
+                            color: KaliumColors.backgroundDarkest,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: UIUtil.threeLineAddressText(
+                            contact.address,
+                            type: _addressCopied ? ThreeLineAddressTextType.SUCCESS_FULL : ThreeLineAddressTextType.PRIMARY
+                          ),
                         ),
                       ),
                       // Address Copied text container
                       Container(
                         margin: EdgeInsets.only(top: 5, bottom: 5),
-                        child: Text("Address Copied",
+                        child: Text(_addressCopied ? "Address Copied" : "",
                             style: TextStyle(
                               fontSize: 14.0,
                               color: KaliumColors.success,
