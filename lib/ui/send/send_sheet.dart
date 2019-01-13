@@ -164,16 +164,7 @@ class KaliumSendSheet {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: " BAN",
-                                    style: TextStyle(
-                                      color: KaliumColors.primary60,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w100,
-                                      fontFamily: 'NunitoSans',
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: ")",
+                                    text: " BAN)",
                                     style: TextStyle(
                                       color: KaliumColors.primary60,
                                       fontSize: 14.0,
