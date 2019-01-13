@@ -96,7 +96,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
         if (!await dbHelper.contactExistsWithName(contact.name) &&  !await dbHelper.contactExistsWithAddress(contact.address)) {
           // Contact doesnt exist, make sure name and address are valid
           if (Address(contact.address).isValid()) {
-            if (contact.name.startsWith("@") && contact.name.length <= 25) {
+            if (contact.name.startsWith("@") && contact.name.length <= 20) {
               contactsToAdd.add(contact);
             }
           }
