@@ -66,11 +66,18 @@ class _SettingsSheetState extends State<SettingsSheet> {
         _contacts.sort((a, b) => a.name.compareTo(b.name));
       });
     });
+    // Contact removed bus event
+    RxBus.register<Contact>(tag: RX_CONTACT_REMOVED_TAG).listen((contact) {
+      setState(() {
+        _contacts.remove(contact);
+      });
+    });
   }
 
   @override
   void dispose() {
     RxBus.destroy(tag: RX_CONTACT_ADDED_TAG);
+    RxBus.destroy(tag: RX_CONTACT_REMOVED_TAG);
     super.dispose();
   }
 
@@ -530,7 +537,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
       BuildContext context, Contact contact) {
     return FlatButton(
       onPressed: () {
-        ContactDetailsSheet().mainBottomSheet(context);
+        ContactDetailsSheet(contact).mainBottomSheet(context);
       },
       padding: EdgeInsets.all(0.0),
       child: Column(

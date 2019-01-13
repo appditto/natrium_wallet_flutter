@@ -5,7 +5,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 
 class KaliumDialogs {
   static void showConfirmDialog(
-      var context, var title, var content, var buttonText, Function onPressed) {
+      var context, var title, var content, var buttonText, Function onPressed, {String cancelText = "CANCEL"}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -18,7 +18,7 @@ class KaliumDialogs {
           actions: <Widget>[
             FlatButton(
               child: Text(
-                "CANCEL",
+                cancelText,
                 style: KaliumStyles.TextStyleDialogButtonText,
               ),
               onPressed: () {
