@@ -177,8 +177,13 @@ class AddContactSheet {
                                 ],
                                 onSubmitted: (text) {
                                   if (address == null) {
-                                    FocusScope.of(context)
-                                       .requestFocus(_addressFocusNode);
+                                    if (!Address(_addressController.text).isValid()) {
+                                      FocusScope.of(context)
+                                         .requestFocus(_addressFocusNode);
+                                    } else {
+                                      _nameFocusNode.unfocus();
+                                      _addressFocusNode.unfocus();
+                                    }
                                   }
                                 },
                               ),
