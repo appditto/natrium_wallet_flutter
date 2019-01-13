@@ -20,7 +20,7 @@ class Address {
   }
 
   bool isValid() {
-    return NanoAccounts.isValid(NanoAccountType.BANANO, _address);
+    return _address == null ? false : NanoAccounts.isValid(NanoAccountType.BANANO, _address);
   }
 
   void _parseAddressString(String value) {

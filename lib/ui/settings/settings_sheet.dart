@@ -4,9 +4,13 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/bus/rxbus.dart';
+import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/available_currency.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
+import 'package:kalium_wallet_flutter/model/db/contact.dart';
+import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
 import 'package:kalium_wallet_flutter/ui/settings/backupseed_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/contacts/add_contact.dart';
 import 'package:kalium_wallet_flutter/ui/contacts/contact_details.dart';
@@ -29,6 +33,8 @@ class _SettingsSheetState extends State<SettingsSheet> {
 
   bool _contactsOpen;
 
+  List<Contact> _contacts;
+
   void pinEnteredTest(String pin) {
     print("Pin Entered $pin");
   }
@@ -48,6 +54,30 @@ class _SettingsSheetState extends State<SettingsSheet> {
     SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
       setState(() {
         _curAuthMethod = authMethod;
+      });
+    });
+    _contacts = List();
+    _updateContacts();
+    // Contact added bus event
+    RxBus.register<Contact>(tag: RX_CONTACT_ADDED_TAG).listen((contact) {
+      setState(() {
+        _contacts.add(contact);
+        //Sort by name
+        _contacts.sort((a, b) => a.name.compareTo(b.name));
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    RxBus.destroy(tag: RX_CONTACT_ADDED_TAG);
+    super.dispose();
+  }
+
+  void _updateContacts() {
+    DBHelper().getContacts().then((contacts) {
+      setState(() {
+        _contacts = contacts;
       });
     });
   }
@@ -434,35 +464,12 @@ class _SettingsSheetState extends State<SettingsSheet> {
             child: Stack(
               children: <Widget>[
                 // Contacts list
-                ListView(
+                ListView.builder(
                   padding: EdgeInsets.only(top: 15.0),
-                  children: <Widget>[
-                    Divider(height: 2),
-                    buildSingleContact(
-                        context, "@anemone", "ban_1soaked…and21a"),
-                    Divider(height: 2),
-                    buildSingleContact(
-                        context, "@bbedward", "ban_1bbedwa…rigged"),
-                    Divider(height: 2),
-                    buildSingleContact(context, "@yekta", "ban_1yekta1…stfup1"),
-                    Divider(height: 2),
-                    buildSingleContact(
-                        context, "@anemone", "ban_1soaked…and21a"),
-                    Divider(height: 2),
-                    buildSingleContact(
-                        context, "@bbedward", "ban_1bbedwa…rigged"),
-                    Divider(height: 2),
-                    buildSingleContact(context, "@yekta", "ban_1yekta1…stfup1"),
-                    Divider(height: 2),
-                    buildSingleContact(
-                        context, "@anemone", "ban_1soaked…and21a"),
-                    Divider(height: 2),
-                    buildSingleContact(
-                        context, "@bbedward", "ban_1bbedwa…rigged"),
-                    Divider(height: 2),
-                    buildSingleContact(context, "@yekta", "ban_1yekta1…stfup1"),
-                    Divider(height: 2),
-                  ],
+                  itemCount: _contacts.length,
+                  itemBuilder: (context, index) {
+                    return buildSingleContact(context, _contacts[index]);
+                  },
                 ),
                 //List Top Gradient End
                 Align(
@@ -520,46 +527,51 @@ class _SettingsSheetState extends State<SettingsSheet> {
   }
 
   Widget buildSingleContact(
-      BuildContext context, String contactName, String contactAddress) {
+      BuildContext context, Contact contact) {
     return FlatButton(
       onPressed: () {
         ContactDetailsSheet().mainBottomSheet(context);
       },
       padding: EdgeInsets.all(0.0),
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10.0),
-        margin: new EdgeInsets.only(left: 30.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            //Container for monKey
-            Container(
-              margin: new EdgeInsets.only(right: 16.0),
-              child: new Container(
-                color: KaliumColors.primary,
-                height: 40,
-                width: 40,
+      child: Column(
+        children: <Widget>[
+          Divider(height: 2),
+          Container(
+          padding: EdgeInsets.symmetric(vertical: 10.0),
+          margin: new EdgeInsets.only(left: 30.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              //Container for monKey
+              Container(
+                margin: new EdgeInsets.only(right: 16.0),
+                child: new Container(
+                  color: KaliumColors.primary,
+                  height: 40,
+                  width: 40,
+                ),
               ),
-            ),
-            //Contact info
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                //Contact name
-                Text(
-                  contactName,
-                  style: KaliumStyles.TextStyleSettingItemHeader,
-                ),
-                //Contact address
-                Text(
-                  contactAddress,
-                  style: KaliumStyles.TextStyleTransactionAddress,
-                ),
-              ],
-            ),
-          ],
+              //Contact info
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  //Contact name
+                  Text(
+                    contact.name,
+                    style: KaliumStyles.TextStyleSettingItemHeader,
+                  ),
+                  //Contact address
+                  Text(
+                    Address(contact.address).getShortString(),
+                    style: KaliumStyles.TextStyleTransactionAddress,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
+        ]
       ),
     );
   }

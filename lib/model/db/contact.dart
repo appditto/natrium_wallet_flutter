@@ -1,6 +1,23 @@
-class Contact {
-  String name;
-  String address;
+import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
+import 'package:quiver/core.dart';
 
-  Contact(this.name, this.address);
+part 'contact.g.dart';
+
+@JsonSerializable()
+class Contact {
+  @JsonKey(name:'name')
+  String name;
+  @JsonKey(name:'address')
+  String address;
+  @JsonKey(ignore:true)
+  String monkeyPath;
+
+  Contact({@required this.name, @required this.address, this.monkeyPath});
+
+  factory Contact.fromJson(Map<String, dynamic> json) => _$ContactFromJson(json);
+  Map<String, dynamic> toJson() => _$ContactToJson(this);
+
+  bool operator ==(o) => o is Contact && o.name == name && o.address == address;
+  int get hashCode => hash2(name.hashCode, address.hashCode);
 }

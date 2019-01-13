@@ -13,6 +13,8 @@ const String RX_CALLBACK_TAG = 'fkalium_callback_tag';
 const String RX_SEND_COMPLETE_TAG = 'fkalium_send_complete_tag';
 const String RX_PENDING_RESP_TAG = 'fkalium_pending_response';
 const String RX_REP_CHANGED_TAG = 'fkalium_rep_changed_tag';
+const String RX_CONTACT_ADDED_TAG = 'fkalium_contact_added_tag';
+const String RX_CONTACT_REMOVED_TAG = 'fkalium_contact_removed_tag';
 
 /**
  * RXBus using RXDart
@@ -84,11 +86,15 @@ class RxBus {
 
   /// Event Closed
   static void destroy({@required tag}) {
+    List<Bus> toRemove = List();
     _list.forEach((rxBus) {
       if (rxBus.tag == tag) {
         rxBus.subject.close();
-        _list.remove(rxBus);
+        toRemove.add(rxBus);
       }
+    });
+    toRemove.forEach((rxBus) {
+      _list.remove(rxBus);
     });
   }
 }
