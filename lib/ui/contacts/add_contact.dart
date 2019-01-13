@@ -170,6 +170,10 @@ class AddContactSheet {
                                   LengthLimitingTextInputFormatter(13),
                                   ContactInputFormatter()
                                 ],
+                                onSubmitted: (text) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_addressFocusNode);
+                                },
                               ),
                             ),
                             // Enter Name Error Container
