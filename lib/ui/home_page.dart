@@ -821,56 +821,95 @@ class TransactionDetailsSheet {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Row(
+                      // A stack for Copy Address and Add Contact buttons
+                      Stack(
                         children: <Widget>[
-                          // TODO move copy address stuff to a re-usable builder function
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.fromLTRB(
-                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS[0],
-                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
-                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS[2],
-                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS[3]),
-                              child: FlatButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100.0)),
-                                color: _copyButtonBackground,
-                                child: Text(_copyButtonText,
-                                    textAlign: TextAlign.center,
-                                    style: _copyButtonStyle),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 14.0, horizontal: 20),
-                                onPressed: () {
-                                  Clipboard.setData(
-                                      new ClipboardData(text: _address));
-                                  setState(() {
-                                    // Set copied style
-                                    _copyButtonText = _addressCopied;
-                                    _copyButtonStyle = KaliumStyles
-                                        .TextStyleButtonPrimaryGreen;
-                                    _copyButtonBackground = KaliumColors.green;
-                                  });
-                                  if (_addressCopiedTimer != null) {
-                                    _addressCopiedTimer.cancel();
-                                  }
-                                  _addressCopiedTimer = new Timer(
-                                      const Duration(milliseconds: 800), () {
-                                    setState(() {
-                                      _copyButtonText = _copyAddress;
-                                      _copyButtonStyle =
-                                          _copyButtonStyleInitial;
-                                      _copyButtonBackground =
-                                          _copyButtonColorInitial;
-                                    });
-                                  });
-                                },
-                                highlightColor: KaliumColors.success30,
-                                splashColor: KaliumColors.successDark,
+                          // A row for Copy Address Button
+                          Row(
+                            children: <Widget>[
+                              // TODO move copy address stuff to a re-usable builder function
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.fromLTRB(
+                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[0],
+                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
+                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[2],
+                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[3]),
+                                  // Copy Address Button
+                                  child: FlatButton(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(100.0)),
+                                    color: _copyButtonBackground,
+                                    child: Text(_copyButtonText,
+                                        textAlign: TextAlign.center,
+                                        style: _copyButtonStyle),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 14.0, horizontal: 20),
+                                    onPressed: () {
+                                      Clipboard.setData(
+                                          new ClipboardData(text: _address));
+                                      setState(() {
+                                        // Set copied style
+                                        _copyButtonText = _addressCopied;
+                                        _copyButtonStyle = KaliumStyles
+                                            .TextStyleButtonPrimaryGreen;
+                                        _copyButtonBackground =
+                                            KaliumColors.green;
+                                      });
+                                      if (_addressCopiedTimer != null) {
+                                        _addressCopiedTimer.cancel();
+                                      }
+                                      _addressCopiedTimer = new Timer(
+                                          const Duration(milliseconds: 800),
+                                          () {
+                                        setState(() {
+                                          _copyButtonText = _copyAddress;
+                                          _copyButtonStyle =
+                                              _copyButtonStyleInitial;
+                                          _copyButtonBackground =
+                                              _copyButtonColorInitial;
+                                        });
+                                      });
+                                    },
+                                    highlightColor: KaliumColors.success30,
+                                    splashColor: KaliumColors.successDark,
+                                  ),
+                                ),
                               ),
-                            ),
-                          )
+                            ],
+                          ),
+                          // A row for Add Contact Button
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(top: Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1], right: Dimens.BUTTON_TOP_EXCEPTION_DIMENS[2]),
+                                child: Container(
+                                  height: 55,
+                                  width: 55,
+                                  // Add Contact Button
+                                  child: FlatButton(
+                                    onPressed: (){
+                                      return null;
+                                    },
+                                    splashColor: KaliumColors.text30,
+                                    highlightColor: KaliumColors.text15,
+                                    shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(100.0)),
+                                    padding: EdgeInsets.symmetric(
+                                          vertical: 10.0, horizontal: 10),
+                                    child: Icon(KaliumIcons.addcontact, size:35, color: KaliumColors.backgroundDark),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
+                      // A row for View Details button
                       Row(
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(

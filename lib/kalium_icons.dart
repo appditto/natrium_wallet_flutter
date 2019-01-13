@@ -53,6 +53,7 @@ class KaliumIcons {
   static const IconData bananologo = const IconData(0xe81e, fontFamily: _kFontFam);
   static const IconData dotfilled = const IconData(0xe81f, fontFamily: _kFontFam);
   static const IconData dotemtpy = const IconData(0xe820, fontFamily: _kFontFam);
+  static const IconData addcontact = const IconData(0xe821, fontFamily: _kFontFam);
   static const IconData swapcurrency = const IconData(0xe822, fontFamily: _kFontFam);
   static const IconData max = const IconData(0xe823, fontFamily: _kFontFam);
 }
