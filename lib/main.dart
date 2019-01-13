@@ -43,18 +43,63 @@ class KaliumApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       initialRoute: '/',
-      routes: {
-        '/': (context) => Splash(),
-        '/intro_welcome': (context) => IntroWelcomePage(),
-        '/intro_backup': (context) => IntroBackupSeedPage(),
-        '/intro_backup_confirm': (context) => IntroBackupConfirm(),
-        '/intro_import': (context) => IntroImportSeedPage(),
-        '/home': (context) => KaliumHomePage()
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case '/':
+            return NoTransitionRoute(
+              builder: (_) => Splash(),
+              settings: settings,
+            ); 
+          case '/home':
+            return NoTransitionRoute(
+              builder: (_) => KaliumHomePage(),
+              settings: settings,
+            );
+          case '/intro_welcome':
+            return NoTransitionRoute(
+              builder: (_) => IntroWelcomePage(),
+              settings: settings,
+            );
+          case '/intro_backup':
+            return MaterialPageRoute(
+              builder: (_) => IntroBackupSeedPage(),
+              settings: settings,
+            );
+          case '/intro_backup_confirm':
+            return MaterialPageRoute(
+              builder: (_) => IntroBackupConfirm(),
+              settings: settings,
+            );
+          case '/intro_import':
+            return MaterialPageRoute(
+              builder: (_) => IntroImportSeedPage(),
+              settings: settings,
+            );
+          default:
+            return null;
+        }
       },
     );
   }
 }
 
+/// NoTransitionRoute
+/// Custom route which has no transitions
+class NoTransitionRoute<T> extends MaterialPageRoute<T> {
+  NoTransitionRoute({ WidgetBuilder builder, RouteSettings settings })
+      : super(builder: builder, settings: settings);
+
+  @override
+  Widget buildTransitions(BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child) {
+    return child;
+  }
+}
+
+/// Splash
+/// Default page route that determines if user is logged in and routes them appropriately.
 class Splash extends StatefulWidget {
   @override
   SplashState createState() => new SplashState();
