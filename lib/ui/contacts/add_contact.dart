@@ -132,9 +132,8 @@ class AddContactSheet {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 35, bottom: 35),
+                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.14),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             // Enter Name Container
                             Container(
