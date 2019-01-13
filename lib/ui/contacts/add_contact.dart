@@ -30,7 +30,7 @@ class AddContactSheet {
   bool _addressValid = false;
   bool _showPasteButton = true;
   bool _showNameHint = true;
-  bool _showAddressHint = false;
+  bool _showAddressHint = true;
   String _nameValidationText = "";
   String _addressValidationText = "";
 
