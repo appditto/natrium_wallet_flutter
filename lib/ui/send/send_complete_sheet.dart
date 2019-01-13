@@ -26,8 +26,10 @@ class KaliumSendCompleteSheet {
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
+            // The main column that holds everything
             return Column(
               children: <Widget>[
+                // Success tick (icon)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,12 +40,12 @@ class KaliumSendCompleteSheet {
                     ),
                   ],
                 ),
-
+                //A main container that holds the amount, address and "SENT TO" texts
                 Expanded(
-                  //A main container that holds the text fields
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      // Container for the Amount Text
                       Container(
                         margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
                         padding:
@@ -53,6 +55,7 @@ class KaliumSendCompleteSheet {
                           color: KaliumColors.backgroundDarkest,
                           borderRadius: BorderRadius.circular(50),
                         ),
+                        // Amount text
                         child: RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(
@@ -80,10 +83,12 @@ class KaliumSendCompleteSheet {
                           ),
                         ),
                       ),
+                      // Container for the "SENT TO" text
                       Container(
                         margin: EdgeInsets.only(top: 30.0, bottom: 10),
                         child: Column(
                           children: <Widget>[
+                            // "SENT TO" text
                             Text(
                               "SENT TO",
                               style: TextStyle(
@@ -96,6 +101,7 @@ class KaliumSendCompleteSheet {
                           ],
                         ),
                       ),
+                      // The container for the address
                       Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 25.0, vertical: 15.0),
@@ -110,7 +116,7 @@ class KaliumSendCompleteSheet {
                   ),
                 ),
 
-                //A column with "Scan QR Code" and "Send" buttons
+                // CLOSE Button
                 Container(
                   child: Column(
                     children: <Widget>[

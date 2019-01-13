@@ -37,8 +37,7 @@ class KaliumReceiveSheet {
     // Share card initialization
     shareCardKey = GlobalKey();
     kaliumShareCard = Container(
-      child: KaliumShareCard(
-          shareCardKey, monkeySVGBorder, shareCardLogoSvg),
+      child: KaliumShareCard(shareCardKey, monkeySVGBorder, shareCardLogoSvg),
       alignment: Alignment(0.0, 0.0),
     );
   }
@@ -88,6 +87,7 @@ class KaliumReceiveSheet {
               builder: (BuildContext context, StateSetter setState) {
             return Column(
               children: <Widget>[
+                // A row for the address text and close button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,7 +109,6 @@ class KaliumReceiveSheet {
                         materialTapTargetSize: MaterialTapTargetSize.padded,
                       ),
                     ),
-
                     //Container for the address text
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
@@ -130,6 +129,7 @@ class KaliumReceiveSheet {
                     child: Stack(
                       children: <Widget>[
                         _showShareCard ? kaliumShareCard : SizedBox(),
+                        // This is for hiding the share card
                         Center(
                           child: Container(
                             width: 260,
@@ -137,12 +137,14 @@ class KaliumReceiveSheet {
                             color: KaliumColors.backgroundDark,
                           ),
                         ),
+                        // Background/border part the monkeyQR
                         Center(
                           child: Container(
                             width: devicewidth / 1.5,
                             child: monkeySVGBorder,
                           ),
                         ),
+                        // Actual QR part of the monkeyQR
                         Center(
                           child: Container(
                             margin: EdgeInsets.only(top: devicewidth / 6),
@@ -160,7 +162,7 @@ class KaliumReceiveSheet {
                   ),
                 ),
 
-                //A column with "Scan QR Code" and "Send" buttons
+                //A column with Copy Address and Share Address buttons
                 Column(
                   children: <Widget>[
                     Row(
@@ -172,10 +174,10 @@ class KaliumReceiveSheet {
                                 Dimens.BUTTON_TOP_DIMENS[1],
                                 Dimens.BUTTON_TOP_DIMENS[2],
                                 Dimens.BUTTON_TOP_DIMENS[3]),
+                            // Copy Address Button
                             child: FlatButton(
                               shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(100.0)),
+                                  borderRadius: BorderRadius.circular(100.0)),
                               color: _copyButtonBackground,
                               child: Text(_copyButtonText,
                                   textAlign: TextAlign.center,
@@ -183,21 +185,19 @@ class KaliumReceiveSheet {
                               padding: EdgeInsets.symmetric(
                                   vertical: 14.0, horizontal: 20),
                               onPressed: () {
-                                Clipboard.setData(new ClipboardData(
-                                    text: _wallet.address));
+                                Clipboard.setData(
+                                    new ClipboardData(text: _wallet.address));
                                 setState(() {
                                   // Set copied style
                                   _copyButtonText = _addressCopied;
-                                  _copyButtonStyle = KaliumStyles
-                                      .TextStyleButtonPrimaryGreen;
-                                  _copyButtonBackground =
-                                      KaliumColors.green;
+                                  _copyButtonStyle =
+                                      KaliumStyles.TextStyleButtonPrimaryGreen;
+                                  _copyButtonBackground = KaliumColors.green;
                                   if (_addressCopiedTimer != null) {
                                     _addressCopiedTimer.cancel();
                                   }
                                   _addressCopiedTimer = new Timer(
-                                      const Duration(milliseconds: 800),
-                                      () {
+                                      const Duration(milliseconds: 800), () {
                                     setState(() {
                                       _copyButtonText = _copyAddress;
                                       _copyButtonStyle =
@@ -218,6 +218,7 @@ class KaliumReceiveSheet {
                     Row(
                       children: <Widget>[
                         KaliumButton.buildKaliumButton(
+                            // Share Address Button
                             KaliumButtonType.PRIMARY_OUTLINE,
                             _showShareCard ? "Loading" : 'Share Address',
                             Dimens.BUTTON_BOTTOM_DIMENS,
@@ -225,8 +226,7 @@ class KaliumReceiveSheet {
                           setState(() {
                             _showShareCard = true;
                           });
-                          Future.delayed(new Duration(milliseconds: 200),
-                              () {
+                          Future.delayed(new Duration(milliseconds: 200), () {
                             if (_showShareCard) {
                               _capturePng().then((byteData) {
                                 if (byteData != null) {

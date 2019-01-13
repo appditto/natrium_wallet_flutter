@@ -12,6 +12,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 
+// Add Contacts Sheet
 class AddContactSheet {
   mainBottomSheet(BuildContext context) {
     KaliumSheets.showKaliumHeightNineSheet(
@@ -22,17 +23,18 @@ class AddContactSheet {
               builder: (BuildContext context, StateSetter setState) {
             return Column(
               children: <Widget>[
+                // Top row of the sheet which contains the header and the scan qr button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    //Empty SizedBox
+                    // Empty SizedBox
                     SizedBox(
                       width: 60,
                       height: 60,
                     ),
 
-                    //The header of the sheet
+                    // The header of the sheet
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
                       child: Column(
@@ -45,7 +47,7 @@ class AddContactSheet {
                       ),
                     ),
 
-                    //Scan QR Button
+                    // Scan QR Button
                     Container(
                       width: 50,
                       height: 50,
@@ -65,7 +67,7 @@ class AddContactSheet {
                   ],
                 ),
 
-                //A main container that holds "Enter Amount" and "Enter Address" text fields
+                // The main container that holds "Enter Name" and "Enter Address" text fields
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(top: 35, bottom: 35),
@@ -83,6 +85,7 @@ class AddContactSheet {
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
+                          // Enter Name text field
                           child: TextField(
                             cursorColor: KaliumColors.primary,
                             textInputAction: TextInputAction.next,
@@ -117,7 +120,7 @@ class AddContactSheet {
                                 fontWeight: FontWeight.w600,
                               )),
                         ),
-                        // Enter Address Container
+                        // Enter Address container
                         Container(
                           margin: EdgeInsets.only(
                               left: MediaQuery.of(context).size.width * 0.105,
@@ -127,6 +130,7 @@ class AddContactSheet {
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
+                          // Enter Addres text field
                           child: TextField(
                             style: KaliumStyles.TextStyleAddressText90,
                             textAlign: TextAlign.center,
@@ -150,7 +154,7 @@ class AddContactSheet {
                                 width: 48,
                                 height: 48,
                               ),
-                              // PASTE BUTTTON
+                              // Paste Button
                               suffixIcon: Container(
                                 width: 48,
                                 child: FlatButton(
@@ -192,6 +196,7 @@ class AddContactSheet {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
+                          // Add Contact Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY,
                               'Add Contact',
@@ -202,6 +207,7 @@ class AddContactSheet {
                       ),
                       Row(
                         children: <Widget>[
+                          // Close Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
                               'Close',

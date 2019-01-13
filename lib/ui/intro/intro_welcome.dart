@@ -26,7 +26,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
       body: LayoutBuilder(
         builder: (context, constraints) => Column(
               children: <Widget>[
-                //A widget that holds welcome animation + text and expands to the rest of the available area
+                //A widget that holds welcome animation + paragraph
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(
@@ -36,14 +36,14 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                       children: <Widget>[
                         //Container for the animation
                         Container(
-                          //Widgth/Height ratio is needed because BoxFit is not working as expected
+                          //Width/Height ratio for the animation is needed because BoxFit is not working as expected
                           width: double.infinity,
                           height: MediaQuery.of(context).size.width * 5/8,
                           child: FlareActor("assets/welcome_animation.flr",
                               animation: "main",
                               fit: BoxFit.contain),
                         ),
-                        //Container for the text
+                        //Container for the paragraph
                         Container(
                           margin: EdgeInsets.symmetric(
                               horizontal: 50, vertical: 20),
@@ -62,6 +62,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
+                        // New Wallet Button
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY,
                             'New Wallet',
@@ -72,6 +73,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                     ),
                     Row(
                       children: <Widget>[
+                        // Import Wallet Button
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY_OUTLINE,
                             'Import Wallet',

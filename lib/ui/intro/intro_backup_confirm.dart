@@ -28,7 +28,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
       body: LayoutBuilder(
         builder: (context, constraints) => Column(
               children: <Widget>[
-                //A widget that holds welcome animation + text and expands to the rest of the available area
+                //A widget that holds the header, the paragraph and Back Button
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.symmetric(
@@ -38,6 +38,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                       children: <Widget>[
                         Row(
                           children: <Widget>[
+                            // Back Button
                             Container(
                               margin: EdgeInsets.only(left: 20),
                               height: 50,
@@ -55,6 +56,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                             ),
                           ],
                         ),
+                        // The header
                         Container(
                           margin: EdgeInsets.only(top: 15.0, left: 50),
                           child: Row(
@@ -68,7 +70,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                             ],
                           ),
                         ),
-                        //Container for the text
+                        // The paragraph
                         Container(
                           margin:
                               EdgeInsets.only(left: 50, right: 50, top: 15.0),
@@ -81,11 +83,12 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                   ),
                 ),
 
-               //A column with "New Wallet" and "Import Wallet" buttons
+               //A column with YES and NO buttons
                 Column(
                   children: <Widget>[
                     Row(
                       children: <Widget>[
+                        // YES Button
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY,
                             'YES',
@@ -100,6 +103,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                     ),
                     Row(
                       children: <Widget>[
+                        // NO BUTTON
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY_OUTLINE,
                             'NO',

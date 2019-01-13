@@ -36,12 +36,15 @@ class KaliumSendConfirmSheet {
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
+            // The main column that holds everything
             return Column(
               children: <Widget>[
+                // A row with close button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    // Close Button
                     Container(
                       width: 50,
                       height: 50,
@@ -60,19 +63,19 @@ class KaliumSendConfirmSheet {
                     ),
 
                     //This container is a temporary solution for the alignment problem
-                    Container(
-                      width: 50,
-                      height: 50,
-                      margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                    SizedBox(
+                      width: 60,
+                      height: 60,
                     ),
                   ],
                 ),
 
+                //The main widget that holds the text fields, "SENDING" and "TO" texts
                 Expanded(
-                  //A main container that holds the text fields
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      // "SENDING" TEXT
                       Container(
                         margin: EdgeInsets.only(bottom: 10.0),
                         child: Column(
@@ -84,6 +87,7 @@ class KaliumSendConfirmSheet {
                           ],
                         ),
                       ),
+                      // Container for the amount text
                       Container(
                         margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
                         padding:
@@ -93,6 +97,7 @@ class KaliumSendConfirmSheet {
                           color: KaliumColors.backgroundDarkest,
                           borderRadius: BorderRadius.circular(50),
                         ),
+                        // Amount text
                         child: RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(
@@ -120,6 +125,7 @@ class KaliumSendConfirmSheet {
                           ),
                         ),
                       ),
+                      // "TO" text
                       Container(
                         margin: EdgeInsets.only(top: 30.0, bottom: 10),
                         child: Column(
@@ -131,6 +137,7 @@ class KaliumSendConfirmSheet {
                           ],
                         ),
                       ),
+                      // Address text
                       Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 25.0, vertical: 15.0),
@@ -145,12 +152,14 @@ class KaliumSendConfirmSheet {
                   ),
                 ),
 
-                //A column with "Scan QR Code" and "Send" buttons
+                //A container for CONFIRM and CANCEL buttons
                 Container(
                   child: Column(
                     children: <Widget>[
+                      // A row for CONFIRM Button
                       Row(
                         children: <Widget>[
+                          // CONFIRM Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY,
                               'CONFIRM',
@@ -191,8 +200,10 @@ class KaliumSendConfirmSheet {
                           }),
                         ],
                       ),
+                      // A row for CANCEL Button
                       Row(
                         children: <Widget>[
+                          // CANCEL Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
                               'CANCEL',

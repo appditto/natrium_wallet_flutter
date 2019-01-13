@@ -99,6 +99,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   ),
                                 ],
                               ),
+                              // The header
                               Container(
                                 margin: EdgeInsets.only(top: 15.0, left: 50),
                                 child: Row(
@@ -112,7 +113,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   ],
                                 ),
                               ),
-                              //Container for the text
+                              // The paragraph
                               Container(
                                 margin:
                                     EdgeInsets.only(left: 50, right: 50, top: 15.0),
@@ -122,6 +123,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                     style: KaliumStyles.TextStyleParagraph,
                                     textAlign: TextAlign.left,),
                               ),
+                              // The container for the seed
                               Container(
                                 margin: EdgeInsets.only(left: 50, right: 50, top: 20),
                                 width: double.infinity,
@@ -129,6 +131,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   color: KaliumColors.backgroundDark,
                                   borderRadius: BorderRadius.circular(25),
                                 ),
+                                // Text Field for the seed
                                 child: TextField(
                                   focusNode: _seedInputFocusNode,
                                   controller: _seedInputController,
@@ -141,11 +144,12 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   maxLines: null,
                                   autocorrect: false,
                                   decoration: InputDecoration(
-                                    //Emtpy SizedBox
+                                    // Emtpy SizedBox
                                     prefixIcon: SizedBox(
                                       width: 48,
                                       height: 48,
                                     ),
+                                    // Paste Button
                                     suffixIcon: Container(
                                       width: 48,
                                       height: 48,
@@ -196,6 +200,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   },
                                 ),
                               ),
+                              // "Invalid Seed" text that appears if the input is invalid
                               Container(
                                 margin: EdgeInsets.only(top: 5),
                                 child: Text('Invalid Seed',
@@ -212,7 +217,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                       ),
                     ),
                   ),
-                  //A column with next screen button
+                  // Next Screen Button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[

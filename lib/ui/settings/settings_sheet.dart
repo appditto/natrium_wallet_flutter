@@ -523,7 +523,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
       BuildContext context, String contactName, String contactAddress) {
     return FlatButton(
       onPressed: () {
-        ContactDetails().mainBottomSheet(context);
+        ContactDetailsSheet().mainBottomSheet(context);
       },
       padding: EdgeInsets.all(0.0),
       child: Container(

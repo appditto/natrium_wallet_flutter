@@ -42,16 +42,18 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
           margin:
               EdgeInsets.only(left: 12.5, right: 12.5, top: 12.5, bottom: 12.5),
           constraints: BoxConstraints.expand(),
+          // The main row that holds monkeyQR, Banano logo, the address, ticker and the website text
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              // Monkey QR
+              // A container for monkeyQR
               Container(
                 width: 105,
                 height: 100.0,
                 child: Stack(
                   children: <Widget>[
+                    // Background/border part of monkeyQR
                     Center(
                       child: Container(
                         width: 105,
@@ -59,6 +61,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                         child: monkeySvg,
                       ),
                     ),
+                    // Actual QR part of the monkeyQR
                     Center(
                       child: Container(
                         margin: EdgeInsets.only(top: 26.25),
@@ -74,7 +77,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                   ],
                 ),
               ),
-              // Banano logo, address, ticker and website
+              // A column for Banano logo, address, ticker and website text
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -88,8 +91,10 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                   // Address
                   Column(
                     children: <Widget>[
+                      // First row of the address
                       Row(
                         children: <Widget>[
+                          // Yellow part of the first row
                           Container(
                             width: 66.6875,
                             height: 12.5,
@@ -107,6 +112,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                               stepGranularity: 0.1,
                             ),
                           ),
+                          // White part of the first row
                           Container(
                             width: 30.3125,
                             height: 12.5,
@@ -126,6 +132,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                           ),
                         ],
                       ),
+                      // Second row of the address
                       Container(
                         width: 97,
                         height: 12.5,
@@ -143,6 +150,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                           ),
                         ),
                       ),
+                      // Third row of the address
                       Container(
                         width: 97,
                         height: 12.5,
@@ -160,8 +168,10 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                           ),
                         ),
                       ),
+                      // Fourth(last) row of the address
                       Row(
                         children: <Widget>[
+                          // White part of the first row
                           Container(
                             width: 60.625,
                             height: 12.5,
@@ -179,6 +189,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                               ),
                             ),
                           ),
+                          // Yellow part of the first row
                           Container(
                             width: 36.375,
                             height: 12.5,

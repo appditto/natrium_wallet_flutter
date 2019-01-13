@@ -9,7 +9,8 @@ import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 
-class ContactDetails {
+// Contact Details Sheet
+class ContactDetailsSheet {
   mainBottomSheet(BuildContext context) {
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
@@ -23,7 +24,7 @@ class ContactDetails {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    //Trashcan Button
+                    // Trashcan Button
                     Container(
                       width: 50,
                       height: 50,
@@ -40,8 +41,7 @@ class ContactDetails {
                         materialTapTargetSize: MaterialTapTargetSize.padded,
                       ),
                     ),
-
-                    //The header of the sheet
+                    // The header of the sheet
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
                       child: Column(
@@ -53,8 +53,7 @@ class ContactDetails {
                         ],
                       ),
                     ),
-
-                    //Search Button
+                    // Search Button
                     Container(
                       width: 50,
                       height: 50,
@@ -74,18 +73,18 @@ class ContactDetails {
                   ],
                 ),
 
-                //A main container that holds monKey, Contact Name and Contact Address
+                // The main container that holds monKey, Contact Name and Contact Address
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      // monKey
+                      // monKey container
                       Container(
                         height: 100,
                         width: 100,
                         color: KaliumColors.primary,
                       ),
-                      // Contact Name
+                      // Contact Name container
                       Container(
                         width: double.infinity,
                         margin: EdgeInsets.only(
@@ -124,9 +123,10 @@ class ContactDetails {
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: UIUtil.threeLineAddressText(
-                            "ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4",),
+                          "ban_1yekta1xn94qdnbmmj1tqg76zk3apcfd31pjmuy6d879e3mr469a4o4sdhd4",
+                        ),
                       ),
-                      // Address Copie
+                      // Address Copied text container
                       Container(
                         margin: EdgeInsets.only(top: 5, bottom: 5),
                         child: Text("Address Copied",
@@ -141,12 +141,13 @@ class ContactDetails {
                   ),
                 ),
 
-                //A column with "Send" and "Close" buttons
+                // A column with "Send" and "Close" buttons
                 Container(
                   child: Column(
                     children: <Widget>[
                       Row(
                         children: <Widget>[
+                          // Send Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY,
                               'Send',
@@ -157,6 +158,7 @@ class ContactDetails {
                       ),
                       Row(
                         children: <Widget>[
+                          // Close Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
                               'Close',

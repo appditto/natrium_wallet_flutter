@@ -61,7 +61,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
         body: LayoutBuilder(
           builder: (context, constraints) => Column(
                 children: <Widget>[
-                  //A widget that holds welcome animation + text and expands to the rest of the available area
+                  //A widget that holds the header, the paragraph, the seed, "seed copied" text and the back button
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.symmetric(
@@ -71,6 +71,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
+                              // Back Button
                               Container(
                                 margin: EdgeInsets.only(left: 20),
                                 height: 50,
@@ -88,6 +89,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               ),
                             ],
                           ),
+                          // The header
                           Container(
                             margin: EdgeInsets.only(top: 15.0, left: 50),
                             child: Row(
@@ -101,7 +103,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               ],
                             ),
                           ),
-                          //Container for the text
+                          // The paragraph
                           Container(
                             margin:
                                 EdgeInsets.only(left: 50, right: 50, top: 15.0),
@@ -111,6 +113,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 style: KaliumStyles.TextStyleParagraph),
                           ),
                           Container(
+                            // A gesture detector to decide if the is tapped or not
                             child: new GestureDetector(
                                 onTap: () {
                                   Clipboard.setData(
@@ -130,6 +133,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                     });
                                   });
                                 },
+                                // The seed
                                 child: new Container(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 25.0, vertical: 15),
@@ -142,6 +146,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                     UIUtil.threeLineSeedText(_seed, textStyle: _seedTapStyle),    
                                 )),
                           ),
+                          // "Seed copied to Clipboard" text that appaears when seed is tapped
                           Container(
                             margin: EdgeInsets.only(top: 5),
                             child: Text('Seed Copied To Clipboard',
@@ -157,7 +162,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                     ),
                   ),
 
-                  //A column with next screen button
+                  // Next Screen Button 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[

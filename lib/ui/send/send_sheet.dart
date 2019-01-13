@@ -51,7 +51,7 @@ class KaliumSendSheet {
   }
 
   mainBottomSheet(BuildContext context) {
-    // Decide if 1 or 3 line address text should be used
+    // A method for deciding if 1 or 3 line address text should be used
     oneOrThreeLineAddressText() {
       if (MediaQuery.of(context).size.height < 667)
         return UIUtil.oneLineAddressText(
@@ -94,12 +94,15 @@ class KaliumSendSheet {
                 });
               }
             });
+            // The main column that holds everything
             return Column(
               children: <Widget>[
+                // A row for the header of the sheet, balance text and close button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    // Close Button
                     Container(
                       width: 50,
                       height: 50,
@@ -117,21 +120,22 @@ class KaliumSendSheet {
                       ),
                     ),
 
-                    //Container for the header and address text
+                    // Container for the header, address and balance text
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
                       child: Column(
                         children: <Widget>[
+                          // Header
                           Text(
                             "SEND FROM",
                             style: KaliumStyles.TextStyleHeader,
                           ),
-                          //Address Text
+                          // Address Text
                           Container(
                             margin: EdgeInsets.only(top: 10.0),
                             child: oneOrThreeLineAddressText(),
                           ),
-                          //Adress Balance Text
+                          // Balance Text
                           Container(
                             margin: EdgeInsets.only(top: 6.0),
                             child: RichText(
@@ -184,7 +188,6 @@ class KaliumSendSheet {
                         ],
                       ),
                     ),
-
                     //Empty SizedBox
                     SizedBox(
                       width: 60,
@@ -193,7 +196,7 @@ class KaliumSendSheet {
                   ],
                 ),
 
-                //A main container that holds "Enter Amount" and "Enter Address" text fields
+                // A main container that holds "Enter Amount" and "Enter Address" text fields
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(top: 35, bottom: 35),
@@ -348,7 +351,7 @@ class KaliumSendSheet {
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w100,
                                       fontFamily: 'NunitoSans'),
-                                  // @ BUTTON
+                                  // @ Button
                                   prefixIcon: Container(
                                     width: 48.0,
                                     height: 48.0,
@@ -367,45 +370,49 @@ class KaliumSendSheet {
                                               BorderRadius.circular(200.0)),
                                     ),
                                   ),
-                                  // PASTE BUTTTON
-                                  suffixIcon: _pasteButtonVisible ? Container(
-                                    width: 48.0,
-                                    height: 48.0,
-                                    child: FlatButton(
-                                      highlightColor: KaliumColors.primary15,
-                                      splashColor: KaliumColors.primary30,
-                                      padding: EdgeInsets.all(14.0),
-                                      onPressed: () {
-                                        Clipboard.getData("text/plain")
-                                            .then((ClipboardData data) {
-                                          if (data == null ||
-                                              data.text == null) {
-                                            return;
-                                          }
-                                          Address address =
-                                              new Address(data.text);
-                                          if (NanoAccounts.isValid(
-                                              NanoAccountType.BANANO,
-                                              address.address)) {
-                                            setState(() {
-                                              _addressValidationText = "";
-                                              _sendAddressStyle = KaliumStyles
-                                                  .TextStyleAddressText90;
-                                              _pasteButtonVisible = false;
-                                            });
-                                            _sendAddressController.text =
-                                                address.address;
-                                          }
-                                        });
-                                      },
-                                      child: Icon(KaliumIcons.paste,
-                                          size: 20,
-                                          color: KaliumColors.primary),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(200.0)),
-                                    ),
-                                  ) : SizedBox(),
+                                  // Paste Button
+                                  suffixIcon: _pasteButtonVisible
+                                      ? Container(
+                                          width: 48.0,
+                                          height: 48.0,
+                                          child: FlatButton(
+                                            highlightColor:
+                                                KaliumColors.primary15,
+                                            splashColor: KaliumColors.primary30,
+                                            padding: EdgeInsets.all(14.0),
+                                            onPressed: () {
+                                              Clipboard.getData("text/plain")
+                                                  .then((ClipboardData data) {
+                                                if (data == null ||
+                                                    data.text == null) {
+                                                  return;
+                                                }
+                                                Address address =
+                                                    new Address(data.text);
+                                                if (NanoAccounts.isValid(
+                                                    NanoAccountType.BANANO,
+                                                    address.address)) {
+                                                  setState(() {
+                                                    _addressValidationText = "";
+                                                    _sendAddressStyle = KaliumStyles
+                                                        .TextStyleAddressText90;
+                                                    _pasteButtonVisible = false;
+                                                  });
+                                                  _sendAddressController.text =
+                                                      address.address;
+                                                }
+                                              });
+                                            },
+                                            child: Icon(KaliumIcons.paste,
+                                                size: 20,
+                                                color: KaliumColors.primary),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        200.0)),
+                                          ),
+                                        )
+                                      : SizedBox(),
                                 ),
                                 style: _sendAddressStyle,
                                 onChanged: (text) {
@@ -456,6 +463,7 @@ class KaliumSendSheet {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
+                          // Send Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY,
                               'Send',
@@ -470,6 +478,7 @@ class KaliumSendSheet {
                       ),
                       Row(
                         children: <Widget>[
+                          // Scan QR Code Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
                               'Scan QR Code',
