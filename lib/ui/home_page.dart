@@ -137,7 +137,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             stateBlock.representative;
         _scaffoldKey.currentState.showSnackBar(new SnackBar(
           content: new Text("Representative Changed Successfully",
-              style: KaliumStyles.TextStyleParagraph),
+              style: KaliumStyles.TextStyleSnackbar),
         ));
       }
     });
@@ -147,7 +147,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.register<Contact>(tag: RX_CONTACT_ADDED_ALT_TAG).listen((contact) {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
         content: new Text("${contact.name} added to contacts.",
-        style: KaliumStyles.TextStyleParagraph),
+        style: KaliumStyles.TextStyleSnackbar),
       ));
     });
   }
