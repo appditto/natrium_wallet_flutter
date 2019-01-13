@@ -11,6 +11,7 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/formatters.dart';
+import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 
 // Add Contacts Sheet
@@ -19,6 +20,10 @@ class AddContactSheet {
   static const String _contactAddressMissing = "Enter an Address";
   static const String _contactExists = "Contact Already Exists";
   static const String _contactAddressInvalid = "Invalid Address";
+
+  String address;
+
+  AddContactSheet({this.address});
 
   // Form info
   FocusNode _nameFocusNode = FocusNode();
@@ -95,7 +100,7 @@ class AddContactSheet {
                       width: 50,
                       height: 50,
                       margin: EdgeInsets.only(top: 10.0, right: 10.0),
-                      child: FlatButton(
+                      child:  address == null ? FlatButton(
                         onPressed: () {
                           return null;
                         },
@@ -105,7 +110,7 @@ class AddContactSheet {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
                         materialTapTargetSize: MaterialTapTargetSize.padded,
-                      ),
+                      ) : SizedBox(),
                     ),
                   ],
                 ),
@@ -147,7 +152,7 @@ class AddContactSheet {
                                 focusNode: _nameFocusNode,
                                 controller: _nameController,
                                 cursorColor: KaliumColors.primary,
-                                textInputAction: TextInputAction.next,
+                                textInputAction: address != null ? TextInputAction.done : TextInputAction.next,
                                 maxLines: null,
                                 autocorrect: false,
                                 decoration: InputDecoration(
@@ -171,8 +176,10 @@ class AddContactSheet {
                                   ContactInputFormatter()
                                 ],
                                 onSubmitted: (text) {
-                                  FocusScope.of(context)
-                                      .requestFocus(_addressFocusNode);
+                                  if (address == null) {
+                                    FocusScope.of(context)
+                                       .requestFocus(_addressFocusNode);
+                                  }
                                 },
                               ),
                             ),
@@ -192,13 +199,15 @@ class AddContactSheet {
                               margin: EdgeInsets.only(
                                   left: MediaQuery.of(context).size.width * 0.105,
                                   right: MediaQuery.of(context).size.width * 0.105),
+                              padding: address != null ?EdgeInsets.symmetric(
+                                    horizontal: 25.0, vertical: 15.0) : EdgeInsets.zero,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: KaliumColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               // Enter Addres text field
-                              child: TextField(
+                              child: address == null ? TextField(
                                 focusNode: _addressFocusNode,
                                 controller: _addressController,
                                 style: _addressValid ? KaliumStyles.TextStyleAddressText90 : KaliumStyles.TextStyleAddressText60,
@@ -269,7 +278,6 @@ class AddContactSheet {
                                 ),
                                 onChanged: (text) {
                                   Address address = Address(text);
-                                  print("address, ${text}: ${address.address}");
                                   if (address.isValid()) {
                                     setState(() {
                                       _addressValid = true;
@@ -283,7 +291,7 @@ class AddContactSheet {
                                     });
                                   }
                                 },
-                              ),
+                              ) : UIUtil.threeLineAddressText(address)
                             ),
                             // Enter Address Error Container
                             Container(
@@ -319,9 +327,13 @@ class AddContactSheet {
                                 return;
                               }
                               DBHelper dbHelper = DBHelper();
-                              Contact newContact = Contact(name: _nameController.text, address: _addressController.text);
+                              Contact newContact = Contact(name: _nameController.text, address: address == null ? _addressController.text : address);
                               dbHelper.saveContact(newContact).then((id) {
-                                RxBus.post(newContact, tag: RX_CONTACT_ADDED_TAG);
+                                if (address == null) {
+                                  RxBus.post(newContact, tag: RX_CONTACT_ADDED_TAG);
+                                } else {
+                                  RxBus.post(newContact, tag: RX_CONTACT_ADDED_ALT_TAG);
+                                }
                                 RxBus.post(newContact, tag: RX_CONTACT_MODIFIED_TAG);
                                 Navigator.of(context).pop();
                               });
@@ -352,24 +364,27 @@ class AddContactSheet {
   Future<bool> validateForm(StateSetter setState) async {
     bool isValid = true;
     // Address Validations
-    if (_addressController.text.isEmpty) {
-      isValid = false;
-      setState(() {
-        _addressValidationText = _contactAddressMissing;
-      });
-    } else if (!Address(_addressController.text).isValid()) {
-      isValid = false;
-      setState(() {
-        _addressValidationText = _contactAddressInvalid;
-      });
-    } else {
-      DBHelper dbHelper = DBHelper();
-      bool addressExists = await dbHelper.contactExistsWithAddress(_addressController.text);
-      if (addressExists) {
+    // Don't validate address if it came pre-filled in
+    if (address == null) {
+      if (_addressController.text.isEmpty) {
+        isValid = false;
         setState(() {
-          isValid = false;
-          _addressValidationText = _contactExists;
+          _addressValidationText = _contactAddressMissing;
         });
+      } else if (!Address(_addressController.text).isValid()) {
+        isValid = false;
+        setState(() {
+          _addressValidationText = _contactAddressInvalid;
+        });
+      } else {
+        DBHelper dbHelper = DBHelper();
+        bool addressExists = await dbHelper.contactExistsWithAddress(_addressController.text);
+        if (addressExists) {
+          setState(() {
+            isValid = false;
+            _addressValidationText = _contactExists;
+          });
+        }
       }
     }
     // Name Validations

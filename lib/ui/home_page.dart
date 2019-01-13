@@ -19,6 +19,7 @@ import 'package:kalium_wallet_flutter/network/model/response/account_history_res
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/ui/contacts/add_contact.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_complete_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/receive/receive_sheet.dart';
@@ -143,6 +144,12 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.register<Contact>(tag: RX_CONTACT_MODIFIED_TAG).listen((contact) {
       _updateContacts();
     });
+    RxBus.register<Contact>(tag: RX_CONTACT_ADDED_ALT_TAG).listen((contact) {
+      _scaffoldKey.currentState.showSnackBar(new SnackBar(
+        content: new Text("${contact.name} added to contacts.",
+        style: KaliumStyles.TextStyleParagraph),
+      ));
+    });
   }
 
   @override
@@ -156,6 +163,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.destroy(tag: RX_HISTORY_HOME_TAG);
     RxBus.destroy(tag: RX_PROCESS_TAG);
     RxBus.destroy(tag: RX_CONTACT_MODIFIED_TAG);
+    RxBus.destroy(tag: RX_CONTACT_ADDED_ALT_TAG);
   }
 
   @override
@@ -414,7 +422,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 Widget _buildTransactionCard(AccountHistoryResponseItem item,
       Animation<double> animation, String displayName, BuildContext context) {
     TransactionDetailsSheet transactionDetails =
-        TransactionDetailsSheet(item.hash, item.account);
+        TransactionDetailsSheet(item.hash, item.account, displayName);
     String text;
     IconData icon;
     Color iconColor;
@@ -786,29 +794,23 @@ Widget _buildTransactionCard(AccountHistoryResponseItem item,
 class TransactionDetailsSheet {
   String _hash;
   String _address;
-  TransactionDetailsSheet(String hash, String address)
+  String _displayName;
+  TransactionDetailsSheet(String hash, String address, String displayName)
       : _hash = hash,
-        _address = address;
+        _address = address,
+        _displayName = displayName;
   // Address copied items
   // Initial constants
   static const String _copyAddress = 'Copy Address';
-  static const String _addressCopied = 'Address Copied';
   static const TextStyle _copyButtonStyleInitial =
       KaliumStyles.TextStyleButtonPrimary;
   static const Color _copyButtonColorInitial = KaliumColors.primary;
   // Current state references
-  String _copyButtonText;
-  TextStyle _copyButtonStyle;
-  Color _copyButtonBackground;
+  bool _addressCopied = false;
   // Timer reference so we can cancel repeated events
   Timer _addressCopiedTimer;
 
   mainBottomSheet(BuildContext context) {
-    // Set initial state of copy button
-    _copyButtonText = _copyAddress;
-    _copyButtonStyle = _copyButtonStyleInitial;
-    _copyButtonBackground = _copyButtonColorInitial;
-
     KaliumSheets.showKaliumHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
@@ -840,10 +842,10 @@ class TransactionDetailsSheet {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(100.0)),
-                                    color: _copyButtonBackground,
-                                    child: Text(_copyButtonText,
+                                    color: _addressCopied ? KaliumColors.success : KaliumColors.primary,
+                                    child: Text(_addressCopied ? "Address Copied" : "Copy Address",
                                         textAlign: TextAlign.center,
-                                        style: _copyButtonStyle),
+                                        style: _addressCopied ? KaliumStyles.TextStyleButtonPrimaryGreen : KaliumStyles.TextStyleButtonPrimary),
                                     padding: EdgeInsets.symmetric(
                                         vertical: 14.0, horizontal: 20),
                                     onPressed: () {
@@ -851,11 +853,7 @@ class TransactionDetailsSheet {
                                           new ClipboardData(text: _address));
                                       setState(() {
                                         // Set copied style
-                                        _copyButtonText = _addressCopied;
-                                        _copyButtonStyle = KaliumStyles
-                                            .TextStyleButtonPrimaryGreen;
-                                        _copyButtonBackground =
-                                            KaliumColors.green;
+                                        _addressCopied = true;
                                       });
                                       if (_addressCopiedTimer != null) {
                                         _addressCopiedTimer.cancel();
@@ -864,11 +862,7 @@ class TransactionDetailsSheet {
                                           const Duration(milliseconds: 800),
                                           () {
                                         setState(() {
-                                          _copyButtonText = _copyAddress;
-                                          _copyButtonStyle =
-                                              _copyButtonStyleInitial;
-                                          _copyButtonBackground =
-                                              _copyButtonColorInitial;
+                                          _addressCopied = false;
                                         });
                                       });
                                     },
@@ -890,9 +884,10 @@ class TransactionDetailsSheet {
                                   height: 55,
                                   width: 55,
                                   // Add Contact Button
-                                  child: FlatButton(
+                                  child: !_displayName.startsWith("@") ? FlatButton(
                                     onPressed: (){
-                                      return null;
+                                      Navigator.of(context).pop();
+                                      AddContactSheet(address: _address).mainBottomSheet(context);
                                     },
                                     splashColor: KaliumColors.text30,
                                     highlightColor: KaliumColors.text15,
@@ -901,8 +896,8 @@ class TransactionDetailsSheet {
                                               BorderRadius.circular(100.0)),
                                     padding: EdgeInsets.symmetric(
                                           vertical: 10.0, horizontal: 10),
-                                    child: Icon(KaliumIcons.addcontact, size:35, color: KaliumColors.backgroundDark),
-                                  ),
+                                    child: Icon(KaliumIcons.addcontact, size:35, color: _addressCopied ? KaliumColors.successDark : KaliumColors.backgroundDark),
+                                  ) : SizedBox(),
                                 ),
                               ),
                             ],
