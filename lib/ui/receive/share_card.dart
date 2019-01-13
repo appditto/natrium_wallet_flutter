@@ -11,23 +11,21 @@ class KaliumShareCard extends StatefulWidget {
   final GlobalKey key;
   final Widget monkeySvg;
   final Widget logoSvg;
-  final Widget tickerSvg;
 
-  KaliumShareCard(this.key, this.monkeySvg, this.logoSvg, this.tickerSvg);
+  KaliumShareCard(this.key, this.monkeySvg, this.logoSvg);
 
   @override
   _KaliumShareCardState createState() =>
-      _KaliumShareCardState(key, monkeySvg, logoSvg, tickerSvg);
+      _KaliumShareCardState(key, monkeySvg, logoSvg);
 }
 
 class _KaliumShareCardState extends State<KaliumShareCard> {
   GlobalKey globalKey;
   Widget monkeySvg;
   Widget logoSvg;
-  Widget tickerSvg;
 
   _KaliumShareCardState(
-      this.globalKey, this.monkeySvg, this.logoSvg, this.tickerSvg);
+      this.globalKey, this.monkeySvg, this.logoSvg);
 
   @override
   Widget build(BuildContext context) {
@@ -205,8 +203,17 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                   // Ticker & Website
                   Container(
                     width: 97,
-                    height: 12.5,
-                    child: tickerSvg,
+                    height: 13,
+                    child: AutoSizeText(
+                      "\$BAN      BANANO.CC",
+                      minFontSize: 1.0,
+                      stepGranularity: 0.1,
+                      style: TextStyle(
+                        color: KaliumColors.primary,
+                        fontFamily: "NunitoSans",
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),

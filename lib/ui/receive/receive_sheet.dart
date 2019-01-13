@@ -34,12 +34,11 @@ class KaliumReceiveSheet {
     // Create our SVG-heavy things in the constructor because they are slower operations
     monkeySVGBorder = SvgPicture.asset('assets/monkeyQR.svg');
     shareCardLogoSvg = SvgPicture.asset('assets/sharecard_bananologo.svg');
-    shareCardTickerSvg = SvgPicture.asset('assets/sharecard_tickerwebsite.svg');
     // Share card initialization
     shareCardKey = GlobalKey();
     kaliumShareCard = Container(
       child: KaliumShareCard(
-          shareCardKey, monkeySVGBorder, shareCardLogoSvg, shareCardTickerSvg),
+          shareCardKey, monkeySVGBorder, shareCardLogoSvg),
       alignment: Alignment(0.0, 0.0),
     );
   }
