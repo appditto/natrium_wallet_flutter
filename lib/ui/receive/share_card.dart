@@ -16,7 +16,8 @@ class KaliumShareCard extends StatefulWidget {
   KaliumShareCard(this.key, this.monkeySvg, this.logoSvg, this.tickerSvg);
 
   @override
-  _KaliumShareCardState createState() => _KaliumShareCardState(key, monkeySvg, logoSvg, tickerSvg);
+  _KaliumShareCardState createState() =>
+      _KaliumShareCardState(key, monkeySvg, logoSvg, tickerSvg);
 }
 
 class _KaliumShareCardState extends State<KaliumShareCard> {
@@ -25,7 +26,8 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
   Widget logoSvg;
   Widget tickerSvg;
 
-  _KaliumShareCardState(this.globalKey, this.monkeySvg, this.logoSvg, this.tickerSvg);
+  _KaliumShareCardState(
+      this.globalKey, this.monkeySvg, this.logoSvg, this.tickerSvg);
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +41,8 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
           borderRadius: BorderRadius.circular(12.5),
         ),
         child: Container(
-          margin: EdgeInsets.only(
-              left: 12.5, right: 12.5, top: 12.5, bottom: 12.5),
+          margin:
+              EdgeInsets.only(left: 12.5, right: 12.5, top: 12.5, bottom: 12.5),
           constraints: BoxConstraints.expand(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,17 +95,15 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                           Container(
                             width: 66.6875,
                             height: 12.5,
-                            child: AutoSizeText.rich(
-                              TextSpan(
-                                text: StateContainer.of(context)
-                                    .wallet
-                                    .address
-                                    .substring(0, 11),
-                                style: TextStyle(
-                                  color: KaliumColors.primary,
-                                  fontFamily: "OverpassMono",
-                                  fontWeight: FontWeight.w100,
-                                ),
+                            child: AutoSizeText(
+                              StateContainer.of(context)
+                                  .wallet
+                                  .address
+                                  .substring(0, 11),
+                              style: TextStyle(
+                                color: KaliumColors.primary,
+                                fontFamily: "OverpassMono",
+                                fontWeight: FontWeight.w100,
                               ),
                               minFontSize: 1.0,
                               stepGranularity: 0.1,

@@ -63,7 +63,7 @@ class KaliumReceiveSheet {
     if (shareCardKey != null && shareCardKey.currentContext != null) {
       RenderRepaintBoundary boundary =
           shareCardKey.currentContext.findRenderObject();
-      ui.Image image = await boundary.toImage(pixelRatio: 25.0);
+      ui.Image image = await boundary.toImage(pixelRatio: 5.0);
       ByteData byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
       return byteData;
@@ -81,208 +81,174 @@ class KaliumReceiveSheet {
     double devicewidth = MediaQuery.of(context).size.width;
 
     _showShareCard = false;
-    Widget buildShareCardAnimation() {
-      if (_showShareCard == true)
-        return Container(
-          decoration: BoxDecoration(
-            color: KaliumColors.overlay50,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.0),
-              topRight: Radius.circular(30.0),
-            ),
-          ),
-          padding:
-              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              //Container for the animation
-              Container(
-                //Widgth/Height ratio is needed because BoxFit is not working as expected
-                width: double.infinity,
-                height: MediaQuery.of(context).size.width / 2,
-                child: FlareActor("assets/sharecard_animation.flr",
-                    animation: "main", fit: BoxFit.contain),
-              ),
-            ],
-          ),
-        );
-      else
-        return SizedBox();
-    }
 
     KaliumSheets.showKaliumHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return Stack(
+            return Column(
               children: <Widget>[
-                Column(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        //Close Button
-                        Container(
-                          width: 50,
-                          height: 50,
-                          margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                          child: FlatButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(KaliumIcons.close,
-                                size: 16, color: KaliumColors.text),
-                            padding: EdgeInsets.all(17.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100.0)),
-                            materialTapTargetSize: MaterialTapTargetSize.padded,
-                          ),
-                        ),
-
-                        //Container for the address text
-                        Container(
-                          margin: EdgeInsets.only(top: 30.0),
-                          child: UIUtil.threeLineAddressText(_wallet.address,
-                              type: ThreeLineAddressTextType.PRIMARY60),
-                        ),
-                        //Empty SizedBox
-                        SizedBox(
-                          width: 60,
-                          height: 60,
-                        ),
-                      ],
-                    ),
-
-                    //MonkeyQR which takes all the available space left from the buttons & address text
-                    Expanded(
-                      child: Center(
-                        child: Stack(
-                          children: <Widget>[
-                            _showShareCard ? kaliumShareCard : SizedBox(),
-                            Center(
-                              child: Container(
-                                width: 260,
-                                height: 150,
-                                color: KaliumColors.backgroundDark,
-                              ),
-                            ),
-                            Center(
-                              child: Container(
-                                width: devicewidth / 1.5,
-                                child: monkeySVGBorder,
-                              ),
-                            ),
-                            Center(
-                              child: Container(
-                                margin: EdgeInsets.only(top: devicewidth / 6),
-                                child: QrImage(
-                                  padding: EdgeInsets.all(0.0),
-                                  size: devicewidth / 3.13,
-                                  data: _wallet.address,
-                                  version: 6,
-                                  errorCorrectionLevel: QrErrorCorrectLevel.Q,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                    //Close Button
+                    Container(
+                      width: 50,
+                      height: 50,
+                      margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(KaliumIcons.close,
+                            size: 16, color: KaliumColors.text),
+                        padding: EdgeInsets.all(17.0),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100.0)),
+                        materialTapTargetSize: MaterialTapTargetSize.padded,
                       ),
                     ),
 
-                    //A column with "Scan QR Code" and "Send" buttons
-                    Column(
+                    //Container for the address text
+                    Container(
+                      margin: EdgeInsets.only(top: 30.0),
+                      child: UIUtil.threeLineAddressText(_wallet.address,
+                          type: ThreeLineAddressTextType.PRIMARY60),
+                    ),
+                    //Empty SizedBox
+                    SizedBox(
+                      width: 60,
+                      height: 60,
+                    ),
+                  ],
+                ),
+
+                //MonkeyQR which takes all the available space left from the buttons & address text
+                Expanded(
+                  child: Center(
+                    child: Stack(
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.fromLTRB(
-                                    Dimens.BUTTON_TOP_DIMENS[0],
-                                    Dimens.BUTTON_TOP_DIMENS[1],
-                                    Dimens.BUTTON_TOP_DIMENS[2],
-                                    Dimens.BUTTON_TOP_DIMENS[3]),
-                                child: FlatButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(100.0)),
-                                  color: _copyButtonBackground,
-                                  child: Text(_copyButtonText,
-                                      textAlign: TextAlign.center,
-                                      style: _copyButtonStyle),
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 14.0, horizontal: 20),
-                                  onPressed: () {
-                                    Clipboard.setData(new ClipboardData(
-                                        text: _wallet.address));
-                                    setState(() {
-                                      // Set copied style
-                                      _copyButtonText = _addressCopied;
-                                      _copyButtonStyle = KaliumStyles
-                                          .TextStyleButtonPrimaryGreen;
-                                      _copyButtonBackground =
-                                          KaliumColors.green;
-                                      if (_addressCopiedTimer != null) {
-                                        _addressCopiedTimer.cancel();
-                                      }
-                                      _addressCopiedTimer = new Timer(
-                                          const Duration(milliseconds: 800),
-                                          () {
-                                        setState(() {
-                                          _copyButtonText = _copyAddress;
-                                          _copyButtonStyle =
-                                              _copyButtonStyleInitial;
-                                          _copyButtonBackground =
-                                              _copyButtonColorInitial;
-                                        });
-                                      });
-                                    });
-                                  },
-                                  highlightColor: KaliumColors.success30,
-                                  splashColor: KaliumColors.successDark,
-                                ),
-                              ),
-                            )
-                          ],
+                        _showShareCard ? kaliumShareCard : SizedBox(),
+                        Center(
+                          child: Container(
+                            width: 260,
+                            height: 150,
+                            color: KaliumColors.backgroundDark,
+                          ),
                         ),
-                        Row(
-                          children: <Widget>[
-                            KaliumButton.buildKaliumButton(
-                                KaliumButtonType.PRIMARY_OUTLINE,
-                                _showShareCard ? "Loading" : 'Share Address',
-                                Dimens.BUTTON_BOTTOM_DIMENS,
-                                disabled: _showShareCard, onPressed: () {
-                              setState(() {
-                                _showShareCard = true;
-                              });
-                              Future.delayed(new Duration(milliseconds: 200),
-                                  () {
-                                if (_showShareCard) {
-                                  _capturePng().then((byteData) {
-                                    if (byteData != null) {
-                                      EsysFlutterShare.shareImage(
-                                          "${StateContainer.of(context).wallet.address}.png",
-                                          byteData,
-                                          "Share Via...");
-                                    } else {
-                                      // TODO - show a something went wrong message
-                                    }
+                        Center(
+                          child: Container(
+                            width: devicewidth / 1.5,
+                            child: monkeySVGBorder,
+                          ),
+                        ),
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.only(top: devicewidth / 6),
+                            child: QrImage(
+                              padding: EdgeInsets.all(0.0),
+                              size: devicewidth / 3.13,
+                              data: _wallet.address,
+                              version: 6,
+                              errorCorrectionLevel: QrErrorCorrectLevel.Q,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                //A column with "Scan QR Code" and "Send" buttons
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(
+                                Dimens.BUTTON_TOP_DIMENS[0],
+                                Dimens.BUTTON_TOP_DIMENS[1],
+                                Dimens.BUTTON_TOP_DIMENS[2],
+                                Dimens.BUTTON_TOP_DIMENS[3]),
+                            child: FlatButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(100.0)),
+                              color: _copyButtonBackground,
+                              child: Text(_copyButtonText,
+                                  textAlign: TextAlign.center,
+                                  style: _copyButtonStyle),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 14.0, horizontal: 20),
+                              onPressed: () {
+                                Clipboard.setData(new ClipboardData(
+                                    text: _wallet.address));
+                                setState(() {
+                                  // Set copied style
+                                  _copyButtonText = _addressCopied;
+                                  _copyButtonStyle = KaliumStyles
+                                      .TextStyleButtonPrimaryGreen;
+                                  _copyButtonBackground =
+                                      KaliumColors.green;
+                                  if (_addressCopiedTimer != null) {
+                                    _addressCopiedTimer.cancel();
+                                  }
+                                  _addressCopiedTimer = new Timer(
+                                      const Duration(milliseconds: 800),
+                                      () {
                                     setState(() {
-                                      _showShareCard = false;
+                                      _copyButtonText = _copyAddress;
+                                      _copyButtonStyle =
+                                          _copyButtonStyleInitial;
+                                      _copyButtonBackground =
+                                          _copyButtonColorInitial;
                                     });
                                   });
+                                });
+                              },
+                              highlightColor: KaliumColors.success30,
+                              splashColor: KaliumColors.successDark,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        KaliumButton.buildKaliumButton(
+                            KaliumButtonType.PRIMARY_OUTLINE,
+                            _showShareCard ? "Loading" : 'Share Address',
+                            Dimens.BUTTON_BOTTOM_DIMENS,
+                            disabled: _showShareCard, onPressed: () {
+                          setState(() {
+                            _showShareCard = true;
+                          });
+                          Future.delayed(new Duration(milliseconds: 200),
+                              () {
+                            if (_showShareCard) {
+                              _capturePng().then((byteData) {
+                                if (byteData != null) {
+                                  EsysFlutterShare.shareImage(
+                                      "${StateContainer.of(context).wallet.address}.png",
+                                      byteData,
+                                      "Share Via...");
+                                } else {
+                                  // TODO - show a something went wrong message
                                 }
+                                setState(() {
+                                  _showShareCard = false;
+                                });
                               });
-                            }),
-                          ],
-                        ),
+                            }
+                          });
+                        }),
                       ],
                     ),
                   ],
                 ),
-                buildShareCardAnimation(),
               ],
             );
           });
