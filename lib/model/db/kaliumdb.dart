@@ -26,7 +26,7 @@ class DBHelper{
   void _onCreate(Database db, int version) async {
     // When creating the db, create the tables
     await db.execute(
-    "CREATE TABLE Contacts(id INTEGER PRIMARY KEY, name TEXT, address TEXT, monkey_path TEXT)");
+    "CREATE TABLE Contacts(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, monkey_path TEXT)");
   }
   
   // Retrieving credentials
