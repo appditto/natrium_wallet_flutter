@@ -346,7 +346,13 @@ class AddContactSheet {
 
   Future<bool> validateForm(StateSetter setState) async {
     bool isValid = true;
-    if (!Address(_addressController.text).isValid()) {
+    // Address Validations
+    if (_addressController.text.isEmpty) {
+      isValid = false;
+      setState(() {
+        _addressValidationText = _contactAddressMissing;
+      });
+    } else if (!Address(_addressController.text).isValid()) {
       isValid = false;
       setState(() {
         _addressValidationText = _contactAddressInvalid;
@@ -361,13 +367,21 @@ class AddContactSheet {
         });
       }
     }
-    DBHelper dbHelper = DBHelper();
-    bool nameExists = await dbHelper.contactExistsWithName(_nameController.text);
-    if (nameExists) {
+    // Name Validations
+    if (_nameController.text.isEmpty) {
+      isValid = false;
       setState(() {
-        isValid = false;
-        _nameValidationText = _contactExists;
+        _nameValidationText = _contactNameMissing;
       });
+    } else {
+      DBHelper dbHelper = DBHelper();
+      bool nameExists = await dbHelper.contactExistsWithName(_nameController.text);
+      if (nameExists) {
+        setState(() {
+          isValid = false;
+          _nameValidationText = _contactExists;
+        });
+      }
     }
     return isValid;
   }
