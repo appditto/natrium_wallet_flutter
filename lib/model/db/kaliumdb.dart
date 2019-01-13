@@ -57,6 +57,16 @@ class DBHelper{
     return await dbClient.rawInsert('INSERT INTO Contacts (name, address) values(?, ?)', [contact.name, contact.address]);
   }
 
+  Future<int> saveContacts(List<Contact> contacts) async {
+    int count = 0;
+    for (Contact c in contacts) {
+      if (await saveContact(c) > 0) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   Future<bool> deleteContact(Contact contact) async {
     var dbClient = await db;
     return await dbClient.rawDelete("DELETE FROM Contacts WHERE name = ? AND address = ?", [contact.name, contact.address]) > 0;

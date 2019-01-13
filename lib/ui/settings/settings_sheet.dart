@@ -1,4 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:logging/logging.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
@@ -27,6 +33,8 @@ class SettingsSheet extends StatefulWidget {
 }
 
 class _SettingsSheetState extends State<SettingsSheet> {
+  final log = Logger("SettingsSheet");
+  var _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _hasBiometrics = false;
   AuthenticationMethod _curAuthMethod =
       AuthenticationMethod(AuthMethod.BIOMETRICS);
@@ -40,6 +48,90 @@ class _SettingsSheetState extends State<SettingsSheet> {
   }
 
   bool notNull(Object o) => o != null;
+
+  Future<void> _exportContacts() async {
+    List<Contact> contacts = await DBHelper().getContacts();
+    if (contacts.length == 0) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                        content: Text(
+                                          "There's contacts to export",
+                                          style: KaliumStyles.TextStyleSnackbar)
+                                        ));
+      return;
+    }
+    List<Map<String, dynamic>> jsonList = List();
+    contacts.forEach((contact) {
+      jsonList.add(contact.toJson());
+    });
+    DateTime exportTime = DateTime.now();
+    String filename = "kaliumcontacts_${exportTime.year}${exportTime.month}${exportTime.day}${exportTime.hour}${exportTime.minute}${exportTime.second}.txt";
+    Directory baseDirectory = await getApplicationDocumentsDirectory();
+    File contactsFile = File("${baseDirectory.path}/$filename");
+    await contactsFile.writeAsString(json.encode(jsonList));
+    Share.shareFile(contactsFile);
+  }
+
+  Future<void> _importContacts() async {
+    String filePath = await FilePicker.getFilePath(type: FileType.CUSTOM, fileExtension: "txt");
+    File f = File(filePath);
+    if (!await f.exists()) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                        content: Text(
+                                          "Couldn't read file",
+                                          style: KaliumStyles.TextStyleSnackbar)
+                                        ));
+      return;
+    }
+    try {
+      String contents = await f.readAsString();
+      Iterable contactsJson = json.decode(contents);
+      List<Contact> contacts = List();
+      List<Contact> contactsToAdd = List();
+      contactsJson.forEach((contact) {
+        contacts.add(Contact.fromJson(contact));
+      });
+      DBHelper dbHelper = DBHelper();
+      for (Contact contact in contacts) {
+        print(contact.name);
+        if (!await dbHelper.contactExistsWithName(contact.name) &&  !await dbHelper.contactExistsWithAddress(contact.address)) {
+          // Contact doesnt exist, make sure name and address are valid
+          if (Address(contact.address).isValid()) {
+            if (contact.name.startsWith("@") && contact.name.length <= 25) {
+              contactsToAdd.add(contact);
+            }
+          }
+        }
+      }
+      // Save all the new contacts and update states
+      int numSaved = await dbHelper.saveContacts(contactsToAdd);
+      if (numSaved > 0) {
+        var newList = await dbHelper.getContacts();
+        setState(() {
+          _contacts = newList;
+        });
+        RxBus.post(Contact(name:"", address:""), tag: RX_CONTACT_MODIFIED_TAG);
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                          content: Text(
+                                            "Successfully imported $numSaved contacts.",
+                                            style: KaliumStyles.TextStyleSnackbar)
+                                          ));
+      } else {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                          content: Text(
+                                            "No new contacts to import",
+                                            style: KaliumStyles.TextStyleSnackbar)
+                                          ));        
+      }
+    } catch (e) {
+      log.severe(e.toString());
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                        content: Text(
+                                          "Couldn't parse file",
+                                          style: KaliumStyles.TextStyleSnackbar)
+                                        ));
+      return;      
+    }
+  }
 
   @override
   void initState() {
@@ -210,14 +302,17 @@ class _SettingsSheetState extends State<SettingsSheet> {
     // presses and replace the main settings widget with contacts based on a bool
     return new WillPopScope(
         onWillPop: _onBackButtonPressed,
-        child: AnimatedCrossFade(
-          duration: const Duration(milliseconds: 200),
-          firstChild: buildMainSettings(context),
-          secondChild: buildContacts(context),
-          crossFadeState: _contactsOpen
-              ? CrossFadeState.showSecond
-              : CrossFadeState.showFirst,
-        ));
+        child: Scaffold(
+          key: _scaffoldKey,
+          body: AnimatedCrossFade(
+            duration: const Duration(milliseconds: 200),
+            firstChild: buildMainSettings(context),
+            secondChild: buildContacts(context),
+            crossFadeState: _contactsOpen
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
+          ))
+        );
   }
 
   Widget buildMainSettings(BuildContext context) {
@@ -417,7 +512,9 @@ class _SettingsSheetState extends State<SettingsSheet> {
                       margin: EdgeInsets.only(right: 10, left: 10),
                       child: FlatButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            setState(() {
+                              _contactsOpen = false;
+                            });
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0)),
@@ -438,7 +535,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                       margin: EdgeInsets.only(right: 5),
                       child: FlatButton(
                           onPressed: () {
-                            return null;
+                            _importContacts();
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0)),
@@ -453,7 +550,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                       margin: EdgeInsets.only(right: 20),
                       child: FlatButton(
                           onPressed: () {
-                            return null;
+                            _exportContacts();
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0)),

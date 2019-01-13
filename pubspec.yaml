@@ -78,6 +78,15 @@ dependencies:
 
   # Share images/text
   esys_flutter_share: ^0.0.7
+  # Share files
+  share:
+    git:
+      url: https://github.com/pboos/plugins.git
+      path: packages/share
+      ref: feature/shareFile
+
+  # File picker
+  file_picker: ^1.1.1
 
 dev_dependencies:
   flutter_test:

@@ -167,7 +167,7 @@ class AddContactSheet {
                                   fontFamily: 'NunitoSans',
                                 ),
                                 inputFormatters: [
-                                  LengthLimitingTextInputFormatter(13),
+                                  LengthLimitingTextInputFormatter(25),
                                   ContactInputFormatter()
                                 ],
                                 onSubmitted: (text) {
