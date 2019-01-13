@@ -31,14 +31,13 @@ class CurrencyInputFormatter extends TextInputFormatter {
       });
     }
     if (splitStr[1].length <= NumberUtil.maxDecimalDigits) {
-      if (returnOriginal) {
+      if (workingText == newValue.text) {
         return newValue;
       } else {
-        String newText = splitStr[0] + "." + splitStr[1];
         return newValue.copyWith(
-          text: newText,
-          selection: new TextSelection.collapsed(offset: newText.length));
-      }
+          text: workingText,
+          selection: new TextSelection.collapsed(offset: workingText.length));
+       }
     }
     String newText = splitStr[0] + "." + splitStr[1].substring(0, NumberUtil.maxDecimalDigits);
     return newValue.copyWith(
