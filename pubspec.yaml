@@ -121,6 +121,7 @@ flutter:
     - assets/send_animation.flr
     - assets/pulltorefresh_animation.flr
     - assets/loading_animation.flr
+    - assets/sharecard_animation.flr
     - assets/sharecard_bananologo.svg
     - assets/sharecard_tickerwebsite.svg
 
