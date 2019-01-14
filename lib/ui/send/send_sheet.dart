@@ -200,7 +200,7 @@ class KaliumSendSheet {
                   ],
                 ),
 
-                // A main container that holds "Enter Amount" and "Enter Address" text fields
+                // A main container that holds everything
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(top: 35, bottom: 35),
@@ -218,6 +218,7 @@ class KaliumSendSheet {
                             constraints: BoxConstraints.expand(),
                           ),
                         ),
+                        // A column for Enter Amount, Enter Address, Error containers and the pop up list
                         Column(
                           children: <Widget>[
                             Stack(
