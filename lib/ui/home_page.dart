@@ -889,8 +889,8 @@ class TransactionDetailsSheet {
                                       Navigator.of(context).pop();
                                       AddContactSheet(address: _address).mainBottomSheet(context);
                                     },
-                                    splashColor: KaliumColors.text30,
-                                    highlightColor: KaliumColors.text15,
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
                                     shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(100.0)),
