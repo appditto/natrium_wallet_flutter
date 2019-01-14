@@ -1012,10 +1012,8 @@ class MonkeyOverlay extends ModalRoute<void> {
           ),
           Center(
             child: ClipOval(
-              child: AnimatedContainer(
-                curve: Curves.elasticInOut,
-                duration: Duration(milliseconds: 200),
-                decoration: BoxDecoration(),
+              child: Container(
+                margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.05),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width,
                 child: monKey,
