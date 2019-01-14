@@ -147,7 +147,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.register<Contact>(tag: RX_CONTACT_ADDED_ALT_TAG).listen((contact) {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
         content: new Text("${contact.name} added to contacts.",
-        style: KaliumStyles.TextStyleSnackbar),
+            style: KaliumStyles.TextStyleSnackbar),
       ));
     });
   }
@@ -194,7 +194,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         displayName = contact.name;
       }
     });
-    return _buildTransactionCard(_historyList[index], animation, displayName, context);
+    return _buildTransactionCard(
+        _historyList[index], animation, displayName, context);
   }
 
   // Return widget for list
@@ -419,7 +420,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   }
 
 // Transaction Card/List Item
-Widget _buildTransactionCard(AccountHistoryResponseItem item,
+  Widget _buildTransactionCard(AccountHistoryResponseItem item,
       Animation<double> animation, String displayName, BuildContext context) {
     TransactionDetailsSheet transactionDetails =
         TransactionDetailsSheet(item.hash, item.account, displayName);
@@ -694,9 +695,17 @@ Widget _buildTransactionCard(AccountHistoryResponseItem item,
           ),
           _getBalanceWidget(context),
           Container(
-            child: _monKey,
             width: 90.0,
             height: 90.0,
+            child: FlatButton(
+                child: _monKey,
+                padding: EdgeInsets.all(0.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100.0)),
+                onPressed: () {
+                  Navigator.of(context).push(MonkeyOverlay(_monKey));
+                }),
+                
           ),
         ],
       ),
@@ -842,10 +851,19 @@ class TransactionDetailsSheet {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(100.0)),
-                                    color: _addressCopied ? KaliumColors.success : KaliumColors.primary,
-                                    child: Text(_addressCopied ? "Address Copied" : "Copy Address",
+                                    color: _addressCopied
+                                        ? KaliumColors.success
+                                        : KaliumColors.primary,
+                                    child: Text(
+                                        _addressCopied
+                                            ? "Address Copied"
+                                            : "Copy Address",
                                         textAlign: TextAlign.center,
-                                        style: _addressCopied ? KaliumStyles.TextStyleButtonPrimaryGreen : KaliumStyles.TextStyleButtonPrimary),
+                                        style: _addressCopied
+                                            ? KaliumStyles
+                                                .TextStyleButtonPrimaryGreen
+                                            : KaliumStyles
+                                                .TextStyleButtonPrimary),
                                     padding: EdgeInsets.symmetric(
                                         vertical: 14.0, horizontal: 20),
                                     onPressed: () {
@@ -879,25 +897,36 @@ class TransactionDetailsSheet {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Container(
-                                margin: EdgeInsets.only(top: Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1], right: Dimens.BUTTON_TOP_EXCEPTION_DIMENS[2]),
+                                margin: EdgeInsets.only(
+                                    top: Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
+                                    right:
+                                        Dimens.BUTTON_TOP_EXCEPTION_DIMENS[2]),
                                 child: Container(
                                   height: 55,
                                   width: 55,
                                   // Add Contact Button
-                                  child: !_displayName.startsWith("@") ? FlatButton(
-                                    onPressed: (){
-                                      Navigator.of(context).pop();
-                                      AddContactSheet(address: _address).mainBottomSheet(context);
-                                    },
-                                    splashColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(100.0)),
-                                    padding: EdgeInsets.symmetric(
-                                          vertical: 10.0, horizontal: 10),
-                                    child: Icon(KaliumIcons.addcontact, size:35, color: _addressCopied ? KaliumColors.successDark : KaliumColors.backgroundDark),
-                                  ) : SizedBox(),
+                                  child: !_displayName.startsWith("@")
+                                      ? FlatButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            AddContactSheet(address: _address)
+                                                .mainBottomSheet(context);
+                                          },
+                                          splashColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(100.0)),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 10.0, horizontal: 10),
+                                          child: Icon(KaliumIcons.addcontact,
+                                              size: 35,
+                                              color: _addressCopied
+                                                  ? KaliumColors.successDark
+                                                  : KaliumColors
+                                                      .backgroundDark),
+                                        )
+                                      : SizedBox(),
                                 ),
                               ),
                             ],
@@ -925,5 +954,85 @@ class TransactionDetailsSheet {
             );
           });
         });
+  }
+}
+
+// monKey Overlay
+class MonkeyOverlay extends ModalRoute<void> {
+  var monKey;
+  MonkeyOverlay(this.monKey);
+  @override
+  Duration get transitionDuration => Duration(milliseconds: 200);
+
+  @override
+  bool get opaque => false;
+
+  @override
+  bool get barrierDismissible => false;
+
+  @override
+  Color get barrierColor => KaliumColors.overlay70;
+
+  @override
+  String get barrierLabel => null;
+
+  @override
+  bool get maintainState => false;
+
+  @override
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
+    return Material(
+      type: MaterialType.transparency,
+      child: SafeArea(
+        child: _buildOverlayContent(context),
+      ),
+    );
+  }
+
+  Widget _buildOverlayContent(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints.expand(),
+      child: Stack(
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              color: Colors.transparent,
+              child: SizedBox.expand(),
+              constraints: BoxConstraints.expand(),
+            ),
+          ),
+          Center(
+            child: ClipOval(
+                          child: Container(
+                decoration: BoxDecoration(
+                ),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width,
+                child: monKey,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return FadeTransition(
+      opacity: animation,
+      child: ScaleTransition(
+        scale: animation,
+        child: child,
+      ),
+    );
   }
 }
