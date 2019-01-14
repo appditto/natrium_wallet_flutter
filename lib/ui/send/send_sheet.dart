@@ -45,7 +45,6 @@ class KaliumSendSheet {
   bool _addressValidAndUnfocused = false;
   // Set to true when a contact is being entered
   bool _isContact = false;
-  bool _contactFieldAlignLeft = false;
   // Buttons States (Used because we hide the buttons under certain conditions)
   bool _pasteButtonVisible = true;
   bool _showContactButton = true;
@@ -342,7 +341,7 @@ class KaliumSendSheet {
                               ),
                               // Enter Address Text field
                               child: !_addressValidAndUnfocused ? TextField(
-                                textAlign: _isContact && _contactFieldAlignLeft ? TextAlign.left : TextAlign.center,
+                                textAlign: _isContact && false ? TextAlign.left : TextAlign.center,
                                 focusNode: _sendAddressFocusNode,
                                 controller: _sendAddressController,
                                 cursorColor: KaliumColors.primary,
@@ -436,7 +435,6 @@ class KaliumSendSheet {
                                                     });
                                                     _sendAddressController.text =
                                                         contact.name;
-                                                    _sendAddressFocusNode.unfocus();
                                                   }
                                                 });
                                               }
@@ -473,7 +471,6 @@ class KaliumSendSheet {
                                   if (isContact) {
                                     setState(() {
                                       _isContact = true;
-                                      //_contactFieldAlignLeft = true;
                                     });
                                   } else {
                                     setState(() {

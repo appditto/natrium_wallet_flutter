@@ -1,10 +1,13 @@
 import 'dart:async';
 
+import 'package:intl/intl.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
 
 import 'package:kalium_wallet_flutter/appstate_container.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_backup_seed.dart';
@@ -42,6 +45,12 @@ class KaliumApp extends StatelessWidget {
         fontFamily: 'NunitoSans',
         brightness: Brightness.dark,
       ),
+      localizationsDelegates: [
+        KaliumLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: [Locale("en"), Locale("es"), Locale("pt")],
       initialRoute: '/',
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {

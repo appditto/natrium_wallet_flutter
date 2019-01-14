@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 
 import 'package:kalium_wallet_flutter/dimens.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
@@ -88,7 +89,7 @@ class AddContactSheet {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            "ADD CONTACT",
+                            KaliumLocalization.of(context).addContact,
                             style: KaliumStyles.TextStyleHeader,
                           ),
                         ],
@@ -155,7 +156,7 @@ class AddContactSheet {
                                 maxLines: null,
                                 autocorrect: false,
                                 decoration: InputDecoration(
-                                  hintText: _showNameHint ? "Enter a Name @" : "",
+                                  hintText: _showNameHint ? KaliumLocalization.of(context).contactNameHint : "",
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(
                                       fontSize: 16.0,
@@ -225,7 +226,7 @@ class AddContactSheet {
                                 maxLines: null,
                                 autocorrect: false,
                                 decoration: InputDecoration(
-                                  hintText: _showAddressHint ? "Enter an Address" : "",
+                                  hintText: _showAddressHint ? KaliumLocalization.of(context).addressHint : "",
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(
                                       fontSize: 16.0,
@@ -324,7 +325,7 @@ class AddContactSheet {
                           // Add Contact Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY,
-                              'Add Contact',
+                              KaliumLocalization.of(context).addContact,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             validateForm(setState).then((isValid) {
                               if (!isValid) {
@@ -350,7 +351,7 @@ class AddContactSheet {
                           // Close Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
-                              'Close',
+                              KaliumLocalization.of(context).close,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.pop(context);
                           }),

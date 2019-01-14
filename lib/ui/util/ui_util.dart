@@ -5,6 +5,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/ui/util/exceptions.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 
 enum ThreeLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS, SUCCESS_FULL }
 enum OneLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS }
@@ -343,9 +344,9 @@ class UIUtil {
     );
   }
 
-  static Widget showBlockExplorerWebview(String hash) {
+  static Widget showBlockExplorerWebview(BuildContext context, String hash) {
     return WebviewScaffold(
-      url: KaliumLocalization.BLOCK_EXPLORER_URL + hash,
+      url: KaliumLocalization.of(context).getBlockExplorerUrl(hash),
       appBar: new AppBar(
         backgroundColor: KaliumColors.background,
         brightness: Brightness.dark,
@@ -354,9 +355,9 @@ class UIUtil {
     );
   }
 
-  static Widget showAccountWebview(String account) {
+  static Widget showAccountWebview(BuildContext context, String account) {
     return WebviewScaffold(
-      url: KaliumLocalization.ACCOUNT_EXPLORER_URL + account,
+      url: KaliumLocalization.of(context).getAccountExplorerUrl(account),
       appBar: new AppBar(
         backgroundColor: KaliumColors.background,
         brightness: Brightness.dark,

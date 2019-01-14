@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:kalium_wallet_flutter/ui/home_page.dart';
-import 'package:kalium_wallet_flutter/ui/intro/intro_backup_seed.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
 class IntroWelcomePage extends StatefulWidget {
@@ -48,7 +47,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                           margin: EdgeInsets.symmetric(
                               horizontal: 50, vertical: 20),
                           child: Text(
-                            "Welcome to Kalium. To begin you may create a new wallet or import an existing one.",
+                            KaliumLocalization.of(context).welcomeText,
                             style: KaliumStyles.TextStyleParagraph,
                           ),
                         ),
@@ -65,7 +64,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                         // New Wallet Button
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY,
-                            'New Wallet',
+                            KaliumLocalization.of(context).newWallet,
                             Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                               Navigator.of(context).pushNamed('/intro_backup');
                         }),
@@ -76,7 +75,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                         // Import Wallet Button
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY_OUTLINE,
-                            'Import Wallet',
+                            KaliumLocalization.of(context).importWallet,
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                           Navigator.of(context).pushNamed('/intro_import');
                         }),

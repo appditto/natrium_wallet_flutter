@@ -71,7 +71,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     HttpClient httpClient = new HttpClient();
     String address = StateContainer.of(context).wallet.address;
     var request = await httpClient
-        .getUrl(Uri.parse(KaliumLocalization.MONKEY_DOWNLOAD_URL + address));
+        .getUrl(Uri.parse(KaliumLocalization.of(context).getMonkeyDownloadUrl(address)));
     var response = await request.close();
     var bytes = await consolidateHttpClientResponseBytes(response);
     String dir = (await getApplicationDocumentsDirectory()).path;
@@ -944,7 +944,7 @@ class TransactionDetailsSheet {
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) {
-                              return UIUtil.showBlockExplorerWebview(_hash);
+                              return UIUtil.showBlockExplorerWebview(context, _hash);
                             }));
                           }),
                         ],

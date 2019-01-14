@@ -4,6 +4,7 @@ import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
@@ -107,7 +108,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      "Import seed",
+                                      KaliumLocalization.of(context).importSeed,
                                       style: KaliumStyles.TextStyleHeaderColored,
                                     ),
                                   ],
@@ -119,7 +120,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                     EdgeInsets.only(left: 50, right: 50, top: 15.0),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                    "Please enter your seed below.",
+                                    KaliumLocalization.of(context).importSeedHint,
                                     style: KaliumStyles.TextStyleParagraph,
                                     textAlign: TextAlign.left,),
                               ),
@@ -203,7 +204,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                               // "Invalid Seed" text that appears if the input is invalid
                               Container(
                                 margin: EdgeInsets.only(top: 5),
-                                child: Text('Invalid Seed',
+                                child: Text(KaliumLocalization.of(context).seedInvalid,
                                     style: TextStyle(
                                       fontSize: 14.0,
                                       color: _errorTextColor,

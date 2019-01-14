@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
@@ -64,7 +65,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "Backup your seed",
+                                KaliumLocalization.of(context).backupYourSeed,
                                 style: KaliumStyles.TextStyleHeaderColored,
                               ),
                             ],
@@ -75,7 +76,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                           margin:
                               EdgeInsets.only(left: 50, right: 50, top: 15.0),
                           child: Text(
-                              "Are you sure that you backed up your wallet seed?",
+                              KaliumLocalization.of(context).backupSeedConfirm,
                               style: KaliumStyles.TextStyleParagraph),
                         ),
                       ],
@@ -91,7 +92,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                         // YES Button
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY,
-                            'YES',
+                            KaliumLocalization.of(context).yes.toUpperCase(),
                             Dimens.BUTTON_TOP_DIMENS, 
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -106,7 +107,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                         // NO BUTTON
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY_OUTLINE,
-                            'NO',
+                            KaliumLocalization.of(context).no.toUpperCase(),
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                               Navigator.of(context).pop();
                         }),

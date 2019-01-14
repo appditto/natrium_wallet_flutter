@@ -6,6 +6,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
 import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
@@ -46,9 +47,9 @@ class ContactDetailsSheet {
                       child: FlatButton(
                         onPressed: () {
                           KaliumDialogs.showConfirmDialog(context,
-                                                          "Remove Contact",
-                                                          "Are you sure you want to delete ${contact.name}?",
-                                                          "YES",
+                                                          KaliumLocalization.of(context).removeContact,
+                                                          KaliumLocalization.of(context).getRemoveContactConfirmation(contact.name),
+                                                          KaliumLocalization.of(context).yes.toUpperCase(),
                           () {
                             DBHelper dbHelper = DBHelper();
                             dbHelper.deleteContact(contact).then((deleted) {
@@ -61,7 +62,7 @@ class ContactDetailsSheet {
                               }
                             });
                           },
-                          cancelText: "NO");
+                          cancelText: KaliumLocalization.of(context).no.toUpperCase());
                         },
                         child: Icon(KaliumIcons.trashcan,
                             size: 24, color: KaliumColors.text),
@@ -77,7 +78,7 @@ class ContactDetailsSheet {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            "CONTACT",
+                            KaliumLocalization.of(context).contactHeader.toUpperCase(),
                             style: KaliumStyles.TextStyleHeader,
                           ),
                         ],
@@ -92,7 +93,7 @@ class ContactDetailsSheet {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (BuildContext context) {
-                            return UIUtil.showAccountWebview(contact.address);
+                            return UIUtil.showAccountWebview(context, contact.address);
                           }));
                         },
                         child: Icon(KaliumIcons.search,
@@ -181,7 +182,7 @@ class ContactDetailsSheet {
                       // Address Copied text container
                       Container(
                         margin: EdgeInsets.only(top: 5, bottom: 5),
-                        child: Text(_addressCopied ? "Address Copied" : "",
+                        child: Text(_addressCopied ? KaliumLocalization.of(context).addressCopied : "",
                             style: TextStyle(
                               fontSize: 14.0,
                               color: KaliumColors.success,
@@ -202,7 +203,7 @@ class ContactDetailsSheet {
                           // Send Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY,
-                              'Send',
+                              KaliumLocalization.of(context).send,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             return null;
                           }),
@@ -213,7 +214,7 @@ class ContactDetailsSheet {
                           // Close Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
-                              'Close',
+                              KaliumLocalization.of(context).close,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.pop(context);
                           }),

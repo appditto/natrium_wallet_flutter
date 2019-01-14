@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
@@ -97,7 +98,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "Seed",
+                                  KaliumLocalization.of(context).seed,
                                   style: KaliumStyles.TextStyleHeaderColored,
                                 ),
                               ],
@@ -109,7 +110,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 EdgeInsets.only(left: 50, right: 50, top: 15.0),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                                "Below is your wallet's seed. It is crucial that you backup your seed and never store it as plaintext or a screenshot.",
+                                KaliumLocalization.of(context).seedBackupInfo,
                                 style: KaliumStyles.TextStyleParagraph),
                           ),
                           Container(
@@ -149,7 +150,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                           // "Seed copied to Clipboard" text that appaears when seed is tapped
                           Container(
                             margin: EdgeInsets.only(top: 5),
-                            child: Text('Seed Copied To Clipboard',
+                            child: Text(KaliumLocalization.of(context).seedCopied,
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   color: _seedCopiedColor,
