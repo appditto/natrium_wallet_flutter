@@ -97,7 +97,7 @@ class KaliumSendSheet {
                   _addressValidAndUnfocused = false;
                 });
                 _sendAddressController.selection = TextSelection.fromPosition(
-                          TextPosition(offset: _sendAddressController.text.length));
+                    TextPosition(offset: _sendAddressController.text.length));
               } else {
                 setState(() {
                   _addressHint = _addressHintText;
@@ -220,320 +220,133 @@ class KaliumSendSheet {
                         ),
                         Column(
                           children: <Widget>[
-                            // Enter Amount Container
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left:
-                                      MediaQuery.of(context).size.width * 0.105,
-                                  right: MediaQuery.of(context).size.width *
-                                      0.105),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: KaliumColors.backgroundDarkest,
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              // Amount Text Field
-                              child: TextField(
-                                focusNode: _sendAmountFocusNode,
-                                controller: _sendAmountController,
-                                cursorColor: KaliumColors.primary,
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(13),
-                                  WhitelistingTextInputFormatter(
-                                      RegExp("[0-9.,]")),
-                                  CurrencyInputFormatter()
-                                ],
-                                onChanged: (text) {
-                                  // Always reset the error message to be less annoying
-                                  setState(() {
-                                    _amountValidationText = "";
-                                  });
-                                },
-                                textInputAction: TextInputAction.next,
-                                maxLines: null,
-                                autocorrect: false,
-                                decoration: InputDecoration(
-                                  hintText: _amountHint,
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w100,
-                                      fontFamily: 'NunitoSans'),
-                                  // Currency Switch Button
-                                  prefixIcon: Container(
-                                    width: 48,
-                                    height: 48,
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(14.0),
-                                      highlightColor: KaliumColors.primary15,
-                                      splashColor: KaliumColors.primary30,
-                                      onPressed: () {
-                                        return null;
-                                      },
-                                      child: Icon(KaliumIcons.swapcurrency,
-                                          size: 20,
-                                          color: KaliumColors.primary),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(200.0)),
+                            Stack(
+                              children: <Widget>[
+                                // Column for Enter Amount container + Enter Amount Error container
+                                Column(
+                                  children: <Widget>[
+                                    // ******* Enter Amount Container ******* //
+                                    getEnterAmountContainer(context, setState),
+                                    // ******* Enter Amount Container End ******* //
+
+                                    // ******* Enter Amount Error Container ******* //
+                                    Container(
+                                      alignment: Alignment(0, 0),
+                                      margin: EdgeInsets.only(top: 3),
+                                      child: Text(_amountValidationText,
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            color: KaliumColors.primary,
+                                            fontFamily: 'NunitoSans',
+                                            fontWeight: FontWeight.w600,
+                                          )),
                                     ),
-                                  ),
-                                  // MAX Button
-                                  suffixIcon: Container(
-                                    width: 48,
-                                    height: 48,
-                                    child: FlatButton(
-                                      highlightColor: KaliumColors.primary15,
-                                      splashColor: KaliumColors.primary30,
-                                      padding: EdgeInsets.all(12.0),
-                                      onPressed: () {
-                                        return null;
-                                      },
-                                      child: Icon(KaliumIcons.max,
-                                          size: 24,
-                                          color: KaliumColors.primary),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(200.0)),
-                                    ),
-                                  ),
+                                    // ******* Enter Amount Error Container End ******* //
+                                  ],
                                 ),
-                                keyboardType: TextInputType.numberWithOptions(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16.0,
-                                  color: KaliumColors.primary,
-                                  fontFamily: 'NunitoSans',
-                                ),
-                                onSubmitted: (text) {
-                                  if (!Address(_sendAddressController.text).isValid()) {
-                                    FocusScope.of(context)
-                                        .requestFocus(_sendAddressFocusNode);
-                                  }
-                                },
-                              ),
-                            ),
-                            // Enter Amount Error Container
-                            Container(
-                              margin: EdgeInsets.only(top: 5, bottom: 5),
-                              child: Text(_amountValidationText,
-                                  style: TextStyle(
-                                    fontSize: 14.0,
-                                    color: KaliumColors.primary,
-                                    fontFamily: 'NunitoSans',
-                                    fontWeight: FontWeight.w600,
-                                  )),
-                            ),
-                            // Enter Address Container
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left:
-                                      MediaQuery.of(context).size.width * 0.105,
-                                  right: MediaQuery.of(context).size.width *
-                                      0.105),
-                              padding: _addressValidAndUnfocused ? EdgeInsets.symmetric(
-                                    horizontal: 25.0, vertical: 15.0) : EdgeInsets.zero,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: KaliumColors.backgroundDarkest,
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              // Enter Address Text field
-                              child: !_addressValidAndUnfocused ? TextField(
-                                textAlign: _isContact && false ? TextAlign.left : TextAlign.center,
-                                focusNode: _sendAddressFocusNode,
-                                controller: _sendAddressController,
-                                cursorColor: KaliumColors.primary,
-                                keyboardAppearance: Brightness.dark,
-                                inputFormatters: [
-                                  _isContact ? LengthLimitingTextInputFormatter(20) : LengthLimitingTextInputFormatter(64),
-                                ],
-                                textInputAction: TextInputAction.done,
-                                maxLines: null,
-                                autocorrect: false,
-                                decoration: InputDecoration(
-                                  hintText: _addressHint,
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w100,
-                                      fontFamily: 'NunitoSans'),
-                                  // @ Button
-                                  prefixIcon: AnimatedCrossFade(
-                                    duration: Duration(milliseconds: 100),
-                                    firstChild: Container(
-                                      width: 48.0,
-                                      height: 48.0,
-                                      child: FlatButton(
-                                        highlightColor: KaliumColors.primary15,
-                                        splashColor: KaliumColors.primary30,
-                                        padding: EdgeInsets.all(14.0),
-                                        onPressed: () {
-                                          // Show menu
-                                          return null;
-                                        },
-                                        child: Icon(KaliumIcons.at,
-                                            size: 20,
-                                            color: KaliumColors.primary),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(200.0)),
+
+                                // Column for Enter Address container + Enter Address Error container
+                                Column(
+                                  children: <Widget>[
+                                    Container(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Stack(
+                                        alignment: Alignment.bottomCenter,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.105,
+                                                right: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.105),
+                                            alignment: Alignment.bottomCenter,
+                                            constraints: BoxConstraints(
+                                                maxHeight: 144, minHeight: 0),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                                color: KaliumColors
+                                                    .backgroundDarkest,
+                                              ),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(25),
+                                                ),
+                                                margin:
+                                                    EdgeInsets.only(bottom: 50),
+                                                // ********* The pop-up Contacts List ********* //
+                                                child: ListView(
+                                                  itemExtent: 30,
+                                                  shrinkWrap: true,
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 0, top: 0),
+                                                  children: <Widget>[
+                                                    FlatButton(
+                                                      onPressed: () {
+                                                        return null;
+                                                      },
+                                                      child: Text("@start",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: KaliumStyles
+                                                              .TextStyleAddressPrimary),
+                                                    ),
+                                                    FlatButton(
+                                                      onPressed: () {
+                                                        return null;
+                                                      },
+                                                      child: Text("@fudcake",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: KaliumStyles
+                                                              .TextStyleAddressPrimary),
+                                                    ),
+                                                    FlatButton(
+                                                      onPressed: () {
+                                                        return null;
+                                                      },
+                                                      child: Text("@end",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: KaliumStyles
+                                                              .TextStyleAddressPrimary),
+                                                    ),
+                                                  ],
+                                                ),// ********* The pop-up Contacts List End ********* //
+                                              ),
+                                            ),
+                                          ),
+
+                                          // ******* Enter Address Container ******* //
+                                          getEnterAddressContainer(
+                                              context, setState),
+                                          // ******* Enter Address Container End ******* //
+                                        ],
                                       ),
                                     ),
-                                    secondChild: SizedBox(),
-                                    crossFadeState: _showContactButton
-                                          ? CrossFadeState.showFirst
-                                          : CrossFadeState.showSecond,
-                                  ),
-                                  // Paste Button
-                                  suffixIcon: AnimatedCrossFade(
-                                    duration: const Duration(milliseconds: 100),
-                                    firstChild: Container(
-                                        width: 48.0,
-                                        height: 48.0,
-                                        child: FlatButton(
-                                          highlightColor:
-                                              KaliumColors.primary15,
-                                          splashColor: KaliumColors.primary30,
-                                          padding: EdgeInsets.all(14.0),
-                                          onPressed: () {
-                                            Clipboard.getData("text/plain")
-                                                .then((ClipboardData data) {
-                                              if (data == null ||
-                                                  data.text == null) {
-                                                return;
-                                              }
-                                              Address address =
-                                                  new Address(data.text);
-                                              if (address.isValid()) {
-                                                DBHelper().getContactWithAddress(address.address).then((contact) {
-                                                  if (contact == null) {
-                                                    setState(() {
-                                                      _isContact = false;
-                                                      _addressValidationText = "";
-                                                      _sendAddressStyle = KaliumStyles
-                                                          .TextStyleAddressText90;
-                                                      _pasteButtonVisible = false;
-                                                      _showContactButton = false;
-                                                    });
-                                                    _sendAddressController.text =
-                                                        address.address;
-                                                    _sendAddressFocusNode.unfocus();
-                                                    setState(() {
-                                                      _addressValidAndUnfocused = true;
-                                                    });
-                                                  } else {
-                                                    // Is a contact
-                                                    setState(() {
-                                                      _isContact = true;
-                                                      _addressValidationText = "";
-                                                      _sendAddressStyle = KaliumStyles
-                                                          .TextStyleAddressPrimary;
-                                                      _pasteButtonVisible = false;
-                                                      _showContactButton = false;
-                                                    });
-                                                    _sendAddressController.text =
-                                                        contact.name;
-                                                  }
-                                                });
-                                              }
-                                            });
-                                          },
-                                          child: Icon(KaliumIcons.paste,
-                                              size: 20,
-                                              color: KaliumColors.primary),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      200.0)),
-                                        ),
-                                      ),
-                                    secondChild: SizedBox(),
-                                   crossFadeState: _pasteButtonVisible
-                                          ? CrossFadeState.showFirst
-                                          : CrossFadeState.showSecond,
-                                  ),
+
+                                    // ******* Enter Address Error Container ******* //
+                                    Container(
+                                      alignment: Alignment(0, 0),
+                                      margin: EdgeInsets.only(top: 3),
+                                      child: Text(_addressValidationText,
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            color: KaliumColors.primary,
+                                            fontFamily: 'NunitoSans',
+                                            fontWeight: FontWeight.w600,
+                                          )),
+                                    ),
+                                    // ******* Enter Address Error Container End ******* //
+                                  ],
                                 ),
-                                style: _sendAddressStyle,
-                                onChanged: (text) {
-                                  if (text.length > 0) {
-                                    setState(() {
-                                      _showContactButton = false;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      _showContactButton = true;
-                                    });
-                                  }
-                                  bool isContact = text.startsWith("@");
-                                  // Switch to contact mode if starts with @
-                                  if (isContact) {
-                                    setState(() {
-                                      _isContact = true;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      _isContact = false;
-                                    });
-                                  }
-                                  // Always reset the error message to be less annoying
-                                  setState(() {
-                                    _addressValidationText = "";
-                                  });
-                                  if (!isContact && Address(text).isValid()) {
-                                    _sendAddressFocusNode.unfocus();
-                                    setState(() {
-                                      _sendAddressStyle =
-                                          KaliumStyles.TextStyleAddressText90;
-                                      _addressValidationText = "";
-                                      _pasteButtonVisible = false;
-                                    });
-                                  } else if (!isContact) {
-                                    setState(() {
-                                      _sendAddressStyle =
-                                          KaliumStyles.TextStyleAddressText60;
-                                      _pasteButtonVisible = true;
-                                    });
-                                  } else {
-                                    DBHelper().getContactWithName(text).then((contact) {
-                                      if (contact == null) {
-                                        setState(() {
-                                          _sendAddressStyle =
-                                              KaliumStyles.TextStyleAddressText60;
-                                        });
-                                      } else {
-                                        _sendAddressFocusNode.unfocus();
-                                        setState(() {
-                                          _sendAddressStyle =
-                                              KaliumStyles.TextStyleAddressPrimary;
-                                        });
-                                      }
-                                    });
-                                  }
-                                },
-                              ) : GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _addressValidAndUnfocused = false;
-                                  });
-                                  Future.delayed(Duration(milliseconds: 50), () {
-                                    FocusScope.of(context).requestFocus(_sendAddressFocusNode);
-                                  });
-                                },
-                                child: UIUtil.threeLineAddressText(_sendAddressController.text),
-                              ),
-                            ),
-                            // Enter Address Error Container
-                            Container(
-                              margin: EdgeInsets.only(top: 5),
-                              child: Text(_addressValidationText,
-                                  style: TextStyle(
-                                    fontSize: 14.0,
-                                    color: KaliumColors.primary,
-                                    fontFamily: 'NunitoSans',
-                                    fontWeight: FontWeight.w600,
-                                  )),
+                              ],
                             ),
                           ],
                         ),
@@ -553,25 +366,30 @@ class KaliumSendSheet {
                               KaliumButtonType.PRIMARY,
                               'Send',
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                            bool validRequest = _validateRequest(context, setState);
+                            bool validRequest =
+                                _validateRequest(context, setState);
                             if (_sendAddressController.text.startsWith("@")) {
                               // Need to make sure its a valid contact
-                              DBHelper().getContactWithName(_sendAddressController.text).then((contact) {
+                              DBHelper()
+                                  .getContactWithName(
+                                      _sendAddressController.text)
+                                  .then((contact) {
                                 if (contact == null) {
                                   setState(() {
                                     _addressValidationText = "Invalid Contact";
                                   });
                                 } else {
-                                  KaliumSendConfirmSheet(_sendAmountController.text,
-                                      contact.address,
-                                      contactName: contact.name)
-                                  .mainBottomSheet(context);
+                                  KaliumSendConfirmSheet(
+                                          _sendAmountController.text,
+                                          contact.address,
+                                          contactName: contact.name)
+                                      .mainBottomSheet(context);
                                 }
                               });
                             } else {
                               KaliumSendConfirmSheet(_sendAmountController.text,
-                                _sendAddressController.text)
-                                .mainBottomSheet(context);            
+                                      _sendAddressController.text)
+                                  .mainBottomSheet(context);
                             }
                           }),
                         ],
@@ -662,7 +480,7 @@ class KaliumSendSheet {
         _addressValidationText = _addressInvalidText;
         _pasteButtonVisible = true;
       });
-    } else if (!isContact){
+    } else if (!isContact) {
       setState(() {
         _addressValidationText = "";
         _pasteButtonVisible = false;
@@ -671,4 +489,296 @@ class KaliumSendSheet {
     }
     return isValid;
   }
+
+  //************ Enter Amount Container Method ************//
+  //*******************************************************//
+  getEnterAmountContainer(BuildContext context, StateSetter setState) {
+    return Container(
+      margin: EdgeInsets.only(
+        left: MediaQuery.of(context).size.width * 0.105,
+        right: MediaQuery.of(context).size.width * 0.105,
+        top: 20,
+      ),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: KaliumColors.backgroundDarkest,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      // Amount Text Field
+      child: TextField(
+        focusNode: _sendAmountFocusNode,
+        controller: _sendAmountController,
+        cursorColor: KaliumColors.primary,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(13),
+          WhitelistingTextInputFormatter(RegExp("[0-9.,]")),
+          CurrencyInputFormatter()
+        ],
+        onChanged: (text) {
+          // Always reset the error message to be less annoying
+          setState(() {
+            _amountValidationText = "";
+          });
+        },
+        textInputAction: TextInputAction.next,
+        maxLines: null,
+        autocorrect: false,
+        decoration: InputDecoration(
+          hintText: _amountHint,
+          border: InputBorder.none,
+          hintStyle: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w100,
+              fontFamily: 'NunitoSans'),
+          // Currency Switch Button
+          prefixIcon: Container(
+            width: 48,
+            height: 48,
+            child: FlatButton(
+              padding: EdgeInsets.all(14.0),
+              highlightColor: KaliumColors.primary15,
+              splashColor: KaliumColors.primary30,
+              onPressed: () {
+                return null;
+              },
+              child: Icon(KaliumIcons.swapcurrency,
+                  size: 20, color: KaliumColors.primary),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(200.0)),
+            ),
+          ),
+          // MAX Button
+          suffixIcon: Container(
+            width: 48,
+            height: 48,
+            child: FlatButton(
+              highlightColor: KaliumColors.primary15,
+              splashColor: KaliumColors.primary30,
+              padding: EdgeInsets.all(12.0),
+              onPressed: () {
+                return null;
+              },
+              child:
+                  Icon(KaliumIcons.max, size: 24, color: KaliumColors.primary),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(200.0)),
+            ),
+          ),
+        ),
+        keyboardType: TextInputType.numberWithOptions(),
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 16.0,
+          color: KaliumColors.primary,
+          fontFamily: 'NunitoSans',
+        ),
+        onSubmitted: (text) {
+          if (!Address(_sendAddressController.text).isValid()) {
+            FocusScope.of(context).requestFocus(_sendAddressFocusNode);
+          }
+        },
+      ),
+    );
+  } //************ Enter Address Container Method End ************//
+  //*************************************************************//
+
+  //************ Enter Address Container Method ************//
+  //*******************************************************//
+  getEnterAddressContainer(BuildContext context, StateSetter setState) {
+    return Container(
+      margin: EdgeInsets.only(
+        left: MediaQuery.of(context).size.width * 0.105,
+        right: MediaQuery.of(context).size.width * 0.105,
+        top: 95,
+      ),
+      padding: _addressValidAndUnfocused
+          ? EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0)
+          : EdgeInsets.zero,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: KaliumColors.backgroundDarkest,
+        borderRadius: BorderRadius.circular(25),
+      ),
+      // Enter Address Text field
+      child: !_addressValidAndUnfocused
+          ? TextField(
+              textAlign:
+                  _isContact && false ? TextAlign.left : TextAlign.center,
+              focusNode: _sendAddressFocusNode,
+              controller: _sendAddressController,
+              cursorColor: KaliumColors.primary,
+              keyboardAppearance: Brightness.dark,
+              inputFormatters: [
+                _isContact
+                    ? LengthLimitingTextInputFormatter(20)
+                    : LengthLimitingTextInputFormatter(64),
+              ],
+              textInputAction: TextInputAction.done,
+              maxLines: null,
+              autocorrect: false,
+              decoration: InputDecoration(
+                hintText: _addressHint,
+                border: InputBorder.none,
+                hintStyle: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w100,
+                    fontFamily: 'NunitoSans'),
+                // @ Button
+                prefixIcon: AnimatedCrossFade(
+                  duration: Duration(milliseconds: 100),
+                  firstChild: Container(
+                    width: 48.0,
+                    height: 48.0,
+                    child: FlatButton(
+                      highlightColor: KaliumColors.primary15,
+                      splashColor: KaliumColors.primary30,
+                      padding: EdgeInsets.all(14.0),
+                      onPressed: () {
+                        // Show menu
+                        return null;
+                      },
+                      child: Icon(KaliumIcons.at,
+                          size: 20, color: KaliumColors.primary),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(200.0)),
+                    ),
+                  ),
+                  secondChild: SizedBox(),
+                  crossFadeState: _showContactButton
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                ),
+                // Paste Button
+                suffixIcon: AnimatedCrossFade(
+                  duration: const Duration(milliseconds: 100),
+                  firstChild: Container(
+                    width: 48.0,
+                    height: 48.0,
+                    child: FlatButton(
+                      highlightColor: KaliumColors.primary15,
+                      splashColor: KaliumColors.primary30,
+                      padding: EdgeInsets.all(14.0),
+                      onPressed: () {
+                        Clipboard.getData("text/plain")
+                            .then((ClipboardData data) {
+                          if (data == null || data.text == null) {
+                            return;
+                          }
+                          Address address = new Address(data.text);
+                          if (address.isValid()) {
+                            DBHelper()
+                                .getContactWithAddress(address.address)
+                                .then((contact) {
+                              if (contact == null) {
+                                setState(() {
+                                  _isContact = false;
+                                  _addressValidationText = "";
+                                  _sendAddressStyle =
+                                      KaliumStyles.TextStyleAddressText90;
+                                  _pasteButtonVisible = false;
+                                  _showContactButton = false;
+                                });
+                                _sendAddressController.text = address.address;
+                                _sendAddressFocusNode.unfocus();
+                                setState(() {
+                                  _addressValidAndUnfocused = true;
+                                });
+                              } else {
+                                // Is a contact
+                                setState(() {
+                                  _isContact = true;
+                                  _addressValidationText = "";
+                                  _sendAddressStyle =
+                                      KaliumStyles.TextStyleAddressPrimary;
+                                  _pasteButtonVisible = false;
+                                  _showContactButton = false;
+                                });
+                                _sendAddressController.text = contact.name;
+                              }
+                            });
+                          }
+                        });
+                      },
+                      child: Icon(KaliumIcons.paste,
+                          size: 20, color: KaliumColors.primary),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(200.0)),
+                    ),
+                  ),
+                  secondChild: SizedBox(),
+                  crossFadeState: _pasteButtonVisible
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                ),
+              ),
+              style: _sendAddressStyle,
+              onChanged: (text) {
+                if (text.length > 0) {
+                  setState(() {
+                    _showContactButton = false;
+                  });
+                } else {
+                  setState(() {
+                    _showContactButton = true;
+                  });
+                }
+                bool isContact = text.startsWith("@");
+                // Switch to contact mode if starts with @
+                if (isContact) {
+                  setState(() {
+                    _isContact = true;
+                  });
+                } else {
+                  setState(() {
+                    _isContact = false;
+                  });
+                }
+                // Always reset the error message to be less annoying
+                setState(() {
+                  _addressValidationText = "";
+                });
+                if (!isContact && Address(text).isValid()) {
+                  _sendAddressFocusNode.unfocus();
+                  setState(() {
+                    _sendAddressStyle = KaliumStyles.TextStyleAddressText90;
+                    _addressValidationText = "";
+                    _pasteButtonVisible = false;
+                  });
+                } else if (!isContact) {
+                  setState(() {
+                    _sendAddressStyle = KaliumStyles.TextStyleAddressText60;
+                    _pasteButtonVisible = true;
+                  });
+                } else {
+                  DBHelper().getContactWithName(text).then((contact) {
+                    if (contact == null) {
+                      setState(() {
+                        _sendAddressStyle = KaliumStyles.TextStyleAddressText60;
+                      });
+                    } else {
+                      _sendAddressFocusNode.unfocus();
+                      setState(() {
+                        _sendAddressStyle =
+                            KaliumStyles.TextStyleAddressPrimary;
+                      });
+                    }
+                  });
+                }
+              },
+            )
+          : GestureDetector(
+              onTap: () {
+                setState(() {
+                  _addressValidAndUnfocused = false;
+                });
+                Future.delayed(Duration(milliseconds: 50), () {
+                  FocusScope.of(context).requestFocus(_sendAddressFocusNode);
+                });
+              },
+              child: UIUtil.threeLineAddressText(_sendAddressController.text),
+            ),
+    );
+  } //************ Enter Address Container Method End ************//
+  //*************************************************************//
 }
