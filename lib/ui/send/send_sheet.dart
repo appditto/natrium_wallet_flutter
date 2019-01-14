@@ -9,6 +9,8 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/model/address.dart';
+import 'package:kalium_wallet_flutter/model/db/contact.dart';
+import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
@@ -39,10 +41,14 @@ class KaliumSendSheet {
   var _addressHint = _addressHintText;
   var _amountValidationText = "";
   var _addressValidationText = "";
+  // Used to replace address textfield with colorized TextSpan
   bool _addressValidAndUnfocused = false;
-  bool _showContactButton = true;
+  // Set to true when a contact is being entered
+  bool _isContact = false;
+  bool _contactFieldAlignLeft = false;
   // Buttons States (Used because we hide the buttons under certain conditions)
   bool _pasteButtonVisible = true;
+  bool _showContactButton = true;
 
   KaliumSendSheet() {
     _sendAmountFocusNode = new FocusNode();
@@ -336,13 +342,13 @@ class KaliumSendSheet {
                               ),
                               // Enter Address Text field
                               child: !_addressValidAndUnfocused ? TextField(
-                                textAlign: TextAlign.center,
+                                textAlign: _isContact && _contactFieldAlignLeft ? TextAlign.left : TextAlign.center,
                                 focusNode: _sendAddressFocusNode,
                                 controller: _sendAddressController,
                                 cursorColor: KaliumColors.primary,
                                 keyboardAppearance: Brightness.dark,
                                 inputFormatters: [
-                                  LengthLimitingTextInputFormatter(64),
+                                  _isContact ? LengthLimitingTextInputFormatter(20) : LengthLimitingTextInputFormatter(64),
                                 ],
                                 textInputAction: TextInputAction.done,
                                 maxLines: null,
@@ -365,6 +371,7 @@ class KaliumSendSheet {
                                         splashColor: KaliumColors.primary30,
                                         padding: EdgeInsets.all(14.0),
                                         onPressed: () {
+                                          // Show menu
                                           return null;
                                         },
                                         child: Icon(KaliumIcons.at,
@@ -401,18 +408,36 @@ class KaliumSendSheet {
                                               Address address =
                                                   new Address(data.text);
                                               if (address.isValid()) {
-                                                setState(() {
-                                                  _addressValidationText = "";
-                                                  _sendAddressStyle = KaliumStyles
-                                                      .TextStyleAddressText90;
-                                                  _pasteButtonVisible = false;
-                                                  _showContactButton = false;
-                                                });
-                                                _sendAddressController.text =
-                                                    address.address;
-                                                _sendAddressFocusNode.unfocus();
-                                                setState(() {
-                                                  _addressValidAndUnfocused = true;
+                                                DBHelper().getContactWithAddress(address.address).then((contact) {
+                                                  if (contact == null) {
+                                                    setState(() {
+                                                      _isContact = false;
+                                                      _addressValidationText = "";
+                                                      _sendAddressStyle = KaliumStyles
+                                                          .TextStyleAddressText90;
+                                                      _pasteButtonVisible = false;
+                                                      _showContactButton = false;
+                                                    });
+                                                    _sendAddressController.text =
+                                                        address.address;
+                                                    _sendAddressFocusNode.unfocus();
+                                                    setState(() {
+                                                      _addressValidAndUnfocused = true;
+                                                    });
+                                                  } else {
+                                                    // Is a contact
+                                                    setState(() {
+                                                      _isContact = true;
+                                                      _addressValidationText = "";
+                                                      _sendAddressStyle = KaliumStyles
+                                                          .TextStyleAddressPrimary;
+                                                      _pasteButtonVisible = false;
+                                                      _showContactButton = false;
+                                                    });
+                                                    _sendAddressController.text =
+                                                        contact.name;
+                                                    _sendAddressFocusNode.unfocus();
+                                                  }
                                                 });
                                               }
                                             });
@@ -443,11 +468,23 @@ class KaliumSendSheet {
                                       _showContactButton = true;
                                     });
                                   }
+                                  bool isContact = text.startsWith("@");
+                                  // Switch to contact mode if starts with @
+                                  if (isContact) {
+                                    setState(() {
+                                      _isContact = true;
+                                      //_contactFieldAlignLeft = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _isContact = false;
+                                    });
+                                  }
                                   // Always reset the error message to be less annoying
                                   setState(() {
                                     _addressValidationText = "";
                                   });
-                                  if (Address(text).isValid()) {
+                                  if (!isContact && Address(text).isValid()) {
                                     _sendAddressFocusNode.unfocus();
                                     setState(() {
                                       _sendAddressStyle =
@@ -455,11 +492,26 @@ class KaliumSendSheet {
                                       _addressValidationText = "";
                                       _pasteButtonVisible = false;
                                     });
-                                  } else {
+                                  } else if (!isContact) {
                                     setState(() {
                                       _sendAddressStyle =
                                           KaliumStyles.TextStyleAddressText60;
                                       _pasteButtonVisible = true;
+                                    });
+                                  } else {
+                                    DBHelper().getContactWithName(text).then((contact) {
+                                      if (contact == null) {
+                                        setState(() {
+                                          _sendAddressStyle =
+                                              KaliumStyles.TextStyleAddressText60;
+                                        });
+                                      } else {
+                                        _sendAddressFocusNode.unfocus();
+                                        setState(() {
+                                          _sendAddressStyle =
+                                              KaliumStyles.TextStyleAddressPrimary;
+                                        });
+                                      }
                                     });
                                   }
                                 },

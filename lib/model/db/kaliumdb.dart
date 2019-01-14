@@ -29,7 +29,7 @@ class DBHelper{
     "CREATE TABLE Contacts(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, monkey_path TEXT)");
   }
   
-  // Retrieving credentials
+  // Contacts
   Future<List<Contact>> getContacts() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts ORDER BY name');
@@ -38,6 +38,24 @@ class DBHelper{
       contacts.add(new Contact(id: list[i]["id"], name: list[i]["name"], address: list[i]["address"], monkeyPath: list[i]["monkey_path"]));
     }
     return contacts;
+  }
+
+  Future<Contact> getContactWithAddress(String address) async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts WHERE address = ?', [address]);
+    if (list.length > 0) {
+      return Contact(id: list[0]["id"], name: list[0]["name"], address: list[0]["address"], monkeyPath: list[0]["monkey_path"]);
+    }
+    return null;
+  }
+
+  Future<Contact> getContactWithName(String name) async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts WHERE name = ?', [name]);
+    if (list.length > 0) {
+      return Contact(id: list[0]["id"], name: list[0]["name"], address: list[0]["address"], monkeyPath: list[0]["monkey_path"]);
+    }
+    return null;
   }
 
   Future<bool> contactExistsWithName(String name) async {
