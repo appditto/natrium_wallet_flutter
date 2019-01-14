@@ -34,7 +34,7 @@ dependencies:
   shared_preferences: ^0.4.3
 
   # Flare for animations
-  flare_flutter: ^1.0.7
+  flare_flutter: ^1.0.11
 
   # Websockets
   web_socket_channel: ^1.0.9
@@ -70,11 +70,14 @@ dependencies:
   rxdart : ^0.20.0
 
   # SVG
-  flutter_svg: ^0.10.0
+  flutter_svg: ^0.10.0+1
 
   # QR Codes
   qr_flutter: ^1.1.5 # Generator
-  barcode_scan: ^0.0.8 # Scanner
+  barcode_scan:
+    git:
+      url: https://github.com/bbedward/flutter_barcode_reader.git
+      ref: master
 
   # Share files
   share:
