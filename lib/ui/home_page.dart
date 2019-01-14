@@ -125,9 +125,12 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         // Route to send complete
         String displayAmount =
             NumberUtil.getRawAsUsableString(stateBlock.sendAmount);
-        KaliumSendCompleteSheet(displayAmount, stateBlock.link)
-            .mainBottomSheet(context);
-        StateContainer.of(context).requestUpdate();
+        DBHelper().getContactWithAddress(stateBlock.link).then((contact) {
+          String contactName = contact == null ? null : contact.name;
+          KaliumSendCompleteSheet(displayAmount, stateBlock.link, contactName)
+              .mainBottomSheet(context);
+          StateContainer.of(context).requestUpdate();
+        });
       }
     });
     RxBus.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {

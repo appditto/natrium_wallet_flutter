@@ -556,10 +556,25 @@ class KaliumSendSheet {
                               KaliumButtonType.PRIMARY,
                               'Send',
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                            if (_validateRequest(context, setState)) {
-                              KaliumSendConfirmSheet(_sendAmountController.text,
-                                      _sendAddressController.text)
+                            bool validRequest = _validateRequest(context, setState);
+                            if (_sendAddressController.text.startsWith("@")) {
+                              // Need to make sure its a valid contact
+                              DBHelper().getContactWithName(_sendAddressController.text).then((contact) {
+                                if (contact == null) {
+                                  setState(() {
+                                    _addressValidationText = "Invalid Contact";
+                                  });
+                                } else {
+                                  KaliumSendConfirmSheet(_sendAmountController.text,
+                                      contact.address,
+                                      contactName: contact.name)
                                   .mainBottomSheet(context);
+                                }
+                              });
+                            } else {
+                              KaliumSendConfirmSheet(_sendAmountController.text,
+                                _sendAddressController.text)
+                                .mainBottomSheet(context);            
                             }
                           }),
                         ],
@@ -637,19 +652,20 @@ class KaliumSendSheet {
       }
     }
     // Validate address
+    bool isContact = _sendAddressController.text.startsWith("@");
     if (_sendAddressController.text.trim().isEmpty) {
       isValid = false;
       setState(() {
         _addressValidationText = _addressRequiredText;
         _pasteButtonVisible = true;
       });
-    } else if (!Address(_sendAddressController.text).isValid()) {
+    } else if (!isContact && !Address(_sendAddressController.text).isValid()) {
       isValid = false;
       setState(() {
         _addressValidationText = _addressInvalidText;
         _pasteButtonVisible = true;
       });
-    } else {
+    } else if (!isContact){
       setState(() {
         _addressValidationText = "";
         _pasteButtonVisible = false;

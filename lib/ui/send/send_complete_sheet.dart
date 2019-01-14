@@ -11,10 +11,12 @@ import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 class KaliumSendCompleteSheet {
   String _amount;
   String _destination;
+  String _contactName;
 
-  KaliumSendCompleteSheet(String amount, String destinaton) {
+  KaliumSendCompleteSheet(String amount, String destinaton, String contactName) {
     _amount = amount;
     _destination = destinaton;
+    _contactName = contactName;
   }
 
   mainBottomSheet(BuildContext context) {
@@ -111,7 +113,7 @@ class KaliumSendCompleteSheet {
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: UIUtil.threeLineAddressText(_destination, type: ThreeLineAddressTextType.SUCCESS)),
+                          child: UIUtil.threeLineAddressText(_destination, type: ThreeLineAddressTextType.SUCCESS, contactName: _contactName)),
                     ],
                   ),
                 ),

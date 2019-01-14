@@ -20,12 +20,14 @@ class KaliumSendConfirmSheet {
   String _amount;
   String _amountRaw;
   String _destination;
+  String _contactName;
   bool _maxSend;
 
-  KaliumSendConfirmSheet(String amount, String destinaton, {bool maxSend}) {
+  KaliumSendConfirmSheet(String amount, String destinaton, {bool maxSend, String contactName}) {
     _amount = amount;
     _amountRaw = NumberUtil.getAmountAsRaw(amount);
     _destination = destinaton;
+    _contactName = contactName;
     _maxSend = maxSend ?? false;
   }
 
@@ -147,7 +149,7 @@ class KaliumSendConfirmSheet {
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: UIUtil.threeLineAddressText(_destination)),
+                          child: UIUtil.threeLineAddressText(_destination, contactName: _contactName)),
                     ],
                   ),
                 ),
