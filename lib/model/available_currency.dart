@@ -244,6 +244,9 @@ class AvailableCurrency extends SettingSelectionItem {
   // Get best currency for a given locale
   // Default to USD
   static AvailableCurrency getBestForLocale(Locale locale) {
+    return AvailableCurrency(AvailableCurrencyEnum.USD);
+    // TODO - Since adding KaliumLocalizations we only get language code in locale, not country code
+    // Cause the below code to crash
     AvailableCurrencyEnum.values.forEach((value) {
       AvailableCurrency currency = AvailableCurrency(value);
       if (currency.getLocale().countryCode.toUpperCase() == locale.countryCode.toUpperCase()) {

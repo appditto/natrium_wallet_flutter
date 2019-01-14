@@ -194,6 +194,6 @@ class KaliumLocalizationsDelegate extends LocalizationsDelegate<KaliumLocalizati
 
   @override
   bool shouldReload(LocalizationsDelegate<KaliumLocalization> old) {
-    return false;
+    return true;
   }
 }
