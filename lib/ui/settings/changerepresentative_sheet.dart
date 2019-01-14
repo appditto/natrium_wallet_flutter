@@ -28,7 +28,7 @@ class KaliumChangeRepresentativeSheet {
   TextEditingController _repController;
 
   static const String _changeRepHintText = "Enter Representative";
-  String _changeRepHint;
+  String _changeRepHint = _changeRepHintText;
   TextStyle _repAddressStyle;
   bool _showPasteButton = true;
   bool _addressValidAndUnfocused = false;
