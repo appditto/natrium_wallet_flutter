@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-import 'package:flare_flutter/flare_actor.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
@@ -18,7 +21,6 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:qr/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class KaliumReceiveSheet {
   KaliumWallet _wallet;
@@ -57,14 +59,14 @@ class KaliumReceiveSheet {
   // Timer reference so we can cancel repeated events
   Timer _addressCopiedTimer;
 
-  Future<ByteData> _capturePng() async {
+  Future<Uint8List> _capturePng() async {
     if (shareCardKey != null && shareCardKey.currentContext != null) {
       RenderRepaintBoundary boundary =
           shareCardKey.currentContext.findRenderObject();
       ui.Image image = await boundary.toImage(pixelRatio: 5.0);
       ByteData byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
-      return byteData;
+      return byteData.buffer.asUint8List();
     } else {
       return null;
     }
@@ -223,23 +225,38 @@ class KaliumReceiveSheet {
                             _showShareCard ? "Loading" : 'Share Address',
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             disabled: _showShareCard, onPressed: () {
-                          setState(() {
-                            _showShareCard = true;
-                          });
-                          Future.delayed(new Duration(milliseconds: 200), () {
-                            if (_showShareCard) {
-                              _capturePng().then((byteData) {
-                                if (byteData != null) {
-                                  EsysFlutterShare.shareImage(
-                                      "${StateContainer.of(context).wallet.address}.png",
-                                      byteData,
-                                      "Share Via...");
-                                } else {
-                                  // TODO - show a something went wrong message
+                          String receiveCardFileName = "share_${StateContainer.of(context).wallet.address}.png";
+                          getApplicationDocumentsDirectory().then((directory) {
+                            bool doCapture = true;
+                            String filePath = "${directory.path}/$receiveCardFileName";
+                            File f = File(filePath);
+                            if (f.existsSync()) {
+                              try {
+                                Share.shareFile(f);
+                                doCapture = false;
+                              } catch (e) {
+                                doCapture = true;
+                              }
+                            }
+                            if (doCapture) {
+                              setState(() {
+                                _showShareCard = true;
+                              });
+                              Future.delayed(new Duration(milliseconds: 300), () {
+                                if (_showShareCard) {
+                                  _capturePng().then((byteData) {
+                                    if (byteData != null) {
+                                      f.writeAsBytes(byteData).then((file) {
+                                        Share.shareFile(file);
+                                      });
+                                    } else {
+                                      // TODO - show a something went wrong message
+                                    }
+                                    setState(() {
+                                      _showShareCard = false;
+                                    });
+                                  });
                                 }
-                                setState(() {
-                                  _showShareCard = false;
-                                });
                               });
                             }
                           });
