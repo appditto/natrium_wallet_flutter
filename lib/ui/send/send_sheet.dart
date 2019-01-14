@@ -234,6 +234,7 @@ class KaliumSendSheet {
                                   CurrencyInputFormatter()
                                 ],
                                 onChanged: (text) {
+                                                                    print("amount_change: ${text}");
                                   // Always reset the error message to be less annoying
                                   setState(() {
                                     _amountValidationText = "";

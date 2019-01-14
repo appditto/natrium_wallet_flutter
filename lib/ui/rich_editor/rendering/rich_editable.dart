@@ -480,9 +480,11 @@ class RenderRichEditable extends RenderBox {
     final Offset globalPosition = _lastTapDownPosition;
     _lastTapDownPosition = null;
     if (onSelectionChanged != null) {
+      try {
       final TextPosition position =
           _textPainter.getPositionForOffset(globalToLocal(globalPosition));
       onSelectionChanged(new TextSelection.fromPosition(position), this, false);
+      } catch (e) {}
     }
   }
 
@@ -498,9 +500,11 @@ class RenderRichEditable extends RenderBox {
     _longPressPosition = null;
 
     if (onSelectionChanged != null) {
+      try {
       final TextPosition position =
           _textPainter.getPositionForOffset(globalToLocal(globalPosition));
       onSelectionChanged(_selectWordAtOffset(position), this, true);
+      } catch (e) {}
     }
   }
 

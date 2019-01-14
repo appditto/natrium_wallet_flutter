@@ -36,12 +36,15 @@ class RichTextEditingValueParser {
       return newValue.copyWith(value: oldValue.value);
     }
 
-    TextSpan currentSpan = oldValue.value;
-    final TextSelection currentSelection = oldValue.selection;
-    final TextSelection newSelection = newValue.selection;
+    // If text different and children exist, reset to default style
+    if (newValue.text != oldValue.text && oldValue.value.children != null) {
+      oldValue = new RichTextEditingValue(value: TextSpan(text: oldValue.text, style: KaliumStyles.TextStyleAddressText60));
+      newValue = new RichTextEditingValue(value: TextSpan(text: newValue.text, style: KaliumStyles.TextStyleAddressText60));
+    }
 
-    // Remove children from currentSpan for our purposes
-    currentSpan = TextSpan(text: oldValue.text, style: KaliumStyles.TextStyleAddressText60);
+    TextSpan currentSpan = oldValue.value;
+    TextSelection currentSelection = oldValue.selection;
+    TextSelection newSelection = newValue.selection;
 
     log.d("Current span has children: ${currentSpan.children != null}");
 
