@@ -11,18 +11,15 @@ import 'package:kalium_wallet_flutter/styles.dart';
 
 class KaliumSeedBackupSheet {
   // Seed copied state information
-  static const TextStyle _initialSeedStyle = KaliumStyles.TextStyleSeed;
+  bool _seedCopied;
   String _seed;
-  TextStyle _seedCopiedStyle;
   Timer _seedCopiedTimer;
-  var _seedCopiedColor;
 
   mainBottomSheet(BuildContext context) {
     Vault.inst.getSeed().then((result) {
       _seed = result;
       // Set initial seed copy state
-      _seedCopiedStyle = _initialSeedStyle;
-      _seedCopiedColor = Colors.transparent;
+      _seedCopied = false;
       KaliumSheets.showKaliumHeightEightSheet(
           context: context,
           builder: (BuildContext context) {
@@ -65,9 +62,7 @@ class KaliumSeedBackupSheet {
                                 Clipboard.setData(
                                     new ClipboardData(text: _seed));
                                 setState(() {
-                                  _seedCopiedStyle =
-                                      KaliumStyles.TextStyleSeedGreen;
-                                  _seedCopiedColor = KaliumColors.success;
+                                  _seedCopied = true;
                                 });
                                 if (_seedCopiedTimer != null) {
                                   _seedCopiedTimer.cancel();
@@ -75,8 +70,7 @@ class KaliumSeedBackupSheet {
                                 _seedCopiedTimer = new Timer(
                                     const Duration(milliseconds: 800), () {
                                   setState(() {
-                                    _seedCopiedStyle = _initialSeedStyle;
-                                    _seedCopiedColor = Colors.transparent;
+                                    _seedCopied = false;
                                   });
                                 });
                               },
@@ -91,14 +85,14 @@ class KaliumSeedBackupSheet {
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     child: UIUtil.threeLineSeedText(_seed,
-                                        textStyle: _seedCopiedStyle),
+                                        textStyle: _seedCopied ? KaliumStyles.TextStyleSeedGreen : KaliumStyles.TextStyleSeed),
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(top: 5),
                                     child: Text('Seed Copied To Clipboard',
                                         style: TextStyle(
                                           fontSize: 14.0,
-                                          color: _seedCopiedColor,
+                                          color: _seedCopied ? KaliumColors.success : Colors.transparent,
                                           fontFamily: 'NunitoSans',
                                           fontWeight: FontWeight.w600,
                                         )),

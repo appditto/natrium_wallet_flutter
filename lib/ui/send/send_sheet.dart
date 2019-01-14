@@ -39,6 +39,8 @@ class KaliumSendSheet {
   var _addressHint = _addressHintText;
   var _amountValidationText = "";
   var _addressValidationText = "";
+  bool _addressValidAndUnfocused = false;
+  bool _showContactButton = true;
   // Buttons States (Used because we hide the buttons under certain conditions)
   bool _pasteButtonVisible = true;
 
@@ -87,10 +89,16 @@ class KaliumSendSheet {
               if (_sendAddressFocusNode.hasFocus) {
                 setState(() {
                   _addressHint = "";
+                  _addressValidAndUnfocused = false;
                 });
+                _sendAddressController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: _sendAddressController.text.length));
               } else {
                 setState(() {
                   _addressHint = _addressHintText;
+                  if (Address(_sendAddressController.text).isValid()) {
+                    _addressValidAndUnfocused = true;
+                  }
                 });
               }
             });
@@ -294,8 +302,10 @@ class KaliumSendSheet {
                                   fontFamily: 'NunitoSans',
                                 ),
                                 onSubmitted: (text) {
-                                  FocusScope.of(context)
-                                      .requestFocus(_sendAddressFocusNode);
+                                  if (!Address(_sendAddressController.text).isValid()) {
+                                    FocusScope.of(context)
+                                        .requestFocus(_sendAddressFocusNode);
+                                  }
                                 },
                               ),
                             ),
@@ -317,13 +327,15 @@ class KaliumSendSheet {
                                       MediaQuery.of(context).size.width * 0.105,
                                   right: MediaQuery.of(context).size.width *
                                       0.105),
+                              padding: _addressValidAndUnfocused ? EdgeInsets.symmetric(
+                                    horizontal: 25.0, vertical: 15.0) : EdgeInsets.zero,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: KaliumColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               // Enter Address Text field
-                              child: TextField(
+                              child: !_addressValidAndUnfocused ? TextField(
                                 textAlign: TextAlign.center,
                                 focusNode: _sendAddressFocusNode,
                                 controller: _sendAddressController,
@@ -343,76 +355,99 @@ class KaliumSendSheet {
                                       fontWeight: FontWeight.w100,
                                       fontFamily: 'NunitoSans'),
                                   // @ Button
-                                  prefixIcon: Container(
-                                    width: 48.0,
-                                    height: 48.0,
-                                    child: FlatButton(
-                                      highlightColor: KaliumColors.primary15,
-                                      splashColor: KaliumColors.primary30,
-                                      padding: EdgeInsets.all(14.0),
-                                      onPressed: () {
-                                        return null;
-                                      },
-                                      child: Icon(KaliumIcons.at,
-                                          size: 20,
-                                          color: KaliumColors.primary),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(200.0)),
+                                  prefixIcon: AnimatedCrossFade(
+                                    duration: Duration(milliseconds: 100),
+                                    firstChild: Container(
+                                      width: 48.0,
+                                      height: 48.0,
+                                      child: FlatButton(
+                                        highlightColor: KaliumColors.primary15,
+                                        splashColor: KaliumColors.primary30,
+                                        padding: EdgeInsets.all(14.0),
+                                        onPressed: () {
+                                          return null;
+                                        },
+                                        child: Icon(KaliumIcons.at,
+                                            size: 20,
+                                            color: KaliumColors.primary),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(200.0)),
+                                      ),
                                     ),
+                                    secondChild: SizedBox(),
+                                    crossFadeState: _showContactButton
+                                          ? CrossFadeState.showFirst
+                                          : CrossFadeState.showSecond,
                                   ),
                                   // Paste Button
-                                  suffixIcon: _pasteButtonVisible
-                                      ? Container(
-                                          width: 48.0,
-                                          height: 48.0,
-                                          child: FlatButton(
-                                            highlightColor:
-                                                KaliumColors.primary15,
-                                            splashColor: KaliumColors.primary30,
-                                            padding: EdgeInsets.all(14.0),
-                                            onPressed: () {
-                                              Clipboard.getData("text/plain")
-                                                  .then((ClipboardData data) {
-                                                if (data == null ||
-                                                    data.text == null) {
-                                                  return;
-                                                }
-                                                Address address =
-                                                    new Address(data.text);
-                                                if (NanoAccounts.isValid(
-                                                    NanoAccountType.BANANO,
-                                                    address.address)) {
-                                                  setState(() {
-                                                    _addressValidationText = "";
-                                                    _sendAddressStyle = KaliumStyles
-                                                        .TextStyleAddressText90;
-                                                    _pasteButtonVisible = false;
-                                                  });
-                                                  _sendAddressController.text =
-                                                      address.address;
-                                                }
-                                              });
-                                            },
-                                            child: Icon(KaliumIcons.paste,
-                                                size: 20,
-                                                color: KaliumColors.primary),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        200.0)),
-                                          ),
-                                        )
-                                      : SizedBox(),
+                                  suffixIcon: AnimatedCrossFade(
+                                    duration: const Duration(milliseconds: 100),
+                                    firstChild: Container(
+                                        width: 48.0,
+                                        height: 48.0,
+                                        child: FlatButton(
+                                          highlightColor:
+                                              KaliumColors.primary15,
+                                          splashColor: KaliumColors.primary30,
+                                          padding: EdgeInsets.all(14.0),
+                                          onPressed: () {
+                                            Clipboard.getData("text/plain")
+                                                .then((ClipboardData data) {
+                                              if (data == null ||
+                                                  data.text == null) {
+                                                return;
+                                              }
+                                              Address address =
+                                                  new Address(data.text);
+                                              if (address.isValid()) {
+                                                setState(() {
+                                                  _addressValidationText = "";
+                                                  _sendAddressStyle = KaliumStyles
+                                                      .TextStyleAddressText90;
+                                                  _pasteButtonVisible = false;
+                                                  _showContactButton = false;
+                                                });
+                                                _sendAddressController.text =
+                                                    address.address;
+                                                _sendAddressFocusNode.unfocus();
+                                                setState(() {
+                                                  _addressValidAndUnfocused = true;
+                                                });
+                                              }
+                                            });
+                                          },
+                                          child: Icon(KaliumIcons.paste,
+                                              size: 20,
+                                              color: KaliumColors.primary),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      200.0)),
+                                        ),
+                                      ),
+                                    secondChild: SizedBox(),
+                                   crossFadeState: _pasteButtonVisible
+                                          ? CrossFadeState.showFirst
+                                          : CrossFadeState.showSecond,
+                                  ),
                                 ),
                                 style: _sendAddressStyle,
                                 onChanged: (text) {
+                                  if (text.length > 0) {
+                                    setState(() {
+                                      _showContactButton = false;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _showContactButton = true;
+                                    });
+                                  }
                                   // Always reset the error message to be less annoying
                                   setState(() {
                                     _addressValidationText = "";
                                   });
-                                  if (NanoAccounts.isValid(
-                                      NanoAccountType.BANANO, text)) {
+                                  if (Address(text).isValid()) {
                                     _sendAddressFocusNode.unfocus();
                                     setState(() {
                                       _sendAddressStyle =
@@ -428,6 +463,16 @@ class KaliumSendSheet {
                                     });
                                   }
                                 },
+                              ) : GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _addressValidAndUnfocused = false;
+                                  });
+                                  Future.delayed(Duration(milliseconds: 50), () {
+                                    FocusScope.of(context).requestFocus(_sendAddressFocusNode);
+                                  });
+                                },
+                                child: UIUtil.threeLineAddressText(_sendAddressController.text),
                               ),
                             ),
                             // Enter Address Error Container
@@ -488,6 +533,7 @@ class KaliumSendSheet {
                                     _sendAddressStyle =
                                         KaliumStyles.TextStyleAddressText90;
                                     _pasteButtonVisible = false;
+                                    _showContactButton = false;
                                   });
                                 }
                               });
@@ -545,8 +591,7 @@ class KaliumSendSheet {
         _addressValidationText = _addressRequiredText;
         _pasteButtonVisible = true;
       });
-    } else if (!NanoAccounts.isValid(
-        NanoAccountType.BANANO, _sendAddressController.text)) {
+    } else if (!Address(_sendAddressController.text).isValid()) {
       isValid = false;
       setState(() {
         _addressValidationText = _addressInvalidText;
@@ -557,6 +602,7 @@ class KaliumSendSheet {
         _addressValidationText = "";
         _pasteButtonVisible = false;
       });
+      _sendAddressFocusNode.unfocus();
     }
     return isValid;
   }
