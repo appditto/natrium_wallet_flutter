@@ -10,7 +10,7 @@ enum ThreeLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS, SUCCESS_FULL }
 enum OneLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS }
 
 class UIUtil {
-  static Widget threeLineAddressText(String address, { ThreeLineAddressTextType type = ThreeLineAddressTextType.PRIMARY }) {
+  static Widget threeLineAddressText(String address, { ThreeLineAddressTextType type = ThreeLineAddressTextType.PRIMARY, String contactName }) {
     String stringPartOne = address.substring(0, 11);
     String stringPartTwo = address.substring(11, 22);
     String stringPartThree = address.substring(22, 44);
@@ -67,8 +67,17 @@ class UIUtil {
           ],
         );
       case ThreeLineAddressTextType.PRIMARY:
+        Widget contactWidget = contactName != null ? 
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              text: contactName,
+              style: KaliumStyles.TextStyleAddressPrimary
+            )
+          ) : SizedBox();
         return Column(
           children: <Widget>[
+            contactWidget,
             RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
@@ -116,8 +125,17 @@ class UIUtil {
           ],
         );
         case ThreeLineAddressTextType.SUCCESS:
+        Widget contactWidget = contactName != null ? 
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              text: contactName,
+              style: KaliumStyles.TextStyleAddressSuccess
+            )
+          ) : SizedBox();
         return Column(
           children: <Widget>[
+            contactWidget,
             RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
