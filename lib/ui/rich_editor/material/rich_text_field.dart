@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide materialTextSelectionControls;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/cupertino/text_selection.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/extensions.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/material/text_selection.dart';
@@ -273,7 +274,7 @@ class RichTextFieldState extends State<RichTextField> {
           autofocus: widget.autofocus,
           autocorrect: widget.autocorrect,
           maxLines: widget.maxLines,
-          cursorColor: themeData.textSelectionColor,
+          cursorColor: KaliumColors.primary,
           selectionColor: themeData.textSelectionColor,
           selectionControls: themeData.platform == TargetPlatform.iOS
               ? cupertinoTextSelectionControls

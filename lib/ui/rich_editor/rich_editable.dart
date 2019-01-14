@@ -10,7 +10,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_logger/flutter_logger.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/extensions.dart';
 
 const double _kCaretGap = 1.0; // pixels
@@ -140,8 +139,6 @@ class RenderRichEditable extends RenderBox {
     _longPress = new LongPressGestureRecognizer(debugOwner: this)
       ..onLongPress = _handleLongPress;
   }
-
-  Log log = new Log("RenderRichEditable");
 
   /// Called when the selection changes.
   SelectionChangedHandler onSelectionChanged;

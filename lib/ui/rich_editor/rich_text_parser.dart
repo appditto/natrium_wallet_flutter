@@ -3,9 +3,21 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_logger/flutter_logger.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/extensions.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/text_input.dart';
+
+class Log {
+  Log(String something);
+
+  void d(var s) {
+    return;
+  }
+
+  void w(var s) { }
+
+  void e(var s) { }
+}
 
 class RichTextEditingValueParser {
   static final Log log = new Log("RichTextEditingValueParser");
@@ -24,9 +36,12 @@ class RichTextEditingValueParser {
       return newValue.copyWith(value: oldValue.value);
     }
 
-    final TextSpan currentSpan = oldValue.value;
+    TextSpan currentSpan = oldValue.value;
     final TextSelection currentSelection = oldValue.selection;
     final TextSelection newSelection = newValue.selection;
+
+    // Remove children from currentSpan for our purposes
+    currentSpan = TextSpan(text: oldValue.text, style: KaliumStyles.TextStyleAddressText60);
 
     log.d("Current span has children: ${currentSpan.children != null}");
 

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide DropdownButton, DropdownMenuItem;
-import 'package:flutter_logger/flutter_logger.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/extensions.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/material/dropdown.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/material/rich_text_field.dart';
@@ -29,7 +28,6 @@ class FormatToolbar extends StatefulWidget {
 }
 
 class _FormatToolbarState extends State<FormatToolbar> {
-  final Log log = new Log("_FormatToolbarState");
   final GlobalKey<_FontSizeWidgetState> _fontSizeState =
       new GlobalKey<_FontSizeWidgetState>();
 
@@ -71,7 +69,6 @@ class _FormatToolbarState extends State<FormatToolbar> {
   }
 
   void _setFont(FontItem value) {
-    log.d(value);
     _styleController.value = Extensions.copyStyleWith(
       base: _styleController.value,
       fontFamily: value.name,
@@ -246,8 +243,6 @@ class _FormatToolbarState extends State<FormatToolbar> {
   }
 
   void _onStyleChanged() {
-    log.d("_FormatToolbarState: $_lastKnownStyle");
-    log.d("_FormatToolbarState: ${_styleController.value}");
     _lastKnownStyle = _styleController.value;
 
     setState(() {
@@ -261,7 +256,6 @@ class _FormatToolbarState extends State<FormatToolbar> {
       _fontName = () {
         // fontFamily come in this form > packages/rich_editor/Berkshire Swash
         var font = _lastKnownStyle.fontFamily;
-        log.d(font);
         var index = font?.lastIndexOf("/");
         if (index != -1)
           return font?.substring(index + 1);

@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_logger/flutter_logger.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/extensions.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/services/rich_text_parser.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/widgets/rich_editable_text.dart';

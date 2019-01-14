@@ -42,6 +42,7 @@ class KaliumSendSheet {
   var _addressHint = _addressHintText;
   var _amountValidationText = "";
   var _addressValidationText = "";
+  bool _addressColorized = false;
   // Buttons States (Used because we hide the buttons under certain conditions)
   bool _pasteButtonVisible = true;
 
@@ -326,6 +327,8 @@ class KaliumSendSheet {
                               ),
                               // Enter Address Text field
                               child: RichTextField(
+                                style: KaliumStyles.TextStyleAddressText60,
+                                key: _richTextFieldState,
                                 textAlign: TextAlign.center,
                                 focusNode: _sendAddressFocusNode,
                                 controller: _sendAddressController,
@@ -382,9 +385,10 @@ class KaliumSendSheet {
                                                   setState(() {
                                                     _addressValidationText = "";
                                                     _pasteButtonVisible = false;
+                                                    _addressColorized = true;
+                                                    _sendAddressController.text =
+                                                        UIUtil.addressToColorizedTextspan(address.address);
                                                   });
-                                                  _sendAddressController.text =
-                                                      UIUtil.addressToColorizedTextspan(address.address);
                                                 }
                                               });
                                             },
@@ -400,6 +404,7 @@ class KaliumSendSheet {
                                       : SizedBox(),
                                 ),
                                 onChanged: (text) {
+                                  print("text_change: ${text}");
                                   // Always reset the error message to be less annoying
                                   setState(() {
                                     _addressValidationText = "";
@@ -408,13 +413,17 @@ class KaliumSendSheet {
                                       NanoAccountType.BANANO, text)) {
                                     _sendAddressFocusNode.unfocus();
                                     setState(() {
+                                      _addressColorized = true;
                                       _sendAddressController.text = UIUtil.addressToColorizedTextspan(text);
                                       _addressValidationText = "";
                                       _pasteButtonVisible = false;
                                     });
                                   } else {
                                     setState(() {
-                                      _sendAddressController.text = TextSpan(text: text, style: KaliumStyles.TextStyleAddressText60);
+                                      if (_addressColorized) {
+                                        _addressColorized = false;
+                                        _sendAddressController.text = TextSpan(text: text, style: KaliumStyles.TextStyleAddressText60);
+                                      }
                                       _pasteButtonVisible = true;
                                     });
                                   }
@@ -474,6 +483,7 @@ class KaliumSendSheet {
                                   // Not a valid code
                                 } else {
                                   setState(() {
+                                    _addressColorized = true;
                                     _sendAddressController.text = UIUtil.addressToColorizedTextspan(account);
                                     _addressValidationText = "";
                                     _pasteButtonVisible = false;

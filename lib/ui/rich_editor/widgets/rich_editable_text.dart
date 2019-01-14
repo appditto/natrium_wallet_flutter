@@ -10,7 +10,6 @@ import 'package:flutter/material.dart'
 import 'package:flutter/rendering.dart' show ViewportOffset;
 import 'package:flutter/services.dart'
     show TextRange, TextInputAction, TextInputConfiguration;
-import 'package:flutter_logger/flutter_logger.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/extensions.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/rendering/rich_editable.dart';
 import 'package:kalium_wallet_flutter/ui/rich_editor/services/rich_text_parser.dart';
