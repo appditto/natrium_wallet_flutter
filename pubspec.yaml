@@ -76,8 +76,6 @@ dependencies:
   qr_flutter: ^1.1.5 # Generator
   barcode_scan: ^0.0.8 # Scanner
 
-  # Share images/text
-  esys_flutter_share: ^0.0.7
   # Share files
   share:
     git:
