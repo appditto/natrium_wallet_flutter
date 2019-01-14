@@ -186,13 +186,13 @@ class _SettingsSheetState extends State<SettingsSheet> {
     switch (await showDialog<AuthMethod>(
         context: context,
         builder: (BuildContext context) {
-          return SimpleDialog(
+          return KaliumSimpleDialog(
             title: const Text(
               "Authentication Method",
               style: KaliumStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
-              SimpleDialogOption(
+              KaliumSimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, AuthMethod.PIN);
                 },
@@ -204,7 +204,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   ),
                 ),
               ),
-              SimpleDialogOption(
+              KaliumSimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, AuthMethod.BIOMETRICS);
                 },
