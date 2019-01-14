@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/kalium_simpledialog.dart';
 
 class KaliumDialogs {
   static void showConfirmDialog(
       var context, var title, var content, var buttonText, Function onPressed, {String cancelText = "CANCEL"}) {
-    showDialog(
+    showKaliumDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
+        return KaliumAlertDialog(
           title: Text(
             title,
             style: KaliumStyles.TextStyleButtonPrimaryOutline,
@@ -45,7 +46,7 @@ class KaliumDialogs {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
+        return KaliumAlertDialog(
           title: Text(
             title,
             style: KaliumStyles.TextStyleButtonPrimaryOutline,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:kalium_wallet_flutter/ui/widgets/kalium_simpledialog.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -259,10 +260,10 @@ class _SettingsSheetState extends State<SettingsSheet> {
   }
 
   Future<void> _currencyDialog() async {
-    AvailableCurrencyEnum selection = await showDialog<AvailableCurrencyEnum>(
+    AvailableCurrencyEnum selection = await showKaliumDialog<AvailableCurrencyEnum>(
         context: context,
         builder: (BuildContext context) {
-          return SimpleDialog(
+          return KaliumSimpleDialog(
             title: Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: const Text(

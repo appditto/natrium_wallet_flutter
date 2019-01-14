@@ -66,15 +66,15 @@ class KaliumChangeRepresentativeSheet {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       //This container is a temporary solution for the alignment problem
-                      Container(
-                        width: 50,
-                        height: 50,
-                        margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                      SizedBox(
+                        width: 60,
+                        height: 60,
                       ),
 
                       //Container for the header
                       Expanded(
                         child: Container(
+                          alignment: Alignment(0, 0),
                           margin: EdgeInsets.only(top: 30),
                           child: Wrap(
                             direction: Axis.horizontal,
@@ -131,15 +131,23 @@ class KaliumChangeRepresentativeSheet {
                         Column(
                           children: <Widget>[
                             Container(
-                                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.105, right: MediaQuery.of(context).size.width * 0.105),
+                                margin: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width *
+                                        0.105,
+                                    right: MediaQuery.of(context).size.width *
+                                        0.105),
                                 child: Text(
                                   "Currently Representative By",
                                   style: KaliumStyles.TextStyleParagraph,
                                 )),
                             Container(
                               width: double.infinity,
-                              margin:
-                                  EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.105, right: MediaQuery.of(context).size.width * 0.105, top: 10),
+                              margin: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.105,
+                                  right:
+                                      MediaQuery.of(context).size.width * 0.105,
+                                  top: 10),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 25.0, vertical: 15.0),
                               decoration: BoxDecoration(
@@ -152,8 +160,12 @@ class KaliumChangeRepresentativeSheet {
                                       .representative),
                             ),
                             Container(
-                              margin:
-                                  EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.105, right: MediaQuery.of(context).size.width * 0.105, top: 20),
+                              margin: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.105,
+                                  right:
+                                      MediaQuery.of(context).size.width * 0.105,
+                                  top: 20),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: KaliumColors.backgroundDarkest,
