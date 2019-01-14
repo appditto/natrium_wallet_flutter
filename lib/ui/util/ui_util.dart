@@ -10,6 +10,25 @@ enum ThreeLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS, SUCCESS_FULL }
 enum OneLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS }
 
 class UIUtil {
+  static TextSpan addressToColorizedTextspan(String address) {
+    return TextSpan(
+      text: '',
+      children: [
+        TextSpan(
+          text: address.substring(0, 11),
+          style: KaliumStyles.TextStyleAddressPrimary,
+        ),
+        TextSpan(
+          text: address.substring(11, 58),
+          style: KaliumStyles.TextStyleAddressText90,
+        ),
+        TextSpan(
+          text: address.substring(58),
+          style: KaliumStyles.TextStyleAddressPrimary,
+        ),
+      ]);
+  }
+
   static Widget threeLineAddressText(String address, { ThreeLineAddressTextType type = ThreeLineAddressTextType.PRIMARY }) {
     String stringPartOne = address.substring(0, 11);
     String stringPartTwo = address.substring(11, 22);

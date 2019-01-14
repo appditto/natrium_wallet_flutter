@@ -15,14 +15,18 @@ import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/formatters.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:kalium_wallet_flutter/ui/rich_editor/rich_editor.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
 // TODO - We want to implement a max send, this can't just be balance
 // because there may be some off raw in the account. We want 0 as the balance_after_send
 
 class KaliumSendSheet {
+  GlobalKey<RichTextFieldState> _richTextFieldState =
+      new GlobalKey<RichTextFieldState>();
+
   FocusNode _sendAddressFocusNode;
-  TextEditingController _sendAddressController;
+  RichTextEditingController _sendAddressController;
   FocusNode _sendAmountFocusNode;
   TextEditingController _sendAmountController;
 
@@ -34,7 +38,6 @@ class KaliumSendSheet {
   static const String _amountRequiredText = "Please Enter an Amount";
   static const String _amountInsufficientText = "Insufficient Balance";
   // States
-  var _sendAddressStyle;
   var _amountHint = _amountHintText;
   var _addressHint = _addressHintText;
   var _amountValidationText = "";
@@ -46,8 +49,7 @@ class KaliumSendSheet {
     _sendAmountFocusNode = new FocusNode();
     _sendAddressFocusNode = new FocusNode();
     _sendAmountController = new TextEditingController();
-    _sendAddressController = new TextEditingController();
-    _sendAddressStyle = KaliumStyles.TextStyleAddressText60;
+    _sendAddressController = new RichTextEditingController();
   }
 
   mainBottomSheet(BuildContext context) {
@@ -323,16 +325,10 @@ class KaliumSendSheet {
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               // Enter Address Text field
-                              child: TextField(
+                              child: RichTextField(
                                 textAlign: TextAlign.center,
                                 focusNode: _sendAddressFocusNode,
                                 controller: _sendAddressController,
-                                cursorColor: KaliumColors.primary,
-                                keyboardAppearance: Brightness.dark,
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(64),
-                                ],
-                                textInputAction: TextInputAction.done,
                                 maxLines: null,
                                 autocorrect: false,
                                 decoration: InputDecoration(
@@ -385,12 +381,10 @@ class KaliumSendSheet {
                                                     address.address)) {
                                                   setState(() {
                                                     _addressValidationText = "";
-                                                    _sendAddressStyle = KaliumStyles
-                                                        .TextStyleAddressText90;
                                                     _pasteButtonVisible = false;
                                                   });
                                                   _sendAddressController.text =
-                                                      address.address;
+                                                      UIUtil.addressToColorizedTextspan(address.address);
                                                 }
                                               });
                                             },
@@ -405,7 +399,6 @@ class KaliumSendSheet {
                                         )
                                       : SizedBox(),
                                 ),
-                                style: _sendAddressStyle,
                                 onChanged: (text) {
                                   // Always reset the error message to be less annoying
                                   setState(() {
@@ -415,15 +408,13 @@ class KaliumSendSheet {
                                       NanoAccountType.BANANO, text)) {
                                     _sendAddressFocusNode.unfocus();
                                     setState(() {
-                                      _sendAddressStyle =
-                                          KaliumStyles.TextStyleAddressText90;
+                                      _sendAddressController.text = UIUtil.addressToColorizedTextspan(text);
                                       _addressValidationText = "";
                                       _pasteButtonVisible = false;
                                     });
                                   } else {
                                     setState(() {
-                                      _sendAddressStyle =
-                                          KaliumStyles.TextStyleAddressText60;
+                                      _sendAddressController.text = TextSpan(text: text, style: KaliumStyles.TextStyleAddressText60);
                                       _pasteButtonVisible = true;
                                     });
                                   }
@@ -461,7 +452,7 @@ class KaliumSendSheet {
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             if (_validateRequest(context, setState)) {
                               KaliumSendConfirmSheet(_sendAmountController.text,
-                                      _sendAddressController.text)
+                                      _sendAddressController.value.toString())
                                   .mainBottomSheet(context);
                             }
                           }),
@@ -483,10 +474,8 @@ class KaliumSendSheet {
                                   // Not a valid code
                                 } else {
                                   setState(() {
-                                    _sendAddressController.text = account;
+                                    _sendAddressController.text = UIUtil.addressToColorizedTextspan(account);
                                     _addressValidationText = "";
-                                    _sendAddressStyle =
-                                        KaliumStyles.TextStyleAddressText90;
                                     _pasteButtonVisible = false;
                                   });
                                 }
@@ -539,14 +528,14 @@ class KaliumSendSheet {
       }
     }
     // Validate address
-    if (_sendAddressController.text.trim().isEmpty) {
+    if (_sendAddressController.value.toString().trim().isEmpty) {
       isValid = false;
       setState(() {
         _addressValidationText = _addressRequiredText;
         _pasteButtonVisible = true;
       });
     } else if (!NanoAccounts.isValid(
-        NanoAccountType.BANANO, _sendAddressController.text)) {
+        NanoAccountType.BANANO, _sendAddressController.value.toString())) {
       isValid = false;
       setState(() {
         _addressValidationText = _addressInvalidText;
