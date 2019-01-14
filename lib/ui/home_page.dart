@@ -704,11 +704,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                 child: _monKey,
                 padding: EdgeInsets.all(0.0),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0)),
+                    borderRadius: BorderRadius.circular(100.0)),
                 onPressed: () {
                   Navigator.of(context).push(MonkeyOverlay(_monKey));
                 }),
-                
           ),
         ],
       ),
@@ -965,7 +964,7 @@ class MonkeyOverlay extends ModalRoute<void> {
   var monKey;
   MonkeyOverlay(this.monKey);
   @override
-  Duration get transitionDuration => Duration(milliseconds: 200);
+  Duration get transitionDuration => Duration(milliseconds: 150);
 
   @override
   bool get opaque => false;
@@ -1013,9 +1012,10 @@ class MonkeyOverlay extends ModalRoute<void> {
           ),
           Center(
             child: ClipOval(
-                          child: Container(
-                decoration: BoxDecoration(
-                ),
+              child: AnimatedContainer(
+                curve: Curves.elasticInOut,
+                duration: Duration(milliseconds: 200),
+                decoration: BoxDecoration(),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width,
                 child: monKey,
