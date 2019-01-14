@@ -242,7 +242,7 @@ class KaliumReceiveSheet {
                               setState(() {
                                 _showShareCard = true;
                               });
-                              Future.delayed(new Duration(milliseconds: 200), () {
+                              Future.delayed(new Duration(milliseconds: 300), () {
                                 if (_showShareCard) {
                                   _capturePng().then((byteData) {
                                     if (byteData != null) {
