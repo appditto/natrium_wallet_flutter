@@ -28,8 +28,10 @@ class KaliumChangeRepresentativeSheet {
   TextEditingController _repController;
 
   static const String _changeRepHintText = "Enter Representative";
-  String _changeRepHint;
+  String _changeRepHint = _changeRepHintText;
   TextStyle _repAddressStyle;
+  bool _showPasteButton = true;
+  bool _addressValidAndUnfocused = false;
 
   KaliumChangeRepresentativeSheet() {
     _repFocusNode = new FocusNode();
@@ -48,10 +50,16 @@ class KaliumChangeRepresentativeSheet {
               if (_repFocusNode.hasFocus) {
                 setState(() {
                   _changeRepHint = "";
+                  _addressValidAndUnfocused = false;
                 });
+                _repController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: _repController.text.length));
               } else {
                 setState(() {
                   _changeRepHint = _changeRepHintText;
+                  if (Address(_repController.text).isValid()) {
+                    _addressValidAndUnfocused = true;
+                  }
                 });
               }
             });
@@ -167,11 +175,13 @@ class KaliumChangeRepresentativeSheet {
                                       MediaQuery.of(context).size.width * 0.105,
                                   top: 20),
                               width: double.infinity,
+                              padding: _addressValidAndUnfocused ? EdgeInsets.symmetric(
+                                    horizontal: 25.0, vertical: 15.0) : EdgeInsets.zero,
                               decoration: BoxDecoration(
                                 color: KaliumColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
-                              child: TextField(
+                              child: !_addressValidAndUnfocused ? TextField(
                                 focusNode: _repFocusNode,
                                 controller: _repController,
                                 textAlign: TextAlign.center,
@@ -183,48 +193,54 @@ class KaliumChangeRepresentativeSheet {
                                 maxLines: null,
                                 autocorrect: false,
                                 decoration: InputDecoration(
-                                  hintText: "Enter New Rep",
+                                  hintText: _changeRepHint,
                                   // Empty Container
                                   prefixIcon: Container(
                                     width: 48.0,
                                     height: 48.0,
                                   ),
                                   // Paste Button
-                                  suffixIcon: Container(
-                                    width: 48.0,
-                                    height: 48.0,
-                                    child: FlatButton(
-                                      padding: EdgeInsets.all(15.0),
-                                      onPressed: () {
-                                        Clipboard.getData("text/plain")
-                                            .then((ClipboardData data) {
-                                          if (data == null ||
-                                              data.text == null) {
-                                            return;
-                                          }
-                                          Address address =
-                                              new Address(data.text);
-                                          if (NanoAccounts.isValid(
-                                              NanoAccountType.BANANO,
-                                              address.address)) {
-                                            setState(() {
-                                              _repAddressStyle = KaliumStyles
-                                                  .TextStyleAddressText90;
-                                            });
-                                            _repController.text =
-                                                address.address;
-                                          }
-                                        });
-                                      },
-                                      child: Icon(KaliumIcons.paste,
-                                          size: 20.0,
-                                          color: KaliumColors.primary),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(200.0)),
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.padded,
+                                  suffixIcon: AnimatedCrossFade(
+                                    duration: Duration(milliseconds: 100),
+                                    firstChild: Container(
+                                      width: 48.0,
+                                      height: 48.0,
+                                      child:  FlatButton(
+                                        padding: EdgeInsets.all(15.0),
+                                        onPressed: () {
+                                          Clipboard.getData("text/plain")
+                                              .then((ClipboardData data) {
+                                            if (data == null ||
+                                                data.text == null) {
+                                              return;
+                                            }
+                                            Address address =
+                                                new Address(data.text);
+                                            if (address.isValid()) {
+                                              setState(() {
+                                                _addressValidAndUnfocused = true;
+                                                _showPasteButton = false;
+                                                _repAddressStyle = KaliumStyles
+                                                    .TextStyleAddressText90;
+                                              });
+                                              _repController.text =
+                                                  address.address;
+                                              _repFocusNode.unfocus();
+                                            }
+                                          });
+                                        },
+                                        child: Icon(KaliumIcons.paste,
+                                            size: 20.0,
+                                            color: KaliumColors.primary),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(200.0)),
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.padded,
+                                      ),
                                     ),
+                                    secondChild: SizedBox(),
+                                    crossFadeState: _showPasteButton ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                                   ),
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(
@@ -235,20 +251,31 @@ class KaliumChangeRepresentativeSheet {
                                 keyboardType: TextInputType.text,
                                 style: _repAddressStyle,
                                 onChanged: (text) {
-                                  if (NanoAccounts.isValid(
-                                      NanoAccountType.BANANO, text)) {
+                                  if (Address(text).isValid()) {
                                     _repFocusNode.unfocus();
                                     setState(() {
+                                      _showPasteButton = false;
                                       _repAddressStyle =
                                           KaliumStyles.TextStyleAddressText90;
                                     });
                                   } else {
                                     setState(() {
+                                      _showPasteButton = true;
                                       _repAddressStyle =
                                           KaliumStyles.TextStyleAddressText60;
                                     });
                                   }
                                 },
+                              ) : GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _addressValidAndUnfocused = false;
+                                  });
+                                  Future.delayed(Duration(milliseconds: 50), () {
+                                    FocusScope.of(context).requestFocus(_repFocusNode);
+                                  });
+                                },
+                                child: UIUtil.threeLineAddressText(_repController.text),
                               ),
                             ),
                           ],
@@ -285,7 +312,7 @@ class KaliumChangeRepresentativeSheet {
                                         .then((authenticated) {
                                       if (authenticated) {
                                         Navigator.of(context)
-                                            .push(SendAnimationOverlay());
+                                            .push(AnimationLoadingOverlay(AnimationType.GENERIC));
                                         // If account isnt open, just store the account in sharedprefs
                                         if (StateContainer.of(context)
                                                 .wallet
@@ -329,7 +356,7 @@ class KaliumChangeRepresentativeSheet {
                                           PinOverlayType.ENTER_PIN,
                                           (pin) {
                                             Navigator.of(context)
-                                                .push(SendAnimationOverlay());
+                                                .push(AnimationLoadingOverlay(AnimationType.GENERIC));
                                             // If account isnt open, just store the account in sharedprefs
                                             if (StateContainer.of(context)
                                                     .wallet

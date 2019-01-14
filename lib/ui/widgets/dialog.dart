@@ -69,7 +69,12 @@ class KaliumDialogs {
   }
 }
 
-class SendAnimationOverlay extends ModalRoute<void> {
+enum AnimationType { SEND, GENERIC }
+class AnimationLoadingOverlay extends ModalRoute<void> {
+  AnimationType type;
+
+  AnimationLoadingOverlay(this.type);
+
   @override
   Duration get transitionDuration => Duration(milliseconds: 100);
 
@@ -102,19 +107,29 @@ class SendAnimationOverlay extends ModalRoute<void> {
     );
   }
 
+  Widget _getAnimation(BuildContext context) {
+    switch (type) {
+      case AnimationType.SEND:
+        return FlareActor("assets/send_animation.flr",
+                animation: "main",
+                fit: BoxFit.contain);
+      case AnimationType.GENERIC:
+      default:
+        return  CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(KaliumColors.primary60));
+    }
+  }
+
   Widget _buildOverlayContent(BuildContext context) {
     return Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: type == AnimationType.GENERIC ? MainAxisAlignment.center : MainAxisAlignment.end,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(bottom: 10.0, left:90, right:90),
+            margin: type == AnimationType.SEND ? EdgeInsets.only(bottom: 10.0, left:90, right:90) : EdgeInsets.zero,
             //Widgth/Height ratio is needed because BoxFit is not working as expected
-            width: double.infinity,
-            height: MediaQuery.of(context).size.width,
-            child: FlareActor("assets/send_animation.flr",
-                animation: "main",
-                fit: BoxFit.contain),
+            width: type == AnimationType.GENERIC ? 100 : double.infinity,
+            height: type == AnimationType.GENERIC ? 100 : MediaQuery.of(context).size.width,
+            child: _getAnimation(context),
           ),
         ],
     );

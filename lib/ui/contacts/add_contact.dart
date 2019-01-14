@@ -37,8 +37,19 @@ class AddContactSheet {
   bool _showPasteButton = true;
   bool _showNameHint = true;
   bool _showAddressHint = true;
+  bool _addressValidAndUnfocused = false;
   String _nameValidationText = "";
   String _addressValidationText = "";
+
+  /// Return true if textfield should be shown, false if colorized should be shown
+  bool _shouldShowTextField() {
+    if (address != null) {
+      return false;
+    } else if (_addressValidAndUnfocused) {
+      return false;
+    }
+    return true;
+  }
 
   mainBottomSheet(BuildContext context) {
     KaliumSheets.showKaliumHeightNineSheet(
@@ -64,10 +75,16 @@ class AddContactSheet {
               if (_addressFocusNode.hasFocus) {
                 setState(() {
                   _showAddressHint = false;
+                  _addressValidAndUnfocused = false;
                 });
+                _addressController.selection = TextSelection.fromPosition(
+                          TextPosition(offset: _addressController.text.length));
               } else {
                 setState(() {
                   _showAddressHint = true;
+                  if (Address(_addressController.text).isValid()) {
+                    _addressValidAndUnfocused = true;
+                  }
                 });
               }
             });
@@ -89,7 +106,7 @@ class AddContactSheet {
                       child: Column(
                         children: <Widget>[
                           Text(
-                            KaliumLocalization.of(context).addContact,
+                            KaliumLocalization.of(context).addContact.toUpperCase(),
                             style: KaliumStyles.TextStyleHeader,
                           ),
                         ],
@@ -204,15 +221,15 @@ class AddContactSheet {
                               margin: EdgeInsets.only(
                                   left: MediaQuery.of(context).size.width * 0.105,
                                   right: MediaQuery.of(context).size.width * 0.105),
-                              padding: address != null ?EdgeInsets.symmetric(
+                              padding: !_shouldShowTextField() ? EdgeInsets.symmetric(
                                     horizontal: 25.0, vertical: 15.0) : EdgeInsets.zero,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: KaliumColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
-                              // Enter Addres text field
-                              child: address == null ? TextField(
+                              // Enter Address text field
+                              child: _shouldShowTextField() ? TextField(
                                 focusNode: _addressFocusNode,
                                 controller: _addressController,
                                 style: _addressValid ? KaliumStyles.TextStyleAddressText90 : KaliumStyles.TextStyleAddressText60,
@@ -259,7 +276,9 @@ class AddContactSheet {
                                                   _addressValid = true;
                                                   _showPasteButton = false;
                                                   _addressController.text = address.address;
+                                                  _addressValidAndUnfocused = true;
                                                 });
+                                                _addressFocusNode.unfocus();
                                               } else {
                                                 setState(() {
                                                   _showPasteButton = true;
@@ -289,6 +308,7 @@ class AddContactSheet {
                                       _showPasteButton = false;
                                       _addressController.text = address.address;
                                     });
+                                    _addressFocusNode.unfocus();
                                   } else {
                                     setState(() {
                                       _showPasteButton = true;
@@ -296,7 +316,20 @@ class AddContactSheet {
                                     });
                                   }
                                 },
-                              ) : UIUtil.threeLineAddressText(address)
+                              ) : GestureDetector(
+                                onTap: () {
+                                  if (address != null) {
+                                    return;
+                                  }
+                                  setState(() {
+                                    _addressValidAndUnfocused = false;
+                                  });
+                                  Future.delayed(Duration(milliseconds: 50), () {
+                                    FocusScope.of(context).requestFocus(_addressFocusNode);
+                                  });
+                                },
+                                child: UIUtil.threeLineAddressText(address != null ? address : _addressController.text)
+                              ),
                             ),
                             // Enter Address Error Container
                             Container(
@@ -382,6 +415,7 @@ class AddContactSheet {
           _addressValidationText = _contactAddressInvalid;
         });
       } else {
+        _addressFocusNode.unfocus();
         DBHelper dbHelper = DBHelper();
         bool addressExists = await dbHelper.contactExistsWithAddress(_addressController.text);
         if (addressExists) {
