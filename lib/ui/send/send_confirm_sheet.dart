@@ -172,7 +172,7 @@ class KaliumSendConfirmSheet {
                                   if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
                                     BiometricUtil.authenticateWithBiometrics("Send $_amount BANANO").then((authenticated) {
                                       if (authenticated) {
-                                        Navigator.of(context).push(SendAnimationOverlay());
+                                        Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.SEND));
                                         StateContainer.of(context).requestSend(
                                             StateContainer.of(context).wallet.frontier,
                                             _destination,
@@ -186,7 +186,7 @@ class KaliumSendConfirmSheet {
                                           builder: (BuildContext context) {
                                         return new PinScreen(PinOverlayType.ENTER_PIN, 
                                                             (pin) {
-                                                              Navigator.of(context).push(SendAnimationOverlay());
+                                                              Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.SEND));
                                                               StateContainer.of(context).requestSend(
                                                                   StateContainer.of(context).wallet.frontier,
                                                                   _destination,

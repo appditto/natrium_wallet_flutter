@@ -312,7 +312,7 @@ class KaliumChangeRepresentativeSheet {
                                         .then((authenticated) {
                                       if (authenticated) {
                                         Navigator.of(context)
-                                            .push(SendAnimationOverlay());
+                                            .push(AnimationLoadingOverlay(AnimationType.GENERIC));
                                         // If account isnt open, just store the account in sharedprefs
                                         if (StateContainer.of(context)
                                                 .wallet
@@ -356,7 +356,7 @@ class KaliumChangeRepresentativeSheet {
                                           PinOverlayType.ENTER_PIN,
                                           (pin) {
                                             Navigator.of(context)
-                                                .push(SendAnimationOverlay());
+                                                .push(AnimationLoadingOverlay(AnimationType.GENERIC));
                                             // If account isnt open, just store the account in sharedprefs
                                             if (StateContainer.of(context)
                                                     .wallet
