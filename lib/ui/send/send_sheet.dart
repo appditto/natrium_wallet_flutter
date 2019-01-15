@@ -125,6 +125,9 @@ class KaliumSendSheet {
                     _addressValidAndUnfocused = true;
                   }
                 });
+                if (_sendAddressController.text.trim() == "@") {
+                  _sendAddressController.text = "";
+                }
               }
             });
             // The main column that holds everything
