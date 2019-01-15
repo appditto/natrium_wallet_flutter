@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:decimal/decimal.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 
@@ -360,7 +361,7 @@ class KaliumSendSheet {
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             bool validRequest =
                                 _validateRequest(context, setState);
-                            if (_sendAddressController.text.startsWith("@")) {
+                            if (_sendAddressController.text.startsWith("@") && validRequest) {
                               // Need to make sure its a valid contact
                               DBHelper()
                                   .getContactWithName(
@@ -374,13 +375,15 @@ class KaliumSendSheet {
                                   KaliumSendConfirmSheet(
                                           _sendAmountController.text,
                                           contact.address,
-                                          contactName: contact.name)
+                                          contactName: contact.name,
+                                          maxSend: _isMaxSend(context))
                                       .mainBottomSheet(context);
                                 }
                               });
-                            } else {
+                            } else if (validRequest) {
                               KaliumSendConfirmSheet(_sendAmountController.text,
-                                      _sendAddressController.text)
+                                      _sendAddressController.text,
+                                      maxSend: _isMaxSend(context))
                                   .mainBottomSheet(context);
                             }
                           }),
@@ -431,6 +434,17 @@ class KaliumSendSheet {
             );
           });
         });
+  }
+
+  // Determine if this is a max send or not by comparing balances
+  bool _isMaxSend(BuildContext context) {
+    // Sanitize commas
+    String textField = _sendAmountController.text.replaceAll(r',', "");
+    String balance = StateContainer.of(context).wallet.getAccountBalanceDisplay().replaceAll(r",", "");
+    // Convert to Integer representations
+    int textFieldInt = (Decimal.parse(textField) * Decimal.fromInt(100)).toInt();
+    int balanceInt = (Decimal.parse(balance) * Decimal.fromInt(100)).toInt();
+    return textFieldInt == balanceInt;
   }
 
   // Build contact items for the list
@@ -573,7 +587,9 @@ class KaliumSendSheet {
               splashColor: KaliumColors.primary30,
               padding: EdgeInsets.all(12.0),
               onPressed: () {
-                return;
+                setState(() {
+                  _sendAmountController.text = StateContainer.of(context).wallet.getAccountBalanceDisplay().replaceAll(r",", "");
+                });
               },
               child:
                   Icon(KaliumIcons.max, size: 24, color: KaliumColors.primary),

@@ -44,10 +44,6 @@ class _SettingsSheetState extends State<SettingsSheet> {
 
   List<Contact> _contacts;
 
-  void pinEnteredTest(String pin) {
-    print("Pin Entered $pin");
-  }
-
   bool notNull(Object o) => o != null;
 
   Future<void> _exportContacts() async {
@@ -352,7 +348,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
                       'Language', 'System Default', KaliumIcons.language),
-                  Divider(height: 2),
+                  _hasBiometrics ? Divider(height: 2) : null,
                   _hasBiometrics
                       ? KaliumSettings.buildSettingsListItemDoubleLine(
                           "Authentication Method",
@@ -403,8 +399,11 @@ class _SettingsSheetState extends State<SettingsSheet> {
                                 builder: (BuildContext context) {
                               return new PinScreen(
                                 PinOverlayType.ENTER_PIN,
-                                (pin) => new KaliumSeedBackupSheet()
-                                    .mainBottomSheet(context),
+                                (pin) { 
+                                  Navigator.of(context).pop();
+                                  new KaliumSeedBackupSheet()
+                                    .mainBottomSheet(context);
+                                  },
                                 expectedPin: expectedPin,
                                 description: "Enter PIN to backup seed",
                               );
@@ -414,6 +413,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                       });
                     });
                   }),
+/*
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
                       'Load from Paper Wallet', KaliumIcons.transferfunds,
@@ -424,6 +424,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                           PinOverlayType.NEW_PIN, pinEnteredTest);
                     }));
                   }),
+*/
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
                       'Change Representative', KaliumIcons.changerepresentative,

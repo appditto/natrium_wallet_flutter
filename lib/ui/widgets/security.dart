@@ -139,7 +139,6 @@ class _PinScreenState extends State<PinScreen> {
                 });
               } else {
                 successCallback(_pin);
-                Navigator.of(context).pop();
               }
             } else {
               if (!_awaitingConfirmation) {
@@ -153,7 +152,6 @@ class _PinScreenState extends State<PinScreen> {
                 // First and second pins match
                 if (_pin == _pinConfirmed) {
                   successCallback(_pin);
-                  Navigator.of(context).pop();
                 } else {
                   // Start over
                   setState(() {
