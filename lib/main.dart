@@ -38,7 +38,7 @@ class KaliumApp extends StatelessWidget {
         .copyWith(statusBarIconBrightness: Brightness.light));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'KaliumF',
+      title: 'Kalium',
       theme: ThemeData(
         dialogBackgroundColor: KaliumColors.backgroundDark,
         primaryColor: KaliumColors.primary,
