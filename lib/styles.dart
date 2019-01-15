@@ -17,36 +17,36 @@ class KaliumStyles {
   // Text style for primary button
   static const TextStyleButtonPrimary = TextStyle(
       fontFamily: "NunitoSans",
-      fontSize: KaliumFontSizes.large,
+      fontSize: KaliumFontSizes._large,
       fontWeight: FontWeight.w700,
       color: KaliumColors.background);
   // Green primary button
   static const TextStyleButtonPrimaryGreen = TextStyle(
       fontFamily: "NunitoSans",
-      fontSize: KaliumFontSizes.large,
+      fontSize: KaliumFontSizes._large,
       fontWeight: FontWeight.w700,
       color: KaliumColors.greenDark);
   // Text style for outline button
   static const TextStyleButtonPrimaryOutline = TextStyle(
       fontFamily: "NunitoSans",
-      fontSize: KaliumFontSizes.large,
+      fontSize: KaliumFontSizes._large,
       fontWeight: FontWeight.w700,
       color: KaliumColors.primary);
   static const TextStyleButtonPrimaryOutlineDisabled = TextStyle(
       fontFamily: "NunitoSans",
-      fontSize: KaliumFontSizes.large,
+      fontSize: KaliumFontSizes._large,
       fontWeight: FontWeight.w700,
       color: KaliumColors.primary60);
   // Text style for success outline button
   static const TextStyleButtonSuccessOutline = TextStyle(
       fontFamily: "NunitoSans",
-      fontSize: KaliumFontSizes.large,
+      fontSize: KaliumFontSizes._large,
       fontWeight: FontWeight.w700,
       color: KaliumColors.success);
   // Text style for text outline button
   static const TextStyleButtonTextOutline = TextStyle(
       fontFamily: "NunitoSans",
-      fontSize: KaliumFontSizes.large,
+      fontSize: KaliumFontSizes._large,
       fontWeight: FontWeight.w700,
       color: KaliumColors.text);
   // General address/seed styles
@@ -100,7 +100,7 @@ class KaliumStyles {
   // Text style for primary currency on home page
   static const TextStyleCurrency = TextStyle(
       fontFamily: "NunitoSans",
-      fontSize: KaliumFontSizes.largest,
+      fontSize: KaliumFontSizes._largest,
       fontWeight: FontWeight.w900,
       color: KaliumColors.primary);
   /* Transaction cards */
@@ -153,7 +153,7 @@ class KaliumStyles {
   // Text style for alert dialog header
   static const TextStyleDialogHeader = TextStyle(
     fontFamily: "NunitoSans",
-    fontSize: KaliumFontSizes.large,
+    fontSize: KaliumFontSizes._large,
     fontWeight: FontWeight.w700,
     color: KaliumColors.primary,
   );
@@ -194,22 +194,25 @@ class KaliumStyles {
     height: 1.3,
   );
   // Text style for general headers like sheet headers
-  static const TextStyleHeader = TextStyle(
-    fontFamily: "NunitoSans",
-    fontSize: KaliumFontSizes.largest,
-    fontWeight: FontWeight.w700,
-    color: KaliumColors.text,
-  );
+  static TextStyle textStyleHeader(BuildContext context) {
+    return TextStyle(
+      fontFamily: "NunitoSans",
+      fontSize: KaliumFontSizes.largest(context),
+      fontWeight: FontWeight.w700,
+      color: KaliumColors.text,
+    );
+  }
+
   // Text style for primary color header
   static const TextStyleHeaderColored = TextStyle(
     fontFamily: "NunitoSans",
-    fontSize: KaliumFontSizes.largest,
+    fontSize: KaliumFontSizes._largest,
     fontWeight: FontWeight.w700,
     color: KaliumColors.primary,
   );
   static const TextStylePinScreenHeaderColored = TextStyle(
     fontFamily: "NunitoSans",
-    fontSize: KaliumFontSizes.large,
+    fontSize: KaliumFontSizes._large,
     fontWeight: FontWeight.w700,
     color: KaliumColors.primary,
   );
@@ -233,7 +236,27 @@ class KaliumFontSizes {
   static const smallest = 12.0;
   static const small = 14.0;
   static const medium = 16.0;
-  static const large = 20.0;
+  static const _large = 20.0;
   static const larger = 24.0;
-  static const largest = 28.0;
+  static const _largest = 28.0;
+  static const _sslarge = 18.0;
+  static const _sslargest = 22.0;
+  static double largest(context) {
+    if (smallScreen(context)) {
+      return _sslargest;
+    }
+    return _largest;
+  }
+  static double large(context) {
+    if (smallScreen(context)) {
+      return _sslarge;
+    }
+    return _large;
+  }
+}
+
+smallScreen(BuildContext context){
+  if(MediaQuery.of(context).size.height<677)
+    return true;
+  else return false;
 }

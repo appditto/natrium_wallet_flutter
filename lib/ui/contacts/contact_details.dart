@@ -80,7 +80,7 @@ class ContactDetailsSheet {
                         children: <Widget>[
                           Text(
                             KaliumLocalization.of(context).contactHeader.toUpperCase(),
-                            style: KaliumStyles.TextStyleHeader,
+                            style: KaliumStyles.textStyleHeader(context),
                           ),
                         ],
                       ),

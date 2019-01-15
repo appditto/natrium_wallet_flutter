@@ -89,7 +89,7 @@ class KaliumChangeRepresentativeSheet {
                             children: <Widget>[
                               Text(
                                 "CHANGE REPRESENTATIVE",
-                                style: KaliumStyles.TextStyleHeader,
+                                style: KaliumStyles.textStyleHeader(context),
                                 textAlign: TextAlign.center,
                               ),
                             ],

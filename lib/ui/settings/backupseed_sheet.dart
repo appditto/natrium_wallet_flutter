@@ -39,7 +39,7 @@ class KaliumSeedBackupSheet {
                         children: <Widget>[
                           Text(
                             "SEED",
-                            style: KaliumStyles.TextStyleHeader,
+                            style: KaliumStyles.textStyleHeader(context),
                           ),
                         ],
                       ),

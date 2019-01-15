@@ -109,7 +109,7 @@ class AddContactSheet {
                         children: <Widget>[
                           Text(
                             KaliumLocalization.of(context).addContact.toUpperCase(),
-                            style: KaliumStyles.TextStyleHeader,
+                            style: KaliumStyles.textStyleHeader(context),
                           ),
                         ],
                       ),

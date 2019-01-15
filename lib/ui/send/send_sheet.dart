@@ -168,7 +168,7 @@ class KaliumSendSheet {
                           // Header
                           Text(
                             "SEND FROM",
-                            style: KaliumStyles.TextStyleHeader,
+                            style: KaliumStyles.textStyleHeader(context),
                           ),
                           // Address Text
                           Container(

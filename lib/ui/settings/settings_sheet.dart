@@ -321,7 +321,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
             margin: EdgeInsets.only(left: 30.0, top: 60.0, bottom: 10.0),
             child: Row(
               children: <Widget>[
-                Text("Settings", style: KaliumStyles.TextStyleHeader),
+                Text("Settings", style: KaliumStyles.textStyleHeader(context),),
               ],
             ),
           ),
@@ -525,7 +525,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                               color: KaliumColors.text, size: 24)),
                     ),
                     //Contacts Header Text
-                    Text("Contacts", style: KaliumStyles.TextStyleHeader),
+                    Text("Contacts", style: KaliumStyles.textStyleHeader(context),),
                   ],
                 ),
                 Row(

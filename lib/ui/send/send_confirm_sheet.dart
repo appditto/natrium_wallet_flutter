@@ -84,7 +84,7 @@ class KaliumSendConfirmSheet {
                           children: <Widget>[
                             Text(
                               "SENDING",
-                              style: KaliumStyles.TextStyleHeader,
+                              style: KaliumStyles.textStyleHeader(context),
                             ),
                           ],
                         ),
@@ -134,7 +134,7 @@ class KaliumSendConfirmSheet {
                           children: <Widget>[
                             Text(
                               "TO",
-                              style: KaliumStyles.TextStyleHeader,
+                              style: KaliumStyles.textStyleHeader(context),
                             ),
                           ],
                         ),
