@@ -23,12 +23,12 @@ class KaliumSendConfirmSheet {
   String _contactName;
   bool _maxSend;
 
-  KaliumSendConfirmSheet(String amount, String destinaton, {bool maxSend, String contactName}) {
+  KaliumSendConfirmSheet(String amount, String destinaton, {bool maxSend = false, String contactName}) {
     _amount = amount;
     _amountRaw = NumberUtil.getAmountAsRaw(amount);
     _destination = destinaton;
     _contactName = contactName;
-    _maxSend = maxSend ?? false;
+    _maxSend = maxSend;
   }
 
   mainBottomSheet(BuildContext context) {
@@ -176,7 +176,7 @@ class KaliumSendConfirmSheet {
                                         StateContainer.of(context).requestSend(
                                             StateContainer.of(context).wallet.frontier,
                                             _destination,
-                                            _amountRaw);
+                                            _maxSend ? "0" : _amountRaw);
                                       }
                                     });
                                   } else {
@@ -186,11 +186,12 @@ class KaliumSendConfirmSheet {
                                           builder: (BuildContext context) {
                                         return new PinScreen(PinOverlayType.ENTER_PIN, 
                                                             (pin) {
+                                                              Navigator.of(context).pop();
                                                               Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.SEND));
                                                               StateContainer.of(context).requestSend(
                                                                   StateContainer.of(context).wallet.frontier,
                                                                   _destination,
-                                                                  _amountRaw);
+                                                                  _maxSend ? "0" : _amountRaw);
                                                             },
                                                             expectedPin:expectedPin,
                                                             description: "Enter PIN to send $_amount BANANO",);

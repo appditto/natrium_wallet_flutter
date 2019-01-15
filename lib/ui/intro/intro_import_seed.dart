@@ -265,6 +265,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
   }
 
   void _pinEnteredCallback(String pin) {
+    Navigator.of(context).pop();
     Vault.inst.writePin(pin).then((result) {
       // Update wallet
       Navigator.of(context)

@@ -23,7 +23,7 @@ class KaliumSendCompleteSheet {
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         animationDurationMs: 100,
-        removeUntilHome: true,
+        removeUntilHome: false,
         closeOnTap: true,
         builder: (BuildContext context) {
           return StatefulBuilder(

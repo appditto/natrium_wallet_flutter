@@ -355,6 +355,7 @@ class KaliumChangeRepresentativeSheet {
                                         return new PinScreen(
                                           PinOverlayType.ENTER_PIN,
                                           (pin) {
+                                            Navigator.of(context).pop();
                                             Navigator.of(context)
                                                 .push(AnimationLoadingOverlay(AnimationType.GENERIC));
                                             // If account isnt open, just store the account in sharedprefs

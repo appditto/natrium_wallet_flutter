@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:decimal/decimal.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 
@@ -50,30 +51,39 @@ class KaliumSendSheet {
   bool _pasteButtonVisible = true;
   bool _showContactButton = true;
 
-  KaliumSendSheet() {
+  KaliumSendSheet({Contact contact}) {
     _sendAmountFocusNode = new FocusNode();
     _sendAddressFocusNode = new FocusNode();
     _sendAmountController = new TextEditingController();
     _sendAddressController = new TextEditingController();
     _sendAddressStyle = KaliumStyles.TextStyleAddressText60;
     _contacts = List();
+    if (contact != null) {
+      // Setup initial state for contact pre-filled
+      _sendAddressController.text = contact.name;
+      _isContact = true;
+      _showContactButton = false;
+      _pasteButtonVisible = false;
+      _sendAddressStyle =
+          KaliumStyles.TextStyleAddressPrimary;
+    }
+  }
+
+  // A method for deciding if 1 or 3 line address text should be used
+  _oneOrThreeLineAddressText(BuildContext context) {
+    if (MediaQuery.of(context).size.height < 667)
+      return UIUtil.oneLineAddressText(
+        StateContainer.of(context).wallet.address,
+        type: OneLineAddressTextType.PRIMARY60,
+      );
+    else
+      return UIUtil.threeLineAddressText(
+        StateContainer.of(context).wallet.address,
+        type: ThreeLineAddressTextType.PRIMARY60,
+      );
   }
 
   mainBottomSheet(BuildContext context) {
-    // A method for deciding if 1 or 3 line address text should be used
-    oneOrThreeLineAddressText() {
-      if (MediaQuery.of(context).size.height < 667)
-        return UIUtil.oneLineAddressText(
-          StateContainer.of(context).wallet.address,
-          type: OneLineAddressTextType.PRIMARY60,
-        );
-      else
-        return UIUtil.threeLineAddressText(
-          StateContainer.of(context).wallet.address,
-          type: ThreeLineAddressTextType.PRIMARY60,
-        );
-    }
-
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
@@ -156,7 +166,7 @@ class KaliumSendSheet {
                           // Address Text
                           Container(
                             margin: EdgeInsets.only(top: 10.0),
-                            child: oneOrThreeLineAddressText(),
+                            child: _oneOrThreeLineAddressText(context),
                           ),
                           // Balance Text
                           Container(
@@ -350,7 +360,7 @@ class KaliumSendSheet {
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             bool validRequest =
                                 _validateRequest(context, setState);
-                            if (_sendAddressController.text.startsWith("@")) {
+                            if (_sendAddressController.text.startsWith("@") && validRequest) {
                               // Need to make sure its a valid contact
                               DBHelper()
                                   .getContactWithName(
@@ -364,13 +374,15 @@ class KaliumSendSheet {
                                   KaliumSendConfirmSheet(
                                           _sendAmountController.text,
                                           contact.address,
-                                          contactName: contact.name)
+                                          contactName: contact.name,
+                                          maxSend: _isMaxSend(context))
                                       .mainBottomSheet(context);
                                 }
                               });
-                            } else {
+                            } else if (validRequest) {
                               KaliumSendConfirmSheet(_sendAmountController.text,
-                                      _sendAddressController.text)
+                                      _sendAddressController.text,
+                                      maxSend: _isMaxSend(context))
                                   .mainBottomSheet(context);
                             }
                           }),
@@ -385,20 +397,23 @@ class KaliumSendSheet {
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             try {
                               BarcodeScanner.scan().then((value) {
-                                String account =
-                                    NanoAccounts.findAccountInString(
-                                        NanoAccountType.BANANO, value);
-                                if (account == null || account.isEmpty) {
+                                Address address = Address(value);
+                                if (!address.isValid()) {
                                   // Not a valid code
                                 } else {
                                   setState(() {
-                                    _sendAddressController.text = account;
+                                    _sendAddressController.text = address.address;
+                                    if (address.amount != null) {
+                                      _sendAmountController.text = NumberUtil.getRawAsUsableString(address.amount);
+                                    }
                                     _addressValidationText = "";
                                     _sendAddressStyle =
                                         KaliumStyles.TextStyleAddressText90;
                                     _pasteButtonVisible = false;
                                     _showContactButton = false;
+                                    _addressValidAndUnfocused = true;
                                   });
+                                  _sendAddressFocusNode.unfocus();
                                 }
                               });
                             } catch (e) {
@@ -418,6 +433,17 @@ class KaliumSendSheet {
             );
           });
         });
+  }
+
+  // Determine if this is a max send or not by comparing balances
+  bool _isMaxSend(BuildContext context) {
+    // Sanitize commas
+    String textField = _sendAmountController.text.replaceAll(r',', "");
+    String balance = StateContainer.of(context).wallet.getAccountBalanceDisplay().replaceAll(r",", "");
+    // Convert to Integer representations
+    int textFieldInt = (Decimal.parse(textField) * Decimal.fromInt(100)).toInt();
+    int balanceInt = (Decimal.parse(balance) * Decimal.fromInt(100)).toInt();
+    return textFieldInt == balanceInt;
   }
 
   // Build contact items for the list
@@ -577,7 +603,9 @@ class KaliumSendSheet {
               splashColor: KaliumColors.primary30,
               padding: EdgeInsets.all(12.0),
               onPressed: () {
-                return;
+                setState(() {
+                  _sendAmountController.text = StateContainer.of(context).wallet.getAccountBalanceDisplay().replaceAll(r",", "");
+                });
               },
               child:
                   Icon(KaliumIcons.max, size: 24, color: KaliumColors.primary),

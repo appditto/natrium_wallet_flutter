@@ -10,6 +10,7 @@ import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
 import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
+import 'package:kalium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
@@ -205,7 +206,8 @@ class ContactDetailsSheet {
                               KaliumButtonType.PRIMARY,
                               KaliumLocalization.of(context).send,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                            return null;
+                            Navigator.of(context).pop();
+                            KaliumSendSheet(contact: contact).mainBottomSheet(context);
                           }),
                         ],
                       ),

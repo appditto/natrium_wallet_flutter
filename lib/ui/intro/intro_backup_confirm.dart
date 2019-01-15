@@ -122,6 +122,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
   }
 
   void _pinEnteredCallback(String pin) {
+    Navigator.of(context).pop();
     SharedPrefsUtil.inst.setSeedBackedUp(true).then((result) {
       Vault.inst.writePin(pin).then((result) {
         Navigator.of(context)

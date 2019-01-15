@@ -304,6 +304,10 @@ class StateContainerState extends State<StateContainer> {
     // Update data on our next pending request
     nextBlock.representative = previousBlock.representative;
     nextBlock.setBalance(previousBlock.balance);
+    if (nextBlock.subType == BlockTypes.SEND && nextBlock.balance == "0") {
+      // In case of a max send, go back and update sendAmount with the balance
+      nextBlock.sendAmount = wallet.accountBalance.toString();      
+    }
     _getPrivKey().then((result) {
       nextBlock.sign(result);
       pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);

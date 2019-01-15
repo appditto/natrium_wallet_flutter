@@ -67,7 +67,12 @@ class StateBlock {
     BigInt previous = BigInt.parse(previousBalance);
     if (this.subType == BlockTypes.SEND) {
       // Subtract sendAmount from previous balance
-      this.balance = (previous - BigInt.parse(sendAmount)).toString();
+      // If given a 0 as sendAmount, this is a special case indicating a max send
+      if (BigInt.parse(sendAmount) == BigInt.zero) {
+        this.balance = "0";
+      } else {
+        this.balance = (previous - BigInt.parse(sendAmount)).toString();
+      }
     } else if (this.subType == BlockTypes.RECEIVE) {
       // Add previous balance to sendAmount
       this.balance = (previous + BigInt.parse(sendAmount)).toString();
