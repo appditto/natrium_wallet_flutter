@@ -64,8 +64,7 @@ class KaliumSendSheet {
       _isContact = true;
       _showContactButton = false;
       _pasteButtonVisible = false;
-      _sendAddressStyle =
-          KaliumStyles.TextStyleAddressPrimary;
+      _sendAddressStyle = KaliumStyles.TextStyleAddressPrimary;
     }
   }
 
@@ -111,7 +110,9 @@ class KaliumSendSheet {
                 _sendAddressController.selection = TextSelection.fromPosition(
                     TextPosition(offset: _sendAddressController.text.length));
                 if (_sendAddressController.text.startsWith("@")) {
-                  DBHelper().getContactsWithNameLike(_sendAddressController.text).then((contactList) {
+                  DBHelper()
+                      .getContactsWithNameLike(_sendAddressController.text)
+                      .then((contactList) {
                     setState(() {
                       _contacts = contactList;
                     });
@@ -171,47 +172,6 @@ class KaliumSendSheet {
                             margin: EdgeInsets.only(top: 10.0),
                             child: _oneOrThreeLineAddressText(context),
                           ),
-                          // Balance Text
-                          Container(
-                            margin: EdgeInsets.only(top: 6.0),
-                            child: RichText(
-                              textAlign: TextAlign.left,
-                              text: TextSpan(
-                                text: '',
-                                children: [
-                                  TextSpan(
-                                    text: "(",
-                                    style: TextStyle(
-                                      color: KaliumColors.primary60,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w100,
-                                      fontFamily: 'NunitoSans',
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: StateContainer.of(context)
-                                        .wallet
-                                        .getAccountBalanceDisplay(),
-                                    style: TextStyle(
-                                      color: KaliumColors.primary60,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: 'NunitoSans',
-                                    ),
-                                  ),
-                                  TextSpan(
-                                    text: " BAN)",
-                                    style: TextStyle(
-                                      color: KaliumColors.primary60,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w100,
-                                      fontFamily: 'NunitoSans',
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -246,9 +206,49 @@ class KaliumSendSheet {
                           children: <Widget>[
                             Stack(
                               children: <Widget>[
-                                // Column for Enter Amount container + Enter Amount Error container
+                                // Column for Balance Text, Enter Amount container + Enter Amount Error container
                                 Column(
                                   children: <Widget>[
+                                    // Balance Text
+                                    Container(
+                                      child: RichText(
+                                        textAlign: TextAlign.left,
+                                        text: TextSpan(
+                                          text: '',
+                                          children: [
+                                            TextSpan(
+                                              text: "(",
+                                              style: TextStyle(
+                                                color: KaliumColors.primary60,
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.w100,
+                                                fontFamily: 'NunitoSans',
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: StateContainer.of(context)
+                                                  .wallet
+                                                  .getAccountBalanceDisplay(),
+                                              style: TextStyle(
+                                                color: KaliumColors.primary60,
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'NunitoSans',
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: " BAN)",
+                                              style: TextStyle(
+                                                color: KaliumColors.primary60,
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.w100,
+                                                fontFamily: 'NunitoSans',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                     // ******* Enter Amount Container ******* //
                                     getEnterAmountContainer(context, setState),
                                     // ******* Enter Amount Container End ******* //
@@ -289,7 +289,7 @@ class KaliumSendSheet {
                                                     0.105),
                                             alignment: Alignment.bottomCenter,
                                             constraints: BoxConstraints(
-                                                maxHeight: 154, minHeight: 0),
+                                                maxHeight: 174, minHeight: 0),
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 borderRadius:
@@ -310,10 +310,14 @@ class KaliumSendSheet {
                                                   padding: EdgeInsets.only(
                                                       bottom: 0, top: 0),
                                                   itemCount: _contacts.length,
-                                                  itemBuilder: (context, index) {
-                                                    return _buildContactItem(context, setState, _contacts[index]);
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return _buildContactItem(
+                                                        context,
+                                                        setState,
+                                                        _contacts[index]);
                                                   },
-                                                ),// ********* The pop-up Contacts List End ********* //
+                                                ), // ********* The pop-up Contacts List End ********* //
                                               ),
                                             ),
                                           ),
@@ -363,7 +367,8 @@ class KaliumSendSheet {
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             bool validRequest =
                                 _validateRequest(context, setState);
-                            if (_sendAddressController.text.startsWith("@") && validRequest) {
+                            if (_sendAddressController.text.startsWith("@") &&
+                                validRequest) {
                               // Need to make sure its a valid contact
                               DBHelper()
                                   .getContactWithName(
@@ -405,9 +410,12 @@ class KaliumSendSheet {
                                   // Not a valid code
                                 } else {
                                   setState(() {
-                                    _sendAddressController.text = address.address;
+                                    _sendAddressController.text =
+                                        address.address;
                                     if (address.amount != null) {
-                                      _sendAmountController.text = NumberUtil.getRawAsUsableString(address.amount);
+                                      _sendAmountController.text =
+                                          NumberUtil.getRawAsUsableString(
+                                              address.amount);
                                     }
                                     _addressValidationText = "";
                                     _sendAddressStyle =
@@ -442,21 +450,26 @@ class KaliumSendSheet {
   bool _isMaxSend(BuildContext context) {
     // Sanitize commas
     String textField = _sendAmountController.text.replaceAll(r',', "");
-    String balance = StateContainer.of(context).wallet.getAccountBalanceDisplay().replaceAll(r",", "");
+    String balance = StateContainer.of(context)
+        .wallet
+        .getAccountBalanceDisplay()
+        .replaceAll(r",", "");
     // Convert to Integer representations
-    int textFieldInt = (Decimal.parse(textField) * Decimal.fromInt(100)).toInt();
+    int textFieldInt =
+        (Decimal.parse(textField) * Decimal.fromInt(100)).toInt();
     int balanceInt = (Decimal.parse(balance) * Decimal.fromInt(100)).toInt();
     return textFieldInt == balanceInt;
   }
 
   // Build contact items for the list
-  Widget _buildContactItem(BuildContext context, StateSetter setState, Contact contact) {
+  Widget _buildContactItem(
+      BuildContext context, StateSetter setState, Contact contact) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
-          height: 35,
-          margin: EdgeInsets.symmetric(horizontal:25),
+          height: 42,
+          margin: EdgeInsets.symmetric(horizontal: 25),
           width: double.infinity - 5,
           child: FlatButton(
             onPressed: () {
@@ -466,17 +479,14 @@ class KaliumSendSheet {
                 _isContact = true;
                 _showContactButton = false;
                 _pasteButtonVisible = false;
-                _sendAddressStyle =
-                    KaliumStyles.TextStyleAddressPrimary;
+                _sendAddressStyle = KaliumStyles.TextStyleAddressPrimary;
               });
             },
             highlightColor: KaliumColors.text03,
             splashColor: KaliumColors.text03,
             child: Text(contact.name,
-                textAlign:
-                    TextAlign.center,
-                style: KaliumStyles
-                    .TextStyleAddressPrimary),
+                textAlign: TextAlign.center,
+                style: KaliumStyles.TextStyleAddressPrimary),
           ),
         ),
         Container(
@@ -581,22 +591,24 @@ class KaliumSendSheet {
               fontWeight: FontWeight.w100,
               fontFamily: 'NunitoSans'),
           // Currency Switch Button - TODO
-          prefixIcon: false ? Container(
-            width: 48,
-            height: 48,
-            child: FlatButton(
-              padding: EdgeInsets.all(14.0),
-              highlightColor: KaliumColors.primary15,
-              splashColor: KaliumColors.primary30,
-              onPressed: () {
-                return null;
-              },
-              child: Icon(KaliumIcons.swapcurrency,
-                  size: 20, color: KaliumColors.primary),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(200.0)),
-            ),
-          ) : SizedBox(),
+          prefixIcon: false
+              ? Container(
+                  width: 48,
+                  height: 48,
+                  child: FlatButton(
+                    padding: EdgeInsets.all(14.0),
+                    highlightColor: KaliumColors.primary15,
+                    splashColor: KaliumColors.primary30,
+                    onPressed: () {
+                      return null;
+                    },
+                    child: Icon(KaliumIcons.swapcurrency,
+                        size: 20, color: KaliumColors.primary),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(200.0)),
+                  ),
+                )
+              : SizedBox(),
           // MAX Button
           suffixIcon: Container(
             width: 48,
@@ -607,7 +619,10 @@ class KaliumSendSheet {
               padding: EdgeInsets.all(12.0),
               onPressed: () {
                 setState(() {
-                  _sendAmountController.text = StateContainer.of(context).wallet.getAccountBalanceDisplay().replaceAll(r",", "");
+                  _sendAmountController.text = StateContainer.of(context)
+                      .wallet
+                      .getAccountBalanceDisplay()
+                      .replaceAll(r",", "");
                 });
               },
               child:
@@ -642,7 +657,7 @@ class KaliumSendSheet {
       margin: EdgeInsets.only(
         left: MediaQuery.of(context).size.width * 0.105,
         right: MediaQuery.of(context).size.width * 0.105,
-        top: 105,
+        top: 124,
       ),
       padding: _addressValidAndUnfocused
           ? EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0)
@@ -688,7 +703,8 @@ class KaliumSendSheet {
                       padding: EdgeInsets.all(14.0),
                       onPressed: () {
                         // Show menu
-                        FocusScope.of(context).requestFocus(_sendAddressFocusNode);
+                        FocusScope.of(context)
+                            .requestFocus(_sendAddressFocusNode);
                         if (_sendAddressController.text.length == 0) {
                           _sendAddressController.text = "@";
                         }
