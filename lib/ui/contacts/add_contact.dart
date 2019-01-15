@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kalium_wallet_flutter/colors.dart';
 
+import 'package:barcode_scan/barcode_scan.dart';
+
+import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
@@ -120,7 +122,28 @@ class AddContactSheet {
                       margin: EdgeInsets.only(top: 10.0, right: 10.0),
                       child:  address == null ? FlatButton(
                         onPressed: () {
-                          return null;
+                            try {
+                              BarcodeScanner.scan().then((value) {
+                                Address address = Address(value);
+                                if (!address.isValid()) {
+                                  // Not a valid code
+                                } else {
+                                  setState(() {
+                                    _addressController.text = address.address;
+                                    _addressValidationText = "";
+                                    _addressValid = true;
+                                    _addressValidAndUnfocused = true;
+                                  });
+                                  _addressFocusNode.unfocus();
+                                }
+                              });
+                            } catch (e) {
+                              if (e.code == BarcodeScanner.CameraAccessDenied) {
+                                // TODO - Permission Denied to use camera
+                              } else {
+                                // UNKNOWN ERROR
+                              }
+                            }
                         },
                         child: Icon(KaliumIcons.scan,
                             size: 28, color: KaliumColors.text),
