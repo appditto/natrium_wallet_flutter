@@ -624,6 +624,9 @@ class KaliumSendSheet {
                 splashColor: KaliumColors.primary30,
                 padding: EdgeInsets.all(12.0),
                 onPressed: () {
+                  if (_isMaxSend(context)) {
+                    return;
+                  }
                   setState(() {
                     _sendAmountController.text = StateContainer.of(context)
                         .wallet
@@ -638,7 +641,7 @@ class KaliumSendSheet {
               ),
             ),
             secondChild: SizedBox(),
-            crossFadeState: _isMaxSend(context) ? CrossFadeState.showSecond : CrossFadeState.showSecond,
+            crossFadeState: _isMaxSend(context) ? CrossFadeState.showSecond : CrossFadeState.showFirst,
           ),
         ),
         keyboardType: TextInputType.numberWithOptions(),
@@ -711,6 +714,9 @@ class KaliumSendSheet {
                       splashColor: KaliumColors.primary30,
                       padding: EdgeInsets.all(14.0),
                       onPressed: () {
+                        if (!_showContactButton && _contacts.length != 0) {
+                          return;
+                        }
                         // Show menu
                         FocusScope.of(context)
                             .requestFocus(_sendAddressFocusNode);
@@ -747,6 +753,9 @@ class KaliumSendSheet {
                       splashColor: KaliumColors.primary30,
                       padding: EdgeInsets.all(14.0),
                       onPressed: () {
+                        if (!_pasteButtonVisible) {
+                          return;
+                        }
                         Clipboard.getData("text/plain")
                             .then((ClipboardData data) {
                           if (data == null || data.text == null) {
