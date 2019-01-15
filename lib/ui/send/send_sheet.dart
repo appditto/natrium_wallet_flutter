@@ -716,6 +716,8 @@ class KaliumSendSheet {
                             .requestFocus(_sendAddressFocusNode);
                         if (_sendAddressController.text.length == 0) {
                           _sendAddressController.text = "@";
+                          _sendAddressController.selection = TextSelection.fromPosition(
+                                    TextPosition(offset: _sendAddressController.text.length));
                         }
                         DBHelper().getContacts().then((contactList) {
                           setState(() {
