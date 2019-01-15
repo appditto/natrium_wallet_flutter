@@ -25,7 +25,9 @@ void main() async {
     print('${rec.level.name}: ${rec.time}: ${rec.message}');
   });
   // Run app
-  runApp(new StateContainer(child: new KaliumApp()));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    runApp(new StateContainer(child: new KaliumApp()));
+  });
 }
 
 class KaliumApp extends StatelessWidget {
