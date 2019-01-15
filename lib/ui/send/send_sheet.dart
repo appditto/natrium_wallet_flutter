@@ -128,6 +128,9 @@ class KaliumSendSheet {
                 });
                 if (_sendAddressController.text.trim() == "@") {
                   _sendAddressController.text = "";
+                  setState(() {
+                    _showContactButton = true;
+                  });
                 }
               }
             });
@@ -449,6 +452,7 @@ class KaliumSendSheet {
   // Determine if this is a max send or not by comparing balances
   bool _isMaxSend(BuildContext context) {
     // Sanitize commas
+    if (_sendAmountController.text.isEmpty) { return false; }
     String textField = _sendAmountController.text.replaceAll(r',', "");
     String balance = StateContainer.of(context)
         .wallet
@@ -610,26 +614,31 @@ class KaliumSendSheet {
                 )
               : SizedBox(),
           // MAX Button
-          suffixIcon: Container(
-            width: 48,
-            height: 48,
-            child: FlatButton(
-              highlightColor: KaliumColors.primary15,
-              splashColor: KaliumColors.primary30,
-              padding: EdgeInsets.all(12.0),
-              onPressed: () {
-                setState(() {
-                  _sendAmountController.text = StateContainer.of(context)
-                      .wallet
-                      .getAccountBalanceDisplay()
-                      .replaceAll(r",", "");
-                });
-              },
-              child:
-                  Icon(KaliumIcons.max, size: 24, color: KaliumColors.primary),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(200.0)),
+          suffixIcon: AnimatedCrossFade(
+            duration: Duration(milliseconds: 100),
+            firstChild: Container(
+              width: 48,
+              height: 48,
+              child: FlatButton(
+                highlightColor: KaliumColors.primary15,
+                splashColor: KaliumColors.primary30,
+                padding: EdgeInsets.all(12.0),
+                onPressed: () {
+                  setState(() {
+                    _sendAmountController.text = StateContainer.of(context)
+                        .wallet
+                        .getAccountBalanceDisplay()
+                        .replaceAll(r",", "");
+                  });
+                },
+                child:
+                    Icon(KaliumIcons.max, size: 24, color: KaliumColors.primary),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(200.0)),
+              ),
             ),
+            secondChild: SizedBox(),
+            crossFadeState: _isMaxSend(context) ? CrossFadeState.showSecond : CrossFadeState.showSecond,
           ),
         ),
         keyboardType: TextInputType.numberWithOptions(),
