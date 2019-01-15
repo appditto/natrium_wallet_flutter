@@ -151,28 +151,35 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                       height: 48,
                                     ),
                                     // Paste Button
-                                    suffixIcon: Container(
-                                      width: 48,
-                                      height: 48,
-                                      child: FlatButton(
-                                        child: Icon(KaliumIcons.paste,
-                                            size: 20, color: KaliumColors.primary),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(100.0)),
-                                        padding: EdgeInsets.all(14.0),
-                                        onPressed: () {
-                                          Clipboard.getData("text/plain").then((ClipboardData data) {
-                                            if (data == null || data.text == null) {
+                                    suffixIcon: AnimatedCrossFade(
+                                        duration: Duration(milliseconds: 100),
+                                        firstChild: Container(
+                                        width: 48,
+                                        height: 48,
+                                        child: FlatButton(
+                                          child: Icon(KaliumIcons.paste,
+                                              size: 20, color: KaliumColors.primary),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(100.0)),
+                                          padding: EdgeInsets.all(14.0),
+                                          onPressed: () {
+                                            if (NanoSeeds.isValidSeed(_seedInputController.text)) {
                                               return;
-                                            } else if (NanoSeeds.isValidSeed(data.text)) {
-                                              _seedInputController.text = data.text;
-                                              _seedTextStyle = _validSeedTextStyle;
                                             }
-                                          });
-                                        },
+                                            Clipboard.getData("text/plain").then((ClipboardData data) {
+                                              if (data == null || data.text == null) {
+                                                return;
+                                              } else if (NanoSeeds.isValidSeed(data.text)) {
+                                                _seedInputController.text = data.text;
+                                                _seedTextStyle = _validSeedTextStyle;
+                                              }
+                                            });
+                                          },
+                                        ),  
                                       ),
-                                      
+                                      secondChild: SizedBox(),
+                                      crossFadeState: NanoSeeds.isValidSeed(_seedInputController.text) ? CrossFadeState.showSecond : CrossFadeState.showFirst,
                                     ),
                                     border: InputBorder.none,
                                     hintStyle: TextStyle(

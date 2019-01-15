@@ -287,6 +287,9 @@ class AddContactSheet {
                                           splashColor: KaliumColors.primary30,
                                           padding: EdgeInsets.all(14.0),
                                           onPressed: () {
+                                            if (!_showPasteButton) {
+                                              return;
+                                            }
                                             Clipboard.getData("text/plain")
                                                 .then((ClipboardData data) {
                                               if (data == null ||
