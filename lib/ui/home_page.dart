@@ -407,8 +407,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
-                      onPressed: () =>
-                          KaliumSendSheet().mainBottomSheet(context),
+                      onPressed: () {
+                          KaliumSendSheet().mainBottomSheet(context);
+                      },
                       highlightColor: KaliumColors.background40,
                       splashColor: KaliumColors.background40,
                     ),

@@ -41,6 +41,7 @@ class KaliumSendSheet {
   var _addressHint = _addressHintText;
   var _amountValidationText = "";
   var _addressValidationText = "";
+  List<Contact> _contacts;
   // Used to replace address textfield with colorized TextSpan
   bool _addressValidAndUnfocused = false;
   // Set to true when a contact is being entered
@@ -55,6 +56,7 @@ class KaliumSendSheet {
     _sendAmountController = new TextEditingController();
     _sendAddressController = new TextEditingController();
     _sendAddressStyle = KaliumStyles.TextStyleAddressText60;
+    _contacts = List();
   }
 
   mainBottomSheet(BuildContext context) {
@@ -98,9 +100,17 @@ class KaliumSendSheet {
                 });
                 _sendAddressController.selection = TextSelection.fromPosition(
                     TextPosition(offset: _sendAddressController.text.length));
+                if (_sendAddressController.text.startsWith("@")) {
+                  DBHelper().getContactsWithNameLike(_sendAddressController.text).then((contactList) {
+                    setState(() {
+                      _contacts = contactList;
+                    });
+                  });
+                }
               } else {
                 setState(() {
                   _addressHint = _addressHintText;
+                  _contacts = [];
                   if (Address(_sendAddressController.text).isValid()) {
                     _addressValidAndUnfocused = true;
                   }
@@ -282,43 +292,15 @@ class KaliumSendSheet {
                                                 margin:
                                                     EdgeInsets.only(bottom: 50),
                                                 // ********* The pop-up Contacts List ********* //
-                                                child: ListView(
+                                                child: ListView.builder(
                                                   itemExtent: 30,
                                                   shrinkWrap: true,
                                                   padding: EdgeInsets.only(
                                                       bottom: 0, top: 0),
-                                                  children: <Widget>[
-                                                    FlatButton(
-                                                      onPressed: () {
-                                                        return null;
-                                                      },
-                                                      child: Text("@start",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: KaliumStyles
-                                                              .TextStyleAddressPrimary),
-                                                    ),
-                                                    FlatButton(
-                                                      onPressed: () {
-                                                        return null;
-                                                      },
-                                                      child: Text("@fudcake",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: KaliumStyles
-                                                              .TextStyleAddressPrimary),
-                                                    ),
-                                                    FlatButton(
-                                                      onPressed: () {
-                                                        return null;
-                                                      },
-                                                      child: Text("@end",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: KaliumStyles
-                                                              .TextStyleAddressPrimary),
-                                                    ),
-                                                  ],
+                                                  itemCount: _contacts.length,
+                                                  itemBuilder: (context, index) {
+                                                    return _buildContactItem(context, setState, _contacts[index]);
+                                                  },
                                                 ),// ********* The pop-up Contacts List End ********* //
                                               ),
                                             ),
@@ -439,6 +421,28 @@ class KaliumSendSheet {
         });
   }
 
+  // Build contact items for the list
+  Widget _buildContactItem(BuildContext context, StateSetter setState, Contact contact) {
+    return FlatButton(
+      onPressed: () {
+        _sendAddressController.text = contact.name;
+        _sendAddressFocusNode.unfocus();
+        setState(() {
+          _isContact = true;
+          _showContactButton = false;
+          _pasteButtonVisible = false;
+          _sendAddressStyle =
+              KaliumStyles.TextStyleAddressPrimary;
+        });
+      },
+      child: Text(contact.name,
+          textAlign:
+              TextAlign.center,
+          style: KaliumStyles
+              .TextStyleAddressPrimary),
+    );
+  }
+
   /// Validate form data to see if valid
   /// @returns true if valid, false otherwise
   bool _validateRequest(BuildContext context, StateSetter setState) {
@@ -531,8 +535,8 @@ class KaliumSendSheet {
               fontSize: 16.0,
               fontWeight: FontWeight.w100,
               fontFamily: 'NunitoSans'),
-          // Currency Switch Button
-          prefixIcon: Container(
+          // Currency Switch Button - TODO
+          prefixIcon: false ? Container(
             width: 48,
             height: 48,
             child: FlatButton(
@@ -547,7 +551,7 @@ class KaliumSendSheet {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(200.0)),
             ),
-          ),
+          ) : SizedBox(),
           // MAX Button
           suffixIcon: Container(
             width: 48,
@@ -557,7 +561,7 @@ class KaliumSendSheet {
               splashColor: KaliumColors.primary30,
               padding: EdgeInsets.all(12.0),
               onPressed: () {
-                return null;
+                return;
               },
               child:
                   Icon(KaliumIcons.max, size: 24, color: KaliumColors.primary),
@@ -637,7 +641,15 @@ class KaliumSendSheet {
                       padding: EdgeInsets.all(14.0),
                       onPressed: () {
                         // Show menu
-                        return null;
+                        FocusScope.of(context).requestFocus(_sendAddressFocusNode);
+                        if (_sendAddressController.text.length == 0) {
+                          _sendAddressController.text = "@";
+                        }
+                        DBHelper().getContacts().then((contactList) {
+                          setState(() {
+                            _contacts = contactList;
+                          });
+                        });
                       },
                       child: Icon(KaliumIcons.at,
                           size: 20, color: KaliumColors.primary),
@@ -646,7 +658,7 @@ class KaliumSendSheet {
                     ),
                   ),
                   secondChild: SizedBox(),
-                  crossFadeState: _showContactButton
+                  crossFadeState: _showContactButton && _contacts.length == 0
                       ? CrossFadeState.showFirst
                       : CrossFadeState.showSecond,
                 ),
@@ -730,9 +742,15 @@ class KaliumSendSheet {
                   setState(() {
                     _isContact = true;
                   });
+                  DBHelper().getContactsWithNameLike(text).then((matchedList) {
+                    setState(() {
+                      _contacts = matchedList;
+                    });
+                  });
                 } else {
                   setState(() {
                     _isContact = false;
+                    _contacts = [];
                   });
                 }
                 // Always reset the error message to be less annoying
@@ -758,8 +776,8 @@ class KaliumSendSheet {
                         _sendAddressStyle = KaliumStyles.TextStyleAddressText60;
                       });
                     } else {
-                      _sendAddressFocusNode.unfocus();
                       setState(() {
+                        _pasteButtonVisible = false;
                         _sendAddressStyle =
                             KaliumStyles.TextStyleAddressPrimary;
                       });

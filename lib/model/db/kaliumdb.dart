@@ -40,6 +40,16 @@ class DBHelper{
     return contacts;
   }
 
+  Future<List<Contact>> getContactsWithNameLike(String pattern) async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts WHERE name LIKE \'%$pattern%\' ORDER BY name');
+    List<Contact> contacts = new List();
+    for (int i = 0; i < list.length; i++) {
+      contacts.add(new Contact(id: list[i]["id"], name: list[i]["name"], address: list[i]["address"], monkeyPath: list[i]["monkey_path"]));
+    }
+    return contacts;
+  }
+
   Future<Contact> getContactWithAddress(String address) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts WHERE address = ?', [address]);
