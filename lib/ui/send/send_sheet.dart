@@ -213,7 +213,7 @@ class KaliumSendSheet {
                 // A main container that holds everything
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(top: 35, bottom: 35),
+                    margin: EdgeInsets.only(top: 5, bottom: 5),
                     child: Stack(
                       children: <Widget>[
                         GestureDetector(
@@ -276,7 +276,7 @@ class KaliumSendSheet {
                                                     0.105),
                                             alignment: Alignment.bottomCenter,
                                             constraints: BoxConstraints(
-                                                maxHeight: 144, minHeight: 0),
+                                                maxHeight: 154, minHeight: 0),
                                             child: Container(
                                               decoration: BoxDecoration(
                                                 borderRadius:
@@ -293,7 +293,6 @@ class KaliumSendSheet {
                                                     EdgeInsets.only(bottom: 50),
                                                 // ********* The pop-up Contacts List ********* //
                                                 child: ListView.builder(
-                                                  itemExtent: 30,
                                                   shrinkWrap: true,
                                                   padding: EdgeInsets.only(
                                                       bottom: 0, top: 0),
@@ -423,23 +422,40 @@ class KaliumSendSheet {
 
   // Build contact items for the list
   Widget _buildContactItem(BuildContext context, StateSetter setState, Contact contact) {
-    return FlatButton(
-      onPressed: () {
-        _sendAddressController.text = contact.name;
-        _sendAddressFocusNode.unfocus();
-        setState(() {
-          _isContact = true;
-          _showContactButton = false;
-          _pasteButtonVisible = false;
-          _sendAddressStyle =
-              KaliumStyles.TextStyleAddressPrimary;
-        });
-      },
-      child: Text(contact.name,
-          textAlign:
-              TextAlign.center,
-          style: KaliumStyles
-              .TextStyleAddressPrimary),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Container(
+          height: 35,
+          margin: EdgeInsets.symmetric(horizontal:25),
+          width: double.infinity - 5,
+          child: FlatButton(
+            onPressed: () {
+              _sendAddressController.text = contact.name;
+              _sendAddressFocusNode.unfocus();
+              setState(() {
+                _isContact = true;
+                _showContactButton = false;
+                _pasteButtonVisible = false;
+                _sendAddressStyle =
+                    KaliumStyles.TextStyleAddressPrimary;
+              });
+            },
+            highlightColor: KaliumColors.text03,
+            splashColor: KaliumColors.text03,
+            child: Text(contact.name,
+                textAlign:
+                    TextAlign.center,
+                style: KaliumStyles
+                    .TextStyleAddressPrimary),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 25),
+          height: 1,
+          color: KaliumColors.text03,
+        ),
+      ],
     );
   }
 
@@ -502,7 +518,7 @@ class KaliumSendSheet {
       margin: EdgeInsets.only(
         left: MediaQuery.of(context).size.width * 0.105,
         right: MediaQuery.of(context).size.width * 0.105,
-        top: 20,
+        top: 30,
       ),
       width: double.infinity,
       decoration: BoxDecoration(
@@ -595,7 +611,7 @@ class KaliumSendSheet {
       margin: EdgeInsets.only(
         left: MediaQuery.of(context).size.width * 0.105,
         right: MediaQuery.of(context).size.width * 0.105,
-        top: 95,
+        top: 105,
       ),
       padding: _addressValidAndUnfocused
           ? EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0)
