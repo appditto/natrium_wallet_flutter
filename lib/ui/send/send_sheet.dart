@@ -714,22 +714,21 @@ class KaliumSendSheet {
                       splashColor: KaliumColors.primary30,
                       padding: EdgeInsets.all(14.0),
                       onPressed: () {
-                        if (!_showContactButton && _contacts.length != 0) {
-                          return;
-                        }
-                        // Show menu
-                        FocusScope.of(context)
-                            .requestFocus(_sendAddressFocusNode);
-                        if (_sendAddressController.text.length == 0) {
-                          _sendAddressController.text = "@";
-                          _sendAddressController.selection = TextSelection.fromPosition(
-                                    TextPosition(offset: _sendAddressController.text.length));
-                        }
-                        DBHelper().getContacts().then((contactList) {
-                          setState(() {
-                            _contacts = contactList;
+                        if (_showContactButton && _contacts.length == 0) {
+                          // Show menu
+                          FocusScope.of(context)
+                              .requestFocus(_sendAddressFocusNode);
+                          if (_sendAddressController.text.length == 0) {
+                            _sendAddressController.text = "@";
+                            _sendAddressController.selection = TextSelection.fromPosition(
+                                      TextPosition(offset: _sendAddressController.text.length));
+                          }
+                          DBHelper().getContacts().then((contactList) {
+                            setState(() {
+                              _contacts = contactList;
+                            });
                           });
-                        });
+                        }
                       },
                       child: Icon(KaliumIcons.at,
                           size: 20, color: KaliumColors.primary),
