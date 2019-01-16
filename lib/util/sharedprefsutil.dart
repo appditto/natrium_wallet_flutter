@@ -22,7 +22,6 @@ class SharedPrefsUtil {
   static const String auth_method = 'fkalium_auth_method';
   static const String cur_currency = 'fkalium_currency_pref';
   static const String user_representative = 'fkalium_user_rep'; // For when non-opened accounts have set a representative
-  static const String monkey_file_location = 'fkalium_monkey_location';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -118,21 +117,12 @@ class SharedPrefsUtil {
     return get(user_representative, defaultValue: KaliumWallet.defaultRepresentative);
   }
 
-  Future<void> setMonkeyLocation(String location) async {
-    return await set(monkey_file_location, location);
-  }
-
-  Future<dynamic> getMonkeyLocation() async {
-    return get(monkey_file_location, defaultValue: null);
-  }
-
   // For logging out
   Future<void> deleteAll() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove(seed_backed_up_key);
     prefs.remove(app_uuid_key);
     prefs.remove(price_conversion);
-    prefs.remove(monkey_file_location);
     prefs.remove(user_representative);
     prefs.remove(cur_currency);
     prefs.remove(auth_method);

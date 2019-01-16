@@ -49,6 +49,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // monKey widget
   Widget _monKey;
   Widget _largeMonKey;
+  bool _monkeyOverlayOpen = false;
   // List of contacts (Store it so we only have to query the DB once for transaction cards)
   List<Contact> _contacts = List();
 
@@ -141,6 +142,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             style: KaliumStyles.TextStyleSnackbar),
       ));
     });
+    RxBus.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
+      setState(() {
+        _monkeyOverlayOpen = false;        
+      });
+    });
   }
 
   @override
@@ -155,6 +161,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.destroy(tag: RX_PROCESS_TAG);
     RxBus.destroy(tag: RX_CONTACT_MODIFIED_TAG);
     RxBus.destroy(tag: RX_CONTACT_ADDED_ALT_TAG);
+    RxBus.destroy(tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
   }
 
   @override
@@ -690,15 +697,18 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             width: 90.0,
             height: 90.0,
             child: FlatButton(
-                child: _monKey,
+                child: _monkeyOverlayOpen ? SizedBox() : _monKey,
                 padding: EdgeInsets.all(0.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0)),
                 onPressed: () {
+                  Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
                   if (_largeMonKey == null) {
                     return;
                   }
-                  Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
+                  setState(() {
+                    _monkeyOverlayOpen = true;
+                  });
                 }),
           ),
         ],
@@ -967,6 +977,7 @@ class TransactionDetailsSheet {
 class MonkeyOverlay extends ModalRoute<void> {
   var monKey;
   MonkeyOverlay(this.monKey);
+
   @override
   Duration get transitionDuration => Duration(milliseconds: 150);
 
@@ -985,16 +996,25 @@ class MonkeyOverlay extends ModalRoute<void> {
   @override
   bool get maintainState => false;
 
+  Future<bool> _onClosed() async {
+    RxBus.post(true, tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
+    return true;
+  }
+
   @override
   Widget buildPage(
     BuildContext context,
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) {
-    return Material(
-      type: MaterialType.transparency,
-      child: SafeArea(
-        child: _buildOverlayContent(context),
+    // Setup position transition
+    return WillPopScope(
+      onWillPop: _onClosed,
+      child: Material(
+        type: MaterialType.transparency,
+        child: SafeArea(
+          child:  _buildOverlayContent(context)
+        ),
       ),
     );
   }
@@ -1006,6 +1026,7 @@ class MonkeyOverlay extends ModalRoute<void> {
         children: <Widget>[
           GestureDetector(
             onTap: () {
+              _onClosed();
               Navigator.pop(context);
             },
             child: Container(
@@ -1036,8 +1057,8 @@ class MonkeyOverlay extends ModalRoute<void> {
     return FadeTransition(
       opacity: animation,
       child: ScaleTransition(
-        scale: animation,
-        child: child,
+          scale: animation,
+          child :child
       ),
     );
   }

@@ -400,7 +400,6 @@ class UIUtil {
     var bytes = await consolidateHttpClientResponseBytes(response);
     File file = new File(fileName);
     await file.writeAsBytes(bytes);
-    await SharedPrefsUtil.inst.setMonkeyLocation(fileName);
     return file;
   }
 }
