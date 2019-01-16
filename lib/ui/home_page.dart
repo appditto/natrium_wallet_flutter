@@ -79,7 +79,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     bool contactAdded = await SharedPrefsUtil.inst.getFirstContactAdded();
     if (!contactAdded) {
       DBHelper db = DBHelper();
-      bool addressExists = await db.contactExistsWithAddress("ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo");
+      bool addressExists = await db.contactExistsWithAddress(
+          "ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo");
       if (addressExists) {
         return;
       }
@@ -88,7 +89,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         return;
       }
       await SharedPrefsUtil.inst.setFirstContactAdded(true);
-      Contact c = Contact(name: "@KaliumDonations", address: "ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo");
+      Contact c = Contact(
+          name: "@KaliumDonations",
+          address:
+              "ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo");
       await db.saveContact(c);
     }
   }
@@ -140,13 +144,16 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     });
     RxBus.register<Contact>(tag: RX_CONTACT_ADDED_ALT_TAG).listen((contact) {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
-        content: new Text(KaliumLocalization.of(context).contactAdded.replaceAll("%1", contact.name),
+        content: new Text(
+            KaliumLocalization.of(context)
+                .contactAdded
+                .replaceAll("%1", contact.name),
             style: KaliumStyles.TextStyleSnackbar),
       ));
     });
     RxBus.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
       setState(() {
-        _monkeyOverlayOpen = false;        
+        _monkeyOverlayOpen = false;
       });
     });
   }
@@ -280,8 +287,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   Widget build(BuildContext context) {
     // Download/Retrieve smaller and large monKeys
     UIUtil.downloadOrRetrieveMonkey(context,
-                                    StateContainer.of(context).wallet.address,
-                                    MonkeySize.NORMAL).then((result) {
+            StateContainer.of(context).wallet.address, MonkeySize.NORMAL)
+        .then((result) {
       if (result != null) {
         setState(() {
           _monKey = Image.file(result);
@@ -289,8 +296,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       }
     });
     UIUtil.downloadOrRetrieveMonkey(context,
-                                    StateContainer.of(context).wallet.address,
-                                    MonkeySize.LARGE).then((result) {
+            StateContainer.of(context).wallet.address, MonkeySize.LARGE)
+        .then((result) {
       if (result != null) {
         setState(() {
           _largeMonKey = Image.file(result);
@@ -411,19 +418,31 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),
-                      color: StateContainer.of(context).wallet.accountBalance > BigInt.zero ? KaliumColors.primary :KaliumColors.primary60,
+                      color: StateContainer.of(context).wallet.accountBalance >
+                              BigInt.zero
+                          ? KaliumColors.primary
+                          : KaliumColors.primary60,
                       child: Text(KaliumLocalization.of(context).send,
                           textAlign: TextAlign.center,
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
                       onPressed: () {
-                        if (StateContainer.of(context).wallet.accountBalance > BigInt.zero) {
+                        if (StateContainer.of(context).wallet.accountBalance >
+                            BigInt.zero) {
                           KaliumSendSheet().mainBottomSheet(context);
                         }
                       },
-                      highlightColor: StateContainer.of(context).wallet.accountBalance > BigInt.zero ? KaliumColors.background40 : Colors.transparent,
-                      splashColor: StateContainer.of(context).wallet.accountBalance > BigInt.zero ? KaliumColors.background40 : Colors.transparent,
+                      highlightColor:
+                          StateContainer.of(context).wallet.accountBalance >
+                                  BigInt.zero
+                              ? KaliumColors.background40
+                              : Colors.transparent,
+                      splashColor:
+                          StateContainer.of(context).wallet.accountBalance >
+                                  BigInt.zero
+                              ? KaliumColors.background40
+                              : Colors.transparent,
                     ),
                   ),
                 ),
@@ -782,27 +801,33 @@ class _KaliumHomePageState extends State<KaliumHomePage>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  child: Icon(KaliumIcons.bananocurrency,
-                      size: StateContainer.of(context)
-                                  .wallet
-                                  .getAccountBalanceDisplay()
-                                  .length <=
-                              10
-                          ? 20
-                          : 16,
-                      color: KaliumColors.primary),
-                  margin: EdgeInsets.only(right: 5),
-                ),
-                Container(
                   constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width - 250),
-                  child: AutoSizeText(
-                    StateContainer.of(context)
-                        .wallet
-                        .getAccountBalanceDisplay(),
-                    textAlign: TextAlign.center,
-                    style: KaliumStyles.TextStyleCurrency,
+                      maxWidth: MediaQuery.of(context).size.width - 225),
+                  child: AutoSizeText.rich(
+                    TextSpan(
+                      children: [
+                        // Banano Icon
+                        TextSpan(
+                          text: " ",
+                          style: TextStyle(
+                            fontFamily: 'KaliumIcons',
+                            color: KaliumColors.primary,
+                            fontSize: 23.0,
+                          ),
+                        ),
+                        // Main balance text
+                        TextSpan(
+                          text: StateContainer.of(context)
+                              .wallet
+                              .getAccountBalanceDisplay(),
+                          style: KaliumStyles.TextStyleCurrency,
+                        ),
+                      ],
+                    ),
                     maxLines: 1,
+                    style: TextStyle(fontSize: 28.0),
+                    stepGranularity: 0.1,
+                    minFontSize: 1,
                   ),
                 ),
               ],
@@ -882,8 +907,10 @@ class TransactionDetailsSheet {
                                         : KaliumColors.primary,
                                     child: Text(
                                         _addressCopied
-                                            ? KaliumLocalization.of(context).addressCopied
-                                            : KaliumLocalization.of(context).copyAddress,
+                                            ? KaliumLocalization.of(context)
+                                                .addressCopied
+                                            : KaliumLocalization.of(context)
+                                                .copyAddress,
                                         textAlign: TextAlign.center,
                                         style: _addressCopied
                                             ? KaliumStyles
@@ -1023,9 +1050,7 @@ class MonkeyOverlay extends ModalRoute<void> {
       onWillPop: _onClosed,
       child: Material(
         type: MaterialType.transparency,
-        child: SafeArea(
-          child:  _buildOverlayContent(context)
-        ),
+        child: SafeArea(child: _buildOverlayContent(context)),
       ),
     );
   }
@@ -1067,10 +1092,7 @@ class MonkeyOverlay extends ModalRoute<void> {
       Animation<double> secondaryAnimation, Widget child) {
     return FadeTransition(
       opacity: animation,
-      child: ScaleTransition(
-          scale: animation,
-          child :child
-      ),
+      child: ScaleTransition(scale: animation, child: child),
     );
   }
 }
