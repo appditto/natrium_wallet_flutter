@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
@@ -115,9 +116,9 @@ class ContactDetailsSheet {
                     children: <Widget>[
                       // monKey container
                       Container(
-                        height: 100,
-                        width: 100,
-                        color: KaliumColors.primary,
+                        height: 200,
+                        width: 200,
+                        child: contact.monkeyPath != null ? Image.file(File(contact.monkeyPath)) : SizedBox(),
                       ),
                       // Contact Name container
                       Container(

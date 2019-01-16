@@ -396,17 +396,19 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),
-                      color: KaliumColors.primary,
+                      color: StateContainer.of(context).wallet.accountBalance > BigInt.zero ? KaliumColors.primary :KaliumColors.primary60,
                       child: Text('Send',
                           textAlign: TextAlign.center,
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
                       onPressed: () {
-                        KaliumSendSheet().mainBottomSheet(context);
+                        if (StateContainer.of(context).wallet.accountBalance > BigInt.zero) {
+                          KaliumSendSheet().mainBottomSheet(context);
+                        }
                       },
-                      highlightColor: KaliumColors.background40,
-                      splashColor: KaliumColors.background40,
+                      highlightColor: StateContainer.of(context).wallet.accountBalance > BigInt.zero ? KaliumColors.background40 : Colors.transparent,
+                      splashColor: StateContainer.of(context).wallet.accountBalance > BigInt.zero ? KaliumColors.background40 : Colors.transparent,
                     ),
                   ),
                 ),

@@ -26,6 +26,7 @@ import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
+import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/biometrics.dart';
 
@@ -102,10 +103,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
       // Save all the new contacts and update states
       int numSaved = await dbHelper.saveContacts(contactsToAdd);
       if (numSaved > 0) {
-        var newList = await dbHelper.getContacts();
-        setState(() {
-          _contacts = newList;
-        });
+        _updateContacts();
         RxBus.post(Contact(name:"", address:""), tag: RX_CONTACT_MODIFIED_TAG);
         _scaffoldKey.currentState.showSnackBar(SnackBar(
                                           content: Text(
@@ -154,6 +152,8 @@ class _SettingsSheetState extends State<SettingsSheet> {
         //Sort by name
         _contacts.sort((a, b) => a.name.compareTo(b.name));
       });
+      // Full update which includes downloading new monKey
+      _updateContacts();
     });
     // Contact removed bus event
     RxBus.register<Contact>(tag: RX_CONTACT_REMOVED_TAG).listen((contact) {
@@ -175,6 +175,21 @@ class _SettingsSheetState extends State<SettingsSheet> {
       setState(() {
         _contacts = contacts;
       });
+      for (Contact c in contacts) {
+        // Download monKeys if not existing
+        if (c.monkeyPath == null) {
+          UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL).then((result) {
+            DBHelper().setMonkeyForContact(c, result.path).then((success) {
+              if (success) {
+                c.monkeyPath = result.path;
+                setState(() {
+                  _contacts = contacts;
+                });
+              }
+            });
+          });
+        }
+      }
     });
   }
 
@@ -356,9 +371,11 @@ class _SettingsSheetState extends State<SettingsSheet> {
                           KaliumIcons.fingerprint,
                           _authMethodDialog)
                       : null,
+/*
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
                       'Notifications', 'On', KaliumIcons.notifications),
+*/
                   Divider(height: 2),
                   Container(
                     margin:
@@ -652,9 +669,9 @@ class _SettingsSheetState extends State<SettingsSheet> {
               Container(
                 margin: new EdgeInsets.only(right: 16.0),
                 child: new Container(
-                  color: KaliumColors.primary,
                   height: 40,
                   width: 40,
+                  child: contact.monkeyPath != null ? Image.file(File(contact.monkeyPath)) : SizedBox()
                 ),
               ),
               //Contact info

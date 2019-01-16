@@ -99,4 +99,9 @@ class DBHelper{
     var dbClient = await db;
     return await dbClient.rawDelete("DELETE FROM Contacts WHERE name = ? AND address = ?", [contact.name, contact.address]) > 0;
   }
+
+  Future<bool> setMonkeyForContact(Contact contact, String monkeyPath) async {
+    var dbClient = await db;
+    return await dbClient.rawUpdate("UPDATE contacts SET monkey_path = ? WHERE address = ?", [monkeyPath, contact.address]) > 0;
+  }
 }
