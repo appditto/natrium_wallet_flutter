@@ -4,6 +4,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
@@ -51,7 +52,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   // monKey widget
   Widget _monKey;
-
   // List of contacts (Store it so we only have to query the DB once for transaction cards)
   List<Contact> _contacts = List();
 
@@ -70,8 +70,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     }
     HttpClient httpClient = new HttpClient();
     String address = StateContainer.of(context).wallet.address;
-    var request = await httpClient
-        .getUrl(Uri.parse(KaliumLocalization.of(context).getMonkeyDownloadUrl(address)));
+    var request = await httpClient.getUrl(Uri.parse(
+        KaliumLocalization.of(context).getMonkeyDownloadUrl(address)));
     var response = await request.close();
     var bytes = await consolidateHttpClientResponseBytes(response);
     String dir = (await getApplicationDocumentsDirectory()).path;
@@ -409,7 +409,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
                       onPressed: () {
-                          KaliumSendSheet().mainBottomSheet(context);
+                        KaliumSendSheet().mainBottomSheet(context);
                       },
                       highlightColor: KaliumColors.background40,
                       splashColor: KaliumColors.background40,
@@ -723,82 +723,93 @@ class _KaliumHomePageState extends State<KaliumHomePage>
           child: Icon(KaliumIcons.bananologo,
               color: KaliumColors.primary, size: 40));
     }
-    return Container(
-      child: GestureDetector(
-        onTap: () {
-          if (_priceConversion == PriceConversion.BTC) {
-            // Cycle to NANO price
-            setState(() {
-              _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
-              _priceConversion = PriceConversion.NANO;
-            });
-            SharedPrefsUtil.inst.setPriceConversion(PriceConversion.NANO);
-          } else if (_priceConversion == PriceConversion.NANO) {
-            // Hide prices
-            setState(() {
-              _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAltHidden;
-              _priceConversion = PriceConversion.NONE;
-            });
-            SharedPrefsUtil.inst.setPriceConversion(PriceConversion.NONE);
-          } else {
-            // Cycle to BTC price
-            setState(() {
-              _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
-              _priceConversion = PriceConversion.BTC;
-            });
-            SharedPrefsUtil.inst.setPriceConversion(PriceConversion.BTC);
-          }
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(right: 5.0),
-              child: Text(
-                  StateContainer.of(context).wallet.getLocalCurrencyPrice(
-                      locale: StateContainer.of(context).currencyLocale),
-                  textAlign: TextAlign.center,
-                  style: _convertedPriceStyle),
-            ),
-            Row(
+    return GestureDetector(
+      onTap: () {
+        if (_priceConversion == PriceConversion.BTC) {
+          // Cycle to NANO price
+          setState(() {
+            _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
+            _priceConversion = PriceConversion.NANO;
+          });
+          SharedPrefsUtil.inst.setPriceConversion(PriceConversion.NANO);
+        } else if (_priceConversion == PriceConversion.NANO) {
+          // Hide prices
+          setState(() {
+            _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAltHidden;
+            _priceConversion = PriceConversion.NONE;
+          });
+          SharedPrefsUtil.inst.setPriceConversion(PriceConversion.NONE);
+        } else {
+          // Cycle to BTC price
+          setState(() {
+            _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
+            _priceConversion = PriceConversion.BTC;
+          });
+          SharedPrefsUtil.inst.setPriceConversion(PriceConversion.BTC);
+        }
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+              StateContainer.of(context).wallet.getLocalCurrencyPrice(
+                  locale: StateContainer.of(context).currencyLocale),
+              textAlign: TextAlign.center,
+              style: _convertedPriceStyle),
+          Container(
+            margin: EdgeInsets.only(right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                    margin: EdgeInsets.only(right: 5.0),
-                    child: Icon(KaliumIcons.bananocurrency,
-                        color: KaliumColors.primary, size: 20)),
+                  child: Icon(KaliumIcons.bananocurrency,
+                      size: StateContainer.of(context)
+                                  .wallet
+                                  .getAccountBalanceDisplay()
+                                  .length <=
+                              10
+                          ? 20
+                          : 16,
+                      color: KaliumColors.primary),
+                  margin: EdgeInsets.only(right: 5),
+                ),
                 Container(
-                  margin: EdgeInsets.only(right: 15.0),
-                  child: Text(
-                      StateContainer.of(context)
-                          .wallet
-                          .getAccountBalanceDisplay(),
-                      textAlign: TextAlign.center,
-                      style: KaliumStyles.TextStyleCurrency),
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width - 250),
+                  child: AutoSizeText(
+                    StateContainer.of(context)
+                        .wallet
+                        .getAccountBalanceDisplay(),
+                    textAlign: TextAlign.center,
+                    style: KaliumStyles.TextStyleCurrency,
+                    maxLines: 1,
+                  ),
                 ),
               ],
             ),
-            Row(
-              children: <Widget>[
-                Container(
-                    child: Icon(
-                        _priceConversion == PriceConversion.BTC
-                            ? KaliumIcons.btc
-                            : KaliumIcons.nanocurrency,
-                        color: _priceConversion == PriceConversion.NONE
-                            ? Colors.transparent
-                            : KaliumColors.text60,
-                        size: 14)),
-                Text(
-                    _priceConversion == PriceConversion.BTC
-                        ? StateContainer.of(context).wallet.btcPrice
-                        : StateContainer.of(context).wallet.nanoPrice,
-                    textAlign: TextAlign.center,
-                    style: _convertedPriceStyle),
-              ],
-            ),
-          ],
-        ),
+          ),
+          Row(
+            children: <Widget>[
+              Icon(
+                  _priceConversion == PriceConversion.BTC
+                      ? KaliumIcons.btc
+                      : KaliumIcons.nanocurrency,
+                  color: _priceConversion == PriceConversion.NONE
+                      ? Colors.transparent
+                      : KaliumColors.text60,
+                  size: 14),
+              Text(
+                  _priceConversion == PriceConversion.BTC
+                      ? StateContainer.of(context).wallet.btcPrice
+                      : StateContainer.of(context).wallet.nanoPrice,
+                  textAlign: TextAlign.center,
+                  style: _convertedPriceStyle),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -946,7 +957,8 @@ class TransactionDetailsSheet {
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) {
-                              return UIUtil.showBlockExplorerWebview(context, _hash);
+                              return UIUtil.showBlockExplorerWebview(
+                                  context, _hash);
                             }));
                           }),
                         ],
@@ -1015,7 +1027,8 @@ class MonkeyOverlay extends ModalRoute<void> {
           Center(
             child: ClipOval(
               child: Container(
-                margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.05),
+                margin: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.height * 0.05),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width,
                 child: monKey,
