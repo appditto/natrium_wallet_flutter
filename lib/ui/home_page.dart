@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
@@ -18,7 +15,6 @@ import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
-import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/contacts/add_contact.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_sheet.dart';
@@ -52,6 +48,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   // monKey widget
   Widget _monKey;
+  Widget _largeMonKey;
   // List of contacts (Store it so we only have to query the DB once for transaction cards)
   List<Contact> _contacts = List();
 
@@ -62,26 +59,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Timeeout for refresh
   StreamSubscription<dynamic> _refreshTimeout;
 
-  Future<File> downloadOrRetrieveMonkey(String path) async {
-    if (path != null) {
-      if (await File(path).exists()) {
-        return File(path);
-      }
-    }
-    HttpClient httpClient = new HttpClient();
-    String address = StateContainer.of(context).wallet.address;
-    var request = await httpClient.getUrl(Uri.parse(
-        KaliumLocalization.of(context).getMonkeyDownloadUrl(address)));
-    var response = await request.close();
-    var bytes = await consolidateHttpClientResponseBytes(response);
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    String fileName = '$dir/$address.png';
-    File file = new File(fileName);
-    await file.writeAsBytes(bytes);
-    await SharedPrefsUtil.inst.setMonkeyLocation(fileName);
-    return file;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -91,14 +68,24 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     SharedPrefsUtil.inst.getPriceConversion().then((result) {
       _priceConversion = result;
     });
-    SharedPrefsUtil.inst.getMonkeyLocation().then((result) {
-      downloadOrRetrieveMonkey(result).then((file) {
-        if (file != null) {
-          setState(() {
-            _monKey = Image.file(file);
-          });
-        }
-      });
+    // Download/Retrieve smaller and large monKeys
+    UIUtil.downloadOrRetrieveMonkey(context,
+                                    StateContainer.of(context).wallet.address,
+                                    MonkeySize.NORMAL).then((result) {
+      if (result != null) {
+        setState(() {
+          _monKey = Image.file(result);
+        });
+      }
+    });
+    UIUtil.downloadOrRetrieveMonkey(context,
+                                    StateContainer.of(context).wallet.address,
+                                    MonkeySize.LARGE).then((result) {
+      if (result != null) {
+        setState(() {
+          _largeMonKey = Image.file(result);
+        });
+      }
     });
     _updateContacts();
   }
@@ -708,7 +695,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0)),
                 onPressed: () {
-                  Navigator.of(context).push(MonkeyOverlay(_monKey));
+                  if (_largeMonKey == null) {
+                    return;
+                  }
+                  Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
                 }),
           ),
         ],

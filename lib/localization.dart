@@ -173,7 +173,7 @@ class KaliumLocalization {
     return 'https://creeper.banano.cc/explorer/account/$account';
   }
 
-  String getMonkeyDownloadUrl(String account) {
+  String getMonkeyDownloadUrl(String account, { int size = 1000 }) {
     return 'https://bananomonkeys.herokuapp.com/image?format=png&address=$account';
   }
   /// -- END NON-TRANSLATABLE ITEMS

@@ -1,14 +1,22 @@
+import 'dart:io';
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/ui/util/exceptions.dart';
+import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 
 enum ThreeLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS, SUCCESS_FULL }
 enum OneLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS }
+
+enum MonkeySize { NORMAL, LARGE }
 
 class UIUtil {
   static Widget threeLineAddressText(String address, { ThreeLineAddressTextType type = ThreeLineAddressTextType.PRIMARY, String contactName }) {
@@ -364,5 +372,35 @@ class UIUtil {
         iconTheme: IconThemeData(color: KaliumColors.text),
       ),
     );
+  }
+
+  static Future<File> downloadOrRetrieveMonkey(BuildContext context, String address, MonkeySize monkeySize) async {
+    // Get expected path
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    String prefix = monkeySize == MonkeySize.LARGE ? "large_" : "normal_";
+    String fileName = '$dir/$prefix$address.png';
+    if (await File(fileName).exists()) {
+      return File(fileName);
+    }
+    // Compute size required in pixels
+    int size = 1000;
+    switch (monkeySize) {
+      case MonkeySize.LARGE:
+        size = (MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio).toInt();
+        break;
+      case MonkeySize.NORMAL:
+        size = (100 * MediaQuery.of(context).devicePixelRatio).toInt();
+        break;
+    }
+    // Download monKey and return File
+    HttpClient httpClient = new HttpClient();
+    var request = await httpClient.getUrl(Uri.parse(
+        KaliumLocalization.of(context).getMonkeyDownloadUrl(address, size: size)));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    File file = new File(fileName);
+    await file.writeAsBytes(bytes);
+    await SharedPrefsUtil.inst.setMonkeyLocation(fileName);
+    return file;
   }
 }
