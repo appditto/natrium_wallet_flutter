@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
@@ -45,17 +45,9 @@ class KaliumReceiveSheet {
   }
 
   // Address copied items
-  // Initial constants
-  static const String _copyAddress = 'Copy Address';
-  static const String _addressCopied = 'Address Copied';
-  static const TextStyle _copyButtonStyleInitial =
-      KaliumStyles.TextStyleButtonPrimary;
-  static const Color _copyButtonColorInitial = KaliumColors.primary;
   // Current state references
-  String _copyButtonText;
-  TextStyle _copyButtonStyle;
-  Color _copyButtonBackground;
   bool _showShareCard;
+  bool _addressCopied;
   // Timer reference so we can cancel repeated events
   Timer _addressCopiedTimer;
 
@@ -75,9 +67,7 @@ class KaliumReceiveSheet {
   mainBottomSheet(BuildContext context) {
     _wallet = StateContainer.of(context).wallet;
     // Set initial state of copy button
-    _copyButtonText = _copyAddress;
-    _copyButtonStyle = _copyButtonStyleInitial;
-    _copyButtonBackground = _copyButtonColorInitial;
+    _addressCopied = false;
     double devicewidth = MediaQuery.of(context).size.width;
 
     _showShareCard = false;
@@ -180,10 +170,10 @@ class KaliumReceiveSheet {
                             child: FlatButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(100.0)),
-                              color: _copyButtonBackground,
-                              child: Text(_copyButtonText,
+                              color: _addressCopied ? KaliumColors.success : KaliumColors.primary,
+                              child: Text(_addressCopied ? KaliumLocalization.of(context).addressCopied : KaliumLocalization.of(context).copyAddress,
                                   textAlign: TextAlign.center,
-                                  style: _copyButtonStyle),
+                                  style: _addressCopied ? KaliumStyles.TextStyleButtonPrimaryGreen : KaliumStyles.TextStyleButtonPrimary),
                               padding: EdgeInsets.symmetric(
                                   vertical: 14.0, horizontal: 20),
                               onPressed: () {
@@ -191,22 +181,15 @@ class KaliumReceiveSheet {
                                     new ClipboardData(text: _wallet.address));
                                 setState(() {
                                   // Set copied style
-                                  _copyButtonText = _addressCopied;
-                                  _copyButtonStyle =
-                                      KaliumStyles.TextStyleButtonPrimaryGreen;
-                                  _copyButtonBackground = KaliumColors.green;
-                                  if (_addressCopiedTimer != null) {
-                                    _addressCopiedTimer.cancel();
-                                  }
-                                  _addressCopiedTimer = new Timer(
-                                      const Duration(milliseconds: 800), () {
-                                    setState(() {
-                                      _copyButtonText = _copyAddress;
-                                      _copyButtonStyle =
-                                          _copyButtonStyleInitial;
-                                      _copyButtonBackground =
-                                          _copyButtonColorInitial;
-                                    });
+                                  _addressCopied = true;
+                                });
+                                if (_addressCopiedTimer != null) {
+                                  _addressCopiedTimer.cancel();
+                                }
+                                _addressCopiedTimer = new Timer(
+                                    const Duration(milliseconds: 800), () {
+                                  setState(() {
+                                    _addressCopied = false;
                                   });
                                 });
                               },
@@ -222,7 +205,7 @@ class KaliumReceiveSheet {
                         KaliumButton.buildKaliumButton(
                             // Share Address Button
                             KaliumButtonType.PRIMARY_OUTLINE,
-                            _showShareCard ? "Loading" : 'Share Address',
+                            _showShareCard ? "Loading" : KaliumLocalization.of(context).addressShare,
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             disabled: _showShareCard, onPressed: () {
                           String receiveCardFileName = "share_${StateContainer.of(context).wallet.address}.png";

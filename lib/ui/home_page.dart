@@ -6,6 +6,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/model/list_model.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
@@ -88,7 +89,27 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         });
       }
     });
+    _addSampleContact();
     _updateContacts();
+  }
+
+  /// Add donations contact if it hasnt already been added
+  Future<void> _addSampleContact() async {
+    bool contactAdded = await SharedPrefsUtil.inst.getFirstContactAdded();
+    if (!contactAdded) {
+      DBHelper db = DBHelper();
+      bool addressExists = await db.contactExistsWithAddress("ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo");
+      if (addressExists) {
+        return;
+      }
+      bool nameExists = await db.contactExistsWithName("@KaliumDonations");
+      if (nameExists) {
+        return;
+      }
+      await SharedPrefsUtil.inst.setFirstContactAdded(true);
+      Contact c = Contact(name: "@KaliumDonations", address: "ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo");
+      await db.saveContact(c);
+    }
   }
 
   void _updateContacts() {
@@ -128,7 +149,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         StateContainer.of(context).wallet.representative =
             stateBlock.representative;
         _scaffoldKey.currentState.showSnackBar(new SnackBar(
-          content: new Text("Representative Changed Successfully",
+          content: new Text(KaliumLocalization.of(context).changeRepSucces,
               style: KaliumStyles.TextStyleSnackbar),
         ));
       }
@@ -138,7 +159,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     });
     RxBus.register<Contact>(tag: RX_CONTACT_ADDED_ALT_TAG).listen((contact) {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
-        content: new Text("${contact.name} added to contacts.",
+        content: new Text(KaliumLocalization.of(context).contactAdded.replaceAll("%1", contact.name),
             style: KaliumStyles.TextStyleSnackbar),
       ));
     });
@@ -307,7 +328,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             child: Row(
               children: <Widget>[
                 Text(
-                  "TRANSACTIONS",
+                  KaliumLocalization.of(context).transactions.toUpperCase(),
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 14.0,
@@ -378,7 +399,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),
                       color: KaliumColors.primary,
-                      child: Text('Receive',
+                      child: Text(KaliumLocalization.of(context).receive,
                           textAlign: TextAlign.center,
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
@@ -397,7 +418,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),
                       color: StateContainer.of(context).wallet.accountBalance > BigInt.zero ? KaliumColors.primary :KaliumColors.primary60,
-                      child: Text('Send',
+                      child: Text(KaliumLocalization.of(context).send,
                           textAlign: TextAlign.center,
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
@@ -429,11 +450,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     IconData icon;
     Color iconColor;
     if (item.type == BlockTypes.SEND) {
-      text = "Sent";
+      text = KaliumLocalization.of(context).sent;
       icon = KaliumIcons.sent;
       iconColor = KaliumColors.text60;
     } else {
-      text = "Received";
+      text = KaliumLocalization.of(context).received;
       icon = KaliumIcons.received;
       iconColor = KaliumColors.primary60;
     }
@@ -825,12 +846,6 @@ class TransactionDetailsSheet {
       : _hash = hash,
         _address = address,
         _displayName = displayName;
-  // Address copied items
-  // Initial constants
-  static const String _copyAddress = 'Copy Address';
-  static const TextStyle _copyButtonStyleInitial =
-      KaliumStyles.TextStyleButtonPrimary;
-  static const Color _copyButtonColorInitial = KaliumColors.primary;
   // Current state references
   bool _addressCopied = false;
   // Timer reference so we can cancel repeated events
@@ -873,8 +888,8 @@ class TransactionDetailsSheet {
                                         : KaliumColors.primary,
                                     child: Text(
                                         _addressCopied
-                                            ? "Address Copied"
-                                            : "Copy Address",
+                                            ? KaliumLocalization.of(context).addressCopied
+                                            : KaliumLocalization.of(context).copyAddress,
                                         textAlign: TextAlign.center,
                                         style: _addressCopied
                                             ? KaliumStyles
@@ -955,7 +970,7 @@ class TransactionDetailsSheet {
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
-                              'View Details',
+                              KaliumLocalization.of(context).viewDetails,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) {

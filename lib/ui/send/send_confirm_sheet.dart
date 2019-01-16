@@ -5,6 +5,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
@@ -83,7 +84,7 @@ class KaliumSendConfirmSheet {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              "SENDING",
+                              KaliumLocalization.of(context).sending.toUpperCase(),
                               style: KaliumStyles.textStyleHeader(context),
                             ),
                           ],
@@ -133,7 +134,7 @@ class KaliumSendConfirmSheet {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              "TO",
+                              KaliumLocalization.of(context).to.toUpperCase(),
                               style: KaliumStyles.textStyleHeader(context),
                             ),
                           ],
@@ -164,13 +165,14 @@ class KaliumSendConfirmSheet {
                           // CONFIRM Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY,
-                              'CONFIRM',
+                              KaliumLocalization.of(context).confirm.toUpperCase(),
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                               // Authenticate
                               SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
                                 BiometricUtil.hasBiometrics().then((hasBiometrics) {
                                   if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
-                                    BiometricUtil.authenticateWithBiometrics("Send $_amount BANANO").then((authenticated) {
+                                    BiometricUtil.authenticateWithBiometrics(
+                                      KaliumLocalization.of(context).sendAmountConfirm.replaceAll("%1", _amount)).then((authenticated) {
                                       if (authenticated) {
                                         Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.SEND));
                                         StateContainer.of(context).requestSend(
@@ -194,7 +196,7 @@ class KaliumSendConfirmSheet {
                                                                   _maxSend ? "0" : _amountRaw);
                                                             },
                                                             expectedPin:expectedPin,
-                                                            description: "Enter PIN to send $_amount BANANO",);
+                                                            description: KaliumLocalization.of(context).sendAmountConfirmPin.replaceAll("%1", _amount),);
                                       }));
                                     });
                                   }
@@ -209,7 +211,7 @@ class KaliumSendConfirmSheet {
                           // CANCEL Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
-                              'CANCEL',
+                              KaliumLocalization.of(context).cancel.toUpperCase(),
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.of(context).pop();
                           }),

@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 
 import 'package:decimal/decimal.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter_nano_core/flutter_nano_core.dart';
 
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
@@ -29,17 +29,10 @@ class KaliumSendSheet {
   FocusNode _sendAmountFocusNode;
   TextEditingController _sendAmountController;
 
-  // State initial constants
-  static const String _amountHintText = "Enter Amount";
-  static const String _addressHintText = "Enter Address";
-  static const String _addressInvalidText = "Address entered was invalid";
-  static const String _addressRequiredText = "Please Enter an Address";
-  static const String _amountRequiredText = "Please Enter an Amount";
-  static const String _amountInsufficientText = "Insufficient Balance";
   // States
   var _sendAddressStyle;
-  var _amountHint = _amountHintText;
-  var _addressHint = _addressHintText;
+  var _amountHint;
+  var _addressHint;
   var _amountValidationText = "";
   var _addressValidationText = "";
   List<Contact> _contacts;
@@ -83,6 +76,8 @@ class KaliumSendSheet {
   }
 
   mainBottomSheet(BuildContext context) {
+    _amountHint = KaliumLocalization.of(context).enterAmount;
+    _addressHint = KaliumLocalization.of(context).enterAddress;
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
@@ -96,7 +91,7 @@ class KaliumSendSheet {
                 });
               } else {
                 setState(() {
-                  _amountHint = _amountHintText;
+                  _amountHint = KaliumLocalization.of(context).enterAmount;
                 });
               }
             });
@@ -120,7 +115,7 @@ class KaliumSendSheet {
                 }
               } else {
                 setState(() {
-                  _addressHint = _addressHintText;
+                  _addressHint = KaliumLocalization.of(context).enterAddress;
                   _contacts = [];
                   if (Address(_sendAddressController.text).isValid()) {
                     _addressValidAndUnfocused = true;
@@ -167,7 +162,7 @@ class KaliumSendSheet {
                         children: <Widget>[
                           // Header
                           Text(
-                            "SEND FROM",
+                            KaliumLocalization.of(context).sendFrom,
                             style: KaliumStyles.textStyleHeader(context),
                           ),
                           // Address Text
@@ -366,7 +361,7 @@ class KaliumSendSheet {
                           // Send Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY,
-                              'Send',
+                              KaliumLocalization.of(context).send,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             bool validRequest =
                                 _validateRequest(context, setState);
@@ -379,7 +374,7 @@ class KaliumSendSheet {
                                   .then((contact) {
                                 if (contact == null) {
                                   setState(() {
-                                    _addressValidationText = "Invalid Contact";
+                                    _addressValidationText = KaliumLocalization.of(context).contactInvalid;
                                   });
                                 } else {
                                   KaliumSendConfirmSheet(
@@ -404,7 +399,7 @@ class KaliumSendSheet {
                           // Scan QR Code Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
-                              'Scan QR Code',
+                              KaliumLocalization.of(context).scanQrCode,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             try {
                               BarcodeScanner.scan().then((value) {
@@ -512,7 +507,7 @@ class KaliumSendSheet {
     if (_sendAmountController.text.trim().isEmpty) {
       isValid = false;
       setState(() {
-        _amountValidationText = _amountRequiredText;
+        _amountValidationText = KaliumLocalization.of(context).amountMissing;
       });
     } else {
       BigInt balanceRaw = StateContainer.of(context).wallet.accountBalance;
@@ -521,12 +516,12 @@ class KaliumSendSheet {
       if (sendAmount == null || sendAmount == BigInt.zero) {
         isValid = false;
         setState(() {
-          _amountValidationText = _amountRequiredText;
+          _amountValidationText = KaliumLocalization.of(context).amountMissing;
         });
       } else if (sendAmount > balanceRaw) {
         isValid = false;
         setState(() {
-          _amountValidationText = _amountInsufficientText;
+          _amountValidationText = KaliumLocalization.of(context).insufficientBalance;
         });
       }
     }
@@ -535,13 +530,13 @@ class KaliumSendSheet {
     if (_sendAddressController.text.trim().isEmpty) {
       isValid = false;
       setState(() {
-        _addressValidationText = _addressRequiredText;
+        _addressValidationText = KaliumLocalization.of(context).addressMising;
         _pasteButtonVisible = true;
       });
     } else if (!isContact && !Address(_sendAddressController.text).isValid()) {
       isValid = false;
       setState(() {
-        _addressValidationText = _addressInvalidText;
+        _addressValidationText = KaliumLocalization.of(context).invalidAddress;
         _pasteButtonVisible = true;
       });
     } else if (!isContact) {

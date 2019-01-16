@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
-import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
@@ -92,7 +92,7 @@ class KaliumSendCompleteSheet {
                           children: <Widget>[
                             // "SENT TO" text
                             Text(
-                              "SENT TO",
+                              KaliumLocalization.of(context).sentTo.toUpperCase(),
                               style: TextStyle(
                                 fontSize: 28.0,
                                 fontWeight: FontWeight.w700,
@@ -126,7 +126,7 @@ class KaliumSendCompleteSheet {
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.SUCCESS_OUTLINE,
-                              'CLOSE',
+                              KaliumLocalization.of(context).close.toUpperCase(),
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.of(context).pop();
                           }),

@@ -5,6 +5,7 @@ import 'package:flutter_nano_core/flutter_nano_core.dart';
 
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
@@ -88,7 +89,7 @@ class KaliumChangeRepresentativeSheet {
                             direction: Axis.horizontal,
                             children: <Widget>[
                               Text(
-                                "CHANGE REPRESENTATIVE",
+                                KaliumLocalization.of(context).changeRepAuthenticate.toUpperCase(),
                                 style: KaliumStyles.textStyleHeader(context),
                                 textAlign: TextAlign.center,
                               ),
@@ -106,8 +107,8 @@ class KaliumChangeRepresentativeSheet {
                           onPressed: () {
                             KaliumDialogs.showInfoDialog(
                                 context,
-                                "What is a representative?",
-                                "A representative is an account that votes for network consensus. Voting power is weighted by balance, you may delegate your balance to increase the voting weight of a representative you trust. Your representative does not have spending power over your funds. You should choose a representative that has little downtime and is trustworthy.");
+                                KaliumLocalization.of(context).repInfoHeader,
+                                KaliumLocalization.of(context).repInfo);
                           },
                           child: Icon(KaliumIcons.info,
                               size: 24, color: KaliumColors.text),
@@ -294,7 +295,7 @@ class KaliumChangeRepresentativeSheet {
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY,
-                            'CHANGE',
+                            KaliumLocalization.of(context).changeRepButton.toUpperCase(),
                             Dimens.BUTTON_TOP_DIMENS,
                             onPressed: () {
                               if (!NanoAccounts.isValid(NanoAccountType.BANANO,
@@ -311,7 +312,7 @@ class KaliumChangeRepresentativeSheet {
                                           AuthMethod.BIOMETRICS &&
                                       hasBiometrics) {
                                     BiometricUtil.authenticateWithBiometrics(
-                                            "Change Representative")
+                                            KaliumLocalization.of(context).changeRepAuthenticate)
                                         .then((authenticated) {
                                       if (authenticated) {
                                         Navigator.of(context)
@@ -395,7 +396,7 @@ class KaliumChangeRepresentativeSheet {
                                           },
                                           expectedPin: expectedPin,
                                           description:
-                                              "Enter PIN to change representative.",
+                                              KaliumLocalization.of(context).pinRepChange,
                                         );
                                       }));
                                     });
@@ -410,7 +411,7 @@ class KaliumChangeRepresentativeSheet {
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY_OUTLINE,
-                            'CLOSE',
+                            KaliumLocalization.of(context).close.toUpperCase(),
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             onPressed: () {
                               Navigator.pop(context);

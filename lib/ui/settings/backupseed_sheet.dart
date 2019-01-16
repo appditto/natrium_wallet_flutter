@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
@@ -38,7 +39,7 @@ class KaliumSeedBackupSheet {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "SEED",
+                            KaliumLocalization.of(context).seed.toUpperCase(),
                             style: KaliumStyles.textStyleHeader(context),
                           ),
                         ],
@@ -54,7 +55,7 @@ class KaliumSeedBackupSheet {
                             Container(
                                 margin: EdgeInsets.only(left: 50, right: 50),
                                 child: Text(
-                                  "Below is your wallet's seed. It is crucial that you backup your seed and never store it as plaintext or a screenshot.",
+                                  KaliumLocalization.of(context).seedBackupInfo,
                                   style: KaliumStyles.TextStyleParagraph,
                                 )),
                             new GestureDetector(
@@ -89,7 +90,7 @@ class KaliumSeedBackupSheet {
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(top: 5),
-                                    child: Text('Seed Copied To Clipboard',
+                                    child: Text(KaliumLocalization.of(context).seedCopied,
                                         style: TextStyle(
                                           fontSize: 14.0,
                                           color: _seedCopied ? KaliumColors.success : Colors.transparent,
@@ -110,7 +111,7 @@ class KaliumSeedBackupSheet {
                       children: <Widget>[
                         KaliumButton.buildKaliumButton(
                           KaliumButtonType.PRIMARY_OUTLINE,
-                          'Close',
+                          KaliumLocalization.of(context).close,
                           Dimens.BUTTON_BOTTOM_DIMENS,
                           onPressed: () {
                             Navigator.pop(context);

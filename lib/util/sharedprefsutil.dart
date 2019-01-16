@@ -22,6 +22,7 @@ class SharedPrefsUtil {
   static const String auth_method = 'fkalium_auth_method';
   static const String cur_currency = 'fkalium_currency_pref';
   static const String user_representative = 'fkalium_user_rep'; // For when non-opened accounts have set a representative
+  static const String firstcontact_added = 'fkalium_first_c_added';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -74,6 +75,14 @@ class SharedPrefsUtil {
 
   Future<bool> getSeedBackedUp() async {
     return await get(seed_backed_up_key, defaultValue: false);
+  }
+
+  Future<void> setFirstContactAdded(bool value) async {
+    return await set(firstcontact_added, value);
+  }
+
+  Future<bool> getFirstContactAdded() async {
+    return await get(firstcontact_added, defaultValue: false);
   }
 
   Future<void> setUuid(String uuid) async {

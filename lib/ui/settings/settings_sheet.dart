@@ -8,6 +8,7 @@ import 'package:share/share.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
@@ -52,7 +53,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
     if (contacts.length == 0) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
                                         content: Text(
-                                          "There's contacts to export",
+                                          KaliumLocalization.of(context).noContactsExport,
                                           style: KaliumStyles.TextStyleSnackbar)
                                         ));
       return;
@@ -75,7 +76,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
     if (!await f.exists()) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
                                         content: Text(
-                                          "Couldn't read file",
+                                          KaliumLocalization.of(context).fileReadErr,
                                           style: KaliumStyles.TextStyleSnackbar)
                                         ));
       return;
@@ -107,13 +108,13 @@ class _SettingsSheetState extends State<SettingsSheet> {
         RxBus.post(Contact(name:"", address:""), tag: RX_CONTACT_MODIFIED_TAG);
         _scaffoldKey.currentState.showSnackBar(SnackBar(
                                           content: Text(
-                                            "Successfully imported $numSaved contacts.",
+                                            KaliumLocalization.of(context).contactsImportSuccess.replaceAll("%1", numSaved.toString()),
                                             style: KaliumStyles.TextStyleSnackbar)
                                           ));
       } else {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
                                           content: Text(
-                                            "No new contacts to import",
+                                            KaliumLocalization.of(context).noContactsImport,
                                             style: KaliumStyles.TextStyleSnackbar)
                                           ));        
       }
@@ -121,7 +122,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
       log.severe(e.toString());
       _scaffoldKey.currentState.showSnackBar(SnackBar(
                                         content: Text(
-                                          "Couldn't parse file",
+                                          KaliumLocalization.of(context).fileParseErr,
                                           style: KaliumStyles.TextStyleSnackbar)
                                         ));
       return;      
@@ -198,8 +199,8 @@ class _SettingsSheetState extends State<SettingsSheet> {
         context: context,
         builder: (BuildContext context) {
           return KaliumSimpleDialog(
-            title: const Text(
-              "Authentication Method",
+            title: Text(
+              KaliumLocalization.of(context).authMethod,
               style: KaliumStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
@@ -209,8 +210,8 @@ class _SettingsSheetState extends State<SettingsSheet> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: const Text(
-                    'PIN',
+                  child: Text(
+                    KaliumLocalization.of(context).pinMethod,
                     style: KaliumStyles.TextStyleDialogOptions,
                   ),
                 ),
@@ -221,8 +222,8 @@ class _SettingsSheetState extends State<SettingsSheet> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: const Text(
-                    'Biometrics',
+                  child: Text(
+                    KaliumLocalization.of(context).biometricsMethod,
                     style: KaliumStyles.TextStyleDialogOptions,
                   ),
                 ),
@@ -277,8 +278,8 @@ class _SettingsSheetState extends State<SettingsSheet> {
           return KaliumSimpleDialog(
             title: Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
-              child: const Text(
-                "Change Currency",
+              child: Text(
+                KaliumLocalization.of(context).changeCurrency,
                 style: KaliumStyles.TextStyleDialogHeader,
               ),
             ),
@@ -336,7 +337,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
             margin: EdgeInsets.only(left: 30.0, top: 60.0, bottom: 10.0),
             child: Row(
               children: <Widget>[
-                Text("Settings", style: KaliumStyles.textStyleHeader(context),),
+                Text(KaliumLocalization.of(context).settingsHeader, style: KaliumStyles.textStyleHeader(context),),
               ],
             ),
           ),
@@ -348,7 +349,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(left: 30.0, bottom: 10),
-                    child: Text("Preferences",
+                    child: Text(KaliumLocalization.of(context).preferences,
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w100,
@@ -356,17 +357,17 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   ),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemDoubleLine(
-                      'Change Currency',
+                      KaliumLocalization.of(context).changeCurrency,
                       StateContainer.of(context).curCurrency,
                       KaliumIcons.currency,
                       _currencyDialog),
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
-                      'Language', 'System Default', KaliumIcons.language),
+                      KaliumLocalization.of(context).language, KaliumLocalization.of(context).systemDefault, KaliumIcons.language),
                   _hasBiometrics ? Divider(height: 2) : null,
                   _hasBiometrics
                       ? KaliumSettings.buildSettingsListItemDoubleLine(
-                          "Authentication Method",
+                          KaliumLocalization.of(context).authMethod,
                           _curAuthMethod,
                           KaliumIcons.fingerprint,
                           _authMethodDialog)
@@ -380,7 +381,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   Container(
                     margin:
                         EdgeInsets.only(left: 30.0, top: 20.0, bottom: 10.0),
-                    child: Text("Manage",
+                    child: Text(KaliumLocalization.of(context).manage,
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w100,
@@ -388,21 +389,21 @@ class _SettingsSheetState extends State<SettingsSheet> {
                   ),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      'Contacts', KaliumIcons.contacts, onPressed: () {
+                      KaliumLocalization.of(context).contactHeader, KaliumIcons.contacts, onPressed: () {
                     setState(() {
                       _contactsOpen = true;
                     });
                   }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      'Backup Seed', KaliumIcons.backupseed, onPressed: () {
+                      KaliumLocalization.of(context).backupSeed, KaliumIcons.backupseed, onPressed: () {
                     // Authenticate
                     SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
                       BiometricUtil.hasBiometrics().then((hasBiometrics) {
                         if (authMethod.method == AuthMethod.BIOMETRICS &&
                             hasBiometrics) {
                           BiometricUtil.authenticateWithBiometrics(
-                                  "Backup Seed")
+                                  KaliumLocalization.of(context).fingerprintSeedBackup)
                               .then((authenticated) {
                             if (authenticated) {
                               new KaliumSeedBackupSheet()
@@ -422,7 +423,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                                     .mainBottomSheet(context);
                                   },
                                 expectedPin: expectedPin,
-                                description: "Enter PIN to backup seed",
+                                description: KaliumLocalization.of(context).pinSeedBackup,
                               );
                             }));
                           });
@@ -444,25 +445,31 @@ class _SettingsSheetState extends State<SettingsSheet> {
 */
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      'Change Representative', KaliumIcons.changerepresentative,
+                      KaliumLocalization.of(context).changeRepAuthenticate, KaliumIcons.changerepresentative,
                       onPressed: () {
                     new KaliumChangeRepresentativeSheet()
                         .mainBottomSheet(context);
                   }),
                   Divider(height: 2),
-                  buildSettingsListItemSingleLine('Logout', KaliumIcons.logout,
+                  buildSettingsListItemSingleLine(
+                      KaliumLocalization.of(context).shareKalium, KaliumIcons.share,
+                      onPressed: () {
+                    Share.share(KaliumLocalization.of(context).shareKaliumText + "https://kalium.banano.cc");
+                  }),
+                  Divider(height: 2),
+                  buildSettingsListItemSingleLine(KaliumLocalization.of(context).logout, KaliumIcons.logout,
                       onPressed: () {
                     KaliumDialogs.showConfirmDialog(
                         context,
-                        "WARNING",
-                        "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
-                        "DELETE SEED AND LOGOUT", () {
+                        KaliumLocalization.of(context).warning.toUpperCase(),
+                        KaliumLocalization.of(context).logoutDetail,
+                        KaliumLocalization.of(context).logoutAction, () {
                       // Show another confirm dialog
                       KaliumDialogs.showConfirmDialog(
                           context,
-                          "Are you sure?",
-                          "As long as you've backed up your seed you have nothing to worry about.",
-                          "YES", () {
+                          KaliumLocalization.of(context).logoutAreYouSure,
+                          KaliumLocalization.of(context).logoutReassurance,
+                          KaliumLocalization.of(context).yes.toUpperCase(), () {
                         Vault.inst.deleteAll().then((Null) {
                           SharedPrefsUtil.inst.deleteAll().then((result) {
                             StateContainer.of(context).logOut();
@@ -638,7 +645,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
             child: Row(
               children: <Widget>[
                 KaliumButton.buildKaliumButton(KaliumButtonType.TEXT_OUTLINE,
-                    'Add Contact', Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                    KaliumLocalization.of(context).addContact, Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                   AddContactSheet().mainBottomSheet(context);
                 }),
               ],
