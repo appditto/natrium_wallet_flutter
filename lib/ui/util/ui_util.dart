@@ -402,4 +402,11 @@ class UIUtil {
     await file.writeAsBytes(bytes);
     return file;
   }
+
+  static double drawerWidth(BuildContext context) {
+    if (MediaQuery.of(context).size.width < 375)
+      return MediaQuery.of(context).size.width * 0.94;
+    else
+      return MediaQuery.of(context).size.width * 0.85;
+  }
 }

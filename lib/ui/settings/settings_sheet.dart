@@ -35,7 +35,10 @@ class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
 }
 
-class _SettingsSheetState extends State<SettingsSheet> {
+class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateMixin {
+  AnimationController _controller;
+  Animation<Offset> _offsetFloat; 
+
   final log = Logger("SettingsSheet");
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _hasBiometrics = false;
@@ -162,10 +165,23 @@ class _SettingsSheetState extends State<SettingsSheet> {
         _contacts.remove(contact);
       });
     });
+    // Setup animation controller
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+
+    _offsetFloat = Tween<Offset>(begin: Offset.zero, end: Offset(UIUtil.drawerWidth(context) / 100, 0))
+        .animate(_controller);
+
+    _offsetFloat.addListener((){
+      setState((){});
+    });
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     RxBus.destroy(tag: RX_CONTACT_ADDED_TAG);
     RxBus.destroy(tag: RX_CONTACT_REMOVED_TAG);
     super.dispose();
@@ -303,6 +319,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
       setState(() {
         _contactsOpen = false;
       });
+      _controller.reverse();
       return false;
     }
     return true;
@@ -317,14 +334,28 @@ class _SettingsSheetState extends State<SettingsSheet> {
         onWillPop: _onBackButtonPressed,
         child: Scaffold(
           key: _scaffoldKey,
-          body: AnimatedCrossFade(
-            duration: const Duration(milliseconds: 200),
-            firstChild: buildMainSettings(context),
-            secondChild: buildContacts(context),
-            crossFadeState: _contactsOpen
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
-          ))
+          body: SlideTransition(
+              position: _offsetFloat,
+              child: Stack(
+                overflow: Overflow.visible,
+                children: <Widget> [
+                  Positioned(
+                    left: -1 * UIUtil.drawerWidth(context),
+                    top: 0,
+                    bottom: 0,
+                    child: buildContacts(context),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: buildMainSettings(context),
+                  ),
+                ]
+              )
+            )
+          ),
         );
   }
 
@@ -393,6 +424,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                     setState(() {
                       _contactsOpen = true;
                     });
+                    _controller.forward();
                   }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
@@ -541,6 +573,7 @@ class _SettingsSheetState extends State<SettingsSheet> {
                             setState(() {
                               _contactsOpen = false;
                             });
+                            _controller.reverse();
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0)),

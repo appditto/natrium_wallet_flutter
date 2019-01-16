@@ -70,25 +70,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     SharedPrefsUtil.inst.getPriceConversion().then((result) {
       _priceConversion = result;
     });
-    // Download/Retrieve smaller and large monKeys
-    UIUtil.downloadOrRetrieveMonkey(context,
-                                    StateContainer.of(context).wallet.address,
-                                    MonkeySize.NORMAL).then((result) {
-      if (result != null) {
-        setState(() {
-          _monKey = Image.file(result);
-        });
-      }
-    });
-    UIUtil.downloadOrRetrieveMonkey(context,
-                                    StateContainer.of(context).wallet.address,
-                                    MonkeySize.LARGE).then((result) {
-      if (result != null) {
-        setState(() {
-          _largeMonKey = Image.file(result);
-        });
-      }
-    });
     _addSampleContact();
     _updateContacts();
   }
@@ -297,12 +278,25 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   @override
   Widget build(BuildContext context) {
-    drawerWidth() {
-      if (MediaQuery.of(context).size.width < 375)
-        return MediaQuery.of(context).size.width * 0.94;
-      else
-        return MediaQuery.of(context).size.width * 0.85;
-    }
+    // Download/Retrieve smaller and large monKeys
+    UIUtil.downloadOrRetrieveMonkey(context,
+                                    StateContainer.of(context).wallet.address,
+                                    MonkeySize.NORMAL).then((result) {
+      if (result != null) {
+        setState(() {
+          _monKey = Image.file(result);
+        });
+      }
+    });
+    UIUtil.downloadOrRetrieveMonkey(context,
+                                    StateContainer.of(context).wallet.address,
+                                    MonkeySize.LARGE).then((result) {
+      if (result != null) {
+        setState(() {
+          _largeMonKey = Image.file(result);
+        });
+      }
+    });
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
@@ -310,7 +304,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       key: _scaffoldKey,
       backgroundColor: KaliumColors.background,
       drawer: SizedBox(
-        width: drawerWidth(),
+        width: UIUtil.drawerWidth(context),
         child: KaliumDrawer(
           child: SettingsSheet(),
         ),
