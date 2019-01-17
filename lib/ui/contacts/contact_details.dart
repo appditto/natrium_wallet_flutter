@@ -125,7 +125,7 @@ class ContactDetailsSheet {
                       Container(
                         height: smallScreen(context)?130:200,
                         width: smallScreen(context)?130:200,
-                        child: contact.monkeyWidget != null ? contact.monkeyWidget : SizedBox(),
+                        child: contact.monkeyWidgetLarge != null ? contact.monkeyWidgetLarge : SizedBox(),
                       ),
                       // Contact Name container
                       Container(

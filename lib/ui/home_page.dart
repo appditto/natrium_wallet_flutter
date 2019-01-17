@@ -127,7 +127,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
           Navigator.of(context).popUntil(ModalRoute.withName('/home'));
           KaliumSendCompleteSheet(displayAmount, stateBlock.link, contactName)
               .mainBottomSheet(context);
-          StateContainer.of(context).requestUpdate();
         });
       }
     });
@@ -1125,16 +1124,16 @@ class MonkeyOverlay extends ModalRoute<void> {
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
-    return FadeTransition(
-      opacity: animation,
+    return SlideTransition(
+      position: Tween<Offset>(
+        begin: const Offset(0.9, -0.9),
+        end: Offset.zero,
+      ).animate(animation),
       child: ScaleTransition(
         scale: animation,
-        child: SlideTransition(
-            position: Tween<Offset>(
-            begin: const Offset(1.5, -1.5),
-            end: Offset.zero,
-          ).animate(animation),
-          child: child,
+        child: FadeTransition(
+          opacity: animation,
+          child: child
         ),
       ),
     );

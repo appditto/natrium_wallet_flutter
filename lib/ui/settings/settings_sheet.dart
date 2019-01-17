@@ -218,11 +218,11 @@ class _SettingsSheetState extends State<SettingsSheet>
         // Download any missing monKeys
         for (Contact c in _contacts) {
           // Download monKeys if not existing
-          if (c.monkeyWidget == null) {
+          if (c.monkeyWidget == null ) {
             if (c.monkeyPath != null) {
               c.monkeyWidget = Image.file(File("$documentsDirectory/${c.monkeyPath}"));
             } else {
-              UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL)
+              UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.SMALL)
                   .then((result) {
                 FileUtil.pngHasValidSignature(result).then((valid) {
                   if (valid) {
@@ -233,6 +233,16 @@ class _SettingsSheetState extends State<SettingsSheet>
                 });
               });
             }
+          }
+          if (c.monkeyWidgetLarge == null) {
+            UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL)
+                .then((result) {
+              FileUtil.pngHasValidSignature(result).then((valid) {
+                if (valid) {
+                  c.monkeyWidgetLarge = Image.file(result);
+                }
+              });
+            });
           }
         }
       });
@@ -768,7 +778,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: new Container(
                     height: smallScreen(context)?55:70,
                     width: smallScreen(context)?55:70,
-                    child: contact.monkeyWidget != null
+                    child: contact.monkeyWidget != null && _contactsOpen
                         ? contact.monkeyWidget
                         : SizedBox()),
               ),

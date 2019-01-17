@@ -216,55 +216,47 @@ class StateContainerState extends State<StateContainer> {
   ///
   void handleProcessResponse(ProcessResponse processResponse) {
     // see what type of request sent this response
-    RequestItem requestItem = AccountService.pop();
     bool doUpdate = true;
-    // This is a little redundant for now but in the future for transfer/paper wallet we need to know what previous request was
-    if (requestItem != null) {
-      if (requestItem.request is ProcessRequest) {
-        ProcessRequest prq = requestItem.request;
-        StateBlock blockRequest = StateBlock.fromJson(json.decode(prq.block));
-        if (blockRequest != null) {
-          StateBlock previous = pendingResponseBlockMap.remove(processResponse.hash);
-          if (previous.subType == BlockTypes.OPEN) {
-            setState(() {
-              wallet.frontier = processResponse.hash;
-              wallet.blockCount = 1;
-            });
-          } else {
-            setState(() {
-              wallet.frontier = processResponse.hash;
-              wallet.blockCount = wallet.blockCount + 1;
-            });
-            if (previous.subType == BlockTypes.SEND) {
-              RxBus.post(previous, tag:RX_SEND_COMPLETE_TAG);
-            } else if (previous.subType == BlockTypes.RECEIVE) {
-              // Handle next receive if there is one
-              StateBlock frontier = pendingBlockMap.remove(processResponse.hash);
-              if (frontier != null && pendingBlockMap.length > 0) {
-                StateBlock nextBlock = pendingBlockMap.remove(pendingBlockMap.keys.first);
-                nextBlock.previous = frontier.hash;
-                nextBlock.representative = frontier.representative;
-                nextBlock.setBalance(frontier.balance);
-                doUpdate = false;
-                _getPrivKey().then((result) {
-                  nextBlock.sign(result);
-                  pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
-                  pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
-                  AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
-                  AccountService.processQueue();
-                });
-              }
-            } else if (previous.subType == BlockTypes.CHANGE) {
-              RxBus.post(previous, tag:RX_REP_CHANGED_TAG);
-            }
-          }
-        }
-        if (doUpdate) {
-          requestUpdate();
-        }
+    StateBlock previous = pendingResponseBlockMap.remove(processResponse.hash);
+    if (previous != null) {
+      if (previous.subType == BlockTypes.OPEN) {
+        setState(() {
+          wallet.frontier = processResponse.hash;
+          wallet.blockCount = 1;
+        });
       } else {
-        AccountService.processQueue();
+        setState(() {
+          wallet.frontier = processResponse.hash;
+          wallet.blockCount = wallet.blockCount + 1;
+        });
+        if (previous.subType == BlockTypes.SEND) {
+          RxBus.post(previous, tag:RX_SEND_COMPLETE_TAG);
+        } else if (previous.subType == BlockTypes.RECEIVE) {
+          // Handle next receive if there is one
+          StateBlock frontier = pendingBlockMap.remove(processResponse.hash);
+          if (frontier != null && pendingBlockMap.length > 0) {
+            StateBlock nextBlock = pendingBlockMap.remove(pendingBlockMap.keys.first);
+            nextBlock.previous = frontier.hash;
+            nextBlock.representative = frontier.representative;
+            nextBlock.setBalance(frontier.balance);
+            doUpdate = false;
+            _getPrivKey().then((result) {
+              nextBlock.sign(result);
+              pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+              pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+              AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
+              AccountService.processQueue();
+            });
+          }
+        } else if (previous.subType == BlockTypes.CHANGE) {
+          RxBus.post(previous, tag:RX_REP_CHANGED_TAG);
+        }
       }
+    }
+    if (doUpdate) {
+      requestUpdate();
+    } else {
+      AccountService.processQueue();
     }
   }
 
