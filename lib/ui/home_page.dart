@@ -1051,7 +1051,7 @@ class MonkeyOverlay extends ModalRoute<void> {
   MonkeyOverlay(this.monKey);
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: 150);
+  Duration get transitionDuration => Duration(milliseconds: 200);
 
   @override
   bool get opaque => false;
@@ -1126,7 +1126,7 @@ class MonkeyOverlay extends ModalRoute<void> {
       Animation<double> secondaryAnimation, Widget child) {
     return SlideTransition(
       position: Tween<Offset>(
-        begin: const Offset(0.9, -0.9),
+        begin: const Offset(0.4, -0.4),
         end: Offset.zero,
       ).animate(animation),
       child: ScaleTransition(
