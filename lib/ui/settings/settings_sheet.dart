@@ -211,10 +211,6 @@ class _SettingsSheetState extends State<SettingsSheet>
           });
         }
       }
-      // Re-sort list
-      setState(() {
-        _contacts.sort((a, b) => a.name.compareTo(b.name));
-      });
       // Get any monKeys that are missing
       setState(() {
         // Re-sort ist
@@ -679,6 +675,7 @@ class _SettingsSheetState extends State<SettingsSheet>
               children: <Widget>[
                 // Contacts list
                 ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.only(top: 15.0),
                   itemCount: _contacts.length,
                   itemBuilder: (context, index) {
