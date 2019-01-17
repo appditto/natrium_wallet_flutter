@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 
@@ -71,7 +73,13 @@ class _KaliumHeightNineSheetLayout extends SingleChildLayoutDelegate {
           minWidth: constraints.maxWidth,
           maxWidth: constraints.maxWidth,
           minHeight: 0.0,
-          maxHeight: constraints.maxHeight * 0.95);
+          maxHeight: constraints.maxHeight * 0.95); 
+    if (constraints.maxHeight/constraints.maxWidth > 2.1 || Platform.isAndroid)
+      return BoxConstraints(
+          minWidth: constraints.maxWidth,
+          maxWidth: constraints.maxWidth,
+          minHeight: 0.0,
+          maxHeight: constraints.maxHeight * 0.8);
     else
       return BoxConstraints(
           minWidth: constraints.maxWidth,

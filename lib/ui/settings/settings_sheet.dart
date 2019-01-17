@@ -44,7 +44,8 @@ class _SettingsSheetState extends State<SettingsSheet>
   AnimationController _controller;
   Animation<Offset> _offsetFloat;
   AnimationController _controller2;
-  Animation<double> _scaleFloat;
+  Animation<double> _fade;
+  Animation<double> _fade2;
 
   double drawerWidth;
 
@@ -187,7 +188,8 @@ class _SettingsSheetState extends State<SettingsSheet>
     _offsetFloat = Tween<Offset>(begin: Offset.zero, end: Offset(-1, 0))
         .animate(_controller);
 
-    _scaleFloat = Tween<double>(begin: 0.8, end: 1).animate(_controller2);
+    _fade = Tween<double>(begin: 0, end: 1).animate(_controller2);
+    _fade2 = Tween<double>(begin: 1, end: 0).animate(_controller2);
   }
 
   @override
@@ -355,13 +357,17 @@ class _SettingsSheetState extends State<SettingsSheet>
               color: KaliumColors.backgroundDark,
               constraints: BoxConstraints.expand(),
             ),
-            ScaleTransition(
-              scale: _scaleFloat,
+            FadeTransition(
+              opacity: _fade,
               child: buildContacts(context),
             ),
-            SlideTransition(
-                position: _offsetFloat,
-                child: buildMainSettings(context)),
+            FadeTransition(
+              opacity: _fade2,
+
+                          child: SlideTransition(
+                  position: _offsetFloat,
+                  child: buildMainSettings(context)),
+            ),
           ],
         ),
       ),
@@ -518,7 +524,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                         context,
                         KaliumLocalization.of(context).warning.toUpperCase(),
                         KaliumLocalization.of(context).logoutDetail,
-                        KaliumLocalization.of(context).logoutAction, () {
+                        KaliumLocalization.of(context).logoutAction.toUpperCase(), () {
                       // Show another confirm dialog
                       KaliumDialogs.showConfirmDialog(
                           context,
