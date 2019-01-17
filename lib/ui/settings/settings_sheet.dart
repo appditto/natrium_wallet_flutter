@@ -338,7 +338,16 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
         onWillPop: _onBackButtonPressed,
         child: Scaffold(
           key: _scaffoldKey,
-          body: SlideTransition(
+          body: Stack(
+            children: <Widget>[
+              Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: buildContacts(context),
+                  ),
+              SlideTransition(
               position: _offsetFloat,
               child: Stack(
                 overflow: Overflow.clip,
@@ -348,11 +357,14 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
                     right: 0,
                     top: 0,
                     bottom: 0,
-                    child: buildMainSettings(context),
+                    child: buildMainSettings(context),       
                   ),
                 ]
               )
-            )
+            ),
+            
+            ],
+          ),
           ),
         );
   }
