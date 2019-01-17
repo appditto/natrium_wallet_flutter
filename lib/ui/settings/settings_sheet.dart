@@ -32,12 +32,20 @@ import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/biometrics.dart';
 
 class SettingsSheet extends StatefulWidget {
-  _SettingsSheetState createState() => _SettingsSheetState();
+  final double drawerWidth;
+
+  SettingsSheet(this.drawerWidth);
+
+  _SettingsSheetState createState() => _SettingsSheetState(drawerWidth);
 }
 
 class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<Offset> _offsetFloat; 
+
+  double drawerWidth;
+
+  _SettingsSheetState(this.drawerWidth);
 
   final log = Logger("SettingsSheet");
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -171,12 +179,8 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
       duration: const Duration(seconds: 1),
     );
 
-    _offsetFloat = Tween<Offset>(begin: Offset.zero, end: Offset(UIUtil.drawerWidth(context) / 100, 0))
-        .animate(_controller);
-
-    _offsetFloat.addListener((){
-      setState((){});
-    });
+    _offsetFloat = Tween<Offset>(begin: Offset.zero, end: Offset(drawerWidth / 300, 0))
+      .animate(_controller);
   }
 
   @override
@@ -340,7 +344,8 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
                 overflow: Overflow.visible,
                 children: <Widget> [
                   Positioned(
-                    left: -1 * UIUtil.drawerWidth(context),
+                    left: -1 * drawerWidth,
+                    right: 0,
                     top: 0,
                     bottom: 0,
                     child: buildContacts(context),
