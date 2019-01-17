@@ -39,9 +39,12 @@ class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState(drawerWidth);
 }
 
-class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateMixin {
+class _SettingsSheetState extends State<SettingsSheet>
+    with TickerProviderStateMixin {
   AnimationController _controller;
-  Animation<Offset> _offsetFloat; 
+  Animation<Offset> _offsetFloat;
+  AnimationController _controller2;
+  Animation<double> _scaleFloat;
 
   double drawerWidth;
 
@@ -63,10 +66,8 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
     List<Contact> contacts = await DBHelper().getContacts();
     if (contacts.length == 0) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                        content: Text(
-                                          KaliumLocalization.of(context).noContactsExport,
-                                          style: KaliumStyles.TextStyleSnackbar)
-                                        ));
+          content: Text(KaliumLocalization.of(context).noContactsExport,
+              style: KaliumStyles.TextStyleSnackbar)));
       return;
     }
     List<Map<String, dynamic>> jsonList = List();
@@ -74,7 +75,8 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
       jsonList.add(contact.toJson());
     });
     DateTime exportTime = DateTime.now();
-    String filename = "kaliumcontacts_${exportTime.year}${exportTime.month}${exportTime.day}${exportTime.hour}${exportTime.minute}${exportTime.second}.txt";
+    String filename =
+        "kaliumcontacts_${exportTime.year}${exportTime.month}${exportTime.day}${exportTime.hour}${exportTime.minute}${exportTime.second}.txt";
     Directory baseDirectory = await getApplicationDocumentsDirectory();
     File contactsFile = File("${baseDirectory.path}/$filename");
     await contactsFile.writeAsString(json.encode(jsonList));
@@ -82,14 +84,13 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
   }
 
   Future<void> _importContacts() async {
-    String filePath = await FilePicker.getFilePath(type: FileType.CUSTOM, fileExtension: "txt");
+    String filePath = await FilePicker.getFilePath(
+        type: FileType.CUSTOM, fileExtension: "txt");
     File f = File(filePath);
     if (!await f.exists()) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                        content: Text(
-                                          KaliumLocalization.of(context).fileReadErr,
-                                          style: KaliumStyles.TextStyleSnackbar)
-                                        ));
+          content: Text(KaliumLocalization.of(context).fileReadErr,
+              style: KaliumStyles.TextStyleSnackbar)));
       return;
     }
     try {
@@ -103,7 +104,8 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
       DBHelper dbHelper = DBHelper();
       for (Contact contact in contacts) {
         print(contact.name);
-        if (!await dbHelper.contactExistsWithName(contact.name) &&  !await dbHelper.contactExistsWithAddress(contact.address)) {
+        if (!await dbHelper.contactExistsWithName(contact.name) &&
+            !await dbHelper.contactExistsWithAddress(contact.address)) {
           // Contact doesnt exist, make sure name and address are valid
           if (Address(contact.address).isValid()) {
             if (contact.name.startsWith("@") && contact.name.length <= 20) {
@@ -116,27 +118,25 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
       int numSaved = await dbHelper.saveContacts(contactsToAdd);
       if (numSaved > 0) {
         _updateContacts();
-        RxBus.post(Contact(name:"", address:""), tag: RX_CONTACT_MODIFIED_TAG);
+        RxBus.post(Contact(name: "", address: ""),
+            tag: RX_CONTACT_MODIFIED_TAG);
         _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                          content: Text(
-                                            KaliumLocalization.of(context).contactsImportSuccess.replaceAll("%1", numSaved.toString()),
-                                            style: KaliumStyles.TextStyleSnackbar)
-                                          ));
+            content: Text(
+                KaliumLocalization.of(context)
+                    .contactsImportSuccess
+                    .replaceAll("%1", numSaved.toString()),
+                style: KaliumStyles.TextStyleSnackbar)));
       } else {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                          content: Text(
-                                            KaliumLocalization.of(context).noContactsImport,
-                                            style: KaliumStyles.TextStyleSnackbar)
-                                          ));        
+            content: Text(KaliumLocalization.of(context).noContactsImport,
+                style: KaliumStyles.TextStyleSnackbar)));
       }
     } catch (e) {
       log.severe(e.toString());
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                        content: Text(
-                                          KaliumLocalization.of(context).fileParseErr,
-                                          style: KaliumStyles.TextStyleSnackbar)
-                                        ));
-      return;      
+          content: Text(KaliumLocalization.of(context).fileParseErr,
+              style: KaliumStyles.TextStyleSnackbar)));
+      return;
     }
   }
 
@@ -176,16 +176,24 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
     // Setup animation controller
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 200),
+    );
+
+    _controller2 = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
     );
 
     _offsetFloat = Tween<Offset>(begin: Offset.zero, end: Offset(-1, 0))
-      .animate(_controller);
+        .animate(_controller);
+
+    _scaleFloat = Tween<double>(begin: 0.8, end: 1).animate(_controller2);
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _controller2.dispose();
     RxBus.destroy(tag: RX_CONTACT_ADDED_TAG);
     RxBus.destroy(tag: RX_CONTACT_REMOVED_TAG);
     super.dispose();
@@ -199,7 +207,8 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
       for (Contact c in contacts) {
         // Download monKeys if not existing
         if (c.monkeyPath == null) {
-          UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL).then((result) {
+          UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL)
+              .then((result) {
             DBHelper().setMonkeyForContact(c, result.path).then((success) {
               if (success) {
                 c.monkeyPath = result.path;
@@ -292,20 +301,21 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
   }
 
   Future<void> _currencyDialog() async {
-    AvailableCurrencyEnum selection = await showKaliumDialog<AvailableCurrencyEnum>(
-        context: context,
-        builder: (BuildContext context) {
-          return KaliumSimpleDialog(
-            title: Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
-              child: Text(
-                KaliumLocalization.of(context).changeCurrency,
-                style: KaliumStyles.TextStyleDialogHeader,
-              ),
-            ),
-            children: _buildCurrencyOptions(),
-          );
-        });
+    AvailableCurrencyEnum selection =
+        await showKaliumDialog<AvailableCurrencyEnum>(
+            context: context,
+            builder: (BuildContext context) {
+              return KaliumSimpleDialog(
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Text(
+                    KaliumLocalization.of(context).changeCurrency,
+                    style: KaliumStyles.TextStyleDialogHeader,
+                  ),
+                ),
+                children: _buildCurrencyOptions(),
+              );
+            });
     SharedPrefsUtil.inst
         .setCurrency(AvailableCurrency(selection))
         .then((result) {
@@ -324,6 +334,7 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
         _contactsOpen = false;
       });
       _controller.reverse();
+      _controller2.reverse();
       return false;
     }
     return true;
@@ -335,50 +346,43 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
     // on top of it like our Android counterpart. So we can override back button
     // presses and replace the main settings widget with contacts based on a bool
     return new WillPopScope(
-        onWillPop: _onBackButtonPressed,
-        child: Scaffold(
-          key: _scaffoldKey,
-          body: Stack(
-            children: <Widget>[
-              Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    child: buildContacts(context),
-                  ),
-              SlideTransition(
-              position: _offsetFloat,
-              child: Stack(
-                overflow: Overflow.clip,
-                children: <Widget> [
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    child: buildMainSettings(context),       
-                  ),
-                ]
-              )
+      onWillPop: _onBackButtonPressed,
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: Stack(
+          children: <Widget>[
+            Container(
+              color: KaliumColors.backgroundDark,
+              constraints: BoxConstraints.expand(),
             ),
-            
-            ],
-          ),
-          ),
-        );
+            ScaleTransition(
+              scale: _scaleFloat,
+              child: buildContacts(context),
+            ),
+            SlideTransition(
+                position: _offsetFloat,
+                child: buildMainSettings(context)),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildMainSettings(BuildContext context) {
     return Container(
-      color: KaliumColors.backgroundDark,
+      decoration: BoxDecoration(
+        color: KaliumColors.backgroundDark,
+      ),
       child: Column(
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(left: 30.0, top: 60.0, bottom: 10.0),
             child: Row(
               children: <Widget>[
-                Text(KaliumLocalization.of(context).settingsHeader, style: KaliumStyles.textStyleHeader(context),),
+                Text(
+                  KaliumLocalization.of(context).settingsHeader,
+                  style: KaliumStyles.textStyleHeader(context),
+                ),
               ],
             ),
           ),
@@ -404,7 +408,9 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
                       _currencyDialog),
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
-                      KaliumLocalization.of(context).language, KaliumLocalization.of(context).systemDefault, KaliumIcons.language),
+                      KaliumLocalization.of(context).language,
+                      KaliumLocalization.of(context).systemDefault,
+                      KaliumIcons.language),
                   _hasBiometrics ? Divider(height: 2) : null,
                   _hasBiometrics
                       ? KaliumSettings.buildSettingsListItemDoubleLine(
@@ -430,22 +436,26 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
                   ),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).contactHeader, KaliumIcons.contacts, onPressed: () {
+                      KaliumLocalization.of(context).contactHeader,
+                      KaliumIcons.contacts, onPressed: () {
                     setState(() {
                       _contactsOpen = true;
                     });
                     _controller.forward();
+                    _controller2.forward();
                   }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).backupSeed, KaliumIcons.backupseed, onPressed: () {
+                      KaliumLocalization.of(context).backupSeed,
+                      KaliumIcons.backupseed, onPressed: () {
                     // Authenticate
                     SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
                       BiometricUtil.hasBiometrics().then((hasBiometrics) {
                         if (authMethod.method == AuthMethod.BIOMETRICS &&
                             hasBiometrics) {
                           BiometricUtil.authenticateWithBiometrics(
-                                  KaliumLocalization.of(context).fingerprintSeedBackup)
+                                  KaliumLocalization.of(context)
+                                      .fingerprintSeedBackup)
                               .then((authenticated) {
                             if (authenticated) {
                               new KaliumSeedBackupSheet()
@@ -459,13 +469,14 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
                                 builder: (BuildContext context) {
                               return new PinScreen(
                                 PinOverlayType.ENTER_PIN,
-                                (pin) { 
+                                (pin) {
                                   Navigator.of(context).pop();
                                   new KaliumSeedBackupSheet()
-                                    .mainBottomSheet(context);
-                                  },
+                                      .mainBottomSheet(context);
+                                },
                                 expectedPin: expectedPin,
-                                description: KaliumLocalization.of(context).pinSeedBackup,
+                                description: KaliumLocalization.of(context)
+                                    .pinSeedBackup,
                               );
                             }));
                           });
@@ -487,19 +498,21 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
 */
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).changeRepAuthenticate, KaliumIcons.changerepresentative,
-                      onPressed: () {
+                      KaliumLocalization.of(context).changeRepAuthenticate,
+                      KaliumIcons.changerepresentative, onPressed: () {
                     new KaliumChangeRepresentativeSheet()
                         .mainBottomSheet(context);
                   }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).shareKalium, KaliumIcons.share,
-                      onPressed: () {
-                    Share.share(KaliumLocalization.of(context).shareKaliumText + "https://kalium.banano.cc");
+                      KaliumLocalization.of(context).shareKalium,
+                      KaliumIcons.share, onPressed: () {
+                    Share.share(KaliumLocalization.of(context).shareKaliumText +
+                        "https://kalium.banano.cc");
                   }),
                   Divider(height: 2),
-                  buildSettingsListItemSingleLine(KaliumLocalization.of(context).logout, KaliumIcons.logout,
+                  buildSettingsListItemSingleLine(
+                      KaliumLocalization.of(context).logout, KaliumIcons.logout,
                       onPressed: () {
                     KaliumDialogs.showConfirmDialog(
                         context,
@@ -584,6 +597,7 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
                               _contactsOpen = false;
                             });
                             _controller.reverse();
+                            _controller2.reverse();
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0)),
@@ -592,7 +606,10 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
                               color: KaliumColors.text, size: 24)),
                     ),
                     //Contacts Header Text
-                    Text("Contacts", style: KaliumStyles.textStyleHeader(context),),
+                    Text(
+                      "Contacts",
+                      style: KaliumStyles.textStyleHeader(context),
+                    ),
                   ],
                 ),
                 Row(
@@ -687,8 +704,10 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
             margin: EdgeInsets.only(top: 10),
             child: Row(
               children: <Widget>[
-                KaliumButton.buildKaliumButton(KaliumButtonType.TEXT_OUTLINE,
-                    KaliumLocalization.of(context).addContact, Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                KaliumButton.buildKaliumButton(
+                    KaliumButtonType.TEXT_OUTLINE,
+                    KaliumLocalization.of(context).addContact,
+                    Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                   AddContactSheet().mainBottomSheet(context);
                 }),
               ],
@@ -699,17 +718,15 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
     );
   }
 
-  Widget buildSingleContact(
-      BuildContext context, Contact contact) {
+  Widget buildSingleContact(BuildContext context, Contact contact) {
     return FlatButton(
       onPressed: () {
         ContactDetailsSheet(contact).mainBottomSheet(context);
       },
       padding: EdgeInsets.all(0.0),
-      child: Column(
-        children: <Widget>[
-          Divider(height: 2),
-          Container(
+      child: Column(children: <Widget>[
+        Divider(height: 2),
+        Container(
           padding: EdgeInsets.symmetric(vertical: 10.0),
           margin: new EdgeInsets.only(left: 30.0),
           child: Row(
@@ -719,10 +736,11 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
               Container(
                 margin: new EdgeInsets.only(right: 16.0),
                 child: new Container(
-                  height: 40,
-                  width: 40,
-                  child: contact.monkeyPath != null ? Image.file(File(contact.monkeyPath)) : SizedBox()
-                ),
+                    height: 40,
+                    width: 40,
+                    child: contact.monkeyPath != null
+                        ? Image.file(File(contact.monkeyPath))
+                        : SizedBox()),
               ),
               //Contact info
               Column(
@@ -744,8 +762,7 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
             ],
           ),
         ),
-        ]
-      ),
+      ]),
     );
   }
 }
