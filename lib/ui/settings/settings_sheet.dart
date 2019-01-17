@@ -436,7 +436,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   ),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).contactHeader,
+                      KaliumLocalization.of(context).contactsHeader,
                       KaliumIcons.contacts, onPressed: () {
                     setState(() {
                       _contactsOpen = true;
