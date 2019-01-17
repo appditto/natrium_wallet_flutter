@@ -11,6 +11,7 @@ class FileUtil {
     }
     List<int> asBytes = await file.readAsBytes();
     if (asBytes == null || asBytes.length < 8) {
+      await file.delete();
       return false;
     }
     return (asBytes[0] == 137 &&

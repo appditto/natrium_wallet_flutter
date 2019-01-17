@@ -321,9 +321,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         .then((result) {
       if (result != null) {
         FileUtil.pngHasValidSignature(result).then((valid) {
-          setState(() {
-            _monKey = Image.file(result);
-          });
+          if (valid) {
+            setState(() {
+              _monKey = Image.file(result);
+           });
+          }
         });
       }
     });
@@ -332,9 +334,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         .then((result) {
       if (result != null) {
         FileUtil.pngHasValidSignature(result).then((valid) {
-          setState(() {
-            _largeMonKey = Image.file(result);
-          });
+          if (valid) {
+            setState(() {
+              _largeMonKey = Image.file(result);
+            });
+          }
         });
       }
     });

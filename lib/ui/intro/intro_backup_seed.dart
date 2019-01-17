@@ -10,6 +10,7 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
+import 'package:kalium_wallet_flutter/util/clipboardutil.dart';
 
 class IntroBackupSeedPage extends StatefulWidget {
   @override
@@ -119,6 +120,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 onTap: () {
                                   Clipboard.setData(
                                       new ClipboardData(text: _seed));
+                                  ClipboardUtil.setClipboardClearEvent();
                                   setState(() {
                                     _seedTapStyle = KaliumStyles.TextStyleSeedGreen;
                                     _seedCopiedColor = KaliumColors.success;
@@ -151,6 +153,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                           Container(
                             margin: EdgeInsets.only(top: 5),
                             child: Text(KaliumLocalization.of(context).seedCopied,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   color: _seedCopiedColor,

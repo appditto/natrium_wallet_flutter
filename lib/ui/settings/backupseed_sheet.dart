@@ -9,6 +9,7 @@ import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/util/clipboardutil.dart';
 
 class KaliumSeedBackupSheet {
   // Seed copied state information
@@ -62,6 +63,7 @@ class KaliumSeedBackupSheet {
                               onTap: () {
                                 Clipboard.setData(
                                     new ClipboardData(text: _seed));
+                                ClipboardUtil.setClipboardClearEvent();
                                 setState(() {
                                   _seedCopied = true;
                                 });
@@ -91,6 +93,7 @@ class KaliumSeedBackupSheet {
                                   Container(
                                     margin: EdgeInsets.only(top: 5),
                                     child: Text(KaliumLocalization.of(context).seedCopied,
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 14.0,
                                           color: _seedCopied ? KaliumColors.success : Colors.transparent,

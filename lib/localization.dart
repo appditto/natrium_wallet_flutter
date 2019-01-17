@@ -108,7 +108,7 @@ class KaliumLocalization {
   }
 
   String get seedCopied {
-    return Intl.message('Seed Copied to Clipboard',
+    return Intl.message('Seed Copied to Clipboard\nIt is pasteable for 2 minutes.',
       name: 'seed_copied', desc: genericDesc);
   }
 

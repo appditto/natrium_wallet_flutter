@@ -220,7 +220,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           // Download monKeys if not existing
           if (c.monkeyWidget == null ) {
             if (c.monkeyPath != null) {
-              c.monkeyWidget = Image.file(File("$documentsDirectory/${c.monkeyPath}"));
+              c.monkeyWidget = Image.file(File("$documentsDirectory/${c.monkeyPath}"), width: smallScreen(context)?55:70, height: smallScreen(context)?55:70);
             } else {
               UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.SMALL)
                   .then((result) {
@@ -239,7 +239,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 .then((result) {
               FileUtil.pngHasValidSignature(result).then((valid) {
                 if (valid) {
-                  c.monkeyWidgetLarge = Image.file(result);
+                  c.monkeyWidgetLarge = Image.file(result, width: smallScreen(context)?130:200, height: smallScreen(context)?130:200);
                 }
               });
             });
@@ -773,15 +773,8 @@ class _SettingsSheetState extends State<SettingsSheet>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               //Container for monKey
-              Container(
-                margin: new EdgeInsets.only(right: 10.0),
-                child: new Container(
-                    height: smallScreen(context)?55:70,
-                    width: smallScreen(context)?55:70,
-                    child: contact.monkeyWidget != null && _contactsOpen
-                        ? contact.monkeyWidget
-                        : SizedBox()),
-              ),
+              contact.monkeyWidget != null && _contactsOpen ?
+                contact.monkeyWidget : SizedBox(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70),
               //Contact info
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
