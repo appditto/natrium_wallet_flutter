@@ -179,7 +179,7 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
       duration: const Duration(seconds: 1),
     );
 
-    _offsetFloat = Tween<Offset>(begin: Offset.zero, end: Offset(drawerWidth / 300, 0))
+    _offsetFloat = Tween<Offset>(begin: Offset.zero, end: Offset(-1, 0))
       .animate(_controller);
   }
 
@@ -341,15 +341,8 @@ class _SettingsSheetState extends State<SettingsSheet> with TickerProviderStateM
           body: SlideTransition(
               position: _offsetFloat,
               child: Stack(
-                overflow: Overflow.visible,
+                overflow: Overflow.clip,
                 children: <Widget> [
-                  Positioned(
-                    left: -1 * drawerWidth,
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    child: buildContacts(context),
-                  ),
                   Positioned(
                     left: 0,
                     right: 0,
