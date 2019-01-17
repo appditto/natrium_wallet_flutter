@@ -743,17 +743,17 @@ class _SettingsSheetState extends State<SettingsSheet>
       child: Column(children: <Widget>[
         Divider(height: 2),
         Container(
-          padding: EdgeInsets.symmetric(vertical: 10.0),
-          margin: new EdgeInsets.only(left: 30.0),
+          padding: EdgeInsets.symmetric(vertical: 5.0),
+          margin: new EdgeInsets.only(left: 20.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               //Container for monKey
               Container(
-                margin: new EdgeInsets.only(right: 16.0),
+                margin: new EdgeInsets.only(right: 10.0),
                 child: new Container(
-                    height: 40,
-                    width: 40,
+                    height: smallScreen(context)?55:70,
+                    width: smallScreen(context)?55:70,
                     child: monKey != null
                         ? monKey
                         : SizedBox()),

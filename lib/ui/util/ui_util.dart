@@ -389,7 +389,7 @@ class UIUtil {
         size = (MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio).toInt();
         break;
       case MonkeySize.NORMAL:
-        size = (200 * MediaQuery.of(context).devicePixelRatio).toInt();
+        size = (smallScreen(context)?130:200 * MediaQuery.of(context).devicePixelRatio).toInt();
         break;
     }
     // Download monKey and return File

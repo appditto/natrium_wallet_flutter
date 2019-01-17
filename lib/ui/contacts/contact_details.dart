@@ -116,8 +116,8 @@ class ContactDetailsSheet {
                     children: <Widget>[
                       // monKey container
                       Container(
-                        height: 200,
-                        width: 200,
+                        height: smallScreen(context)?130:200,
+                        width: smallScreen(context)?130:200,
                         child: contact.monkeyPath != null ? Image.file(File(contact.monkeyPath)) : SizedBox(),
                       ),
                       // Contact Name container
@@ -126,7 +126,6 @@ class ContactDetailsSheet {
                         margin: EdgeInsets.only(
                           left: MediaQuery.of(context).size.width * 0.105,
                           right: MediaQuery.of(context).size.width * 0.105,
-                          top: 15,
                         ),
                         padding: EdgeInsets.symmetric(
                             horizontal: 25.0, vertical: 12.0),
