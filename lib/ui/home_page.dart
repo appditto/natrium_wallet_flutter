@@ -1127,7 +1127,16 @@ class MonkeyOverlay extends ModalRoute<void> {
       Animation<double> secondaryAnimation, Widget child) {
     return FadeTransition(
       opacity: animation,
-      child: ScaleTransition(scale: animation, child: child),
+      child: ScaleTransition(
+        scale: animation,
+        child: SlideTransition(
+            position: Tween<Offset>(
+            begin: const Offset(1.5, -1.5),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        ),
+      ),
     );
   }
 }
