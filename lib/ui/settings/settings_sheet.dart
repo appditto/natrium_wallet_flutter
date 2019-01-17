@@ -31,6 +31,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/biometrics.dart';
+import 'package:kalium_wallet_flutter/util/fileutil.dart';
 
 class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
@@ -211,11 +212,15 @@ class _SettingsSheetState extends State<SettingsSheet>
         if (c.monkeyPath == null) {
           UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL)
               .then((result) {
-            DBHelper().setMonkeyForContact(c, path.basename(result.path)).then((success) {
-              if (success) {
-                c.monkeyPath = path.basename(result.path);
-                setState(() {
-                  _contacts = contacts;
+            FileUtil.pngHasValidSignature(result).then((valid) {
+              if (valid) {
+                DBHelper().setMonkeyForContact(c, path.basename(result.path)).then((success) {
+                  if (success) {
+                    c.monkeyPath = path.basename(result.path);
+                    setState(() {
+                      _contacts = contacts;
+                    });
+                  }
                 });
               }
             });

@@ -31,6 +31,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
+import 'package:kalium_wallet_flutter/util/fileutil.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 
 class KaliumHomePage extends StatefulWidget {
@@ -320,8 +321,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             StateContainer.of(context).wallet.address, MonkeySize.NORMAL)
         .then((result) {
       if (result != null) {
-        setState(() {
-          _monKey = Image.file(result);
+        FileUtil.pngHasValidSignature(result).then((valid) {
+          setState(() {
+            _monKey = Image.file(result);
+          });
         });
       }
     });
@@ -329,8 +332,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             StateContainer.of(context).wallet.address, MonkeySize.LARGE)
         .then((result) {
       if (result != null) {
-        setState(() {
-          _largeMonKey = Image.file(result);
+        FileUtil.pngHasValidSignature(result).then((valid) {
+          setState(() {
+            _largeMonKey = Image.file(result);
+          });
         });
       }
     });
