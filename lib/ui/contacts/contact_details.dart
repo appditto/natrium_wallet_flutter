@@ -57,6 +57,12 @@ class ContactDetailsSheet {
                             DBHelper dbHelper = DBHelper();
                             dbHelper.deleteContact(contact).then((deleted) {
                               if (deleted) {
+                                // Delete image if exists
+                                if (contact.monkeyPath != null) {
+                                  if (File("$documentsDirectory/${contact.monkeyPath}").existsSync()) {
+                                    File("$documentsDirectory/${contact.monkeyPath}").delete();
+                                  }
+                                }
                                 RxBus.post(contact, tag: RX_CONTACT_REMOVED_TAG);
                                 RxBus.post(contact, tag: RX_CONTACT_MODIFIED_TAG);
                                 Navigator.of(context).pop();
