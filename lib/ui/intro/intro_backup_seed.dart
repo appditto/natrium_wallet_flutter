@@ -153,6 +153,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                           Container(
                             margin: EdgeInsets.only(top: 5),
                             child: Text(KaliumLocalization.of(context).seedCopied,
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   color: _seedCopiedColor,
