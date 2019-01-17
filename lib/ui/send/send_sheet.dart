@@ -44,7 +44,7 @@ class KaliumSendSheet {
   bool _pasteButtonVisible = true;
   bool _showContactButton = true;
 
-  KaliumSendSheet({Contact contact}) {
+  KaliumSendSheet({Contact contact, String address}) {
     _sendAmountFocusNode = new FocusNode();
     _sendAddressFocusNode = new FocusNode();
     _sendAmountController = new TextEditingController();
@@ -58,6 +58,13 @@ class KaliumSendSheet {
       _showContactButton = false;
       _pasteButtonVisible = false;
       _sendAddressStyle = KaliumStyles.TextStyleAddressPrimary;
+    } else if (address != null) {
+      // Setup initial state with prefilled address
+      _sendAddressController.text = address;
+      _showContactButton = false;
+      _pasteButtonVisible = false;
+      _sendAddressStyle = KaliumStyles.TextStyleAddressText90;
+      _addressValidAndUnfocused = true;
     }
   }
 

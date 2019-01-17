@@ -8,6 +8,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/model/list_model.dart';
+import 'package:kalium_wallet_flutter/model/deep_link_action.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
 import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
@@ -19,6 +20,7 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/contacts/add_contact.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_sheet.dart';
+import 'package:kalium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_complete_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_sheet.dart';
@@ -156,6 +158,33 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         _monkeyOverlayOpen = false;
       });
     });
+    RxBus.register<DeepLinkAction>(tag: RX_DEEP_LINK_TAG).listen((result) {
+      print("RECEIVED deep linke action ${result.sendDestination}");
+      String amount;
+      String contactName;
+      if (result.sendAmount != null) {
+        // Require minimum 1 BANOSHI to send
+        if (BigInt.parse(result.sendAmount) >= BigInt.from(10).pow(27)) {
+          amount = result.sendAmount;
+        }
+      }
+      // See if a contact
+      DBHelper().getContactWithAddress(result.sendDestination).then((contact) {
+        if (contact != null) {
+          contactName = contact.name;
+        }
+        // Remove any other screens from stack
+        Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+        if (amount != null) {
+          // Go to send confirm with amount
+          KaliumSendConfirmSheet(NumberUtil.getRawAsUsableString(amount).replaceAll(",",""),
+                                result.sendDestination, contactName: contactName).mainBottomSheet(context);
+        } else {
+          // Go to send with address
+          KaliumSendSheet(contact: contact, address: result.sendDestination).mainBottomSheet(context);
+        }
+      });
+    });
   }
 
   @override
@@ -171,6 +200,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.destroy(tag: RX_CONTACT_MODIFIED_TAG);
     RxBus.destroy(tag: RX_CONTACT_ADDED_ALT_TAG);
     RxBus.destroy(tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
+    RxBus.destroy(tag: RX_DEEP_LINK_TAG);
   }
 
   @override

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -6,8 +7,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:package_info/package_info.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:kalium_wallet_flutter/model/available_currency.dart';
+import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
+import 'package:kalium_wallet_flutter/model/deep_link_action.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/request_item.dart';
@@ -88,6 +92,9 @@ class StateContainerState extends State<StateContainer> {
   Locale deviceLocale = Locale('en', 'US');
   String appVersionString;
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
+  // Subscribe to deep link changes
+  StreamSubscription _deepLinkSub;
+  String _initialDeepLink; // If app hasn't loaded yet, store initial DL here
 
   // This map stashes pending process requests, this is because we need to update these requests
   // after a blocks_info with the balance after send, and sign the block
@@ -114,6 +121,23 @@ class StateContainerState extends State<StateContainer> {
       setState(() {
         appVersionString = "${packageInfo.appName} v${packageInfo.version}";        
       });
+    });
+    // Deep link subscription
+    _deepLinkSub = getLinksStream().listen((String link) {
+      if (link != null) {
+        log.fine("deep link $link");
+        if (wallet.loading) {
+          _initialDeepLink = link;
+        } else {
+          Address address = Address(link);
+          if (!address.isValid()) { return; }
+          Future.delayed(Duration(milliseconds: 100), () {
+            RxBus.post(DeepLinkAction(sendDestination: address.address, sendAmount: address.amount), tag: RX_DEEP_LINK_TAG);
+          });
+        }
+      }
+    }, onError: (e) {
+      log.severe(e.toString());
     });
   }
 
@@ -151,6 +175,7 @@ class StateContainerState extends State<StateContainer> {
   @override
   void dispose() {
     _destroyBus();
+    _deepLinkSub.cancel();
     super.dispose();
   }
 
@@ -288,6 +313,19 @@ class StateContainerState extends State<StateContainer> {
     });
     AccountService.pop();
     AccountService.processQueue();
+    // If this is first load, handle any deep links that may have opened the app
+    _checkDeepLink(response);
+  }
+
+  void _checkDeepLink(SubscribeResponse resp) {
+    try {
+      if (_initialDeepLink == null) { return; }
+      Address address = Address(_initialDeepLink);
+      if (!address.isValid()) { return; }
+      RxBus.post(DeepLinkAction(sendDestination: address.address, sendAmount: address.amount), tag: RX_DEEP_LINK_TAG);
+    } catch (e) {
+      log.severe(e.toString());
+    }
   }
   
   /// Handle blocks_info response
