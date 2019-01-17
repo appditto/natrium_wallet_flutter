@@ -658,20 +658,17 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: EdgeInsets.only(top: 15.0),
                   itemCount: _contacts.length,
                   itemBuilder: (context, index) {
-                    Contact c = _contacts[index];
-                    if (c.monkeyPath != null) {
-                      File(c.monkeyPath).exists().then((exists) {
-                        if (!exists) {
-                          DBHelper().setMonkeyForContact(c, null).then((result) {
-                            return buildSingleContact(context, _contacts[index]);
-                          });
-                        } else {
-                          return buildSingleContact(context, _contacts[index]);
-                        }
-                      });
-                    } else {
-                      return buildSingleContact(context, _contacts[index]);
+                    Widget monKey;
+                    if (_contacts[index].monkeyPath != null) {
+                      try {
+                        monKey = Image.file(File(_contacts[index].monkeyPath));
+                      } catch (e) {
+                        log.fine(e);
+                        monKey = null;
+                        DBHelper().setMonkeyForContact(_contacts[index], null);
+                      }
                     }
+                    return buildSingleContact(context, _contacts[index], monKey);
                   },
                 ),
                 //List Top Gradient End
@@ -731,7 +728,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     );
   }
 
-  Widget buildSingleContact(BuildContext context, Contact contact) {
+  Widget buildSingleContact(BuildContext context, Contact contact, Widget monKey) {
     return FlatButton(
       onPressed: () {
         ContactDetailsSheet(contact).mainBottomSheet(context);
@@ -751,8 +748,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: new Container(
                     height: 40,
                     width: 40,
-                    child: contact.monkeyPath != null
-                        ? Image.file(File(contact.monkeyPath))
+                    child: monKey != null
+                        ? monKey
                         : SizedBox()),
               ),
               //Contact info
