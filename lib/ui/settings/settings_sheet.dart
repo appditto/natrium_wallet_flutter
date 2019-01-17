@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:path/path.dart' as path;
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_simpledialog.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter/material.dart';
@@ -32,11 +33,7 @@ import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/biometrics.dart';
 
 class SettingsSheet extends StatefulWidget {
-  final double drawerWidth;
-
-  SettingsSheet(this.drawerWidth);
-
-  _SettingsSheetState createState() => _SettingsSheetState(drawerWidth);
+  _SettingsSheetState createState() => _SettingsSheetState();
 }
 
 class _SettingsSheetState extends State<SettingsSheet>
@@ -47,9 +44,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   Animation<double> _fade;
   Animation<double> _fade2;
 
-  double drawerWidth;
-
-  _SettingsSheetState(this.drawerWidth);
+  String documentsDirectory;
 
   final log = Logger("SettingsSheet");
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -104,7 +99,6 @@ class _SettingsSheetState extends State<SettingsSheet>
       });
       DBHelper dbHelper = DBHelper();
       for (Contact contact in contacts) {
-        print(contact.name);
         if (!await dbHelper.contactExistsWithName(contact.name) &&
             !await dbHelper.contactExistsWithAddress(contact.address)) {
           // Contact doesnt exist, make sure name and address are valid
@@ -157,7 +151,13 @@ class _SettingsSheetState extends State<SettingsSheet>
       });
     });
     _contacts = List();
-    _updateContacts();
+    getApplicationDocumentsDirectory().then((directory) {
+      documentsDirectory = directory.path;
+      setState(() {
+        documentsDirectory = directory.path;
+      });
+      _updateContacts();
+    });
     // Contact added bus event
     RxBus.register<Contact>(tag: RX_CONTACT_ADDED_TAG).listen((contact) {
       setState(() {
@@ -211,9 +211,9 @@ class _SettingsSheetState extends State<SettingsSheet>
         if (c.monkeyPath == null) {
           UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL)
               .then((result) {
-            DBHelper().setMonkeyForContact(c, result.path).then((success) {
+            DBHelper().setMonkeyForContact(c, path.basename(result.path)).then((success) {
               if (success) {
-                c.monkeyPath = result.path;
+                c.monkeyPath = path.basename(result.path);
                 setState(() {
                   _contacts = contacts;
                 });
@@ -664,17 +664,16 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: EdgeInsets.only(top: 15.0),
                   itemCount: _contacts.length,
                   itemBuilder: (context, index) {
-                    Widget monKey;
+                    // Some disaster recovery if monKey is in DB, but doesnt exist in filesystem
                     if (_contacts[index].monkeyPath != null) {
-                      try {
-                        monKey = Image.file(File(_contacts[index].monkeyPath));
-                      } catch (e) {
-                        log.fine(e);
-                        monKey = null;
-                        DBHelper().setMonkeyForContact(_contacts[index], null);
-                      }
+                      File("$documentsDirectory/${_contacts[index].monkeyPath}").exists().then((exists) {
+                        if (!exists) {
+                          DBHelper().setMonkeyForContact(_contacts[index], null);
+                        }
+                      });
                     }
-                    return buildSingleContact(context, _contacts[index], monKey);
+                    // Build contact
+                    return buildSingleContact(context, _contacts[index]);
                   },
                 ),
                 //List Top Gradient End
@@ -734,10 +733,10 @@ class _SettingsSheetState extends State<SettingsSheet>
     );
   }
 
-  Widget buildSingleContact(BuildContext context, Contact contact, Widget monKey) {
+  Widget buildSingleContact(BuildContext context, Contact contact) {
     return FlatButton(
       onPressed: () {
-        ContactDetailsSheet(contact).mainBottomSheet(context);
+        ContactDetailsSheet(contact, documentsDirectory).mainBottomSheet(context);
       },
       padding: EdgeInsets.all(0.0),
       child: Column(children: <Widget>[
@@ -754,8 +753,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: new Container(
                     height: smallScreen(context)?55:70,
                     width: smallScreen(context)?55:70,
-                    child: monKey != null
-                        ? monKey
+                    child: contact.monkeyPath != null
+                        ? Image.file(File("$documentsDirectory/${contact.monkeyPath}"))
                         : SizedBox()),
               ),
               //Contact info

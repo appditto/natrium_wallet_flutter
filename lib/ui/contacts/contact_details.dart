@@ -20,8 +20,9 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 // Contact Details Sheet
 class ContactDetailsSheet {
   Contact contact;
+  String documentsDirectory;
 
-  ContactDetailsSheet(this.contact);
+  ContactDetailsSheet(this.contact, this.documentsDirectory);
 
   // State variables
   bool _addressCopied = false;
@@ -56,6 +57,12 @@ class ContactDetailsSheet {
                             DBHelper dbHelper = DBHelper();
                             dbHelper.deleteContact(contact).then((deleted) {
                               if (deleted) {
+                                // Delete image if exists
+                                if (contact.monkeyPath != null) {
+                                  if (File("$documentsDirectory/${contact.monkeyPath}").existsSync()) {
+                                    File("$documentsDirectory/${contact.monkeyPath}").delete();
+                                  }
+                                }
                                 RxBus.post(contact, tag: RX_CONTACT_REMOVED_TAG);
                                 RxBus.post(contact, tag: RX_CONTACT_MODIFIED_TAG);
                                 Navigator.of(context).pop();
@@ -118,7 +125,7 @@ class ContactDetailsSheet {
                       Container(
                         height: smallScreen(context)?130:200,
                         width: smallScreen(context)?130:200,
-                        child: contact.monkeyPath != null ? Image.file(File(contact.monkeyPath)) : SizedBox(),
+                        child: contact.monkeyPath != null ? Image.file(File("$documentsDirectory/${contact.monkeyPath}")): SizedBox(),
                       ),
                       // Contact Name container
                       Container(
