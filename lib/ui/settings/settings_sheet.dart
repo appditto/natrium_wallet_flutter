@@ -442,7 +442,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   ),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).contactHeader,
+                      KaliumLocalization.of(context).contactsHeader,
                       KaliumIcons.contacts, onPressed: () {
                     setState(() {
                       _contactsOpen = true;
@@ -531,7 +531,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                           KaliumLocalization.of(context).logoutAreYouSure,
                           KaliumLocalization.of(context).logoutReassurance,
                           KaliumLocalization.of(context).yes.toUpperCase(), () {
-                        Vault.inst.deleteAll().then((Null) {
+                        Vault.inst.deleteAll().then((_) {
                           SharedPrefsUtil.inst.deleteAll().then((result) {
                             StateContainer.of(context).logOut();
                             Navigator.of(context).pushNamedAndRemoveUntil(
@@ -664,7 +664,17 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: EdgeInsets.only(top: 15.0),
                   itemCount: _contacts.length,
                   itemBuilder: (context, index) {
-                    return buildSingleContact(context, _contacts[index]);
+                    Widget monKey;
+                    if (_contacts[index].monkeyPath != null) {
+                      try {
+                        monKey = Image.file(File(_contacts[index].monkeyPath));
+                      } catch (e) {
+                        log.fine(e);
+                        monKey = null;
+                        DBHelper().setMonkeyForContact(_contacts[index], null);
+                      }
+                    }
+                    return buildSingleContact(context, _contacts[index], monKey);
                   },
                 ),
                 //List Top Gradient End
@@ -724,7 +734,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     );
   }
 
-  Widget buildSingleContact(BuildContext context, Contact contact) {
+  Widget buildSingleContact(BuildContext context, Contact contact, Widget monKey) {
     return FlatButton(
       onPressed: () {
         ContactDetailsSheet(contact).mainBottomSheet(context);
@@ -744,8 +754,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: new Container(
                     height: 40,
                     width: 40,
-                    child: contact.monkeyPath != null
-                        ? Image.file(File(contact.monkeyPath))
+                    child: monKey != null
+                        ? monKey
                         : SizedBox()),
               ),
               //Contact info

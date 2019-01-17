@@ -21,6 +21,8 @@ const String RX_CONTACT_ADDED_ALT_TAG = 'fkalium_contact_added_alt_tag';
 const String RX_CONTACT_MODIFIED_TAG = 'fkalium_contact_modified_tag';
 // UI Event for monKey overlay closing
 const String RX_MONKEY_OVERLAY_CLOSED_TAG = 'fkalium_monkey_closed_tag';
+// UI Event for deep link processed
+const String RX_DEEP_LINK_TAG = 'fkalium_deep_link_tag';
 
 /**
  * RXBus using RXDart
