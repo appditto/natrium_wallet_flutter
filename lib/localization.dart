@@ -445,7 +445,7 @@ class KaliumLocalization {
   }
 
   String getMonkeyDownloadUrl(String account, { int size = 1000 }) {
-    return 'https://bananomonkeys.herokuapp.com/image?format=png&address=$account';
+    return 'https://bananomonkeys.herokuapp.com/image?format=png&address=$account&size=$size';
   }
   /// -- END NON-TRANSLATABLE ITEMS
 }
