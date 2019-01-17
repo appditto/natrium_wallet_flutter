@@ -125,7 +125,7 @@ class ContactDetailsSheet {
                       Container(
                         height: smallScreen(context)?130:200,
                         width: smallScreen(context)?130:200,
-                        child: contact.monkeyPath != null ? Image.file(File("$documentsDirectory/${contact.monkeyPath}")): SizedBox(),
+                        child: contact.monkeyWidget != null ? contact.monkeyWidget : SizedBox(),
                       ),
                       // Contact Name container
                       Container(

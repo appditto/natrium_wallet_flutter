@@ -204,29 +204,42 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   void _updateContacts() {
     DBHelper().getContacts().then((contacts) {
-      setState(() {
-        _contacts = contacts;
-      });
       for (Contact c in contacts) {
-        // Download monKeys if not existing
-        if (c.monkeyPath == null) {
-          UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL)
-              .then((result) {
-            FileUtil.pngHasValidSignature(result).then((valid) {
-              if (valid) {
-                DBHelper().setMonkeyForContact(c, path.basename(result.path)).then((success) {
-                  if (success) {
-                    c.monkeyPath = path.basename(result.path);
-                    setState(() {
-                      _contacts = contacts;
-                    });
-                  }
-                });
-              }
-            });
+        if (!_contacts.contains(c)) {
+          setState(() {
+            _contacts.add(c);
           });
         }
       }
+      // Re-sort list
+      setState(() {
+        _contacts.sort((a, b) => a.name.compareTo(b.name));
+      });
+      // Get any monKeys that are missing
+      setState(() {
+        // Re-sort ist
+        _contacts.sort((a, b) => a.name.compareTo(b.name));
+        // Download any missing monKeys
+        for (Contact c in _contacts) {
+          // Download monKeys if not existing
+          if (c.monkeyWidget == null) {
+            if (c.monkeyPath != null) {
+              c.monkeyWidget = Image.file(File("$documentsDirectory/${c.monkeyPath}"));
+            } else {
+              UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL)
+                  .then((result) {
+                FileUtil.pngHasValidSignature(result).then((valid) {
+                  if (valid) {
+                    c.monkeyWidget = Image.file(result);
+                    c.monkeyPath = path.basename(result.path);
+                    DBHelper().setMonkeyForContact(c, c.monkeyPath);
+                  }
+                });
+              });
+            }
+          }
+        }
+      });
     });
   }
 
@@ -758,8 +771,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: new Container(
                     height: smallScreen(context)?55:70,
                     width: smallScreen(context)?55:70,
-                    child: contact.monkeyPath != null
-                        ? Image.file(File("$documentsDirectory/${contact.monkeyPath}"))
+                    child: contact.monkeyWidget != null
+                        ? contact.monkeyWidget
                         : SizedBox()),
               ),
               //Contact info
