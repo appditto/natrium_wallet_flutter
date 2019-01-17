@@ -343,7 +343,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       drawer: SizedBox(
         width: UIUtil.drawerWidth(context),
         child: KaliumDrawer(
-          child: SettingsSheet(UIUtil.drawerWidth(context)),
+          child: SettingsSheet(),
         ),
       ),
       body: Column(

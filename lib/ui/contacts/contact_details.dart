@@ -20,8 +20,9 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 // Contact Details Sheet
 class ContactDetailsSheet {
   Contact contact;
+  String documentsDirectory;
 
-  ContactDetailsSheet(this.contact);
+  ContactDetailsSheet(this.contact, this.documentsDirectory);
 
   // State variables
   bool _addressCopied = false;
@@ -118,7 +119,7 @@ class ContactDetailsSheet {
                       Container(
                         height: 200,
                         width: 200,
-                        child: contact.monkeyPath != null ? Image.file(File(contact.monkeyPath)) : SizedBox(),
+                        child: contact.monkeyPath != null ? Image.file(File("$documentsDirectory/${contact.monkeyPath}")): SizedBox(),
                       ),
                       // Contact Name container
                       Container(
