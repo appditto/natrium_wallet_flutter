@@ -14,7 +14,6 @@ import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/model/deep_link_action.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
-import 'package:kalium_wallet_flutter/network/model/request_item.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/blocks_info_request.dart';
@@ -95,6 +94,7 @@ class StateContainerState extends State<StateContainer> {
   // Subscribe to deep link changes
   StreamSubscription _deepLinkSub;
   String _initialDeepLink; // If app hasn't loaded yet, store initial DL here
+  bool _busInitialized = false;
 
   // This map stashes pending process requests, this is because we need to update these requests
   // after a blocks_info with the balance after send, and sign the block
@@ -143,6 +143,8 @@ class StateContainerState extends State<StateContainer> {
 
   // Register RX event listeners
   void _registerBus() {
+    if (_busInitialized) {return;}
+    _busInitialized = true;
     RxBus.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
     RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
       setState(() {
@@ -180,6 +182,7 @@ class StateContainerState extends State<StateContainer> {
   }
 
   void _destroyBus() {
+    _busInitialized = false;
     RxBus.destroy(tag: RX_SUBSCRIBE_TAG);
     RxBus.destroy(tag: RX_HISTORY_TAG);
     RxBus.destroy(tag: RX_PRICE_RESP_TAG);
@@ -196,6 +199,7 @@ class StateContainerState extends State<StateContainer> {
   // Using setState() here tells Flutter to repaint all the 
   // Widgets in the app that rely on the state you've changed.
   void updateWallet({address}) {
+    _registerBus();
     if (wallet == null) {
       setState(() {
         wallet = new KaliumWallet(address: address, loading: true);
@@ -217,7 +221,7 @@ class StateContainerState extends State<StateContainer> {
   void handleProcessResponse(ProcessResponse processResponse) {
     // see what type of request sent this response
     bool doUpdate = true;
-     AccountService.pop();
+    AccountService.pop();
     StateBlock previous = pendingResponseBlockMap.remove(processResponse.hash);
     if (previous != null) {
       if (previous.subType == BlockTypes.OPEN) {
@@ -533,6 +537,7 @@ class StateContainerState extends State<StateContainer> {
       wallet = new KaliumWallet();
     });
     AccountService.clearQueue();
+    _destroyBus();
   }
 
   Future<String> _getPrivKey() async {
