@@ -162,7 +162,7 @@ class KaliumSendSheet {
                         children: <Widget>[
                           // Header
                           Text(
-                            KaliumLocalization.of(context).sendFrom,
+                            KaliumLocalization.of(context).sendFrom.toUpperCase(),
                             style: KaliumStyles.textStyleHeader(context),
                           ),
                           // Address Text

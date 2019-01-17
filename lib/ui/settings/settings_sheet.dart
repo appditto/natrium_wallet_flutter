@@ -518,14 +518,14 @@ class _SettingsSheetState extends State<SettingsSheet>
                         context,
                         KaliumLocalization.of(context).warning.toUpperCase(),
                         KaliumLocalization.of(context).logoutDetail,
-                        KaliumLocalization.of(context).logoutAction, () {
+                        KaliumLocalization.of(context).logoutAction.toUpperCase(), () {
                       // Show another confirm dialog
                       KaliumDialogs.showConfirmDialog(
                           context,
                           KaliumLocalization.of(context).logoutAreYouSure,
                           KaliumLocalization.of(context).logoutReassurance,
                           KaliumLocalization.of(context).yes.toUpperCase(), () {
-                        Vault.inst.deleteAll().then((Null) {
+                        Vault.inst.deleteAll().then((_) {
                           SharedPrefsUtil.inst.deleteAll().then((result) {
                             StateContainer.of(context).logOut();
                             Navigator.of(context).pushNamedAndRemoveUntil(
