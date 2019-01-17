@@ -217,6 +217,7 @@ class StateContainerState extends State<StateContainer> {
   void handleProcessResponse(ProcessResponse processResponse) {
     // see what type of request sent this response
     bool doUpdate = true;
+     AccountService.pop();
     StateBlock previous = pendingResponseBlockMap.remove(processResponse.hash);
     if (previous != null) {
       if (previous.subType == BlockTypes.OPEN) {
