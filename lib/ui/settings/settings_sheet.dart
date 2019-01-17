@@ -658,7 +658,20 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: EdgeInsets.only(top: 15.0),
                   itemCount: _contacts.length,
                   itemBuilder: (context, index) {
-                    return buildSingleContact(context, _contacts[index]);
+                    Contact c = _contacts[index];
+                    if (c.monkeyPath != null) {
+                      File(c.monkeyPath).exists().then((exists) {
+                        if (!exists) {
+                          DBHelper().setMonkeyForContact(c, null).then((result) {
+                            return buildSingleContact(context, _contacts[index]);
+                          });
+                        } else {
+                          return buildSingleContact(context, _contacts[index]);
+                        }
+                      });
+                    } else {
+                      return buildSingleContact(context, _contacts[index]);
+                    }
                   },
                 ),
                 //List Top Gradient End
