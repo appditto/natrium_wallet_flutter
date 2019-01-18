@@ -54,6 +54,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   Widget _currentDisplayMonKey;
   Widget _monKey;
   Widget _largeMonKey;
+  bool _monkeyDownloadStarted = false;
   bool _monkeyOverlayOpen = false;
   bool _monkeyOverlayOpening = false;
   // List of contacts (Store it so we only have to query the DB once for transaction cards)
@@ -78,6 +79,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     });
     _addSampleContact();
     _updateContacts();
+    _monkeyDownloadStarted = false;
   }
 
   /// Add donations contact if it hasnt already been added
@@ -321,35 +323,37 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   @override
   Widget build(BuildContext context) {
-    // Download/Retrieve smaller and large monKeys
-    UIUtil.downloadOrRetrieveMonkey(context,
-            StateContainer.of(context).wallet.address, MonkeySize.HOME_SMALL)
-        .then((result) {
-      if (result != null) {
-        FileUtil.pngHasValidSignature(result).then((valid) {
-          if (valid) {
-            setState(() {
-              _monKey = Image.file(result);
-              _currentDisplayMonKey = _monKey;
-            });
-          }
-        });
-      }
-    });
-    UIUtil.downloadOrRetrieveMonkey(context,
-            StateContainer.of(context).wallet.address, MonkeySize.LARGE)
-        .then((result) {
-      if (result != null) {
-        FileUtil.pngHasValidSignature(result).then((valid) {
-          if (valid) {
-            setState(() {
-              _largeMonKey = Image.file(result);
-            });
-          }
-        });
-      }
-    });
-
+    if (!_monkeyDownloadStarted) {
+      _monkeyDownloadStarted = true;
+      // Download/Retrieve smaller and large monKeys
+      UIUtil.downloadOrRetrieveMonkey(context,
+              StateContainer.of(context).wallet.address, MonkeySize.HOME_SMALL)
+          .then((result) {
+        if (result != null) {
+          FileUtil.pngHasValidSignature(result).then((valid) {
+            if (valid) {
+              setState(() {
+                _monKey = Image.file(result, width: 90, height: 90);
+                _currentDisplayMonKey = _monKey;
+              });
+            }
+          });
+        }
+      });
+      UIUtil.downloadOrRetrieveMonkey(context,
+              StateContainer.of(context).wallet.address, MonkeySize.LARGE)
+          .then((result) {
+        if (result != null) {
+          FileUtil.pngHasValidSignature(result).then((valid) {
+            if (valid) {
+              setState(() {
+                _largeMonKey = Image.file(result);
+              });
+            }
+          });
+        }
+      });
+    }
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
     return KaliumScaffold(
@@ -786,31 +790,28 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             ),
           ),
           _getBalanceWidget(context),
-          Container(
-            width: 90.0,
-            height: 90.0,
-            child: FlatButton(
-                child: _monkeyOverlayOpen ? SizedBox() : _currentDisplayMonKey,
-                padding: EdgeInsets.all(0.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.0)),
-                onPressed: () {
-                  if (_monkeyOverlayOpening || _monkeyOverlayOpen || _largeMonKey == null) {
-                    return;
-                  }
+          FlatButton(
+              child: _monkeyOverlayOpen ? SizedBox() : _currentDisplayMonKey,
+              padding: EdgeInsets.all(0.0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100.0)),
+              onPressed: () {
+                if (_monkeyOverlayOpening || _monkeyOverlayOpen || _largeMonKey == null) {
+                  return;
+                }
+                setState(() {
+                  _monkeyOverlayOpening = true;
+                  _currentDisplayMonKey = Container(width: 90, height: 90, child: _largeMonKey);
+                });
+                Future.delayed(Duration(milliseconds: 300), () {
                   setState(() {
-                    _monkeyOverlayOpening = true;
-                    _currentDisplayMonKey = _largeMonKey;
+                    _monkeyOverlayOpening = false;
+                    _monkeyOverlayOpen = true;
                   });
-                  Future.delayed(Duration(milliseconds: 300), () {
-                    setState(() {
-                      _monkeyOverlayOpening = false;
-                      _monkeyOverlayOpen = true;
-                    });
-                    Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
-                  });
-                }),
-          ),
+                  Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
+                });
+              }
+            ),
         ],
       ),
     );

@@ -11,7 +11,9 @@ class FileUtil {
     }
     List<int> asBytes = await file.readAsBytes();
     if (asBytes == null || asBytes.length < 8) {
-      await file.delete();
+      if (await file.exists()) {
+        await file.delete();
+      }
       return false;
     }
     if (asBytes[0] == 137 &&
@@ -25,7 +27,9 @@ class FileUtil {
           return true;
     }
     // Not a valid PNG, delete it
-    await file.delete();
+    if (await file.exists()) {
+      await file.delete();
+    }
     return false;
   }
 }

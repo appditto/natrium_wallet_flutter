@@ -30,6 +30,7 @@ class ContactDetailsSheet {
   Timer _addressCopiedTimer;
 
   mainBottomSheet(BuildContext context) {
+    double monkeySize = smallScreen(context)?130:200;
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         animationDurationMs: 200,
@@ -123,7 +124,10 @@ class ContactDetailsSheet {
                     children: <Widget>[
                       // monKey container
                       contact.monkeyWidgetLarge != null ?
-                        Image.file(contact.monkeyWidgetLarge, width: smallScreen(context)?130:200, height: smallScreen(context)?130:200) : SizedBox(width: smallScreen(context)?130:200, height: smallScreen(context)?130:200),
+                        Image.file(
+                          contact.monkeyWidgetLarge,
+                          width: monkeySize,
+                          height: monkeySize) : SizedBox(width: monkeySize, height: monkeySize),
                       // Contact Name container
                       Container(
                         width: double.infinity,
