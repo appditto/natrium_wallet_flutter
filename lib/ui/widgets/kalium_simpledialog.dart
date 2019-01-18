@@ -90,7 +90,7 @@ class Dialog extends StatelessWidget {
         context: context,
         child: Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(minWidth: 280.0, maxHeight: _getHeight(context)* 0.6),
+            constraints: BoxConstraints(minWidth: 280.0, maxHeight: _getHeight(context)<667?_getHeight(context)* 0.9:_getHeight(context)* 0.6),
             child: Material(
               elevation: 24.0,
               color: _getColor(context),

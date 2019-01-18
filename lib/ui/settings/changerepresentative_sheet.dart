@@ -124,7 +124,7 @@ class KaliumChangeRepresentativeSheet {
                   //A expanded section for current representative and new representative fields
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(top: 35, bottom: 35),
+                      margin: EdgeInsets.only(top: smallScreen(context)?20:35, bottom: smallScreen(context)?20:35),
                       child: Stack(children: <Widget>[
                         GestureDetector(
                           onTap: () {
