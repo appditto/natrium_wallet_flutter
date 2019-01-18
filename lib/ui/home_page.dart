@@ -795,7 +795,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0)),
                 onPressed: () {
-                  if (_monkeyOverlayOpening || _monkeyOverlayOpen) {
+                  if (_monkeyOverlayOpening || _monkeyOverlayOpen || _largeMonKey == null) {
                     return;
                   }
                   setState(() {

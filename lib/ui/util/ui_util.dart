@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -399,13 +400,12 @@ class UIUtil {
     if (await File(fileName).exists()) {
       return File(fileName);
     }
-    // Download monKey and return File
-    HttpClient httpClient = new HttpClient();
-    var request = await httpClient.getUrl(Uri.parse(
+    // Download monKey and return file
+    http.Client client = http.Client();
+    var req = await client.get(Uri.parse(
         KaliumLocalization.of(context).getMonkeyDownloadUrl(address, size: size)));
-    var response = await request.close();
-    var bytes = await consolidateHttpClientResponseBytes(response);
-    File file = new File(fileName);
+    var bytes = req.bodyBytes;
+    File file = File(fileName);
     await file.writeAsBytes(bytes);
     return file;
   }
