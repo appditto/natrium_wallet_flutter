@@ -30,6 +30,10 @@ class AccountHistoryResponseItem {
     return new Address(this.account).getShortString();
   }
 
+  String getShorterString() {
+    return new Address(this.account).getShorterString();
+  }
+
   /**
    * Return amount formatted for use in the UI
    */

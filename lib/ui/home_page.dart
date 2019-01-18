@@ -231,7 +231,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Used to build list items that haven't been removed.
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
-    String displayName = _historyList[index].getShortString();
+    String displayName = smallScreen(context)?_historyList[index].getShorterString():_historyList[index].getShorterString();
     _contacts.forEach((contact) {
       if (contact.address == _historyList[index].account) {
         displayName = contact.name;

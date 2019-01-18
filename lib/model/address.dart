@@ -18,6 +18,10 @@ class Address {
     if (_address == null || _address.length < 64) return null;
     return _address.substring(0, 11) + "..." + _address.substring(_address.length - 6);
   }
+  String getShorterString() {
+    if (_address == null || _address.length < 64) return null;
+    return _address.substring(0, 9) + "..." + _address.substring(_address.length - 4);
+  }
 
   bool isValid() {
     return _address == null ? false : NanoAccounts.isValid(NanoAccountType.BANANO, _address);
