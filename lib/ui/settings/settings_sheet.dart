@@ -774,7 +774,7 @@ class _SettingsSheetState extends State<SettingsSheet>
             children: <Widget>[
               //Container for monKey
               contact.monkeyWidget != null && _contactsOpen ?
-                contact.monkeyWidget : SizedBox(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70),
+                Container(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70, child: contact.monkeyWidget,) : SizedBox(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70),
               //Contact info
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
