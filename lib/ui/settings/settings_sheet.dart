@@ -759,7 +759,6 @@ class _SettingsSheetState extends State<SettingsSheet>
   }
 
   Widget buildSingleContact(BuildContext context, Contact contact) {
-    double monkeySize = smallScreen(context)?55:70;
     return FlatButton(
       onPressed: () {
         ContactDetailsSheet(contact, documentsDirectory).mainBottomSheet(context);
@@ -776,11 +775,7 @@ class _SettingsSheetState extends State<SettingsSheet>
             children: <Widget>[
               //Container for monKey
               contact.monkeyWidget != null && _contactsOpen ?
-                SizedBox(width: monkeySize,
-                         height: monkeySize,
-                         child: Image.file(contact.monkeyWidget,
-                                          height: monkeySize,
-                                          width: monkeySize)) : SizedBox(width: monkeySize, height: monkeySize),
+                Container(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70, child: Image.file(contact.monkeyWidget),) : SizedBox(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70),
               //Contact info
               Container(
                 margin: EdgeInsets.only(left: 5),
