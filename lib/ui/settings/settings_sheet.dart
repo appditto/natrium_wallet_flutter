@@ -220,13 +220,13 @@ class _SettingsSheetState extends State<SettingsSheet>
           // Download monKeys if not existing
           if (c.monkeyWidget == null ) {
             if (c.monkeyPath != null) {
-              c.monkeyWidget = File("$documentsDirectory/${c.monkeyPath}");
+              c.monkeyWidget = Image.file(File("$documentsDirectory/${c.monkeyPath}"), width: smallScreen(context)?55:70, height: smallScreen(context)?55:70);
             } else {
               UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.SMALL)
                   .then((result) {
                 FileUtil.pngHasValidSignature(result).then((valid) {
                   if (valid) {
-                    c.monkeyWidget = result;
+                    c.monkeyWidget = Image.file(result);
                     c.monkeyPath = path.basename(result.path);
                     DBHelper().setMonkeyForContact(c, c.monkeyPath);
                   }
@@ -239,7 +239,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 .then((result) {
               FileUtil.pngHasValidSignature(result).then((valid) {
                 if (valid) {
-                  c.monkeyWidgetLarge = result;
+                  c.monkeyWidgetLarge = Image.file(result, width: smallScreen(context)?130:200, height: smallScreen(context)?130:200);
                 }
               });
             });
@@ -775,7 +775,7 @@ class _SettingsSheetState extends State<SettingsSheet>
             children: <Widget>[
               //Container for monKey
               contact.monkeyWidget != null && _contactsOpen ?
-                Container(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70, child: Image.file(contact.monkeyWidget),) : SizedBox(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70),
+                Container(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70, child: contact.monkeyWidget,) : SizedBox(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70),
               //Contact info
               Container(
                 margin: EdgeInsets.only(left: 5),
