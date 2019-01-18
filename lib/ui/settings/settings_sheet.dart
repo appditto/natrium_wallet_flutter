@@ -766,6 +766,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       padding: EdgeInsets.all(0.0),
       child: Column(children: <Widget>[
         Divider(height: 2),
+        // Main Container
         Container(
           padding: EdgeInsets.symmetric(vertical: 5.0),
           margin: new EdgeInsets.only(left: 20.0),
@@ -776,21 +777,24 @@ class _SettingsSheetState extends State<SettingsSheet>
               contact.monkeyWidget != null && _contactsOpen ?
                 Container(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70, child: contact.monkeyWidget,) : SizedBox(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70),
               //Contact info
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  //Contact name
-                  Text(
-                    contact.name,
-                    style: KaliumStyles.TextStyleSettingItemHeader,
-                  ),
-                  //Contact address
-                  Text(
-                    Address(contact.address).getShortString(),
-                    style: KaliumStyles.TextStyleTransactionAddress,
-                  ),
-                ],
+              Container(
+                margin: EdgeInsets.only(left: 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    //Contact name
+                    Text(
+                      contact.name,
+                      style: KaliumStyles.TextStyleSettingItemHeader,
+                    ),
+                    //Contact address
+                    Text(
+                      Address(contact.address).getShortString(),
+                      style: KaliumStyles.TextStyleTransactionAddress,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
