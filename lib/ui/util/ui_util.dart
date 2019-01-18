@@ -375,10 +375,6 @@ class UIUtil {
     // Get expected path
     String dir = (await getApplicationDocumentsDirectory()).path;
     String prefix;
-    String fileName = '$dir/$prefix$address.png';
-    if (await File(fileName).exists()) {
-      return File(fileName);
-    }
     // Compute size required in pixels
     int size = 1000;
     switch (monkeySize) {
@@ -398,6 +394,10 @@ class UIUtil {
         prefix = "home_";
         size = (90 * MediaQuery.of(context).devicePixelRatio).toInt();
         break;
+    }
+    String fileName = '$dir/$prefix$address.png';
+    if (await File(fileName).exists()) {
+      return File(fileName);
     }
     // Download monKey and return File
     HttpClient httpClient = new HttpClient();
