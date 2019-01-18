@@ -872,7 +872,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       children: [
                         // Banano Icon
                         TextSpan(
-                          text: " ",
+                          text: "",
                           style: TextStyle(
                             fontFamily: 'KaliumIcons',
                             color: KaliumColors.primary,
