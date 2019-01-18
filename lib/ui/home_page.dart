@@ -154,8 +154,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       ));
     });
     RxBus.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
-      setState(() {
-        _monkeyOverlayOpen = false;
+      Future.delayed(Duration(milliseconds: 200), () {
+        setState(() {
+          _monkeyOverlayOpen = false;
+        });
       });
     });
     RxBus.register<DeepLinkAction>(tag: RX_DEEP_LINK_TAG).listen((result) {
@@ -317,14 +319,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   Widget build(BuildContext context) {
     // Download/Retrieve smaller and large monKeys
     UIUtil.downloadOrRetrieveMonkey(context,
-            StateContainer.of(context).wallet.address, MonkeySize.NORMAL)
+            StateContainer.of(context).wallet.address, MonkeySize.HOME_SMALL)
         .then((result) {
       if (result != null) {
         FileUtil.pngHasValidSignature(result).then((valid) {
           if (valid) {
             setState(() {
               _monKey = Image.file(result);
-           });
+            });
           }
         });
       }
@@ -776,10 +778,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0)),
                 onPressed: () {
-                  Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
                   if (_largeMonKey == null) {
                     return;
                   }
+                  Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
                   setState(() {
                     _monkeyOverlayOpen = true;
                   });

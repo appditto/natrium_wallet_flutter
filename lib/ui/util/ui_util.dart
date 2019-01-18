@@ -13,7 +13,7 @@ import 'package:kalium_wallet_flutter/ui/util/exceptions.dart';
 enum ThreeLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS, SUCCESS_FULL }
 enum OneLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS }
 
-enum MonkeySize { SMALL, NORMAL, LARGE }
+enum MonkeySize { SMALL, HOME_SMALL, NORMAL, LARGE }
 
 class UIUtil {
   static Widget threeLineAddressText(String address, { ThreeLineAddressTextType type = ThreeLineAddressTextType.PRIMARY, String contactName }) {
@@ -393,6 +393,11 @@ class UIUtil {
       case MonkeySize.SMALL:
         prefix = "small_";
         size = (smallScreen(context)?55:70 * MediaQuery.of(context).devicePixelRatio).toInt();
+        break;
+      case MonkeySize.HOME_SMALL:
+        prefix = "home_";
+        size = (90 * MediaQuery.of(context).devicePixelRatio).toInt();
+        break;
     }
     // Download monKey and return File
     HttpClient httpClient = new HttpClient();
