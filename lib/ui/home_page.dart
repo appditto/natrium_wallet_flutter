@@ -802,7 +802,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     _monkeyOverlayOpening = true;
                     _currentDisplayMonKey = _largeMonKey;
                   });
-                  Future.delayed(Duration(milliseconds: 500), () {
+                  Future.delayed(Duration(milliseconds: 300), () {
                     setState(() {
                       _monkeyOverlayOpening = false;
                       _monkeyOverlayOpen = true;
