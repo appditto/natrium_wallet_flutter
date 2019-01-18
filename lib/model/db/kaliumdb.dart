@@ -42,7 +42,7 @@ class DBHelper{
 
   Future<List<Contact>> getContactsWithNameLike(String pattern) async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts WHERE name LIKE \'%$pattern%\' ORDER BY name');
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts WHERE name LIKE \'%$pattern%\' ORDER BY LOWER(name)');
     List<Contact> contacts = new List();
     for (int i = 0; i < list.length; i++) {
       contacts.add(new Contact(id: list[i]["id"], name: list[i]["name"], address: list[i]["address"], monkeyPath: list[i]["monkey_path"]));

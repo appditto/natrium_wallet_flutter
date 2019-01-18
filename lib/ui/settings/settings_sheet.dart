@@ -164,7 +164,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       setState(() {
         _contacts.add(contact);
         //Sort by name
-        _contacts.sort((a, b) => a.name.compareTo(b.name));
+        _contacts.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       });
       // Full update which includes downloading new monKey
       _updateContacts();
@@ -214,7 +214,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       // Get any monKeys that are missing
       setState(() {
         // Re-sort ist
-        _contacts.sort((a, b) => a.name.compareTo(b.name));
+        _contacts.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
         // Download any missing monKeys
         for (Contact c in _contacts) {
           // Download monKeys if not existing
