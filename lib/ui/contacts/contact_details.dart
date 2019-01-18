@@ -83,7 +83,7 @@ class ContactDetailsSheet {
                     ),
                     // The header of the sheet
                     Container(
-                      margin: EdgeInsets.only(top: 30.0),
+                      margin: EdgeInsets.only(top: 25.0),
                       child: Column(
                         children: <Widget>[
                           Text(

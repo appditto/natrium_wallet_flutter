@@ -231,7 +231,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Used to build list items that haven't been removed.
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
-    String displayName = smallScreen(context)?_historyList[index].getShorterString():_historyList[index].getShorterString();
+    String displayName = smallScreen(context)?_historyList[index].getShorterString():_historyList[index].getShortString();
     _contacts.forEach((contact) {
       if (contact.address == _historyList[index].account) {
         displayName = contact.name;
@@ -1144,7 +1144,7 @@ class MonkeyOverlay extends ModalRoute<void> {
       Animation<double> secondaryAnimation, Widget child) {
     return SlideTransition(
       position: Tween<Offset>(
-        begin: const Offset(0.4, -0.4),
+        begin: const Offset(0.42, -0.42),
         end: Offset.zero,
       ).animate(animation),
       child: ScaleTransition(

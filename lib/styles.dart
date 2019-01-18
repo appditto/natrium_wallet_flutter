@@ -265,7 +265,7 @@ class KaliumFontSizes {
 }
 
 bool smallScreen(BuildContext context){
-  if(MediaQuery.of(context).size.height<677)
+  if(MediaQuery.of(context).size.height<667)
     return true;
   else return false;
 }
