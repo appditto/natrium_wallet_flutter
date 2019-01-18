@@ -13,7 +13,7 @@ import 'package:kalium_wallet_flutter/ui/util/exceptions.dart';
 enum ThreeLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS, SUCCESS_FULL }
 enum OneLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS }
 
-enum MonkeySize { SMALL, NORMAL, LARGE }
+enum MonkeySize { SMALL, HOME_SMALL, NORMAL, LARGE }
 
 class UIUtil {
   static Widget threeLineAddressText(String address, { ThreeLineAddressTextType type = ThreeLineAddressTextType.PRIMARY, String contactName }) {
@@ -375,10 +375,6 @@ class UIUtil {
     // Get expected path
     String dir = (await getApplicationDocumentsDirectory()).path;
     String prefix;
-    String fileName = '$dir/$prefix$address.png';
-    if (await File(fileName).exists()) {
-      return File(fileName);
-    }
     // Compute size required in pixels
     int size = 1000;
     switch (monkeySize) {
@@ -393,6 +389,15 @@ class UIUtil {
       case MonkeySize.SMALL:
         prefix = "small_";
         size = (smallScreen(context)?55:70 * MediaQuery.of(context).devicePixelRatio).toInt();
+        break;
+      case MonkeySize.HOME_SMALL:
+        prefix = "home_";
+        size = (90 * MediaQuery.of(context).devicePixelRatio).toInt();
+        break;
+    }
+    String fileName = '$dir/$prefix$address.png';
+    if (await File(fileName).exists()) {
+      return File(fileName);
     }
     // Download monKey and return File
     HttpClient httpClient = new HttpClient();

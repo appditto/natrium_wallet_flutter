@@ -414,20 +414,35 @@ class KaliumSendSheet {
                                 if (!address.isValid()) {
                                   // Not a valid code
                                 } else {
-                                  setState(() {
-                                    _sendAddressController.text =
-                                        address.address;
-                                    if (address.amount != null) {
-                                      _sendAmountController.text =
-                                          NumberUtil.getRawAsUsableString(
-                                              address.amount);
+                                  DBHelper()
+                                      .getContactWithAddress(address.address)
+                                      .then((contact) {
+                                    if (contact == null) {
+                                      setState(() {
+                                        _isContact = false;
+                                        _addressValidationText = "";
+                                        _sendAddressStyle =
+                                            KaliumStyles.TextStyleAddressText90;
+                                        _pasteButtonVisible = false;
+                                        _showContactButton = false;
+                                      });
+                                      _sendAddressController.text = address.address;
+                                      _sendAddressFocusNode.unfocus();
+                                      setState(() {
+                                        _addressValidAndUnfocused = true;
+                                      });
+                                    } else {
+                                      // Is a contact
+                                      setState(() {
+                                        _isContact = true;
+                                        _addressValidationText = "";
+                                        _sendAddressStyle =
+                                            KaliumStyles.TextStyleAddressPrimary;
+                                        _pasteButtonVisible = false;
+                                        _showContactButton = false;
+                                      });
+                                      _sendAddressController.text = contact.name;
                                     }
-                                    _addressValidationText = "";
-                                    _sendAddressStyle =
-                                        KaliumStyles.TextStyleAddressText90;
-                                    _pasteButtonVisible = false;
-                                    _showContactButton = false;
-                                    _addressValidAndUnfocused = true;
                                   });
                                   _sendAddressFocusNode.unfocus();
                                 }

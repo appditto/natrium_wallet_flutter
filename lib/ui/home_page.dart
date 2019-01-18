@@ -51,9 +51,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   ListModel<AccountHistoryResponseItem> _historyList;
 
   // monKey widget
+  Widget _currentDisplayMonKey;
   Widget _monKey;
   Widget _largeMonKey;
   bool _monkeyOverlayOpen = false;
+  bool _monkeyOverlayOpening = false;
   // List of contacts (Store it so we only have to query the DB once for transaction cards)
   List<Contact> _contacts = List();
 
@@ -69,6 +71,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     super.initState();
     _registerBus();
     _monKey = SizedBox();
+    _currentDisplayMonKey = SizedBox();
     WidgetsBinding.instance.addObserver(this);
     SharedPrefsUtil.inst.getPriceConversion().then((result) {
       _priceConversion = result;
@@ -154,8 +157,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       ));
     });
     RxBus.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
-      setState(() {
-        _monkeyOverlayOpen = false;
+      Future.delayed(Duration(milliseconds: 150), () {
+        setState(() {
+          _monkeyOverlayOpen = false;
+          _currentDisplayMonKey = _monKey;
+        });
       });
     });
     RxBus.register<DeepLinkAction>(tag: RX_DEEP_LINK_TAG).listen((result) {
@@ -317,14 +323,15 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   Widget build(BuildContext context) {
     // Download/Retrieve smaller and large monKeys
     UIUtil.downloadOrRetrieveMonkey(context,
-            StateContainer.of(context).wallet.address, MonkeySize.NORMAL)
+            StateContainer.of(context).wallet.address, MonkeySize.HOME_SMALL)
         .then((result) {
       if (result != null) {
         FileUtil.pngHasValidSignature(result).then((valid) {
           if (valid) {
             setState(() {
               _monKey = Image.file(result);
-           });
+              _currentDisplayMonKey = _monKey;
+            });
           }
         });
       }
@@ -771,17 +778,24 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             width: 90.0,
             height: 90.0,
             child: FlatButton(
-                child: _monkeyOverlayOpen ? SizedBox() : _monKey,
+                child: _monkeyOverlayOpen ? SizedBox() : _currentDisplayMonKey,
                 padding: EdgeInsets.all(0.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0)),
                 onPressed: () {
-                  Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
-                  if (_largeMonKey == null) {
+                  if (_monkeyOverlayOpening || _monkeyOverlayOpen) {
                     return;
                   }
                   setState(() {
-                    _monkeyOverlayOpen = true;
+                    _monkeyOverlayOpening = true;
+                    _currentDisplayMonKey = _largeMonKey;
+                  });
+                  Future.delayed(Duration(milliseconds: 500), () {
+                    setState(() {
+                      _monkeyOverlayOpening = false;
+                      _monkeyOverlayOpen = true;
+                    });
+                    Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
                   });
                 }),
           ),
