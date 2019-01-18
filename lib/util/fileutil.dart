@@ -14,13 +14,18 @@ class FileUtil {
       await file.delete();
       return false;
     }
-    return (asBytes[0] == 137 &&
-            asBytes[1] == 80 &&
-            asBytes[2] == 78 &&
-            asBytes[3] == 71 &&
-            asBytes[4] == 13 &&
-            asBytes[5] == 10 &&
-            asBytes[6] == 26 &&
-            asBytes[7] == 10);
+    if (asBytes[0] == 137 &&
+        asBytes[1] == 80 &&
+        asBytes[2] == 78 &&
+        asBytes[3] == 71 &&
+        asBytes[4] == 13 &&
+        asBytes[5] == 10 &&
+        asBytes[6] == 26 &&
+        asBytes[7] == 10) {
+          return true;
+    }
+    // Not a valid PNG, delete it
+    await file.delete();
+    return false;
   }
 }
