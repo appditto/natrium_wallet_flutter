@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:quiver/core.dart';
@@ -16,9 +16,9 @@ class Contact {
   @JsonKey(ignore:true)
   String monkeyPath;
   @JsonKey(ignore:true)
-  Widget monkeyWidget;
+  File monkeyWidget;
   @JsonKey(ignore:true)
-  Widget monkeyWidgetLarge;
+  File monkeyWidgetLarge;
 
   Contact({@required this.name, @required this.address, this.monkeyPath, int id});
 
