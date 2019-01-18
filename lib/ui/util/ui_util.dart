@@ -385,11 +385,13 @@ class UIUtil {
         break;
       case MonkeySize.NORMAL:
         prefix = "normal_";
-        size = (smallScreen(context)?130:200 * MediaQuery.of(context).devicePixelRatio).toInt();
+        int multiplier = smallScreen(context) ? 130 : 200;
+        size = (multiplier * MediaQuery.of(context).devicePixelRatio).toInt();
         break;
       case MonkeySize.SMALL:
         prefix = "small_";
-        size = (smallScreen(context)?55:70 * MediaQuery.of(context).devicePixelRatio).toInt();
+        int multiplier = smallScreen(context) ? 55 : 70;
+        size = (multiplier * MediaQuery.of(context).devicePixelRatio).toInt();
         break;
       case MonkeySize.HOME_SMALL:
         prefix = "home_";

@@ -56,6 +56,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   Widget _largeMonKey;
   bool _monkeyOverlayOpen = false;
   bool _monkeyOverlayOpening = false;
+  bool _monkeyDownloadTriggered = false;
   // List of contacts (Store it so we only have to query the DB once for transaction cards)
   List<Contact> _contacts = List();
 
@@ -78,6 +79,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     });
     _addSampleContact();
     _updateContacts();
+    _monkeyDownloadTriggered = false;
   }
 
   /// Add donations contact if it hasnt already been added
@@ -322,33 +324,36 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   @override
   Widget build(BuildContext context) {
     // Download/Retrieve smaller and large monKeys
-    UIUtil.downloadOrRetrieveMonkey(context,
-            StateContainer.of(context).wallet.address, MonkeySize.HOME_SMALL)
-        .then((result) {
-      if (result != null) {
-        FileUtil.pngHasValidSignature(result).then((valid) {
-          if (valid) {
-            setState(() {
-              _monKey = Image.file(result);
-              _currentDisplayMonKey = _monKey;
-            });
-          }
-        });
-      }
-    });
-    UIUtil.downloadOrRetrieveMonkey(context,
-            StateContainer.of(context).wallet.address, MonkeySize.LARGE)
-        .then((result) {
-      if (result != null) {
-        FileUtil.pngHasValidSignature(result).then((valid) {
-          if (valid) {
-            setState(() {
-              _largeMonKey = Image.file(result);
-            });
-          }
-        });
-      }
-    });
+    if (!_monkeyDownloadTriggered) {
+      _monkeyDownloadTriggered = true;
+      UIUtil.downloadOrRetrieveMonkey(context,
+              StateContainer.of(context).wallet.address, MonkeySize.HOME_SMALL)
+          .then((result) {
+        if (result != null) {
+          FileUtil.pngHasValidSignature(result).then((valid) {
+            if (valid) {
+              setState(() {
+                _monKey = Image.file(result);
+                _currentDisplayMonKey = _monKey;
+              });
+            }
+          });
+        }
+      });
+      UIUtil.downloadOrRetrieveMonkey(context,
+              StateContainer.of(context).wallet.address, MonkeySize.LARGE)
+          .then((result) {
+        if (result != null) {
+          FileUtil.pngHasValidSignature(result).then((valid) {
+            if (valid) {
+              setState(() {
+                _largeMonKey = Image.file(result);
+              });
+            }
+          });
+        }
+      });
+    }
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
