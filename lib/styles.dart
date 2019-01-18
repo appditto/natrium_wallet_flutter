@@ -202,6 +202,15 @@ class KaliumStyles {
       color: KaliumColors.text,
     );
   }
+  // Text style for settings headers
+  static TextStyle textStyleSettingsHeader() {
+    return TextStyle(
+      fontFamily: "NunitoSans",
+      fontSize: KaliumFontSizes._largest,
+      fontWeight: FontWeight.w700,
+      color: KaliumColors.text,
+    );
+  }
 
   // Text style for primary color header
   static const TextStyleHeaderColored = TextStyle(

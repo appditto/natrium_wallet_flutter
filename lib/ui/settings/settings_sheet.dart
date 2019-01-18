@@ -411,7 +411,7 @@ class _SettingsSheetState extends State<SettingsSheet>
               children: <Widget>[
                 Text(
                   KaliumLocalization.of(context).settingsHeader,
-                  style: KaliumStyles.textStyleHeader(context),
+                  style: KaliumStyles.textStyleSettingsHeader(),
                 ),
               ],
             ),
@@ -638,7 +638,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     //Contacts Header Text
                     Text(
                       "Contacts",
-                      style: KaliumStyles.textStyleHeader(context),
+                      style: KaliumStyles.textStyleSettingsHeader(),
                     ),
                   ],
                 ),
