@@ -546,39 +546,45 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       Container(
                           margin: EdgeInsets.only(right: 16.0),
                           child: Icon(icon, color: iconColor, size: 20)),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            text,
-                            textAlign: TextAlign.left,
-                            style: KaliumStyles.TextStyleTransactionType,
-                          ),
-                          RichText(
-                            textAlign: TextAlign.left,
-                            text: TextSpan(
-                              text: '',
-                              children: [
-                                TextSpan(
-                                  text: item.getFormattedAmount(),
-                                  style:
-                                      KaliumStyles.TextStyleTransactionAmount,
-                                ),
-                                TextSpan(
-                                  text: " BAN",
-                                  style: KaliumStyles.TextStyleTransactionUnit,
-                                ),
-                              ],
+                      Container(
+                        width: MediaQuery.of(context).size.width/4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              text,
+                              textAlign: TextAlign.left,
+                              style: KaliumStyles.TextStyleTransactionType,
                             ),
-                          ),
-                        ],
+                            RichText(
+                              textAlign: TextAlign.left,
+                              text: TextSpan(
+                                text: '',
+                                children: [
+                                  TextSpan(
+                                    text: item.getFormattedAmount(),
+                                    style:
+                                        KaliumStyles.TextStyleTransactionAmount,
+                                  ),
+                                  TextSpan(
+                                    text: " BAN",
+                                    style: KaliumStyles.TextStyleTransactionUnit,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                  Text(
-                    displayName,
-                    textAlign: TextAlign.right,
-                    style: KaliumStyles.TextStyleTransactionAddress,
+                  Container(
+                    width: MediaQuery.of(context).size.width/2.4,
+                    child: Text(
+                      displayName,
+                      textAlign: TextAlign.right,
+                      style: KaliumStyles.TextStyleTransactionAddress,
+                    ),
                   ),
                 ],
               ),
@@ -632,38 +638,44 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     Container(
                         margin: EdgeInsets.only(right: 16.0),
                         child: Icon(icon, color: iconColor, size: 20)),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          text,
-                          textAlign: TextAlign.left,
-                          style: KaliumStyles.TextStyleTransactionType,
-                        ),
-                        RichText(
-                          textAlign: TextAlign.left,
-                          text: TextSpan(
-                            text: '',
-                            children: [
-                              TextSpan(
-                                text: amount,
-                                style: KaliumStyles.TextStyleTransactionAmount,
-                              ),
-                              TextSpan(
-                                text: " BAN",
-                                style: KaliumStyles.TextStyleTransactionUnit,
-                              ),
-                            ],
+                    Container(
+                      width: MediaQuery.of(context).size.width/4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            text,
+                            textAlign: TextAlign.left,
+                            style: KaliumStyles.TextStyleTransactionType,
                           ),
-                        ),
-                      ],
+                          RichText(
+                            textAlign: TextAlign.left,
+                            text: TextSpan(
+                              text: '',
+                              children: [
+                                TextSpan(
+                                  text: amount,
+                                  style: KaliumStyles.TextStyleTransactionAmount,
+                                ),
+                                TextSpan(
+                                  text: " BAN",
+                                  style: KaliumStyles.TextStyleTransactionUnit,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-                Text(
-                  address,
-                  textAlign: TextAlign.right,
-                  style: KaliumStyles.TextStyleTransactionAddress,
+                Container(
+                  width: MediaQuery.of(context).size.width/2.4,
+                  child: Text(
+                    address,
+                    textAlign: TextAlign.right,
+                    style: KaliumStyles.TextStyleTransactionAddress,
+                  ),
                 ),
               ],
             ),
