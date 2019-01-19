@@ -46,16 +46,16 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   var _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
 
+  KaliumReceiveSheet receive;
+
   // A separate unfortunate instance of this list, is a little unfortunate
   // but seems the only way to handle the animations
   ListModel<AccountHistoryResponseItem> _historyList;
 
   // monKey widget
-  Widget _currentDisplayMonKey;
   Widget _monKey;
   Widget _largeMonKey;
   bool _monkeyOverlayOpen = false;
-  bool _monkeyOverlayOpening = false;
   bool _monkeyDownloadTriggered = false;
   // List of contacts (Store it so we only have to query the DB once for transaction cards)
   List<Contact> _contacts = List();
@@ -72,7 +72,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     super.initState();
     _registerBus();
     _monKey = SizedBox();
-    _currentDisplayMonKey = SizedBox();
     WidgetsBinding.instance.addObserver(this);
     SharedPrefsUtil.inst.getPriceConversion().then((result) {
       _priceConversion = result;
@@ -162,7 +161,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       Future.delayed(Duration(milliseconds: 150), () {
         setState(() {
           _monkeyOverlayOpen = false;
-          _currentDisplayMonKey = _monKey;
         });
       });
     });
@@ -323,6 +321,18 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   @override
   Widget build(BuildContext context) {
+    if (receive == null ){
+      QrPainter painter = QrPainter(
+        data: StateContainer.of(context).wallet.address,
+        version: 6,
+        errorCorrectionLevel: QrErrorCorrectLevel.Q,
+      );
+      painter.toImageData(MediaQuery.of(context).size.width).then((byteData) {
+        setState(() {
+          receive = KaliumReceiveSheet(Container(width: MediaQuery.of(context).size.width / 3.13, child: Image.memory(byteData.buffer.asUint8List())));
+        });
+      });
+    }
     // Download/Retrieve smaller and large monKeys
     if (!_monkeyDownloadTriggered) {
       _monkeyDownloadTriggered = true;
@@ -334,7 +344,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             if (valid) {
               setState(() {
                 _monKey = Image.file(result);
-                _currentDisplayMonKey = _monKey;
               });
             }
           });
@@ -449,26 +458,20 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),
-                      color: KaliumColors.primary,
+                      color: receive != null ? KaliumColors.primary : KaliumColors.primary60,
                       child: Text(KaliumLocalization.of(context).receive,
                           textAlign: TextAlign.center,
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
                       onPressed: () { 
-                        QrPainter painter = QrPainter(
-                          data: StateContainer.of(context).wallet.address,
-                          version: 6,
-                          errorCorrectionLevel: QrErrorCorrectLevel.Q,
-                        );
-                        painter.toImageData(MediaQuery.of(context).size.width).then((byteData) {
-                          setState(() {
-                            KaliumReceiveSheet(Container(width: MediaQuery.of(context).size.width / 3.13, child: Image.memory(byteData.buffer.asUint8List()))).mainBottomSheet(context);
-                          });
-                        });
+                        if (receive == null ){
+                          return;
+                        }
+                        receive.mainBottomSheet(context);
                       },
-                      highlightColor: KaliumColors.background40,
-                      splashColor: KaliumColors.background40,
+                      highlightColor: receive != null ? KaliumColors.background40 : Colors.transparent,
+                      splashColor: receive != null ? KaliumColors.background40 : Colors.transparent,
                     ),
                   ),
                 ),
@@ -806,25 +809,35 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             width: 90.0,
             height: 90.0,
             child: FlatButton(
-                child: _monkeyOverlayOpen ? SizedBox() : _currentDisplayMonKey,
+                child: _monkeyOverlayOpen ? SizedBox() : 
+                  Stack(
+                    children: <Widget> [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        child: _largeMonKey
+                      ),
+                      Center(
+                        child: Container(
+                          width: 90,
+                          height: 90,
+                          color: KaliumColors.backgroundDark,
+                        ),
+                      ),
+                      _monKey
+                    ]
+                  ),
                 padding: EdgeInsets.all(0.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0)),
                 onPressed: () {
-                  if (_monkeyOverlayOpening || _monkeyOverlayOpen || _largeMonKey == null) {
+                  if (_monkeyOverlayOpen || _largeMonKey == null) {
                     return;
                   }
                   setState(() {
-                    _monkeyOverlayOpening = true;
-                    _currentDisplayMonKey = _largeMonKey;
+                    _monkeyOverlayOpen = true;
                   });
-                  Future.delayed(Duration(milliseconds: 300), () {
-                    setState(() {
-                      _monkeyOverlayOpening = false;
-                      _monkeyOverlayOpen = true;
-                    });
-                    Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
-                  });
+                  Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
                 }),
           ),
         ],
