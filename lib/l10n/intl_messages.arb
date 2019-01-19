@@ -1,13 +1,674 @@
 {
-  "@@last_modified": "2019-01-14T13:22:08.430106",
-  "title": "Hello world App",
-  "@title": {
-    "description": "The application title",
+  "@@last_modified": "2019-01-19T10:52:44.632276",
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "dialog_cancel",
     "type": "text",
     "placeholders": {}
   },
-  "hello": "Hello",
-  "@hello": {
+  "close": "Close",
+  "@close": {
+    "description": "dialog_close",
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "dialog_confirm",
+    "type": "text",
+    "placeholders": {}
+  },
+  "no": "No",
+  "@no": {
+    "description": "intro_new_wallet_backup_no",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yes": "Yes",
+  "@yes": {
+    "description": "intro_new_wallet_backup_yes",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onStr": "On",
+  "@onStr": {
+    "description": "generic_on",
+    "type": "text",
+    "placeholders": {}
+  },
+  "off": "Off",
+  "@off": {
+    "description": "generic_off",
+    "type": "text",
+    "placeholders": {}
+  },
+  "send": "Send",
+  "@send": {
+    "description": "home_send_cta",
+    "type": "text",
+    "placeholders": {}
+  },
+  "receive": "Receive",
+  "@receive": {
+    "description": "home_receive_cta",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sent": "Sent",
+  "@sent": {
+    "description": "history_sent",
+    "type": "text",
+    "placeholders": {}
+  },
+  "received": "Received",
+  "@received": {
+    "description": "history_received",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transactions": "Transactions",
+  "@transactions": {
+    "description": "transaction_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addressCopied": "Address Copied",
+  "@addressCopied": {
+    "description": "receive_copied",
+    "type": "text",
+    "placeholders": {}
+  },
+  "copyAddress": "Copy Address",
+  "@copyAddress": {
+    "description": "receive_copy_cta",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addressShare": "Share Address",
+  "@addressShare": {
+    "description": "share_address",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addressHint": "Enter Address",
+  "@addressHint": {
+    "description": "send_address_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "seed": "Seed",
+  "@seed": {
+    "description": "intro_new_wallet_seed_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "seedInvalid": "Seed is Invalid",
+  "@seedInvalid": {
+    "description": "intro_seed_invalid",
+    "type": "text",
+    "placeholders": {}
+  },
+  "seedCopied": "Seed Copied to Clipboard\nIt is pasteable for 2 minutes.",
+  "@seedCopied": {
+    "description": "intro_new_wallet_seed_copied",
+    "type": "text",
+    "placeholders": {}
+  },
+  "scanQrCode": "Scan QR Code",
+  "@scanQrCode": {
+    "description": "send_scan_qr",
+    "type": "text",
+    "placeholders": {}
+  },
+  "fileReadErr": "Couldn't read file",
+  "@fileReadErr": {
+    "description": "file_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "fileParseErr": "Couldn't parse file",
+  "@fileParseErr": {
+    "description": "file_parse_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "viewDetails": "View Details",
+  "@viewDetails": {
+    "description": "transaction_details",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeContact": "Remove Contact",
+  "@removeContact": {
+    "description": "contact_remove_btn",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeContactConfirmation": "Are you sure you want to delete %1?",
+  "@removeContactConfirmation": {
+    "description": "contact_remove_sure",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactHeader": "Contact",
+  "@contactHeader": {
+    "description": "contact_view_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactsHeader": "Contacts",
+  "@contactsHeader": {
+    "description": "contact_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addContact": "Add Contact",
+  "@addContact": {
+    "description": "contact_add_button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactNameHint": "Enter a Name @",
+  "@contactNameHint": {
+    "description": "contact_name_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactInvalid": "Invalid Contact Name",
+  "@contactInvalid": {
+    "description": "contact_invalid_name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noContactsExport": "There's no contacts to export.",
+  "@noContactsExport": {
+    "description": "contact_export_none",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noContactsImport": "No new contacts to import.",
+  "@noContactsImport": {
+    "description": "contact_import_none",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactsImportSuccess": "Sucessfully imported %1 contacts.",
+  "@contactsImportSuccess": {
+    "description": "contacts_import_success",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactAdded": "%1 added to contacts.",
+  "@contactAdded": {
+    "description": "contact_added",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactNameMissing": "Choose a Name for this Contact",
+  "@contactNameMissing": {
+    "description": "contact_export_none",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactExists": "Contact Already Exists",
+  "@contactExists": {
+    "description": "contact_name_exists",
+    "type": "text",
+    "placeholders": {}
+  },
+  "backupYourSeed": "Backup your seed",
+  "@backupYourSeed": {
+    "description": "intro_new_wallet_seed_backup_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "backupSeedConfirm": "Are you sure that you backed up your wallet seed?",
+  "@backupSeedConfirm": {
+    "description": "intro_new_wallet_backup",
+    "type": "text",
+    "placeholders": {}
+  },
+  "seedBackupInfo": "Below is your wallet's seed. It is crucial that you backup your seed and never store it as plaintext or a screenshot.",
+  "@seedBackupInfo": {
+    "description": "intro_new_wallet_seed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importSeed": "Import seed",
+  "@importSeed": {
+    "description": "intro_seed_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importSeedHint": "Please enter your seed below.",
+  "@importSeedHint": {
+    "description": "intro_seed_info",
+    "type": "text",
+    "placeholders": {}
+  },
+  "welcomeText": "Welcome to Kalium. To begin you may create a new wallet or import an existing one.",
+  "@welcomeText": {
+    "description": "intro_welcome_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newWallet": "New Wallet",
+  "@newWallet": {
+    "description": "intro_welcome_new_wallet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importWallet": "Import Wallet",
+  "@importWallet": {
+    "description": "intro_welcome_have_wallet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sentTo": "Sent To",
+  "@sentTo": {
+    "description": "sent_to",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sending": "Sending",
+  "@sending": {
+    "description": "send_sending",
+    "type": "text",
+    "placeholders": {}
+  },
+  "to": "To",
+  "@to": {
+    "description": "send_to",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sendAmountConfirm": "Send %1 BANANO",
+  "@sendAmountConfirm": {
+    "description": "send_pin_description",
+    "type": "text",
+    "placeholders": {}
+  },
+  "enterAmount": "Enter Amount",
+  "@enterAmount": {
+    "description": "send_amount_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "enterAddress": "Enter Address",
+  "@enterAddress": {
+    "description": "enter_address",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidAddress": "Address entered was invalid",
+  "@invalidAddress": {
+    "description": "send_invalid_address",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addressMising": "Please Enter an Address",
+  "@addressMising": {
+    "description": "send_enter_address",
+    "type": "text",
+    "placeholders": {}
+  },
+  "amountMissing": "Please Enter an Amount",
+  "@amountMissing": {
+    "description": "send_enter_amount",
+    "type": "text",
+    "placeholders": {}
+  },
+  "insufficientBalance": "Insufficient Balance",
+  "@insufficientBalance": {
+    "description": "send_insufficient_balance",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sendFrom": "Send From",
+  "@sendFrom": {
+    "description": "send_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinCreateTitle": "Create a 6-digit pin",
+  "@pinCreateTitle": {
+    "description": "pin_create_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinConfirmTitle": "Confirm your pin",
+  "@pinConfirmTitle": {
+    "description": "pin_confirm_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinEnterTitle": "Enter pin",
+  "@pinEnterTitle": {
+    "description": "pin_enter_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinConfirmError": "Pins do not match",
+  "@pinConfirmError": {
+    "description": "pin_confirm_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinInvalid": "Invalid pin entered",
+  "@pinInvalid": {
+    "description": "pin_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changeRepButton": "Change",
+  "@changeRepButton": {
+    "description": "change_representative_change",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changeRepAuthenticate": "Change Representative",
+  "@changeRepAuthenticate": {
+    "description": "settings_change_rep",
+    "type": "text",
+    "placeholders": {}
+  },
+  "currentlyRepresented": "Currently Represented By",
+  "@currentlyRepresented": {
+    "description": "change_representative_current_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changeRepSucces": "Representative Changed Successfully",
+  "@changeRepSucces": {
+    "description": "change_representative_success",
+    "type": "text",
+    "placeholders": {}
+  },
+  "repInfoHeader": "What is a representative?",
+  "@repInfoHeader": {
+    "description": "change_representative_info_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "repInfo": "A representative is an account that votes for network consensus. Voting power is weighted by balance, you may delegate your balance to increase the voting weight of a representative you trust. Your representative does not have spending power over your funds. You should choose a representative that has little downtime and is trustworthy.",
+  "@repInfo": {
+    "description": "change_representative_info",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinRepChange": "Enter PIN to change representative.",
+  "@pinRepChange": {
+    "description": "change_representative_pin",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changeRepHint": "Enter New Representative",
+  "@changeRepHint": {
+    "description": "change_representative_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "authMethod": "Authentication Method",
+  "@authMethod": {
+    "description": "settings_disable_fingerprint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinMethod": "PIN",
+  "@pinMethod": {
+    "description": "settings_pin_method",
+    "type": "text",
+    "placeholders": {}
+  },
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "settings_privacy_policy",
+    "type": "text",
+    "placeholders": {}
+  },
+  "biometricsMethod": "Biometrics",
+  "@biometricsMethod": {
+    "description": "settings_fingerprint_method",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changeCurrency": "Change Currency",
+  "@changeCurrency": {
+    "description": "settings_local_currency",
+    "type": "text",
+    "placeholders": {}
+  },
+  "language": "Language",
+  "@language": {
+    "description": "settings_change_language",
+    "type": "text",
+    "placeholders": {}
+  },
+  "shareKalium": "Share Kalium",
+  "@shareKalium": {
+    "description": "settings_share",
+    "type": "text",
+    "placeholders": {}
+  },
+  "shareKaliumText": "Check out Kalium! Banano's official mobile wallet!",
+  "@shareKaliumText": {
+    "description": "share_extra",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "settings_logout",
+    "type": "text",
+    "placeholders": {}
+  },
+  "warning": "Warning",
+  "@warning": {
+    "description": "settings_logout_alert_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutDetail": "Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
+  "@logoutDetail": {
+    "description": "settings_logout_alert_message",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutAction": "Delete Seed and Logout",
+  "@logoutAction": {
+    "description": "settings_logout_alert_confirm_cta",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutAreYouSure": "Are you sure?",
+  "@logoutAreYouSure": {
+    "description": "settings_logout_warning_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutReassurance": "As long as you've backed up your seed you have nothing to worry about.",
+  "@logoutReassurance": {
+    "description": "settings_logout_warning_message",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsHeader": "Settings",
+  "@settingsHeader": {
+    "description": "settings_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "preferences": "Preferences",
+  "@preferences": {
+    "description": "settings_preferences_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "manage": "Manage",
+  "@manage": {
+    "description": "settings_manage_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "backupSeed": "Backup Seed",
+  "@backupSeed": {
+    "description": "settings_backup_seed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "fingerprintSeedBackup": "Authenticate to backup seed.",
+  "@fingerprintSeedBackup": {
+    "description": "settings_fingerprint_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinSeedBackup": "Enter PIN to Backup Seed",
+  "@pinSeedBackup": {
+    "description": "settings_pin_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "systemDefault": "System Default",
+  "@systemDefault": {
+    "description": "settings_default_language_string",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "notifications_settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notificationTitle": "Received %1 BANANO",
+  "@notificationTitle": {
+    "description": "notification_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notificationBody": "Open Kalium to view this transaction",
+  "@notificationBody": {
+    "description": "notification_body",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notificationHeaderSupplement": "Tap to open",
+  "@notificationHeaderSupplement": {
+    "description": "notificaiton_header_suplement",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsTransfer": "Load from Paper Wallet",
+  "@settingsTransfer": {
+    "description": "settings_transfer",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferError": "An error has occurred during the transfer. Please try again later.",
+  "@transferError": {
+    "description": "transfer_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "paperWallet": "Paper Wallet",
+  "@paperWallet": {
+    "description": "paper_wallet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "kaliumWallet": "Kalium Wallet",
+  "@kaliumWallet": {
+    "description": "kalium_wallet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "manualEntry": "Manual Entry",
+  "@manualEntry": {
+    "description": "transfer_manual_entry",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mnemonicPhrase": "Mnemonic Phrase",
+  "@mnemonicPhrase": {
+    "description": "mnemonic_phrase",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rawSeed": "Raw Seed",
+  "@rawSeed": {
+    "description": "raw_seed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferHeader": "Transfer Funds:",
+  "@transferHeader": {
+    "description": "transfer_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferIntro": "This process will transfer the funds from a paper wallet to your Kalium wallet.\n\nTap the \"%1\" button to start",
+  "@transferIntro": {
+    "description": "transfer_intro",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferQrScanHint": "Scan a Banano \nseed or private key",
+  "@transferQrScanHint": {
+    "description": "transfer_qr_scan_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferQrScanError": "This QR code does not contain a valid seed.",
+  "@transferQrScanError": {
+    "description": "transfer_qr_scan_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferNoFunds": "This seed does not have any BANANO on it",
+  "@transferNoFunds": {
+    "description": "transfer_no_funds_toast",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferConfirmInfo": "A wallet with a balance of %1 BANANO has been detected.",
+  "@transferConfirmInfo": {
+    "description": "transfer_confirm_info_first",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferConfirmInfoSecond": "Tap confirm to transfer the funds.",
+  "@transferConfirmInfoSecond": {
+    "description": "transfer_confirm_info_second",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferConfirmInfoThird": "Transfer may take several seconds to complete.",
+  "@transferConfirmInfoThird": {
+    "description": "transfer_confirm_info_third",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferLoading": "Transferring",
+  "@transferLoading": {
+    "description": "transfer_loading_text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferComplete": "%1 BANANO successfully transferred to your Kalium Wallet.",
+  "@transferComplete": {
+    "description": "transfer_complete_text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferClose": "Tap anywhere to close the window.",
+  "@transferClose": {
+    "description": "transfer_close_text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "scanInstructions": "Scan a Banano \naddress QR code",
+  "@scanInstructions": {
+    "description": "scan_send_instruction_label",
     "type": "text",
     "placeholders": {}
   }

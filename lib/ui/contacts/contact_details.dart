@@ -51,7 +51,7 @@ class ContactDetailsSheet {
                         onPressed: () {
                           KaliumDialogs.showConfirmDialog(context,
                                                           KaliumLocalization.of(context).removeContact,
-                                                          KaliumLocalization.of(context).getRemoveContactConfirmation(contact.name),
+                                                          KaliumLocalization.of(context).removeContactConfirmation.replaceAll('%1', contact.name),
                                                           KaliumLocalization.of(context).yes.toUpperCase(),
                           () {
                             DBHelper dbHelper = DBHelper();

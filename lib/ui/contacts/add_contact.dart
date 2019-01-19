@@ -19,11 +19,6 @@ import 'package:kalium_wallet_flutter/kalium_icons.dart';
 
 // Add Contacts Sheet
 class AddContactSheet {
-  static const String _contactNameMissing = "Enter a Name";
-  static const String _contactAddressMissing = "Enter an Address";
-  static const String _contactExists = "Contact Already Exists";
-  static const String _contactAddressInvalid = "Invalid Address";
-
   String address;
 
   AddContactSheet({this.address});
@@ -386,7 +381,7 @@ class AddContactSheet {
                               KaliumButtonType.PRIMARY,
                               KaliumLocalization.of(context).addContact,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                            validateForm(setState).then((isValid) {
+                            validateForm(context, setState).then((isValid) {
                               if (!isValid) {
                                 return;
                               }
@@ -425,7 +420,7 @@ class AddContactSheet {
         });
   }
 
-  Future<bool> validateForm(StateSetter setState) async {
+  Future<bool> validateForm(BuildContext context, StateSetter setState) async {
     bool isValid = true;
     // Address Validations
     // Don't validate address if it came pre-filled in
@@ -433,12 +428,12 @@ class AddContactSheet {
       if (_addressController.text.isEmpty) {
         isValid = false;
         setState(() {
-          _addressValidationText = _contactAddressMissing;
+          _addressValidationText = KaliumLocalization.of(context).addressMising;
         });
       } else if (!Address(_addressController.text).isValid()) {
         isValid = false;
         setState(() {
-          _addressValidationText = _contactAddressInvalid;
+          _addressValidationText = KaliumLocalization.of(context).invalidAddress;
         });
       } else {
         _addressFocusNode.unfocus();
@@ -447,7 +442,7 @@ class AddContactSheet {
         if (addressExists) {
           setState(() {
             isValid = false;
-            _addressValidationText = _contactExists;
+            _addressValidationText = KaliumLocalization.of(context).contactExists;
           });
         }
       }
@@ -456,7 +451,7 @@ class AddContactSheet {
     if (_nameController.text.isEmpty) {
       isValid = false;
       setState(() {
-        _nameValidationText = _contactNameMissing;
+        _nameValidationText = KaliumLocalization.of(context).contactNameMissing;
       });
     } else {
       DBHelper dbHelper = DBHelper();
@@ -464,7 +459,7 @@ class AddContactSheet {
       if (nameExists) {
         setState(() {
           isValid = false;
-          _nameValidationText = _contactExists;
+          _nameValidationText = KaliumLocalization.of(context).contactExists;
         });
       }
     }

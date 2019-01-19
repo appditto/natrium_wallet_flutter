@@ -26,237 +26,253 @@ class KaliumLocalization {
   }
 
   /// -- GENERIC ITEMS
-  static const String genericDesc = "Frequently used actions";
   String get cancel {
     return Intl.message('Cancel',
-        name: 'dialog_cancel', desc: genericDesc);
+        desc: 'dialog_cancel', name: 'cancel');
   }
 
   String get close {
     return Intl.message('Close',
-        name: 'dialog_close', desc: genericDesc);
+        desc: 'dialog_close', name: 'close');
   }
 
   String get confirm {
     return Intl.message('Confirm',
-        name: 'dialog_confirm', desc: genericDesc);
+        desc: 'dialog_confirm', name: 'confirm');
   }
 
   String get no {
     return Intl.message('No',
-        name: 'intro_new_wallet_backup_no', desc: genericDesc);
+        desc: 'intro_new_wallet_backup_no', name: 'no');
   }
 
   String get yes {
     return Intl.message('Yes',
-        name: 'intro_new_wallet_backup_yes', desc: genericDesc);
+        desc: 'intro_new_wallet_backup_yes', name: 'yes');
+  }
+
+  String get onStr {
+    return Intl.message('On',
+        desc: 'generic_on', name: 'onStr');
+  }
+
+  String get off {
+    return Intl.message('Off',
+        desc: 'generic_off', name: 'off');
   }
 
   String get send {
     return Intl.message('Send',
-        name: 'home_send_cta', desc: genericDesc);
+        desc: 'home_send_cta', name: 'send');
   }
 
   String get receive {
     return Intl.message('Receive',
-        name: 'home_receive_cta', desc: genericDesc);
+        desc: 'home_receive_cta', name: 'receive');
   }
 
   String get sent {
     return Intl.message('Sent',
-        name: 'history_sent', desc: genericDesc);
+        desc: 'history_sent', name: 'sent');
   }
 
   String get received {
     return Intl.message('Received',
-        name: 'history_received', desc: genericDesc);
+        desc: 'history_received', name: 'received');
   }
 
   String get transactions {
     return Intl.message('Transactions',
-        name: 'transaction_header', desc: genericDesc);
+        desc: 'transaction_header', name: 'transactions');
   }
 
   String get addressCopied {
     return Intl.message('Address Copied',
-        name: 'receive_copied', desc: genericDesc);
+        desc: 'receive_copied', name: 'addressCopied');
   }
 
   String get copyAddress {
     return Intl.message('Copy Address',
-        name: 'receive_copy_cta', desc: genericDesc);
+        desc: 'receive_copy_cta', name: 'copyAddress');
   }
 
   String get addressShare {
     return Intl.message('Share Address',
-        name: 'share_address', desc: genericDesc);
+        desc: 'share_address', name: 'addressShare');
   }
 
   String get addressHint {
     return Intl.message('Enter Address',
-        name: 'send_address_hint', desc: genericDesc);
+        desc: 'send_address_hint', name: 'addressHint');
   }
 
   String get seed {
     return Intl.message('Seed',
-      name: 'intro_new_wallet_seed_header', desc: 'Wallet seed - is not the same thing as a "private key", so do not substitute this with private key');
+      desc: 'intro_new_wallet_seed_header', name: 'seed');
   }
 
   String get seedInvalid {
     return Intl.message('Seed is Invalid',
-      name: 'intro_seed_invalid', desc: genericDesc);
+      desc: 'intro_seed_invalid', name: 'seedInvalid');
   }
 
   String get seedCopied {
     return Intl.message('Seed Copied to Clipboard\nIt is pasteable for 2 minutes.',
-      name: 'intro_new_wallet_seed_copied', desc: genericDesc);
+      desc: 'intro_new_wallet_seed_copied', name: 'seedCopied');
   }
 
   String get scanQrCode {
     return Intl.message('Scan QR Code',
-      name: 'send_scan_qr', desc: genericDesc);
+      desc: 'send_scan_qr', name: 'scanQrCode');
   }
 
   String get fileReadErr {
     return Intl.message("Couldn't read file",
-      name: "file_error", desc: genericDesc);
+      desc: "file_error", name: 'fileReadErr');
   }
 
   String get fileParseErr {
     return Intl.message("Couldn't parse file",
-      name: "file_parse_error", desc: genericDesc);  
+      desc: "file_parse_error", name: 'fileParseErr');  
   }
 
   String get viewDetails {
     return Intl.message("View Details",
-      name: "transaction_details", desc: genericDesc);  
+      desc: "transaction_details", name: 'viewDetails');  
   }
 
   /// -- END GENERIC ITEMS
 
   /// -- CONTACT ITEMS
-  static const String contactDesc = "Contact/Addresbook";
+
   String get removeContact {
     return Intl.message('Remove Contact',
-        name: 'contact_remove_btn', desc: contactDesc);
+        desc: 'contact_remove_btn', name: 'removeContact');
   }
 
-  String getRemoveContactConfirmation(String contactName) {
+  String get removeContactConfirmation {
     return Intl.message('Are you sure you want to delete %1?',
-      name: 'contact_remove_sure', desc: contactDesc).replaceFirst(r'%1', contactName);
+      desc: 'contact_remove_sure', name: 'removeContactConfirmation');
   }
 
   String get contactHeader {
     return Intl.message('Contact',
-      name: 'contact_view_header', desc: contactDesc);
+      desc: 'contact_view_header', name: 'contactHeader');
   }
 
   String get contactsHeader {
     return Intl.message('Contacts',
-      name: 'contact_header', desc: contactDesc);
+      desc: 'contact_header', name: 'contactsHeader');
   }
 
   String get addContact {
     return Intl.message('Add Contact',
-        name: 'contact_add', desc: contactDesc);
+        desc: 'contact_add_button', name: 'addContact');
   }
 
   String get contactNameHint {
     return Intl.message('Enter a Name @',
-        name: 'contact_name_hint', desc: contactDesc);
+        desc: 'contact_name_hint', name: 'contactNameHint');
   }
 
   String get contactInvalid {
-    return Intl.message("Invalid Contact",
-      name: 'contact_invalid', desc: contactDesc);
+    return Intl.message("Invalid Contact Name",
+      desc: 'contact_invalid_name', name: 'contactInvalid');
   }
 
   String get noContactsExport {
     return Intl.message("There's no contacts to export.",
-      name: 'contact_export_none', desc: contactDesc);
+      desc: 'contact_export_none', name: 'noContactsExport');
   }
 
   String get noContactsImport {
     return Intl.message("No new contacts to import.",
-      name: 'contact_import_none', desc: contactDesc);
+      desc: 'contact_import_none', name: 'noContactsImport');
   }
 
   String get contactsImportSuccess {
     return Intl.message("Sucessfully imported %1 contacts.",
-      name: 'contacts_import_success', desc: contactDesc);
+      desc: 'contacts_import_success', name: 'contactsImportSuccess');
   }
 
   String get contactAdded {
     return Intl.message("%1 added to contacts.",
-      name: 'contact_added', desc: contactDesc);
+      desc: 'contact_added', name: 'contactAdded');
+  }
+
+  String get contactNameMissing {
+    return Intl.message("Choose a Name for this Contact",
+      desc: 'contact_export_none', name: 'contactNameMissing');
+  }
+
+  String get contactExists {
+    return Intl.message("Contact Already Exists",
+      desc: 'contact_name_exists', name: 'contactExists');
   }
 
   /// -- END CONTACT ITEMS
 
   /// -- INTRO ITEMS
-  static const String introDesc = "Introduction Screens";
   String get backupYourSeed {
     return Intl.message('Backup your seed',
-        name: 'intro_new_wallet_seed_backup_header', desc: introDesc);
+        desc: 'intro_new_wallet_seed_backup_header', name: 'backupYourSeed');
   }
 
   String get backupSeedConfirm {
     return Intl.message('Are you sure that you backed up your wallet seed?',
-        name: 'intro_new_wallet_backup', desc: introDesc);
+        desc: 'intro_new_wallet_backup', name: 'backupSeedConfirm');
   }
 
   String get seedBackupInfo {
     return Intl.message("Below is your wallet's seed. It is crucial that you backup your seed and never store it as plaintext or a screenshot.",
-        name: 'intro_new_wallet_seed', desc: introDesc);
+        desc: 'intro_new_wallet_seed', name: 'seedBackupInfo');
   }
 
   String get importSeed {
     return Intl.message("Import seed",
-        name: 'intro_seed_header', desc: introDesc);
+        desc: 'intro_seed_header', name: 'importSeed');
   }
 
   String get importSeedHint {
     return Intl.message("Please enter your seed below.",
-        name: 'intro_seed_info', desc: introDesc);
+        desc: 'intro_seed_info', name: 'importSeedHint');
   }
 
   String get welcomeText {
     return Intl.message("Welcome to Kalium. To begin you may create a new wallet or import an existing one.",
-        name: 'intro_welcome_title', desc: introDesc);
+        desc: 'intro_welcome_title', name: 'welcomeText');
   }
 
   String get newWallet {
     return Intl.message("New Wallet",
-        name: 'intro_welcome_new_wallet', desc: introDesc);
+        desc: 'intro_welcome_new_wallet', name: 'newWallet');
   }
 
   String get importWallet {
     return Intl.message("Import Wallet",
-        name: 'intro_welcome_have_wallet', desc: introDesc);
+        desc: 'intro_welcome_have_wallet', name: 'importWallet');
   }
   /// -- END INTRO ITEMS
 
   /// -- SEND ITEMS
-  static const String sendDesc = "Used on send-related screens";
-
   String get sentTo {
     return Intl.message("Sent To",
-        name: 'sent_to', desc: sendDesc);
+        desc: 'sent_to', name: 'sentTo');
   }
 
   String get sending {
     return Intl.message("Sending",
-        name: 'send_sending', desc: sendDesc);
+        desc: 'send_sending', name: 'sending');
   }
 
   String get to {
     return Intl.message("To",
-        name: 'send_to', desc: sendDesc);
+        desc: 'send_to', name: 'to');
   }
 
   String get sendAmountConfirm {
     return Intl.message("Send %1 BANANO",
-        name: 'send_pin_description', desc: sendDesc);
+        desc: 'send_pin_description', name: 'sendAmountConfirm');
   }
 
   String get sendAmountConfirmPin {
@@ -265,219 +281,343 @@ class KaliumLocalization {
 
   String get enterAmount {
     return Intl.message("Enter Amount",
-      name: 'send_amount_hint', desc: sendDesc);
+      desc: 'send_amount_hint', name: 'enterAmount');
   }
 
   String get enterAddress {
     return Intl.message("Enter Address",
-      name: 'enter_address', desc: sendDesc);
+      desc: 'enter_address', name: 'enterAddress');
   }
 
   String get invalidAddress {
     return Intl.message("Address entered was invalid",
-      name: 'send_invalid_address', desc: sendDesc);
+      desc: 'send_invalid_address', name: 'invalidAddress');
   }
 
   String get addressMising {
     return Intl.message("Please Enter an Address",
-      name: 'send_enter_address', desc: sendDesc);
+      desc: 'send_enter_address', name: 'addressMising');
   }
   
   String get amountMissing {
     return Intl.message("Please Enter an Amount",
-      name: 'send_enter_amount', desc: sendDesc);
+      desc: 'send_enter_amount', name: 'amountMissing');
   }
   
   String get insufficientBalance {
     return Intl.message("Insufficient Balance",
-      name: 'send_insufficient_balance', desc: sendDesc);
+      desc: 'send_insufficient_balance', name: 'insufficientBalance');
   }
 
   String get sendFrom {
     return Intl.message("Send From",
-      name: 'send_title', desc: sendDesc);
+      desc: 'send_title', name: 'sendFrom');
   }
   /// -- END SEND ITEMS
 
   /// -- PIN SCREEN
-  String pinDesc = "Used on PIN screen";
-
   String get pinCreateTitle {
     return Intl.message("Create a 6-digit pin",
-      name: 'pin_create_title', desc: settingsDesc);
+      desc: 'pin_create_title', name: 'pinCreateTitle');
   }
 
   String get pinConfirmTitle {
     return Intl.message("Confirm your pin",
-      name: 'pin_confirm_title', desc: settingsDesc);
+      desc: 'pin_confirm_title', name: 'pinConfirmTitle');
   }
 
   String get pinEnterTitle {
     return Intl.message("Enter pin",
-      name: 'pin_enter_title', desc: settingsDesc);
+      desc: 'pin_enter_title', name: 'pinEnterTitle');
   }
 
   String get pinConfirmError {
     return Intl.message("Pins do not match",
-      name: 'pin_confirm_error', desc: settingsDesc);
+      desc: 'pin_confirm_error', name: 'pinConfirmError');
   }
 
   String get pinInvalid {
     return Intl.message("Invalid pin entered",
-      name: 'pin_error', desc: settingsDesc);
+      desc: 'pin_error', name: 'pinInvalid');
   }
 
   /// -- END PIN SCREEN
 
   /// -- SETTINGS ITEMS
-  static const String settingsDesc = 'Uses in settings screens';
-
   String get changeRepButton {
     return Intl.message("Change",
-      name: 'change_representative_change', desc: settingsDesc);
+      desc: 'change_representative_change', name: 'changeRepButton');
   }
 
   String get changeRepAuthenticate {
     return Intl.message("Change Representative",
-      name: 'settings_change_rep', desc: settingsDesc);
+      desc: 'settings_change_rep', name: 'changeRepAuthenticate');
   }
 
   String get currentlyRepresented {
     return Intl.message("Currently Represented By",
-      name: 'change_representative_current_header', desc: settingsDesc);
+      desc: 'change_representative_current_header', name: 'currentlyRepresented');
   }
 
   String get changeRepSucces {
     return Intl.message("Representative Changed Successfully",
-      name: 'change_representative_success', desc: settingsDesc);
+      desc: 'change_representative_success', name: 'changeRepSucces');
   }
 
   String get repInfoHeader {
     return Intl.message("What is a representative?",
-      name: 'change_representative_info_header', desc: settingsDesc);
+      desc: 'change_representative_info_header', name: 'repInfoHeader');
   }
   
   String get repInfo {
     return Intl.message("A representative is an account that votes for network consensus. Voting power is weighted by balance, you may delegate your balance to increase the voting weight of a representative you trust. Your representative does not have spending power over your funds. You should choose a representative that has little downtime and is trustworthy.",
-      name: 'change_representative_info', desc: settingsDesc);
+      desc: 'change_representative_info', name: 'repInfo');
   }
 
   String get pinRepChange {
     return Intl.message("Enter PIN to change representative.",
-      name: 'change_representative_pin', desc: settingsDesc);
+      desc: 'change_representative_pin', name: 'pinRepChange');
   }
 
   String get changeRepHint {
     return Intl.message("Enter New Representative",
-      name: 'change_representative_hint', desc: settingsDesc);
+      desc: 'change_representative_hint', name: 'changeRepHint');
   }
 
   String get authMethod {
     return Intl.message("Authentication Method",
-      name: 'settings_disable_fingerprint', desc: settingsDesc);
+      desc: 'settings_disable_fingerprint', name: 'authMethod');
   }
 
   String get pinMethod {
     return Intl.message("PIN",
-      name: 'settings_pin_method', desc: settingsDesc);
+      desc: 'settings_pin_method', name: 'pinMethod');
   }
 
   String get privacyPolicy {
     return Intl.message("Privacy Policy",
-      name: 'settings_privacy_policy', desc: settingsDesc);
+      desc: 'settings_privacy_policy', name: 'privacyPolicy');
   }
 
   String get biometricsMethod {
     return Intl.message("Biometrics",
-      name: 'settings_fingerprint_method', desc: settingsDesc);
+      desc: 'settings_fingerprint_method', name: 'biometricsMethod');
   }
 
   String get changeCurrency {
     return Intl.message("Change Currency",
-      name: 'settings_local_currency', desc: settingsDesc);
+      desc: 'settings_local_currency', name: 'changeCurrency');
   }
 
   String get language {
     return Intl.message("Language",
-      name: 'settings_change_language', desc: settingsDesc);
+      desc: 'settings_change_language', name: 'language');
   }
 
   String get shareKalium {
     return Intl.message("Share Kalium",
-      name: 'settings_share', desc: settingsDesc);
+      desc: 'settings_share', name: 'shareKalium');
   }
 
   String get shareKaliumText {
     return Intl.message("Check out Kalium! Banano's official mobile wallet!",
-      name: 'share_extra', desc: settingsDesc);
+      desc: 'share_extra', name: 'shareKaliumText');
   }
 
   String get logout {
     return Intl.message("Logout",
-      name: 'settings_logout', desc: settingsDesc);
+      desc: 'settings_logout', name: 'logout');
   }
 
   String get warning {
     return Intl.message("Warning",
-      name: 'settings_logout_alert_title', desc: settingsDesc);
+      desc: 'settings_logout_alert_title', name: 'warning');
   }
 
   String get logoutDetail {
     return Intl.message("Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
-      name: 'settings_logout_alert_message', desc: settingsDesc);
+      desc: 'settings_logout_alert_message', name: 'logoutDetail');
   }
 
   String get logoutAction {
     return Intl.message("Delete Seed and Logout",
-      name: 'settings_logout_alert_confirm_cta', desc: settingsDesc);
+      desc: 'settings_logout_alert_confirm_cta', name: 'logoutAction');
   }
 
   String get logoutAreYouSure {
     return Intl.message("Are you sure?",
-      name: 'settings_logout_warning_title', desc: settingsDesc);
+      desc: 'settings_logout_warning_title', name: 'logoutAreYouSure');
   }
 
   String get logoutReassurance {
     return Intl.message("As long as you've backed up your seed you have nothing to worry about.",
-      name: 'settings_logout_warning_message', desc: settingsDesc);
+      desc: 'settings_logout_warning_message', name: 'logoutReassurance');
   }
 
   String get settingsHeader {
     return Intl.message("Settings",
-      name: 'settings_title', desc: settingsDesc);
+      desc: 'settings_title', name: 'settingsHeader');
   }
 
   String get preferences {
     return Intl.message("Preferences",
-      name: 'settings_preferences_header', desc: settingsDesc);
+      desc: 'settings_preferences_header', name: 'preferences');
   }
 
   String get manage {
     return Intl.message("Manage",
-      name: 'settings_manage_header', desc: settingsDesc);
+      desc: 'settings_manage_header', name: 'manage');
   }
 
   String get backupSeed {
     return Intl.message("Backup Seed",
-      name: 'settings_backup_seed', desc: settingsDesc);
+      desc: 'settings_backup_seed', name: 'backupSeed');
   }
 
   String get fingerprintSeedBackup {
     return Intl.message("Authenticate to backup seed.",
-      name: 'settings_fingerprint_title', desc: settingsDesc);
+      desc: 'settings_fingerprint_title', name: 'fingerprintSeedBackup');
   }
 
   String get pinSeedBackup {
     return Intl.message("Enter PIN to Backup Seed",
-      name: 'settings_pin_title', desc: settingsDesc);
+      desc: 'settings_pin_title', name: 'pinSeedBackup');
   }
 
   String get systemDefault {
     return Intl.message("System Default",
-      name: 'settings_default_language_string', desc: settingsDesc);
+      desc: 'settings_default_language_string', name: 'systemDefault');
   }
 
+  String get notifications {
+    return Intl.message("Notifications",
+      desc: 'notifications_settings', name: 'notifications');
+  }
+
+  String get notificationTitle {
+    return Intl.message("Received %1 BANANO",
+      desc: 'notification_title', name: 'notificationTitle');
+  }
+
+  String get notificationBody {
+    return Intl.message("Open Kalium to view this transaction",
+      desc: 'notification_body', name: 'notificationBody');
+  }
+
+  String get notificationHeaderSupplement {
+    return Intl.message("Tap to open",
+      desc: 'notificaiton_header_suplement', name: 'notificationHeaderSupplement');
+  }
+
+
   /// -- END SETTINGS ITEMS
+
+  /// -- TRANSFER
+  // Settings
+  String get settingsTransfer {
+    return Intl.message("Load from Paper Wallet",
+      desc: 'settings_transfer', name: 'settingsTransfer');
+  }
+
+  String get transferError {
+    return Intl.message("An error has occurred during the transfer. Please try again later.",
+      desc: 'transfer_error', name: 'transferError');
+  }
+
+  String get paperWallet {
+    return Intl.message("Paper Wallet",
+      desc: 'paper_wallet', name: 'paperWallet');
+  }
+
+  String get kaliumWallet {
+    return Intl.message("Kalium Wallet",
+      desc: 'kalium_wallet', name: 'kaliumWallet');
+  }
+
+  String get manualEntry {
+    return Intl.message("Manual Entry",
+      desc: 'transfer_manual_entry', name: 'manualEntry');
+  } 
+
+  String get mnemonicPhrase {
+    return Intl.message("Mnemonic Phrase",
+      desc: 'mnemonic_phrase', name: 'mnemonicPhrase');
+  }  
+
+  String get rawSeed {
+    return Intl.message("Raw Seed",
+      desc: 'raw_seed', name: 'rawSeed');
+  }
+
+  // Initial Screen
+
+  String get transferHeader {
+    return Intl.message("Transfer Funds:",
+      desc: 'transfer_header', name: 'transferHeader');
+  }
+
+  String get transferIntro {
+    return Intl.message("This process will transfer the funds from a paper wallet to your Kalium wallet.\n\nTap the \"%1\" button to start",
+      desc: 'transfer_intro', name: 'transferIntro');
+  }
+
+  String get transferQrScanHint {
+    return Intl.message("Scan a Banano \nseed or private key",
+      desc: 'transfer_qr_scan_hint', name: 'transferQrScanHint');
+  }
+
+  String get transferQrScanError {
+    return Intl.message("This QR code does not contain a valid seed.",
+      desc: 'transfer_qr_scan_error', name: 'transferQrScanError');
+  }
+
+  String get transferNoFunds {
+    return Intl.message("This seed does not have any BANANO on it",
+      desc: 'transfer_no_funds_toast', name: 'transferNoFunds');
+  }
+
+  // Confirm screen
+
+  String get transferConfirmInfo {
+    return Intl.message("A wallet with a balance of %1 BANANO has been detected.",
+      desc: 'transfer_confirm_info_first', name: 'transferConfirmInfo');
+  }
+
+  String get transferConfirmInfoSecond {
+    return Intl.message("Tap confirm to transfer the funds.",
+      desc: 'transfer_confirm_info_second', name: 'transferConfirmInfoSecond');
+  }
+
+  String get transferConfirmInfoThird {
+    return Intl.message("Transfer may take several seconds to complete.",
+      desc: 'transfer_confirm_info_third', name: 'transferConfirmInfoThird');
+  }
+
+  String get transferLoading {
+    return Intl.message("Transferring",
+      desc: 'transfer_loading_text', name: 'transferLoading');
+  }
+
+  // Compelte screen
+
+  String get transferComplete {
+    return Intl.message("%1 BANANO successfully transferred to your Kalium Wallet.",
+      desc: 'transfer_complete_text', name: 'transferComplete');
+  }
+
+  String get transferClose {
+    return Intl.message("Tap anywhere to close the window.",
+      desc: 'transfer_close_text', name: 'transferClose');
+  }
+
+  // -- END TRANSFER ITEMS
+
+  // Scan
+
+  String get scanInstructions {
+    return Intl.message("Scan a Banano \naddress QR code",
+      desc: 'scan_send_instruction_label', name: 'scanInstructions');
+  }
 
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash) {
