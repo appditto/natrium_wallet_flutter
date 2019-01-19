@@ -538,7 +538,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                       KaliumLocalization.of(context).shareKalium,
                       KaliumIcons.share, onPressed: () {
                     Share.share(KaliumLocalization.of(context).shareKaliumText +
-                        "https://kalium.banano.cc");
+                        " https://kalium.banano.cc");
                   }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
