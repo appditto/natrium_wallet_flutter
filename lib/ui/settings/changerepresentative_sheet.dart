@@ -40,6 +40,7 @@ class KaliumChangeRepresentativeSheet {
   }
 
   mainBottomSheet(BuildContext context) {
+    _changeRepHint = KaliumLocalization.of(context).changeRepHint;
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
