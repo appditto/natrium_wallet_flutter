@@ -28,8 +28,7 @@ class KaliumChangeRepresentativeSheet {
   FocusNode _repFocusNode;
   TextEditingController _repController;
 
-  static const String _changeRepHintText = "Enter Representative";
-  String _changeRepHint = _changeRepHintText;
+  String _changeRepHint = "";
   TextStyle _repAddressStyle;
   bool _showPasteButton = true;
   bool _addressValidAndUnfocused = false;
@@ -57,7 +56,7 @@ class KaliumChangeRepresentativeSheet {
                           TextPosition(offset: _repController.text.length));
               } else {
                 setState(() {
-                  _changeRepHint = _changeRepHintText;
+                  _changeRepHint = KaliumLocalization.of(context).changeRepHint;
                   if (Address(_repController.text).isValid()) {
                     _addressValidAndUnfocused = true;
                   }
@@ -146,7 +145,7 @@ class KaliumChangeRepresentativeSheet {
                                     right: MediaQuery.of(context).size.width *
                                         0.105),
                                 child: Text(
-                                  "Currently Representative By",
+                                  KaliumLocalization.of(context).currentlyRepresented,
                                   style: KaliumStyles.TextStyleParagraph,
                                 )),
                             Container(

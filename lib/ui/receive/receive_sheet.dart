@@ -18,8 +18,6 @@ import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/ui/receive/share_card.dart';
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
-import 'package:qr/qr.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class KaliumReceiveSheet {
@@ -32,7 +30,9 @@ class KaliumReceiveSheet {
   Widget shareCardLogoSvg;
   Widget shareCardTickerSvg;
 
-  KaliumReceiveSheet() {
+  Widget qrCode;
+
+  KaliumReceiveSheet(Widget qrWidget) {
     // Create our SVG-heavy things in the constructor because they are slower operations
     monkeySVGBorder = SvgPicture.asset('assets/monkeyQR.svg');
     shareCardLogoSvg = SvgPicture.asset('assets/sharecard_bananologo.svg');
@@ -42,6 +42,7 @@ class KaliumReceiveSheet {
       child: KaliumShareCard(shareCardKey, monkeySVGBorder, shareCardLogoSvg),
       alignment: Alignment(0.0, 0.0),
     );
+    qrCode = qrWidget;
   }
 
   // Address copied items
@@ -140,13 +141,7 @@ class KaliumReceiveSheet {
                         Center(
                           child: Container(
                             margin: EdgeInsets.only(top: devicewidth / 6),
-                            child: QrImage(
-                              padding: EdgeInsets.all(0.0),
-                              size: devicewidth / 3.13,
-                              data: _wallet.address,
-                              version: 6,
-                              errorCorrectionLevel: QrErrorCorrectLevel.Q,
-                            ),
+                            child: qrCode,
                           ),
                         ),
                       ],
