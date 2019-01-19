@@ -53,11 +53,6 @@ class _PinScreenState extends State<PinScreen> {
     // Initialize list all empty
     _dotStates = List.filled(6, KaliumIcons.dotemtpy);
     _awaitingConfirmation = false;
-    if (type == PinOverlayType.ENTER_PIN) {
-      _header = _enterPinExisting;
-    } else {
-      _header = _enterPin;
-    }
     _pin = "";
     _pinConfirmed = "";
   }
@@ -179,6 +174,12 @@ class _PinScreenState extends State<PinScreen> {
     _noMatch = KaliumLocalization.of(context).pinConfirmError;
     _enterPinExisting = KaliumLocalization.of(context).pinEnterTitle;
     _invalidPin =  KaliumLocalization.of(context).pinInvalid;
+
+    if (type == PinOverlayType.ENTER_PIN) {
+      _header = _enterPinExisting;
+    } else {
+      _header = _enterPin;
+    }
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
