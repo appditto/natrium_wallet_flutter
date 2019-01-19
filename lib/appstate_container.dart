@@ -203,13 +203,13 @@ class StateContainerState extends State<StateContainer> {
     if (wallet == null) {
       setState(() {
         wallet = new KaliumWallet(address: address, loading: true);
+        requestUpdate();
       });
-      requestUpdate(address: address);
     } else {
       setState(() {
         wallet.address = address;
+        requestUpdate();
       });
-      requestUpdate(address: address);
     }
   }
 
@@ -394,11 +394,8 @@ class StateContainerState extends State<StateContainer> {
     }
   }
 
-  void requestUpdate({String address}) {
+  void requestUpdate() {
     if (wallet != null && wallet.address != null) {
-        if (address != null) {
-          wallet.address = address;
-        }
         SharedPrefsUtil.inst.getUuid().then((result) {
         AccountService.clearQueue();
         pendingBlockMap.clear();
