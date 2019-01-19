@@ -183,11 +183,15 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         Navigator.of(context).popUntil(ModalRoute.withName('/home'));
         if (amount != null) {
           // Go to send confirm with amount
-          KaliumSendConfirmSheet(NumberUtil.getRawAsUsableString(amount).replaceAll(",",""),
-                                result.sendDestination, contactName: contactName).mainBottomSheet(context);
+          KaliumSendConfirmSheet(
+                  NumberUtil.getRawAsUsableString(amount).replaceAll(",", ""),
+                  result.sendDestination,
+                  contactName: contactName)
+              .mainBottomSheet(context);
         } else {
           // Go to send with address
-          KaliumSendSheet(contact: contact, address: result.sendDestination).mainBottomSheet(context);
+          KaliumSendSheet(contact: contact, address: result.sendDestination)
+              .mainBottomSheet(context);
         }
       });
     });
@@ -231,7 +235,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Used to build list items that haven't been removed.
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
-    String displayName = smallScreen(context)?_historyList[index].getShorterString():_historyList[index].getShortString();
+    String displayName = smallScreen(context)
+        ? _historyList[index].getShorterString()
+        : _historyList[index].getShortString();
     _contacts.forEach((contact) {
       if (contact.address == _historyList[index].account) {
         displayName = contact.name;
@@ -245,15 +251,26 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   Widget _getListWidget(BuildContext context) {
     if (StateContainer.of(context).wallet.historyLoading) {
       // Loading Animation
-      return Center(
-        child: Container(
-          margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
-          //Widgth/Height ratio is needed because BoxFit is not working as expected
-          width: double.infinity,
-          height: MediaQuery.of(context).size.width,
-          child: FlareActor("assets/loading_animation.flr",
-              animation: "main", fit: BoxFit.contain),
-        ),
+      return ListView(
+        padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
+        children: <Widget>[
+          _buildLoadingTransactionCard(
+              "Sent", "10244000", "123456789121234", context),
+          _buildLoadingTransactionCard(
+              "Received", "100,00000", "@bbedwards1234", context),
+          _buildLoadingTransactionCard(
+              "Sent", "14500000", "12345678912345671234", context),
+          _buildLoadingTransactionCard(
+              "Sent", "12,51200", "123456789121234", context),
+          _buildLoadingTransactionCard(
+              "Received", "1,45300", "123456789121234", context),
+          _buildLoadingTransactionCard(
+              "Sent", "100,00000", "12345678912345671234", context),
+          _buildLoadingTransactionCard(
+              "Received", "24,00000", "12345678912345671234", context),
+          _buildLoadingTransactionCard(
+              "Sent", "1,00000", "123456789121234", context),
+        ],
       );
     } else if (StateContainer.of(context).wallet.history.length == 0) {
       return RefreshIndicator(
@@ -321,7 +338,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   @override
   Widget build(BuildContext context) {
-    if (receive == null ){
+    if (receive == null) {
       QrPainter painter = QrPainter(
         data: StateContainer.of(context).wallet.address,
         version: 6,
@@ -329,7 +346,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       );
       painter.toImageData(MediaQuery.of(context).size.width).then((byteData) {
         setState(() {
-          receive = KaliumReceiveSheet(Container(width: MediaQuery.of(context).size.width / 3.13, child: Image.memory(byteData.buffer.asUint8List())));
+          receive = KaliumReceiveSheet(Container(
+              width: MediaQuery.of(context).size.width / 3.13,
+              child: Image.memory(byteData.buffer.asUint8List())));
         });
       });
     }
@@ -364,8 +383,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       });
     }
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+        statusBarIconBrightness: Brightness.light,
+        statusBarColor: Colors.transparent));
     return KaliumScaffold(
       key: _scaffoldKey,
       backgroundColor: KaliumColors.background,
@@ -458,20 +478,26 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),
-                      color: receive != null ? KaliumColors.primary : KaliumColors.primary60,
+                      color: receive != null
+                          ? KaliumColors.primary
+                          : KaliumColors.primary60,
                       child: Text(KaliumLocalization.of(context).receive,
                           textAlign: TextAlign.center,
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
-                      onPressed: () { 
-                        if (receive == null ){
+                      onPressed: () {
+                        if (receive == null) {
                           return;
                         }
                         receive.mainBottomSheet(context);
                       },
-                      highlightColor: receive != null ? KaliumColors.background40 : Colors.transparent,
-                      splashColor: receive != null ? KaliumColors.background40 : Colors.transparent,
+                      highlightColor: receive != null
+                          ? KaliumColors.background40
+                          : Colors.transparent,
+                      splashColor: receive != null
+                          ? KaliumColors.background40
+                          : Colors.transparent,
                     ),
                   ),
                 ),
@@ -566,7 +592,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                           margin: EdgeInsets.only(right: 16.0),
                           child: Icon(icon, color: iconColor, size: 20)),
                       Container(
-                        width: MediaQuery.of(context).size.width/4,
+                        width: MediaQuery.of(context).size.width / 4,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -587,7 +613,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                                   ),
                                   TextSpan(
                                     text: " BAN",
-                                    style: KaliumStyles.TextStyleTransactionUnit,
+                                    style:
+                                        KaliumStyles.TextStyleTransactionUnit,
                                   ),
                                 ],
                               ),
@@ -598,7 +625,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     ],
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width/2.4,
+                    width: MediaQuery.of(context).size.width / 2.4,
                     child: Text(
                       displayName,
                       textAlign: TextAlign.right,
@@ -658,7 +685,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                         margin: EdgeInsets.only(right: 16.0),
                         child: Icon(icon, color: iconColor, size: 20)),
                     Container(
-                      width: MediaQuery.of(context).size.width/4,
+                      width: MediaQuery.of(context).size.width / 4,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -674,7 +701,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                               children: [
                                 TextSpan(
                                   text: amount,
-                                  style: KaliumStyles.TextStyleTransactionAmount,
+                                  style:
+                                      KaliumStyles.TextStyleTransactionAmount,
                                 ),
                                 TextSpan(
                                   text: " BAN",
@@ -689,7 +717,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                   ],
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width/2.4,
+                  width: MediaQuery.of(context).size.width / 2.4,
                   child: Text(
                     address,
                     textAlign: TextAlign.right,
@@ -766,6 +794,176 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     );
   } // Welcome Card End
 
+  // Dummy Transaction Card
+  Widget _buildLoadingTransactionCard(
+      String type, String amount, String address, BuildContext context) {
+    String text;
+    IconData icon;
+    Color iconColor;
+    if (type == "Sent") {
+      text = "Senttt";
+      icon = KaliumIcons.dotfilled;
+      iconColor = KaliumColors.text20;
+    } else {
+      text = "Receiveddd";
+      icon = KaliumIcons.dotfilled;
+      iconColor = KaliumColors.primary20;
+    }
+    return Container(
+      margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+      decoration: BoxDecoration(
+        color: KaliumColors.backgroundDark,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: FlatButton(
+        onPressed: () {
+          return null;
+        },
+        highlightColor: KaliumColors.text15,
+        splashColor: KaliumColors.text15,
+        color: KaliumColors.backgroundDark,
+        padding: EdgeInsets.all(0.0),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        child: Center(
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    // Transaction Icon
+                    Container(
+                        margin: EdgeInsets.only(right: 16.0),
+                        child: Icon(icon, color: iconColor, size: 20)),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          // Transaction Type Text
+                          Container(
+                            child: Stack(
+                              alignment: AlignmentDirectional(-1, 0),
+                              children: <Widget>[
+                                Text(
+                                  text,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: "NunitoSans",
+                                    fontSize: KaliumFontSizes.small,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.transparent,
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: KaliumColors.text45,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: Text(
+                                    text,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontFamily: "NunitoSans",
+                                      fontSize: KaliumFontSizes.small - 4,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.transparent,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Amount Text
+                          Container(
+                            child: Stack(
+                              alignment: AlignmentDirectional(-1, 0),
+                              children: <Widget>[
+                                Text(
+                                  amount,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontFamily: "NunitoSans",
+                                      color: Colors.transparent,
+                                      fontSize: KaliumFontSizes.smallest,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: KaliumColors.primary20,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: Text(
+                                    amount,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontFamily: "NunitoSans",
+                                        color: Colors.transparent,
+                                        fontSize: KaliumFontSizes.smallest - 3,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                // Address Text
+                Container(
+                  width: MediaQuery.of(context).size.width / 2.4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        child: Stack(
+                          alignment: AlignmentDirectional(1, 0),
+                          children: <Widget>[
+                            Text(
+                              address,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: KaliumFontSizes.smallest,
+                                fontFamily: 'OverpassMono',
+                                fontWeight: FontWeight.w100,
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: KaliumColors.text20,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: Text(
+                                address,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: KaliumFontSizes.smallest - 3,
+                                  fontFamily: 'OverpassMono',
+                                  fontWeight: FontWeight.w100,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  } //Dummy Transaction Card End
+
   //Main Card
   Widget _buildMainCard(BuildContext context, _scaffoldKey) {
     return Container(
@@ -809,24 +1007,19 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             width: 90.0,
             height: 90.0,
             child: FlatButton(
-                child: _monkeyOverlayOpen ? SizedBox() : 
-                  Stack(
-                    children: <Widget> [
-                      Container(
-                        width: 80,
-                        height: 80,
-                        child: _largeMonKey
-                      ),
-                      Center(
-                        child: Container(
-                          width: 90,
-                          height: 90,
-                          color: KaliumColors.backgroundDark,
+                child: _monkeyOverlayOpen
+                    ? SizedBox()
+                    : Stack(children: <Widget>[
+                        Container(width: 80, height: 80, child: _largeMonKey),
+                        Center(
+                          child: Container(
+                            width: 90,
+                            height: 90,
+                            color: KaliumColors.backgroundDark,
+                          ),
                         ),
-                      ),
-                      _monKey
-                    ]
-                  ),
+                        _monKey
+                      ]),
                 padding: EdgeInsets.all(0.0),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0)),
@@ -848,9 +1041,113 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Get balance display
   Widget _getBalanceWidget(BuildContext context) {
     if (StateContainer.of(context).wallet.loading) {
-      return Container(
-          child: Icon(KaliumIcons.bananologo,
-              color: KaliumColors.primary, size: 40));
+      // Placeholder for balance text
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            child: Stack(
+              alignment: AlignmentDirectional(0, 0),
+              children: <Widget>[
+                Text(
+                  "1234567",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: "NunitoSans",
+                      fontSize: KaliumFontSizes.small,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.transparent),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: KaliumColors.text20,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Text(
+                    "1234567",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: "NunitoSans",
+                        fontSize: KaliumFontSizes.small - 3,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.transparent),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width - 225),
+            child: Stack(
+              alignment: AlignmentDirectional(0, 0),
+              children: <Widget>[
+                AutoSizeText(
+                  "1234567",
+                  style: TextStyle(
+                      fontFamily: "NunitoSans",
+                      fontSize: KaliumFontSizes.largestc,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.transparent),
+                  maxLines: 1,
+                  stepGranularity: 0.1,
+                  minFontSize: 1,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: KaliumColors.primary60,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: AutoSizeText(
+                    "1234567",
+                    style: TextStyle(
+                        fontFamily: "NunitoSans",
+                        fontSize: KaliumFontSizes.largestc - 8,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.transparent),
+                    maxLines: 1,
+                    stepGranularity: 0.1,
+                    minFontSize: 1,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Stack(
+              alignment: AlignmentDirectional(0, 0),
+              children: <Widget>[
+                Text(
+                  "1234567",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: "NunitoSans",
+                      fontSize: KaliumFontSizes.small,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.transparent),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: KaliumColors.text20,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: Text(
+                    "1234567",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: "NunitoSans",
+                        fontSize: KaliumFontSizes.small - 3,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.transparent),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
     }
     return GestureDetector(
       onTap: () {
@@ -1190,10 +1487,7 @@ class MonkeyOverlay extends ModalRoute<void> {
       ).animate(animation),
       child: ScaleTransition(
         scale: animation,
-        child: FadeTransition(
-          opacity: animation,
-          child: child
-        ),
+        child: FadeTransition(opacity: animation, child: child),
       ),
     );
   }

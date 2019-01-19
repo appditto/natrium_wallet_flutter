@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class KaliumColors {
   static const yellow = Color(0xFFFBDD11);
   static const yellow15 = Color(0x26FBDD11);
+  static const yellow20 = Color(0x33FBDD11);
   static const yellow30 = Color(0x4DFBDD11);
+  static const yellow45 = Color(0x73FBDD11);
   static const yellow60 = Color(0x99FBDD11);
   static const yellowLight = Color(0xFFFFF940);
 
@@ -25,7 +27,9 @@ class KaliumColors {
 
   static const white90 = Color(0xE6FFFFFF);
   static const white60 = Color(0x99FFFFFF);
+  static const white45 = Color(0x73FFFFFF);
   static const white30 = Color(0x4DFFFFFF);
+  static const white20 = Color(0x33FFFFFF);
   static const white15 = Color(0x26FFFFFF);
   static const white03 = Color(0x08FFFFFF);
 
@@ -37,7 +41,9 @@ class KaliumColors {
 
   static const primary = yellow;
   static const primary60 = yellow60;
+  static const primary45 = yellow45;
   static const primary30 = yellow30;
+  static const primary20 = yellow20;
   static const primary15 = yellow15;
 
   static const success = green;
@@ -58,7 +64,9 @@ class KaliumColors {
 
   static const text = white90;
   static const text60 = white60;
+  static const text45 = white45;
   static const text30 = white30;
+  static const text20 = white20;
   static const text15 = white15;
   static const text03 = white03;
 

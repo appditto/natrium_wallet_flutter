@@ -248,6 +248,7 @@ class KaliumFontSizes {
   static const _large = 20.0;
   static const larger = 24.0;
   static const _largest = 28.0;
+  static const largestc = 28.0;
   static const _sslarge = 18.0;
   static const _sslargest = 22.0;
   static double largest(context) {
