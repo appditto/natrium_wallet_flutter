@@ -182,7 +182,7 @@ class _PinScreenState extends State<PinScreen> {
     }
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light));
+        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
 
     return Scaffold(
         body: Container(

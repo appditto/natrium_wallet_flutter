@@ -21,7 +21,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light));
+        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
 
     return new Scaffold(
       key: _scaffoldKey,

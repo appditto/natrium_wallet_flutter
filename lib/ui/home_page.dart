@@ -365,7 +365,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     }
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light));
+        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
     return KaliumScaffold(
       key: _scaffoldKey,
       backgroundColor: KaliumColors.background,

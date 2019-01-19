@@ -35,7 +35,7 @@ class KaliumApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light));
+        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Kalium',
@@ -151,7 +151,7 @@ class SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light));
+        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
     // This seems to be the earliest place we can retrieve the device Locale
     StateContainer.of(context).deviceLocale = Localizations.localeOf(context);
     SharedPrefsUtil.inst.getCurrency(StateContainer.of(context).deviceLocale).then((currency) {

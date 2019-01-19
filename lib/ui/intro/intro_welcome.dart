@@ -18,7 +18,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light));
+        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: KaliumColors.background,
