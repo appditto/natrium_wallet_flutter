@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 
@@ -33,11 +34,11 @@ class _PinScreenState extends State<PinScreen> {
   String description;
 
   // Constants
-  static const String _enterPin = "Enter a new 6-digit PIN";
-  static const String _confirmPin = "Re-enter PIN";
-  static const String _noMatch = "Pins do not match";
-  static const String _enterPinExisting = "Enter 6-digit PIN";
-  static const String _invalidPin = "Invalid PIN";
+  String _enterPin;
+  String _confirmPin;
+  String _noMatch;
+  String _enterPinExisting;
+  String _invalidPin;
 
   // Stateful data
   List<IconData> _dotStates;
@@ -172,6 +173,13 @@ class _PinScreenState extends State<PinScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Set strings
+    _enterPin = KaliumLocalization.of(context).pinCreateTitle;
+    _confirmPin =  KaliumLocalization.of(context).pinConfirmTitle;
+    _noMatch = KaliumLocalization.of(context).pinConfirmError;
+    _enterPinExisting = KaliumLocalization.of(context).pinEnterTitle;
+    _invalidPin =  KaliumLocalization.of(context).pinInvalid;
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light));
 
