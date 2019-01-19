@@ -80,7 +80,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
   AnimationLoadingOverlay(this.type);
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: 100);
+  Duration get transitionDuration => Duration(milliseconds: 0);
 
   @override
   bool get opaque => false;
@@ -142,12 +142,6 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
   @override
   Widget buildTransitions(
       BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
-    return FadeTransition(
-      opacity: animation,
-      child: ScaleTransition(
-        scale: animation,
-        child: child,
-      ),
-    );
+    return child;
   }
 }
