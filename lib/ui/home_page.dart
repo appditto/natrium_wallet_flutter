@@ -32,6 +32,8 @@ import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 import 'package:kalium_wallet_flutter/util/fileutil.dart';
+import 'package:qr/qr.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 
 class KaliumHomePage extends StatefulWidget {
@@ -43,8 +45,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     with WidgetsBindingObserver {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   var _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
-
-  KaliumReceiveSheet receive = new KaliumReceiveSheet();
 
   // A separate unfortunate instance of this list, is a little unfortunate
   // but seems the only way to handle the animations
@@ -455,7 +455,18 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                           style: KaliumStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
-                      onPressed: () => receive.mainBottomSheet(context),
+                      onPressed: () { 
+                        QrPainter painter = QrPainter(
+                          data: StateContainer.of(context).wallet.address,
+                          version: 6,
+                          errorCorrectionLevel: QrErrorCorrectLevel.Q,
+                        );
+                        painter.toImageData(MediaQuery.of(context).size.width).then((byteData) {
+                          setState(() {
+                            KaliumReceiveSheet(Container(width: MediaQuery.of(context).size.width / 3.13, child: Image.memory(byteData.buffer.asUint8List()))).mainBottomSheet(context);
+                          });
+                        });
+                      },
                       highlightColor: KaliumColors.background40,
                       splashColor: KaliumColors.background40,
                     ),
