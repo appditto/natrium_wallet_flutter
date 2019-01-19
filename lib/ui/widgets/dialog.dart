@@ -115,7 +115,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
     switch (type) {
       case AnimationType.SEND:
         return FlareActor("assets/send_animation.flr",
-                animation: "main",
+                animation: "long",
                 fit: BoxFit.contain);
       case AnimationType.GENERIC:
       default:
