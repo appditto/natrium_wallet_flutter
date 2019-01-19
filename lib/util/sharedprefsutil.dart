@@ -123,17 +123,17 @@ class SharedPrefsUtil {
   }
 
   Future<String> getRepresentative() async {
-    return get(user_representative, defaultValue: KaliumWallet.defaultRepresentative);
+    return await get(user_representative, defaultValue: KaliumWallet.defaultRepresentative);
   }
 
   // For logging out
   Future<void> deleteAll() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove(seed_backed_up_key);
-    prefs.remove(app_uuid_key);
-    prefs.remove(price_conversion);
-    prefs.remove(user_representative);
-    prefs.remove(cur_currency);
-    prefs.remove(auth_method);
+    await prefs.remove(seed_backed_up_key);
+    await prefs.remove(app_uuid_key);
+    await prefs.remove(price_conversion);
+    await prefs.remove(user_representative);
+    await prefs.remove(cur_currency);
+    await prefs.remove(auth_method);
   }
 }

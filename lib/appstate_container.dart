@@ -200,17 +200,10 @@ class StateContainerState extends State<StateContainer> {
   // Widgets in the app that rely on the state you've changed.
   void updateWallet({address}) {
     _registerBus();
-    if (wallet == null) {
-      setState(() {
-        wallet = new KaliumWallet(address: address, loading: true);
-        requestUpdate();
-      });
-    } else {
-      setState(() {
-        wallet.address = address;
-        requestUpdate();
-      });
-    }
+    setState(() {
+      wallet = new KaliumWallet(address: address, loading: true);
+      requestUpdate();
+    });
   }
 
   ///
@@ -395,8 +388,8 @@ class StateContainerState extends State<StateContainer> {
   }
 
   void requestUpdate() {
-    if (wallet != null && wallet.address != null) {
-        SharedPrefsUtil.inst.getUuid().then((result) {
+    if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
+      SharedPrefsUtil.inst.getUuid().then((result) {
         AccountService.clearQueue();
         pendingBlockMap.clear();
         pendingResponseBlockMap.clear();
@@ -409,7 +402,7 @@ class StateContainerState extends State<StateContainer> {
   }
 
   void requestSubscribe() {
-    if (wallet != null && wallet.address != null) {
+    if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
       SharedPrefsUtil.inst.getUuid().then((result) {
         AccountService.removeSubscribeHistoryPendingFromQueue();
         AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
