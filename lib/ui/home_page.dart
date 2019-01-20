@@ -42,10 +42,12 @@ class KaliumHomePage extends StatefulWidget {
 }
 
 class _KaliumHomePageState extends State<KaliumHomePage>
-    with WidgetsBindingObserver {
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   var _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
 
+  // Controller for placeholder card animations
+  AnimationController _placeholderCardAnimationController;
   KaliumReceiveSheet receive;
 
   // A separate unfortunate instance of this list, is a little unfortunate
@@ -79,6 +81,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     _addSampleContact();
     _updateContacts();
     _monkeyDownloadTriggered = false;
+    _placeholderCardAnimationController = new AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _placeholderCardAnimationController.addListener(() {
+      setState(() {});
+    });
+    _placeholderCardAnimationController.forward();
   }
 
   /// Add donations contact if it hasnt already been added
@@ -201,6 +211,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   void dispose() {
     _destroyBus();
     WidgetsBinding.instance.removeObserver(this);
+    _placeholderCardAnimationController.dispose();
     super.dispose();
   }
 
@@ -334,6 +345,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         });
       }
     });
+    _placeholderCardAnimationController.dispose();
   }
 
   @override
@@ -800,6 +812,20 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     String text;
     IconData icon;
     Color iconColor;
+    Animation<double> _opacityAnimation = new Tween(begin: 0.4, end: 1.0)
+        .animate(_placeholderCardAnimationController);
+    _opacityAnimation.addStatusListener((AnimationStatus status) {
+      switch (status) {
+        case AnimationStatus.dismissed:
+          _placeholderCardAnimationController.forward();
+          break;
+        case AnimationStatus.completed:
+          _placeholderCardAnimationController.reverse();
+          break;
+        default:
+          return null;
+      }
+    });
     if (type == "Sent") {
       text = "Senttt";
       icon = KaliumIcons.dotfilled;
@@ -835,9 +861,12 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                 Row(
                   children: <Widget>[
                     // Transaction Icon
-                    Container(
-                        margin: EdgeInsets.only(right: 16.0),
-                        child: Icon(icon, color: iconColor, size: 20)),
+                    Opacity(
+                      opacity: _opacityAnimation.value,
+                      child: Container(
+                          margin: EdgeInsets.only(right: 16.0),
+                          child: Icon(icon, color: iconColor, size: 20)),
+                    ),
                     Container(
                       width: MediaQuery.of(context).size.width / 4,
                       child: Column(
@@ -858,19 +887,22 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                                     color: Colors.transparent,
                                   ),
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: KaliumColors.text45,
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                  child: Text(
-                                    text,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: "NunitoSans",
-                                      fontSize: KaliumFontSizes.small - 4,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.transparent,
+                                Opacity(
+                                  opacity: _opacityAnimation.value,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: KaliumColors.text45,
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                    child: Text(
+                                      text,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        fontFamily: "NunitoSans",
+                                        fontSize: KaliumFontSizes.small - 4,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.transparent,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -891,19 +923,23 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                                       fontSize: KaliumFontSizes.smallest,
                                       fontWeight: FontWeight.w600),
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: KaliumColors.primary20,
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                  child: Text(
-                                    amount,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        fontFamily: "NunitoSans",
-                                        color: Colors.transparent,
-                                        fontSize: KaliumFontSizes.smallest - 3,
-                                        fontWeight: FontWeight.w600),
+                                Opacity(
+                                  opacity: _opacityAnimation.value,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: KaliumColors.primary20,
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                    child: Text(
+                                      amount,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontFamily: "NunitoSans",
+                                          color: Colors.transparent,
+                                          fontSize:
+                                              KaliumFontSizes.smallest - 3,
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -934,19 +970,22 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                                 color: Colors.transparent,
                               ),
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: KaliumColors.text20,
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: Text(
-                                address,
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontSize: KaliumFontSizes.smallest - 3,
-                                  fontFamily: 'OverpassMono',
-                                  fontWeight: FontWeight.w100,
-                                  color: Colors.transparent,
+                            Opacity(
+                              opacity: _opacityAnimation.value,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: KaliumColors.text20,
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: Text(
+                                  address,
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                    fontSize: KaliumFontSizes.smallest - 3,
+                                    fontFamily: 'OverpassMono',
+                                    fontWeight: FontWeight.w100,
+                                    color: Colors.transparent,
+                                  ),
                                 ),
                               ),
                             ),
@@ -1041,6 +1080,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Get balance display
   Widget _getBalanceWidget(BuildContext context) {
     if (StateContainer.of(context).wallet.loading) {
+      Animation<double> _opacityAnimation = new Tween(begin: 0.4, end: 1.0)
+          .animate(_placeholderCardAnimationController);
       // Placeholder for balance text
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -1060,19 +1101,22 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       fontWeight: FontWeight.w600,
                       color: Colors.transparent),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: KaliumColors.text20,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Text(
-                    "1234567",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: "NunitoSans",
-                        fontSize: KaliumFontSizes.small - 3,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.transparent),
+                Opacity(
+                  opacity: _opacityAnimation.value,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: KaliumColors.text20,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Text(
+                      "1234567",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: "NunitoSans",
+                          fontSize: KaliumFontSizes.small - 3,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.transparent),
+                    ),
                   ),
                 ),
               ],
@@ -1095,21 +1139,24 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                   stepGranularity: 0.1,
                   minFontSize: 1,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: KaliumColors.primary60,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: AutoSizeText(
-                    "1234567",
-                    style: TextStyle(
-                        fontFamily: "NunitoSans",
-                        fontSize: KaliumFontSizes.largestc - 8,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.transparent),
-                    maxLines: 1,
-                    stepGranularity: 0.1,
-                    minFontSize: 1,
+                Opacity(
+                  opacity: _opacityAnimation.value,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: KaliumColors.primary60,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: AutoSizeText(
+                      "1234567",
+                      style: TextStyle(
+                          fontFamily: "NunitoSans",
+                          fontSize: KaliumFontSizes.largestc - 8,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.transparent),
+                      maxLines: 1,
+                      stepGranularity: 0.1,
+                      minFontSize: 1,
+                    ),
                   ),
                 ),
               ],
@@ -1128,19 +1175,22 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       fontWeight: FontWeight.w600,
                       color: Colors.transparent),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: KaliumColors.text20,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Text(
-                    "1234567",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: "NunitoSans",
-                        fontSize: KaliumFontSizes.small - 3,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.transparent),
+                Opacity(
+                  opacity: _opacityAnimation.value,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: KaliumColors.text20,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Text(
+                      "1234567",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: "NunitoSans",
+                          fontSize: KaliumFontSizes.small - 3,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.transparent),
+                    ),
                   ),
                 ),
               ],
