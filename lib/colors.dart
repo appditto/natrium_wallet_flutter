@@ -7,7 +7,6 @@ class KaliumColors {
   static const yellow30 = Color(0x4DFBDD11);
   static const yellow45 = Color(0x73FBDD11);
   static const yellow60 = Color(0x99FBDD11);
-  static const yellowLight = Color(0xFFFFF940);
 
   static const green = Color(0xFF4CBF4B);
   static const green60 = Color(0x994CBF4B);

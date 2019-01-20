@@ -74,7 +74,7 @@ class _KaliumHeightNineSheetLayout extends SingleChildLayoutDelegate {
           maxWidth: constraints.maxWidth,
           minHeight: 0.0,
           maxHeight: constraints.maxHeight * 0.95); 
-    if (constraints.maxHeight/constraints.maxWidth > 2.1  && Platform.isAndroid)
+    if ((constraints.maxHeight/constraints.maxWidth > 2.1  && Platform.isAndroid) || constraints.maxHeight>812)
       return BoxConstraints(
           minWidth: constraints.maxWidth,
           maxWidth: constraints.maxWidth,

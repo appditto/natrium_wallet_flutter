@@ -13,7 +13,8 @@ class KaliumSendCompleteSheet {
   String _destination;
   String _contactName;
 
-  KaliumSendCompleteSheet(String amount, String destinaton, String contactName) {
+  KaliumSendCompleteSheet(
+      String amount, String destinaton, String contactName) {
     _amount = amount;
     _destination = destinaton;
     _contactName = contactName;
@@ -31,25 +32,23 @@ class KaliumSendCompleteSheet {
             // The main column that holds everything
             return Column(
               children: <Widget>[
-                // Success tick (icon)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(top:50),
-                      child: Icon(KaliumIcons.success, size: 100, color: KaliumColors.success),
-                    ),
-                  ],
-                ),
                 //A main container that holds the amount, address and "SENT TO" texts
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      // Success tick (icon)
+                      Container(
+                        alignment: Alignment(0, 0),
+                        margin: EdgeInsets.only(bottom: 25),
+                        child: Icon(KaliumIcons.success,
+                            size: 100, color: KaliumColors.success),
+                      ),
                       // Container for the Amount Text
                       Container(
-                        margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
+                        margin: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.105,
+                            right: MediaQuery.of(context).size.width * 0.105),
                         padding:
                             EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                         width: double.infinity,
@@ -92,7 +91,9 @@ class KaliumSendCompleteSheet {
                           children: <Widget>[
                             // "SENT TO" text
                             Text(
-                              KaliumLocalization.of(context).sentTo.toUpperCase(),
+                              KaliumLocalization.of(context)
+                                  .sentTo
+                                  .toUpperCase(),
                               style: TextStyle(
                                 fontSize: 28.0,
                                 fontWeight: FontWeight.w700,
@@ -107,13 +108,17 @@ class KaliumSendCompleteSheet {
                       Container(
                           padding: EdgeInsets.symmetric(
                               horizontal: 25.0, vertical: 15.0),
-                          margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
+                          margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.105,
+                              right: MediaQuery.of(context).size.width * 0.105),
                           width: double.infinity,
                           decoration: BoxDecoration(
                             color: KaliumColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: UIUtil.threeLineAddressText(_destination, type: ThreeLineAddressTextType.SUCCESS, contactName: _contactName)),
+                          child: UIUtil.threeLineAddressText(_destination,
+                              type: ThreeLineAddressTextType.SUCCESS,
+                              contactName: _contactName)),
                     ],
                   ),
                 ),
@@ -126,7 +131,9 @@ class KaliumSendCompleteSheet {
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.SUCCESS_OUTLINE,
-                              KaliumLocalization.of(context).close.toUpperCase(),
+                              KaliumLocalization.of(context)
+                                  .close
+                                  .toUpperCase(),
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.of(context).pop();
                           }),

@@ -42,37 +42,6 @@ class KaliumSendConfirmSheet {
             // The main column that holds everything
             return Column(
               children: <Widget>[
-                // A row with close button
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    // Close Button
-                    Container(
-                      width: 50,
-                      height: 50,
-                      margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(KaliumIcons.close,
-                            size: 16, color: KaliumColors.text),
-                        padding: EdgeInsets.all(17.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100.0)),
-                        materialTapTargetSize: MaterialTapTargetSize.padded,
-                      ),
-                    ),
-
-                    //This container is a temporary solution for the alignment problem
-                    SizedBox(
-                      width: 60,
-                      height: 60,
-                    ),
-                  ],
-                ),
-
                 //The main widget that holds the text fields, "SENDING" and "TO" texts
                 Expanded(
                   child: Column(

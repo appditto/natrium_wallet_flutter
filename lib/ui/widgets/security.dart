@@ -21,12 +21,7 @@ class PinScreen extends StatefulWidget {
 }
 
 class _PinScreenState extends State<PinScreen> {
-  _PinScreenState(this.type, this.expectedPin, this.description, this.successCallback) {
-    if (this.type == PinOverlayType.ENTER_PIN) {
-      assert(this.expectedPin == null || this.expectedPin.length != 6,
-            "In ENTER_PIN mode, but expectedPin is not a string of length 6");
-    }
-  }
+  _PinScreenState(this.type, this.expectedPin, this.description, this.successCallback);
 
   PinOverlayType type;
   String expectedPin;
