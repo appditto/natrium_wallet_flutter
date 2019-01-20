@@ -813,7 +813,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     IconData icon;
     Color iconColor;
     Animation<double> _opacityAnimation =
-        new Tween(begin: 0.4, end: 1.0).animate(
+        new Tween(begin: 1.0, end: 0.4).animate(
       CurvedAnimation(
         parent: _placeholderCardAnimationController,
         curve: Curves.easeIn,
@@ -1087,7 +1087,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   Widget _getBalanceWidget(BuildContext context) {
     if (StateContainer.of(context).wallet.loading) {
       Animation<double> _opacityAnimation =
-          new Tween(begin: 0.4, end: 1.0).animate(
+          new Tween(begin: 1.0, end: 0.4).animate(
         CurvedAnimation(
           parent: _placeholderCardAnimationController,
           curve: Curves.easeIn,
