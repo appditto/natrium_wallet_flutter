@@ -436,11 +436,12 @@ class _SettingsSheetState extends State<SettingsSheet>
                       StateContainer.of(context).curCurrency,
                       KaliumIcons.currency,
                       _currencyDialog),
+                      /*
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
                       KaliumLocalization.of(context).language,
                       KaliumLocalization.of(context).systemDefault,
-                      KaliumIcons.language),
+                      KaliumIcons.language),*/
                   _hasBiometrics ? Divider(height: 2) : null,
                   _hasBiometrics
                       ? KaliumSettings.buildSettingsListItemDoubleLine(
