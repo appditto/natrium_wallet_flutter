@@ -812,8 +812,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     String text;
     IconData icon;
     Color iconColor;
-    Animation<double> _opacityAnimation = new Tween(begin: 0.4, end: 1.0)
-        .animate(_placeholderCardAnimationController);
+    Animation<double> _opacityAnimation =
+        new Tween(begin: 0.4, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _placeholderCardAnimationController,
+        curve: Curves.easeIn,
+        reverseCurve: Curves.easeOut,
+      ),
+    );
     _opacityAnimation.addStatusListener((AnimationStatus status) {
       switch (status) {
         case AnimationStatus.dismissed:
@@ -1080,8 +1086,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Get balance display
   Widget _getBalanceWidget(BuildContext context) {
     if (StateContainer.of(context).wallet.loading) {
-      Animation<double> _opacityAnimation = new Tween(begin: 0.4, end: 1.0)
-          .animate(_placeholderCardAnimationController);
+      Animation<double> _opacityAnimation =
+          new Tween(begin: 0.4, end: 1.0).animate(
+        CurvedAnimation(
+          parent: _placeholderCardAnimationController,
+          curve: Curves.easeIn,
+          reverseCurve: Curves.easeOut,
+        ),
+      );
       // Placeholder for balance text
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -1511,11 +1523,10 @@ class MonkeyOverlay extends ModalRoute<void> {
               constraints: BoxConstraints.expand(),
             ),
           ),
-          Center(
+          Container(
+            alignment: Alignment(0, -0.3),
             child: ClipOval(
               child: Container(
-                margin: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).size.height * 0.05),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.width,
                 child: monKey,
