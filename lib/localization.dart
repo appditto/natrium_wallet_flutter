@@ -279,6 +279,11 @@ class KaliumLocalization {
     return sendAmountConfirm;
   }
 
+  String get sendError {
+    return Intl.message("An error occured. Try again later.",
+      desc: 'send_generic_error', name: 'sendError');
+  }
+
   String get enterAmount {
     return Intl.message("Enter Amount",
       desc: 'send_amount_hint', name: 'enterAmount');

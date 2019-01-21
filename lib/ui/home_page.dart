@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
@@ -15,6 +14,7 @@ import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
 import 'package:kalium_wallet_flutter/network/account_service.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/error_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
@@ -48,6 +48,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   // Controller for placeholder card animations
   AnimationController _placeholderCardAnimationController;
+  Animation<double> _opacityAnimation;
+  bool _animationDisposed;
+
+  // Receive card instance
   KaliumReceiveSheet receive;
 
   // A separate unfortunate instance of this list, is a little unfortunate
@@ -81,14 +85,49 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     _addSampleContact();
     _updateContacts();
     _monkeyDownloadTriggered = false;
+    // Setup placeholder animation and start
+    _animationDisposed = false;
     _placeholderCardAnimationController = new AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
-    _placeholderCardAnimationController.addListener(() {
-      setState(() {});
-    });
+    _placeholderCardAnimationController.addListener(_animationControllerListener);
+    _opacityAnimation =
+        new Tween(begin: 1.0, end: 0.4).animate(
+      CurvedAnimation(
+        parent: _placeholderCardAnimationController,
+        curve: Curves.easeIn,
+        reverseCurve: Curves.easeOut,
+      ),
+    );
+    _opacityAnimation.addStatusListener(_animationStatusListener);
     _placeholderCardAnimationController.forward();
+  }
+
+  void _animationStatusListener(AnimationStatus status) {
+    switch (status) {
+      case AnimationStatus.dismissed:
+        _placeholderCardAnimationController.forward();
+        break;
+      case AnimationStatus.completed:
+        _placeholderCardAnimationController.reverse();
+        break;
+      default:
+        return null;
+    }    
+  }
+
+  void _animationControllerListener() {
+    setState(() {});
+  }
+
+  void _disposeAnimation() {
+    if (!_animationDisposed) {
+      _animationDisposed = true;
+      _opacityAnimation.removeStatusListener(_animationStatusListener);
+      _placeholderCardAnimationController.removeListener(_animationControllerListener);
+      _placeholderCardAnimationController.stop();
+    }
   }
 
   /// Add donations contact if it hasnt already been added
@@ -123,14 +162,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   }
 
   void _registerBus() {
-    RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_HOME_TAG)
+    RxBus.inst.register<AccountHistoryResponse>(tag: RX_HISTORY_HOME_TAG)
         .listen((historyResponse) {
       diffAndUpdateHistoryList(historyResponse.history);
       if (_refreshTimeout != null) {
         _refreshTimeout.cancel();
       }
     });
-    RxBus.register<StateBlock>(tag: RX_SEND_COMPLETE_TAG).listen((stateBlock) {
+    RxBus.inst.register<StateBlock>(tag: RX_SEND_COMPLETE_TAG).listen((stateBlock) {
       // Route to send complete if received process response for send block
       if (stateBlock != null) {
         // Route to send complete
@@ -144,7 +183,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         });
       }
     });
-    RxBus.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {
+    RxBus.inst.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {
       if (stateBlock != null) {
         Navigator.of(context).popUntil(ModalRoute.withName('/home'));
         StateContainer.of(context).wallet.representative =
@@ -155,10 +194,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         ));
       }
     });
-    RxBus.register<Contact>(tag: RX_CONTACT_MODIFIED_TAG).listen((contact) {
+    RxBus.inst.register<Contact>(tag: RX_CONTACT_MODIFIED_TAG).listen((contact) {
       _updateContacts();
     });
-    RxBus.register<Contact>(tag: RX_CONTACT_ADDED_ALT_TAG).listen((contact) {
+    RxBus.inst.register<Contact>(tag: RX_CONTACT_ADDED_ALT_TAG).listen((contact) {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
         content: new Text(
             KaliumLocalization.of(context)
@@ -167,14 +206,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             style: KaliumStyles.TextStyleSnackbar),
       ));
     });
-    RxBus.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
+    RxBus.inst.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
       Future.delayed(Duration(milliseconds: 150), () {
         setState(() {
           _monkeyOverlayOpen = false;
         });
       });
     });
-    RxBus.register<DeepLinkAction>(tag: RX_DEEP_LINK_TAG).listen((result) {
+    RxBus.inst.register<DeepLinkAction>(tag: RX_DEEP_LINK_TAG).listen((result) {
       print("RECEIVED deep linke action ${result.sendDestination}");
       String amount;
       String contactName;
@@ -205,6 +244,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         }
       });
     });
+    RxBus.inst.register<ErrorResponse>(tag: RX_SEND_FAILED_TAG).listen((result) {
+      // Send failed, close send screens and display error
+      Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+      _scaffoldKey.currentState.showSnackBar(new SnackBar(
+        content: new Text(KaliumLocalization.of(context).sendError,
+            style: KaliumStyles.TextStyleSnackbar),
+      ));      
+    });
   }
 
   @override
@@ -216,12 +263,12 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   }
 
   void _destroyBus() {
-    RxBus.destroy(tag: RX_HISTORY_HOME_TAG);
-    RxBus.destroy(tag: RX_PROCESS_TAG);
-    RxBus.destroy(tag: RX_CONTACT_MODIFIED_TAG);
-    RxBus.destroy(tag: RX_CONTACT_ADDED_ALT_TAG);
-    RxBus.destroy(tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
-    RxBus.destroy(tag: RX_DEEP_LINK_TAG);
+    RxBus.inst.destroy(tag: RX_HISTORY_HOME_TAG);
+    RxBus.inst.destroy(tag: RX_PROCESS_TAG);
+    RxBus.inst.destroy(tag: RX_CONTACT_MODIFIED_TAG);
+    RxBus.inst.destroy(tag: RX_CONTACT_ADDED_ALT_TAG);
+    RxBus.inst.destroy(tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
+    RxBus.inst.destroy(tag: RX_DEEP_LINK_TAG);
   }
 
   @override
@@ -230,11 +277,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     // terminate it to be eco-friendly
     switch (state) {
       case AppLifecycleState.paused:
-        AccountService.reset(suspend: true);
+        AccountService.inst.reset(suspend: true);
         super.didChangeAppLifecycleState(state);
         break;
       case AppLifecycleState.resumed:
-        AccountService.initCommunication(unsuspend: true);
+        AccountService.inst.initCommunication(unsuspend: true);
         super.didChangeAppLifecycleState(state);
         break;
       default:
@@ -284,6 +331,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         ],
       );
     } else if (StateContainer.of(context).wallet.history.length == 0) {
+      _disposeAnimation();
       return RefreshIndicator(
         child: ListView(
           padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
@@ -297,6 +345,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         ),
         onRefresh: _refresh,
       );
+    } else {
+      _disposeAnimation();
     }
     // Setup history list
     if (_historyList == null) {
@@ -345,7 +395,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         });
       }
     });
-    _placeholderCardAnimationController.dispose();
   }
 
   @override
@@ -812,26 +861,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     String text;
     IconData icon;
     Color iconColor;
-    Animation<double> _opacityAnimation =
-        new Tween(begin: 1.0, end: 0.4).animate(
-      CurvedAnimation(
-        parent: _placeholderCardAnimationController,
-        curve: Curves.easeIn,
-        reverseCurve: Curves.easeOut,
-      ),
-    );
-    _opacityAnimation.addStatusListener((AnimationStatus status) {
-      switch (status) {
-        case AnimationStatus.dismissed:
-          _placeholderCardAnimationController.forward();
-          break;
-        case AnimationStatus.completed:
-          _placeholderCardAnimationController.reverse();
-          break;
-        default:
-          return null;
-      }
-    });
     if (type == "Sent") {
       text = "Senttt";
       icon = KaliumIcons.dotfilled;
@@ -1086,14 +1115,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Get balance display
   Widget _getBalanceWidget(BuildContext context) {
     if (StateContainer.of(context).wallet.loading) {
-      Animation<double> _opacityAnimation =
-          new Tween(begin: 1.0, end: 0.4).animate(
-        CurvedAnimation(
-          parent: _placeholderCardAnimationController,
-          curve: Curves.easeIn,
-          reverseCurve: Curves.easeOut,
-        ),
-      );
       // Placeholder for balance text
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -1487,7 +1508,7 @@ class MonkeyOverlay extends ModalRoute<void> {
   bool get maintainState => false;
 
   Future<bool> _onClosed() async {
-    RxBus.post(true, tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
+    RxBus.inst.post(true, tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
     return true;
   }
 

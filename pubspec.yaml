@@ -129,12 +129,10 @@ flutter:
       fonts:
         - asset: fonts/KaliumIcons.ttf
   assets:
-    - assets/monkey.png
     - assets/monkeyQR.svg
     - assets/welcome_animation.flr
     - assets/send_animation.flr
     - assets/pulltorefresh_animation.flr
-    - assets/loading_animation.flr
     - assets/sharecard_bananologo.svg
 
   # The following line ensures that the Material Icons font is

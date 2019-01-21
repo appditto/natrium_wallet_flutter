@@ -13,6 +13,7 @@ import 'package:kalium_wallet_flutter/network/model/request/pending_request.dart
 import 'package:kalium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/blocks_info_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/error_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/network/model/response/callback_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
@@ -31,23 +32,20 @@ enum ConnectionChanged { CONNECTED, DISCONNECTED }
  * AccountService singleton
  */
 class AccountService {
-  static final AccountService _service = new AccountService._internal();
+  static final AccountService _singleton = AccountService._internal();
+  static AccountService get inst => _singleton;
   static final Logger log = new Logger("AccountService");
 
   // For all requests we place them on a queue with expiry to be processed sequentially
-  static final Queue<RequestItem> _requestQueue = Queue();
+  final Queue<RequestItem> _requestQueue = Queue();
 
   // WS Client
-  static IOWebSocketChannel _channel;
+  IOWebSocketChannel _channel;
 
   // WS connection status
-  static bool _isConnected = false;
-  static bool _isConnecting = false;
-  static bool _suspended = false; // When the app explicity closes the connection
-
-  factory AccountService(){
-    return _service;
-  }
+  bool _isConnected = false;
+  bool _isConnecting = false;
+  bool _suspended = false; // When the app explicity closes the connection
 
   // Singleton Constructor
   AccountService._internal() {
@@ -55,7 +53,7 @@ class AccountService {
   }
 
   // Connect to server
-  static void initCommunication({bool unsuspend = false}) async {
+  void initCommunication({bool unsuspend = false}) async {
     if (_isConnected || _isConnecting) {
       return;
     } else if (_suspended && !unsuspend) {
@@ -76,37 +74,37 @@ class AccountService {
       log.fine("Connected to service");
       _isConnecting = false;
       _isConnected = true;
-      RxBus.post(ConnectionChanged.CONNECTED, tag: RX_CONN_STATUS_TAG);
+      RxBus.inst.post(ConnectionChanged.CONNECTED, tag: RX_CONN_STATUS_TAG);
       _channel.stream.listen(_onMessageReceived, onDone: connectionClosed, onError: connectionClosedError);
     } catch(e){
       log.severe("Error from service ${e.toString()}");
       // TODO - error handling
       _isConnected = false;
       _isConnecting = false;
-      RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
+      RxBus.inst.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
     }
   }
 
   // Connection closed (normally)
-  static void connectionClosed() {
+  void connectionClosed() {
     _isConnected = false;
     _isConnecting = false;
     log.fine("disconnected from service");
     // Send disconnected message
-    RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
+    RxBus.inst.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
   }
 
   // Connection closed (with error)
-  static void connectionClosedError(e) {
+  void connectionClosedError(e) {
     _isConnected = false;
     _isConnecting = false;
     log.fine("disconnected from service with error ${e.toString()}");
     // Send disconnected message
-    RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
+    RxBus.inst.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
   }
 
   // Close connection
-  static void reset({bool suspend = false}){
+  void reset({bool suspend = false}){
     _suspended = suspend;
     if (_channel != null){
       if (_channel.sink != null){
@@ -118,7 +116,7 @@ class AccountService {
   }
 
   // Send message
-  static void _send(String message) {
+  void _send(String message) {
     bool reset = false;
     try {
     if (_channel != null){
@@ -143,7 +141,7 @@ class AccountService {
     }
   }
 
-  static void _onMessageReceived(message) {
+  void _onMessageReceived(message) {
     _isConnected = true;
     _isConnecting = false;
     log.fine("Received $message");
@@ -153,28 +151,20 @@ class AccountService {
         msg.containsKey("error") && msg.containsKey("currency")) {
       // Subscribe response
       SubscribeResponse resp = SubscribeResponse.fromJson(msg);
-      // Check next request to update block count
-      if (resp.blockCount != null) {
-        _requestQueue.forEach((requestItem) {
-          if (requestItem.request is AccountHistoryRequest) {
-            requestItem.request.count = resp.blockCount;
-          }
-        });
-      }
       // Post to callbacks
-      RxBus.post(resp, tag:RX_SUBSCRIBE_TAG);
+      RxBus.inst.post(resp, tag:RX_SUBSCRIBE_TAG);
     } else if (msg.containsKey("currency") && msg.containsKey("price") && msg.containsKey("btc")) {
       // Price info sent from server
       PriceResponse resp = PriceResponse.fromJson(msg);
-      RxBus.post(resp, tag: RX_PRICE_RESP_TAG);
+      RxBus.inst.post(resp, tag: RX_PRICE_RESP_TAG);
     } else if (msg.containsKey("history")) {
       // Account history response
       if (msg['history'] == "") {
         msg['history'] = new List<AccountHistoryResponseItem>();
       }
       AccountHistoryResponse resp = AccountHistoryResponse.fromJson(msg);
-      RxBus.post(resp, tag: RX_HISTORY_TAG);
-      RxBus.post(resp, tag: RX_HISTORY_HOME_TAG);
+      RxBus.inst.post(resp, tag: RX_HISTORY_TAG);
+      RxBus.inst.post(resp, tag: RX_HISTORY_HOME_TAG);
     } else if (msg.containsKey("blocks")) {
       // This is either a 'blocks_info' response "or" a 'pending' response
       if (msg['blocks'] is Map && msg['blocks'].length > 0) {
@@ -183,10 +173,10 @@ class AccountService {
           if (blockMap[blockMap.keys.first].containsKey('block_account')) {
             // Blocks Info Response
             BlocksInfoResponse resp = BlocksInfoResponse.fromJson(msg);
-            RxBus.post(resp, tag: RX_BLOCKS_INFO_RESP_TAG);
+            RxBus.inst.post(resp, tag: RX_BLOCKS_INFO_RESP_TAG);
           } else if (blockMap[blockMap.keys.first].containsKey('source')) {
             PendingResponse resp = PendingResponse.fromJson(msg);
-            RxBus.post(resp, tag: RX_PENDING_RESP_TAG);
+            RxBus.inst.post(resp, tag: RX_PENDING_RESP_TAG);
           }
         }
       } else {
@@ -196,26 +186,26 @@ class AccountService {
       }
     } else if (msg.containsKey("block") && msg.containsKey("hash") && msg.containsKey("account")) {
       CallbackResponse resp = CallbackResponse.fromJson(msg);
-      RxBus.post(resp, tag: RX_CALLBACK_TAG);
+      RxBus.inst.post(resp, tag: RX_CALLBACK_TAG);
     } else if (msg.containsKey("hash")) {
       // process response
       ProcessResponse resp = ProcessResponse.fromJson(msg);
-      RxBus.post(resp, tag: RX_PROCESS_TAG);
+      RxBus.inst.post(resp, tag: RX_PROCESS_TAG);
     } else if (msg.containsKey("error")) {
-      pop();
-      processQueue();
+      ErrorResponse resp = ErrorResponse.fromJson(msg);
+      RxBus.inst.post(resp, tag: RX_ERROR_RESP_TAG);
     }
     return;
   }
 
   /* Enqueue Request */
-  static void queueRequest(BaseRequest request) {
+  void queueRequest(BaseRequest request) {
     log.fine("requetest ${json.encode(request.toJson())}, q length: ${_requestQueue.length}");
     _requestQueue.add(new RequestItem(request));
   }
 
   /* Process Queue */
-  static void processQueue() {
+  void processQueue() {
     log.fine("Request Queue length ${_requestQueue.length}");
     if (_requestQueue != null && _requestQueue.length > 0) {
       RequestItem requestItem = _requestQueue.first;
@@ -241,7 +231,7 @@ class AccountService {
   }
 
   // Queue Utilities
-  static bool queueContainsRequestWithHash(String hash) {
+  bool queueContainsRequestWithHash(String hash) {
     if (_requestQueue != null || _requestQueue.length == 0) {
       return false;
     }
@@ -257,7 +247,7 @@ class AccountService {
     return false;
   }
 
-  static bool queueContainsOpenBlock() {
+  bool queueContainsOpenBlock() {
     if (_requestQueue != null || _requestQueue.length == 0) {
       return false;
     }
@@ -273,7 +263,7 @@ class AccountService {
     return false;
   }
 
-  static void removeSubscribeHistoryPendingFromQueue() {
+  void removeSubscribeHistoryPendingFromQueue() {
     if (_requestQueue != null && _requestQueue.length > 0) {
       List<RequestItem> toRemove = new List();
       _requestQueue.forEach((requestItem) {
@@ -288,15 +278,17 @@ class AccountService {
     }    
   }
 
-  static RequestItem pop() {
+  RequestItem pop() {
     return _requestQueue.length > 0 ? _requestQueue.removeFirst() : null;
   }
 
-  static RequestItem peek() {
+  RequestItem peek() {
     return _requestQueue.length > 0 ? _requestQueue.first : null;
   }
   
-  static void clearQueue() {
+  void clearQueue() {
     _requestQueue.clear();
   }
+
+  Queue<RequestItem> get requestQueue => _requestQueue;
 }

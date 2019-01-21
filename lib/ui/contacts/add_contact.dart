@@ -389,11 +389,11 @@ class AddContactSheet {
                               Contact newContact = Contact(name: _nameController.text, address: address == null ? _addressController.text : address);
                               dbHelper.saveContact(newContact).then((id) {
                                 if (address == null) {
-                                  RxBus.post(newContact, tag: RX_CONTACT_ADDED_TAG);
+                                  RxBus.inst.post(newContact, tag: RX_CONTACT_ADDED_TAG);
                                 } else {
-                                  RxBus.post(newContact, tag: RX_CONTACT_ADDED_ALT_TAG);
+                                  RxBus.inst.post(newContact, tag: RX_CONTACT_ADDED_ALT_TAG);
                                 }
-                                RxBus.post(newContact, tag: RX_CONTACT_MODIFIED_TAG);
+                                RxBus.inst.post(newContact, tag: RX_CONTACT_MODIFIED_TAG);
                                 Navigator.of(context).pop();
                               });
                             });

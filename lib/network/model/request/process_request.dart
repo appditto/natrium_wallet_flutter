@@ -16,10 +16,14 @@ class ProcessRequest extends BaseRequest {
   @JsonKey(name:'do_work')
   bool doWork;
 
-  ProcessRequest({String block, bool doWork}) {
+  @JsonKey(ignore: true)
+  String subType;
+
+  ProcessRequest({String block, bool doWork = true, String subType}) {
     this.action = Actions.PROCESS;
     this.block = block;
-    this.doWork = doWork ?? true;
+    this.doWork = doWork;
+    this.subType = subType;
   }
 
   factory ProcessRequest.fromJson(Map<String, dynamic> json) => _$ProcessRequestFromJson(json);

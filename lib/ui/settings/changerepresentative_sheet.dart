@@ -326,7 +326,7 @@ class KaliumChangeRepresentativeSheet {
                                               .setRepresentative(
                                                   _repController.text)
                                               .then((result) {
-                                            RxBus.post(
+                                            RxBus.inst.post(
                                                 new StateBlock(
                                                     representative:
                                                         _repController.text,
@@ -371,7 +371,7 @@ class KaliumChangeRepresentativeSheet {
                                                   .setRepresentative(
                                                       _repController.text)
                                                   .then((result) {
-                                                RxBus.post(
+                                                RxBus.inst.post(
                                                     new StateBlock(
                                                         representative:
                                                             _repController.text,

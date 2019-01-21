@@ -6,7 +6,6 @@ import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'package:package_info/package_info.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:kalium_wallet_flutter/model/available_currency.dart';
 import 'package:kalium_wallet_flutter/model/address.dart';
@@ -14,6 +13,7 @@ import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/model/deep_link_action.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
+import 'package:kalium_wallet_flutter/network/model/request_item.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/blocks_info_request.dart';
@@ -21,6 +21,7 @@ import 'package:kalium_wallet_flutter/network/model/request/pending_request.dart
 import 'package:kalium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/callback_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/error_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/blocks_info_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
@@ -56,7 +57,6 @@ class StateContainer extends StatefulWidget {
   final KaliumWallet wallet;
   final String currencyLocale;
   final Locale deviceLocale;
-  final String appVersionString;
   final AvailableCurrency curCurrency;
 
   StateContainer({
@@ -64,7 +64,6 @@ class StateContainer extends StatefulWidget {
     this.wallet,
     this.currencyLocale,
     this.deviceLocale,
-    this.appVersionString,
     this.curCurrency
   });
 
@@ -89,7 +88,6 @@ class StateContainerState extends State<StateContainer> {
   KaliumWallet wallet;
   String currencyLocale;
   Locale deviceLocale = Locale('en', 'US');
-  String appVersionString;
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
   // Subscribe to deep link changes
   StreamSubscription _deepLinkSub;
@@ -117,11 +115,6 @@ class StateContainerState extends State<StateContainer> {
         curCurrency = currency;
       });
     });
-    PackageInfo.fromPlatform().then((packageInfo) {
-      setState(() {
-        appVersionString = "${packageInfo.appName} v${packageInfo.version}";        
-      });
-    });
     // Deep link subscription
     _deepLinkSub = getLinksStream().listen((String link) {
       if (link != null) {
@@ -132,7 +125,7 @@ class StateContainerState extends State<StateContainer> {
           Address address = Address(link);
           if (!address.isValid()) { return; }
           Future.delayed(Duration(milliseconds: 100), () {
-            RxBus.post(DeepLinkAction(sendDestination: address.address, sendAmount: address.amount), tag: RX_DEEP_LINK_TAG);
+            RxBus.inst.post(DeepLinkAction(sendDestination: address.address, sendAmount: address.amount), tag: RX_DEEP_LINK_TAG);
           });
         }
       }
@@ -145,17 +138,25 @@ class StateContainerState extends State<StateContainer> {
   void _registerBus() {
     if (_busInitialized) {return;}
     _busInitialized = true;
-    RxBus.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
-    RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
+    RxBus.inst.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
+    RxBus.inst.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
+      var reversedNew = historyResponse.history.reversed;
+      var currentList = wallet.history;
+
+      reversedNew.forEach((item) {
+        if (!currentList.contains(item)) {
+          currentList.insert(0, item);
+        }
+      });
       setState(() {
         wallet.historyLoading = false;
-        wallet.history = historyResponse.history;
+        wallet.history = currentList;
       });
-      AccountService.pop();
-      AccountService.processQueue();
+      AccountService.inst.pop();
+      AccountService.inst.processQueue();
       requestPending();
     });
-    RxBus.register<PriceResponse>(tag: RX_PRICE_RESP_TAG).listen((priceResponse) {
+    RxBus.inst.register<PriceResponse>(tag: RX_PRICE_RESP_TAG).listen((priceResponse) {
       // PriceResponse's get pushed periodically, it wasn't a request we made so don't pop the queue
       setState(() {
         wallet.nanoPrice = priceResponse.nanoPrice.toString();
@@ -163,15 +164,16 @@ class StateContainerState extends State<StateContainer> {
         wallet.localCurrencyPrice = priceResponse.price.toString();
       });
     });
-    RxBus.register<BlocksInfoResponse>(tag: RX_BLOCKS_INFO_RESP_TAG).listen(handleBlocksInfoResponse);
-    RxBus.register<ConnectionChanged>(tag: RX_CONN_STATUS_TAG).listen((status) {
+    RxBus.inst.register<BlocksInfoResponse>(tag: RX_BLOCKS_INFO_RESP_TAG).listen(handleBlocksInfoResponse);
+    RxBus.inst.register<ConnectionChanged>(tag: RX_CONN_STATUS_TAG).listen((status) {
       if (status == ConnectionChanged.CONNECTED) {
         requestUpdate();
       }
     });
-    RxBus.register<CallbackResponse>(tag: RX_CALLBACK_TAG).listen(handleCallbackResponse);
-    RxBus.register<ProcessResponse>(tag: RX_PROCESS_TAG).listen(handleProcessResponse);
-    RxBus.register<PendingResponse>(tag: RX_PENDING_RESP_TAG).listen(handlePendingResponse);
+    RxBus.inst.register<CallbackResponse>(tag: RX_CALLBACK_TAG).listen(handleCallbackResponse);
+    RxBus.inst.register<ProcessResponse>(tag: RX_PROCESS_TAG).listen(handleProcessResponse);
+    RxBus.inst.register<PendingResponse>(tag: RX_PENDING_RESP_TAG).listen(handlePendingResponse);
+    RxBus.inst.register<ErrorResponse>(tag: RX_ERROR_RESP_TAG).listen(handleErrorResponse);
   }
 
   @override
@@ -183,14 +185,14 @@ class StateContainerState extends State<StateContainer> {
 
   void _destroyBus() {
     _busInitialized = false;
-    RxBus.destroy(tag: RX_SUBSCRIBE_TAG);
-    RxBus.destroy(tag: RX_HISTORY_TAG);
-    RxBus.destroy(tag: RX_PRICE_RESP_TAG);
-    RxBus.destroy(tag: RX_BLOCKS_INFO_RESP_TAG);
-    RxBus.destroy(tag: RX_CALLBACK_TAG);
-    RxBus.destroy(tag: RX_CONN_STATUS_TAG);
-    RxBus.destroy(tag: RX_PROCESS_TAG);
-    RxBus.destroy(tag: RX_PENDING_RESP_TAG);
+    RxBus.inst.destroy(tag: RX_SUBSCRIBE_TAG);
+    RxBus.inst.destroy(tag: RX_HISTORY_TAG);
+    RxBus.inst.destroy(tag: RX_PRICE_RESP_TAG);
+    RxBus.inst.destroy(tag: RX_BLOCKS_INFO_RESP_TAG);
+    RxBus.inst.destroy(tag: RX_CALLBACK_TAG);
+    RxBus.inst.destroy(tag: RX_CONN_STATUS_TAG);
+    RxBus.inst.destroy(tag: RX_PROCESS_TAG);
+    RxBus.inst.destroy(tag: RX_PENDING_RESP_TAG);
   }
 
   // You can (and probably will) have methods on your StateContainer
@@ -207,6 +209,32 @@ class StateContainerState extends State<StateContainer> {
   }
 
   ///
+  /// When an error is returned from server
+  /// 
+  void handleErrorResponse(ErrorResponse errorResponse) {
+    RequestItem prevRequest = AccountService.inst.pop();
+    AccountService.inst.processQueue();
+    if (errorResponse.error == null) { return; }
+    // 1) Unreceivable error, due to already having received the block typically
+    // This is a no-op for now
+
+    // 2) Process/work errors
+    if (errorResponse.error.toLowerCase().contains("process") || errorResponse.error.toLowerCase().contains("work")) {
+      if (prevRequest != null && prevRequest.request is ProcessRequest) {
+        ProcessRequest origRequest = prevRequest.request;
+        if (origRequest.subType == BlockTypes.SEND) {
+          // Send send failed event
+          RxBus.inst.post(errorResponse, tag: RX_SEND_FAILED_TAG);
+        }
+        pendingBlockMap.clear();
+        pendingResponseBlockMap.clear();
+        previousPendingMap.clear();
+        requestUpdate();
+      }
+    }
+  }
+
+  ///
   /// When a STATE block comes back successfully with a hash
   ///
   /// @param processResponse Process Response
@@ -214,7 +242,7 @@ class StateContainerState extends State<StateContainer> {
   void handleProcessResponse(ProcessResponse processResponse) {
     // see what type of request sent this response
     bool doUpdate = true;
-    AccountService.pop();
+    AccountService.inst.pop();
     StateBlock previous = pendingResponseBlockMap.remove(processResponse.hash);
     if (previous != null) {
       if (previous.subType == BlockTypes.OPEN) {
@@ -228,7 +256,7 @@ class StateContainerState extends State<StateContainer> {
           wallet.blockCount = wallet.blockCount + 1;
         });
         if (previous.subType == BlockTypes.SEND) {
-          RxBus.post(previous, tag:RX_SEND_COMPLETE_TAG);
+          RxBus.inst.post(previous, tag:RX_SEND_COMPLETE_TAG);
         } else if (previous.subType == BlockTypes.RECEIVE) {
           // Handle next receive if there is one
           StateBlock frontier = pendingBlockMap.remove(processResponse.hash);
@@ -242,37 +270,54 @@ class StateContainerState extends State<StateContainer> {
               nextBlock.sign(result);
               pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
               pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
-              AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
-              AccountService.processQueue();
+              AccountService.inst.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType));
+              AccountService.inst.processQueue();
             });
           }
         } else if (previous.subType == BlockTypes.CHANGE) {
-          RxBus.post(previous, tag:RX_REP_CHANGED_TAG);
+          RxBus.inst.post(previous, tag:RX_REP_CHANGED_TAG);
         }
       }
     }
     if (doUpdate) {
       requestUpdate();
     } else {
-      AccountService.processQueue();
+      AccountService.inst.processQueue();
     }
   }
 
   // Handle pending response
   void handlePendingResponse(PendingResponse response) {
-    AccountService.pop();
+    AccountService.inst.pop();
     response.blocks.forEach((hash, pendingResponseItem) {
       PendingResponseItem pendingResponseItemN = pendingResponseItem;
       pendingResponseItemN.hash = hash;
       handlePendingItem(pendingResponseItemN);
     });
     if (response.blocks.length == 0) {
-      AccountService.processQueue();
+      AccountService.inst.processQueue();
     }
   }
 
   /// Handle account_subscribe response
   void handleSubscribeResponse(SubscribeResponse response) {
+    // Check next request to update block count
+    if (response.blockCount != null) {
+      // Choose correct blockCount to minimize bandwidth
+      // This is can still be improved because history excludes change/open, blockCount doesn't
+      int count = response.blockCount > wallet.blockCount ? response.blockCount : wallet.blockCount;
+      if (wallet.history.length < count) {
+        count = count - wallet.history.length;
+      }
+      if (count <= 0) {
+        count = 10;
+      }
+      AccountService.inst.requestQueue.forEach((requestItem) {
+        if (requestItem.request is AccountHistoryRequest) {
+          requestItem.request.count = count;
+        }
+      });
+    }
     // Set currency locale here for the UI to access
     SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
       setState(() {
@@ -301,8 +346,8 @@ class StateContainerState extends State<StateContainer> {
       wallet.nanoPrice = response.nanoPrice.toString();
       wallet.btcPrice = response.btcPrice.toString();
     });
-    AccountService.pop();
-    AccountService.processQueue();
+    AccountService.inst.pop();
+    AccountService.inst.processQueue();
     // If this is first load, handle any deep links that may have opened the app
     _checkDeepLink(response);
   }
@@ -312,7 +357,7 @@ class StateContainerState extends State<StateContainer> {
       if (_initialDeepLink == null) { return; }
       Address address = Address(_initialDeepLink);
       if (!address.isValid()) { return; }
-      RxBus.post(DeepLinkAction(sendDestination: address.address, sendAmount: address.amount), tag: RX_DEEP_LINK_TAG);
+      RxBus.inst.post(DeepLinkAction(sendDestination: address.address, sendAmount: address.amount), tag: RX_DEEP_LINK_TAG);
     } catch (e) {
       log.severe(e.toString());
     }
@@ -347,9 +392,9 @@ class StateContainerState extends State<StateContainer> {
           pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
         }
       }
-      AccountService.pop();
-      AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson())));
-      AccountService.processQueue();
+      AccountService.inst.pop();
+      AccountService.inst.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType));
+      AccountService.inst.processQueue();
     });
   }
 
@@ -359,7 +404,7 @@ class StateContainerState extends State<StateContainer> {
     log.fine("Received callback ${json.encode(resp.toJson())}");
     if (resp.isSend != "true") {
       log.fine("Is not send");
-      AccountService.processQueue();
+      AccountService.inst.processQueue();
       return;
     }
     PendingResponseItem pendingItem = PendingResponseItem(hash: resp.hash, source: resp.account, amount: resp.amount);
@@ -367,8 +412,8 @@ class StateContainerState extends State<StateContainer> {
   }
 
   void handlePendingItem(PendingResponseItem item) {
-    if (!AccountService.queueContainsRequestWithHash(item.hash) && !pendingBlockMap.containsKey(item.hash)) {
-      if (wallet.openBlock == null && !AccountService.queueContainsOpenBlock()) {
+    if (!AccountService.inst.queueContainsRequestWithHash(item.hash) && !pendingBlockMap.containsKey(item.hash)) {
+      if (wallet.openBlock == null && !AccountService.inst.queueContainsOpenBlock()) {
         requestOpen("0", item.hash, item.amount);
       } else if (pendingBlockMap.length == 0) {
           requestReceive(wallet.frontier, item.hash, item.amount);
@@ -390,13 +435,13 @@ class StateContainerState extends State<StateContainer> {
   void requestUpdate() {
     if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
       SharedPrefsUtil.inst.getUuid().then((result) {
-        AccountService.clearQueue();
+        AccountService.inst.clearQueue();
         pendingBlockMap.clear();
         pendingResponseBlockMap.clear();
         previousPendingMap.clear();
-        AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
-        AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
-        AccountService.processQueue();
+        AccountService.inst.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
+        AccountService.inst.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
+        AccountService.inst.processQueue();
       }); 
     }
   }
@@ -404,9 +449,9 @@ class StateContainerState extends State<StateContainer> {
   void requestSubscribe() {
     if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
       SharedPrefsUtil.inst.getUuid().then((result) {
-        AccountService.removeSubscribeHistoryPendingFromQueue();
-        AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
-        AccountService.processQueue();
+        AccountService.inst.removeSubscribeHistoryPendingFromQueue();
+        AccountService.inst.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
+        AccountService.inst.processQueue();
       });
     }
   }
@@ -416,8 +461,8 @@ class StateContainerState extends State<StateContainer> {
   /// 
   void requestPending() {
     if (wallet.address != null) {
-      AccountService.queueRequest(new PendingRequest(account: wallet.address, count: max(wallet.blockCount ?? 0, 10)));
-      AccountService.processQueue();
+      AccountService.inst.queueRequest(new PendingRequest(account: wallet.address, count: max(wallet.blockCount ?? 0, 10)));
+      AccountService.inst.processQueue();
     }
   }
 
@@ -441,8 +486,8 @@ class StateContainerState extends State<StateContainer> {
     );
     previousPendingMap.putIfAbsent(previous, () => sendBlock);
 
-    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
-    AccountService.processQueue();
+    AccountService.inst.queueRequest(new BlocksInfoRequest(hashes: [previous]));
+    AccountService.inst.processQueue();
   }
 
   ///
@@ -466,8 +511,8 @@ class StateContainerState extends State<StateContainer> {
     previousPendingMap.putIfAbsent(previous, () => receiveBlock);
     pendingBlockMap.putIfAbsent(source, () => receiveBlock);
 
-    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
-    AccountService.processQueue();
+    AccountService.inst.queueRequest(new BlocksInfoRequest(hashes: [previous]));
+    AccountService.inst.processQueue();
   }
 
   ///
@@ -492,8 +537,8 @@ class StateContainerState extends State<StateContainer> {
       openBlock.sign(result);
       pendingResponseBlockMap.putIfAbsent(openBlock.hash, () => openBlock);
 
-      AccountService.queueRequest(ProcessRequest(block: json.encode(openBlock.toJson())));
-      AccountService.processQueue();
+      AccountService.inst.queueRequest(ProcessRequest(block: json.encode(openBlock.toJson()), subType: BlockTypes.OPEN));
+      AccountService.inst.processQueue();
     });
   }
 
@@ -517,8 +562,8 @@ class StateContainerState extends State<StateContainer> {
       changeBlock.sign(result);
       pendingResponseBlockMap.putIfAbsent(changeBlock.hash, () => changeBlock);
 
-      AccountService.queueRequest(ProcessRequest(block: json.encode(changeBlock.toJson())));
-      AccountService.processQueue();
+      AccountService.inst.queueRequest(ProcessRequest(block: json.encode(changeBlock.toJson()), subType: BlockTypes.CHANGE));
+      AccountService.inst.processQueue();
     });
   }
 
@@ -526,7 +571,7 @@ class StateContainerState extends State<StateContainer> {
     setState(() {
       wallet = new KaliumWallet();
     });
-    AccountService.clearQueue();
+    AccountService.inst.clearQueue();
     _destroyBus();
   }
 

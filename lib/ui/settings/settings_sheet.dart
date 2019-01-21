@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_simpledialog.dart';
 import 'package:logging/logging.dart';
+import 'package:package_info/package_info.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
@@ -46,6 +47,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   Animation<double> _fade2;
 
   String documentsDirectory;
+  String versionString = "";
 
   final log = Logger("SettingsSheet");
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -114,7 +116,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       int numSaved = await dbHelper.saveContacts(contactsToAdd);
       if (numSaved > 0) {
         _updateContacts();
-        RxBus.post(Contact(name: "", address: ""),
+        RxBus.inst.post(Contact(name: "", address: ""),
             tag: RX_CONTACT_MODIFIED_TAG);
         _scaffoldKey.currentState.showSnackBar(SnackBar(
             content: Text(
@@ -160,7 +162,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       _updateContacts();
     });
     // Contact added bus event
-    RxBus.register<Contact>(tag: RX_CONTACT_ADDED_TAG).listen((contact) {
+    RxBus.inst.register<Contact>(tag: RX_CONTACT_ADDED_TAG).listen((contact) {
       setState(() {
         _contacts.add(contact);
         //Sort by name
@@ -170,7 +172,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       _updateContacts();
     });
     // Contact removed bus event
-    RxBus.register<Contact>(tag: RX_CONTACT_REMOVED_TAG).listen((contact) {
+    RxBus.inst.register<Contact>(tag: RX_CONTACT_REMOVED_TAG).listen((contact) {
       setState(() {
         _contacts.remove(contact);
       });
@@ -191,14 +193,20 @@ class _SettingsSheetState extends State<SettingsSheet>
 
     _fade = Tween<double>(begin: 0, end: 1).animate(_controller2);
     _fade2 = Tween<double>(begin: 1, end: 0).animate(_controller2);
+    // Version string
+    PackageInfo.fromPlatform().then((packageInfo) {
+      setState(() {
+        versionString = "${packageInfo.appName} v${packageInfo.version}";        
+      });
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
     _controller2.dispose();
-    RxBus.destroy(tag: RX_CONTACT_ADDED_TAG);
-    RxBus.destroy(tag: RX_CONTACT_REMOVED_TAG);
+    RxBus.inst.destroy(tag: RX_CONTACT_ADDED_TAG);
+    RxBus.inst.destroy(tag: RX_CONTACT_REMOVED_TAG);
     super.dispose();
   }
 
@@ -572,7 +580,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(StateContainer.of(context).appVersionString,
+                        Text(versionString,
                             style: KaliumStyles.TextStyleVersion),
                       ],
                     ),

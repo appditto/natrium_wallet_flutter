@@ -12,7 +12,9 @@ const String RX_PROCESS_TAG = 'fkalium_process_tag';
 const String RX_CALLBACK_TAG = 'fkalium_callback_tag';
 const String RX_SEND_COMPLETE_TAG = 'fkalium_send_complete_tag';
 const String RX_PENDING_RESP_TAG = 'fkalium_pending_response';
+const String RX_ERROR_RESP_TAG = 'fkalium_err_response';
 const String RX_REP_CHANGED_TAG = 'fkalium_rep_changed_tag';
+const String RX_SEND_FAILED_TAG = 'fkalium_send_failed_tag';
 // Contact added/removed on settings sheet
 const String RX_CONTACT_ADDED_TAG = 'fkalium_contact_added_tag';
 const String RX_CONTACT_REMOVED_TAG = 'fkalium_contact_removed_tag';
@@ -45,19 +47,16 @@ class Bus {
 
 class RxBus {
   static final RxBus _singleton = new RxBus._internal();
-
-  factory RxBus() {
-    return _singleton;
-  }
+  static RxBus get inst => _singleton;
 
   RxBus._internal();
 
-  static List<Bus> _list = List();
+  List<Bus> _list = List();
 
-  static RxBus get singleton => _singleton;
+  RxBus get singleton => _singleton;
 
   /// Listen for events. Each time the listener is turned on, a new [PublishSubject] will be created to prevent duplicate listen events.
-  static Observable<T> register<T>({@required String tag}) {
+  Observable<T> register<T>({@required String tag}) {
     Bus _eventBus;
     //The tag that has already been registered does not need to be re-registered.
     if (_list.isNotEmpty) {
@@ -84,7 +83,7 @@ class RxBus {
   }
 
   /// Send Event
-  static void post(event, {@required tag}) {
+  void post(event, {@required tag}) {
     _list.forEach((rxBus) {
       if (rxBus.tag == tag) {
         rxBus.subject.sink.add(event);
@@ -93,7 +92,7 @@ class RxBus {
   }
 
   /// Event Closed
-  static void destroy({@required tag}) {
+  void destroy({@required tag}) {
     List<Bus> toRemove = List();
     _list.forEach((rxBus) {
       if (rxBus.tag == tag) {
