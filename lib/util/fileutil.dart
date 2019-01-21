@@ -28,4 +28,19 @@ class FileUtil {
     await file.delete();
     return false;
   }
+
+  /// Return true if a SVG is valid
+  static Future<bool> isValidSVG(File file) async {
+    if (!await file.exists()) {
+      return false;
+    }
+    RegExp svgRegex = RegExp(r'/^\s*(?:<\?xml[^>]*>\s*)?(?:<!doctype svg[^>]*\s*(?:\[?(?:\s*<![^>]*>\s*)*\]?)*[^>]*>\s*)?<svg[^>]*>[^]*<\/svg>\s*$/i');
+    // Read file as string
+    String svgContents = await file.readAsString();
+    if (svgRegex.hasMatch(svgContents)) {
+      return true;
+    }
+    await file.delete();
+    return false;
+  }
 }

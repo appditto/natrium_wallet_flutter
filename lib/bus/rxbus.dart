@@ -56,8 +56,6 @@ class RxBus {
 
   static List<Bus> _list = List();
 
-  static RxBus get singleton => _singleton;
-
   /// Listen for events. Each time the listener is turned on, a new [PublishSubject] will be created to prevent duplicate listen events.
   static Observable<T> register<T>({@required String tag}) {
     Bus _eventBus;

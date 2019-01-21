@@ -245,41 +245,46 @@ class _SettingsSheetState extends State<SettingsSheet>
           });
         }
       }
-      // Get any monKeys that are missing
+      // Re-sort list
       setState(() {
-        // Re-sort ist
         _contacts.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-        // Download any missing monKeys
-        for (Contact c in _contacts) {
-          // Download monKeys if not existing
-          if (c.monkeyWidget == null ) {
-            if (c.monkeyPath != null) {
+      });
+      // Get any monKeys that are missing
+      for (Contact c in _contacts) {
+        // Download monKeys if not existing
+        if (c.monkeyWidget == null ) {
+          if (c.monkeyPath != null) {
+            setState(() {
               c.monkeyWidget = Image.file(File("$documentsDirectory/${c.monkeyPath}"), width: smallScreen(context)?55:70, height: smallScreen(context)?55:70);
-            } else {
-              UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.SMALL)
-                  .then((result) {
-                FileUtil.pngHasValidSignature(result).then((valid) {
-                  if (valid) {
-                    c.monkeyWidget = Image.file(result);
-                    c.monkeyPath = path.basename(result.path);
-                    DBHelper().setMonkeyForContact(c, c.monkeyPath);
-                  }
-                });
-              });
-            }
-          }
-          if (c.monkeyWidgetLarge == null) {
-            UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL)
+            });
+          } else {
+            UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.SMALL)
                 .then((result) {
               FileUtil.pngHasValidSignature(result).then((valid) {
                 if (valid) {
-                  c.monkeyWidgetLarge = Image.file(result, width: smallScreen(context)?130:200, height: smallScreen(context)?130:200);
+                  setState(() {
+                    c.monkeyWidget = Image.file(result);
+                    c.monkeyPath = path.basename(result.path);
+                  });
+                  DBHelper().setMonkeyForContact(c, c.monkeyPath);
                 }
               });
             });
           }
         }
-      });
+        if (c.monkeyWidgetLarge == null) {
+          UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL)
+              .then((result) {
+            FileUtil.pngHasValidSignature(result).then((valid) {
+              if (valid) {
+                setState(() {
+                  c.monkeyWidgetLarge = Image.file(result, width: smallScreen(context)?130:200, height: smallScreen(context)?130:200);
+                });
+              }
+            });
+          });
+        }
+      }
     });
   }
 

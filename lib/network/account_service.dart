@@ -33,19 +33,22 @@ enum ConnectionChanged { CONNECTED, DISCONNECTED }
  */
 class AccountService {
   static final AccountService _singleton = AccountService._internal();
-  static AccountService get inst => _singleton;
   static final Logger log = new Logger("AccountService");
 
+  factory AccountService() {
+    return _singleton;
+  }
+
   // For all requests we place them on a queue with expiry to be processed sequentially
-  final Queue<RequestItem> _requestQueue = Queue();
+  static final Queue<RequestItem> _requestQueue = Queue();
 
   // WS Client
-  IOWebSocketChannel _channel;
+  static IOWebSocketChannel _channel;
 
   // WS connection status
-  bool _isConnected = false;
-  bool _isConnecting = false;
-  bool _suspended = false; // When the app explicity closes the connection
+  static bool _isConnected = false;
+  static bool _isConnecting = false;
+  static bool _suspended = false; // When the app explicity closes the connection
 
   // Singleton Constructor
   AccountService._internal() {
@@ -53,7 +56,7 @@ class AccountService {
   }
 
   // Connect to server
-  void initCommunication({bool unsuspend = false}) async {
+  static void initCommunication({bool unsuspend = false}) async {
     if (_isConnected || _isConnecting) {
       return;
     } else if (_suspended && !unsuspend) {
@@ -86,7 +89,7 @@ class AccountService {
   }
 
   // Connection closed (normally)
-  void connectionClosed() {
+  static void connectionClosed() {
     _isConnected = false;
     _isConnecting = false;
     log.fine("disconnected from service");
@@ -95,7 +98,7 @@ class AccountService {
   }
 
   // Connection closed (with error)
-  void connectionClosedError(e) {
+  static void connectionClosedError(e) {
     _isConnected = false;
     _isConnecting = false;
     log.fine("disconnected from service with error ${e.toString()}");
@@ -104,7 +107,7 @@ class AccountService {
   }
 
   // Close connection
-  void reset({bool suspend = false}){
+  static void reset({bool suspend = false}){
     _suspended = suspend;
     if (_channel != null){
       if (_channel.sink != null){
@@ -116,7 +119,7 @@ class AccountService {
   }
 
   // Send message
-  void _send(String message) {
+  static void _send(String message) {
     bool reset = false;
     try {
     if (_channel != null){
@@ -141,7 +144,7 @@ class AccountService {
     }
   }
 
-  void _onMessageReceived(message) {
+  static void _onMessageReceived(message) {
     _isConnected = true;
     _isConnecting = false;
     log.fine("Received $message");
@@ -199,13 +202,13 @@ class AccountService {
   }
 
   /* Enqueue Request */
-  void queueRequest(BaseRequest request) {
+  static void queueRequest(BaseRequest request) {
     log.fine("requetest ${json.encode(request.toJson())}, q length: ${_requestQueue.length}");
     _requestQueue.add(new RequestItem(request));
   }
 
   /* Process Queue */
-  void processQueue() {
+  static void processQueue() {
     log.fine("Request Queue length ${_requestQueue.length}");
     if (_requestQueue != null && _requestQueue.length > 0) {
       RequestItem requestItem = _requestQueue.first;
@@ -231,7 +234,7 @@ class AccountService {
   }
 
   // Queue Utilities
-  bool queueContainsRequestWithHash(String hash) {
+  static bool queueContainsRequestWithHash(String hash) {
     if (_requestQueue != null || _requestQueue.length == 0) {
       return false;
     }
@@ -247,7 +250,7 @@ class AccountService {
     return false;
   }
 
-  bool queueContainsOpenBlock() {
+  static bool queueContainsOpenBlock() {
     if (_requestQueue != null || _requestQueue.length == 0) {
       return false;
     }
@@ -263,7 +266,7 @@ class AccountService {
     return false;
   }
 
-  void removeSubscribeHistoryPendingFromQueue() {
+  static void removeSubscribeHistoryPendingFromQueue() {
     if (_requestQueue != null && _requestQueue.length > 0) {
       List<RequestItem> toRemove = new List();
       _requestQueue.forEach((requestItem) {
@@ -278,17 +281,17 @@ class AccountService {
     }    
   }
 
-  RequestItem pop() {
+  static RequestItem pop() {
     return _requestQueue.length > 0 ? _requestQueue.removeFirst() : null;
   }
 
-  RequestItem peek() {
+  static RequestItem peek() {
     return _requestQueue.length > 0 ? _requestQueue.first : null;
   }
   
-  void clearQueue() {
+  static void clearQueue() {
     _requestQueue.clear();
   }
 
-  Queue<RequestItem> get requestQueue => _requestQueue;
+  static Queue<RequestItem> get requestQueue => _requestQueue;
 }
