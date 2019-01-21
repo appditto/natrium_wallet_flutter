@@ -63,8 +63,11 @@ dependencies:
   # RXDart
   rxdart : ^0.20.0
 
-  # SVG
-  flutter_svg: ^0.10.2
+  # SVG
+  flutter_svg:
+    git:
+      url: https://github.com/dnfield/flutter_svg.git
+      ref: master
 
   # QR Codes
   qr_flutter: ^1.1.6 # Generator
