@@ -47,16 +47,19 @@ class Bus {
 
 class RxBus {
   static final RxBus _singleton = new RxBus._internal();
-  static RxBus get inst => _singleton;
 
   RxBus._internal();
 
-  List<Bus> _list = List();
+  factory RxBus() {
+    return _singleton;
+  }
 
-  RxBus get singleton => _singleton;
+  static List<Bus> _list = List();
+
+  static RxBus get singleton => _singleton;
 
   /// Listen for events. Each time the listener is turned on, a new [PublishSubject] will be created to prevent duplicate listen events.
-  Observable<T> register<T>({@required String tag}) {
+  static Observable<T> register<T>({@required String tag}) {
     Bus _eventBus;
     //The tag that has already been registered does not need to be re-registered.
     if (_list.isNotEmpty) {
@@ -83,7 +86,7 @@ class RxBus {
   }
 
   /// Send Event
-  void post(event, {@required tag}) {
+  static void post(event, {@required tag}) {
     _list.forEach((rxBus) {
       if (rxBus.tag == tag) {
         rxBus.subject.sink.add(event);
@@ -92,7 +95,7 @@ class RxBus {
   }
 
   /// Event Closed
-  void destroy({@required tag}) {
+  static void destroy({@required tag}) {
     List<Bus> toRemove = List();
     _list.forEach((rxBus) {
       if (rxBus.tag == tag) {

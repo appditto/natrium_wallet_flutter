@@ -162,14 +162,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   }
 
   void _registerBus() {
-    RxBus.inst.register<AccountHistoryResponse>(tag: RX_HISTORY_HOME_TAG)
+    RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_HOME_TAG)
         .listen((historyResponse) {
       diffAndUpdateHistoryList(historyResponse.history);
       if (_refreshTimeout != null) {
         _refreshTimeout.cancel();
       }
     });
-    RxBus.inst.register<StateBlock>(tag: RX_SEND_COMPLETE_TAG).listen((stateBlock) {
+    RxBus.register<StateBlock>(tag: RX_SEND_COMPLETE_TAG).listen((stateBlock) {
       // Route to send complete if received process response for send block
       if (stateBlock != null) {
         // Route to send complete
@@ -183,7 +183,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         });
       }
     });
-    RxBus.inst.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {
+    RxBus.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {
       if (stateBlock != null) {
         Navigator.of(context).popUntil(ModalRoute.withName('/home'));
         StateContainer.of(context).wallet.representative =
@@ -194,10 +194,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         ));
       }
     });
-    RxBus.inst.register<Contact>(tag: RX_CONTACT_MODIFIED_TAG).listen((contact) {
+    RxBus.register<Contact>(tag: RX_CONTACT_MODIFIED_TAG).listen((contact) {
       _updateContacts();
     });
-    RxBus.inst.register<Contact>(tag: RX_CONTACT_ADDED_ALT_TAG).listen((contact) {
+    RxBus.register<Contact>(tag: RX_CONTACT_ADDED_ALT_TAG).listen((contact) {
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
         content: new Text(
             KaliumLocalization.of(context)
@@ -206,14 +206,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             style: KaliumStyles.TextStyleSnackbar),
       ));
     });
-    RxBus.inst.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
+    RxBus.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
       Future.delayed(Duration(milliseconds: 150), () {
         setState(() {
           _monkeyOverlayOpen = false;
         });
       });
     });
-    RxBus.inst.register<DeepLinkAction>(tag: RX_DEEP_LINK_TAG).listen((result) {
+    RxBus.register<DeepLinkAction>(tag: RX_DEEP_LINK_TAG).listen((result) {
       print("RECEIVED deep linke action ${result.sendDestination}");
       String amount;
       String contactName;
@@ -244,7 +244,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         }
       });
     });
-    RxBus.inst.register<ErrorResponse>(tag: RX_SEND_FAILED_TAG).listen((result) {
+    RxBus.register<ErrorResponse>(tag: RX_SEND_FAILED_TAG).listen((result) {
       // Send failed, close send screens and display error
       Navigator.of(context).popUntil(ModalRoute.withName('/home'));
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -263,12 +263,12 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   }
 
   void _destroyBus() {
-    RxBus.inst.destroy(tag: RX_HISTORY_HOME_TAG);
-    RxBus.inst.destroy(tag: RX_PROCESS_TAG);
-    RxBus.inst.destroy(tag: RX_CONTACT_MODIFIED_TAG);
-    RxBus.inst.destroy(tag: RX_CONTACT_ADDED_ALT_TAG);
-    RxBus.inst.destroy(tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
-    RxBus.inst.destroy(tag: RX_DEEP_LINK_TAG);
+    RxBus.destroy(tag: RX_HISTORY_HOME_TAG);
+    RxBus.destroy(tag: RX_PROCESS_TAG);
+    RxBus.destroy(tag: RX_CONTACT_MODIFIED_TAG);
+    RxBus.destroy(tag: RX_CONTACT_ADDED_ALT_TAG);
+    RxBus.destroy(tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
+    RxBus.destroy(tag: RX_DEEP_LINK_TAG);
   }
 
   @override
@@ -390,6 +390,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
     reversedNew.forEach((item) {
       if (!currentList.contains(item)) {
+        print("hash ${item.hash}");
         setState(() {
           _historyList.insertAtTop(item);
         });
@@ -1508,7 +1509,7 @@ class MonkeyOverlay extends ModalRoute<void> {
   bool get maintainState => false;
 
   Future<bool> _onClosed() async {
-    RxBus.inst.post(true, tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
+    RxBus.post(true, tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
     return true;
   }
 

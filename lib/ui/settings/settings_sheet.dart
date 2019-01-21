@@ -116,7 +116,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       int numSaved = await dbHelper.saveContacts(contactsToAdd);
       if (numSaved > 0) {
         _updateContacts();
-        RxBus.inst.post(Contact(name: "", address: ""),
+        RxBus.post(Contact(name: "", address: ""),
             tag: RX_CONTACT_MODIFIED_TAG);
         _scaffoldKey.currentState.showSnackBar(SnackBar(
             content: Text(
@@ -162,7 +162,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       _updateContacts();
     });
     // Contact added bus event
-    RxBus.inst.register<Contact>(tag: RX_CONTACT_ADDED_TAG).listen((contact) {
+    RxBus.register<Contact>(tag: RX_CONTACT_ADDED_TAG).listen((contact) {
       setState(() {
         _contacts.add(contact);
         //Sort by name
@@ -172,7 +172,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       _updateContacts();
     });
     // Contact removed bus event
-    RxBus.inst.register<Contact>(tag: RX_CONTACT_REMOVED_TAG).listen((contact) {
+    RxBus.register<Contact>(tag: RX_CONTACT_REMOVED_TAG).listen((contact) {
       setState(() {
         _contacts.remove(contact);
       });
@@ -205,8 +205,8 @@ class _SettingsSheetState extends State<SettingsSheet>
   void dispose() {
     _controller.dispose();
     _controller2.dispose();
-    RxBus.inst.destroy(tag: RX_CONTACT_ADDED_TAG);
-    RxBus.inst.destroy(tag: RX_CONTACT_REMOVED_TAG);
+    RxBus.destroy(tag: RX_CONTACT_ADDED_TAG);
+    RxBus.destroy(tag: RX_CONTACT_REMOVED_TAG);
     super.dispose();
   }
 

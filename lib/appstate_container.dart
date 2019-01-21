@@ -125,7 +125,7 @@ class StateContainerState extends State<StateContainer> {
           Address address = Address(link);
           if (!address.isValid()) { return; }
           Future.delayed(Duration(milliseconds: 100), () {
-            RxBus.inst.post(DeepLinkAction(sendDestination: address.address, sendAmount: address.amount), tag: RX_DEEP_LINK_TAG);
+            RxBus.post(DeepLinkAction(sendDestination: address.address, sendAmount: address.amount), tag: RX_DEEP_LINK_TAG);
           });
         }
       }
@@ -138,8 +138,8 @@ class StateContainerState extends State<StateContainer> {
   void _registerBus() {
     if (_busInitialized) {return;}
     _busInitialized = true;
-    RxBus.inst.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
-    RxBus.inst.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
+    RxBus.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
+    RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
       var reversedNew = historyResponse.history.reversed;
       var currentList = wallet.history;
 
@@ -156,7 +156,7 @@ class StateContainerState extends State<StateContainer> {
       AccountService.inst.processQueue();
       requestPending();
     });
-    RxBus.inst.register<PriceResponse>(tag: RX_PRICE_RESP_TAG).listen((priceResponse) {
+    RxBus.register<PriceResponse>(tag: RX_PRICE_RESP_TAG).listen((priceResponse) {
       // PriceResponse's get pushed periodically, it wasn't a request we made so don't pop the queue
       setState(() {
         wallet.nanoPrice = priceResponse.nanoPrice.toString();
@@ -164,16 +164,16 @@ class StateContainerState extends State<StateContainer> {
         wallet.localCurrencyPrice = priceResponse.price.toString();
       });
     });
-    RxBus.inst.register<BlocksInfoResponse>(tag: RX_BLOCKS_INFO_RESP_TAG).listen(handleBlocksInfoResponse);
-    RxBus.inst.register<ConnectionChanged>(tag: RX_CONN_STATUS_TAG).listen((status) {
+    RxBus.register<BlocksInfoResponse>(tag: RX_BLOCKS_INFO_RESP_TAG).listen(handleBlocksInfoResponse);
+    RxBus.register<ConnectionChanged>(tag: RX_CONN_STATUS_TAG).listen((status) {
       if (status == ConnectionChanged.CONNECTED) {
         requestUpdate();
       }
     });
-    RxBus.inst.register<CallbackResponse>(tag: RX_CALLBACK_TAG).listen(handleCallbackResponse);
-    RxBus.inst.register<ProcessResponse>(tag: RX_PROCESS_TAG).listen(handleProcessResponse);
-    RxBus.inst.register<PendingResponse>(tag: RX_PENDING_RESP_TAG).listen(handlePendingResponse);
-    RxBus.inst.register<ErrorResponse>(tag: RX_ERROR_RESP_TAG).listen(handleErrorResponse);
+    RxBus.register<CallbackResponse>(tag: RX_CALLBACK_TAG).listen(handleCallbackResponse);
+    RxBus.register<ProcessResponse>(tag: RX_PROCESS_TAG).listen(handleProcessResponse);
+    RxBus.register<PendingResponse>(tag: RX_PENDING_RESP_TAG).listen(handlePendingResponse);
+    RxBus.register<ErrorResponse>(tag: RX_ERROR_RESP_TAG).listen(handleErrorResponse);
   }
 
   @override
@@ -185,14 +185,14 @@ class StateContainerState extends State<StateContainer> {
 
   void _destroyBus() {
     _busInitialized = false;
-    RxBus.inst.destroy(tag: RX_SUBSCRIBE_TAG);
-    RxBus.inst.destroy(tag: RX_HISTORY_TAG);
-    RxBus.inst.destroy(tag: RX_PRICE_RESP_TAG);
-    RxBus.inst.destroy(tag: RX_BLOCKS_INFO_RESP_TAG);
-    RxBus.inst.destroy(tag: RX_CALLBACK_TAG);
-    RxBus.inst.destroy(tag: RX_CONN_STATUS_TAG);
-    RxBus.inst.destroy(tag: RX_PROCESS_TAG);
-    RxBus.inst.destroy(tag: RX_PENDING_RESP_TAG);
+    RxBus.destroy(tag: RX_SUBSCRIBE_TAG);
+    RxBus.destroy(tag: RX_HISTORY_TAG);
+    RxBus.destroy(tag: RX_PRICE_RESP_TAG);
+    RxBus.destroy(tag: RX_BLOCKS_INFO_RESP_TAG);
+    RxBus.destroy(tag: RX_CALLBACK_TAG);
+    RxBus.destroy(tag: RX_CONN_STATUS_TAG);
+    RxBus.destroy(tag: RX_PROCESS_TAG);
+    RxBus.destroy(tag: RX_PENDING_RESP_TAG);
   }
 
   // You can (and probably will) have methods on your StateContainer
@@ -224,7 +224,7 @@ class StateContainerState extends State<StateContainer> {
         ProcessRequest origRequest = prevRequest.request;
         if (origRequest.subType == BlockTypes.SEND) {
           // Send send failed event
-          RxBus.inst.post(errorResponse, tag: RX_SEND_FAILED_TAG);
+          RxBus.post(errorResponse, tag: RX_SEND_FAILED_TAG);
         }
         pendingBlockMap.clear();
         pendingResponseBlockMap.clear();
@@ -256,7 +256,7 @@ class StateContainerState extends State<StateContainer> {
           wallet.blockCount = wallet.blockCount + 1;
         });
         if (previous.subType == BlockTypes.SEND) {
-          RxBus.inst.post(previous, tag:RX_SEND_COMPLETE_TAG);
+          RxBus.post(previous, tag:RX_SEND_COMPLETE_TAG);
         } else if (previous.subType == BlockTypes.RECEIVE) {
           // Handle next receive if there is one
           StateBlock frontier = pendingBlockMap.remove(processResponse.hash);
@@ -275,7 +275,7 @@ class StateContainerState extends State<StateContainer> {
             });
           }
         } else if (previous.subType == BlockTypes.CHANGE) {
-          RxBus.inst.post(previous, tag:RX_REP_CHANGED_TAG);
+          RxBus.post(previous, tag:RX_REP_CHANGED_TAG);
         }
       }
     }
@@ -357,7 +357,7 @@ class StateContainerState extends State<StateContainer> {
       if (_initialDeepLink == null) { return; }
       Address address = Address(_initialDeepLink);
       if (!address.isValid()) { return; }
-      RxBus.inst.post(DeepLinkAction(sendDestination: address.address, sendAmount: address.amount), tag: RX_DEEP_LINK_TAG);
+      RxBus.post(DeepLinkAction(sendDestination: address.address, sendAmount: address.amount), tag: RX_DEEP_LINK_TAG);
     } catch (e) {
       log.severe(e.toString());
     }

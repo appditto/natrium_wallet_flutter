@@ -74,14 +74,14 @@ class AccountService {
       log.fine("Connected to service");
       _isConnecting = false;
       _isConnected = true;
-      RxBus.inst.post(ConnectionChanged.CONNECTED, tag: RX_CONN_STATUS_TAG);
+      RxBus.post(ConnectionChanged.CONNECTED, tag: RX_CONN_STATUS_TAG);
       _channel.stream.listen(_onMessageReceived, onDone: connectionClosed, onError: connectionClosedError);
     } catch(e){
       log.severe("Error from service ${e.toString()}");
       // TODO - error handling
       _isConnected = false;
       _isConnecting = false;
-      RxBus.inst.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
+      RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
     }
   }
 
@@ -91,7 +91,7 @@ class AccountService {
     _isConnecting = false;
     log.fine("disconnected from service");
     // Send disconnected message
-    RxBus.inst.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
+    RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
   }
 
   // Connection closed (with error)
@@ -100,7 +100,7 @@ class AccountService {
     _isConnecting = false;
     log.fine("disconnected from service with error ${e.toString()}");
     // Send disconnected message
-    RxBus.inst.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
+    RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
   }
 
   // Close connection
@@ -152,19 +152,19 @@ class AccountService {
       // Subscribe response
       SubscribeResponse resp = SubscribeResponse.fromJson(msg);
       // Post to callbacks
-      RxBus.inst.post(resp, tag:RX_SUBSCRIBE_TAG);
+      RxBus.post(resp, tag:RX_SUBSCRIBE_TAG);
     } else if (msg.containsKey("currency") && msg.containsKey("price") && msg.containsKey("btc")) {
       // Price info sent from server
       PriceResponse resp = PriceResponse.fromJson(msg);
-      RxBus.inst.post(resp, tag: RX_PRICE_RESP_TAG);
+      RxBus.post(resp, tag: RX_PRICE_RESP_TAG);
     } else if (msg.containsKey("history")) {
       // Account history response
       if (msg['history'] == "") {
         msg['history'] = new List<AccountHistoryResponseItem>();
       }
       AccountHistoryResponse resp = AccountHistoryResponse.fromJson(msg);
-      RxBus.inst.post(resp, tag: RX_HISTORY_TAG);
-      RxBus.inst.post(resp, tag: RX_HISTORY_HOME_TAG);
+      RxBus.post(resp, tag: RX_HISTORY_TAG);
+      RxBus.post(resp, tag: RX_HISTORY_HOME_TAG);
     } else if (msg.containsKey("blocks")) {
       // This is either a 'blocks_info' response "or" a 'pending' response
       if (msg['blocks'] is Map && msg['blocks'].length > 0) {
@@ -173,10 +173,10 @@ class AccountService {
           if (blockMap[blockMap.keys.first].containsKey('block_account')) {
             // Blocks Info Response
             BlocksInfoResponse resp = BlocksInfoResponse.fromJson(msg);
-            RxBus.inst.post(resp, tag: RX_BLOCKS_INFO_RESP_TAG);
+            RxBus.post(resp, tag: RX_BLOCKS_INFO_RESP_TAG);
           } else if (blockMap[blockMap.keys.first].containsKey('source')) {
             PendingResponse resp = PendingResponse.fromJson(msg);
-            RxBus.inst.post(resp, tag: RX_PENDING_RESP_TAG);
+            RxBus.post(resp, tag: RX_PENDING_RESP_TAG);
           }
         }
       } else {
@@ -186,14 +186,14 @@ class AccountService {
       }
     } else if (msg.containsKey("block") && msg.containsKey("hash") && msg.containsKey("account")) {
       CallbackResponse resp = CallbackResponse.fromJson(msg);
-      RxBus.inst.post(resp, tag: RX_CALLBACK_TAG);
+      RxBus.post(resp, tag: RX_CALLBACK_TAG);
     } else if (msg.containsKey("hash")) {
       // process response
       ProcessResponse resp = ProcessResponse.fromJson(msg);
-      RxBus.inst.post(resp, tag: RX_PROCESS_TAG);
+      RxBus.post(resp, tag: RX_PROCESS_TAG);
     } else if (msg.containsKey("error")) {
       ErrorResponse resp = ErrorResponse.fromJson(msg);
-      RxBus.inst.post(resp, tag: RX_ERROR_RESP_TAG);
+      RxBus.post(resp, tag: RX_ERROR_RESP_TAG);
     }
     return;
   }
