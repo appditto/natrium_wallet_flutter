@@ -132,7 +132,6 @@ flutter:
     - assets/monkeyQR.svg
     - assets/welcome_animation.flr
     - assets/send_animation.flr
-    - assets/pulltorefresh_animation.flr
     - assets/sharecard_bananologo.svg
 
   # The following line ensures that the Material Icons font is
