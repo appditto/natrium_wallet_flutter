@@ -19,26 +19,15 @@ class IntroBackupSeedPage extends StatefulWidget {
 
 class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String _seed = "";
+  String _seed;
   TextStyle _seedTapStyle = KaliumStyles.TextStyleSeed;
-  var _seedCopiedColor;
+  var _seedCopiedColor = Colors.transparent;
   Timer _seedCopiedTimer;
 
   @override
   void initState() {
     super.initState();
-        
-    Vault.inst.setSeed(NanoSeeds.generateSeed()).then((result) {
-      // Update wallet
-      StateContainer.of(context).updateWallet(address:NanoUtil.seedToAddress(result));
-      StateContainer.of(context).requestUpdate();
-      // Update local state
-      setState(() {
-        _seed = result;
-        _seedTapStyle = KaliumStyles.TextStyleSeed;
-        _seedCopiedColor = Colors.transparent;
-      });
-    });
+    _seed = NanoSeeds.generateSeed();
   }
 
   @override
@@ -178,7 +167,12 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             splashColor: KaliumColors.primary30,
                             highlightColor: KaliumColors.primary15,
                             onPressed: () {
-                              Navigator.of(context).pushNamed('/intro_backup_confirm');
+                              Vault.inst.setSeed(_seed).then((result) {
+                                // Update wallet
+                                StateContainer.of(context).updateWallet(address:NanoUtil.seedToAddress(result));
+                                StateContainer.of(context).requestUpdate();
+                                Navigator.of(context).pushNamed('/intro_backup_confirm');
+                              });
                             },
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50.0)),
