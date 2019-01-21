@@ -277,11 +277,12 @@ class StateContainerState extends State<StateContainer> {
     if (response.blockCount != null) {
       AccountService.requestQueue.forEach((requestItem) {
         if (requestItem.request is AccountHistoryRequest) {
+          /*
           int count = wallet.blockCount - wallet.history.length;
           if (wallet.blockCount <= 0) {
             count = response.blockCount;
-          }
-          requestItem.request.count = count;
+          }*/
+          requestItem.request.count = response.blockCount;
         }
       });
     }
