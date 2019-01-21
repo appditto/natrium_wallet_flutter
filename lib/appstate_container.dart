@@ -273,19 +273,6 @@ class StateContainerState extends State<StateContainer> {
 
   /// Handle account_subscribe response
   void handleSubscribeResponse(SubscribeResponse response) {
-    // Update blockCount in upcoming history requests
-    if (response.blockCount != null) {
-      AccountService.requestQueue.forEach((requestItem) {
-        if (requestItem.request is AccountHistoryRequest) {
-          /*
-          int count = wallet.blockCount - wallet.history.length;
-          if (wallet.blockCount <= 0) {
-            count = response.blockCount;
-          }*/
-          requestItem.request.count = response.blockCount;
-        }
-      });
-    }
     // Set currency locale here for the UI to access
     SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
       setState(() {

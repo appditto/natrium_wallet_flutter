@@ -54,8 +54,6 @@ class AccountService {
     initCommunication();
   }
 
-  static Queue<RequestItem> get requestQueue => _requestQueue;
-
   // Connect to server
   static void initCommunication({bool unsuspend = false}) async {
     if (_isConnected || _isConnecting) {
@@ -155,6 +153,14 @@ class AccountService {
         msg.containsKey("error") && msg.containsKey("currency")) {
       // Subscribe response
       SubscribeResponse resp = SubscribeResponse.fromJson(msg);
+      // Check next request to update block count
+      if (resp.blockCount != null) {
+        _requestQueue.forEach((requestItem) {
+          if (requestItem.request is AccountHistoryRequest) {
+            requestItem.request.count = resp.blockCount;
+          }
+        });
+      }
       // Post to callbacks
       RxBus.post(resp, tag:RX_SUBSCRIBE_TAG);
     } else if (msg.containsKey("currency") && msg.containsKey("price") && msg.containsKey("btc")) {
