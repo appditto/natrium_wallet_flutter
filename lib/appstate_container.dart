@@ -208,6 +208,16 @@ class StateContainerState extends State<StateContainer> {
     });
   }
 
+  void disconnect() {
+    _destroyBus();
+    AccountService.inst.reset(suspend: true);
+  }
+
+  void reconnect() {
+    _registerBus();
+    AccountService.inst.initCommunication(unsuspend: true);
+  }
+
   ///
   /// When an error is returned from server
   /// 

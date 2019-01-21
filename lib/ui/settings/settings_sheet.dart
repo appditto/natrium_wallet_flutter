@@ -39,7 +39,7 @@ class SettingsSheet extends StatefulWidget {
 }
 
 class _SettingsSheetState extends State<SettingsSheet>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   AnimationController _controller;
   Animation<Offset> _offsetFloat;
   AnimationController _controller2;
@@ -161,22 +161,8 @@ class _SettingsSheetState extends State<SettingsSheet>
       });
       _updateContacts();
     });
-    // Contact added bus event
-    RxBus.register<Contact>(tag: RX_CONTACT_ADDED_TAG).listen((contact) {
-      setState(() {
-        _contacts.add(contact);
-        //Sort by name
-        _contacts.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-      });
-      // Full update which includes downloading new monKey
-      _updateContacts();
-    });
-    // Contact removed bus event
-    RxBus.register<Contact>(tag: RX_CONTACT_REMOVED_TAG).listen((contact) {
-      setState(() {
-        _contacts.remove(contact);
-      });
-    });
+    // Register event bus
+    _registerBus();
     // Setup animation controller
     _controller = AnimationController(
       vsync: this,
@@ -201,13 +187,53 @@ class _SettingsSheetState extends State<SettingsSheet>
     });
   }
 
+  void _registerBus() {
+    // Contact added bus event
+    RxBus.register<Contact>(tag: RX_CONTACT_ADDED_TAG).listen((contact) {
+      setState(() {
+        _contacts.add(contact);
+        //Sort by name
+        _contacts.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+      });
+      // Full update which includes downloading new monKey
+      _updateContacts();
+    });
+    // Contact removed bus event
+    RxBus.register<Contact>(tag: RX_CONTACT_REMOVED_TAG).listen((contact) {
+      setState(() {
+        _contacts.remove(contact);
+      });
+    });
+  }
+
+  void _destroyBus() {
+    RxBus.destroy(tag: RX_CONTACT_ADDED_TAG);
+    RxBus.destroy(tag: RX_CONTACT_REMOVED_TAG);
+  }
+
   @override
   void dispose() {
     _controller.dispose();
     _controller2.dispose();
-    RxBus.destroy(tag: RX_CONTACT_ADDED_TAG);
-    RxBus.destroy(tag: RX_CONTACT_REMOVED_TAG);
+    _destroyBus();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.paused:
+        _destroyBus();
+        super.didChangeAppLifecycleState(state);
+        break;
+      case AppLifecycleState.resumed:
+        _registerBus();
+        super.didChangeAppLifecycleState(state);
+        break;
+      default:
+        super.didChangeAppLifecycleState(state);
+        break;
+    }
   }
 
   void _updateContacts() {

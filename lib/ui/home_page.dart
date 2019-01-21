@@ -11,7 +11,6 @@ import 'package:kalium_wallet_flutter/model/deep_link_action.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
 import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
-import 'package:kalium_wallet_flutter/network/account_service.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/error_response.dart';
@@ -277,11 +276,13 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     // terminate it to be eco-friendly
     switch (state) {
       case AppLifecycleState.paused:
-        AccountService.inst.reset(suspend: true);
+        _destroyBus();
+        StateContainer.of(context).disconnect();
         super.didChangeAppLifecycleState(state);
         break;
       case AppLifecycleState.resumed:
-        AccountService.inst.initCommunication(unsuspend: true);
+        _registerBus();
+        StateContainer.of(context).reconnect();
         super.didChangeAppLifecycleState(state);
         break;
       default:
