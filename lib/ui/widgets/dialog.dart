@@ -104,6 +104,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
       Animation<double> animation,
       Animation<double> secondaryAnimation,
       ) {
+    HapticUtil.fingerprintSuccess();
     return Material(
       type: MaterialType.transparency,
       child: SafeArea(
@@ -124,7 +125,6 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
   }
 
   Widget _buildOverlayContent(BuildContext context) {
-    HapticUtil.fingerprintSuccess();
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: type == AnimationType.GENERIC ? MainAxisAlignment.center : MainAxisAlignment.end,
