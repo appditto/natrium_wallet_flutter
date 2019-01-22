@@ -67,7 +67,7 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
     }
     // Set animation
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 500), vsync: this);
+        duration: const Duration(milliseconds: 350), vsync: this);
     final Animation curve =
         CurvedAnimation(parent: _controller, curve: ShakeCurve());
     _animation = Tween(begin: 0.0, end: 10.0).animate(curve)
@@ -181,7 +181,7 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
               if (type == PinOverlayType.ENTER_PIN) {
                 // Pin is not what was expected
                 if (_pin != expectedPin) {
-                  HapticFeedback.mediumImpact();
+                  HapticFeedback.heavyImpact();
                   _controller.forward();
                 } else {
                   successCallback(_pin);
