@@ -17,7 +17,6 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/biometrics.dart';
-import 'package:kalium_wallet_flutter/util/hapticutil.dart';
 import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
@@ -316,7 +315,6 @@ class KaliumChangeRepresentativeSheet {
                                             KaliumLocalization.of(context).changeRepAuthenticate)
                                         .then((authenticated) {
                                       if (authenticated) {
-                                        HapticUtil.fingerprintSucess();
                                         Navigator.of(context)
                                             .push(AnimationLoadingOverlay(AnimationType.GENERIC));
                                         // If account isnt open, just store the account in sharedprefs
