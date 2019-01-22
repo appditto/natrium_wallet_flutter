@@ -41,6 +41,7 @@ class KaliumChangeRepresentativeSheet {
   }
 
   mainBottomSheet(BuildContext context) {
+    HapticUtil.fingerprintSuccess();
     _changeRepHint = KaliumLocalization.of(context).changeRepHint;
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
