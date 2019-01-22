@@ -304,7 +304,7 @@ class ReactiveRefreshIndicatorState extends State<ReactiveRefreshIndicator> with
     if (_mode == _RefreshIndicatorMode.armed)
       newValue = math.max(newValue, 1.0 / _kDragSizeFactorLimit);
     _positionController.value = newValue.clamp(0.0, 1.0); // this triggers various rebuilds
-    if (_mode == _RefreshIndicatorMode.drag && newValue >= 0.8)
+    if (_mode == _RefreshIndicatorMode.drag && newValue >= 1.0 / _kDragSizeFactorLimit)
       //_mode = _RefreshIndicatorMode.armed;
       _show();
   }
