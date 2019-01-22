@@ -88,7 +88,7 @@ class _PinScreenState extends State<PinScreen>
         duration: const Duration(milliseconds: 350), vsync: this);
     final Animation curve =
         CurvedAnimation(parent: _controller, curve: ShakeCurve());
-    _animation = Tween(begin: 0.0, end: 15.0).animate(curve)
+    _animation = Tween(begin: 0.0, end: 25.0).animate(curve)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           if (type == PinOverlayType.ENTER_PIN) {
