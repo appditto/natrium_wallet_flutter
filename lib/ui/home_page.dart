@@ -178,7 +178,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         DBHelper().getContactWithAddress(stateBlock.link).then((contact) {
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-          HapticUtil.success();
           KaliumSendCompleteSheet(displayAmount, stateBlock.link, contactName)
               .mainBottomSheet(context);
         });
