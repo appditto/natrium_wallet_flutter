@@ -10,7 +10,6 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/util/clipboardutil.dart';
-import 'package:kalium_wallet_flutter/util/hapticutil.dart';
 
 class KaliumSeedBackupSheet {
   // Seed copied state information
@@ -19,7 +18,6 @@ class KaliumSeedBackupSheet {
   Timer _seedCopiedTimer;
 
   mainBottomSheet(BuildContext context) {
-    HapticUtil.fingerprintSuccess();
     Vault.inst.getSeed().then((result) {
       _seed = result;
       // Set initial seed copy state

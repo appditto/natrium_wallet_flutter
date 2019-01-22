@@ -529,6 +529,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                       .fingerprintSeedBackup)
                               .then((authenticated) {
                             if (authenticated) {
+                              HapticUtil.fingerprintSucess();
                               new KaliumSeedBackupSheet()
                                   .mainBottomSheet(context);
                             }

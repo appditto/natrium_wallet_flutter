@@ -143,6 +143,7 @@ class KaliumSendConfirmSheet {
                                     BiometricUtil.authenticateWithBiometrics(
                                       KaliumLocalization.of(context).sendAmountConfirm.replaceAll("%1", _amount)).then((authenticated) {
                                       if (authenticated) {
+                                        HapticUtil.fingerprintSucess();
                                         Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.SEND));
                                         StateContainer.of(context).requestSend(
                                             StateContainer.of(context).wallet.frontier,

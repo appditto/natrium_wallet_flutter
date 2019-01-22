@@ -50,6 +50,8 @@ class HapticUtil {
       // If this is simulator or this device doesnt have tapic then we can't use this
       if (await HapticUtil.hasTapicEngine() && await Vibrate.canVibrate) {
         Vibrate.feedback(FeedbackType.medium);
+      } else {
+        HapticFeedback.mediumImpact();
       }
     } else {
       HapticFeedback.mediumImpact();
@@ -58,7 +60,7 @@ class HapticUtil {
 
   /// Feedback for fingerprint success
   /// iOS-only, since Android already gives us feedback on success
-  static Future<void> fingerprintSuccess() async {
+  static Future<void> fingerprintSucess() async {
     if (Platform.isIOS) {
       success();
     }

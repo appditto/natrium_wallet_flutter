@@ -41,7 +41,6 @@ class KaliumChangeRepresentativeSheet {
   }
 
   mainBottomSheet(BuildContext context) {
-    HapticUtil.fingerprintSuccess();
     _changeRepHint = KaliumLocalization.of(context).changeRepHint;
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
@@ -317,6 +316,7 @@ class KaliumChangeRepresentativeSheet {
                                             KaliumLocalization.of(context).changeRepAuthenticate)
                                         .then((authenticated) {
                                       if (authenticated) {
+                                        HapticUtil.fingerprintSucess();
                                         Navigator.of(context)
                                             .push(AnimationLoadingOverlay(AnimationType.GENERIC));
                                         // If account isnt open, just store the account in sharedprefs

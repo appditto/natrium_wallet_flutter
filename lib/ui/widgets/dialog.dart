@@ -4,7 +4,6 @@ import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_simpledialog.dart';
-import 'package:kalium_wallet_flutter/util/hapticutil.dart';
 
 class KaliumDialogs {
   static void showConfirmDialog(
@@ -111,6 +110,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
       ),
     );
   }
+
   Widget _getAnimation(BuildContext context) {
     switch (type) {
       case AnimationType.SEND:
@@ -124,7 +124,6 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
   }
 
   Widget _buildOverlayContent(BuildContext context) {
-    HapticUtil.fingerprintSuccess();
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: type == AnimationType.GENERIC ? MainAxisAlignment.center : MainAxisAlignment.end,
