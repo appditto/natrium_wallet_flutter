@@ -92,6 +92,12 @@ dependencies:
   # HTTP client
   http: ^0.12.0+1
 
+  # Vibrate
+  vibrate:
+    git:
+      url: https://github.com/bbedward/flutter_vibrate.git
+      ref: master
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

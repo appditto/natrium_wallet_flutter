@@ -1,4 +1,7 @@
 import 'dart:math';
+import 'dart:io';
+
+import 'package:vibrate/vibrate.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,6 +54,16 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
   // Invalid animation
   AnimationController _controller;
   Animation<double> _animation;
+
+  Future<void> _errorHaptic() async {
+    if (Platform.isIOS) {
+      if (await Vibrate.canVibrate) {
+        Vibrate.feedback(FeedbackType.error);
+      }
+    } else {
+      HapticFeedback.heavyImpact();
+    }
+  }
 
   @override
   void initState() {
@@ -181,7 +194,11 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
               if (type == PinOverlayType.ENTER_PIN) {
                 // Pin is not what was expected
                 if (_pin != expectedPin) {
+<<<<<<< HEAD
                   HapticFeedback.heavyImpact();
+=======
+                  _errorHaptic();
+>>>>>>> a93417393a8b693863ebf13373db8688533e736b
                   _controller.forward();
                 } else {
                   successCallback(_pin);
@@ -199,7 +216,7 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
                   if (_pin == _pinConfirmed) {
                     successCallback(_pin);
                   } else {
-                    HapticFeedback.mediumImpact();
+                    _errorHaptic();
                     _controller.forward();
                   }
                 }
@@ -216,13 +233,17 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
     if (pinEnterTitle.isEmpty) {
       setState(() {
         pinEnterTitle = KaliumLocalization.of(context).pinEnterTitle;
-        _header = pinEnterTitle;
+        if (type == PinOverlayType.ENTER_PIN) {
+          _header = pinEnterTitle;
+        }
       });
     }
     if (pinCreateTitle.isEmpty) {
       setState(() {
         pinCreateTitle = KaliumLocalization.of(context).pinCreateTitle;
-        _header = pinCreateTitle;
+        if (type == PinOverlayType.NEW_PIN) {
+          _header = pinCreateTitle;
+        }
       });
     }
 
