@@ -194,11 +194,7 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
               if (type == PinOverlayType.ENTER_PIN) {
                 // Pin is not what was expected
                 if (_pin != expectedPin) {
-<<<<<<< HEAD
-                  HapticFeedback.heavyImpact();
-=======
                   _errorHaptic();
->>>>>>> a93417393a8b693863ebf13373db8688533e736b
                   _controller.forward();
                 } else {
                   successCallback(_pin);
