@@ -94,6 +94,7 @@ class ReactiveRefreshIndicator extends StatefulWidget {
     @required this.child,
     this.displacement = 40.0,
     @required this.onRefresh,
+    @required this.isRefreshing,
     this.color,
     this.backgroundColor,
     this.notificationPredicate = defaultScrollNotificationPredicate,
@@ -101,6 +102,7 @@ class ReactiveRefreshIndicator extends StatefulWidget {
     this.semanticsValue,
   }) : assert(child != null),
        assert(onRefresh != null),
+       assert(isRefreshing != null),
        assert(notificationPredicate != null),
        super(key: key);
 
@@ -145,6 +147,8 @@ class ReactiveRefreshIndicator extends StatefulWidget {
 
   /// {@macro flutter.material.progressIndicator.semanticsValue}
   final String semanticsValue;
+
+  final bool isRefreshing;
 
   @override
   ReactiveRefreshIndicatorState createState() => ReactiveRefreshIndicatorState();
@@ -199,6 +203,14 @@ class ReactiveRefreshIndicatorState extends State<ReactiveRefreshIndicator> with
     _positionController.dispose();
     _scaleController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(ReactiveRefreshIndicator oldWidget) {
+    if (oldWidget.isRefreshing && !widget.isRefreshing) {
+      stopRefreshing();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   bool _handleScrollNotification(ScrollNotification notification) {

@@ -45,8 +45,6 @@ class KaliumHomePage extends StatefulWidget {
 class _KaliumHomePageState extends State<KaliumHomePage>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  final GlobalKey<ReactiveRefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<ReactiveRefreshIndicatorState>();
-  final GlobalKey<ReactiveRefreshIndicatorState> _refreshIndicatorKeyPlaceholder = new GlobalKey<ReactiveRefreshIndicatorState>();
   var _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
 
   // Controller for placeholder card animations
@@ -72,6 +70,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Price conversion state (BTC, NANO, NONE)
   PriceConversion _priceConversion;
   TextStyle _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
+
+  bool _isRefreshing = false;
 
   @override
   void initState() {
@@ -165,7 +165,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_HOME_TAG)
         .listen((historyResponse) {
       diffAndUpdateHistoryList(historyResponse.history);
-      hideRefreshIndicator();
+      setState(() {
+       _isRefreshing = false;
+      });  
     });
     RxBus.register<StateBlock>(tag: RX_SEND_COMPLETE_TAG).listen((stateBlock) {
       // Route to send complete if received process response for send block
@@ -333,7 +335,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     } else if (StateContainer.of(context).wallet.history.length == 0) {
       _disposeAnimation();
       return ReactiveRefreshIndicator(
-        key: _refreshIndicatorKeyPlaceholder,
         child: ListView(
           padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
           children: <Widget>[
@@ -345,6 +346,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
           ],
         ),
         onRefresh: _refresh,
+        isRefreshing: _isRefreshing,
       );
     } else {
       _disposeAnimation();
@@ -359,7 +361,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       });
     }
     return ReactiveRefreshIndicator(
-      key: _refreshIndicatorKey,
       child: AnimatedList(
         key: _listKey,
         padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
@@ -367,26 +368,23 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         itemBuilder: _buildItem,
       ),
       onRefresh: _refresh,
+      isRefreshing: _isRefreshing,
     );
   }
 
   // Refresh list
   Future<void> _refresh() async {
+    setState(() {
+      _isRefreshing = true;
+    });
     HapticUtil.success();
     StateContainer.of(context).requestUpdate();
     // Hide refresh indicator after 3 seconds if no server response
-    Future.delayed(new Duration(seconds: 1), () {
-      hideRefreshIndicator();      
+    Future.delayed(new Duration(seconds: 3), () {
+      setState(() {
+        _isRefreshing = false;
+      });   
     });
-  }
-
-  void hideRefreshIndicator() {
-    if (_refreshIndicatorKey.currentState != null) {
-      _refreshIndicatorKey.currentState.stopRefreshing();
-    }
-    if (_refreshIndicatorKeyPlaceholder.currentState != null) {
-      _refreshIndicatorKeyPlaceholder.currentState.stopRefreshing();
-    }    
   }
 
   ///
