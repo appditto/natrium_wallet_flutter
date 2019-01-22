@@ -49,7 +49,7 @@ class HapticUtil {
     if (Platform.isIOS) {
       // If this is simulator or this device doesnt have tapic then we can't use this
       if (await HapticUtil.hasTapicEngine() && await Vibrate.canVibrate) {
-        Vibrate.feedback(FeedbackType.light);
+        Vibrate.feedback(FeedbackType.medium);
       } else {
         HapticFeedback.mediumImpact();
       }
