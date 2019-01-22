@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,6 +9,14 @@ import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 
 enum PinOverlayType { NEW_PIN, ENTER_PIN }
+
+class ShakeCurve extends Curve {
+  @override
+  double transform(double t) {
+    //t from 0.0 to 1.0
+    return sin(t * 3 * pi).abs();
+  }
+}
 
 class PinScreen extends StatefulWidget {
   final PinOverlayType type;
@@ -20,7 +30,7 @@ class PinScreen extends StatefulWidget {
   _PinScreenState createState() => _PinScreenState(type, expectedPin, description, pinSuccessCallback);
 }
 
-class _PinScreenState extends State<PinScreen> {
+class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMixin {
   _PinScreenState(this.type, this.expectedPin, this.description, this.successCallback);
 
   PinOverlayType type;
@@ -28,12 +38,8 @@ class _PinScreenState extends State<PinScreen> {
   Function successCallback;
   String description;
 
-  // Constants
-  String _enterPin;
-  String _confirmPin;
-  String _noMatch;
-  String _enterPinExisting;
-  String _invalidPin;
+  String pinEnterTitle = "";
+  String pinCreateTitle = "";
 
   // Stateful data
   List<IconData> _dotStates;
@@ -41,6 +47,10 @@ class _PinScreenState extends State<PinScreen> {
   String _pinConfirmed;
   bool _awaitingConfirmation; // true if pin has been entered once, false if not entered once
   String _header;
+
+  // Invalid animation
+  AnimationController _controller;
+  Animation<double> _animation;
 
   @override
   void initState() {
@@ -50,6 +60,49 @@ class _PinScreenState extends State<PinScreen> {
     _awaitingConfirmation = false;
     _pin = "";
     _pinConfirmed = "";
+    if (type == PinOverlayType.ENTER_PIN) {
+      _header = pinEnterTitle;
+    } else {
+      _header = pinCreateTitle;
+    }
+    // Set animation
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 500), vsync: this);
+    final Animation curve =
+        CurvedAnimation(parent: _controller, curve: ShakeCurve());
+    _animation = Tween(begin: 0.0, end: 10.0).animate(curve)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          if (type == PinOverlayType.ENTER_PIN) {
+            setState(() {
+              _pin = "";
+              _header = KaliumLocalization.of(context).pinInvalid;
+              _dotStates = List.filled(6, KaliumIcons.dotemtpy);                      
+              _controller.value = 0;
+            });
+          } else {
+            setState(() {
+              _awaitingConfirmation = false;
+              _dotStates = List.filled(6, KaliumIcons.dotemtpy);
+              _pin = "";
+              _pinConfirmed = "";
+              _header = KaliumLocalization.of(context).pinConfirmError;            
+              _controller.value = 0;              
+            });
+          }
+        }
+      })
+      ..addListener(() {
+        setState(() {
+          // the animation object’s value is the changed state
+        });
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   /// Set next character in the pin set
@@ -119,42 +172,39 @@ class _PinScreenState extends State<PinScreen> {
           ),
         ),
         onPressed: () {
+          if (_controller.status == AnimationStatus.forward || _controller.status == AnimationStatus.reverse) {
+            return;
+          }
           if (_setCharacter(buttonText)) {
-            if (type == PinOverlayType.ENTER_PIN) {
-              // Pin is not what was expected
-              if (_pin != expectedPin) {
-                setState(() {
-                  _pin = "";
-                  _header = _invalidPin;
-                  _dotStates = List.filled(6, KaliumIcons.dotemtpy);
-                });
-              } else {
-                successCallback(_pin);
-              }
-            } else {
-              if (!_awaitingConfirmation) {
-                // Switch to confirm pin
-                setState(() {
-                  _awaitingConfirmation = true;
-                  _dotStates = List.filled(6, KaliumIcons.dotemtpy);
-                  _header = _confirmPin;
-                });
-              } else {
-                // First and second pins match
-                if (_pin == _pinConfirmed) {
-                  successCallback(_pin);
+            // Mild delay so they can actually see the last dot get filled
+            Future.delayed(Duration(milliseconds: 50), () {
+              if (type == PinOverlayType.ENTER_PIN) {
+                // Pin is not what was expected
+                if (_pin != expectedPin) {
+                  HapticFeedback.mediumImpact();
+                  _controller.forward();
                 } else {
-                  // Start over
+                  successCallback(_pin);
+                }
+              } else {
+                if (!_awaitingConfirmation) {
+                  // Switch to confirm pin
                   setState(() {
-                    _awaitingConfirmation = false;
+                    _awaitingConfirmation = true;
                     _dotStates = List.filled(6, KaliumIcons.dotemtpy);
-                    _pin = "";
-                    _pinConfirmed = "";
-                    _header = _noMatch;
+                    _header = KaliumLocalization.of(context).pinConfirmTitle;
                   });
+                } else {
+                  // First and second pins match
+                  if (_pin == _pinConfirmed) {
+                    successCallback(_pin);
+                  } else {
+                    HapticFeedback.mediumImpact();
+                    _controller.forward();
+                  }
                 }
               }
-            }
+            });
           }
         },
       ),
@@ -163,17 +213,17 @@ class _PinScreenState extends State<PinScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Set strings
-    _enterPin = KaliumLocalization.of(context).pinCreateTitle;
-    _confirmPin =  KaliumLocalization.of(context).pinConfirmTitle;
-    _noMatch = KaliumLocalization.of(context).pinConfirmError;
-    _enterPinExisting = KaliumLocalization.of(context).pinEnterTitle;
-    _invalidPin =  KaliumLocalization.of(context).pinInvalid;
-
-    if (type == PinOverlayType.ENTER_PIN) {
-      _header = _enterPinExisting;
-    } else {
-      _header = _enterPin;
+    if (pinEnterTitle.isEmpty) {
+      setState(() {
+        pinEnterTitle = KaliumLocalization.of(context).pinEnterTitle;
+        _header = pinEnterTitle;
+      });
+    }
+    if (pinCreateTitle.isEmpty) {
+      setState(() {
+        pinCreateTitle = KaliumLocalization.of(context).pinCreateTitle;
+        _header = pinCreateTitle;
+      });
     }
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
@@ -215,7 +265,7 @@ class _PinScreenState extends State<PinScreen> {
                     Container(
                       margin: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width * 0.25,
-                          vertical: MediaQuery.of(context).size.height * 0.02),
+                          vertical: MediaQuery.of(context).size.height * 0.02 + _animation.value),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
@@ -251,7 +301,7 @@ class _PinScreenState extends State<PinScreen> {
                           ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
