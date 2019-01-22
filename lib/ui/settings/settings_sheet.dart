@@ -183,7 +183,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     // Version string
     PackageInfo.fromPlatform().then((packageInfo) {
       setState(() {
-        versionString = "${packageInfo.appName} v${packageInfo.version}";        
+        versionString = "Kalium v${packageInfo.version}";        
       });
     });
   }
