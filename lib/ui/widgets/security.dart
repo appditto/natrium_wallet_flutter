@@ -17,7 +17,7 @@ class ShakeCurve extends Curve {
   @override
   double transform(double t) {
     //t from 0.0 to 1.0
-    return sin(t * 3 * pi).abs();
+    return sin(t * 3 * pi);
   }
 }
 
@@ -27,14 +27,18 @@ class PinScreen extends StatefulWidget {
   final String description;
   final Function pinSuccessCallback;
 
-  PinScreen(this.type, this.pinSuccessCallback, {this.description = "", this.expectedPin = ""});
+  PinScreen(this.type, this.pinSuccessCallback,
+      {this.description = "", this.expectedPin = ""});
 
   @override
-  _PinScreenState createState() => _PinScreenState(type, expectedPin, description, pinSuccessCallback);
+  _PinScreenState createState() =>
+      _PinScreenState(type, expectedPin, description, pinSuccessCallback);
 }
 
-class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMixin {
-  _PinScreenState(this.type, this.expectedPin, this.description, this.successCallback);
+class _PinScreenState extends State<PinScreen>
+    with SingleTickerProviderStateMixin {
+  _PinScreenState(
+      this.type, this.expectedPin, this.description, this.successCallback);
 
   PinOverlayType type;
   String expectedPin;
@@ -48,7 +52,8 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
   List<IconData> _dotStates;
   String _pin;
   String _pinConfirmed;
-  bool _awaitingConfirmation; // true if pin has been entered once, false if not entered once
+  bool
+      _awaitingConfirmation; // true if pin has been entered once, false if not entered once
   String _header;
 
   // Invalid animation
@@ -83,14 +88,14 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
         duration: const Duration(milliseconds: 350), vsync: this);
     final Animation curve =
         CurvedAnimation(parent: _controller, curve: ShakeCurve());
-    _animation = Tween(begin: 0.0, end: 10.0).animate(curve)
+    _animation = Tween(begin: 0.0, end: 15.0).animate(curve)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           if (type == PinOverlayType.ENTER_PIN) {
             setState(() {
               _pin = "";
               _header = KaliumLocalization.of(context).pinInvalid;
-              _dotStates = List.filled(6, KaliumIcons.dotemtpy);                      
+              _dotStates = List.filled(6, KaliumIcons.dotemtpy);
               _controller.value = 0;
             });
           } else {
@@ -99,8 +104,8 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
               _dotStates = List.filled(6, KaliumIcons.dotemtpy);
               _pin = "";
               _pinConfirmed = "";
-              _header = KaliumLocalization.of(context).pinConfirmError;            
-              _controller.value = 0;              
+              _header = KaliumLocalization.of(context).pinConfirmError;
+              _controller.value = 0;
             });
           }
         }
@@ -149,7 +154,8 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
       int lastFilledIndex;
       for (int i = 0; i < _dotStates.length; i++) {
         if (_dotStates[i] == KaliumIcons.dotfilled) {
-          if (i == _dotStates.length || _dotStates[i+1] == KaliumIcons.dotemtpy) {
+          if (i == _dotStates.length ||
+              _dotStates[i + 1] == KaliumIcons.dotemtpy) {
             lastFilledIndex = i;
             break;
           }
@@ -173,7 +179,8 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
       child: FlatButton(
         highlightColor: KaliumColors.primary15,
         splashColor: KaliumColors.primary30,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(200.0)),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(200.0)),
         child: Text(
           buttonText,
           textAlign: TextAlign.center,
@@ -185,7 +192,8 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
           ),
         ),
         onPressed: () {
-          if (_controller.status == AnimationStatus.forward || _controller.status == AnimationStatus.reverse) {
+          if (_controller.status == AnimationStatus.forward ||
+              _controller.status == AnimationStatus.reverse) {
             return;
           }
           if (_setCharacter(buttonText)) {
@@ -243,78 +251,157 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
       });
     }
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+        statusBarIconBrightness: Brightness.light,
+        statusBarColor: Colors.transparent));
 
     return Scaffold(
-        body: Container(
-          constraints: BoxConstraints.expand(),
-          color: KaliumColors.backgroundDark,
-          child: Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.1),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 40),
-                      child: Text(
-                        _header,
-                        style: KaliumStyles.TextStylePinScreenHeaderColored,
-                        textAlign: TextAlign.center,
-                      ),
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        color: KaliumColors.backgroundDark,
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.1),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 40),
+                    child: Text(
+                      _header,
+                      style: KaliumStyles.TextStylePinScreenHeaderColored,
+                      textAlign: TextAlign.center,
                     ),
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                      child: Wrap(
-                        children: <Widget>[
-                          Text(
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                    child: Wrap(
+                      children: <Widget>[
+                        Text(
                           description,
                           style: KaliumStyles.TextStyleParagraph,
                           textAlign: TextAlign.center,
                         ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.25 + _animation.value,
+                      right: MediaQuery.of(context).size.width * 0.25 - _animation.value,
+                      top: MediaQuery.of(context).size.height * 0.02,
+                      bottom: MediaQuery.of(context).size.height * 0.02,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Icon(
+                          _dotStates[0],
+                          color: KaliumColors.primary,
+                          size: 20.0,
+                        ),
+                        Icon(
+                          _dotStates[1],
+                          color: KaliumColors.primary,
+                          size: 20.0,
+                        ),
+                        Icon(
+                          _dotStates[2],
+                          color: KaliumColors.primary,
+                          size: 20.0,
+                        ),
+                        Icon(
+                          _dotStates[3],
+                          color: KaliumColors.primary,
+                          size: 20.0,
+                        ),
+                        Icon(
+                          _dotStates[4],
+                          color: KaliumColors.primary,
+                          size: 20.0,
+                        ),
+                        Icon(
+                          _dotStates[5],
+                          color: KaliumColors.primary,
+                          size: 20.0,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.07,
+                    vertical: MediaQuery.of(context).size.height * 0.05),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.01),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          _buildPinScreenButton("1"),
+                          _buildPinScreenButton("2"),
+                          _buildPinScreenButton("3"),
                         ],
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.25,
-                          vertical: MediaQuery.of(context).size.height * 0.02 + _animation.value),
+                      margin: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.01),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          Icon(
-                            _dotStates[0],
-                            color: KaliumColors.primary,
-                            size: 20.0,
+                          _buildPinScreenButton("4"),
+                          _buildPinScreenButton("5"),
+                          _buildPinScreenButton("6"),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.01),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          _buildPinScreenButton("7"),
+                          _buildPinScreenButton("8"),
+                          _buildPinScreenButton("9"),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.009),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Container(
+                            height: 80,
+                            width: 80,
                           ),
-                          Icon(
-                            _dotStates[1],
-                            color: KaliumColors.primary,
-                            size: 20.0,
-                          ),
-                          Icon(
-                            _dotStates[2],
-                            color: KaliumColors.primary,
-                            size: 20.0,
-                          ),
-                          Icon(
-                            _dotStates[3],
-                            color: KaliumColors.primary,
-                            size: 20.0,
-                          ),
-                          Icon(
-                            _dotStates[4],
-                            color: KaliumColors.primary,
-                            size: 20.0,
-                          ),
-                          Icon(
-                            _dotStates[5],
-                            color: KaliumColors.primary,
-                            size: 20.0,
+                          _buildPinScreenButton("0"),
+                          Container(
+                            height: 80,
+                            width: 80,
+                            child: FlatButton(
+                              highlightColor: KaliumColors.primary15,
+                              splashColor: KaliumColors.primary30,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(200.0)),
+                              child: Icon(Icons.backspace,
+                                  color: KaliumColors.primary, size: 20.0),
+                              onPressed: () {
+                                _backSpace();
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -322,87 +409,10 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
                   ],
                 ),
               ),
-              Expanded(
-                child: Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.07,
-                      vertical: MediaQuery.of(context).size.height * 0.05),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.01),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            _buildPinScreenButton("1"),
-                            _buildPinScreenButton("2"),
-                            _buildPinScreenButton("3"),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.01),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            _buildPinScreenButton("4"),
-                            _buildPinScreenButton("5"),
-                            _buildPinScreenButton("6"),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.01),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            _buildPinScreenButton("7"),
-                            _buildPinScreenButton("8"),
-                            _buildPinScreenButton("9"),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.009),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Container(
-                              height: 80,
-                              width: 80,
-                            ),
-                            _buildPinScreenButton("0"),
-                            Container(
-                              height: 80,
-                              width: 80,
-                              child: FlatButton(
-                                highlightColor: KaliumColors.primary15,
-                                splashColor: KaliumColors.primary30,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(200.0)),
-                                child: Icon(Icons.backspace,
-                                    color: KaliumColors.primary, size:20.0),
-                                onPressed: () {
-                                  _backSpace();
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
   }
 }
