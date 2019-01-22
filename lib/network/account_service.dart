@@ -167,7 +167,6 @@ class AccountService {
       }
       AccountHistoryResponse resp = AccountHistoryResponse.fromJson(msg);
       RxBus.post(resp, tag: RX_HISTORY_TAG);
-      RxBus.post(resp, tag: RX_HISTORY_HOME_TAG);
     } else if (msg.containsKey("blocks")) {
       // This is either a 'blocks_info' response "or" a 'pending' response
       if (msg['blocks'] is Map && msg['blocks'].length > 0) {

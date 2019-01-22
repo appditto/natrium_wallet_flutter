@@ -386,16 +386,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   ///
   void diffAndUpdateHistoryList(List<AccountHistoryResponseItem> newList) {
     if (newList == null || newList.length == 0 || _historyList == null) return;
-    var reversedNew = newList.reversed;
-    var currentList = _historyList.items;
-
-    reversedNew.forEach((item) {
-      if (!currentList.contains(item)) {
-        print("hash ${item.hash}");
-        setState(() {
-          _historyList.insertAtTop(item);
-        });
-      }
+    // Get items not in current list, and add them from top-down
+    newList.reversed.where((item) => !_historyList.items.contains(item)).forEach((historyItem) {
+      setState(() {
+        _historyList.insertAtTop(historyItem);
+      });
     });
   }
 

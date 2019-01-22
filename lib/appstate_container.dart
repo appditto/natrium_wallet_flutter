@@ -20,6 +20,7 @@ import 'package:kalium_wallet_flutter/network/model/request/blocks_info_request.
 import 'package:kalium_wallet_flutter/network/model/request/pending_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/network/model/response/callback_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/error_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/blocks_info_response.dart';
@@ -140,17 +141,23 @@ class StateContainerState extends State<StateContainer> {
     _busInitialized = true;
     RxBus.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
     RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
-      var reversedNew = historyResponse.history.reversed;
-      var currentList = wallet.history;
-
-      reversedNew.forEach((item) {
-        if (!currentList.contains(item)) {
-          currentList.insert(0, item);
-        }
-      });
+      // Iterate new list in reverse (oldest to newest block)
+      for (AccountHistoryResponseItem item in historyResponse.history) {
+        // If current list doesn't contain this item, insert it and the rest of the items in new list and exit loop
+        if (!wallet.history.contains(item)) {
+          int startIndex = 0; // Index to start inserting into the list
+          int lastIndex = historyResponse.history.indexWhere((item) => wallet.history.contains(item)); // Last index of historyResponse to insert to (first index where item exists in wallet history)
+          lastIndex = lastIndex <= 0 ? historyResponse.history.length : lastIndex;
+          setState(() {
+            wallet.history.insertAll(0, historyResponse.history.getRange(startIndex, lastIndex));            
+            // Send new list to home screen
+            RxBus.post(AccountHistoryResponse(history: wallet.history), tag: RX_HISTORY_HOME_TAG);
+          });
+          break;
+        }        
+      }
       setState(() {
         wallet.historyLoading = false;
-        wallet.history = currentList;
       });
       AccountService.pop();
       AccountService.processQueue();
@@ -319,7 +326,7 @@ class StateContainerState extends State<StateContainer> {
       // This is can still be improved because history excludes change/open, blockCount doesn't
       int count = response.blockCount > wallet.blockCount ? response.blockCount : wallet.blockCount;
       if (wallet.history.length < count) {
-        count = count - wallet.history.length;
+        count = count - wallet.history.length + 5; // Add a buffer of 5 because we do want at least 1 item we already have
       }
       if (count <= 0) {
         count = 10;
