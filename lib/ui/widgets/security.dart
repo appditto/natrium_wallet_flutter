@@ -224,13 +224,17 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
     if (pinEnterTitle.isEmpty) {
       setState(() {
         pinEnterTitle = KaliumLocalization.of(context).pinEnterTitle;
-        _header = pinEnterTitle;
+        if (type == PinOverlayType.ENTER_PIN) {
+          _header = pinEnterTitle;
+        }
       });
     }
     if (pinCreateTitle.isEmpty) {
       setState(() {
         pinCreateTitle = KaliumLocalization.of(context).pinCreateTitle;
-        _header = pinCreateTitle;
+        if (type == PinOverlayType.NEW_PIN) {
+          _header = pinCreateTitle;
+        }
       });
     }
 
