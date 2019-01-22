@@ -182,8 +182,6 @@ class ReactiveRefreshIndicatorState extends State<ReactiveRefreshIndicator> with
 
     _scaleController = AnimationController(vsync: this);
     _scaleFactor = _scaleController.drive(_oneToZeroTween);
-
-    _showOrDismissAccordingToIsRefreshing();
   }
 
   @override
@@ -209,23 +207,12 @@ class ReactiveRefreshIndicatorState extends State<ReactiveRefreshIndicator> with
 
   @override
   void didUpdateWidget(ReactiveRefreshIndicator oldWidget) {
-    _showOrDismissAccordingToIsRefreshing();
-    super.didUpdateWidget(oldWidget);
-  }
-
-  void _showOrDismissAccordingToIsRefreshing() {
-    if (widget.isRefreshing) {
-      if (_mode != _RefreshIndicatorMode.refresh) {
-        new Future(() {
-          _start(AxisDirection.down);
-          _show();
-        });
-      }
-    } else {
+    if (!widget.isRefreshing && oldWidget.isRefreshing) {
       if (_mode != null && _mode != _RefreshIndicatorMode.done) {
         _dismiss(_RefreshIndicatorMode.done);
       }
     }
+    super.didUpdateWidget(oldWidget);
   }
 
   bool _handleScrollNotification(ScrollNotification notification) {
@@ -274,18 +261,6 @@ class ReactiveRefreshIndicatorState extends State<ReactiveRefreshIndicator> with
         _dragOffset -= notification.overscroll / 2.0;
         _checkDragOffset(notification.metrics.viewportDimension);
       }
-    } else if (notification is ScrollEndNotification) {
-      switch (_mode) {
-        case _RefreshIndicatorMode.armed:
-          _show();
-          break;
-        case _RefreshIndicatorMode.drag:
-          _dismiss(_RefreshIndicatorMode.canceled);
-          break;
-        default:
-          // do nothing
-          break;
-      }
     }
     return false;
   }
@@ -329,8 +304,9 @@ class ReactiveRefreshIndicatorState extends State<ReactiveRefreshIndicator> with
     if (_mode == _RefreshIndicatorMode.armed)
       newValue = math.max(newValue, 1.0 / _kDragSizeFactorLimit);
     _positionController.value = newValue.clamp(0.0, 1.0); // this triggers various rebuilds
-    if (_mode == _RefreshIndicatorMode.drag && _valueColor.value.alpha == 0xFF)
-      _mode = _RefreshIndicatorMode.armed;
+    if (_mode == _RefreshIndicatorMode.drag && newValue >= 0.8)
+      //_mode = _RefreshIndicatorMode.armed;
+      _show();
   }
 
   // Stop showing the refresh indicator.
