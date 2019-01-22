@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:io';
 
 import 'package:vibrate/vibrate.dart';
 
@@ -55,8 +56,12 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
   Animation<double> _animation;
 
   Future<void> _errorHaptic() async {
-    if (await Vibrate.canVibrate) {
-      Vibrate.feedback(FeedbackType.error);
+    if (Platform.isIOS) {
+      if (await Vibrate.canVibrate) {
+        Vibrate.feedback(FeedbackType.error);
+      }
+    } else {
+      HapticFeedback.heavyImpact();
     }
   }
 
