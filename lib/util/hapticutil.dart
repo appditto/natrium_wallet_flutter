@@ -57,4 +57,12 @@ class HapticUtil {
       HapticFeedback.mediumImpact();
     }
   }
+
+  /// Feedback for fingerprint success
+  /// iOS-only, since Android already gives us feedback on success
+  static Future<void> fingerprintSucess() async {
+    if (Platform.isIOS) {
+      Future.delayed(Duration(milliseconds: 50), () => success());
+    }
+  }
 }
