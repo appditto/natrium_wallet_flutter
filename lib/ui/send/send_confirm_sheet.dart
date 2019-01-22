@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
@@ -13,6 +12,7 @@ import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/biometrics.dart';
+import 'package:kalium_wallet_flutter/util/hapticutil.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
@@ -143,6 +143,7 @@ class KaliumSendConfirmSheet {
                                     BiometricUtil.authenticateWithBiometrics(
                                       KaliumLocalization.of(context).sendAmountConfirm.replaceAll("%1", _amount)).then((authenticated) {
                                       if (authenticated) {
+                                        HapticUtil.fingerprintSucess();
                                         Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.SEND));
                                         StateContainer.of(context).requestSend(
                                             StateContainer.of(context).wallet.frontier,

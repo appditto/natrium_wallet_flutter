@@ -31,6 +31,7 @@ import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 import 'package:kalium_wallet_flutter/util/fileutil.dart';
+import 'package:kalium_wallet_flutter/util/hapticutil.dart';
 import 'package:qr/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
@@ -177,6 +178,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         DBHelper().getContactWithAddress(stateBlock.link).then((contact) {
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+          HapticUtil.success();
           KaliumSendCompleteSheet(displayAmount, stateBlock.link, contactName)
               .mainBottomSheet(context);
         });

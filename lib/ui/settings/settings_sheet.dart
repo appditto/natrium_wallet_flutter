@@ -33,6 +33,7 @@ import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/biometrics.dart';
 import 'package:kalium_wallet_flutter/util/fileutil.dart';
+import 'package:kalium_wallet_flutter/util/hapticutil.dart';
 
 class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
@@ -528,6 +529,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                       .fingerprintSeedBackup)
                               .then((authenticated) {
                             if (authenticated) {
+                              HapticUtil.fingerprintSucess();
                               new KaliumSeedBackupSheet()
                                   .mainBottomSheet(context);
                             }

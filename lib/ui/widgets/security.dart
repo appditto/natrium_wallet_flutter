@@ -1,7 +1,4 @@
 import 'dart:math';
-import 'dart:io';
-
-import 'package:vibrate/vibrate.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +7,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/util/hapticutil.dart';
 
 enum PinOverlayType { NEW_PIN, ENTER_PIN }
 
@@ -59,16 +57,6 @@ class _PinScreenState extends State<PinScreen>
   // Invalid animation
   AnimationController _controller;
   Animation<double> _animation;
-
-  Future<void> _errorHaptic() async {
-    if (Platform.isIOS) {
-      if (await Vibrate.canVibrate) {
-        Vibrate.feedback(FeedbackType.error);
-      }
-    } else {
-      HapticFeedback.heavyImpact();
-    }
-  }
 
   @override
   void initState() {
@@ -202,7 +190,7 @@ class _PinScreenState extends State<PinScreen>
               if (type == PinOverlayType.ENTER_PIN) {
                 // Pin is not what was expected
                 if (_pin != expectedPin) {
-                  _errorHaptic();
+                  HapticUtil.error();
                   _controller.forward();
                 } else {
                   successCallback(_pin);
@@ -220,7 +208,7 @@ class _PinScreenState extends State<PinScreen>
                   if (_pin == _pinConfirmed) {
                     successCallback(_pin);
                   } else {
-                    _errorHaptic();
+                    HapticUtil.error();
                     _controller.forward();
                   }
                 }
