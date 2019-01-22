@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:vibrate/vibrate.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -51,6 +53,12 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
   // Invalid animation
   AnimationController _controller;
   Animation<double> _animation;
+
+  Future<void> _errorHaptic() async {
+    if (await Vibrate.canVibrate) {
+      Vibrate.feedback(FeedbackType.error);
+    }
+  }
 
   @override
   void initState() {
@@ -181,7 +189,7 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
               if (type == PinOverlayType.ENTER_PIN) {
                 // Pin is not what was expected
                 if (_pin != expectedPin) {
-                  HapticFeedback.mediumImpact();
+                  _errorHaptic();
                   _controller.forward();
                 } else {
                   successCallback(_pin);
@@ -199,7 +207,7 @@ class _PinScreenState extends State<PinScreen> with SingleTickerProviderStateMix
                   if (_pin == _pinConfirmed) {
                     successCallback(_pin);
                   } else {
-                    HapticFeedback.mediumImpact();
+                    _errorHaptic();
                     _controller.forward();
                   }
                 }
