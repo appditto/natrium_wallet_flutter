@@ -141,6 +141,7 @@ class StateContainerState extends State<StateContainer> {
     _busInitialized = true;
     RxBus.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
     RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
+      bool postedToHome = false;
       // Iterate new list in reverse (oldest to newest block)
       for (AccountHistoryResponseItem item in historyResponse.history) {
         // If current list doesn't contain this item, insert it and the rest of the items in new list and exit loop
@@ -153,12 +154,16 @@ class StateContainerState extends State<StateContainer> {
             // Send new list to home screen
             RxBus.post(AccountHistoryResponse(history: wallet.history), tag: RX_HISTORY_HOME_TAG);
           });
+          postedToHome = true;
           break;
         }        
       }
       setState(() {
         wallet.historyLoading = false;
       });
+      if (!postedToHome) {
+        RxBus.post(AccountHistoryResponse(history: []), tag: RX_HISTORY_HOME_TAG);
+      }
       AccountService.pop();
       AccountService.processQueue();
       requestPending();

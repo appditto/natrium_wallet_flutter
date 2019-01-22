@@ -182,6 +182,8 @@ class ReactiveRefreshIndicatorState extends State<ReactiveRefreshIndicator> with
 
     _scaleController = AnimationController(vsync: this);
     _scaleFactor = _scaleController.drive(_oneToZeroTween);
+
+    _showOrDismissAccordingToIsRefreshing();
   }
 
   @override
@@ -207,10 +209,23 @@ class ReactiveRefreshIndicatorState extends State<ReactiveRefreshIndicator> with
 
   @override
   void didUpdateWidget(ReactiveRefreshIndicator oldWidget) {
-    if (oldWidget.isRefreshing && !widget.isRefreshing) {
-      stopRefreshing();
-    }
+    _showOrDismissAccordingToIsRefreshing();
     super.didUpdateWidget(oldWidget);
+  }
+
+  void _showOrDismissAccordingToIsRefreshing() {
+    if (widget.isRefreshing) {
+      if (_mode != _RefreshIndicatorMode.refresh) {
+        new Future(() {
+          _start(AxisDirection.down);
+          _show();
+        });
+      }
+    } else {
+      if (_mode != null && _mode != _RefreshIndicatorMode.done) {
+        _dismiss(_RefreshIndicatorMode.done);
+      }
+    }
   }
 
   bool _handleScrollNotification(ScrollNotification notification) {
@@ -350,11 +365,7 @@ class ReactiveRefreshIndicatorState extends State<ReactiveRefreshIndicator> with
   void _show() {
     assert(_mode != _RefreshIndicatorMode.refresh);
     assert(_mode != _RefreshIndicatorMode.snap);
-    if (_mode == _RefreshIndicatorMode.refresh || _mode == _RefreshIndicatorMode.snap) {
-      return;
-    }
-    final Completer<void> completer = Completer<void>();
-    _pendingRefreshFuture = completer.future;
+
     _mode = _RefreshIndicatorMode.snap;
     _positionController
       .animateTo(1.0 / _kDragSizeFactorLimit, duration: _kIndicatorSnapDuration)

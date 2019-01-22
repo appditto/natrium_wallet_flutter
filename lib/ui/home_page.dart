@@ -166,7 +166,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         .listen((historyResponse) {
       diffAndUpdateHistoryList(historyResponse.history);
       setState(() {
-       _isRefreshing = false;
+        _isRefreshing = false;
       });  
     });
     RxBus.register<StateBlock>(tag: RX_SEND_COMPLETE_TAG).listen((stateBlock) {
