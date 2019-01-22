@@ -210,7 +210,7 @@ class KaliumReceiveSheet {
                             File f = File(filePath);
                             if (f.existsSync()) {
                               try {
-                                Share.shareFile(f);
+                                Share.shareFile(f, text: StateContainer.of(context).wallet.address);
                                 doCapture = false;
                               } catch (e) {
                                 doCapture = true;
@@ -225,7 +225,7 @@ class KaliumReceiveSheet {
                                   _capturePng().then((byteData) {
                                     if (byteData != null) {
                                       f.writeAsBytes(byteData).then((file) {
-                                        Share.shareFile(file);
+                                        Share.shareFile(file, text: StateContainer.of(context).wallet.address);
                                       });
                                     } else {
                                       // TODO - show a something went wrong message
