@@ -27,6 +27,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_drawer.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_scaffold.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/reactive_refresh.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
@@ -44,6 +45,8 @@ class KaliumHomePage extends StatefulWidget {
 class _KaliumHomePageState extends State<KaliumHomePage>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  final GlobalKey<ReactiveRefreshIndicatorState> _refreshIndicatorKey = new GlobalKey<ReactiveRefreshIndicatorState>();
+  final GlobalKey<ReactiveRefreshIndicatorState> _refreshIndicatorKeyPlaceholder = new GlobalKey<ReactiveRefreshIndicatorState>();
   var _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
 
   // Controller for placeholder card animations
@@ -69,9 +72,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   // Price conversion state (BTC, NANO, NONE)
   PriceConversion _priceConversion;
   TextStyle _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
-
-  // Timeeout for refresh
-  StreamSubscription<dynamic> _refreshTimeout;
 
   @override
   void initState() {
@@ -165,9 +165,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_HOME_TAG)
         .listen((historyResponse) {
       diffAndUpdateHistoryList(historyResponse.history);
-      if (_refreshTimeout != null) {
-        _refreshTimeout.cancel();
-      }
+      hideRefreshIndicator();
     });
     RxBus.register<StateBlock>(tag: RX_SEND_COMPLETE_TAG).listen((stateBlock) {
       // Route to send complete if received process response for send block
@@ -334,7 +332,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       );
     } else if (StateContainer.of(context).wallet.history.length == 0) {
       _disposeAnimation();
-      return RefreshIndicator(
+      return ReactiveRefreshIndicator(
+        key: _refreshIndicatorKeyPlaceholder,
         child: ListView(
           padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
           children: <Widget>[
@@ -359,7 +358,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         );
       });
     }
-    return RefreshIndicator(
+    return ReactiveRefreshIndicator(
+      key: _refreshIndicatorKey,
       child: AnimatedList(
         key: _listKey,
         padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
@@ -372,9 +372,21 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   // Refresh list
   Future<void> _refresh() async {
+    HapticUtil.success();
     StateContainer.of(context).requestUpdate();
-    // TODO figure out how to cancel this future when the server responds with
-    await Future.delayed(new Duration(seconds: 1), () {});
+    // Hide refresh indicator after 3 seconds if no server response
+    Future.delayed(new Duration(seconds: 1), () {
+      hideRefreshIndicator();      
+    });
+  }
+
+  void hideRefreshIndicator() {
+    if (_refreshIndicatorKey.currentState != null) {
+      _refreshIndicatorKey.currentState.stopRefreshing();
+    }
+    if (_refreshIndicatorKeyPlaceholder.currentState != null) {
+      _refreshIndicatorKeyPlaceholder.currentState.stopRefreshing();
+    }    
   }
 
   ///
