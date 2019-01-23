@@ -66,9 +66,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   Future<void> _exportContacts() async {
     List<Contact> contacts = await DBHelper().getContacts();
     if (contacts.length == 0) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(KaliumLocalization.of(context).noContactsExport,
-              style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2),));
+      UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).noContactsExport);
       return;
     }
     List<Map<String, dynamic>> jsonList = List();
@@ -89,9 +87,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         type: FileType.CUSTOM, fileExtension: "txt");
     File f = File(filePath);
     if (!await f.exists()) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(KaliumLocalization.of(context).fileReadErr,
-              style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2)));
+      UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).contactsImportErr);
       return;
     }
     try {
@@ -120,22 +116,13 @@ class _SettingsSheetState extends State<SettingsSheet>
         _updateContacts();
         RxBus.post(Contact(name: "", address: ""),
             tag: RX_CONTACT_MODIFIED_TAG);
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text(
-                KaliumLocalization.of(context)
-                    .contactsImportSuccess
-                    .replaceAll("%1", numSaved.toString()),
-                style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2)));
+        UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).contactsImportSuccess.replaceAll("%1", numSaved.toString()));
       } else {
-        _scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text(KaliumLocalization.of(context).noContactsImport,
-                style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2)));
+        UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).noContactsImport);
       }
     } catch (e) {
       log.severe(e.toString());
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(KaliumLocalization.of(context).fileParseErr,
-              style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2)));
+      UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).contactsImportErr);
       return;
     }
   }
@@ -559,7 +546,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      'Load from Paper Wallet', KaliumIcons.transferfunds,
+                      KaliumLocalization.of(context).settingsTransfer, KaliumIcons.transferfunds,
                       onPressed: () {
                     KaliumTransferOverviewSheet().mainBottomSheet(context);
                   }),

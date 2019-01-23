@@ -418,4 +418,14 @@ class UIUtil {
     else
       return MediaQuery.of(context).size.width * 0.85;
   }
+
+  static void showSnackbar(var scaffoldKey, String content) {
+    scaffoldKey.currentState.showSnackBar(
+      new SnackBar(
+        content: new Text(content,
+        style: KaliumStyles.TextStyleSnackbar),
+        duration: Duration(seconds: 2)
+      )
+    );
+  }
 }

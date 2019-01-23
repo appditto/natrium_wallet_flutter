@@ -126,14 +126,9 @@ class KaliumLocalization {
       desc: 'send_scan_qr', name: 'scanQrCode');
   }
 
-  String get fileReadErr {
-    return Intl.message("Couldn't read file",
-      desc: "file_error", name: 'fileReadErr');
-  }
-
-  String get fileParseErr {
-    return Intl.message("Couldn't parse file",
-      desc: "file_parse_error", name: 'fileParseErr');  
+  String get contactsImportErr {
+    return Intl.message('Failed to import contacts',
+      desc: 'contact_import_error', name: 'contactsImportErr');
   }
 
   String get viewDetails {
