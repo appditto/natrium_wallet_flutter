@@ -15,6 +15,7 @@ import 'package:kalium_wallet_flutter/network/model/response/account_history_res
 import 'package:kalium_wallet_flutter/network/model/response/blocks_info_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/error_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
+import 'package:kalium_wallet_flutter/network/model/response/accounts_balances_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/callback_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/price_response.dart';
@@ -196,6 +197,17 @@ class AccountService {
     } else if (msg.containsKey("error")) {
       ErrorResponse resp = ErrorResponse.fromJson(msg);
       RxBus.post(resp, tag: RX_ERROR_RESP_TAG);
+    } else if (msg.containsKey("balances")) {
+      // accounts_balances response
+      if (msg['balances'] is Map && msg['balances'].length > 0) {
+        Map<String, dynamic> balancesMap = msg['balances'];
+        if (balancesMap != null && balancesMap.length > 0) {
+          if (balancesMap[balancesMap.keys.first].containsKey('pending')) {
+            AccountsBalancesResponse resp = AccountsBalancesResponse.fromJson(msg);
+            RxBus.post(resp, tag: RX_ACCOUNTS_BALANCES_TAG);
+          }
+        }
+      }
     }
     return;
   }

@@ -73,7 +73,7 @@ class KaliumDialogs {
   }
 }
 
-enum AnimationType { SEND, GENERIC, TRANSFER_LOADING }
+enum AnimationType { SEND, GENERIC, TRANSFER_SEARCHING, TRANSFER_TRANSFERRING }
 class AnimationLoadingOverlay extends ModalRoute<void> {
   AnimationType type;
   Function onPoppedCallback;
@@ -128,8 +128,12 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
         return FlareActor("assets/send_animation.flr",
                 animation: "main",
                 fit: BoxFit.contain);
-      case AnimationType.TRANSFER_LOADING:
-        return FlareActor("assets/send_animation.flr",
+      case AnimationType.TRANSFER_SEARCHING:
+        return FlareActor("assets/searchseed_animation.flr",
+                animation: "main",
+                fit: BoxFit.contain);
+      case AnimationType.TRANSFER_TRANSFERRING:
+        return FlareActor("assets/transfer_animation.flr",
                 animation: "main",
                 fit: BoxFit.contain);
       case AnimationType.GENERIC:
@@ -139,19 +143,35 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
   }
 
   Widget _buildOverlayContent(BuildContext context) {
-    return Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: type == AnimationType.SEND ? MainAxisAlignment.end : MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            margin: type == AnimationType.SEND ? EdgeInsets.only(bottom: 10.0, left:90, right:90) : EdgeInsets.zero,
-            //Widgth/Height ratio is needed because BoxFit is not working as expected
-            width: type == AnimationType.SEND ? double.infinity : 100,
-            height: type == AnimationType.SEND ? MediaQuery.of(context).size.width : 100,
-            child: _getAnimation(context),
-          ),
-        ],
-    );
+    switch (type) {
+      case AnimationType.TRANSFER_SEARCHING:
+      case AnimationType.TRANSFER_TRANSFERRING:
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: _getAnimation(context),
+            ),
+          ],
+        );
+      default:
+        return Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: type == AnimationType.SEND ? MainAxisAlignment.end : MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                margin: type == AnimationType.SEND ? EdgeInsets.only(bottom: 10.0, left:90, right:90) : EdgeInsets.zero,
+                //Widgth/Height ratio is needed because BoxFit is not working as expected
+                width: type == AnimationType.SEND ? double.infinity : 100,
+                height: type == AnimationType.SEND ? MediaQuery.of(context).size.width : 100,
+                child: _getAnimation(context),
+              ),
+            ],
+        );
+    }
   }
 
   @override

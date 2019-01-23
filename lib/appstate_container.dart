@@ -14,6 +14,7 @@ import 'package:kalium_wallet_flutter/model/deep_link_action.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/request_item.dart';
+import 'package:kalium_wallet_flutter/network/model/request/accounts_balances_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/blocks_info_request.dart';
@@ -477,6 +478,16 @@ class StateContainerState extends State<StateContainer> {
         AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
         AccountService.processQueue();
       });
+    }
+  }
+
+  ///
+  /// Request accounts_balances
+  /// 
+  void requestAccountsBalances(List<String> accounts) {
+    if (accounts != null && accounts.isNotEmpty) {
+      AccountService.queueRequest(new AccountsBalancesRequest(accounts: accounts));
+      AccountService.processQueue();
     }
   }
 

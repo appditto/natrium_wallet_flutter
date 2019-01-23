@@ -25,6 +25,8 @@ const String RX_CONTACT_MODIFIED_TAG = 'fkalium_contact_modified_tag';
 const String RX_MONKEY_OVERLAY_CLOSED_TAG = 'fkalium_monkey_closed_tag';
 // UI Event for deep link processed
 const String RX_DEEP_LINK_TAG = 'fkalium_deep_link_tag';
+// Related to Trasnfer feature
+const String RX_ACCOUNTS_BALANCES_TAG = 'fkalium_accounts_balances_tag';
 
 /**
  * RXBus using RXDart
