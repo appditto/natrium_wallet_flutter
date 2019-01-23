@@ -141,6 +141,8 @@ flutter:
     - assets/monkeyQR.svg
     - assets/welcome_animation.flr
     - assets/send_animation.flr
+    - assets/transfer_animation.flr
+    - assets/searchseed_animation.flr
     - assets/sharecard_bananologo.svg
     - assets/transferfunds_illustration_start.svg
     - assets/transferfunds_illustration_end.svg
