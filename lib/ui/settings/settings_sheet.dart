@@ -67,7 +67,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     if (contacts.length == 0) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(KaliumLocalization.of(context).noContactsExport,
-              style: KaliumStyles.TextStyleSnackbar)));
+              style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2),));
       return;
     }
     List<Map<String, dynamic>> jsonList = List();
@@ -90,7 +90,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     if (!await f.exists()) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(KaliumLocalization.of(context).fileReadErr,
-              style: KaliumStyles.TextStyleSnackbar)));
+              style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2)));
       return;
     }
     try {
@@ -124,17 +124,17 @@ class _SettingsSheetState extends State<SettingsSheet>
                 KaliumLocalization.of(context)
                     .contactsImportSuccess
                     .replaceAll("%1", numSaved.toString()),
-                style: KaliumStyles.TextStyleSnackbar)));
+                style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2)));
       } else {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
             content: Text(KaliumLocalization.of(context).noContactsImport,
-                style: KaliumStyles.TextStyleSnackbar)));
+                style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2)));
       }
     } catch (e) {
       log.severe(e.toString());
       _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(KaliumLocalization.of(context).fileParseErr,
-              style: KaliumStyles.TextStyleSnackbar)));
+              style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2)));
       return;
     }
   }

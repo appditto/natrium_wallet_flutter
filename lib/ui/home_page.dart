@@ -190,7 +190,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             stateBlock.representative;
         _scaffoldKey.currentState.showSnackBar(new SnackBar(
           content: new Text(KaliumLocalization.of(context).changeRepSucces,
-              style: KaliumStyles.TextStyleSnackbar),
+              style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2),
         ));
       }
     });
@@ -203,7 +203,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             KaliumLocalization.of(context)
                 .contactAdded
                 .replaceAll("%1", contact.name),
-            style: KaliumStyles.TextStyleSnackbar),
+            style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2),
       ));
     });
     RxBus.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
@@ -249,7 +249,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       Navigator.of(context).popUntil(ModalRoute.withName('/home'));
       _scaffoldKey.currentState.showSnackBar(new SnackBar(
         content: new Text(KaliumLocalization.of(context).sendError,
-            style: KaliumStyles.TextStyleSnackbar),
+            style: KaliumStyles.TextStyleSnackbar),duration: Duration(seconds: 2),
       ));      
     });
   }
@@ -269,6 +269,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.destroy(tag: RX_CONTACT_ADDED_ALT_TAG);
     RxBus.destroy(tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
     RxBus.destroy(tag: RX_DEEP_LINK_TAG);
+    RxBus.destroy(tag: RX_REP_CHANGED_TAG);
+    RxBus.destroy(tag: RX_SEND_FAILED_TAG);
+    RxBus.destroy(tag: RX_SEND_COMPLETE_TAG);
   }
 
   @override
