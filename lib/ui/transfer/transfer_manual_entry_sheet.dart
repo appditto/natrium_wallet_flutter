@@ -6,6 +6,7 @@ import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/ui/transfer/transfer_confirm_sheet.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
@@ -25,7 +26,7 @@ class KaliumTransferManualEntrySheet {
   mainBottomSheet(BuildContext context) {
     _seedTextStyle = _initialSeedTextStyle;
     _errorTextColor = _initialErrorTextColor;     
-    KaliumSheets.showKaliumHeightEightSheet(
+    KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(
@@ -37,22 +38,19 @@ class KaliumTransferManualEntrySheet {
                 children: <Widget>[
                   //A container for the header
                   Container(
-                    margin: EdgeInsets.only(top: 30.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          KaliumLocalization.of(context).transferHeader.toUpperCase(),
-                          style: KaliumStyles.textStyleHeader(context),
-                        ),
-                      ],
+                    margin: EdgeInsets.only(top: 30.0, left:70, right: 70),
+                    child: AutoSizeText(
+                      KaliumLocalization.of(context).transferHeader.toUpperCase(),
+                      style: KaliumStyles.textStyleHeader(context),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      stepGranularity: 0.1,
                     ),
                   ),
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.symmetric(
-                          vertical: MediaQuery.of(context).size.height * 0.075),
+                      margin: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.05),
                       child: Stack(
                         children: <Widget>[
                           GestureDetector(
@@ -72,19 +70,22 @@ class KaliumTransferManualEntrySheet {
                               // The paragraph
                               Container(
                                 margin:
-                                    EdgeInsets.only(left: 50, right: 50, top: 15.0),
+                                    EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60, vertical: 10),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                    KaliumLocalization.of(context).importSeed,
+                                    "Please enter the seed below.",
                                     style: KaliumStyles.TextStyleParagraph,
                                     textAlign: TextAlign.left,),
                               ),
                               // The container for the seed
                               Container(
-                                margin: EdgeInsets.only(left: 50, right: 50, top: 20),
+                                margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.105,),
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: KaliumColors.backgroundDark,
+                                  color: KaliumColors.backgroundDarkest,
                                   borderRadius: BorderRadius.circular(25),
                                 ),
                                 // Text Field for the seed
@@ -185,7 +186,20 @@ class KaliumTransferManualEntrySheet {
                     children: <Widget>[
                       KaliumButton.buildKaliumButton(
                         KaliumButtonType.PRIMARY,
-                        KaliumLocalization.of(context).close.toUpperCase(),
+                        "Transfer",
+                        Dimens.BUTTON_TOP_DIMENS,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    children: <Widget>[
+                      KaliumButton.buildKaliumButton(
+                        KaliumButtonType.PRIMARY_OUTLINE,
+                        KaliumLocalization.of(context).cancel,
                         Dimens.BUTTON_BOTTOM_DIMENS,
                         onPressed: () {
                           Navigator.of(context).pop();
