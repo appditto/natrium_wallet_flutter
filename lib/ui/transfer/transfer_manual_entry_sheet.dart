@@ -70,7 +70,7 @@ class KaliumTransferManualEntrySheet {
                               // The paragraph
                               Container(
                                 margin:
-                                    EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60, vertical: 10),
+                                    EdgeInsets.symmetric(horizontal: smallScreen(context)?50:60, vertical: 10),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                     "Please enter the seed below.",
