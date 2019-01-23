@@ -261,6 +261,15 @@ class ReactiveRefreshIndicatorState extends State<ReactiveRefreshIndicator> with
         _dragOffset -= notification.overscroll / 2.0;
         _checkDragOffset(notification.metrics.viewportDimension);
       }
+    } else if (notification is ScrollEndNotification) {
+      switch (_mode) {
+        case _RefreshIndicatorMode.drag:
+          _dismiss(_RefreshIndicatorMode.canceled);
+          break;
+        default:
+          // do nothing
+          break;
+      }
     }
     return false;
   }
