@@ -45,7 +45,7 @@ class KaliumHomePage extends StatefulWidget {
 class _KaliumHomePageState extends State<KaliumHomePage>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  var _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
+  final GlobalKey<KaliumScaffoldState> _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
 
   // Controller for placeholder card animations
   AnimationController _placeholderCardAnimationController;
