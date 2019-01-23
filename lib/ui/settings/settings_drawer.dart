@@ -26,6 +26,7 @@ import 'package:kalium_wallet_flutter/ui/contacts/add_contact.dart';
 import 'package:kalium_wallet_flutter/ui/contacts/contact_details.dart';
 import 'package:kalium_wallet_flutter/ui/settings/changerepresentative_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
+import 'package:kalium_wallet_flutter/ui/transfer/transfer_overview_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
@@ -556,18 +557,12 @@ class _SettingsSheetState extends State<SettingsSheet>
                       });
                     });
                   }),
-/*
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
                       'Load from Paper Wallet', KaliumIcons.transferfunds,
                       onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return new PinScreen(
-                          PinOverlayType.NEW_PIN, pinEnteredTest);
-                    }));
+                    KaliumTransferOverviewSheet().mainBottomSheet(context);
                   }),
-*/
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
                       KaliumLocalization.of(context).changeRepAuthenticate,
