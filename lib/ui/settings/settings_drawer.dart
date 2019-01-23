@@ -546,7 +546,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   }),
                   Divider(height: 2),
                   buildSettingsListItemSingleLine(
-                      'Load from Paper Wallet', KaliumIcons.transferfunds,
+                      KaliumLocalization.of(context).settingsTransfer, KaliumIcons.transferfunds,
                       onPressed: () {
                     KaliumTransferOverviewSheet().mainBottomSheet(context);
                   }),
