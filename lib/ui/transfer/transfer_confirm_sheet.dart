@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/transfer/transfer_complete_sheet.dart';
@@ -10,7 +11,7 @@ import 'package:kalium_wallet_flutter/styles.dart';
 class KaliumTransferConfirmSheet {
   mainBottomSheet(BuildContext context) {
     Vault.inst.getSeed().then((result) {
-      KaliumSheets.showKaliumHeightEightSheet(
+      KaliumSheets.showKaliumHeightNineSheet(
           context: context,
           builder: (BuildContext context) {
             return StatefulBuilder(
@@ -22,42 +23,44 @@ class KaliumTransferConfirmSheet {
                   children: <Widget>[
                     //A container for the header
                     Container(
-                      margin: EdgeInsets.only(top: 30.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            KaliumLocalization.of(context).transferHeader.toUpperCase(),
-                            style: KaliumStyles.textStyleHeader(context),
-                          ),
-                        ],
+                      margin: EdgeInsets.only(top: 30.0, left:70, right: 70),
+                      child: AutoSizeText(
+                        KaliumLocalization.of(context).transferHeader.toUpperCase(),
+                        style: KaliumStyles.textStyleHeader(context),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        stepGranularity: 0.1,
                       ),
                     ),
 
-                    //A container for the paragraph and seed
+                    // A container for the paragraphs
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.only(top: 35, bottom: 35),
+                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.1),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                                margin: EdgeInsets.only(left: 50, right: 50),
+                                margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
                                   KaliumLocalization.of(context).transferConfirmInfo,
-                                  style: KaliumStyles.TextStyleParagraph,
+                                  style: KaliumStyles.TextStyleParagraphPrimary,
+                                  textAlign: TextAlign.left,
                             )),
                             Container(
-                                margin: EdgeInsets.only(left: 50, right: 50),
+                                margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
                                   KaliumLocalization.of(context).transferConfirmInfoSecond,
                                   style: KaliumStyles.TextStyleParagraph,
+                                  textAlign: TextAlign.left,
                             )),
                             Container(
-                                margin: EdgeInsets.only(left: 50, right: 50),
+                                margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
                                   KaliumLocalization.of(context).transferConfirmInfoThird,
                                   style: KaliumStyles.TextStyleParagraph,
+                                  textAlign: TextAlign.left,
                             )),
                           ],
                         ),

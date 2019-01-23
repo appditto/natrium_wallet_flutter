@@ -8,6 +8,18 @@ class KaliumStyles {
       fontSize: KaliumFontSizes.medium,
       fontWeight: FontWeight.w200,
       color: KaliumColors.text);
+  // Text style for paragraph text with primary color.
+  static const TextStyleParagraphPrimary = TextStyle(
+      fontFamily: "NunitoSans",
+      fontSize: KaliumFontSizes.medium,
+      fontWeight: FontWeight.w700,
+      color: KaliumColors.primary);
+  // Text style for paragraph text with primary color.
+  static const TextStyleParagraphSuccess = TextStyle(
+      fontFamily: "NunitoSans",
+      fontSize: KaliumFontSizes.medium,
+      fontWeight: FontWeight.w700,
+      color: KaliumColors.success);
   // For snackbar/Toast text
   static const TextStyleSnackbar = TextStyle(
       fontFamily: "NunitoSans",

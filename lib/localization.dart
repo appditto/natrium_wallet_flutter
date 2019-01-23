@@ -557,12 +557,12 @@ class KaliumLocalization {
   // Initial Screen
 
   String get transferHeader {
-    return Intl.message("Transfer Funds:",
+    return Intl.message("Transfer Funds",
       desc: 'transfer_header', name: 'transferHeader');
   }
 
   String get transferIntro {
-    return Intl.message("This process will transfer the funds from a paper wallet to your Kalium wallet.\n\nTap the \"%1\" button to start",
+    return Intl.message("This process will transfer the funds from a paper wallet to your Kalium wallet.\n\nTap the \"%1\" button to start.",
       desc: 'transfer_intro', name: 'transferIntro');
   }
 
@@ -584,12 +584,12 @@ class KaliumLocalization {
   // Confirm screen
 
   String get transferConfirmInfo {
-    return Intl.message("A wallet with a balance of %1 BANANO has been detected.",
+    return Intl.message("A wallet with a balance of %1 BANANO has been detected.\n",
       desc: 'transfer_confirm_info_first', name: 'transferConfirmInfo');
   }
 
   String get transferConfirmInfoSecond {
-    return Intl.message("Tap confirm to transfer the funds.",
+    return Intl.message("Tap confirm to transfer the funds.\n",
       desc: 'transfer_confirm_info_second', name: 'transferConfirmInfoSecond');
   }
 
@@ -606,7 +606,7 @@ class KaliumLocalization {
   // Compelte screen
 
   String get transferComplete {
-    return Intl.message("%1 BANANO successfully transferred to your Kalium Wallet.",
+    return Intl.message("%1 BANANO successfully transferred to your Kalium Wallet.\n",
       desc: 'transfer_complete_text', name: 'transferComplete');
   }
 
