@@ -419,7 +419,7 @@ class UIUtil {
       return MediaQuery.of(context).size.width * 0.85;
   }
 
-  static void showSnackbar(BuildContext context, var scaffoldKey, String content) {
+  static void showSnackbar(var scaffoldKey, String content) {
     scaffoldKey.currentState.showSnackBar(
       new SnackBar(
         content: new Text(content,
