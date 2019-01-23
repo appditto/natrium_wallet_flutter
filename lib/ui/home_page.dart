@@ -189,7 +189,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         StateContainer.of(context).wallet.representative =
             stateBlock.representative;
         UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).changeRepSucces);
-        ));
       }
     });
     RxBus.register<Contact>(tag: RX_CONTACT_MODIFIED_TAG).listen((contact) {
@@ -239,8 +238,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.register<ErrorResponse>(tag: RX_SEND_FAILED_TAG).listen((result) {
       // Send failed, close send screens and display error
       Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-      UIUtil.showSnackBar(_scaffoldKey, KaliumLocalization.of(context).sendError);
-      ));      
+      UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).sendError);
     });
   }
 
