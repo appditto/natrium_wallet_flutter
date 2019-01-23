@@ -73,11 +73,12 @@ class KaliumDialogs {
   }
 }
 
-enum AnimationType { SEND, GENERIC }
+enum AnimationType { SEND, GENERIC, TRANSFER_LOADING }
 class AnimationLoadingOverlay extends ModalRoute<void> {
   AnimationType type;
+  Function onPoppedCallback;
 
-  AnimationLoadingOverlay(this.type);
+  AnimationLoadingOverlay(this.type, {this.onPoppedCallback});
 
   @override
   Duration get transitionDuration => Duration(milliseconds: 0);
@@ -97,16 +98,26 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
   @override
   bool get maintainState => false;
 
+  Future<bool> onWillPop() async {
+    if (this.onPoppedCallback != null) {
+      this.onPoppedCallback();
+    }
+    return true;
+  }
+
   @override
   Widget buildPage(
       BuildContext context,
       Animation<double> animation,
       Animation<double> secondaryAnimation,
       ) {
-    return Material(
-      type: MaterialType.transparency,
-      child: SafeArea(
-        child: _buildOverlayContent(context),
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Material(
+        type: MaterialType.transparency,
+        child: SafeArea(
+          child: _buildOverlayContent(context),
+        ),
       ),
     );
   }
@@ -114,6 +125,10 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
   Widget _getAnimation(BuildContext context) {
     switch (type) {
       case AnimationType.SEND:
+        return FlareActor("assets/send_animation.flr",
+                animation: "main",
+                fit: BoxFit.contain);
+      case AnimationType.TRANSFER_LOADING:
         return FlareActor("assets/send_animation.flr",
                 animation: "main",
                 fit: BoxFit.contain);
@@ -126,13 +141,13 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
   Widget _buildOverlayContent(BuildContext context) {
     return Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: type == AnimationType.GENERIC ? MainAxisAlignment.center : MainAxisAlignment.end,
+        mainAxisAlignment: type == AnimationType.SEND ? MainAxisAlignment.end : MainAxisAlignment.center,
         children: <Widget>[
           Container(
             margin: type == AnimationType.SEND ? EdgeInsets.only(bottom: 10.0, left:90, right:90) : EdgeInsets.zero,
             //Widgth/Height ratio is needed because BoxFit is not working as expected
-            width: type == AnimationType.GENERIC ? 100 : double.infinity,
-            height: type == AnimationType.GENERIC ? 100 : MediaQuery.of(context).size.width,
+            width: type == AnimationType.SEND ? double.infinity : 100,
+            height: type == AnimationType.SEND ? MediaQuery.of(context).size.width : 100,
             child: _getAnimation(context),
           ),
         ],

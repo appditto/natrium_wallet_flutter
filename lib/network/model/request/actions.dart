@@ -4,4 +4,5 @@ class Actions {
   static const String PROCESS = 'process';
   static const String BLOCKS_INFO = 'blocks_info';
   static const String PENDING = "pending";
+  static const String ACCOUNTS_BALANCES = 'accounts_balances';
 }
