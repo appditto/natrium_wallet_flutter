@@ -35,6 +35,8 @@ class KaliumColors {
   static const black50 = Color(0x80000000);
   static const black70 = Color(0xB3000000);
   static const black80 = Color(0xCC000000);
+  static const black85 = Color(0xD9000000);
+  static const black90 = Color(0xE6000000);
 
   static const blue = Color(0xFF4A90E2);
 
@@ -72,4 +74,6 @@ class KaliumColors {
   static const overlay50= black50;
   static const overlay70= black70;
   static const overlay80= black80;
+  static const overlay85= black85;
+  static const overlay90= black90;
 }

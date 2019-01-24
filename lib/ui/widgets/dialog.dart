@@ -90,7 +90,12 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
   bool get barrierDismissible => false;
 
   @override
-  Color get barrierColor => KaliumColors.overlay70;
+  Color get barrierColor {
+    if (type == AnimationType.TRANSFER_TRANSFERRING || type == AnimationType.TRANSFER_SEARCHING) {
+      return KaliumColors.overlay85;
+    }
+    return KaliumColors.overlay70;
+  }
 
   @override
   String get barrierLabel => null;
@@ -113,7 +118,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
       Animation<double> secondaryAnimation,
       ) {
     return Material(
-      type: MaterialType.transparency,
+      type: MaterialType.transparency, 
       child: SafeArea(
         child: _buildOverlayContent(context),
       ),
@@ -144,17 +149,14 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
     switch (type) {
       case AnimationType.TRANSFER_SEARCHING:
       case AnimationType.TRANSFER_TRANSFERRING:
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: _getAnimation(context),
-            ),
-          ],
-        );
+        return Center(
+            child: Container(
+              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.15),
+                width: MediaQuery.of(context).size.width/1.4,
+                height: MediaQuery.of(context).size.width/1.4,
+                child: _getAnimation(context),
+              ),
+          );
       default:
         return Column(
             mainAxisSize: MainAxisSize.min,
