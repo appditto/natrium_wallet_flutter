@@ -73,7 +73,7 @@ class KaliumDialogs {
   }
 }
 
-enum AnimationType { SEND, GENERIC, TRANSFER_SEARCHING, TRANSFER_TRANSFERRING }
+enum AnimationType { SEND, GENERIC, TRANSFER_SEARCHING_QR, TRANSFER_SEARCHING_MANUAL, TRANSFER_TRANSFERRING }
 class AnimationLoadingOverlay extends ModalRoute<void> {
   AnimationType type;
   Function onPoppedCallback;
@@ -91,7 +91,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
 
   @override
   Color get barrierColor {
-    if (type == AnimationType.TRANSFER_TRANSFERRING || type == AnimationType.TRANSFER_SEARCHING) {
+    if (type == AnimationType.TRANSFER_TRANSFERRING || type == AnimationType.TRANSFER_SEARCHING_QR || type == AnimationType.TRANSFER_SEARCHING_MANUAL) {
       return KaliumColors.overlay85;
     }
     return KaliumColors.overlay70;
@@ -131,8 +131,12 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
         return FlareActor("assets/send_animation.flr",
                 animation: "main",
                 fit: BoxFit.contain);
-      case AnimationType.TRANSFER_SEARCHING:
-        return FlareActor("assets/searchseed_animation.flr",
+      case AnimationType.TRANSFER_SEARCHING_QR:
+        return FlareActor("assets/searchseedqr_animation.flr",
+                animation: "main",
+                fit: BoxFit.contain);
+      case AnimationType.TRANSFER_SEARCHING_MANUAL:
+        return FlareActor("assets/searchseedmanual_animation.flr",
                 animation: "main",
                 fit: BoxFit.contain);
       case AnimationType.TRANSFER_TRANSFERRING:
@@ -147,7 +151,24 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
 
   Widget _buildOverlayContent(BuildContext context) {
     switch (type) {
-      case AnimationType.TRANSFER_SEARCHING:
+      case AnimationType.TRANSFER_SEARCHING_QR:
+        return Center(
+            child: Container(
+              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.15),
+                width: MediaQuery.of(context).size.width/1.1,
+                height: MediaQuery.of(context).size.width/1.1,
+                child: _getAnimation(context),
+              ),
+          );
+      case AnimationType.TRANSFER_SEARCHING_MANUAL:
+        return Center(
+            child: Container(
+              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.15),
+                width: MediaQuery.of(context).size.width/1.1,
+                height: MediaQuery.of(context).size.width/1.1,
+                child: _getAnimation(context),
+              ),
+          );
       case AnimationType.TRANSFER_TRANSFERRING:
         return Center(
             child: Container(
