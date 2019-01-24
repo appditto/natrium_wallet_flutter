@@ -30,12 +30,15 @@ class KaliumTransferConfirmSheet {
   BigInt totalTransferred = BigInt.zero;
   // Need to be received by current account
   PendingResponse accountPending;
+  // Whether we finished transfer and are ready to start pocketing
+  bool finished = false;
 
   KaliumTransferConfirmSheet(this.privKeyBalanceMap);
 
   Future<bool> _onWillPop() async {
     RxBus.destroy(tag: RX_TRANSFER_ACCOUNT_HISTORY_TAG);
     RxBus.destroy(tag: RX_TRANSFER_PENDING_TAG);
+    RxBus.destroy(tag: RX_TRANSFER_PROCESS_TAG);
     RxBus.post("str", tag: RX_UNLOCK_CALLBACK_TAG);
     return true;
   }
@@ -295,11 +298,29 @@ class KaliumTransferConfirmSheet {
   }
 
   void startProcessing(BuildContext context) {
+    print("start_processing called");
     if (privKeyBalanceMap.length > 0) {
       String account = privKeyBalanceMap.keys.first;
       StateContainer.of(context).requestAccountHistory(account);
     } else if (readyToSendMap.length > 0) {
       // Start requesting sends
+      String account = readyToSendMap.keys.first;
+      AccountBalanceItem balItem = readyToSendMap[account];
+      if (balItem.frontier == null) {
+        StateContainer.of(context).requestAccountHistory(account);
+      } else {
+        StateContainer.of(context).requestSend(
+          balItem.frontier,
+          StateContainer.of(context).wallet.address,
+          "0",
+          privKey: balItem.privKey);
+      }
+    } else if (!finished) {
+      finished = true;
+      StateContainer.of(context).requestPending(account: StateContainer.of(context).wallet.address);
+    } else {
+      RxBus.post(totalToTransfer, tag: RX_TRANSFER_COMPLETE_TAG);
+      Navigator.of(context).pop();
     }
   }
 }

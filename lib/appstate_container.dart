@@ -147,7 +147,7 @@ class StateContainerState extends State<StateContainer> {
     RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
       // Special handling if from transfer
       if (AccountService.peek().fromTransfer) {
-        AccountHistoryRequest origRequest = AccountService.peek().request;
+        AccountHistoryRequest origRequest = AccountService.pop().request;
         historyResponse.account = origRequest.account;
         RxBus.post(historyResponse, tag: RX_TRANSFER_ACCOUNT_HISTORY_TAG);
         return;
@@ -552,8 +552,9 @@ class StateContainerState extends State<StateContainer> {
   /// @param destination - Destination address
   /// @param amount - Amount to send in RAW
   /// 
-  void requestSend(String previous, String destination, String amount) {
+  void requestSend(String previous, String destination, String amount, {String privKey}) {
     String representative = wallet.representative;
+    bool fromTransfer = privKey == null ? false: true;
 
     StateBlock sendBlock = new StateBlock(
       subtype:BlockTypes.SEND,
@@ -561,11 +562,12 @@ class StateContainerState extends State<StateContainer> {
       representative: representative,
       balance:amount,
       link:destination,
-      account:wallet.address
+      account:wallet.address,
+      privKey: privKey
     );
     previousPendingMap.putIfAbsent(previous, () => sendBlock);
 
-    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
+    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]), fromTransfer: fromTransfer);
     AccountService.processQueue();
   }
 

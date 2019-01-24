@@ -9,11 +9,14 @@ import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 
 class KaliumTransferCompleteSheet {
-  Widget transferFundsEnd =
-      SvgPicture.asset('assets/transferfunds_illustration_end.svg');
+  String transferAmount;
+
+  KaliumTransferCompleteSheet(this.transferAmount);
+
   mainBottomSheet(BuildContext context) {
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
+        closeOnTap: true,
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
@@ -45,14 +48,14 @@ class KaliumTransferCompleteSheet {
                                   maxWidth:
                                       MediaQuery.of(context).size.width *
                                           0.6),
-                              child: transferFundsEnd,
+                              child: SvgPicture.asset('assets/transferfunds_illustration_end.svg'),
                             ),
                             Container(
                                 alignment: Alignment(-1, 0),
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
                                   KaliumLocalization.of(context)
-                                      .transferComplete,
+                                      .transferComplete.replaceAll("%1", transferAmount),
                                   style:
                                       KaliumStyles.TextStyleParagraphSuccess,
                                   textAlign: TextAlign.left,
@@ -86,11 +89,6 @@ class KaliumTransferCompleteSheet {
                       ),
                     ],
                   ),
-                ),
-                // Gesture detector that closes the windows when sheet is tapped
-                GestureDetector(
-                  onTap: (){Navigator.pop(context);},
-                  child: Container(color: Colors.transparent, height:MediaQuery.of(context).size.height, width: MediaQuery.of(context).size.width,),
                 ),
               ],
             );

@@ -28,6 +28,7 @@ import 'package:kalium_wallet_flutter/ui/settings/changerepresentative_sheet.dar
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
 import 'package:kalium_wallet_flutter/ui/transfer/transfer_overview_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/transfer/transfer_confirm_sheet.dart';
+import 'package:kalium_wallet_flutter/ui/transfer/transfer_complete_sheet.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_balance_item.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
@@ -37,6 +38,7 @@ import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/biometrics.dart';
 import 'package:kalium_wallet_flutter/util/fileutil.dart';
 import 'package:kalium_wallet_flutter/util/hapticutil.dart';
+import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
 class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
@@ -198,6 +200,10 @@ class _SettingsSheetState extends State<SettingsSheet>
     // Ready to go to transfer confirm
     RxBus.register<Map<String, AccountBalanceItem>>(tag: RX_TRANSFER_CONFIRM_TAG).listen((Map<String, AccountBalanceItem> privKeyMap) {
       KaliumTransferConfirmSheet(privKeyMap).mainBottomSheet(context);
+    });
+    // Ready to go to transfer complete
+    RxBus.register<BigInt>(tag: RX_TRANSFER_COMPLETE_TAG).listen((BigInt amount) {
+      KaliumTransferCompleteSheet(NumberUtil.getRawAsUsableString(amount.toString())).mainBottomSheet(context);
     });
     // Unlock callback
     RxBus.register<String>(tag: RX_UNLOCK_CALLBACK_TAG).listen((result) {
