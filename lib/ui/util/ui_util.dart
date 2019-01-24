@@ -422,9 +422,10 @@ class UIUtil {
   static void showSnackbar(var scaffoldKey, String content) {
     scaffoldKey.currentState.showSnackBar(
       new SnackBar(
+        backgroundColor: KaliumColors.backgroundDark,
         content: new Text(content,
         style: KaliumStyles.TextStyleSnackbar),
-        duration: Duration(seconds: 2)
+        duration: Duration(seconds: 1)
       )
     );
   }
