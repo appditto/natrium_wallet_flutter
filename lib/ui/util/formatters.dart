@@ -7,12 +7,7 @@ class CurrencyInputFormatter extends TextInputFormatter {
 
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     bool returnOriginal = true;
-    // if contains more than 2 decimals in newValue, return oldValue
-    if ('.'.allMatches(newValue.text).length > 1) {
-      return newValue.copyWith(
-        text: oldValue.text,
-        selection: new TextSelection.collapsed(offset: oldValue.text.length));
-    } else if (newValue.text.contains(".") || newValue.text.contains(",")) {
+    if (newValue.text.contains(".") || newValue.text.contains(",")) {
       returnOriginal = false;
     }
     // If no text, or text doesnt contain a period of comma, no work to do here
@@ -21,7 +16,12 @@ class CurrencyInputFormatter extends TextInputFormatter {
     }
 
     String workingText = newValue.text.replaceAll(r",", ".");
-    if (workingText.startsWith(".")) {
+    // if contains more than 2 decimals in newValue, return oldValue
+    if ('.'.allMatches(workingText).length > 1) {
+      return newValue.copyWith(
+        text: oldValue.text,
+        selection: new TextSelection.collapsed(offset: oldValue.text.length));
+    } else if (workingText.startsWith(".")) {
       workingText = "0" + workingText;
     }
 
