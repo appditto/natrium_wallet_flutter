@@ -48,14 +48,18 @@ class KaliumTransferConfirmSheet {
     // Block callback responses
     StateContainer.of(context).lockCallback();
     // See how much we have to transfer and separate accounts with pendings
+    List<String> accountsToRemove = List();
     privKeyBalanceMap.forEach((String account, AccountBalanceItem accountBalanceItem) {
       totalToTransfer += BigInt.parse(accountBalanceItem.balance) + BigInt.parse(accountBalanceItem.pending);
       if (BigInt.parse(accountBalanceItem.pending) == BigInt.zero && BigInt.parse(accountBalanceItem.balance) > BigInt.zero) {
         readyToSendMap.putIfAbsent(account, () => accountBalanceItem);
-        privKeyBalanceMap.remove(account);
+        accountsToRemove.add(account);
       } else if (BigInt.parse(accountBalanceItem.pending) == BigInt.zero && BigInt.parse(accountBalanceItem.balance) == BigInt.zero) {
-        privKeyBalanceMap.remove(account);
+        accountsToRemove.add(account);
       }
+    });
+    accountsToRemove.forEach((account) {
+      privKeyBalanceMap.remove(account);
     });
     totalAsBanano = NumberUtil.getRawAsUsableString(totalToTransfer.toString());
 
@@ -86,7 +90,8 @@ class KaliumTransferConfirmSheet {
       }
     });
     // Pending response
-    RxBus.register<PendingResponse>(tag: RX_PENDING_RESP_TAG).listen((pendingResponse) {
+    RxBus.register<PendingResponse>(tag: RX_TRANSFER_PENDING_TAG).listen((pendingResponse) {
+      print('receive_pending_response');
       // See if this is our account or a paper wallet account
       if (pendingResponse.account != StateContainer.of(context).wallet.address) {
         // TODO - null checking/error handling
@@ -243,15 +248,17 @@ class KaliumTransferConfirmSheet {
       if (accountBalanceItem.frontier != null) {
         // Receive block
         StateContainer.of(context).requestReceive(accountBalanceItem.frontier,
-                pendingItem.hash,
+                hash,
                 pendingItem.amount,
-                privKey: accountBalanceItem.privKey);
+                privKey: accountBalanceItem.privKey,
+                account: account);
       } else {
         // Open account
         StateContainer.of(context).requestOpen("0",
-                pendingItem.hash,
+                hash,
                 pendingItem.amount,
-                privKey: accountBalanceItem.privKey);
+                privKey: accountBalanceItem.privKey,
+                account: account);
       }
     } else {
       readyToSendMap.putIfAbsent(account, () => accountBalanceItem);
@@ -279,17 +286,19 @@ class KaliumTransferConfirmSheet {
           // Receive block
           _getPrivKey().then((result) {
             StateContainer.of(context).requestReceive(StateContainer.of(context).wallet.frontier,
-                    pendingItem.hash,
+                    hash,
                     pendingItem.amount,
-                    privKey: result);
+                    privKey: result,
+                    account: StateContainer.of(context).wallet.address);
           });
       } else {
           // Open account
           _getPrivKey().then((result) {
             StateContainer.of(context).requestOpen("0",
-                    pendingItem.hash,
+                    hash,
                     pendingItem.amount,
-                    privKey: result);
+                    privKey: result,
+                    account: StateContainer.of(context).wallet.address);
           });
       }
     } else {
@@ -313,7 +322,8 @@ class KaliumTransferConfirmSheet {
           balItem.frontier,
           StateContainer.of(context).wallet.address,
           "0",
-          privKey: balItem.privKey);
+          privKey: balItem.privKey,
+          account: account);
       }
     } else if (!finished) {
       finished = true;

@@ -120,15 +120,18 @@ class KaliumTransferManualEntrySheet {
                                                   BorderRadius.circular(100.0)),
                                           padding: EdgeInsets.all(14.0),
                                           onPressed: () {
-                                            if (NanoSeeds.isValidSeed(_seedInputController.text)) {
-                                              return;
-                                            }
                                             Clipboard.getData("text/plain").then((ClipboardData data) {
                                               if (data == null || data.text == null) {
                                                 return;
                                               } else if (NanoSeeds.isValidSeed(data.text)) {
                                                 _seedInputController.text = data.text;
-                                                _seedTextStyle = _validSeedTextStyle;
+                                                setState(() {
+                                                  _seedTextStyle = _validSeedTextStyle;
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  _seedTextStyle = _initialSeedTextStyle;
+                                                });
                                               }
                                             });
                                           },

@@ -339,7 +339,7 @@ class StateContainerState extends State<StateContainer> {
     if (prevRequest.fromTransfer) {
       PendingRequest pendingRequest = prevRequest.request;
       response.account = pendingRequest.account;
-      RxBus.post(response, tag: RX_PENDING_RESP_TAG);
+      RxBus.post(response, tag: RX_TRANSFER_PENDING_TAG);
     } else {
       response.blocks.forEach((hash, pendingResponseItem) {
         PendingResponseItem pendingResponseItemN = pendingResponseItem;
@@ -552,9 +552,9 @@ class StateContainerState extends State<StateContainer> {
   /// @param destination - Destination address
   /// @param amount - Amount to send in RAW
   /// 
-  void requestSend(String previous, String destination, String amount, {String privKey}) {
+  void requestSend(String previous, String destination, String amount, {String privKey,String account}) {
     String representative = wallet.representative;
-    bool fromTransfer = privKey == null ? false: true;
+    bool fromTransfer = privKey == null && account == null ? false: true;
 
     StateBlock sendBlock = new StateBlock(
       subtype:BlockTypes.SEND,
@@ -562,7 +562,7 @@ class StateContainerState extends State<StateContainer> {
       representative: representative,
       balance:amount,
       link:destination,
-      account:wallet.address,
+      account: !fromTransfer ? wallet.address : account,
       privKey: privKey
     );
     previousPendingMap.putIfAbsent(previous, () => sendBlock);
@@ -579,9 +579,9 @@ class StateContainerState extends State<StateContainer> {
   /// @param balance - balance in RAW
   /// @param privKey - private key (optional, used for transfer)
   /// 
-  void requestReceive(String previous, String source, String balance, {String privKey}) {
+  void requestReceive(String previous, String source, String balance, {String privKey, String account}) {
     String representative = wallet.representative;
-    bool fromTransfer = privKey == null ? false : true;
+    bool fromTransfer = privKey == null && account == null ? false : true;
 
     StateBlock receiveBlock = new StateBlock(
       subtype:BlockTypes.RECEIVE,
@@ -589,7 +589,7 @@ class StateContainerState extends State<StateContainer> {
       representative: representative,
       balance:balance,
       link:source,
-      account:wallet.address,
+      account: !fromTransfer ? wallet.address: account,
       privKey: privKey
     );
     previousPendingMap.putIfAbsent(previous, () => receiveBlock);
@@ -609,9 +609,9 @@ class StateContainerState extends State<StateContainer> {
   /// @param balance - balance in RAW
   /// @param privKey - optional private key to use to sign block wen from transfer
   /// 
-  void requestOpen(String previous, String source, String balance, {String privKey}) {
+  void requestOpen(String previous, String source, String balance, {String privKey, String account}) {
     String representative = wallet.representative;
-    bool fromTransfer = privKey == null ? false : true;
+    bool fromTransfer = privKey == null && account == null ? false : true;
 
     StateBlock openBlock = new StateBlock(
       subtype:BlockTypes.OPEN,
@@ -619,7 +619,7 @@ class StateContainerState extends State<StateContainer> {
       representative: representative,
       balance:balance,
       link:source,
-      account:wallet.address
+      account: !fromTransfer ? wallet.address : account
     );
     _getPrivKey().then((result) {
       if (!fromTransfer) {
