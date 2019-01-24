@@ -199,11 +199,17 @@ class _SettingsSheetState extends State<SettingsSheet>
     RxBus.register<Map<String, AccountBalanceItem>>(tag: RX_TRANSFER_CONFIRM_TAG).listen((Map<String, AccountBalanceItem> privKeyMap) {
       KaliumTransferConfirmSheet(privKeyMap).mainBottomSheet(context);
     });
+    // Unlock callback
+    RxBus.register<String>(tag: RX_UNLOCK_CALLBACK_TAG).listen((result) {
+      StateContainer.of(context).unlockCallback();
+    });
   }
 
   void _destroyBus() {
     RxBus.destroy(tag: RX_CONTACT_ADDED_TAG);
     RxBus.destroy(tag: RX_CONTACT_REMOVED_TAG);
+    RxBus.destroy(tag: RX_TRANSFER_CONFIRM_TAG);
+    RxBus.destroy(tag: RX_UNLOCK_CALLBACK_TAG);
   }
 
   @override

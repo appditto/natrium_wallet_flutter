@@ -3,16 +3,19 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
+import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_balance_item.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/pending_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/pending_response_item.dart';
+import 'package:kalium_wallet_flutter/network/model/response/transfer_process_response.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/transfer/transfer_complete_sheet.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
+import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 
 class KaliumTransferConfirmSheet {
@@ -33,11 +36,14 @@ class KaliumTransferConfirmSheet {
   Future<bool> _onWillPop() async {
     RxBus.destroy(tag: RX_TRANSFER_ACCOUNT_HISTORY_TAG);
     RxBus.destroy(tag: RX_TRANSFER_PENDING_TAG);
+    RxBus.post("str", tag: RX_UNLOCK_CALLBACK_TAG);
     return true;
   }
 
 
   mainBottomSheet(BuildContext context) {
+    // Block callback responses
+    StateContainer.of(context).lockCallback();
     // See how much we have to transfer and separate accounts with pendings
     privKeyBalanceMap.forEach((String account, AccountBalanceItem accountBalanceItem) {
       totalToTransfer += BigInt.parse(accountBalanceItem.balance) + BigInt.parse(accountBalanceItem.pending);
@@ -87,7 +93,32 @@ class KaliumTransferConfirmSheet {
       } else {
         // Store result and start pocketing these
         accountPending = pendingResponse;
-        processKaliumPending(StateContainer.of(context).wallet.address);
+        processKaliumPending(context);
+      }
+    });
+    // Process response
+    RxBus.register<TransferProcessResponse>(tag: RX_TRANSFER_PROCESS_TAG).listen((processResponse) {
+      // If this is our own account
+      if (processResponse.account == StateContainer.of(context).wallet.address) {
+        StateContainer.of(context).wallet.frontier = processResponse.hash;
+        processKaliumPending(context);
+        return;
+      }
+      // A paper wallet account
+      AccountBalanceItem balItem = privKeyBalanceMap.remove(processResponse.account);
+      if (balItem != null) {
+        balItem.frontier = processResponse.hash;
+        balItem.balance = processResponse.balance;
+        privKeyBalanceMap[processResponse.account] = balItem;
+        // Process next item
+        processNextPending(context, processResponse.account);
+      } else {
+        balItem = readyToSendMap.remove(processResponse.account);
+        if (balItem == null) {
+          //TODO - exit with error
+        }
+        totalTransferred += BigInt.parse(balItem.balance);
+        startProcessing(context);        
       }
     });
 
@@ -186,6 +217,10 @@ class KaliumTransferConfirmSheet {
         });
   }
 
+  Future<String> _getPrivKey() async {
+   return NanoUtil.seedToPrivate(await Vault.inst.getSeed(), 0);
+  }
+
   ///
   /// processNextPending()
   ///
@@ -204,8 +239,16 @@ class KaliumTransferConfirmSheet {
       PendingResponseItem pendingItem = pendingBlocks.remove(hash);
       if (accountBalanceItem.frontier != null) {
         // Receive block
+        StateContainer.of(context).requestReceive(accountBalanceItem.frontier,
+                pendingItem.hash,
+                pendingItem.amount,
+                privKey: accountBalanceItem.privKey);
       } else {
         // Open account
+        StateContainer.of(context).requestOpen("0",
+                pendingItem.hash,
+                pendingItem.amount,
+                privKey: accountBalanceItem.privKey);
       }
     } else {
       readyToSendMap.putIfAbsent(account, () => accountBalanceItem);
@@ -214,14 +257,49 @@ class KaliumTransferConfirmSheet {
     }
   }
 
-  void processKaliumPending(String account) {
-
+  ///
+  /// processKaliumPending()
+  ///
+  /// Start pocketing the transactions our logged in account received from this transfer
+  ///
+  /// @param context
+  ///
+  void processKaliumPending(BuildContext context) {
+    if (accountPending == null) {
+      // TODO - exit with error
+    }
+    Map<String, PendingResponseItem> pendingBlocks = accountPending.blocks;
+    if (pendingBlocks.length > 0) {
+      String hash = pendingBlocks.keys.first;
+      PendingResponseItem pendingItem = pendingBlocks.remove(hash);
+      if (StateContainer.of(context).wallet.openBlock != null) {
+          // Receive block
+          _getPrivKey().then((result) {
+            StateContainer.of(context).requestReceive(StateContainer.of(context).wallet.frontier,
+                    pendingItem.hash,
+                    pendingItem.amount,
+                    privKey: result);
+          });
+      } else {
+          // Open account
+          _getPrivKey().then((result) {
+            StateContainer.of(context).requestOpen("0",
+                    pendingItem.hash,
+                    pendingItem.amount,
+                    privKey: result);
+          });
+      }
+    } else {
+        startProcessing(context); // Finish the process
+    }
   }
 
   void startProcessing(BuildContext context) {
     if (privKeyBalanceMap.length > 0) {
       String account = privKeyBalanceMap.keys.first;
-      //StateContainer.of(context).
+      StateContainer.of(context).requestAccountHistory(account);
+    } else if (readyToSendMap.length > 0) {
+      // Start requesting sends
     }
   }
 }
