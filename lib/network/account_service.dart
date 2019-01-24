@@ -58,7 +58,7 @@ class AccountService {
   }
 
   // Connect to server
-  static void initCommunication({bool unsuspend = false}) async {
+  static Future<void> initCommunication({bool unsuspend = false}) async {
     if (_isConnected || _isConnecting) {
       return;
     } else if (_suspended && !unsuspend) {
@@ -121,7 +121,7 @@ class AccountService {
   }
 
   // Send message
-  static void _send(String message) {
+  static Future<void> _send(String message) async {
     bool reset = false;
     try {
     if (_channel != null){
