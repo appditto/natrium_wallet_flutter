@@ -9,6 +9,7 @@ import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
@@ -55,7 +56,7 @@ class KaliumChangeRepresentativeSheet {
                   _addressValidAndUnfocused = false;
                 });
                 _repController.selection = TextSelection.fromPosition(
-                          TextPosition(offset: _repController.text.length));
+                    TextPosition(offset: _repController.text.length));
               } else {
                 setState(() {
                   _changeRepHint = KaliumLocalization.of(context).changeRepHint;
@@ -75,35 +76,11 @@ class KaliumChangeRepresentativeSheet {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      //This container is a temporary solution for the alignment problem
-                      SizedBox(
-                        width: 60,
-                        height: 60,
-                      ),
-
-                      //Container for the header
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment(0, 0),
-                          margin: EdgeInsets.only(top: 30),
-                          child: Wrap(
-                            direction: Axis.horizontal,
-                            children: <Widget>[
-                              Text(
-                                KaliumLocalization.of(context).changeRepAuthenticate.toUpperCase(),
-                                style: KaliumStyles.textStyleHeader(context),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
                       //A container for the info button
                       Container(
                         width: 50,
                         height: 50,
-                        margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                        margin: EdgeInsets.only(top: 10.0, left: 10.0),
                         child: FlatButton(
                           onPressed: () {
                             KaliumDialogs.showInfoDialog(
@@ -119,13 +96,52 @@ class KaliumChangeRepresentativeSheet {
                           materialTapTargetSize: MaterialTapTargetSize.padded,
                         ),
                       ),
+
+                      //Container for the header
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(top: 30),
+                          constraints: BoxConstraints(
+                              maxWidth:
+                                  MediaQuery.of(context).size.width - 140),
+                          child: AutoSizeText(
+                            KaliumLocalization.of(context)
+                                .changeRepAuthenticate
+                                .toUpperCase(),
+                            style: KaliumStyles.textStyleHeader(context),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            stepGranularity: 0.1,
+                          ),
+                        ),
+                      ),
+
+                      // Scan QR Button
+                      Container(
+                        width: 50,
+                        height: 50,
+                        margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                        child: FlatButton(
+                          onPressed: () {
+                            return null;
+                          },
+                          child: Icon(KaliumIcons.scan,
+                              size: 28, color: KaliumColors.text),
+                          padding: EdgeInsets.all(11.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100.0)),
+                          materialTapTargetSize: MaterialTapTargetSize.padded,
+                        ),
+                      ),
                     ],
                   ),
 
                   //A expanded section for current representative and new representative fields
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(top: smallScreen(context)?20:35, bottom: smallScreen(context)?20:35),
+                      margin: EdgeInsets.only(
+                          top: smallScreen(context) ? 20 : 35,
+                          bottom: smallScreen(context) ? 20 : 35),
                       child: Stack(children: <Widget>[
                         GestureDetector(
                           onTap: () {
@@ -147,7 +163,8 @@ class KaliumChangeRepresentativeSheet {
                                     right: MediaQuery.of(context).size.width *
                                         0.105),
                                 child: Text(
-                                  KaliumLocalization.of(context).currentlyRepresented,
+                                  KaliumLocalization.of(context)
+                                      .currentlyRepresented,
                                   style: KaliumStyles.TextStyleParagraph,
                                 )),
                             Container(
@@ -177,111 +194,123 @@ class KaliumChangeRepresentativeSheet {
                                       MediaQuery.of(context).size.width * 0.105,
                                   top: 20),
                               width: double.infinity,
-                              padding: _addressValidAndUnfocused ? EdgeInsets.symmetric(
-                                    horizontal: 25.0, vertical: 15.0) : EdgeInsets.zero,
+                              padding: _addressValidAndUnfocused
+                                  ? EdgeInsets.symmetric(
+                                      horizontal: 25.0, vertical: 15.0)
+                                  : EdgeInsets.zero,
                               decoration: BoxDecoration(
                                 color: KaliumColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
-                              child: !_addressValidAndUnfocused ? TextField(
-                                focusNode: _repFocusNode,
-                                controller: _repController,
-                                textAlign: TextAlign.center,
-                                cursorColor: KaliumColors.primary,
-                                inputFormatters: [
-                                  LengthLimitingTextInputFormatter(64),
-                                ],
-                                textInputAction: TextInputAction.done,
-                                maxLines: null,
-                                autocorrect: false,
-                                decoration: InputDecoration(
-                                  hintText: _changeRepHint,
-                                  // Empty Container
-                                  prefixIcon: Container(
-                                    width: 48.0,
-                                    height: 48.0,
-                                  ),
-                                  // Paste Button
-                                  suffixIcon: AnimatedCrossFade(
-                                    duration: Duration(milliseconds: 100),
-                                    firstChild: Container(
-                                      width: 48.0,
-                                      height: 48.0,
-                                      child:  FlatButton(
-                                        padding: EdgeInsets.all(15.0),
-                                        onPressed: () {
-                                          if (!_showPasteButton) {
-                                            return;
-                                          }
-                                          Clipboard.getData("text/plain")
-                                              .then((ClipboardData data) {
-                                            if (data == null ||
-                                                data.text == null) {
-                                              return;
-                                            }
-                                            Address address =
-                                                new Address(data.text);
-                                            if (address.isValid()) {
-                                              setState(() {
-                                                _addressValidAndUnfocused = true;
-                                                _showPasteButton = false;
-                                                _repAddressStyle = KaliumStyles
-                                                    .TextStyleAddressText90;
-                                              });
-                                              _repController.text =
-                                                  address.address;
-                                              _repFocusNode.unfocus();
-                                            }
-                                          });
-                                        },
-                                        child: Icon(KaliumIcons.paste,
-                                            size: 20.0,
-                                            color: KaliumColors.primary),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(200.0)),
-                                        materialTapTargetSize:
-                                            MaterialTapTargetSize.padded,
+                              child: !_addressValidAndUnfocused
+                                  ? TextField(
+                                      focusNode: _repFocusNode,
+                                      controller: _repController,
+                                      textAlign: TextAlign.center,
+                                      cursorColor: KaliumColors.primary,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(64),
+                                      ],
+                                      textInputAction: TextInputAction.done,
+                                      maxLines: null,
+                                      autocorrect: false,
+                                      decoration: InputDecoration(
+                                        hintText: _changeRepHint,
+                                        // Empty Container
+                                        prefixIcon: Container(
+                                          width: 48.0,
+                                          height: 48.0,
+                                        ),
+                                        // Paste Button
+                                        suffixIcon: AnimatedCrossFade(
+                                          duration: Duration(milliseconds: 100),
+                                          firstChild: Container(
+                                            width: 48.0,
+                                            height: 48.0,
+                                            child: FlatButton(
+                                              padding: EdgeInsets.all(15.0),
+                                              onPressed: () {
+                                                if (!_showPasteButton) {
+                                                  return;
+                                                }
+                                                Clipboard.getData("text/plain")
+                                                    .then((ClipboardData data) {
+                                                  if (data == null ||
+                                                      data.text == null) {
+                                                    return;
+                                                  }
+                                                  Address address =
+                                                      new Address(data.text);
+                                                  if (address.isValid()) {
+                                                    setState(() {
+                                                      _addressValidAndUnfocused =
+                                                          true;
+                                                      _showPasteButton = false;
+                                                      _repAddressStyle =
+                                                          KaliumStyles
+                                                              .TextStyleAddressText90;
+                                                    });
+                                                    _repController.text =
+                                                        address.address;
+                                                    _repFocusNode.unfocus();
+                                                  }
+                                                });
+                                              },
+                                              child: Icon(KaliumIcons.paste,
+                                                  size: 20.0,
+                                                  color: KaliumColors.primary),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          200.0)),
+                                              materialTapTargetSize:
+                                                  MaterialTapTargetSize.padded,
+                                            ),
+                                          ),
+                                          secondChild: SizedBox(),
+                                          crossFadeState: _showPasteButton
+                                              ? CrossFadeState.showFirst
+                                              : CrossFadeState.showSecond,
+                                        ),
+                                        border: InputBorder.none,
+                                        hintStyle: TextStyle(
+                                            fontFamily: 'NunitoSans',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w100),
                                       ),
+                                      keyboardType: TextInputType.text,
+                                      style: _repAddressStyle,
+                                      onChanged: (text) {
+                                        if (Address(text).isValid()) {
+                                          _repFocusNode.unfocus();
+                                          setState(() {
+                                            _showPasteButton = false;
+                                            _repAddressStyle = KaliumStyles
+                                                .TextStyleAddressText90;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            _showPasteButton = true;
+                                            _repAddressStyle = KaliumStyles
+                                                .TextStyleAddressText60;
+                                          });
+                                        }
+                                      },
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _addressValidAndUnfocused = false;
+                                        });
+                                        Future.delayed(
+                                            Duration(milliseconds: 50), () {
+                                          FocusScope.of(context)
+                                              .requestFocus(_repFocusNode);
+                                        });
+                                      },
+                                      child: UIUtil.threeLineAddressText(
+                                          _repController.text),
                                     ),
-                                    secondChild: SizedBox(),
-                                    crossFadeState: _showPasteButton ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                                  ),
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(
-                                      fontFamily: 'NunitoSans',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w100),
-                                ),
-                                keyboardType: TextInputType.text,
-                                style: _repAddressStyle,
-                                onChanged: (text) {
-                                  if (Address(text).isValid()) {
-                                    _repFocusNode.unfocus();
-                                    setState(() {
-                                      _showPasteButton = false;
-                                      _repAddressStyle =
-                                          KaliumStyles.TextStyleAddressText90;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      _showPasteButton = true;
-                                      _repAddressStyle =
-                                          KaliumStyles.TextStyleAddressText60;
-                                    });
-                                  }
-                                },
-                              ) : GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _addressValidAndUnfocused = false;
-                                  });
-                                  Future.delayed(Duration(milliseconds: 50), () {
-                                    FocusScope.of(context).requestFocus(_repFocusNode);
-                                  });
-                                },
-                                child: UIUtil.threeLineAddressText(_repController.text),
-                              ),
                             ),
                           ],
                         ),
@@ -296,7 +325,9 @@ class KaliumChangeRepresentativeSheet {
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY,
-                            KaliumLocalization.of(context).changeRepButton.toUpperCase(),
+                            KaliumLocalization.of(context)
+                                .changeRepButton
+                                .toUpperCase(),
                             Dimens.BUTTON_TOP_DIMENS,
                             onPressed: () {
                               if (!NanoAccounts.isValid(NanoAccountType.BANANO,
@@ -313,12 +344,14 @@ class KaliumChangeRepresentativeSheet {
                                           AuthMethod.BIOMETRICS &&
                                       hasBiometrics) {
                                     BiometricUtil.authenticateWithBiometrics(
-                                            KaliumLocalization.of(context).changeRepAuthenticate)
+                                            KaliumLocalization.of(context)
+                                                .changeRepAuthenticate)
                                         .then((authenticated) {
                                       if (authenticated) {
                                         HapticUtil.fingerprintSucess();
-                                        Navigator.of(context)
-                                            .push(AnimationLoadingOverlay(AnimationType.GENERIC));
+                                        Navigator.of(context).push(
+                                            AnimationLoadingOverlay(
+                                                AnimationType.GENERIC));
                                         // If account isnt open, just store the account in sharedprefs
                                         if (StateContainer.of(context)
                                                 .wallet
@@ -362,8 +395,9 @@ class KaliumChangeRepresentativeSheet {
                                           PinOverlayType.ENTER_PIN,
                                           (pin) {
                                             Navigator.of(context).pop();
-                                            Navigator.of(context)
-                                                .push(AnimationLoadingOverlay(AnimationType.GENERIC));
+                                            Navigator.of(context).push(
+                                                AnimationLoadingOverlay(
+                                                    AnimationType.GENERIC));
                                             // If account isnt open, just store the account in sharedprefs
                                             if (StateContainer.of(context)
                                                     .wallet
@@ -398,7 +432,8 @@ class KaliumChangeRepresentativeSheet {
                                           },
                                           expectedPin: expectedPin,
                                           description:
-                                              KaliumLocalization.of(context).pinRepChange,
+                                              KaliumLocalization.of(context)
+                                                  .pinRepChange,
                                         );
                                       }));
                                     });
