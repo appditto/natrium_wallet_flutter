@@ -501,7 +501,7 @@ class StateContainerState extends State<StateContainer> {
         pendingResponseBlockMap.clear();
         previousPendingMap.clear();
         AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
-        AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 10));
+        AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 20));
         AccountService.processQueue();
       }); 
     }
