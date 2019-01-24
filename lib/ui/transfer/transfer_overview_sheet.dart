@@ -61,6 +61,12 @@ class KaliumTransferOverviewSheet {
       RxBus.post(privKeyBalanceMap, tag: RX_TRANSFER_CONFIRM_TAG);
       Navigator.of(context).pop();
     });
+
+    void manualEntryCallback(String seed) {
+      Navigator.of(context).pop();
+      startTransfer(context, seed, manualEntry: true);
+    }
+
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         onDisposed: _onWillPop,
@@ -173,7 +179,7 @@ class KaliumTransferOverviewSheet {
                             "Manual Entry",
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             onPressed: () {
-                              KaliumTransferManualEntrySheet()
+                              KaliumTransferManualEntrySheet(manualEntryCallback)
                                   .mainBottomSheet(context);
                             },
                             
@@ -189,11 +195,12 @@ class KaliumTransferOverviewSheet {
         });
   }
 
-  void startTransfer(BuildContext context, String seed) {
+  void startTransfer(BuildContext context, String seed, {bool manualEntry = false}) {
     // Show loading overlay
     _animationOpen = true;
+    AnimationType animation = manualEntry ? AnimationType.TRANSFER_SEARCHING_MANUAL : AnimationType.TRANSFER_SEARCHING_QR;
     Navigator.of(context)
-                  .push(AnimationLoadingOverlay(AnimationType.TRANSFER_SEARCHING_QR, onPoppedCallback: () { _animationOpen = false; }));
+                  .push(AnimationLoadingOverlay(animation, onPoppedCallback: () { _animationOpen = false; }));
     // Get accounts from seed
     List<String> accountsToRequest = getAccountsFromSeed(context, seed);
     // Make balances request

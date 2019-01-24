@@ -203,6 +203,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     });
     // Ready to go to transfer complete
     RxBus.register<BigInt>(tag: RX_TRANSFER_COMPLETE_TAG).listen((BigInt amount) {
+      StateContainer.of(context).requestUpdate();
       KaliumTransferCompleteSheet(NumberUtil.getRawAsUsableString(amount.toString())).mainBottomSheet(context);
     });
     // Unlock callback

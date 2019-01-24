@@ -5,13 +5,16 @@ import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
-import 'package:kalium_wallet_flutter/ui/transfer/transfer_confirm_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 
 class KaliumTransferManualEntrySheet {
+  Function validSeedCallback;
+
+  KaliumTransferManualEntrySheet(this.validSeedCallback);
+
   var _seedInputFocusNode = new FocusNode();
   var _seedInputController = new TextEditingController();
   // State constants
@@ -192,7 +195,13 @@ class KaliumTransferManualEntrySheet {
                         "Transfer",
                         Dimens.BUTTON_TOP_DIMENS,
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          if (NanoSeeds.isValidSeed(_seedInputController.text)) {
+                            validSeedCallback(_seedInputController.text);
+                          } else {
+                            setState(() {
+                              _errorTextColor = KaliumColors.primary;
+                            });
+                          }
                         },
                       ),
                     ],
