@@ -257,6 +257,9 @@ class StateContainerState extends State<StateContainer> {
   /// 
   void handleErrorResponse(ErrorResponse errorResponse) {
     RequestItem prevRequest = AccountService.pop();
+    if (prevRequest != null && prevRequest.fromTransfer) {
+      RxBus.post('err', tag: RX_TRANSFER_ERROR_TAG);
+    }
     AccountService.processQueue();
     if (errorResponse.error == null) { return; }
     // 1) Unreceivable error, due to already having received the block typically

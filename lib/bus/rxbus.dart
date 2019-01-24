@@ -33,6 +33,7 @@ const String RX_TRANSFER_ACCOUNT_HISTORY_TAG = 'fkalium_transfer_account_history
 const String RX_TRANSFER_PROCESS_TAG = 'fkalium_transfer_process_tag';
 const String RX_TRANSFER_PENDING_TAG = 'fkalium_transfer_pending_tag';
 const String RX_UNLOCK_CALLBACK_TAG = 'fkalium_transfer_unlock_callback_tag';
+const String RX_TRANSFER_ERROR_TAG = 'fkalium_transfer_error_tag';
 
 /**
  * RXBus using RXDart
