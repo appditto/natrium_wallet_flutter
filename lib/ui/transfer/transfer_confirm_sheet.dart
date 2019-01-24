@@ -32,6 +32,8 @@ class KaliumTransferConfirmSheet {
   PendingResponse accountPending;
   // Whether we finished transfer and are ready to start pocketing
   bool finished = false;
+  // Whether animation overlay is open
+  bool animationOpen = false;
 
   KaliumTransferConfirmSheet(this.privKeyBalanceMap);
 
@@ -198,7 +200,8 @@ class KaliumTransferConfirmSheet {
                                   KaliumButtonType.PRIMARY,
                                   KaliumLocalization.of(context).confirm.toUpperCase(),
                                   Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                                Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.TRANSFER_TRANSFERRING));
+                                animationOpen = true;
+                                Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.TRANSFER_TRANSFERRING, onPoppedCallback: () { animationOpen = false; } ));
                                 startProcessing(context);
                               }),
                             ],
@@ -307,7 +310,6 @@ class KaliumTransferConfirmSheet {
   }
 
   void startProcessing(BuildContext context) {
-    print("start_processing called");
     if (privKeyBalanceMap.length > 0) {
       String account = privKeyBalanceMap.keys.first;
       StateContainer.of(context).requestAccountHistory(account);
@@ -330,6 +332,9 @@ class KaliumTransferConfirmSheet {
       StateContainer.of(context).requestPending(account: StateContainer.of(context).wallet.address);
     } else {
       RxBus.post(totalToTransfer, tag: RX_TRANSFER_COMPLETE_TAG);
+      if (animationOpen) {
+        Navigator.of(context).pop();
+      }
       Navigator.of(context).pop();
     }
   }
