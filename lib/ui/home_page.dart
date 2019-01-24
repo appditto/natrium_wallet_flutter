@@ -183,6 +183,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         });
       }
     });
+    RxBus.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {
+      if (stateBlock != null) {
+        Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+        StateContainer.of(context).wallet.representative =
+            stateBlock.representative;
+        UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).changeRepSucces);
+      }
+    });
     RxBus.register<Contact>(tag: RX_CONTACT_MODIFIED_TAG).listen((contact) {
       _updateContacts();
     });
@@ -249,6 +257,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.destroy(tag: RX_CONTACT_ADDED_ALT_TAG);
     RxBus.destroy(tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
     RxBus.destroy(tag: RX_DEEP_LINK_TAG);
+    RxBus.destroy(tag: RX_REP_CHANGED_TAG);
     RxBus.destroy(tag: RX_SEND_FAILED_TAG);
     RxBus.destroy(tag: RX_SEND_COMPLETE_TAG);
   }
