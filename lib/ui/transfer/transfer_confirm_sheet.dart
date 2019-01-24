@@ -1,14 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
+import 'package:kalium_wallet_flutter/network/model/response/account_balance_item.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/transfer/transfer_complete_sheet.dart';
+import 'package:kalium_wallet_flutter/util/numberutil.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 
 class KaliumTransferConfirmSheet {
+  // accounts to private keys/account balances
+  Map<String, AccountBalanceItem> privKeyBalanceMap;
+  // accounts that have all been pocketed and ready to send
+  Map<String, AccountBalanceItem> readyToSendMap = Map();
+  // Total amount there is to transfer
+  BigInt totalToTransfer = BigInt.zero;
+  String totalAsBanano = "";
+  // Total amount transferred in raw
+  BigInt totalTransferred = BigInt.zero;
+
+
+  KaliumTransferConfirmSheet(this.privKeyBalanceMap);
+
   mainBottomSheet(BuildContext context) {
+    privKeyBalanceMap.forEach((String account, AccountBalanceItem accountBalanceItem) {
+      totalToTransfer += BigInt.parse(accountBalanceItem.balance) + BigInt.parse(accountBalanceItem.pending);
+      if (BigInt.parse(accountBalanceItem.pending) == BigInt.zero && BigInt.parse(accountBalanceItem.balance) > BigInt.zero) {
+        readyToSendMap.putIfAbsent(account, () => accountBalanceItem);
+        privKeyBalanceMap.remove(account);
+      } else if (BigInt.parse(accountBalanceItem.pending) == BigInt.zero && BigInt.parse(accountBalanceItem.balance) == BigInt.zero) {
+        privKeyBalanceMap.remove(account);
+      }
+    });
+    totalAsBanano = NumberUtil.getRawAsUsableString(totalToTransfer.toString());
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
@@ -42,7 +67,7 @@ class KaliumTransferConfirmSheet {
                           Container(
                               margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                               child: Text(
-                                KaliumLocalization.of(context).transferConfirmInfo,
+                                KaliumLocalization.of(context).transferConfirmInfo.replaceAll("%1", totalAsBanano),
                                 style: KaliumStyles.TextStyleParagraphPrimary,
                                 textAlign: TextAlign.left,
                           )),

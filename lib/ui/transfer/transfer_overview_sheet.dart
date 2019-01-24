@@ -10,7 +10,6 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_balance_item.dart';
 import 'package:kalium_wallet_flutter/network/model/response/accounts_balances_response.dart';
-import 'package:kalium_wallet_flutter/ui/transfer/transfer_confirm_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/transfer/transfer_manual_entry_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
@@ -60,6 +59,7 @@ class KaliumTransferOverviewSheet {
       }
       // Go to confirmation screen
       RxBus.post(privKeyBalanceMap, tag: RX_TRANSFER_CONFIRM_TAG);
+      Navigator.of(context).pop();
     });
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,

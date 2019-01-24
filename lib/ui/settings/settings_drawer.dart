@@ -27,6 +27,8 @@ import 'package:kalium_wallet_flutter/ui/contacts/contact_details.dart';
 import 'package:kalium_wallet_flutter/ui/settings/changerepresentative_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_list_item.dart';
 import 'package:kalium_wallet_flutter/ui/transfer/transfer_overview_sheet.dart';
+import 'package:kalium_wallet_flutter/ui/transfer/transfer_confirm_sheet.dart';
+import 'package:kalium_wallet_flutter/network/model/response/account_balance_item.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
@@ -192,6 +194,10 @@ class _SettingsSheetState extends State<SettingsSheet>
       setState(() {
         _contacts.remove(contact);
       });
+    });
+    // Ready to go to transfer confirm
+    RxBus.register<Map<String, AccountBalanceItem>>(tag: RX_TRANSFER_CONFIRM_TAG).listen((Map<String, AccountBalanceItem> privKeyMap) {
+      KaliumTransferConfirmSheet(privKeyMap).mainBottomSheet(context);
     });
   }
 
