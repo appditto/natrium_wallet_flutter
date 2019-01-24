@@ -28,6 +28,10 @@ const String RX_DEEP_LINK_TAG = 'fkalium_deep_link_tag';
 // Related to Trasnfer feature
 const String RX_ACCOUNTS_BALANCES_TAG = 'fkalium_accounts_balances_tag';
 const String RX_TRANSFER_CONFIRM_TAG = 'fkalium_transfer_confirm_tag';
+const String RX_TRANSFER_ACCOUNT_HISTORY_TAG = 'fkalium_transfer_account_history_tag';
+const String RX_TRANSFER_RECEIVE_TAG = 'fkalium_transfer_receive_tag';
+const String RX_TRANSFER_SEND_TAG = 'fkalium_transfer_send_tag';
+const String RX_TRANSFER_PENDING_TAG = 'fkalium_transfer_pending_tag';
 
 /**
  * RXBus using RXDart

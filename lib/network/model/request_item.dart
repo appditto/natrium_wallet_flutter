@@ -5,11 +5,13 @@ class RequestItem<T> {
   DateTime _expireDt;
   bool _isProcessing;
   T _request;
+  bool fromTransfer;
 
-  RequestItem(T request) {
+  RequestItem(T request, {bool fromTransfer = false}) {
     _expireDt = DateTime.now().add(new Duration(seconds: EXPIRE_TIME_S));
     _isProcessing = false;
     _request = request;
+    this.fromTransfer = fromTransfer;
   }
 
   T get request => _request;

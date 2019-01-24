@@ -9,8 +9,12 @@ class AccountHistoryResponse {
   @JsonKey(name:'history')
   List<AccountHistoryResponseItem> history;
 
-  AccountHistoryResponse({List<AccountHistoryResponseItem> history}):super() {
+  @JsonKey(ignore: true)
+  String account;
+
+  AccountHistoryResponse({List<AccountHistoryResponseItem> history, String account}):super() {
     this.history = history;
+    this.account = account;
   }
 
   factory AccountHistoryResponse.fromJson(Map<String, dynamic> json) => _$AccountHistoryResponseFromJson(json);

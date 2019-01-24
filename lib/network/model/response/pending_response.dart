@@ -9,6 +9,9 @@ class PendingResponse {
   @JsonKey(name:"blocks")
   Map<String, PendingResponseItem> blocks;
 
+  @JsonKey(ignore: true)
+  String account;
+
   PendingResponse({this.blocks});
 
   factory PendingResponse.fromJson(Map<String, dynamic> json) => _$PendingResponseFromJson(json);

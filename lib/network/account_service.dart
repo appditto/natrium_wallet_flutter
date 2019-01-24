@@ -216,9 +216,9 @@ class AccountService {
   }
 
   /* Enqueue Request */
-  static void queueRequest(BaseRequest request) {
+  static void queueRequest(BaseRequest request, {bool fromTransfer = false}) {
     log.fine("requetest ${json.encode(request.toJson())}, q length: ${_requestQueue.length}");
-    _requestQueue.add(new RequestItem(request));
+    _requestQueue.add(new RequestItem(request, fromTransfer: fromTransfer));
   }
 
   /* Process Queue */

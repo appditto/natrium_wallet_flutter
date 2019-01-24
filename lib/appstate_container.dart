@@ -142,6 +142,14 @@ class StateContainerState extends State<StateContainer> {
     _busInitialized = true;
     RxBus.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
     RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
+      // Special handling if from transfer
+      if (AccountService.peek().fromTransfer) {
+        AccountHistoryRequest origRequest = AccountService.peek().request;
+        historyResponse.account = origRequest.account;
+        RxBus.post(historyResponse, tag: RX_TRANSFER_ACCOUNT_HISTORY_TAG);
+        return;
+      }
+
       bool postedToHome = false;
       // Iterate new list in reverse (oldest to newest block)
       for (AccountHistoryResponseItem item in historyResponse.history) {
@@ -313,14 +321,20 @@ class StateContainerState extends State<StateContainer> {
 
   // Handle pending response
   void handlePendingResponse(PendingResponse response) {
-    AccountService.pop();
-    response.blocks.forEach((hash, pendingResponseItem) {
-      PendingResponseItem pendingResponseItemN = pendingResponseItem;
-      pendingResponseItemN.hash = hash;
-      handlePendingItem(pendingResponseItemN);
-    });
-    if (response.blocks.length == 0) {
-      AccountService.processQueue();
+    RequestItem prevRequest = AccountService.pop();
+    if (prevRequest.fromTransfer) {
+      PendingRequest pendingRequest = prevRequest.request;
+      response.account = pendingRequest.account;
+      RxBus.post(response, tag: RX_PENDING_RESP_TAG);
+    } else {
+      response.blocks.forEach((hash, pendingResponseItem) {
+        PendingResponseItem pendingResponseItemN = pendingResponseItem;
+        pendingResponseItemN.hash = hash;
+        handlePendingItem(pendingResponseItemN);
+      });
+      if (response.blocks.length == 0) {
+        AccountService.processQueue();
+      }
     }
   }
 
@@ -492,12 +506,23 @@ class StateContainerState extends State<StateContainer> {
   }
 
   ///
+  /// Request account history
+  ///
+  void requestAccountHistory(String account) {
+    AccountService.queueRequest(new AccountHistoryRequest(account: account, count: 1), fromTransfer: true);
+    AccountService.processQueue();
+  }
+
+  ///
   /// Request pending blocks
   /// 
-  void requestPending() {
-    if (wallet.address != null) {
-      AccountService.queueRequest(new PendingRequest(account: wallet.address, count: max(wallet.blockCount ?? 0, 10)));
+  void requestPending({String account}) {
+    if (wallet.address != null && account == null) {
+      AccountService.queueRequest(PendingRequest(account: wallet.address, count: max(wallet.blockCount ?? 0, 10)));
       AccountService.processQueue();
+    } else {
+      AccountService.queueRequest(PendingRequest(account:account, count: 10), fromTransfer: true);
+      AccountService.processQueue(); 
     }
   }
 
