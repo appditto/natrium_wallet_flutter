@@ -193,7 +193,7 @@ class KaliumTransferOverviewSheet {
     // Show loading overlay
     _animationOpen = true;
     Navigator.of(context)
-                  .push(AnimationLoadingOverlay(AnimationType.TRANSFER_SEARCHING, onPoppedCallback: () { _animationOpen = false; }));
+                  .push(AnimationLoadingOverlay(AnimationType.TRANSFER_SEARCHING_QR, onPoppedCallback: () { _animationOpen = false; }));
     // Get accounts from seed
     List<String> accountsToRequest = getAccountsFromSeed(context, seed);
     // Make balances request
