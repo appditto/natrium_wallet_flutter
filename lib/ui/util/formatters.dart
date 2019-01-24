@@ -16,7 +16,12 @@ class CurrencyInputFormatter extends TextInputFormatter {
     }
 
     String workingText = newValue.text.replaceAll(r",", ".");
-    if (workingText.startsWith(".")) {
+    // if contains more than 2 decimals in newValue, return oldValue
+    if ('.'.allMatches(workingText).length > 1) {
+      return newValue.copyWith(
+        text: oldValue.text,
+        selection: new TextSelection.collapsed(offset: oldValue.text.length));
+    } else if (workingText.startsWith(".")) {
       workingText = "0" + workingText;
     }
 

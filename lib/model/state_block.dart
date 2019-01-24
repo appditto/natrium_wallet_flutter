@@ -32,6 +32,10 @@ class StateBlock {
   @JsonKey(ignore:true)
   String hash;
 
+  // Private key is only included on this object for seed sweeping requests
+  @JsonKey(ignore:true)
+  String privKey;
+
   // Represents the amount this block intends to send
   // should be used to calculate balance after this send
   @JsonKey(ignore:true)
@@ -47,7 +51,8 @@ class StateBlock {
   /// This is by design of this app, where we get previous balance in a server request 
   /// and update it later before signing
   StateBlock({String subtype, @required String previous, @required String representative,
-              @required String balance, @required String link, @required String account}) {
+              @required String balance, @required String link, @required String account,
+              this.privKey}) {
     this.link = link;
     this.subType = subtype;
     this.type = BlockTypes.STATE;

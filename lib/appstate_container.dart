@@ -30,6 +30,7 @@ import 'package:kalium_wallet_flutter/network/model/response/price_response.dart
 import 'package:kalium_wallet_flutter/network/model/response/process_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/pending_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/pending_response_item.dart';
+import 'package:kalium_wallet_flutter/network/model/response/transfer_process_response.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'package:kalium_wallet_flutter/network/account_service.dart';
@@ -95,6 +96,8 @@ class StateContainerState extends State<StateContainer> {
   StreamSubscription _deepLinkSub;
   String _initialDeepLink; // If app hasn't loaded yet, store initial DL here
   bool _busInitialized = false;
+  // If callback is locked
+  bool _locked = false;
 
   // This map stashes pending process requests, this is because we need to update these requests
   // after a blocks_info with the balance after send, and sign the block
@@ -241,6 +244,14 @@ class StateContainerState extends State<StateContainer> {
     AccountService.initCommunication(unsuspend: true);
   }
 
+  void lockCallback() {
+    _locked = true;
+  }
+
+  void unlockCallback() {
+    _locked = false;
+  }
+
   ///
   /// When an error is returned from server
   /// 
@@ -275,9 +286,9 @@ class StateContainerState extends State<StateContainer> {
   void handleProcessResponse(ProcessResponse processResponse) {
     // see what type of request sent this response
     bool doUpdate = true;
-    AccountService.pop();
+    RequestItem lastRequest = AccountService.pop();
     StateBlock previous = pendingResponseBlockMap.remove(processResponse.hash);
-    if (previous != null) {
+    if (previous != null && !lastRequest.fromTransfer) {
       if (previous.subType == BlockTypes.OPEN) {
         setState(() {
           wallet.frontier = processResponse.hash;
@@ -311,6 +322,9 @@ class StateContainerState extends State<StateContainer> {
           RxBus.post(previous, tag:RX_REP_CHANGED_TAG);
         }
       }
+    } else {
+      doUpdate = false;
+      RxBus.post(TransferProcessResponse(account: previous.account, hash: processResponse.hash, balance: previous.balance), tag: RX_TRANSFER_PROCESS_TAG);
     }
     if (doUpdate) {
       requestUpdate();
@@ -409,6 +423,7 @@ class StateContainerState extends State<StateContainer> {
     String hash = resp.blocks.keys.first;
     StateBlock previousBlock = StateBlock.fromJson(json.decode(resp.blocks[hash].contents));
     StateBlock nextBlock = previousPendingMap.remove(hash);
+    RequestItem lastRequest = AccountService.pop();
     if (nextBlock == null) {
       return;
     }
@@ -421,18 +436,21 @@ class StateContainerState extends State<StateContainer> {
       nextBlock.sendAmount = wallet.accountBalance.toString();      
     }
     _getPrivKey().then((result) {
-      nextBlock.sign(result);
+      if (lastRequest.fromTransfer) {
+        nextBlock.sign(nextBlock.privKey);
+      } else {
+        nextBlock.sign(result);
+      }
       pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
       // If this is of type RECEIVE, update its data in our pending map
-      if (nextBlock.subType == BlockTypes.RECEIVE) {
+      if (nextBlock.subType == BlockTypes.RECEIVE && !lastRequest.fromTransfer) {
         StateBlock prevReceive = pendingBlockMap.remove(nextBlock.link);
         if (prevReceive != null) {
           print("put ${nextBlock.hash}");
           pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
         }
       }
-      AccountService.pop();
-      AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType));
+      AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType), fromTransfer: lastRequest.fromTransfer);
       AccountService.processQueue();
     });
   }
@@ -440,6 +458,7 @@ class StateContainerState extends State<StateContainer> {
   /// Handle callback response
   /// Typically this means we need to pocket transactions
   void handleCallbackResponse(CallbackResponse resp) {
+    if (_locked) { return; }
     log.fine("Received callback ${json.encode(resp.toJson())}");
     if (resp.isSend != "true") {
       log.fine("Is not send");
@@ -556,9 +575,11 @@ class StateContainerState extends State<StateContainer> {
   /// @param previous - Previous Hash
   /// @param source - source address
   /// @param balance - balance in RAW
+  /// @param privKey - private key (optional, used for transfer)
   /// 
-  void requestReceive(String previous, String source, String balance) {
+  void requestReceive(String previous, String source, String balance, {String privKey}) {
     String representative = wallet.representative;
+    bool fromTransfer = privKey == null ? false : true;
 
     StateBlock receiveBlock = new StateBlock(
       subtype:BlockTypes.RECEIVE,
@@ -566,12 +587,15 @@ class StateContainerState extends State<StateContainer> {
       representative: representative,
       balance:balance,
       link:source,
-      account:wallet.address
+      account:wallet.address,
+      privKey: privKey
     );
     previousPendingMap.putIfAbsent(previous, () => receiveBlock);
-    pendingBlockMap.putIfAbsent(source, () => receiveBlock);
+    if (!fromTransfer) {
+      pendingBlockMap.putIfAbsent(source, () => receiveBlock);
+    }
 
-    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]));
+    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]), fromTransfer: fromTransfer);
     AccountService.processQueue();
   }
 
@@ -581,9 +605,11 @@ class StateContainerState extends State<StateContainer> {
   /// @param previous - Previous Hash
   /// @param source - source address
   /// @param balance - balance in RAW
+  /// @param privKey - optional private key to use to sign block wen from transfer
   /// 
-  void requestOpen(String previous, String source, String balance) {
+  void requestOpen(String previous, String source, String balance, {String privKey}) {
     String representative = wallet.representative;
+    bool fromTransfer = privKey == null ? false : true;
 
     StateBlock openBlock = new StateBlock(
       subtype:BlockTypes.OPEN,
@@ -594,10 +620,14 @@ class StateContainerState extends State<StateContainer> {
       account:wallet.address
     );
     _getPrivKey().then((result) {
-      openBlock.sign(result);
+      if (!fromTransfer) {
+        openBlock.sign(result);
+      } else {
+        openBlock.sign(privKey);
+      }
       pendingResponseBlockMap.putIfAbsent(openBlock.hash, () => openBlock);
 
-      AccountService.queueRequest(ProcessRequest(block: json.encode(openBlock.toJson()), subType: BlockTypes.OPEN));
+      AccountService.queueRequest(ProcessRequest(block: json.encode(openBlock.toJson()), subType: BlockTypes.OPEN), fromTransfer: fromTransfer);
       AccountService.processQueue();
     });
   }
