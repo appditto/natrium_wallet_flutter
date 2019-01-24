@@ -9,6 +9,7 @@ import 'package:kalium_wallet_flutter/network/model/base_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request_item.dart';
 import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
+import 'package:kalium_wallet_flutter/network/model/request/accounts_balances_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/pending_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
@@ -205,6 +206,8 @@ class AccountService {
           if (balancesMap[balancesMap.keys.first].containsKey('pending')) {
             AccountsBalancesResponse resp = AccountsBalancesResponse.fromJson(msg);
             RxBus.post(resp, tag: RX_ACCOUNTS_BALANCES_TAG);
+            pop();
+            processQueue();
           }
         }
       }
@@ -300,8 +303,20 @@ class AccountService {
     return _requestQueue.length > 0 ? _requestQueue.first : null;
   }
   
+  /// Clear entire queue, except for AccountsBalancesRequest
   static void clearQueue() {
+    List<RequestItem> reQueue = List();
+    _requestQueue.forEach((requestItem) {
+      if (requestItem.request is AccountsBalancesRequest) {
+        reQueue.add(requestItem);
+      }
+    });
     _requestQueue.clear();
+    // Re-queue requests
+    reQueue.forEach((requestItem) {
+      requestItem.isProcessing = false;
+      _requestQueue.add(requestItem);
+    });
   }
 
   static Queue<RequestItem> get requestQueue => _requestQueue;

@@ -98,11 +98,12 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
   @override
   bool get maintainState => false;
 
-  Future<bool> onWillPop() async {
+  @override
+  void didComplete(void result) {
     if (this.onPoppedCallback != null) {
       this.onPoppedCallback();
     }
-    return true;
+    super.didComplete(result);
   }
 
   @override
@@ -111,13 +112,10 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
       Animation<double> animation,
       Animation<double> secondaryAnimation,
       ) {
-    return WillPopScope(
-      onWillPop: onWillPop,
-      child: Material(
-        type: MaterialType.transparency,
-        child: SafeArea(
-          child: _buildOverlayContent(context),
-        ),
+    return Material(
+      type: MaterialType.transparency,
+      child: SafeArea(
+        child: _buildOverlayContent(context),
       ),
     );
   }
