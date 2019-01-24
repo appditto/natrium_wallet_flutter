@@ -35,12 +35,15 @@ class KaliumTransferConfirmSheet {
   // Whether animation overlay is open
   bool animationOpen = false;
 
-  KaliumTransferConfirmSheet(this.privKeyBalanceMap);
+  Function errorCallback;
+
+  KaliumTransferConfirmSheet(this.privKeyBalanceMap, this.errorCallback);
 
   Future<bool> _onWillPop() async {
     RxBus.destroy(tag: RX_TRANSFER_ACCOUNT_HISTORY_TAG);
     RxBus.destroy(tag: RX_TRANSFER_PENDING_TAG);
     RxBus.destroy(tag: RX_TRANSFER_PROCESS_TAG);
+    RxBus.destroy(tag: RX_TRANSFER_ERROR_TAG);
     RxBus.post("str", tag: RX_UNLOCK_CALLBACK_TAG);
     return true;
   }
@@ -93,10 +96,11 @@ class KaliumTransferConfirmSheet {
     });
     // Pending response
     RxBus.register<PendingResponse>(tag: RX_TRANSFER_PENDING_TAG).listen((pendingResponse) {
-      print('receive_pending_response');
       // See if this is our account or a paper wallet account
       if (pendingResponse.account != StateContainer.of(context).wallet.address) {
-        // TODO - null checking/error handling
+        if (!privKeyBalanceMap.containsKey(pendingResponse.account)) {
+          errorCallback();
+        }
         privKeyBalanceMap[pendingResponse.account].pendingResponse = pendingResponse;
         // Begin open/receive with pendings
         processNextPending(context, pendingResponse.account);
@@ -125,11 +129,18 @@ class KaliumTransferConfirmSheet {
       } else {
         balItem = readyToSendMap.remove(processResponse.account);
         if (balItem == null) {
-          //TODO - exit with error
+          errorCallback();
         }
         totalTransferred += BigInt.parse(balItem.balance);
         startProcessing(context);        
       }
+    });
+    // Error response
+    RxBus.register<String>(tag: RX_TRANSFER_ERROR_TAG).listen((err) {
+      if (animationOpen) {
+        Navigator.of(context).pop();
+      }
+      errorCallback();
     });
 
     KaliumSheets.showKaliumHeightNineSheet(
@@ -279,7 +290,7 @@ class KaliumTransferConfirmSheet {
   ///
   void processKaliumPending(BuildContext context) {
     if (accountPending == null) {
-      // TODO - exit with error
+      errorCallback();
     }
     Map<String, PendingResponseItem> pendingBlocks = accountPending.blocks;
     if (pendingBlocks.length > 0) {

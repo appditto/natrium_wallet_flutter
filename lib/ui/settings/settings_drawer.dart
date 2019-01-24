@@ -67,6 +67,12 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   bool notNull(Object o) => o != null;
 
+  // Called if transfer fails
+  void transferError() {
+    Navigator.of(context).pop();
+    UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).transferError);
+  }
+
   Future<void> _exportContacts() async {
     List<Contact> contacts = await DBHelper().getContacts();
     if (contacts.length == 0) {
@@ -199,7 +205,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     });
     // Ready to go to transfer confirm
     RxBus.register<Map<String, AccountBalanceItem>>(tag: RX_TRANSFER_CONFIRM_TAG).listen((Map<String, AccountBalanceItem> privKeyMap) {
-      KaliumTransferConfirmSheet(privKeyMap).mainBottomSheet(context);
+      KaliumTransferConfirmSheet(privKeyMap, transferError).mainBottomSheet(context);
     });
     // Ready to go to transfer complete
     RxBus.register<BigInt>(tag: RX_TRANSFER_COMPLETE_TAG).listen((BigInt amount) {
