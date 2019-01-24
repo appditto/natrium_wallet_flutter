@@ -231,6 +231,13 @@ class KaliumStyles {
     fontWeight: FontWeight.w700,
     color: KaliumColors.primary,
   );
+  // Text style for primary color header
+  static const TextStyleHeader2Colored = TextStyle(
+    fontFamily: "NunitoSans",
+    fontSize: KaliumFontSizes.larger,
+    fontWeight: FontWeight.w700,
+    color: KaliumColors.primary,
+  );
   static const TextStylePinScreenHeaderColored = TextStyle(
     fontFamily: "NunitoSans",
     fontSize: KaliumFontSizes._large,

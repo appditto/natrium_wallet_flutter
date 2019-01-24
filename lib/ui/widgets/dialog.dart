@@ -7,7 +7,8 @@ import 'package:kalium_wallet_flutter/ui/widgets/kalium_simpledialog.dart';
 
 class KaliumDialogs {
   static void showConfirmDialog(
-      var context, var title, var content, var buttonText, Function onPressed, {String cancelText}) {
+      var context, var title, var content, var buttonText, Function onPressed,
+      {String cancelText}) {
     if (cancelText == null) {
       cancelText = KaliumLocalization.of(context).cancel.toUpperCase();
     }
@@ -33,10 +34,10 @@ class KaliumDialogs {
             FlatButton(
               padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(buttonText,
-              style: KaliumStyles.TextStyleDialogButtonText),
+                  style: KaliumStyles.TextStyleDialogButtonText),
               onPressed: () {
-            Navigator.of(context).pop();
-            onPressed();
+                Navigator.of(context).pop();
+                onPressed();
               },
             ),
           ],
@@ -45,8 +46,7 @@ class KaliumDialogs {
     );
   }
 
-  static void showInfoDialog(
-      var context, var title, var content) {
+  static void showInfoDialog(var context, var title, var content) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -73,7 +73,14 @@ class KaliumDialogs {
   }
 }
 
-enum AnimationType { SEND, GENERIC, TRANSFER_SEARCHING_QR, TRANSFER_SEARCHING_MANUAL, TRANSFER_TRANSFERRING }
+enum AnimationType {
+  SEND,
+  GENERIC,
+  TRANSFER_SEARCHING_QR,
+  TRANSFER_SEARCHING_MANUAL,
+  TRANSFER_TRANSFERRING
+}
+
 class AnimationLoadingOverlay extends ModalRoute<void> {
   AnimationType type;
   Function onPoppedCallback;
@@ -91,7 +98,9 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
 
   @override
   Color get barrierColor {
-    if (type == AnimationType.TRANSFER_TRANSFERRING || type == AnimationType.TRANSFER_SEARCHING_QR || type == AnimationType.TRANSFER_SEARCHING_MANUAL) {
+    if (type == AnimationType.TRANSFER_TRANSFERRING ||
+        type == AnimationType.TRANSFER_SEARCHING_QR ||
+        type == AnimationType.TRANSFER_SEARCHING_MANUAL) {
       return KaliumColors.overlay85;
     }
     return KaliumColors.overlay70;
@@ -113,12 +122,12 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
 
   @override
   Widget buildPage(
-      BuildContext context,
-      Animation<double> animation,
-      Animation<double> secondaryAnimation,
-      ) {
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
     return Material(
-      type: MaterialType.transparency, 
+      type: MaterialType.transparency,
       child: SafeArea(
         child: _buildOverlayContent(context),
       ),
@@ -129,23 +138,21 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
     switch (type) {
       case AnimationType.SEND:
         return FlareActor("assets/send_animation.flr",
-                animation: "main",
-                fit: BoxFit.contain);
+            animation: "main", fit: BoxFit.contain);
       case AnimationType.TRANSFER_SEARCHING_QR:
         return FlareActor("assets/searchseedqr_animation.flr",
-                animation: "main",
-                fit: BoxFit.contain);
+            animation: "main", fit: BoxFit.contain);
       case AnimationType.TRANSFER_SEARCHING_MANUAL:
         return FlareActor("assets/searchseedmanual_animation.flr",
-                animation: "main",
-                fit: BoxFit.contain);
+            animation: "main", fit: BoxFit.contain);
       case AnimationType.TRANSFER_TRANSFERRING:
         return FlareActor("assets/transfer_animation.flr",
-                animation: "main",
-                fit: BoxFit.contain);
+            animation: "main", fit: BoxFit.contain);
       case AnimationType.GENERIC:
       default:
-        return  CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(KaliumColors.primary60));
+        return CircularProgressIndicator(
+            valueColor:
+                new AlwaysStoppedAnimation<Color>(KaliumColors.primary60));
     }
   }
 
@@ -153,51 +160,82 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
     switch (type) {
       case AnimationType.TRANSFER_SEARCHING_QR:
         return Center(
-            child: Container(
-              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.15),
-                width: MediaQuery.of(context).size.width/1.1,
-                height: MediaQuery.of(context).size.width/1.1,
-                child: _getAnimation(context),
-              ),
-          );
+          child: Container(
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.15),
+            width: MediaQuery.of(context).size.width / 1.1,
+            height: MediaQuery.of(context).size.width / 1.1,
+            child: _getAnimation(context),
+          ),
+        );
       case AnimationType.TRANSFER_SEARCHING_MANUAL:
         return Center(
-            child: Container(
-              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.15),
-                width: MediaQuery.of(context).size.width/1.1,
-                height: MediaQuery.of(context).size.width/1.1,
-                child: _getAnimation(context),
-              ),
-          );
+          child: Container(
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.15),
+            width: MediaQuery.of(context).size.width / 1.1,
+            height: MediaQuery.of(context).size.width / 1.1,
+            child: _getAnimation(context),
+          ),
+        );
       case AnimationType.TRANSFER_TRANSFERRING:
         return Center(
-            child: Container(
-              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.15),
-                width: MediaQuery.of(context).size.width/1.4,
-                height: MediaQuery.of(context).size.width/1.4,
-                child: _getAnimation(context),
-              ),
-          );
-      default:
-        return Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: type == AnimationType.SEND ? MainAxisAlignment.end : MainAxisAlignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: type == AnimationType.SEND ? EdgeInsets.only(bottom: 10.0, left:90, right:90) : EdgeInsets.zero,
-                //Widgth/Height ratio is needed because BoxFit is not working as expected
-                width: type == AnimationType.SEND ? double.infinity : 100,
-                height: type == AnimationType.SEND ? MediaQuery.of(context).size.width : 100,
+                alignment: Alignment(0, -0.5),
+                width: MediaQuery.of(context).size.width / 1.4,
+                height: MediaQuery.of(context).size.width / 1.4/2,
                 child: _getAnimation(context),
               ),
+              Container(
+                margin: EdgeInsets.only(left: 10, top:20, bottom: MediaQuery.of(context).size.height*0.15),
+                              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Text(KaliumLocalization.of(context).transferLoading.toUpperCase(),
+                        style: KaliumStyles.TextStyleHeader2Colored),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 7),
+                      width: 33.333,
+                      height: 8.866,
+                      child: FlareActor("assets/threedot_animation.flr",
+                          animation: "main", fit: BoxFit.contain),
+                    ),
+                  ],
+                ),
+              ),
             ],
+          ),
+        );
+      default:
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: type == AnimationType.SEND
+              ? MainAxisAlignment.end
+              : MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              margin: type == AnimationType.SEND
+                  ? EdgeInsets.only(bottom: 10.0, left: 90, right: 90)
+                  : EdgeInsets.zero,
+              //Widgth/Height ratio is needed because BoxFit is not working as expected
+              width: type == AnimationType.SEND ? double.infinity : 100,
+              height: type == AnimationType.SEND
+                  ? MediaQuery.of(context).size.width
+                  : 100,
+              child: _getAnimation(context),
+            ),
+          ],
         );
     }
   }
 
   @override
-  Widget buildTransitions(
-      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
     return child;
   }
 }
