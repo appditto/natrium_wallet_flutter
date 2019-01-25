@@ -36,17 +36,36 @@ class KaliumChangeRepresentativeSheet {
   bool _showPasteButton = true;
   bool _addressValidAndUnfocused = false;
 
+  bool _animationOpen = false;
+
   KaliumChangeRepresentativeSheet() {
     _repFocusNode = new FocusNode();
     _repController = new TextEditingController();
     _repAddressStyle = KaliumStyles.TextStyleAddressText60;
   }
 
+  Future<bool> _onWillPop() async {
+    RxBus.destroy(tag: RX_REP_CHANGED_TAG);
+    return true;
+  }
+
   mainBottomSheet(BuildContext context) {
     _changeRepHint = KaliumLocalization.of(context).changeRepHint;
 
+    RxBus.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {
+      if (_animationOpen)
+        Navigator.of(context).pop();
+      if (stateBlock != null) {
+        StateContainer.of(context).wallet.representative =
+            stateBlock.representative;
+        UIUtil.showSnackbar(KaliumLocalization.of(context).changeRepSucces, context);
+        Navigator.of(context).pop();
+      }
+    });
+
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
+        onDisposed: _onWillPop,
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
@@ -68,7 +87,9 @@ class KaliumChangeRepresentativeSheet {
                 });
               }
             });
-            return Container(
+            return WillPopScope(
+              onWillPop: _onWillPop,
+              child: Container(
               width: double.infinity,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -368,9 +389,11 @@ class KaliumChangeRepresentativeSheet {
                                         .then((authenticated) {
                                       if (authenticated) {
                                         HapticUtil.fingerprintSucess();
+                                        _animationOpen = true;
                                         Navigator.of(context).push(
                                             AnimationLoadingOverlay(
-                                                AnimationType.GENERIC));
+                                                AnimationType.GENERIC,
+                                                onPoppedCallback: () => _animationOpen = false));
                                         // If account isnt open, just store the account in sharedprefs
                                         if (StateContainer.of(context)
                                                 .wallet
@@ -479,7 +502,7 @@ class KaliumChangeRepresentativeSheet {
                   )
                 ],
               ),
-            );
+            ));
           });
         });
   }
