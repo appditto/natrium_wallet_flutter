@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
@@ -72,6 +73,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   bool _isRefreshing = false;
 
+  // FCM instance
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   @override
   void initState() {
     super.initState();
@@ -101,6 +105,29 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     );
     _opacityAnimation.addStatusListener(_animationStatusListener);
     _placeholderCardAnimationController.forward();
+    // Register push notifications
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+    _firebaseMessaging.getToken().then((String token) {
+      SharedPrefsUtil.inst.setFcmToken(token).then((_) {
+        // TODO - requestSubscribe with new token
+      });
+    });
   }
 
   void _animationStatusListener(AnimationStatus status) {

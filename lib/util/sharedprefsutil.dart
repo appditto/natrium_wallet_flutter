@@ -23,6 +23,8 @@ class SharedPrefsUtil {
   static const String cur_currency = 'fkalium_currency_pref';
   static const String user_representative = 'fkalium_user_rep'; // For when non-opened accounts have set a representative
   static const String firstcontact_added = 'fkalium_first_c_added';
+  static const String notification_enabled = 'fkalium_notification_on';
+  static const String fcm_token = 'fkalium_fcm_token';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -124,6 +126,22 @@ class SharedPrefsUtil {
 
   Future<String> getRepresentative() async {
     return await get(user_representative, defaultValue: KaliumWallet.defaultRepresentative);
+  }
+
+  Future<void> setFcmToken(String fcmToken) async {
+    return await setEncrypted(fcm_token, fcmToken);
+  }
+
+  Future<String> getFcmToken() async {
+    return await getEncrypted(fcm_token);
+  }
+
+  Future<void> setNotificationsOn(bool value) async {
+    return await set(notification_enabled, value);
+  }
+
+  Future<bool> getNotificationsOn() async {
+    return await get(notification_enabled, defaultValue: true);
   }
 
   // For logging out

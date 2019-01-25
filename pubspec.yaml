@@ -105,6 +105,9 @@ dependencies:
   # Toast
   oktoast: ^2.1.4
 
+  # Push notifications
+  firebase_messaging: ^2.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
