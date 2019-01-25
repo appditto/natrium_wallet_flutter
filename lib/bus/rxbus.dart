@@ -19,7 +19,6 @@ const String RX_SEND_FAILED_TAG = 'fkalium_send_failed_tag';
 const String RX_CONTACT_ADDED_TAG = 'fkalium_contact_added_tag';
 const String RX_CONTACT_REMOVED_TAG = 'fkalium_contact_removed_tag';
 // Contact added/removed for home page
-const String RX_CONTACT_ADDED_ALT_TAG = 'fkalium_contact_added_alt_tag';
 const String RX_CONTACT_MODIFIED_TAG = 'fkalium_contact_modified_tag';
 // UI Event for monKey overlay closing
 const String RX_MONKEY_OVERLAY_CLOSED_TAG = 'fkalium_monkey_closed_tag';

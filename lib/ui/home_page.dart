@@ -13,7 +13,6 @@ import 'package:kalium_wallet_flutter/model/db/contact.dart';
 import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
-import 'package:kalium_wallet_flutter/network/model/response/error_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
@@ -183,19 +182,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         });
       }
     });
-    RxBus.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {
-      if (stateBlock != null) {
-        Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-        StateContainer.of(context).wallet.representative =
-            stateBlock.representative;
-        UIUtil.showSnackbar(KaliumLocalization.of(context).changeRepSucces, context);
-      }
-    });
     RxBus.register<Contact>(tag: RX_CONTACT_MODIFIED_TAG).listen((contact) {
       _updateContacts();
-    });
-    RxBus.register<Contact>(tag: RX_CONTACT_ADDED_ALT_TAG).listen((contact) {
-      UIUtil.showSnackbar(KaliumLocalization.of(context).contactAdded.replaceAll("%1", contact.name), context);
     });
     RxBus.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
       Future.delayed(Duration(milliseconds: 150), () {
@@ -235,11 +223,6 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         }
       });
     });
-    RxBus.register<ErrorResponse>(tag: RX_SEND_FAILED_TAG).listen((result) {
-      // Send failed, close send screens and display error
-      Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-      UIUtil.showSnackbar(KaliumLocalization.of(context).sendError, context);
-    });
   }
 
   @override
@@ -254,11 +237,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.destroy(tag: RX_HISTORY_HOME_TAG);
     RxBus.destroy(tag: RX_PROCESS_TAG);
     RxBus.destroy(tag: RX_CONTACT_MODIFIED_TAG);
-    RxBus.destroy(tag: RX_CONTACT_ADDED_ALT_TAG);
     RxBus.destroy(tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
     RxBus.destroy(tag: RX_DEEP_LINK_TAG);
-    RxBus.destroy(tag: RX_REP_CHANGED_TAG);
-    RxBus.destroy(tag: RX_SEND_FAILED_TAG);
     RxBus.destroy(tag: RX_SEND_COMPLETE_TAG);
   }
 

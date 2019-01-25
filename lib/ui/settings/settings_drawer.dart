@@ -56,7 +56,6 @@ class _SettingsSheetState extends State<SettingsSheet>
   String versionString = "";
 
   final log = Logger("SettingsSheet");
-  var _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool _hasBiometrics = false;
   AuthenticationMethod _curAuthMethod =
       AuthenticationMethod(AuthMethod.BIOMETRICS);
@@ -426,27 +425,24 @@ class _SettingsSheetState extends State<SettingsSheet>
     // presses and replace the main settings widget with contacts based on a bool
     return new WillPopScope(
       onWillPop: _onBackButtonPressed,
-      child: Scaffold(
-        key: _scaffoldKey,
-        body: Stack(
-          children: <Widget>[
-            Container(
-              color: KaliumColors.backgroundDark,
-              constraints: BoxConstraints.expand(),
-            ),
-            FadeTransition(
-              opacity: _fade,
-              child: buildContacts(context),
-            ),
-            FadeTransition(
-              opacity: _fade2,
+      child: Stack(
+        children: <Widget>[
+          Container(
+            color: KaliumColors.backgroundDark,
+            constraints: BoxConstraints.expand(),
+          ),
+          FadeTransition(
+            opacity: _fade,
+            child: buildContacts(context),
+          ),
+          FadeTransition(
+            opacity: _fade2,
 
-                          child: SlideTransition(
-                  position: _offsetFloat,
-                  child: buildMainSettings(context)),
-            ),
-          ],
-        ),
+                        child: SlideTransition(
+                position: _offsetFloat,
+                child: buildMainSettings(context)),
+          ),
+        ],
       ),
     );
   }

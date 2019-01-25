@@ -396,9 +396,8 @@ class AddContactSheet {
                               dbHelper.saveContact(newContact).then((id) {
                                 if (address == null) {
                                   RxBus.post(newContact, tag: RX_CONTACT_ADDED_TAG);
-                                } else {
-                                  RxBus.post(newContact, tag: RX_CONTACT_ADDED_ALT_TAG);
                                 }
+                                UIUtil.showSnackbar(KaliumLocalization.of(context).contactAdded.replaceAll("%1", newContact.name), context);
                                 RxBus.post(newContact, tag: RX_CONTACT_MODIFIED_TAG);
                                 Navigator.of(context).pop();
                               });
