@@ -7,6 +7,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/util/hapticutil.dart';
 
 enum PinOverlayType { NEW_PIN, ENTER_PIN }
@@ -42,6 +43,7 @@ class _PinScreenState extends State<PinScreen>
   String expectedPin;
   Function successCallback;
   String description;
+  double buttonSize = 100.0;
 
   String pinEnterTitle = "";
   String pinCreateTitle = "";
@@ -160,10 +162,10 @@ class _PinScreenState extends State<PinScreen>
     }
   }
 
-  Widget _buildPinScreenButton(String buttonText) {
+  Widget _buildPinScreenButton(String buttonText, BuildContext context) {
     return Container(
-      height: 80,
-      width: 80,
+      height: smallScreen(context)?buttonSize-15:buttonSize,
+      width: smallScreen(context)?buttonSize-15:buttonSize,
       child: FlatButton(
         highlightColor: KaliumColors.primary15,
         splashColor: KaliumColors.primary30,
@@ -254,32 +256,34 @@ class _PinScreenState extends State<PinScreen>
                   top: MediaQuery.of(context).size.height * 0.1),
               child: Column(
                 children: <Widget>[
+                  // Header
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 40),
-                    child: Text(
+                    margin: EdgeInsets.symmetric(horizontal:40),
+                    child: AutoSizeText(
                       _header,
                       style: KaliumStyles.TextStylePinScreenHeaderColored,
                       textAlign: TextAlign.center,
+                      maxLines: 1,
+                      stepGranularity: 0.1,
                     ),
                   ),
+                  // Descripttion
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                    child: Wrap(
-                      children: <Widget>[
-                        Text(
-                          description,
-                          style: KaliumStyles.TextStyleParagraph,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                    child: AutoSizeText(
+                      description,
+                      style: KaliumStyles.TextStyleParagraph,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      stepGranularity: 0.1,
                     ),
                   ),
+                  // Dots
                   Container(
                     margin: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.25 + _animation.value,
                       right: MediaQuery.of(context).size.width * 0.25 - _animation.value,
                       top: MediaQuery.of(context).size.height * 0.02,
-                      bottom: MediaQuery.of(context).size.height * 0.02,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -322,9 +326,11 @@ class _PinScreenState extends State<PinScreen>
             ),
             Expanded(
               child: Container(
-                margin: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.07,
-                    vertical: MediaQuery.of(context).size.height * 0.05),
+                margin: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.07,
+                    right: MediaQuery.of(context).size.width * 0.07,
+                    bottom: smallScreen(context)?MediaQuery.of(context).size.height * 0.02:MediaQuery.of(context).size.height * 0.05,
+                    top: MediaQuery.of(context).size.height * 0.05),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -335,9 +341,9 @@ class _PinScreenState extends State<PinScreen>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          _buildPinScreenButton("1"),
-                          _buildPinScreenButton("2"),
-                          _buildPinScreenButton("3"),
+                          _buildPinScreenButton("1", context),
+                          _buildPinScreenButton("2", context),
+                          _buildPinScreenButton("3", context),
                         ],
                       ),
                     ),
@@ -347,9 +353,9 @@ class _PinScreenState extends State<PinScreen>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          _buildPinScreenButton("4"),
-                          _buildPinScreenButton("5"),
-                          _buildPinScreenButton("6"),
+                          _buildPinScreenButton("4", context),
+                          _buildPinScreenButton("5", context),
+                          _buildPinScreenButton("6", context),
                         ],
                       ),
                     ),
@@ -359,9 +365,9 @@ class _PinScreenState extends State<PinScreen>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          _buildPinScreenButton("7"),
-                          _buildPinScreenButton("8"),
-                          _buildPinScreenButton("9"),
+                          _buildPinScreenButton("7", context),
+                          _buildPinScreenButton("8", context),
+                          _buildPinScreenButton("9", context),
                         ],
                       ),
                     ),
@@ -371,14 +377,14 @@ class _PinScreenState extends State<PinScreen>
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          Container(
-                            height: 80,
-                            width: 80,
+                          SizedBox(
+                            height: smallScreen(context)?buttonSize-15:buttonSize,
+                            width: smallScreen(context)?buttonSize-15:buttonSize,
                           ),
-                          _buildPinScreenButton("0"),
+                          _buildPinScreenButton("0", context),
                           Container(
-                            height: 80,
-                            width: 80,
+                            height: smallScreen(context)?buttonSize-15:buttonSize,
+                            width: smallScreen(context)?buttonSize-15:buttonSize,
                             child: FlatButton(
                               highlightColor: KaliumColors.primary15,
                               splashColor: KaliumColors.primary30,
