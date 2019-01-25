@@ -13,6 +13,7 @@ import 'package:kalium_wallet_flutter/model/db/contact.dart';
 import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
@@ -84,11 +85,16 @@ class ContactDetailsSheet {
                     // The header of the sheet
                     Container(
                       margin: EdgeInsets.only(top: 25.0),
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width - 140),
                       child: Column(
                         children: <Widget>[
-                          Text(
+                          AutoSizeText(
                             KaliumLocalization.of(context).contactHeader.toUpperCase(),
                             style: KaliumStyles.textStyleHeader(context),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            stepGranularity: 0.1,
                           ),
                         ],
                       ),

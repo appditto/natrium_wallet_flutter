@@ -14,6 +14,7 @@ import 'package:kalium_wallet_flutter/model/db/contact.dart';
 import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_confirm_sheet.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/formatters.dart';
@@ -165,12 +166,19 @@ class KaliumSendSheet {
                     // Container for the header, address and balance text
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width - 140),
                       child: Column(
                         children: <Widget>[
                           // Header
-                          Text(
-                            KaliumLocalization.of(context).sendFrom.toUpperCase(),
+                          AutoSizeText(
+                            KaliumLocalization.of(context)
+                                .sendFrom
+                                .toUpperCase(),
                             style: KaliumStyles.textStyleHeader(context),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            stepGranularity: 0.1,
                           ),
                           // Address Text
                           Container(
@@ -381,7 +389,9 @@ class KaliumSendSheet {
                                   .then((contact) {
                                 if (contact == null) {
                                   setState(() {
-                                    _addressValidationText = KaliumLocalization.of(context).contactInvalid;
+                                    _addressValidationText =
+                                        KaliumLocalization.of(context)
+                                            .contactInvalid;
                                   });
                                 } else {
                                   KaliumSendConfirmSheet(
@@ -426,7 +436,8 @@ class KaliumSendSheet {
                                         _pasteButtonVisible = false;
                                         _showContactButton = false;
                                       });
-                                      _sendAddressController.text = address.address;
+                                      _sendAddressController.text =
+                                          address.address;
                                       _sendAddressFocusNode.unfocus();
                                       setState(() {
                                         _addressValidAndUnfocused = true;
@@ -436,12 +447,13 @@ class KaliumSendSheet {
                                       setState(() {
                                         _isContact = true;
                                         _addressValidationText = "";
-                                        _sendAddressStyle =
-                                            KaliumStyles.TextStyleAddressPrimary;
+                                        _sendAddressStyle = KaliumStyles
+                                            .TextStyleAddressPrimary;
                                         _pasteButtonVisible = false;
                                         _showContactButton = false;
                                       });
-                                      _sendAddressController.text = contact.name;
+                                      _sendAddressController.text =
+                                          contact.name;
                                     }
                                   });
                                   _sendAddressFocusNode.unfocus();
@@ -469,7 +481,9 @@ class KaliumSendSheet {
   // Determine if this is a max send or not by comparing balances
   bool _isMaxSend(BuildContext context) {
     // Sanitize commas
-    if (_sendAmountController.text.isEmpty) { return false; }
+    if (_sendAmountController.text.isEmpty) {
+      return false;
+    }
     String textField = _sendAmountController.text.replaceAll(r',', "");
     String balance = StateContainer.of(context)
         .wallet
@@ -543,7 +557,8 @@ class KaliumSendSheet {
       } else if (sendAmount > balanceRaw) {
         isValid = false;
         setState(() {
-          _amountValidationText = KaliumLocalization.of(context).insufficientBalance;
+          _amountValidationText =
+              KaliumLocalization.of(context).insufficientBalance;
         });
       }
     }
@@ -651,14 +666,16 @@ class KaliumSendSheet {
                         .replaceAll(r",", "");
                   });
                 },
-                child:
-                    Icon(KaliumIcons.max, size: 24, color: KaliumColors.primary),
+                child: Icon(KaliumIcons.max,
+                    size: 24, color: KaliumColors.primary),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(200.0)),
               ),
             ),
             secondChild: SizedBox(),
-            crossFadeState: _isMaxSend(context) ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState: _isMaxSend(context)
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
           ),
         ),
         keyboardType: TextInputType.numberWithOptions(),
@@ -737,8 +754,10 @@ class KaliumSendSheet {
                               .requestFocus(_sendAddressFocusNode);
                           if (_sendAddressController.text.length == 0) {
                             _sendAddressController.text = "@";
-                            _sendAddressController.selection = TextSelection.fromPosition(
-                                      TextPosition(offset: _sendAddressController.text.length));
+                            _sendAddressController.selection =
+                                TextSelection.fromPosition(TextPosition(
+                                    offset:
+                                        _sendAddressController.text.length));
                           }
                           DBHelper().getContacts().then((contactList) {
                             setState(() {

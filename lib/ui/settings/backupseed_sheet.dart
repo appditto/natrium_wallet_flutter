@@ -6,6 +6,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
@@ -35,13 +36,15 @@ class KaliumSeedBackupSheet {
                     //A container for the header
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width - 140),
+                      child: Column(
                         children: <Widget>[
-                          Text(
+                          AutoSizeText(
                             KaliumLocalization.of(context).seed.toUpperCase(),
                             style: KaliumStyles.textStyleHeader(context),
+                            maxLines: 1,
+                            stepGranularity: 0.1,
                           ),
                         ],
                       ),

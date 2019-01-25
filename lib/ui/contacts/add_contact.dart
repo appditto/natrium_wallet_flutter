@@ -11,6 +11,7 @@ import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
 import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/formatters.dart';
@@ -100,11 +101,16 @@ class AddContactSheet {
                     // The header of the sheet
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width - 140),
                       child: Column(
                         children: <Widget>[
-                          Text(
+                          AutoSizeText(
                             KaliumLocalization.of(context).addContact.toUpperCase(),
                             style: KaliumStyles.textStyleHeader(context),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            stepGranularity: 0.1,
                           ),
                         ],
                       ),
