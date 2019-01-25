@@ -18,7 +18,9 @@ enum OneLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS }
 enum MonkeySize { SMALL, HOME_SMALL, NORMAL, LARGE }
 
 class UIUtil {
-  static Widget threeLineAddressText(String address, { ThreeLineAddressTextType type = ThreeLineAddressTextType.PRIMARY, String contactName }) {
+  static Widget threeLineAddressText(String address,
+      {ThreeLineAddressTextType type = ThreeLineAddressTextType.PRIMARY,
+      String contactName}) {
     String stringPartOne = address.substring(0, 11);
     String stringPartTwo = address.substring(11, 22);
     String stringPartThree = address.substring(22, 44);
@@ -75,14 +77,13 @@ class UIUtil {
           ],
         );
       case ThreeLineAddressTextType.PRIMARY:
-        Widget contactWidget = contactName != null ? 
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              text: contactName,
-              style: KaliumStyles.TextStyleAddressPrimary
-            )
-          ) : SizedBox();
+        Widget contactWidget = contactName != null
+            ? RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    text: contactName,
+                    style: KaliumStyles.TextStyleAddressPrimary))
+            : SizedBox();
         return Column(
           children: <Widget>[
             contactWidget,
@@ -132,15 +133,14 @@ class UIUtil {
             )
           ],
         );
-        case ThreeLineAddressTextType.SUCCESS:
-        Widget contactWidget = contactName != null ? 
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              text: contactName,
-              style: KaliumStyles.TextStyleAddressSuccess
-            )
-          ) : SizedBox();
+      case ThreeLineAddressTextType.SUCCESS:
+        Widget contactWidget = contactName != null
+            ? RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    text: contactName,
+                    style: KaliumStyles.TextStyleAddressSuccess))
+            : SizedBox();
         return Column(
           children: <Widget>[
             contactWidget,
@@ -190,7 +190,7 @@ class UIUtil {
             )
           ],
         );
-        case ThreeLineAddressTextType.SUCCESS_FULL:
+      case ThreeLineAddressTextType.SUCCESS_FULL:
         return Column(
           children: <Widget>[
             RichText(
@@ -244,7 +244,8 @@ class UIUtil {
     }
   }
 
-  static Widget oneLineAddressText(String address, { OneLineAddressTextType type = OneLineAddressTextType.PRIMARY }) {
+  static Widget oneLineAddressText(String address,
+      {OneLineAddressTextType type = OneLineAddressTextType.PRIMARY}) {
     String stringPartOne = address.substring(0, 11);
     String stringPartFive = address.substring(58, 64);
     switch (type) {
@@ -298,7 +299,7 @@ class UIUtil {
             ),
           ],
         );
-        case OneLineAddressTextType.SUCCESS:
+      case OneLineAddressTextType.SUCCESS:
         return Column(
           children: <Widget>[
             RichText(
@@ -373,7 +374,8 @@ class UIUtil {
     );
   }
 
-  static Future<File> downloadOrRetrieveMonkey(BuildContext context, String address, MonkeySize monkeySize) async {
+  static Future<File> downloadOrRetrieveMonkey(
+      BuildContext context, String address, MonkeySize monkeySize) async {
     // Get expected path
     String dir = (await getApplicationDocumentsDirectory()).path;
     String prefix;
@@ -382,7 +384,9 @@ class UIUtil {
     switch (monkeySize) {
       case MonkeySize.LARGE:
         prefix = "large_";
-        size = (MediaQuery.of(context).size.width * MediaQuery.of(context).devicePixelRatio).toInt();
+        size = (MediaQuery.of(context).size.width *
+                MediaQuery.of(context).devicePixelRatio)
+            .toInt();
         break;
       case MonkeySize.NORMAL:
         prefix = "normal_";
@@ -405,8 +409,8 @@ class UIUtil {
     }
     // Download monKey and return file
     http.Client client = http.Client();
-    var req = await client.get(Uri.parse(
-        KaliumLocalization.of(context).getMonkeyDownloadUrl(address, size: size)));
+    var req = await client.get(Uri.parse(KaliumLocalization.of(context)
+        .getMonkeyDownloadUrl(address, size: size)));
     var bytes = req.bodyBytes;
     File file = File(fileName);
     await file.writeAsBytes(bytes);
@@ -420,10 +424,30 @@ class UIUtil {
       return MediaQuery.of(context).size.width * 0.85;
   }
 
-  static void showSnackbar(String content) {
-    showToast(content,
-              dismissOtherToast: true,
-              duration: Duration(milliseconds: 1500),
-              position: ToastPosition.bottom);
+  static void showSnackbar(String content, BuildContext context) {
+    showToastWidget(
+      Align(
+        alignment: Alignment.topCenter,
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.05, horizontal: 14),
+          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          width: MediaQuery.of(context).size.width - 30,
+          decoration: BoxDecoration(
+            color: KaliumColors.primary,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(color:KaliumColors.black80, offset: Offset(0, 15), blurRadius: 30, spreadRadius: -5),
+            ],
+          ),
+          child: Text(
+            content,
+            style: KaliumStyles.TextStyleSnackbar,
+            textAlign: TextAlign.left,
+          ),
+        ),
+      ),
+      dismissOtherToast: true,
+      duration: Duration(milliseconds: 2500),
+    );
   }
 }

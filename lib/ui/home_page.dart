@@ -188,14 +188,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         Navigator.of(context).popUntil(ModalRoute.withName('/home'));
         StateContainer.of(context).wallet.representative =
             stateBlock.representative;
-        UIUtil.showSnackbar(KaliumLocalization.of(context).changeRepSucces);
+        UIUtil.showSnackbar(KaliumLocalization.of(context).changeRepSucces, context);
       }
     });
     RxBus.register<Contact>(tag: RX_CONTACT_MODIFIED_TAG).listen((contact) {
       _updateContacts();
     });
     RxBus.register<Contact>(tag: RX_CONTACT_ADDED_ALT_TAG).listen((contact) {
-      UIUtil.showSnackbar(KaliumLocalization.of(context).contactAdded.replaceAll("%1", contact.name));
+      UIUtil.showSnackbar(KaliumLocalization.of(context).contactAdded.replaceAll("%1", contact.name), context);
     });
     RxBus.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
       Future.delayed(Duration(milliseconds: 150), () {
@@ -238,7 +238,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     RxBus.register<ErrorResponse>(tag: RX_SEND_FAILED_TAG).listen((result) {
       // Send failed, close send screens and display error
       Navigator.of(context).popUntil(ModalRoute.withName('/home'));
-      UIUtil.showSnackbar(KaliumLocalization.of(context).sendError);
+      UIUtil.showSnackbar(KaliumLocalization.of(context).sendError, context);
     });
   }
 
