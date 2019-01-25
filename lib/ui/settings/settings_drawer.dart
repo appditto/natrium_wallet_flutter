@@ -70,13 +70,13 @@ class _SettingsSheetState extends State<SettingsSheet>
   // Called if transfer fails
   void transferError() {
     Navigator.of(context).pop();
-    UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).transferError);
+    UIUtil.showSnackbar(KaliumLocalization.of(context).transferError);
   }
 
   Future<void> _exportContacts() async {
     List<Contact> contacts = await DBHelper().getContacts();
     if (contacts.length == 0) {
-      UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).noContactsExport);
+      UIUtil.showSnackbar(KaliumLocalization.of(context).noContactsExport);
       return;
     }
     List<Map<String, dynamic>> jsonList = List();
@@ -97,7 +97,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         type: FileType.CUSTOM, fileExtension: "txt");
     File f = File(filePath);
     if (!await f.exists()) {
-      UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).contactsImportErr);
+      UIUtil.showSnackbar(KaliumLocalization.of(context).contactsImportErr);
       return;
     }
     try {
@@ -126,13 +126,13 @@ class _SettingsSheetState extends State<SettingsSheet>
         _updateContacts();
         RxBus.post(Contact(name: "", address: ""),
             tag: RX_CONTACT_MODIFIED_TAG);
-        UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).contactsImportSuccess.replaceAll("%1", numSaved.toString()));
+        UIUtil.showSnackbar(KaliumLocalization.of(context).contactsImportSuccess.replaceAll("%1", numSaved.toString()));
       } else {
-        UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).noContactsImport);
+        UIUtil.showSnackbar(KaliumLocalization.of(context).noContactsImport);
       }
     } catch (e) {
       log.severe(e.toString());
-      UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).contactsImportErr);
+      UIUtil.showSnackbar(KaliumLocalization.of(context).contactsImportErr);
       return;
     }
   }

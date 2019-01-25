@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:oktoast/oktoast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -419,14 +420,10 @@ class UIUtil {
       return MediaQuery.of(context).size.width * 0.85;
   }
 
-  static void showSnackbar(var scaffoldKey, String content) {
-    scaffoldKey.currentState.showSnackBar(
-      new SnackBar(
-        backgroundColor: KaliumColors.backgroundDark,
-        content: new Text(content,
-        style: KaliumStyles.TextStyleSnackbar),
-        duration: Duration(seconds: 1)
-      )
-    );
+  static void showSnackbar(String content) {
+    showToast(content,
+              dismissOtherToast: true,
+              duration: Duration(milliseconds: 1500),
+              position: ToastPosition.bottom);
   }
 }

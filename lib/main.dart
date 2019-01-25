@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:intl/intl.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
+import 'package:oktoast/oktoast.dart';
 
+import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
@@ -36,60 +37,64 @@ class KaliumApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Kalium',
-      theme: ThemeData(
-        dialogBackgroundColor: KaliumColors.backgroundDark,
-        primaryColor: KaliumColors.primary,
-        accentColor: KaliumColors.primary15,
-        backgroundColor: KaliumColors.backgroundDark,
-        fontFamily: 'NunitoSans',
-        brightness: Brightness.dark,
+    return OKToast(
+      textStyle: KaliumStyles.TextStyleSnackbar,
+      backgroundColor: KaliumColors.backgroundDark,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Kalium',
+        theme: ThemeData(
+          dialogBackgroundColor: KaliumColors.backgroundDark,
+          primaryColor: KaliumColors.primary,
+          accentColor: KaliumColors.primary15,
+          backgroundColor: KaliumColors.backgroundDark,
+          fontFamily: 'NunitoSans',
+          brightness: Brightness.dark,
+        ),
+        localizationsDelegates: [
+          KaliumLocalizationsDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        supportedLocales: [Locale("en"), Locale("es"), Locale("pt")],
+        initialRoute: '/',
+        onGenerateRoute: (RouteSettings settings) {
+          switch (settings.name) {
+            case '/':
+              return NoTransitionRoute(
+                builder: (_) => Splash(),
+                settings: settings,
+              ); 
+            case '/home':
+              return NoTransitionRoute(
+                builder: (_) => KaliumHomePage(),
+                settings: settings,
+              );
+            case '/intro_welcome':
+              return NoTransitionRoute(
+                builder: (_) => IntroWelcomePage(),
+                settings: settings,
+              );
+            case '/intro_backup':
+              return MaterialPageRoute(
+                builder: (_) => IntroBackupSeedPage(),
+                settings: settings,
+              );
+            case '/intro_backup_confirm':
+              return MaterialPageRoute(
+                builder: (_) => IntroBackupConfirm(),
+                settings: settings,
+              );
+            case '/intro_import':
+              return MaterialPageRoute(
+                builder: (_) => IntroImportSeedPage(),
+                settings: settings,
+              );
+            default:
+              return null;
+          }
+        },
       ),
-      localizationsDelegates: [
-        KaliumLocalizationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
-      ],
-      supportedLocales: [Locale("en"), Locale("es"), Locale("pt")],
-      initialRoute: '/',
-      onGenerateRoute: (RouteSettings settings) {
-        switch (settings.name) {
-          case '/':
-            return NoTransitionRoute(
-              builder: (_) => Splash(),
-              settings: settings,
-            ); 
-          case '/home':
-            return NoTransitionRoute(
-              builder: (_) => KaliumHomePage(),
-              settings: settings,
-            );
-          case '/intro_welcome':
-            return NoTransitionRoute(
-              builder: (_) => IntroWelcomePage(),
-              settings: settings,
-            );
-          case '/intro_backup':
-            return MaterialPageRoute(
-              builder: (_) => IntroBackupSeedPage(),
-              settings: settings,
-            );
-          case '/intro_backup_confirm':
-            return MaterialPageRoute(
-              builder: (_) => IntroBackupConfirm(),
-              settings: settings,
-            );
-          case '/intro_import':
-            return MaterialPageRoute(
-              builder: (_) => IntroImportSeedPage(),
-              settings: settings,
-            );
-          default:
-            return null;
-        }
-      },
     );
   }
 }

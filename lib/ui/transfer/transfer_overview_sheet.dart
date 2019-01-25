@@ -54,7 +54,7 @@ class KaliumTransferOverviewSheet {
         privKeyBalanceMap.remove(account);
       });
       if (privKeyBalanceMap.length == 0) {
-        UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).transferNoFunds);
+        UIUtil.showSnackbar(KaliumLocalization.of(context).transferNoFunds);
         return;
       }
       // Go to confirmation screen
@@ -163,7 +163,7 @@ class KaliumTransferOverviewSheet {
                             onPressed: () {
                               BarcodeScanner.scan().then((value) {
                                 if (!NanoSeeds.isValidSeed(value)) {
-                                  UIUtil.showSnackbar(_scaffoldKey, KaliumLocalization.of(context).seedInvalid);
+                                  UIUtil.showSnackbar(KaliumLocalization.of(context).seedInvalid);
                                   return;
                                 }
                                 startTransfer(context, value);
