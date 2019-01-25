@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>769401031477-ed4a9jgchqfa9fjb3a5ql451lv793gsh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.769401031477-ed4a9jgchqfa9fjb3a5ql451lv793gsh</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAiSBynbqiS5fS14Y0WIqplOfUGIImDVt4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>769401031477</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.banano.kaliumwallet</string>
+	<key>PROJECT_ID</key>
+	<string>kalium-d4116</string>
+	<key>STORAGE_BUCKET</key>
+	<string>kalium-d4116.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:769401031477:ios:e61aab7d5fd41832</string>
+	<key>DATABASE_URL</key>
+	<string>https://kalium-d4116.firebaseio.com</string>
+</dict>
+</plist>
