@@ -164,24 +164,14 @@ class _PinScreenState extends State<PinScreen>
 
   Widget _buildPinScreenButton(String buttonText, BuildContext context) {
     return Container(
-      height: smallScreen(context)?buttonSize-15:buttonSize,
-      width: smallScreen(context)?buttonSize-15:buttonSize,
-      child: FlatButton(
+      height: smallScreen(context) ? buttonSize - 15 : buttonSize,
+      width: smallScreen(context) ? buttonSize - 15 : buttonSize,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(200),
         highlightColor: KaliumColors.primary15,
         splashColor: KaliumColors.primary30,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(200.0)),
-        child: Text(
-          buttonText,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20.0,
-            color: KaliumColors.primary,
-            fontFamily: 'NunitoSans',
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        onPressed: () {
+        onTap: () {},
+        onTapDown: (details) {
           if (_controller.status == AnimationStatus.forward ||
               _controller.status == AnimationStatus.reverse) {
             return;
@@ -218,6 +208,19 @@ class _PinScreenState extends State<PinScreen>
             });
           }
         },
+        child: Container(
+          alignment: Alignment(0, 0),
+          child: Text(
+            buttonText,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: KaliumColors.primary,
+              fontFamily: 'NunitoSans',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -248,154 +251,79 @@ class _PinScreenState extends State<PinScreen>
     return Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
-        color: KaliumColors.backgroundDark,
-        child: Column(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.1),
-              child: Column(
-                children: <Widget>[
-                  // Header
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal:40),
-                    child: AutoSizeText(
-                      _header,
-                      style: KaliumStyles.TextStylePinScreenHeaderColored,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      stepGranularity: 0.1,
-                    ),
-                  ),
-                  // Descripttion
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                    child: AutoSizeText(
-                      description,
-                      style: KaliumStyles.TextStyleParagraph,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      stepGranularity: 0.1,
-                    ),
-                  ),
-                  // Dots
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.25 + _animation.value,
-                      right: MediaQuery.of(context).size.width * 0.25 - _animation.value,
-                      top: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Icon(
-                          _dotStates[0],
-                          color: KaliumColors.primary,
-                          size: 20.0,
-                        ),
-                        Icon(
-                          _dotStates[1],
-                          color: KaliumColors.primary,
-                          size: 20.0,
-                        ),
-                        Icon(
-                          _dotStates[2],
-                          color: KaliumColors.primary,
-                          size: 20.0,
-                        ),
-                        Icon(
-                          _dotStates[3],
-                          color: KaliumColors.primary,
-                          size: 20.0,
-                        ),
-                        Icon(
-                          _dotStates[4],
-                          color: KaliumColors.primary,
-                          size: 20.0,
-                        ),
-                        Icon(
-                          _dotStates[5],
-                          color: KaliumColors.primary,
-                          size: 20.0,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Container(
+        child: Material(
+          color: KaliumColors.backgroundDark,
+          child: Column(
+            children: <Widget>[
+              Container(
                 margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.07,
-                    right: MediaQuery.of(context).size.width * 0.07,
-                    bottom: smallScreen(context)?MediaQuery.of(context).size.height * 0.02:MediaQuery.of(context).size.height * 0.05,
-                    top: MediaQuery.of(context).size.height * 0.05),
+                    top: MediaQuery.of(context).size.height * 0.1),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
+                    // Header
                     Container(
-                      margin: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.01),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          _buildPinScreenButton("1", context),
-                          _buildPinScreenButton("2", context),
-                          _buildPinScreenButton("3", context),
-                        ],
+                      margin: EdgeInsets.symmetric(horizontal: 40),
+                      child: AutoSizeText(
+                        _header,
+                        style: KaliumStyles.TextStylePinScreenHeaderColored,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        stepGranularity: 0.1,
                       ),
                     ),
+                    // Descripttion
                     Container(
-                      margin: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.01),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          _buildPinScreenButton("4", context),
-                          _buildPinScreenButton("5", context),
-                          _buildPinScreenButton("6", context),
-                        ],
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                      child: AutoSizeText(
+                        description,
+                        style: KaliumStyles.TextStyleParagraph,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        stepGranularity: 0.1,
                       ),
                     ),
+                    // Dots
                     Container(
                       margin: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.01),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          _buildPinScreenButton("7", context),
-                          _buildPinScreenButton("8", context),
-                          _buildPinScreenButton("9", context),
-                        ],
+                        left: MediaQuery.of(context).size.width * 0.25 +
+                            _animation.value,
+                        right: MediaQuery.of(context).size.width * 0.25 -
+                            _animation.value,
+                        top: MediaQuery.of(context).size.height * 0.02,
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.009),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          SizedBox(
-                            height: smallScreen(context)?buttonSize-15:buttonSize,
-                            width: smallScreen(context)?buttonSize-15:buttonSize,
+                          Icon(
+                            _dotStates[0],
+                            color: KaliumColors.primary,
+                            size: 20.0,
                           ),
-                          _buildPinScreenButton("0", context),
-                          Container(
-                            height: smallScreen(context)?buttonSize-15:buttonSize,
-                            width: smallScreen(context)?buttonSize-15:buttonSize,
-                            child: FlatButton(
-                              highlightColor: KaliumColors.primary15,
-                              splashColor: KaliumColors.primary30,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(200.0)),
-                              child: Icon(Icons.backspace,
-                                  color: KaliumColors.primary, size: 20.0),
-                              onPressed: () {
-                                _backSpace();
-                              },
-                            ),
+                          Icon(
+                            _dotStates[1],
+                            color: KaliumColors.primary,
+                            size: 20.0,
+                          ),
+                          Icon(
+                            _dotStates[2],
+                            color: KaliumColors.primary,
+                            size: 20.0,
+                          ),
+                          Icon(
+                            _dotStates[3],
+                            color: KaliumColors.primary,
+                            size: 20.0,
+                          ),
+                          Icon(
+                            _dotStates[4],
+                            color: KaliumColors.primary,
+                            size: 20.0,
+                          ),
+                          Icon(
+                            _dotStates[5],
+                            color: KaliumColors.primary,
+                            size: 20.0,
                           ),
                         ],
                       ),
@@ -403,8 +331,101 @@ class _PinScreenState extends State<PinScreen>
                   ],
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.07,
+                      right: MediaQuery.of(context).size.width * 0.07,
+                      bottom: smallScreen(context)
+                          ? MediaQuery.of(context).size.height * 0.02
+                          : MediaQuery.of(context).size.height * 0.05,
+                      top: MediaQuery.of(context).size.height * 0.05),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.01),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            _buildPinScreenButton("1", context),
+                            _buildPinScreenButton("2", context),
+                            _buildPinScreenButton("3", context),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.01),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            _buildPinScreenButton("4", context),
+                            _buildPinScreenButton("5", context),
+                            _buildPinScreenButton("6", context),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.01),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            _buildPinScreenButton("7", context),
+                            _buildPinScreenButton("8", context),
+                            _buildPinScreenButton("9", context),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.009),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            SizedBox(
+                              height: smallScreen(context)
+                                  ? buttonSize - 15
+                                  : buttonSize,
+                              width: smallScreen(context)
+                                  ? buttonSize - 15
+                                  : buttonSize,
+                            ),
+                            _buildPinScreenButton("0", context),
+                            Container(
+                              height: smallScreen(context)
+                                  ? buttonSize - 15
+                                  : buttonSize,
+                              width: smallScreen(context)
+                                  ? buttonSize - 15
+                                  : buttonSize,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(200),
+                                highlightColor: KaliumColors.primary15,
+                                splashColor: KaliumColors.primary30,
+                                onTap: () {},
+                                onTapDown: (details) {
+                                  _backSpace();
+                                },
+                                child: Container(
+                                  alignment: Alignment(0, 0),
+                                  child: Icon(Icons.backspace,
+                                      color: KaliumColors.primary, size: 20.0),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
