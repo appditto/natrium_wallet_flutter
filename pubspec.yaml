@@ -71,6 +71,7 @@ dependencies:
     git:
       url: https://github.com/dnfield/flutter_svg.git
       ref: master
+  xml: 3.2.5
 
   # QR Codes
   qr_flutter: ^1.1.6 # Generator
