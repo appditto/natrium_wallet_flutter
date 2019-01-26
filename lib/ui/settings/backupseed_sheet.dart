@@ -14,9 +14,11 @@ import 'package:kalium_wallet_flutter/util/clipboardutil.dart';
 
 class KaliumSeedBackupSheet {
   // Seed copied state information
+  String _placeholderSeed = '•'*64;
   bool _seedCopied;
   String _seed;
   Timer _seedCopiedTimer;
+  bool _seedHidden = true;
 
   mainBottomSheet(BuildContext context) {
     Vault.inst.getSeed().then((result) {
@@ -90,7 +92,7 @@ class KaliumSeedBackupSheet {
                                       color: KaliumColors.backgroundDarkest,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
-                                    child: UIUtil.threeLineSeedText(_seed,
+                                    child: UIUtil.threeLineSeedText(_seedHidden ? _placeholderSeed : _seed,
                                         textStyle: _seedCopied ? KaliumStyles.TextStyleSeedGreen : KaliumStyles.TextStyleSeed),
                                   ),
                                   Container(
@@ -112,6 +114,27 @@ class KaliumSeedBackupSheet {
                       ),
                     ),
 
+                    //A row with show/hide seed button
+                    Row(
+                      children: <Widget>[
+                        KaliumButton.buildKaliumButton(
+                          KaliumButtonType.PRIMARY,
+                          _seedHidden ? KaliumLocalization.of(context).showSeedButton : KaliumLocalization.of(context).hideSeedButton,
+                          Dimens.BUTTON_TOP_DIMENS,
+                          onPressed: () {
+                            if (_seedHidden) {
+                              setState(() {
+                                _seedHidden = false;
+                              });
+                            } else {
+                              setState(() {
+                                _seedHidden = true;
+                              }); 
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                     //A row with close button
                     Row(
                       children: <Widget>[

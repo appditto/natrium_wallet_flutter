@@ -238,6 +238,16 @@ class KaliumLocalization {
         desc: 'intro_new_wallet_seed', name: 'seedBackupInfo');
   }
 
+  String get showSeedButton {
+    return Intl.message("Show Seed",
+      desc: 'show seed button', name: 'showSeedButton');
+  }
+
+  String get hideSeedButton {
+    return Intl.message("Hide Seed",
+      desc: 'hide seed button', name: 'hideSeedButton');
+  }
+
   String get importSeed {
     return Intl.message("Import seed",
         desc: 'intro_seed_header', name: 'importSeed');
