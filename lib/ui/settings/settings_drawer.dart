@@ -19,6 +19,7 @@ import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/available_currency.dart';
+import 'package:kalium_wallet_flutter/model/notification_settings.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
 import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
@@ -60,6 +61,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   bool _hasBiometrics = false;
   AuthenticationMethod _curAuthMethod =
       AuthenticationMethod(AuthMethod.BIOMETRICS);
+  NotificationSetting _curNotificiationSetting = NotificationSetting(NotificationOptions.ON);
 
   bool _contactsOpen;
 
@@ -147,11 +149,25 @@ class _SettingsSheetState extends State<SettingsSheet>
         _hasBiometrics = hasBiometrics;
       });
     });
+    // Get default auth method setting
     SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
       setState(() {
         _curAuthMethod = authMethod;
       });
     });
+    // Get default notification setting
+    SharedPrefsUtil.inst.getNotificationsOn().then((notificationsOn) {
+      if (!notificationsOn) {
+        setState(() {
+          _curNotificiationSetting = NotificationSetting(NotificationOptions.OFF);
+        });
+      } else {
+        setState(() {
+          _curNotificiationSetting = NotificationSetting(NotificationOptions.ON);
+        });
+      }
+    });
+    // Initial contacts list
     _contacts = List();
     getApplicationDocumentsDirectory().then((directory) {
       documentsDirectory = directory.path;
@@ -360,6 +376,69 @@ class _SettingsSheetState extends State<SettingsSheet>
     }
   }
 
+  Future<void> _notificationsDialog() async {
+    switch (await showDialog<NotificationOptions>(
+        context: context,
+        builder: (BuildContext context) {
+          return KaliumSimpleDialog(
+            title: Text(
+              KaliumLocalization.of(context).notifications,
+              style: KaliumStyles.TextStyleDialogHeader,
+            ),
+            children: <Widget>[
+              KaliumSimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, NotificationOptions.ON);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    KaliumLocalization.of(context).onStr,
+                    style: KaliumStyles.TextStyleDialogOptions,
+                  ),
+                ),
+              ),
+              KaliumSimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, NotificationOptions.OFF);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    KaliumLocalization.of(context).off,
+                    style: KaliumStyles.TextStyleDialogOptions,
+                  ),
+                ),
+              ),
+            ],
+          );
+        })) {
+      case NotificationOptions.ON:
+        SharedPrefsUtil.inst
+            .setNotificationsOn(true)
+            .then((result) {
+          setState(() {
+            _curNotificiationSetting = NotificationSetting(NotificationOptions.ON);
+          });
+          FirebaseMessaging().requestNotificationPermissions();
+          FirebaseMessaging().getToken().then((fcmToken) {
+            RxBus.post(fcmToken, tag: RX_FCM_UPDATE_TAG);
+          });
+        });
+        break;
+      case NotificationOptions.OFF:
+        SharedPrefsUtil.inst
+            .setNotificationsOn(false)
+            .then((result) {
+          setState(() {
+            _curNotificiationSetting = NotificationSetting(NotificationOptions.OFF);
+          });
+          FirebaseMessaging().deleteInstanceID();
+        });
+        break;
+    }
+  }
+
   List<Widget> _buildCurrencyOptions() {
     List<Widget> ret = new List();
     AvailableCurrencyEnum.values.forEach((AvailableCurrencyEnum value) {
@@ -370,7 +449,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text(
-            AvailableCurrency(value).getDisplayName(),
+            AvailableCurrency(value).getDisplayName(context),
             style: KaliumStyles.TextStyleDialogOptions,
           ),
         ),
@@ -481,7 +560,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                             color: KaliumColors.text60)),
                   ),
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemDoubleLine(
+                  KaliumSettings.buildSettingsListItemDoubleLine(context,
                       KaliumLocalization.of(context).changeCurrency,
                       StateContainer.of(context).curCurrency,
                       KaliumIcons.currency,
@@ -494,17 +573,18 @@ class _SettingsSheetState extends State<SettingsSheet>
                       KaliumIcons.language),*/
                   _hasBiometrics ? Divider(height: 2) : null,
                   _hasBiometrics
-                      ? KaliumSettings.buildSettingsListItemDoubleLine(
+                      ? KaliumSettings.buildSettingsListItemDoubleLine(context,
                           KaliumLocalization.of(context).authMethod,
                           _curAuthMethod,
                           KaliumIcons.fingerprint,
                           _authMethodDialog)
                       : null,
-/*
                   Divider(height: 2),
-                  buildSettingsListItemDoubleLine(
-                      'Notifications', 'On', KaliumIcons.notifications),
-*/
+                  KaliumSettings.buildSettingsListItemDoubleLine(context,
+                      KaliumLocalization.of(context).notifications,
+                      _curNotificiationSetting,
+                      KaliumIcons.notifications,
+                      _notificationsDialog),
                   Divider(height: 2),
                   Container(
                     margin:
@@ -516,7 +596,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                             color: KaliumColors.text60)),
                   ),
                   Divider(height: 2),
-                  buildSettingsListItemSingleLine(
+                  KaliumSettings.buildSettingsListItemSingleLine(
                       KaliumLocalization.of(context).contactsHeader,
                       KaliumIcons.contacts, onPressed: () {
                     setState(() {
@@ -526,7 +606,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     _controller2.forward();
                   }),
                   Divider(height: 2),
-                  buildSettingsListItemSingleLine(
+                  KaliumSettings.buildSettingsListItemSingleLine(
                       KaliumLocalization.of(context).backupSeed,
                       KaliumIcons.backupseed, onPressed: () {
                     // Authenticate
@@ -567,27 +647,27 @@ class _SettingsSheetState extends State<SettingsSheet>
                     });
                   }),
                   Divider(height: 2),
-                  buildSettingsListItemSingleLine(
+                  KaliumSettings.buildSettingsListItemSingleLine(
                       KaliumLocalization.of(context).settingsTransfer, KaliumIcons.transferfunds,
                       onPressed: () {
                     KaliumTransferOverviewSheet().mainBottomSheet(context);
                   }),
                   Divider(height: 2),
-                  buildSettingsListItemSingleLine(
+                  KaliumSettings.buildSettingsListItemSingleLine(
                       KaliumLocalization.of(context).changeRepAuthenticate,
                       KaliumIcons.changerepresentative, onPressed: () {
                     new KaliumChangeRepresentativeSheet()
                         .mainBottomSheet(context);
                   }),
                   Divider(height: 2),
-                  buildSettingsListItemSingleLine(
+                  KaliumSettings.buildSettingsListItemSingleLine(
                       KaliumLocalization.of(context).shareKalium,
                       KaliumIcons.share, onPressed: () {
                     Share.share(KaliumLocalization.of(context).shareKaliumText +
                         " https://kalium.banano.cc");
                   }),
                   Divider(height: 2),
-                  buildSettingsListItemSingleLine(
+                  KaliumSettings.buildSettingsListItemSingleLine(
                       KaliumLocalization.of(context).logout, KaliumIcons.logout,
                       onPressed: () {
                     KaliumDialogs.showConfirmDialog(

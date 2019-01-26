@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logging/logging.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:kalium_wallet_flutter/model/available_currency.dart';
@@ -16,6 +17,7 @@ import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/request_item.dart';
 import 'package:kalium_wallet_flutter/network/model/request/accounts_balances_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/account_history_request.dart';
+import 'package:kalium_wallet_flutter/network/model/request/fcm_update_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/subscribe_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/blocks_info_request.dart';
 import 'package:kalium_wallet_flutter/network/model/request/pending_request.dart';
@@ -175,7 +177,7 @@ class StateContainerState extends State<StateContainer> {
         wallet.historyLoading = false;
       });
       if (!postedToHome) {
-        RxBus.post(AccountHistoryResponse(history: []), tag: RX_HISTORY_HOME_TAG);
+        RxBus.post(AccountHistoryResponse(history: wallet.history), tag: RX_HISTORY_HOME_TAG);
       }
       AccountService.pop();
       AccountService.processQueue();
@@ -202,7 +204,7 @@ class StateContainerState extends State<StateContainer> {
     RxBus.register<PendingResponse>(tag: RX_PENDING_RESP_TAG).listen(handlePendingResponse);
     RxBus.register<ErrorResponse>(tag: RX_ERROR_RESP_TAG).listen(handleErrorResponse);
     RxBus.register<String>(tag: RX_FCM_UPDATE_TAG).listen((fcmToken) {
-      requestSubscribe(clearQueue: false);
+      AccountService.sendRequest(FcmUpdateRequest(account: wallet.address, fcmToken: fcmToken));
     });
   }
 
@@ -498,33 +500,27 @@ class StateContainerState extends State<StateContainer> {
     }
   }
 
-  void requestUpdate() {
+  Future<void> requestUpdate() async {
     if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
-      SharedPrefsUtil.inst.getUuid().then((result) {
-        SharedPrefsUtil.inst.getFcmToken().then((token) {
-          AccountService.clearQueue();
-          pendingBlockMap.clear();
-          pendingResponseBlockMap.clear();
-          previousPendingMap.clear();
-          AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result, fcmToken: token));
-          AccountService.queueRequest(AccountHistoryRequest(account: wallet.address, count: 20));
-          AccountService.processQueue();
-        });
-      }); 
+      String uuid = await SharedPrefsUtil.inst.getUuid();
+      String fcmToken = await FirebaseMessaging().getToken();
+      AccountService.clearQueue();
+      pendingBlockMap.clear();
+      pendingResponseBlockMap.clear();
+      previousPendingMap.clear();
+      AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:uuid, fcmToken: fcmToken));
+      AccountService.queueRequest(AccountHistoryRequest(account: wallet.address, count: 20));
+      AccountService.processQueue();
     }
   }
 
-  void requestSubscribe({bool clearQueue = true}) {
+  Future<void> requestSubscribe() async {
     if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
-      SharedPrefsUtil.inst.getUuid().then((result) {
-        SharedPrefsUtil.inst.getFcmToken().then((token) {
-          if (clearQueue) {
-            AccountService.removeSubscribeHistoryPendingFromQueue();
-          }
-          AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result, fcmToken: token));
-          AccountService.processQueue();
-        });
-      });
+      String uuid = await SharedPrefsUtil.inst.getUuid();
+      String fcmToken = await FirebaseMessaging().getToken();
+      AccountService.removeSubscribeHistoryPendingFromQueue();
+      AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:uuid, fcmToken: fcmToken));
+      AccountService.processQueue();
     }
   }
 
