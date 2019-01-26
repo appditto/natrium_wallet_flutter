@@ -160,6 +160,8 @@ class KaliumChangeRepresentativeSheet {
                                 _repController.text =
                                     address.address;
                                 _repFocusNode.unfocus();
+                              } else {
+                                UIUtil.showSnackbar(KaliumLocalization.of(context).qrInvalidAddress, context);
                               }
                             });
                           },

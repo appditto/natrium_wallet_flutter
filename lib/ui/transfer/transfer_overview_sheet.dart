@@ -159,7 +159,7 @@ class KaliumTransferOverviewSheet {
                           onPressed: () {
                             BarcodeScanner.scan().then((value) {
                               if (!NanoSeeds.isValidSeed(value)) {
-                                UIUtil.showSnackbar(KaliumLocalization.of(context).seedInvalid, context);
+                                UIUtil.showSnackbar(KaliumLocalization.of(context).qrInvalidSeed, context);
                                 return;
                               }
                               startTransfer(context, value);

@@ -127,7 +127,7 @@ class AddContactSheet {
                               BarcodeScanner.scan().then((value) {
                                 Address address = Address(value);
                                 if (!address.isValid()) {
-                                  // Not a valid code
+                                  UIUtil.showSnackbar(KaliumLocalization.of(context).qrInvalidAddress, context);
                                 } else {
                                   setState(() {
                                     _addressController.text = address.address;

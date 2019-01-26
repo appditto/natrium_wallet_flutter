@@ -422,7 +422,7 @@ class KaliumSendSheet {
                               BarcodeScanner.scan().then((value) {
                                 Address address = Address(value);
                                 if (!address.isValid()) {
-                                  // Not a valid code
+                                  UIUtil.showSnackbar(KaliumLocalization.of(context).qrInvalidAddress, context);
                                 } else {
                                   DBHelper()
                                       .getContactWithAddress(address.address)

@@ -136,6 +136,16 @@ class KaliumLocalization {
       desc: "transaction_details", name: 'viewDetails');  
   }
 
+  String get qrInvalidSeed {
+    return Intl.message("QR code does not contain a valid seed or private key",
+      desc: "invalid seed/privkey scanned", name: 'qrInvalidSeed');
+  }
+
+  String get qrInvalidAddress {
+    return Intl.message("QR code does not contain a valid address",
+      desc: "invalid  address scanned", name: 'qrInvalidAddress');
+  }
+
   /// -- END GENERIC ITEMS
 
   /// -- CONTACT ITEMS
@@ -193,6 +203,11 @@ class KaliumLocalization {
   String get contactAdded {
     return Intl.message("%1 added to contacts.",
       desc: 'contact_added', name: 'contactAdded');
+  }
+
+  String get contactRemoved {
+    return Intl.message("%1 has been removed from contacts!",
+      desc: 'contact_removed', name: 'contactRemoved');
   }
 
   String get contactNameMissing {
