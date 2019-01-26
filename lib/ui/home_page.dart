@@ -127,6 +127,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             SharedPrefsUtil.inst.setNotificationsOn(true);
           }
         });
+        _firebaseMessaging.getToken().then((String token) {
+          if (token != null) {
+            RxBus.post(token, tag: RX_FCM_UPDATE_TAG);
+          }
+        });
       } else {
         _firebaseMessaging.deleteInstanceID();
         SharedPrefsUtil.inst.setNotificationsOn(false);
