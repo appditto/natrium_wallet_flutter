@@ -125,7 +125,9 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     });
     _firebaseMessaging.getToken().then((String token) {
       SharedPrefsUtil.inst.setFcmToken(token).then((_) {
-        // TODO - requestSubscribe with new token
+        SharedPrefsUtil.inst.getUuid().then((result) {
+          RxBus.post(token, tag: RX_FCM_UPDATE_TAG);
+        });
       });
     });
   }

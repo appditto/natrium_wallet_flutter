@@ -1,4 +1,4 @@
-package com.example.kaliumwalletflutter;
+package com.banano.kaliumf;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

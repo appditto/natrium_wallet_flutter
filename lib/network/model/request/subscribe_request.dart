@@ -18,7 +18,7 @@ class SubscribeRequest extends BaseRequest {
   @JsonKey(name:'uuid', includeIfNull: false)
   String uuid;
 
-  @JsonKey(name:'fcm_token', includeIfNull: false)
+  @JsonKey(name:'fcm_token_v2', includeIfNull: false)
   String fcmToken;
 
   SubscribeRequest({String account, String currency, String uuid, String fcmToken}) : super() {

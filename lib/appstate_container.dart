@@ -79,7 +79,7 @@ class StateContainer extends StatefulWidget {
   }
   
   @override
-  StateContainerState createState() => new StateContainerState();
+  StateContainerState createState() => StateContainerState();
 }
 
 /// TODO
@@ -101,13 +101,13 @@ class StateContainerState extends State<StateContainer> {
 
   // This map stashes pending process requests, this is because we need to update these requests
   // after a blocks_info with the balance after send, and sign the block
-  Map<String, StateBlock> previousPendingMap = new Map();
+  Map<String, StateBlock> previousPendingMap = Map();
 
   // Maps previous block requested to next block
-  Map<String, StateBlock> pendingResponseBlockMap = new Map();
+  Map<String, StateBlock> pendingResponseBlockMap = Map();
 
   // Maps all pending receives to previous blocks
-  Map<String, StateBlock> pendingBlockMap = new Map();
+  Map<String, StateBlock> pendingBlockMap = Map();
 
   @override
   void initState() {
@@ -154,16 +154,16 @@ class StateContainerState extends State<StateContainer> {
       }
 
       bool postedToHome = false;
-      // Iterate new list in reverse (oldest to newest block)
+      // Iterate list in reverse (oldest to newest block)
       for (AccountHistoryResponseItem item in historyResponse.history) {
-        // If current list doesn't contain this item, insert it and the rest of the items in new list and exit loop
+        // If current list doesn't contain this item, insert it and the rest of the items in list and exit loop
         if (!wallet.history.contains(item)) {
           int startIndex = 0; // Index to start inserting into the list
           int lastIndex = historyResponse.history.indexWhere((item) => wallet.history.contains(item)); // Last index of historyResponse to insert to (first index where item exists in wallet history)
           lastIndex = lastIndex <= 0 ? historyResponse.history.length : lastIndex;
           setState(() {
             wallet.history.insertAll(0, historyResponse.history.getRange(startIndex, lastIndex));            
-            // Send new list to home screen
+            // Send list to home screen
             RxBus.post(AccountHistoryResponse(history: wallet.history), tag: RX_HISTORY_HOME_TAG);
           });
           postedToHome = true;
@@ -200,6 +200,9 @@ class StateContainerState extends State<StateContainer> {
     RxBus.register<ProcessResponse>(tag: RX_PROCESS_TAG).listen(handleProcessResponse);
     RxBus.register<PendingResponse>(tag: RX_PENDING_RESP_TAG).listen(handlePendingResponse);
     RxBus.register<ErrorResponse>(tag: RX_ERROR_RESP_TAG).listen(handleErrorResponse);
+    RxBus.register<String>(tag: RX_FCM_UPDATE_TAG).listen((fcmToken) {
+      requestSubscribe();
+    });
   }
 
   @override
@@ -219,6 +222,7 @@ class StateContainerState extends State<StateContainer> {
     RxBus.destroy(tag: RX_CONN_STATUS_TAG);
     RxBus.destroy(tag: RX_PROCESS_TAG);
     RxBus.destroy(tag: RX_PENDING_RESP_TAG);
+    RxBus.destroy(tag: RX_FCM_UPDATE_TAG);
   }
 
   // You can (and probably will) have methods on your StateContainer
@@ -229,7 +233,7 @@ class StateContainerState extends State<StateContainer> {
   void updateWallet({address}) {
     _registerBus();
     setState(() {
-      wallet = new KaliumWallet(address: address, loading: true);
+      wallet = KaliumWallet(address: address, loading: true);
       requestUpdate();
     });
   }
@@ -317,7 +321,7 @@ class StateContainerState extends State<StateContainer> {
               nextBlock.sign(result);
               pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
               pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
-              AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType));
+              AccountService.queueRequest(ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType));
               AccountService.processQueue();
             });
           }
@@ -453,7 +457,7 @@ class StateContainerState extends State<StateContainer> {
           pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
         }
       }
-      AccountService.queueRequest(new ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType), fromTransfer: lastRequest.fromTransfer);
+      AccountService.queueRequest(ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType), fromTransfer: lastRequest.fromTransfer);
       AccountService.processQueue();
     });
   }
@@ -496,13 +500,15 @@ class StateContainerState extends State<StateContainer> {
   void requestUpdate() {
     if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
       SharedPrefsUtil.inst.getUuid().then((result) {
-        AccountService.clearQueue();
-        pendingBlockMap.clear();
-        pendingResponseBlockMap.clear();
-        previousPendingMap.clear();
-        AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
-        AccountService.queueRequest(new AccountHistoryRequest(account: wallet.address, count: 20));
-        AccountService.processQueue();
+        SharedPrefsUtil.inst.getFcmToken().then((token) {
+          AccountService.clearQueue();
+          pendingBlockMap.clear();
+          pendingResponseBlockMap.clear();
+          previousPendingMap.clear();
+          AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result, fcmToken: token));
+          AccountService.queueRequest(AccountHistoryRequest(account: wallet.address, count: 20));
+          AccountService.processQueue();
+        });
       }); 
     }
   }
@@ -510,9 +516,11 @@ class StateContainerState extends State<StateContainer> {
   void requestSubscribe() {
     if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
       SharedPrefsUtil.inst.getUuid().then((result) {
-        AccountService.removeSubscribeHistoryPendingFromQueue();
-        AccountService.queueRequest(new SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result));
-        AccountService.processQueue();
+        SharedPrefsUtil.inst.getFcmToken().then((token) {
+          AccountService.removeSubscribeHistoryPendingFromQueue();
+          AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result, fcmToken: token));
+          AccountService.processQueue();
+        });
       });
     }
   }
@@ -522,7 +530,7 @@ class StateContainerState extends State<StateContainer> {
   /// 
   void requestAccountsBalances(List<String> accounts) {
     if (accounts != null && accounts.isNotEmpty) {
-      AccountService.queueRequest(new AccountsBalancesRequest(accounts: accounts));
+      AccountService.queueRequest(AccountsBalancesRequest(accounts: accounts));
       AccountService.processQueue();
     }
   }
@@ -531,7 +539,7 @@ class StateContainerState extends State<StateContainer> {
   /// Request account history
   ///
   void requestAccountHistory(String account) {
-    AccountService.queueRequest(new AccountHistoryRequest(account: account, count: 1), fromTransfer: true);
+    AccountService.queueRequest(AccountHistoryRequest(account: account, count: 1), fromTransfer: true);
     AccountService.processQueue();
   }
 
@@ -559,7 +567,7 @@ class StateContainerState extends State<StateContainer> {
     String representative = wallet.representative;
     bool fromTransfer = privKey == null && account == null ? false: true;
 
-    StateBlock sendBlock = new StateBlock(
+    StateBlock sendBlock = StateBlock(
       subtype:BlockTypes.SEND,
       previous: previous,
       representative: representative,
@@ -570,7 +578,7 @@ class StateContainerState extends State<StateContainer> {
     );
     previousPendingMap.putIfAbsent(previous, () => sendBlock);
 
-    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]), fromTransfer: fromTransfer);
+    AccountService.queueRequest(BlocksInfoRequest(hashes: [previous]), fromTransfer: fromTransfer);
     AccountService.processQueue();
   }
 
@@ -586,7 +594,7 @@ class StateContainerState extends State<StateContainer> {
     String representative = wallet.representative;
     bool fromTransfer = privKey == null && account == null ? false : true;
 
-    StateBlock receiveBlock = new StateBlock(
+    StateBlock receiveBlock = StateBlock(
       subtype:BlockTypes.RECEIVE,
       previous: previous,
       representative: representative,
@@ -600,7 +608,7 @@ class StateContainerState extends State<StateContainer> {
       pendingBlockMap.putIfAbsent(source, () => receiveBlock);
     }
 
-    AccountService.queueRequest(new BlocksInfoRequest(hashes: [previous]), fromTransfer: fromTransfer);
+    AccountService.queueRequest(BlocksInfoRequest(hashes: [previous]), fromTransfer: fromTransfer);
     AccountService.processQueue();
   }
 
@@ -616,7 +624,7 @@ class StateContainerState extends State<StateContainer> {
     String representative = wallet.representative;
     bool fromTransfer = privKey == null && account == null ? false : true;
 
-    StateBlock openBlock = new StateBlock(
+    StateBlock openBlock = StateBlock(
       subtype:BlockTypes.OPEN,
       previous: previous,
       representative: representative,
@@ -642,10 +650,10 @@ class StateContainerState extends State<StateContainer> {
   /// 
   /// @param previous - Previous Hash
   /// @param balance - Current balance
-  /// @param representative - New representative
+  /// @param representative - representative
   /// 
   void requestChange(String previous, String balance, String representative) {
-    StateBlock changeBlock = new StateBlock(
+    StateBlock changeBlock = StateBlock(
       subtype:BlockTypes.CHANGE,
       previous: previous,
       representative: representative,
@@ -664,7 +672,7 @@ class StateContainerState extends State<StateContainer> {
 
   void logOut() {
     setState(() {
-      wallet = new KaliumWallet();
+      wallet = KaliumWallet();
     });
     AccountService.clearQueue();
     _destroyBus();
@@ -678,7 +686,7 @@ class StateContainerState extends State<StateContainer> {
   // your InheritedWidget
   @override
   Widget build(BuildContext context) {
-    return new _InheritedStateContainer(
+    return _InheritedStateContainer(
       data: this,
       child: widget.child,
     );

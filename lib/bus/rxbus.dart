@@ -15,6 +15,7 @@ const String RX_PENDING_RESP_TAG = 'fkalium_pending_response';
 const String RX_ERROR_RESP_TAG = 'fkalium_err_response';
 const String RX_REP_CHANGED_TAG = 'fkalium_rep_changed_tag';
 const String RX_SEND_FAILED_TAG = 'fkalium_send_failed_tag';
+const String RX_FCM_UPDATE_TAG = 'fkalium_fcm_update_tag';
 // Contact added/removed on settings sheet
 const String RX_CONTACT_ADDED_TAG = 'fkalium_contact_added_tag';
 const String RX_CONTACT_REMOVED_TAG = 'fkalium_contact_removed_tag';

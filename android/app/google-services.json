@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "769401031477",
+    "firebase_url": "https://kalium-d4116.firebaseio.com",
+    "project_id": "kalium-d4116",
+    "storage_bucket": "kalium-d4116.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769401031477:android:3ca7133785356e7a",
+        "android_client_info": {
+          "package_name": "com.banano.kaliumf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769401031477-tshqblvl3ltmar4odiftel8c642p0vej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNXS2VThoIf-F2y39_60Pddm_JVpvy-BY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769401031477:android:e61aab7d5fd41832",
+        "android_client_info": {
+          "package_name": "com.banano.kaliumwallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769401031477-tshqblvl3ltmar4odiftel8c642p0vej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNXS2VThoIf-F2y39_60Pddm_JVpvy-BY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
