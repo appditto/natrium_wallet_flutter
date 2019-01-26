@@ -124,10 +124,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       print("Settings registered: $settings");
     });
     _firebaseMessaging.getToken().then((String token) {
-      SharedPrefsUtil.inst.setFcmToken(token).then((_) {
-        SharedPrefsUtil.inst.getUuid().then((result) {
-          RxBus.post(token, tag: RX_FCM_UPDATE_TAG);
-        });
+      SharedPrefsUtil.inst.getFcmToken().then((curToken) {
+        if (token != curToken) {
+          SharedPrefsUtil.inst.setFcmToken(token).then((_) {
+            SharedPrefsUtil.inst.getUuid().then((result) {
+              RxBus.post(token, tag: RX_FCM_UPDATE_TAG);
+            });
+          });
+        }
       });
     });
   }
