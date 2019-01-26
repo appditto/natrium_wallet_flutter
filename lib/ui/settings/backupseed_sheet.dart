@@ -55,7 +55,7 @@ class KaliumSeedBackupSheet {
                     //A container for the paragraph and seed
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.only(top: 35),
+                        margin: EdgeInsets.only(top: smallScreen(context)?25:35),
                         child: Column(
                           children: <Widget>[
                             Container(
