@@ -104,6 +104,9 @@ dependencies:
   # Push notifications - TODO update to newer androidX version
   firebase_messaging: 2.1.0
 
+  # Slidable list tiles
+  flutter_slidable: "^0.4.9"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
