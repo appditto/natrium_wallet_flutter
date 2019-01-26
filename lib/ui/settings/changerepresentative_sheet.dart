@@ -53,13 +53,11 @@ class KaliumChangeRepresentativeSheet {
     _changeRepHint = KaliumLocalization.of(context).changeRepHint;
 
     RxBus.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {
-      if (_animationOpen)
-        Navigator.of(context).pop();
       if (stateBlock != null) {
         StateContainer.of(context).wallet.representative =
             stateBlock.representative;
         UIUtil.showSnackbar(KaliumLocalization.of(context).changeRepSucces, context);
-        Navigator.of(context).pop();
+        Navigator.of(context).popUntil(ModalRoute.withName('/home'));
       }
     });
 
