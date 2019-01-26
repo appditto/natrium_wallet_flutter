@@ -191,6 +191,14 @@ class KaliumStyles {
     color: KaliumColors.primary,
     height: 1.3,
   );
+  // Text style for seed text
+  static const TextStyleSeedHidden = TextStyle(
+    fontSize: KaliumFontSizes.smallest,
+    fontWeight: FontWeight.w100,
+    fontFamily: 'KaliumIcons',
+    color: KaliumColors.primary,
+    height: 1.3,
+  );
   static const TextStyleSeedGray = TextStyle(
     fontSize: KaliumFontSizes.small,
     fontWeight: FontWeight.w100,

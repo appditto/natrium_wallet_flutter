@@ -14,7 +14,7 @@ import 'package:kalium_wallet_flutter/util/clipboardutil.dart';
 
 class KaliumSeedBackupSheet {
   // Seed copied state information
-  String _placeholderSeed = '•'*64;
+  String _placeholderSeed = '●'*64;
   bool _seedCopied;
   String _seed;
   Timer _seedCopiedTimer;
