@@ -76,7 +76,7 @@ class KaliumSeedBackupSheet {
                                   _seedCopiedTimer.cancel();
                                 }
                                 _seedCopiedTimer = new Timer(
-                                    const Duration(milliseconds: 800), () {
+                                    const Duration(milliseconds: 1200), () {
                                   setState(() {
                                     _seedCopied = false;
                                   });
