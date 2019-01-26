@@ -194,7 +194,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       duration: const Duration(milliseconds: 200),
     );
 
-    _offsetFloat = Tween<Offset>(begin: Offset(1.05, 0), end: Offset(0, 0))
+    _offsetFloat = Tween<Offset>(begin: Offset(1.1, 0), end: Offset(0, 0))
         .animate(_controller);
 
     // Version string
