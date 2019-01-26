@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:kalium_wallet_flutter/model/setting_item.dart';
 
@@ -16,7 +17,7 @@ class AvailableCurrency extends SettingSelectionItem {
     return currency.toString().split('.')[1];
   }
 
-  String getDisplayName() {
+  String getDisplayName(BuildContext context) {
     return getCurrencySymbol() + " " + getDisplayNameNoSymbol();
   }
 

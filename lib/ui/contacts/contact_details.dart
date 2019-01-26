@@ -66,6 +66,7 @@ class ContactDetailsSheet {
                                 }
                                 RxBus.post(contact, tag: RX_CONTACT_REMOVED_TAG);
                                 RxBus.post(contact, tag: RX_CONTACT_MODIFIED_TAG);
+                                UIUtil.showSnackbar(KaliumLocalization.of(context).contactRemoved.replaceAll("%1", contact.name), context);
                                 Navigator.of(context).pop();
                               } else {
                                 // TODO - error for failing to delete contact

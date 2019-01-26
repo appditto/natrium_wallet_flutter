@@ -215,6 +215,13 @@ class AccountService {
     return;
   }
 
+  /* Send Request */
+  static Future<void> sendRequest(BaseRequest request) async {
+    // We don't care about order or server response in these requests
+    log.fine("sending ${json.encode(request.toJson())}");
+    _send(json.encode(request.toJson()));
+  }
+
   /* Enqueue Request */
   static void queueRequest(BaseRequest request, {bool fromTransfer = false}) {
     log.fine("requetest ${json.encode(request.toJson())}, q length: ${_requestQueue.length}");

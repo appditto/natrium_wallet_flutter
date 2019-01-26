@@ -121,18 +121,26 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         const IosNotificationSettings(sound: true, badge: true, alert: true));
     _firebaseMessaging.onIosSettingsRegistered
         .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
+      if (settings.alert || settings.badge || settings.sound) {
+        SharedPrefsUtil.inst.getNotificationsSet().then((beenSet) {
+          if (!beenSet) {
+            SharedPrefsUtil.inst.setNotificationsOn(true);
+          }
+        });
+        _firebaseMessaging.getToken().then((String token) {
+          if (token != null) {
+            RxBus.post(token, tag: RX_FCM_UPDATE_TAG);
+          }
+        });
+      } else {
+        _firebaseMessaging.deleteInstanceID();
+        SharedPrefsUtil.inst.setNotificationsOn(false);
+      }
     });
     _firebaseMessaging.getToken().then((String token) {
-      SharedPrefsUtil.inst.getFcmToken().then((curToken) {
-        if (token != curToken) {
-          SharedPrefsUtil.inst.setFcmToken(token).then((_) {
-            SharedPrefsUtil.inst.getUuid().then((result) {
-              RxBus.post(token, tag: RX_FCM_UPDATE_TAG);
-            });
-          });
-        }
-      });
+      if (token != null) {
+        RxBus.post(token, tag: RX_FCM_UPDATE_TAG);
+      }
     });
   }
 

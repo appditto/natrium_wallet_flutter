@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/model/setting_item.dart';
 
 enum AuthMethod { PIN, BIOMETRICS }
@@ -8,14 +10,14 @@ class AuthenticationMethod extends SettingSelectionItem {
 
   AuthenticationMethod(this.method);
 
-  String getDisplayName() {
+  String getDisplayName(BuildContext context) {
     switch (method) {
       case AuthMethod.BIOMETRICS:
-        return "Biometrics";
+        return KaliumLocalization.of(context).biometricsMethod;
       case AuthMethod.PIN:
-        return "PIN";
+        return KaliumLocalization.of(context).pinMethod;
       default:
-        return "PIN";
+        return KaliumLocalization.of(context).pinMethod;
     }
   }
 

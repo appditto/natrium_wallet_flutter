@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kalium_wallet_flutter/util/encrypt.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
@@ -24,7 +25,6 @@ class SharedPrefsUtil {
   static const String user_representative = 'fkalium_user_rep'; // For when non-opened accounts have set a representative
   static const String firstcontact_added = 'fkalium_first_c_added';
   static const String notification_enabled = 'fkalium_notification_on';
-  static const String fcm_token = 'fkalium_fcm_token';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -128,20 +128,19 @@ class SharedPrefsUtil {
     return await get(user_representative, defaultValue: KaliumWallet.defaultRepresentative);
   }
 
-  Future<void> setFcmToken(String fcmToken) async {
-    return await setEncrypted(fcm_token, fcmToken);
-  }
-
-  Future<String> getFcmToken() async {
-    return await getEncrypted(fcm_token);
-  }
-
   Future<void> setNotificationsOn(bool value) async {
     return await set(notification_enabled, value);
   }
 
   Future<bool> getNotificationsOn() async {
-    return await get(notification_enabled, defaultValue: true);
+    // Notifications off by default on iOS, 
+    bool defaultValue = Platform.isIOS ? false : true;
+    return await get(notification_enabled, defaultValue: defaultValue);
+  }
+
+  /// If notifications have been set by user/app
+  Future<bool> getNotificationsSet() async {
+    return await get(notification_enabled, defaultValue: null) == null ? false : true;
   }
 
   // For logging out
@@ -153,5 +152,6 @@ class SharedPrefsUtil {
     await prefs.remove(user_representative);
     await prefs.remove(cur_currency);
     await prefs.remove(auth_method);
+    await prefs.remove(notification_enabled);
   }
 }
