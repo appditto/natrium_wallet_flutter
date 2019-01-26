@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_simpledialog.dart';
 import 'package:logging/logging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -600,6 +601,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                           KaliumLocalization.of(context).logoutAreYouSure,
                           KaliumLocalization.of(context).logoutReassurance,
                           KaliumLocalization.of(context).yes.toUpperCase(), () {
+                        FirebaseMessaging().deleteInstanceID();
                         Vault.inst.deleteAll().then((_) {
                           SharedPrefsUtil.inst.deleteAll().then((result) {
                             StateContainer.of(context).logOut();
