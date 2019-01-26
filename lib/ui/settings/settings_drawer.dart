@@ -191,7 +191,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     // Setup animation controller
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 220),
     );
 
     _offsetFloat = Tween<Offset>(begin: Offset(1.1, 0), end: Offset(0, 0))
