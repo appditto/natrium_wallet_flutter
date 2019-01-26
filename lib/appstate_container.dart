@@ -201,7 +201,7 @@ class StateContainerState extends State<StateContainer> {
     RxBus.register<PendingResponse>(tag: RX_PENDING_RESP_TAG).listen(handlePendingResponse);
     RxBus.register<ErrorResponse>(tag: RX_ERROR_RESP_TAG).listen(handleErrorResponse);
     RxBus.register<String>(tag: RX_FCM_UPDATE_TAG).listen((fcmToken) {
-      requestSubscribe();
+      requestSubscribe(clearQueue: false);
     });
   }
 
@@ -513,11 +513,13 @@ class StateContainerState extends State<StateContainer> {
     }
   }
 
-  void requestSubscribe() {
+  void requestSubscribe({bool clearQueue = true}) {
     if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
       SharedPrefsUtil.inst.getUuid().then((result) {
         SharedPrefsUtil.inst.getFcmToken().then((token) {
-          AccountService.removeSubscribeHistoryPendingFromQueue();
+          if (clearQueue) {
+            AccountService.removeSubscribeHistoryPendingFromQueue();
+          }
           AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:result, fcmToken: token));
           AccountService.processQueue();
         });
