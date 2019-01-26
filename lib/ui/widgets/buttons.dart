@@ -3,7 +3,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/util/exceptions.dart';
 
-enum KaliumButtonType { PRIMARY, PRIMARY_OUTLINE, SUCCESS_OUTLINE, TEXT_OUTLINE }
+enum KaliumButtonType { PRIMARY, PRIMARY_OUTLINE, SUCCESS, SUCCESS_OUTLINE, TEXT_OUTLINE }
 
 class KaliumButton {
   // Primary button builder
@@ -58,6 +58,30 @@ class KaliumButton {
                 }
                 return;
               },
+            ),
+          ),
+        );
+      case KaliumButtonType.SUCCESS:
+        return Expanded(
+          child: Container(
+            margin:
+                EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
+            child: FlatButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100.0)),
+              color: KaliumColors.success,
+              child: Text(buttonText,
+                  textAlign: TextAlign.center,
+                  style: KaliumStyles.TextStyleButtonPrimaryGreen),
+              padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+              onPressed: () {
+                if (onPressed != null && !disabled) {
+                  onPressed();
+                }
+                return;
+              },
+              highlightColor: KaliumColors.success30,
+              splashColor: KaliumColors.successDark,
             ),
           ),
         );

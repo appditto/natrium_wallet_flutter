@@ -1385,58 +1385,29 @@ class TransactionDetailsSheet {
                           // A row for Copy Address Button
                           Row(
                             children: <Widget>[
-                              // TODO move copy address stuff to a re-usable builder function
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.fromLTRB(
-                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[0],
-                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
-                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[2],
-                                      Dimens.BUTTON_TOP_EXCEPTION_DIMENS[3]),
-                                  // Copy Address Button
-                                  child: FlatButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(100.0)),
-                                    color: _addressCopied
-                                        ? KaliumColors.success
-                                        : KaliumColors.primary,
-                                    child: Text(
-                                        _addressCopied
-                                            ? KaliumLocalization.of(context)
-                                                .addressCopied
-                                            : KaliumLocalization.of(context)
-                                                .copyAddress,
-                                        textAlign: TextAlign.center,
-                                        style: _addressCopied
-                                            ? KaliumStyles
-                                                .TextStyleButtonPrimaryGreen
-                                            : KaliumStyles
-                                                .TextStyleButtonPrimary),
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 14.0, horizontal: 20),
-                                    onPressed: () {
-                                      Clipboard.setData(
-                                          new ClipboardData(text: _address));
-                                      setState(() {
-                                        // Set copied style
-                                        _addressCopied = true;
-                                      });
-                                      if (_addressCopiedTimer != null) {
-                                        _addressCopiedTimer.cancel();
-                                      }
-                                      _addressCopiedTimer = new Timer(
-                                          const Duration(milliseconds: 800),
-                                          () {
-                                        setState(() {
-                                          _addressCopied = false;
-                                        });
-                                      });
-                                    },
-                                    highlightColor: KaliumColors.success30,
-                                    splashColor: KaliumColors.successDark,
-                                  ),
-                                ),
+                              KaliumButton.buildKaliumButton(
+                                // Share Address Button
+                                _addressCopied ? KaliumButtonType.SUCCESS : KaliumButtonType.PRIMARY,
+                                _addressCopied ? KaliumLocalization.of(context).addressCopied : KaliumLocalization.of(context).copyAddress,
+                                Dimens.BUTTON_TOP_EXCEPTION_DIMENS,
+                                onPressed: () {
+                                  Clipboard.setData(
+                                      new ClipboardData(text: _address));
+                                  setState(() {
+                                    // Set copied style
+                                    _addressCopied = true;
+                                  });
+                                  if (_addressCopiedTimer != null) {
+                                    _addressCopiedTimer.cancel();
+                                  }
+                                  _addressCopiedTimer = new Timer(
+                                      const Duration(milliseconds: 800),
+                                      () {
+                                    setState(() {
+                                      _addressCopied = false;
+                                    });
+                                  });
+                                }
                               ),
                             ],
                           ),

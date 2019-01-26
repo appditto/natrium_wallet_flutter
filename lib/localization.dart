@@ -238,14 +238,14 @@ class KaliumLocalization {
         desc: 'intro_new_wallet_seed', name: 'seedBackupInfo');
   }
 
-  String get showSeedButton {
-    return Intl.message("Show Seed",
-      desc: 'show seed button', name: 'showSeedButton');
+  String get copySeed {
+    return Intl.message("Copy Seed",
+      desc: 'copy seed button', name: 'copySeed');
   }
 
-  String get hideSeedButton {
-    return Intl.message("Hide Seed",
-      desc: 'hide seed button', name: 'hideSeedButton');
+  String get seedCopiedShort {
+    return Intl.message("Seed Copied",
+      desc: 'seed copied button', name: 'seedCopiedShort');
   }
 
   String get importSeed {

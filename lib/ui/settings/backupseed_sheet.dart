@@ -66,21 +66,15 @@ class KaliumSeedBackupSheet {
                                 )),
                             new GestureDetector(
                               onTap: () {
-                                Clipboard.setData(
-                                    new ClipboardData(text: _seed));
-                                ClipboardUtil.setClipboardClearEvent();
-                                setState(() {
-                                  _seedCopied = true;
-                                });
-                                if (_seedCopiedTimer != null) {
-                                  _seedCopiedTimer.cancel();
-                                }
-                                _seedCopiedTimer = new Timer(
-                                    const Duration(milliseconds: 1200), () {
+                                if (_seedHidden) {
                                   setState(() {
-                                    _seedCopied = false;
+                                    _seedHidden = false;
                                   });
-                                });
+                                } else {
+                                  setState(() {
+                                    _seedHidden = true;
+                                  }); 
+                                }
                               },
                               child: Column(
                                 children: <Widget>[
@@ -118,19 +112,25 @@ class KaliumSeedBackupSheet {
                     Row(
                       children: <Widget>[
                         KaliumButton.buildKaliumButton(
-                          KaliumButtonType.PRIMARY,
-                          _seedHidden ? KaliumLocalization.of(context).showSeedButton : KaliumLocalization.of(context).hideSeedButton,
+                          _seedCopied ? KaliumButtonType.SUCCESS : KaliumButtonType.PRIMARY,
+                          _seedCopied ? KaliumLocalization.of(context).seedCopiedShort : KaliumLocalization.of(context).copySeed,
                           Dimens.BUTTON_TOP_DIMENS,
                           onPressed: () {
-                            if (_seedHidden) {
-                              setState(() {
-                                _seedHidden = false;
-                              });
-                            } else {
-                              setState(() {
-                                _seedHidden = true;
-                              }); 
+                            Clipboard.setData(
+                                new ClipboardData(text: _seed));
+                            ClipboardUtil.setClipboardClearEvent();
+                            setState(() {
+                              _seedCopied = true;
+                            });
+                            if (_seedCopiedTimer != null) {
+                              _seedCopiedTimer.cancel();
                             }
+                            _seedCopiedTimer = new Timer(
+                                const Duration(milliseconds: 1200), () {
+                              setState(() {
+                                _seedCopied = false;
+                              });
+                            });
                           },
                         ),
                       ],
