@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:path/path.dart' as path;
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_simpledialog.dart';
 import 'package:logging/logging.dart';
@@ -77,8 +76,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   Future<void> _exportContacts() async {
     List<Contact> contacts = await DBHelper().getContacts();
     if (contacts.length == 0) {
-      UIUtil.showSnackbar(
-          KaliumLocalization.of(context).noContactsExport, context);
+      UIUtil.showSnackbar(KaliumLocalization.of(context).noContactsExport, context);
       return;
     }
     List<Map<String, dynamic>> jsonList = List();
@@ -99,8 +97,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         type: FileType.CUSTOM, fileExtension: "txt");
     File f = File(filePath);
     if (!await f.exists()) {
-      UIUtil.showSnackbar(
-          KaliumLocalization.of(context).contactsImportErr, context);
+      UIUtil.showSnackbar(KaliumLocalization.of(context).contactsImportErr, context);
       return;
     }
     try {
@@ -129,19 +126,13 @@ class _SettingsSheetState extends State<SettingsSheet>
         _updateContacts();
         RxBus.post(Contact(name: "", address: ""),
             tag: RX_CONTACT_MODIFIED_TAG);
-        UIUtil.showSnackbar(
-            KaliumLocalization.of(context)
-                .contactsImportSuccess
-                .replaceAll("%1", numSaved.toString()),
-            context);
+        UIUtil.showSnackbar(KaliumLocalization.of(context).contactsImportSuccess.replaceAll("%1", numSaved.toString()), context);
       } else {
-        UIUtil.showSnackbar(
-            KaliumLocalization.of(context).noContactsImport, context);
+        UIUtil.showSnackbar(KaliumLocalization.of(context).noContactsImport, context);
       }
     } catch (e) {
       log.severe(e.toString());
-      UIUtil.showSnackbar(
-          KaliumLocalization.of(context).contactsImportErr, context);
+      UIUtil.showSnackbar(KaliumLocalization.of(context).contactsImportErr, context);
       return;
     }
   }
@@ -182,7 +173,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       duration: const Duration(milliseconds: 200),
     );
 
-    _offsetFloat = Tween<Offset>(begin: Offset(1.05, 0), end: Offset(0, 0))
+    _offsetFloat = Tween<Offset>(begin: Offset.zero, end: Offset(-1, 0))
         .animate(_controller);
 
     _fade = Tween<double>(begin: 0, end: 1).animate(_controller2);
@@ -190,7 +181,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     // Version string
     PackageInfo.fromPlatform().then((packageInfo) {
       setState(() {
-        versionString = "Kalium v${packageInfo.version}";
+        versionString = "Kalium v${packageInfo.version}";        
       });
     });
   }
@@ -201,8 +192,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       setState(() {
         _contacts.add(contact);
         //Sort by name
-        _contacts.sort(
-            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        _contacts.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       });
       // Full update which includes downloading new monKey
       _updateContacts();
@@ -214,19 +204,13 @@ class _SettingsSheetState extends State<SettingsSheet>
       });
     });
     // Ready to go to transfer confirm
-    RxBus.register<Map<String, AccountBalanceItem>>(
-            tag: RX_TRANSFER_CONFIRM_TAG)
-        .listen((Map<String, AccountBalanceItem> privKeyMap) {
-      KaliumTransferConfirmSheet(privKeyMap, transferError)
-          .mainBottomSheet(context);
+    RxBus.register<Map<String, AccountBalanceItem>>(tag: RX_TRANSFER_CONFIRM_TAG).listen((Map<String, AccountBalanceItem> privKeyMap) {
+      KaliumTransferConfirmSheet(privKeyMap, transferError).mainBottomSheet(context);
     });
     // Ready to go to transfer complete
-    RxBus.register<BigInt>(tag: RX_TRANSFER_COMPLETE_TAG)
-        .listen((BigInt amount) {
+    RxBus.register<BigInt>(tag: RX_TRANSFER_COMPLETE_TAG).listen((BigInt amount) {
       StateContainer.of(context).requestUpdate();
-      KaliumTransferCompleteSheet(
-              NumberUtil.getRawAsUsableString(amount.toString()))
-          .mainBottomSheet(context);
+      KaliumTransferCompleteSheet(NumberUtil.getRawAsUsableString(amount.toString())).mainBottomSheet(context);
     });
     // Unlock callback
     RxBus.register<String>(tag: RX_UNLOCK_CALLBACK_TAG).listen((result) {
@@ -277,23 +261,18 @@ class _SettingsSheetState extends State<SettingsSheet>
       }
       // Re-sort list
       setState(() {
-        _contacts.sort(
-            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        _contacts.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       });
       // Get any monKeys that are missing
       for (Contact c in _contacts) {
         // Download monKeys if not existing
-        if (c.monkeyWidget == null) {
+        if (c.monkeyWidget == null ) {
           if (c.monkeyPath != null) {
             setState(() {
-              c.monkeyWidget = Image.file(
-                  File("$documentsDirectory/${c.monkeyPath}"),
-                  width: smallScreen(context) ? 55 : 70,
-                  height: smallScreen(context) ? 55 : 70);
+              c.monkeyWidget = Image.file(File("$documentsDirectory/${c.monkeyPath}"), width: smallScreen(context)?55:70, height: smallScreen(context)?55:70);
             });
           } else {
-            UIUtil.downloadOrRetrieveMonkey(
-                    context, c.address, MonkeySize.SMALL)
+            UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.SMALL)
                 .then((result) {
               FileUtil.pngHasValidSignature(result).then((valid) {
                 if (valid) {
@@ -313,9 +292,7 @@ class _SettingsSheetState extends State<SettingsSheet>
             FileUtil.pngHasValidSignature(result).then((valid) {
               if (valid) {
                 setState(() {
-                  c.monkeyWidgetLarge = Image.file(result,
-                      width: smallScreen(context) ? 130 : 200,
-                      height: smallScreen(context) ? 130 : 200);
+                  c.monkeyWidgetLarge = Image.file(result, width: smallScreen(context)?130:200, height: smallScreen(context)?130:200);
                 });
               }
             });
@@ -449,407 +426,389 @@ class _SettingsSheetState extends State<SettingsSheet>
     // presses and replace the main settings widget with contacts based on a bool
     return new WillPopScope(
       onWillPop: _onBackButtonPressed,
-      child: ClipRect(
-              child: Stack(
-          children: <Widget>[
-            Container(
-              color: KaliumColors.backgroundDark,
-              constraints: BoxConstraints.expand(),
-            ),
-            buildMainSettings(context),
-            SlideTransition(
-                position: _offsetFloat, child: buildContacts(context)),     
-          ],
-        ),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            color: KaliumColors.backgroundDark,
+            constraints: BoxConstraints.expand(),
+          ),
+          FadeTransition(
+            opacity: _fade,
+            child: buildContacts(context),
+          ),
+          FadeTransition(
+            opacity: _fade2,
+
+                        child: SlideTransition(
+                position: _offsetFloat,
+                child: buildMainSettings(context)),
+          ),
+        ],
       ),
     );
   }
 
   Widget buildMainSettings(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-    color: KaliumColors.backgroundDark,
-        ),
-        child: Column(
-    children: <Widget>[
-      Container(
-        margin: EdgeInsets.only(left: 30.0, top: 60.0, bottom: 10.0),
-        child: Row(
-          children: <Widget>[
-            Text(
-              KaliumLocalization.of(context).settingsHeader,
-              style: KaliumStyles.textStyleSettingsHeader(),
-            ),
-          ],
-        ),
+      decoration: BoxDecoration(
+        color: KaliumColors.backgroundDark,
       ),
-      Expanded(
-          child: Stack(
+      child: Column(
         children: <Widget>[
-          ListView(
-            padding: EdgeInsets.only(top: 15.0),
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(left: 30.0, bottom: 10),
-                child: Text(KaliumLocalization.of(context).preferences,
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w100,
-                        color: KaliumColors.text60)),
-              ),
-              Divider(height: 2),
-              KaliumSettings.buildSettingsListItemDoubleLine(
-                  KaliumLocalization.of(context).changeCurrency,
-                  StateContainer.of(context).curCurrency,
-                  KaliumIcons.currency,
-                  _currencyDialog),
-              /*
-              Divider(height: 2),
-              buildSettingsListItemDoubleLine(
-                  KaliumLocalization.of(context).language,
-                  KaliumLocalization.of(context).systemDefault,
-                  KaliumIcons.language),*/
-              _hasBiometrics ? Divider(height: 2) : null,
-              _hasBiometrics
-                  ? KaliumSettings.buildSettingsListItemDoubleLine(
-                      KaliumLocalization.of(context).authMethod,
-                      _curAuthMethod,
-                      KaliumIcons.fingerprint,
-                      _authMethodDialog)
-                  : null,
-/*
-              Divider(height: 2),
-              buildSettingsListItemDoubleLine(
-                  'Notifications', 'On', KaliumIcons.notifications),
-*/
-              Divider(height: 2),
-              Container(
-                margin:
-                    EdgeInsets.only(left: 30.0, top: 20.0, bottom: 10.0),
-                child: Text(KaliumLocalization.of(context).manage,
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w100,
-                        color: KaliumColors.text60)),
-              ),
-              Divider(height: 2),
-              buildSettingsListItemSingleLine(
-                  KaliumLocalization.of(context).contactsHeader,
-                  KaliumIcons.contacts, onPressed: () {
-                setState(() {
-                  _contactsOpen = true;
-                });
-                _controller.forward();
-                _controller2.forward();
-              }),
-              Divider(height: 2),
-              buildSettingsListItemSingleLine(
-                  KaliumLocalization.of(context).backupSeed,
-                  KaliumIcons.backupseed, onPressed: () {
-                // Authenticate
-                SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
-                  BiometricUtil.hasBiometrics().then((hasBiometrics) {
-                    if (authMethod.method == AuthMethod.BIOMETRICS &&
-                        hasBiometrics) {
-                      BiometricUtil.authenticateWithBiometrics(
-                              KaliumLocalization.of(context)
-                                  .fingerprintSeedBackup)
-                          .then((authenticated) {
-                        if (authenticated) {
-                          HapticUtil.fingerprintSucess();
-                          new KaliumSeedBackupSheet()
-                              .mainBottomSheet(context);
-                        }
-                      });
-                    } else {
-                      // PIN Authentication
-                      Vault.inst.getPin().then((expectedPin) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) {
-                          return new PinScreen(
-                            PinOverlayType.ENTER_PIN,
-                            (pin) {
-                              Navigator.of(context).pop();
-                              new KaliumSeedBackupSheet()
-                                  .mainBottomSheet(context);
-                            },
-                            expectedPin: expectedPin,
-                            description: KaliumLocalization.of(context)
-                                .pinSeedBackup,
-                          );
-                        }));
-                      });
-                    }
-                  });
-                });
-              }),
-              Divider(height: 2),
-              buildSettingsListItemSingleLine(
-                  KaliumLocalization.of(context).settingsTransfer,
-                  KaliumIcons.transferfunds, onPressed: () {
-                KaliumTransferOverviewSheet().mainBottomSheet(context);
-              }),
-              Divider(height: 2),
-              buildSettingsListItemSingleLine(
-                  KaliumLocalization.of(context).changeRepAuthenticate,
-                  KaliumIcons.changerepresentative, onPressed: () {
-                new KaliumChangeRepresentativeSheet()
-                    .mainBottomSheet(context);
-              }),
-              Divider(height: 2),
-              buildSettingsListItemSingleLine(
-                  KaliumLocalization.of(context).shareKalium,
-                  KaliumIcons.share, onPressed: () {
-                Share.share(KaliumLocalization.of(context).shareKaliumText +
-                    " https://kalium.banano.cc");
-              }),
-              Divider(height: 2),
-              buildSettingsListItemSingleLine(
-                  KaliumLocalization.of(context).logout, KaliumIcons.logout,
-                  onPressed: () {
-                KaliumDialogs.showConfirmDialog(
-                    context,
-                    KaliumLocalization.of(context).warning.toUpperCase(),
-                    KaliumLocalization.of(context).logoutDetail,
-                    KaliumLocalization.of(context)
-                        .logoutAction
-                        .toUpperCase(), () {
-                  // Show another confirm dialog
-                  KaliumDialogs.showConfirmDialog(
-                      context,
-                      KaliumLocalization.of(context).logoutAreYouSure,
-                      KaliumLocalization.of(context).logoutReassurance,
-                      KaliumLocalization.of(context).yes.toUpperCase(), () {
-                    FirebaseMessaging().deleteInstanceID();
-                    Vault.inst.deleteAll().then((_) {
-                      SharedPrefsUtil.inst.deleteAll().then((result) {
-                        StateContainer.of(context).logOut();
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            '/', (Route<dynamic> route) => false);
-                      });
-                    });
-                  });
-                });
-              }),
-              Divider(height: 2),
-              Padding(
-                padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(versionString,
-                        style: KaliumStyles.TextStyleVersion),
-                  ],
-                ),
-              ),
-            ].where(notNull).toList(),
-          ),
-          //List Top Gradient End
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              height: 20.0,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    KaliumColors.backgroundDark,
-                    KaliumColors.backgroundDark00
-                  ],
-                  begin: Alignment(0.5, -1.0),
-                  end: Alignment(0.5, 1.0),
-                ),
-              ),
-            ),
-          ), //List Top Gradient End
-        ],
-      )),
-    ],
-        ),
-      );
-  }
-
-  Widget buildContacts(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-          color: KaliumColors.backgroundDark,
-          boxShadow: [
-            BoxShadow(color: KaliumColors.black20, offset: Offset(-5, 0), blurRadius: 15)
-          ],
-        ),
-        child: Column(
-    children: <Widget>[
-      // Back button and Contacts Text
-      Container(
-        margin: EdgeInsets.only(top: 60.0, bottom: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Row(
+          Container(
+            margin: EdgeInsets.only(left: 30.0, top: 60.0, bottom: 10.0),
+            child: Row(
               children: <Widget>[
-                //Back button
-                Container(
-                  height: 40,
-                  width: 40,
-                  margin: EdgeInsets.only(right: 10, left: 10),
-                  child: FlatButton(
-                      onPressed: () {
-                        setState(() {
-                          _contactsOpen = false;
-                        });
-                        _controller.reverse();
-                        _controller2.reverse();
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0)),
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(KaliumIcons.back,
-                          color: KaliumColors.text, size: 24)),
-                ),
-                //Contacts Header Text
                 Text(
-                  "Contacts",
+                  KaliumLocalization.of(context).settingsHeader,
                   style: KaliumStyles.textStyleSettingsHeader(),
                 ),
               ],
             ),
-            Row(
-              children: <Widget>[
-                //Import button
-                Container(
-                  height: 40,
-                  width: 40,
-                  margin: EdgeInsets.only(right: 5),
-                  child: FlatButton(
+          ),
+          Expanded(
+              child: Stack(
+            children: <Widget>[
+              ListView(
+                padding: EdgeInsets.only(top: 15.0),
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 30.0, bottom: 10),
+                    child: Text(KaliumLocalization.of(context).preferences,
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w100,
+                            color: KaliumColors.text60)),
+                  ),
+                  Divider(height: 2),
+                  KaliumSettings.buildSettingsListItemDoubleLine(
+                      KaliumLocalization.of(context).changeCurrency,
+                      StateContainer.of(context).curCurrency,
+                      KaliumIcons.currency,
+                      _currencyDialog),
+                      /*
+                  Divider(height: 2),
+                  buildSettingsListItemDoubleLine(
+                      KaliumLocalization.of(context).language,
+                      KaliumLocalization.of(context).systemDefault,
+                      KaliumIcons.language),*/
+                  _hasBiometrics ? Divider(height: 2) : null,
+                  _hasBiometrics
+                      ? KaliumSettings.buildSettingsListItemDoubleLine(
+                          KaliumLocalization.of(context).authMethod,
+                          _curAuthMethod,
+                          KaliumIcons.fingerprint,
+                          _authMethodDialog)
+                      : null,
+/*
+                  Divider(height: 2),
+                  buildSettingsListItemDoubleLine(
+                      'Notifications', 'On', KaliumIcons.notifications),
+*/
+                  Divider(height: 2),
+                  Container(
+                    margin:
+                        EdgeInsets.only(left: 30.0, top: 20.0, bottom: 10.0),
+                    child: Text(KaliumLocalization.of(context).manage,
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w100,
+                            color: KaliumColors.text60)),
+                  ),
+                  Divider(height: 2),
+                  buildSettingsListItemSingleLine(
+                      KaliumLocalization.of(context).contactsHeader,
+                      KaliumIcons.contacts, onPressed: () {
+                    setState(() {
+                      _contactsOpen = true;
+                    });
+                    _controller.forward();
+                    _controller2.forward();
+                  }),
+                  Divider(height: 2),
+                  buildSettingsListItemSingleLine(
+                      KaliumLocalization.of(context).backupSeed,
+                      KaliumIcons.backupseed, onPressed: () {
+                    // Authenticate
+                    SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
+                      BiometricUtil.hasBiometrics().then((hasBiometrics) {
+                        if (authMethod.method == AuthMethod.BIOMETRICS &&
+                            hasBiometrics) {
+                          BiometricUtil.authenticateWithBiometrics(
+                                  KaliumLocalization.of(context)
+                                      .fingerprintSeedBackup)
+                              .then((authenticated) {
+                            if (authenticated) {
+                              HapticUtil.fingerprintSucess();
+                              new KaliumSeedBackupSheet()
+                                  .mainBottomSheet(context);
+                            }
+                          });
+                        } else {
+                          // PIN Authentication
+                          Vault.inst.getPin().then((expectedPin) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              return new PinScreen(
+                                PinOverlayType.ENTER_PIN,
+                                (pin) {
+                                  Navigator.of(context).pop();
+                                  new KaliumSeedBackupSheet()
+                                      .mainBottomSheet(context);
+                                },
+                                expectedPin: expectedPin,
+                                description: KaliumLocalization.of(context)
+                                    .pinSeedBackup,
+                              );
+                            }));
+                          });
+                        }
+                      });
+                    });
+                  }),
+                  Divider(height: 2),
+                  buildSettingsListItemSingleLine(
+                      KaliumLocalization.of(context).settingsTransfer, KaliumIcons.transferfunds,
                       onPressed: () {
-                        _importContacts();
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0)),
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(KaliumIcons.import_icon,
-                          color: KaliumColors.text, size: 24)),
+                    KaliumTransferOverviewSheet().mainBottomSheet(context);
+                  }),
+                  Divider(height: 2),
+                  buildSettingsListItemSingleLine(
+                      KaliumLocalization.of(context).changeRepAuthenticate,
+                      KaliumIcons.changerepresentative, onPressed: () {
+                    new KaliumChangeRepresentativeSheet()
+                        .mainBottomSheet(context);
+                  }),
+                  Divider(height: 2),
+                  buildSettingsListItemSingleLine(
+                      KaliumLocalization.of(context).shareKalium,
+                      KaliumIcons.share, onPressed: () {
+                    Share.share(KaliumLocalization.of(context).shareKaliumText +
+                        " https://kalium.banano.cc");
+                  }),
+                  Divider(height: 2),
+                  buildSettingsListItemSingleLine(
+                      KaliumLocalization.of(context).logout, KaliumIcons.logout,
+                      onPressed: () {
+                    KaliumDialogs.showConfirmDialog(
+                        context,
+                        KaliumLocalization.of(context).warning.toUpperCase(),
+                        KaliumLocalization.of(context).logoutDetail,
+                        KaliumLocalization.of(context).logoutAction.toUpperCase(), () {
+                      // Show another confirm dialog
+                      KaliumDialogs.showConfirmDialog(
+                          context,
+                          KaliumLocalization.of(context).logoutAreYouSure,
+                          KaliumLocalization.of(context).logoutReassurance,
+                          KaliumLocalization.of(context).yes.toUpperCase(), () {
+                        FirebaseMessaging().deleteInstanceID();
+                        Vault.inst.deleteAll().then((_) {
+                          SharedPrefsUtil.inst.deleteAll().then((result) {
+                            StateContainer.of(context).logOut();
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/', (Route<dynamic> route) => false);
+                          });
+                        });
+                      });
+                    });
+                  }),
+                  Divider(height: 2),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(versionString,
+                            style: KaliumStyles.TextStyleVersion),
+                      ],
+                    ),
+                  ),
+                ].where(notNull).toList(),
+              ),
+              //List Top Gradient End
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  height: 20.0,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        KaliumColors.backgroundDark,
+                        KaliumColors.backgroundDark00
+                      ],
+                      begin: Alignment(0.5, -1.0),
+                      end: Alignment(0.5, 1.0),
+                    ),
+                  ),
                 ),
-                //Export button
-                Container(
-                  height: 40,
-                  width: 40,
-                  margin: EdgeInsets.only(right: 20),
-                  child: FlatButton(
-                      onPressed: () {
-                        _exportContacts();
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0)),
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(KaliumIcons.export_icon,
-                          color: KaliumColors.text, size: 24)),
+              ), //List Top Gradient End
+            ],
+          )),
+        ],
+      ),
+    );
+  }
+
+  Widget buildContacts(BuildContext context) {
+    return Container(
+      color: KaliumColors.backgroundDark,
+      child: Column(
+        children: <Widget>[
+          // Back button and Contacts Text
+          Container(
+            margin: EdgeInsets.only(top: 60.0, bottom: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    //Back button
+                    Container(
+                      height: 40,
+                      width: 40,
+                      margin: EdgeInsets.only(right: 10, left: 10),
+                      child: FlatButton(
+                          onPressed: () {
+                            setState(() {
+                              _contactsOpen = false;
+                            });
+                            _controller.reverse();
+                            _controller2.reverse();
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0)),
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(KaliumIcons.back,
+                              color: KaliumColors.text, size: 24)),
+                    ),
+                    //Contacts Header Text
+                    Text(
+                      "Contacts",
+                      style: KaliumStyles.textStyleSettingsHeader(),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    //Import button
+                    Container(
+                      height: 40,
+                      width: 40,
+                      margin: EdgeInsets.only(right: 5),
+                      child: FlatButton(
+                          onPressed: () {
+                            _importContacts();
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0)),
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(KaliumIcons.import_icon,
+                              color: KaliumColors.text, size: 24)),
+                    ),
+                    //Export button
+                    Container(
+                      height: 40,
+                      width: 40,
+                      margin: EdgeInsets.only(right: 20),
+                      child: FlatButton(
+                          onPressed: () {
+                            _exportContacts();
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0)),
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(KaliumIcons.export_icon,
+                              color: KaliumColors.text, size: 24)),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-      // Contacts list + top and bottom gradients
-      Expanded(
-        child: Stack(
-          children: <Widget>[
-            // Contacts list
-            ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.only(top: 15.0),
-              itemCount: _contacts.length,
-              itemBuilder: (context, index) {
-                // Some disaster recovery if monKey is in DB, but doesnt exist in filesystem
-                if (_contacts[index].monkeyPath != null) {
-                  File("$documentsDirectory/${_contacts[index].monkeyPath}")
-                      .exists()
-                      .then((exists) {
-                    if (!exists) {
-                      DBHelper()
-                          .setMonkeyForContact(_contacts[index], null);
+          ),
+          // Contacts list + top and bottom gradients
+          Expanded(
+            child: Stack(
+              children: <Widget>[
+                // Contacts list
+                ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(top: 15.0),
+                  itemCount: _contacts.length,
+                  itemBuilder: (context, index) {
+                    // Some disaster recovery if monKey is in DB, but doesnt exist in filesystem
+                    if (_contacts[index].monkeyPath != null) {
+                      File("$documentsDirectory/${_contacts[index].monkeyPath}").exists().then((exists) {
+                        if (!exists) {
+                          DBHelper().setMonkeyForContact(_contacts[index], null);
+                        }
+                      });
                     }
-                  });
-                }
-                // Build contact
-                return Slidable(
-                  child: buildSingleContact(context, _contacts[index]),
-                  delegate: SlidableDrawerDelegate(),
-                  actionExtentRatio: 0.25,
-                  actions: <Widget>[
-                    new IconSlideAction(
-                      caption: 'Delete',
-                      color: KaliumColors.primary,
-                      icon: KaliumIcons.trashcan,
-                      onTap: () => null,
-
+                    // Build contact
+                    return buildSingleContact(context, _contacts[index]);
+                  },
+                ),
+                //List Top Gradient End
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height: 20.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          KaliumColors.backgroundDark,
+                          KaliumColors.backgroundDark00
+                        ],
+                        begin: Alignment(0.5, -1.0),
+                        end: Alignment(0.5, 1.0),
+                      ),
                     ),
-                  ],
-                );
-              },
-            ),
-            //List Top Gradient End
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                height: 20.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      KaliumColors.backgroundDark,
-                      KaliumColors.backgroundDark00
-                    ],
-                    begin: Alignment(0.5, -1.0),
-                    end: Alignment(0.5, 1.0),
                   ),
                 ),
-              ),
-            ),
-            //List Bottom Gradient End
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 15.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      KaliumColors.backgroundDark00,
-                      KaliumColors.backgroundDark,
-                    ],
-                    begin: Alignment(0.5, -1.0),
-                    end: Alignment(0.5, 1.0),
+                //List Bottom Gradient End
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 15.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          KaliumColors.backgroundDark00,
+                          KaliumColors.backgroundDark,
+                        ],
+                        begin: Alignment(0.5, -1.0),
+                        end: Alignment(0.5, 1.0),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Row(
+              children: <Widget>[
+                KaliumButton.buildKaliumButton(
+                    KaliumButtonType.TEXT_OUTLINE,
+                    KaliumLocalization.of(context).addContact,
+                    Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                  AddContactSheet().mainBottomSheet(context);
+                }),
+              ],
+            ),
+          ),
+        ],
       ),
-      Container(
-        margin: EdgeInsets.only(top: 10),
-        child: Row(
-          children: <Widget>[
-            KaliumButton.buildKaliumButton(
-                KaliumButtonType.TEXT_OUTLINE,
-                KaliumLocalization.of(context).addContact,
-                Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-              AddContactSheet().mainBottomSheet(context);
-            }),
-          ],
-        ),
-      ),
-    ],
-        ),
-      );
+    );
   }
 
   Widget buildSingleContact(BuildContext context, Contact contact) {
     return FlatButton(
       onPressed: () {
-        ContactDetailsSheet(contact, documentsDirectory)
-            .mainBottomSheet(context);
+        ContactDetailsSheet(contact, documentsDirectory).mainBottomSheet(context);
       },
       padding: EdgeInsets.all(0.0),
       child: Column(children: <Widget>[
@@ -862,15 +821,8 @@ class _SettingsSheetState extends State<SettingsSheet>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               //Container for monKey
-              contact.monkeyWidget != null && _contactsOpen
-                  ? Container(
-                      width: smallScreen(context) ? 55 : 70,
-                      height: smallScreen(context) ? 55 : 70,
-                      child: contact.monkeyWidget,
-                    )
-                  : SizedBox(
-                      width: smallScreen(context) ? 55 : 70,
-                      height: smallScreen(context) ? 55 : 70),
+              contact.monkeyWidget != null && _contactsOpen ?
+                Container(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70, child: contact.monkeyWidget,) : SizedBox(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70),
               //Contact info
               Container(
                 margin: EdgeInsets.only(left: 5),
