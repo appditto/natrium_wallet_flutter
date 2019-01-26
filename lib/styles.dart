@@ -190,14 +190,7 @@ class KaliumStyles {
     fontFamily: 'OverpassMono',
     color: KaliumColors.primary,
     height: 1.3,
-  );
-  // Text style for seed text
-  static const TextStyleSeedHidden = TextStyle(
-    fontSize: KaliumFontSizes.smallest,
-    fontWeight: FontWeight.w100,
-    fontFamily: 'KaliumIcons',
-    color: KaliumColors.primary,
-    height: 1.3,
+    letterSpacing: 1,
   );
   static const TextStyleSeedGray = TextStyle(
     fontSize: KaliumFontSizes.small,
@@ -205,6 +198,7 @@ class KaliumStyles {
     fontFamily: 'OverpassMono',
     color: KaliumColors.text60,
     height: 1.3,
+    letterSpacing: 1,
   );
   static const TextStyleSeedGreen = TextStyle(
     fontSize: KaliumFontSizes.small,
@@ -212,6 +206,7 @@ class KaliumStyles {
     fontFamily: 'OverpassMono',
     color: KaliumColors.green,
     height: 1.3,
+    letterSpacing: 1,
   );
   // Text style for general headers like sheet headers
   static TextStyle textStyleHeader(BuildContext context) {
