@@ -146,7 +146,8 @@ class StateContainerState extends State<StateContainer> {
     RxBus.register<SubscribeResponse>(tag: RX_SUBSCRIBE_TAG).listen(handleSubscribeResponse);
     RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_TAG).listen((historyResponse) {
       // Special handling if from transfer
-      if (AccountService.peek().fromTransfer) {
+      RequestItem topItem = AccountService.peek();
+      if (topItem != null && topItem.fromTransfer) {
         AccountHistoryRequest origRequest = AccountService.pop().request;
         historyResponse.account = origRequest.account;
         RxBus.post(historyResponse, tag: RX_TRANSFER_ACCOUNT_HISTORY_TAG);
