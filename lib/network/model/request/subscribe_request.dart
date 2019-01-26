@@ -21,7 +21,10 @@ class SubscribeRequest extends BaseRequest {
   @JsonKey(name:'fcm_token_v2', includeIfNull: false)
   String fcmToken;
 
-  SubscribeRequest({String account, String currency, String uuid, String fcmToken}) : super() {
+  @JsonKey(name:'notification_enabled')
+  bool notificationEnabled;
+
+  SubscribeRequest({String account, String currency, String uuid, String fcmToken, bool notificationEnabled}) : super() {
     this.action = Actions.SUBSCRIBE;
     this.currency = currency ?? null;
     if (uuid != null) {
@@ -31,6 +34,7 @@ class SubscribeRequest extends BaseRequest {
       this.account = account ?? null;
     }
     this.fcmToken = fcmToken ?? null;
+    this.notificationEnabled = notificationEnabled;
   }
 
   factory SubscribeRequest.fromJson(Map<String, dynamic> json) => _$SubscribeRequestFromJson(json);

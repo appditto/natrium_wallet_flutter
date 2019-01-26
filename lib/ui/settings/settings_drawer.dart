@@ -429,11 +429,14 @@ class _SettingsSheetState extends State<SettingsSheet>
       case NotificationOptions.OFF:
         SharedPrefsUtil.inst
             .setNotificationsOn(false)
-            .then((result) {
+            .then((result) 
+        {
           setState(() {
             _curNotificiationSetting = NotificationSetting(NotificationOptions.OFF);
           });
-          FirebaseMessaging().deleteInstanceID();
+          FirebaseMessaging().getToken().then((fcmToken) {
+            RxBus.post(fcmToken, tag: RX_FCM_UPDATE_TAG);
+          });
         });
         break;
     }
@@ -681,12 +684,18 @@ class _SettingsSheetState extends State<SettingsSheet>
                           KaliumLocalization.of(context).logoutAreYouSure,
                           KaliumLocalization.of(context).logoutReassurance,
                           KaliumLocalization.of(context).yes.toUpperCase(), () {
-                        FirebaseMessaging().deleteInstanceID();
-                        Vault.inst.deleteAll().then((_) {
-                          SharedPrefsUtil.inst.deleteAll().then((result) {
-                            StateContainer.of(context).logOut();
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/', (Route<dynamic> route) => false);
+                        // Unsubscribe from notifications
+                        SharedPrefsUtil.inst.setNotificationsOn(false).then((_) {
+                          FirebaseMessaging().getToken().then((fcmToken) {
+                            RxBus.post(fcmToken, tag: RX_FCM_UPDATE_TAG);
+                            // Delete all data
+                            Vault.inst.deleteAll().then((_) {
+                              SharedPrefsUtil.inst.deleteAll().then((result) {
+                                StateContainer.of(context).logOut();
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    '/', (Route<dynamic> route) => false);
+                              });
+                            });
                           });
                         });
                       });

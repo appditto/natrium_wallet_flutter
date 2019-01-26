@@ -11,7 +11,8 @@ SubscribeRequest _$SubscribeRequestFromJson(Map<String, dynamic> json) {
       account: json['account'] as String,
       currency: json['currency'] as String,
       uuid: json['uuid'] as String,
-      fcmToken: json['fcm_token_v2'] as String)
+      fcmToken: json['fcm_token_v2'] as String,
+      notificationEnabled: json['notification_enabled'] as bool)
     ..action = json['action'] as String;
 }
 
@@ -30,5 +31,6 @@ Map<String, dynamic> _$SubscribeRequestToJson(SubscribeRequest instance) {
   writeNotNull('currency', instance.currency);
   writeNotNull('uuid', instance.uuid);
   writeNotNull('fcm_token_v2', instance.fcmToken);
+  val['notification_enabled'] = instance.notificationEnabled;
   return val;
 }

@@ -204,7 +204,9 @@ class StateContainerState extends State<StateContainer> {
     RxBus.register<PendingResponse>(tag: RX_PENDING_RESP_TAG).listen(handlePendingResponse);
     RxBus.register<ErrorResponse>(tag: RX_ERROR_RESP_TAG).listen(handleErrorResponse);
     RxBus.register<String>(tag: RX_FCM_UPDATE_TAG).listen((fcmToken) {
-      AccountService.sendRequest(FcmUpdateRequest(account: wallet.address, fcmToken: fcmToken));
+      SharedPrefsUtil.inst.getNotificationsOn().then((enabled) {
+        AccountService.sendRequest(FcmUpdateRequest(account: wallet.address, fcmToken: fcmToken, enabled: enabled));
+      });
     });
   }
 
@@ -504,11 +506,12 @@ class StateContainerState extends State<StateContainer> {
     if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
       String uuid = await SharedPrefsUtil.inst.getUuid();
       String fcmToken = await FirebaseMessaging().getToken();
+      bool notificationsEnabled = await SharedPrefsUtil.inst.getNotificationsOn();
       AccountService.clearQueue();
       pendingBlockMap.clear();
       pendingResponseBlockMap.clear();
       previousPendingMap.clear();
-      AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:uuid, fcmToken: fcmToken));
+      AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:uuid, fcmToken: fcmToken, notificationEnabled: notificationsEnabled));
       AccountService.queueRequest(AccountHistoryRequest(account: wallet.address, count: 20));
       AccountService.processQueue();
     }
@@ -518,8 +521,9 @@ class StateContainerState extends State<StateContainer> {
     if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
       String uuid = await SharedPrefsUtil.inst.getUuid();
       String fcmToken = await FirebaseMessaging().getToken();
+      bool notificationsEnabled = await SharedPrefsUtil.inst.getNotificationsOn();
       AccountService.removeSubscribeHistoryPendingFromQueue();
-      AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:uuid, fcmToken: fcmToken));
+      AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:uuid, fcmToken: fcmToken, notificationEnabled: notificationsEnabled));
       AccountService.processQueue();
     }
   }

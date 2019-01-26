@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:kalium_wallet_flutter/network/model/request/actions.dart';
 import 'package:kalium_wallet_flutter/network/model/base_request.dart';
 
@@ -15,10 +16,14 @@ class FcmUpdateRequest extends BaseRequest {
   @JsonKey(name:'fcm_token_v2', includeIfNull: false)
   String fcmToken;
 
-  FcmUpdateRequest({String account, String fcmToken}) : super() {
+  @JsonKey(name:'enabled')
+  bool enabled;
+
+  FcmUpdateRequest({@required String account, @required String fcmToken, @required bool enabled}) : super() {
     this.action = Actions.FCM_UPDATE;
     this.account = account;
     this.fcmToken = fcmToken;
+    this.enabled = enabled;
   }
 
   factory FcmUpdateRequest.fromJson(Map<String, dynamic> json) => _$FcmUpdateRequestFromJson(json);
