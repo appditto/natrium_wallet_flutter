@@ -50,7 +50,6 @@ class _SettingsSheetState extends State<SettingsSheet>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   AnimationController _controller;
   Animation<Offset> _offsetFloat;
-  AnimationController _controller2;
   Animation<double> _fade;
   Animation<double> _fade2;
 
@@ -61,7 +60,8 @@ class _SettingsSheetState extends State<SettingsSheet>
   bool _hasBiometrics = false;
   AuthenticationMethod _curAuthMethod =
       AuthenticationMethod(AuthMethod.BIOMETRICS);
-  NotificationSetting _curNotificiationSetting = NotificationSetting(NotificationOptions.ON);
+  NotificationSetting _curNotificiationSetting =
+      NotificationSetting(NotificationOptions.ON);
 
   bool _contactsOpen;
 
@@ -78,7 +78,8 @@ class _SettingsSheetState extends State<SettingsSheet>
   Future<void> _exportContacts() async {
     List<Contact> contacts = await DBHelper().getContacts();
     if (contacts.length == 0) {
-      UIUtil.showSnackbar(KaliumLocalization.of(context).noContactsExport, context);
+      UIUtil.showSnackbar(
+          KaliumLocalization.of(context).noContactsExport, context);
       return;
     }
     List<Map<String, dynamic>> jsonList = List();
@@ -99,7 +100,8 @@ class _SettingsSheetState extends State<SettingsSheet>
         type: FileType.CUSTOM, fileExtension: "txt");
     File f = File(filePath);
     if (!await f.exists()) {
-      UIUtil.showSnackbar(KaliumLocalization.of(context).contactsImportErr, context);
+      UIUtil.showSnackbar(
+          KaliumLocalization.of(context).contactsImportErr, context);
       return;
     }
     try {
@@ -128,13 +130,19 @@ class _SettingsSheetState extends State<SettingsSheet>
         _updateContacts();
         RxBus.post(Contact(name: "", address: ""),
             tag: RX_CONTACT_MODIFIED_TAG);
-        UIUtil.showSnackbar(KaliumLocalization.of(context).contactsImportSuccess.replaceAll("%1", numSaved.toString()), context);
+        UIUtil.showSnackbar(
+            KaliumLocalization.of(context)
+                .contactsImportSuccess
+                .replaceAll("%1", numSaved.toString()),
+            context);
       } else {
-        UIUtil.showSnackbar(KaliumLocalization.of(context).noContactsImport, context);
+        UIUtil.showSnackbar(
+            KaliumLocalization.of(context).noContactsImport, context);
       }
     } catch (e) {
       log.severe(e.toString());
-      UIUtil.showSnackbar(KaliumLocalization.of(context).contactsImportErr, context);
+      UIUtil.showSnackbar(
+          KaliumLocalization.of(context).contactsImportErr, context);
       return;
     }
   }
@@ -159,11 +167,13 @@ class _SettingsSheetState extends State<SettingsSheet>
     SharedPrefsUtil.inst.getNotificationsOn().then((notificationsOn) {
       if (!notificationsOn) {
         setState(() {
-          _curNotificiationSetting = NotificationSetting(NotificationOptions.OFF);
+          _curNotificiationSetting =
+              NotificationSetting(NotificationOptions.OFF);
         });
       } else {
         setState(() {
-          _curNotificiationSetting = NotificationSetting(NotificationOptions.ON);
+          _curNotificiationSetting =
+              NotificationSetting(NotificationOptions.ON);
         });
       }
     });
@@ -181,23 +191,16 @@ class _SettingsSheetState extends State<SettingsSheet>
     // Setup animation controller
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 220),
     );
 
-    _controller2 = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 200),
-    );
-
-    _offsetFloat = Tween<Offset>(begin: Offset.zero, end: Offset(-1, 0))
+    _offsetFloat = Tween<Offset>(begin: Offset(1.1, 0), end: Offset(0, 0))
         .animate(_controller);
 
-    _fade = Tween<double>(begin: 0, end: 1).animate(_controller2);
-    _fade2 = Tween<double>(begin: 1, end: 0).animate(_controller2);
     // Version string
     PackageInfo.fromPlatform().then((packageInfo) {
       setState(() {
-        versionString = "Kalium v${packageInfo.version}";        
+        versionString = "Kalium v${packageInfo.version}";
       });
     });
   }
@@ -208,7 +211,8 @@ class _SettingsSheetState extends State<SettingsSheet>
       setState(() {
         _contacts.add(contact);
         //Sort by name
-        _contacts.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        _contacts.sort(
+            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       });
       // Full update which includes downloading new monKey
       _updateContacts();
@@ -220,13 +224,19 @@ class _SettingsSheetState extends State<SettingsSheet>
       });
     });
     // Ready to go to transfer confirm
-    RxBus.register<Map<String, AccountBalanceItem>>(tag: RX_TRANSFER_CONFIRM_TAG).listen((Map<String, AccountBalanceItem> privKeyMap) {
-      KaliumTransferConfirmSheet(privKeyMap, transferError).mainBottomSheet(context);
+    RxBus.register<Map<String, AccountBalanceItem>>(
+            tag: RX_TRANSFER_CONFIRM_TAG)
+        .listen((Map<String, AccountBalanceItem> privKeyMap) {
+      KaliumTransferConfirmSheet(privKeyMap, transferError)
+          .mainBottomSheet(context);
     });
     // Ready to go to transfer complete
-    RxBus.register<BigInt>(tag: RX_TRANSFER_COMPLETE_TAG).listen((BigInt amount) {
+    RxBus.register<BigInt>(tag: RX_TRANSFER_COMPLETE_TAG)
+        .listen((BigInt amount) {
       StateContainer.of(context).requestUpdate();
-      KaliumTransferCompleteSheet(NumberUtil.getRawAsUsableString(amount.toString())).mainBottomSheet(context);
+      KaliumTransferCompleteSheet(
+              NumberUtil.getRawAsUsableString(amount.toString()))
+          .mainBottomSheet(context);
     });
     // Unlock callback
     RxBus.register<String>(tag: RX_UNLOCK_CALLBACK_TAG).listen((result) {
@@ -244,7 +254,6 @@ class _SettingsSheetState extends State<SettingsSheet>
   @override
   void dispose() {
     _controller.dispose();
-    _controller2.dispose();
     _destroyBus();
     super.dispose();
   }
@@ -277,18 +286,23 @@ class _SettingsSheetState extends State<SettingsSheet>
       }
       // Re-sort list
       setState(() {
-        _contacts.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        _contacts.sort(
+            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       });
       // Get any monKeys that are missing
       for (Contact c in _contacts) {
         // Download monKeys if not existing
-        if (c.monkeyWidget == null ) {
+        if (c.monkeyWidget == null) {
           if (c.monkeyPath != null) {
             setState(() {
-              c.monkeyWidget = Image.file(File("$documentsDirectory/${c.monkeyPath}"), width: smallScreen(context)?55:70, height: smallScreen(context)?55:70);
+              c.monkeyWidget = Image.file(
+                  File("$documentsDirectory/${c.monkeyPath}"),
+                  width: smallScreen(context) ? 55 : 70,
+                  height: smallScreen(context) ? 55 : 70);
             });
           } else {
-            UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.SMALL)
+            UIUtil.downloadOrRetrieveMonkey(
+                    context, c.address, MonkeySize.SMALL)
                 .then((result) {
               FileUtil.pngHasValidSignature(result).then((valid) {
                 if (valid) {
@@ -308,7 +322,9 @@ class _SettingsSheetState extends State<SettingsSheet>
             FileUtil.pngHasValidSignature(result).then((valid) {
               if (valid) {
                 setState(() {
-                  c.monkeyWidgetLarge = Image.file(result, width: smallScreen(context)?130:200, height: smallScreen(context)?130:200);
+                  c.monkeyWidgetLarge = Image.file(result,
+                      width: smallScreen(context) ? 130 : 200,
+                      height: smallScreen(context) ? 130 : 200);
                 });
               }
             });
@@ -414,11 +430,10 @@ class _SettingsSheetState extends State<SettingsSheet>
           );
         })) {
       case NotificationOptions.ON:
-        SharedPrefsUtil.inst
-            .setNotificationsOn(true)
-            .then((result) {
+        SharedPrefsUtil.inst.setNotificationsOn(true).then((result) {
           setState(() {
-            _curNotificiationSetting = NotificationSetting(NotificationOptions.ON);
+            _curNotificiationSetting =
+                NotificationSetting(NotificationOptions.ON);
           });
           FirebaseMessaging().requestNotificationPermissions();
           FirebaseMessaging().getToken().then((fcmToken) {
@@ -427,12 +442,10 @@ class _SettingsSheetState extends State<SettingsSheet>
         });
         break;
       case NotificationOptions.OFF:
-        SharedPrefsUtil.inst
-            .setNotificationsOn(false)
-            .then((result) 
-        {
+        SharedPrefsUtil.inst.setNotificationsOn(false).then((result) {
           setState(() {
-            _curNotificiationSetting = NotificationSetting(NotificationOptions.OFF);
+            _curNotificiationSetting =
+                NotificationSetting(NotificationOptions.OFF);
           });
           FirebaseMessaging().getToken().then((fcmToken) {
             RxBus.post(fcmToken, tag: RX_FCM_UPDATE_TAG);
@@ -495,7 +508,6 @@ class _SettingsSheetState extends State<SettingsSheet>
         _contactsOpen = false;
       });
       _controller.reverse();
-      _controller2.reverse();
       return false;
     }
     return true;
@@ -508,24 +520,18 @@ class _SettingsSheetState extends State<SettingsSheet>
     // presses and replace the main settings widget with contacts based on a bool
     return new WillPopScope(
       onWillPop: _onBackButtonPressed,
-      child: Stack(
-        children: <Widget>[
-          Container(
-            color: KaliumColors.backgroundDark,
-            constraints: BoxConstraints.expand(),
-          ),
-          FadeTransition(
-            opacity: _fade,
-            child: buildContacts(context),
-          ),
-          FadeTransition(
-            opacity: _fade2,
-
-                        child: SlideTransition(
-                position: _offsetFloat,
-                child: buildMainSettings(context)),
-          ),
-        ],
+      child: ClipRect(
+        child: Stack(
+          children: <Widget>[
+            Container(
+              color: KaliumColors.backgroundDark,
+              constraints: BoxConstraints.expand(),
+            ),
+            buildMainSettings(context),
+            SlideTransition(
+                position: _offsetFloat, child: buildContacts(context)),
+          ],
+        ),
       ),
     );
   }
@@ -563,12 +569,13 @@ class _SettingsSheetState extends State<SettingsSheet>
                             color: KaliumColors.text60)),
                   ),
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemDoubleLine(context,
+                  KaliumSettings.buildSettingsListItemDoubleLine(
+                      context,
                       KaliumLocalization.of(context).changeCurrency,
                       StateContainer.of(context).curCurrency,
                       KaliumIcons.currency,
                       _currencyDialog),
-                      /*
+                  /*
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
                       KaliumLocalization.of(context).language,
@@ -576,14 +583,16 @@ class _SettingsSheetState extends State<SettingsSheet>
                       KaliumIcons.language),*/
                   _hasBiometrics ? Divider(height: 2) : null,
                   _hasBiometrics
-                      ? KaliumSettings.buildSettingsListItemDoubleLine(context,
+                      ? KaliumSettings.buildSettingsListItemDoubleLine(
+                          context,
                           KaliumLocalization.of(context).authMethod,
                           _curAuthMethod,
                           KaliumIcons.fingerprint,
                           _authMethodDialog)
                       : null,
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemDoubleLine(context,
+                  KaliumSettings.buildSettingsListItemDoubleLine(
+                      context,
                       KaliumLocalization.of(context).notifications,
                       _curNotificiationSetting,
                       KaliumIcons.notifications,
@@ -606,7 +615,6 @@ class _SettingsSheetState extends State<SettingsSheet>
                       _contactsOpen = true;
                     });
                     _controller.forward();
-                    _controller2.forward();
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
@@ -651,8 +659,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).settingsTransfer, KaliumIcons.transferfunds,
-                      onPressed: () {
+                      KaliumLocalization.of(context).settingsTransfer,
+                      KaliumIcons.transferfunds, onPressed: () {
                     KaliumTransferOverviewSheet().mainBottomSheet(context);
                   }),
                   Divider(height: 2),
@@ -677,7 +685,9 @@ class _SettingsSheetState extends State<SettingsSheet>
                         context,
                         KaliumLocalization.of(context).warning.toUpperCase(),
                         KaliumLocalization.of(context).logoutDetail,
-                        KaliumLocalization.of(context).logoutAction.toUpperCase(), () {
+                        KaliumLocalization.of(context)
+                            .logoutAction
+                            .toUpperCase(), () {
                       // Show another confirm dialog
                       KaliumDialogs.showConfirmDialog(
                           context,
@@ -741,7 +751,12 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   Widget buildContacts(BuildContext context) {
     return Container(
-      color: KaliumColors.backgroundDark,
+      decoration: BoxDecoration(
+        color: KaliumColors.backgroundDark,
+        boxShadow: [
+          BoxShadow(color: KaliumColors.overlay30, offset: Offset(-5, 0), blurRadius: 20),
+        ],
+      ),
       child: Column(
         children: <Widget>[
           // Back button and Contacts Text
@@ -763,7 +778,6 @@ class _SettingsSheetState extends State<SettingsSheet>
                               _contactsOpen = false;
                             });
                             _controller.reverse();
-                            _controller2.reverse();
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0)),
@@ -827,9 +841,12 @@ class _SettingsSheetState extends State<SettingsSheet>
                   itemBuilder: (context, index) {
                     // Some disaster recovery if monKey is in DB, but doesnt exist in filesystem
                     if (_contacts[index].monkeyPath != null) {
-                      File("$documentsDirectory/${_contacts[index].monkeyPath}").exists().then((exists) {
+                      File("$documentsDirectory/${_contacts[index].monkeyPath}")
+                          .exists()
+                          .then((exists) {
                         if (!exists) {
-                          DBHelper().setMonkeyForContact(_contacts[index], null);
+                          DBHelper()
+                              .setMonkeyForContact(_contacts[index], null);
                         }
                       });
                     }
@@ -897,7 +914,8 @@ class _SettingsSheetState extends State<SettingsSheet>
   Widget buildSingleContact(BuildContext context, Contact contact) {
     return FlatButton(
       onPressed: () {
-        ContactDetailsSheet(contact, documentsDirectory).mainBottomSheet(context);
+        ContactDetailsSheet(contact, documentsDirectory)
+            .mainBottomSheet(context);
       },
       padding: EdgeInsets.all(0.0),
       child: Column(children: <Widget>[
@@ -910,8 +928,15 @@ class _SettingsSheetState extends State<SettingsSheet>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               //Container for monKey
-              contact.monkeyWidget != null && _contactsOpen ?
-                Container(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70, child: contact.monkeyWidget,) : SizedBox(width: smallScreen(context)?55:70, height: smallScreen(context)?55:70),
+              contact.monkeyWidget != null && _contactsOpen
+                  ? Container(
+                      width: smallScreen(context) ? 55 : 70,
+                      height: smallScreen(context) ? 55 : 70,
+                      child: contact.monkeyWidget,
+                    )
+                  : SizedBox(
+                      width: smallScreen(context) ? 55 : 70,
+                      height: smallScreen(context) ? 55 : 70),
               //Contact info
               Container(
                 margin: EdgeInsets.only(left: 5),
