@@ -76,7 +76,7 @@ class KaliumTransferManualEntrySheet {
                                     EdgeInsets.symmetric(horizontal: smallScreen(context)?50:60, vertical: 10),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                    "Please enter the seed below.",
+                                    KaliumLocalization.of(context).transferManualHint,
                                     style: KaliumStyles.TextStyleParagraph,
                                     textAlign: TextAlign.left,),
                               ),
@@ -192,7 +192,7 @@ class KaliumTransferManualEntrySheet {
                     children: <Widget>[
                       KaliumButton.buildKaliumButton(
                         KaliumButtonType.PRIMARY,
-                        "Transfer",
+                        KaliumLocalization.of(context).transfer,
                         Dimens.BUTTON_TOP_DIMENS,
                         onPressed: () {
                           if (NanoSeeds.isValidSeed(_seedInputController.text)) {

@@ -19,6 +19,7 @@ import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/available_currency.dart';
+import 'package:kalium_wallet_flutter/model/device_unlock_option.dart';
 import 'package:kalium_wallet_flutter/model/notification_settings.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
@@ -62,6 +63,8 @@ class _SettingsSheetState extends State<SettingsSheet>
       AuthenticationMethod(AuthMethod.BIOMETRICS);
   NotificationSetting _curNotificiationSetting =
       NotificationSetting(NotificationOptions.ON);
+  UnlockSetting _curUnlockSetting =
+      UnlockSetting(UnlockOption.NO);
 
   bool _contactsOpen;
 
@@ -163,19 +166,20 @@ class _SettingsSheetState extends State<SettingsSheet>
         _curAuthMethod = authMethod;
       });
     });
+    // Get default unlock setting
+    // Get default auth method setting
+    SharedPrefsUtil.inst.getLock().then((lock) {
+      setState(() {
+        _curUnlockSetting = lock ? UnlockSetting(UnlockOption.YES) : UnlockSetting(UnlockOption.NO);
+      });
+    });
     // Get default notification setting
     SharedPrefsUtil.inst.getNotificationsOn().then((notificationsOn) {
-      if (!notificationsOn) {
-        setState(() {
-          _curNotificiationSetting =
-              NotificationSetting(NotificationOptions.OFF);
-        });
-      } else {
-        setState(() {
-          _curNotificiationSetting =
-              NotificationSetting(NotificationOptions.ON);
-        });
-      }
+      setState(() {
+        _curNotificiationSetting =
+            notificationsOn ? NotificationSetting(NotificationOptions.ON) 
+                            : NotificationSetting(NotificationOptions.OFF);
+      });
     });
     // Initial contacts list
     _contacts = List();
@@ -455,6 +459,62 @@ class _SettingsSheetState extends State<SettingsSheet>
     }
   }
 
+  Future<void> _lockDialog() async {
+    switch (await showDialog<UnlockOption>(
+        context: context,
+        builder: (BuildContext context) {
+          return KaliumSimpleDialog(
+            title: Text(
+              KaliumLocalization.of(context).lockAppSetting,
+              style: KaliumStyles.TextStyleDialogHeader,
+            ),
+            children: <Widget>[
+              KaliumSimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, UnlockOption.YES);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    KaliumLocalization.of(context).yes,
+                    style: KaliumStyles.TextStyleDialogOptions,
+                  ),
+                ),
+              ),
+              KaliumSimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, UnlockOption.NO);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    KaliumLocalization.of(context).no,
+                    style: KaliumStyles.TextStyleDialogOptions,
+                  ),
+                ),
+              ),
+            ],
+          );
+        })) {
+      case UnlockOption.YES:
+        SharedPrefsUtil.inst.setLock(true).then((result) {
+          setState(() {
+            _curUnlockSetting =
+                UnlockSetting(UnlockOption.YES);
+          });
+        });
+        break;
+      case UnlockOption.NO:
+        SharedPrefsUtil.inst.setLock(false).then((result) {
+          setState(() {
+            _curUnlockSetting =
+                UnlockSetting(UnlockOption.NO);
+          });
+        });
+        break;
+    }
+  }
+
   List<Widget> _buildCurrencyOptions() {
     List<Widget> ret = new List();
     AvailableCurrencyEnum.values.forEach((AvailableCurrencyEnum value) {
@@ -597,6 +657,13 @@ class _SettingsSheetState extends State<SettingsSheet>
                       _curNotificiationSetting,
                       KaliumIcons.notifications,
                       _notificationsDialog),
+                  Divider(height: 2),
+                  KaliumSettings.buildSettingsListItemDoubleLine(
+                      context,
+                      KaliumLocalization.of(context).lockAppSetting,
+                      _curUnlockSetting,
+                      KaliumIcons.logout,
+                      _lockDialog),
                   Divider(height: 2),
                   Container(
                     margin:

@@ -10,6 +10,7 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/ui/home_page.dart';
+import 'package:kalium_wallet_flutter/ui/lock_screen.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_backup_seed.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_backup_confirm.dart';
@@ -70,6 +71,11 @@ class KaliumApp extends StatelessWidget {
                 builder: (_) => KaliumHomePage(),
                 settings: settings,
               );
+            case '/home_transition':
+              return MaterialPageRoute(
+                builder: (_) => KaliumHomePage(),
+                settings: settings,
+              );
             case '/intro_welcome':
               return NoTransitionRoute(
                 builder: (_) => IntroWelcomePage(),
@@ -90,6 +96,11 @@ class KaliumApp extends StatelessWidget {
                 builder: (_) => IntroImportSeedPage(),
                 settings: settings,
               );
+            case '/lock_screen':
+              return NoTransitionRoute(
+                builder: (_) => KaliumLockScreen(),
+                settings: settings,
+              );            
             default:
               return null;
           }
@@ -139,9 +150,13 @@ class SplashState extends State<Splash> {
     }
 
     if (isLoggedIn) {
-      var stateContainer = StateContainer.of(context);
-      stateContainer.updateWallet(address: NanoUtil.seedToAddress(seed));
-      Navigator.of(context).pushReplacementNamed('/home');
+      if (await SharedPrefsUtil.inst.getLock()) {
+        Navigator.of(context).pushReplacementNamed('/lock_screen');
+      } else {
+        var stateContainer = StateContainer.of(context);
+        stateContainer.updateWallet(address: NanoUtil.seedToAddress(seed));
+        Navigator.of(context).pushReplacementNamed('/home');
+      }
     } else {
       Navigator.of(context).pushReplacementNamed('/intro_welcome');
     }

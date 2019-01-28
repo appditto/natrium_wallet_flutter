@@ -25,6 +25,7 @@ class SharedPrefsUtil {
   static const String user_representative = 'fkalium_user_rep'; // For when non-opened accounts have set a representative
   static const String firstcontact_added = 'fkalium_first_c_added';
   static const String notification_enabled = 'fkalium_notification_on';
+  static const String lock_kalium = 'fkalium_lock_dev';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -143,6 +144,14 @@ class SharedPrefsUtil {
     return await get(notification_enabled, defaultValue: null) == null ? false : true;
   }
 
+  Future<void> setLock(bool value) async {
+    return await set(lock_kalium, value);
+  }
+
+  Future<bool> getLock() async {
+    return await get(lock_kalium, defaultValue: false);
+  }
+
   // For logging out
   Future<void> deleteAll() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -153,5 +162,6 @@ class SharedPrefsUtil {
     await prefs.remove(cur_currency);
     await prefs.remove(auth_method);
     await prefs.remove(notification_enabled);
+    await prefs.remove(lock_kalium);
   }
 }
