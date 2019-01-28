@@ -84,20 +84,23 @@ class StateContainer extends StatefulWidget {
   StateContainerState createState() => StateContainerState();
 }
 
-/// TODO
-/// since we're doing the bulk of the heavy lifting here, we should probably document it better
-/// and organize it a bit
+/// Kalium InheritedWidget
+/// This is where we handle the global state and also where
+/// we interact with the server and make requests/handle+propagate responses
+/// 
+/// Basically the central hub behind the entire app
 class StateContainerState extends State<StateContainer> {
   final Logger log = Logger("StateContainerState");
-  // Whichever properties you wanna pass around your app as state
   KaliumWallet wallet;
   String currencyLocale;
   Locale deviceLocale = Locale('en', 'US');
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
+
   // Subscribe to deep link changes
   StreamSubscription _deepLinkSub;
   String _initialDeepLink; // If app hasn't loaded yet, store initial DL here
   bool _busInitialized = false;
+
   // If callback is locked
   bool _locked = false;
 
@@ -114,6 +117,7 @@ class StateContainerState extends State<StateContainer> {
   @override
   void initState() {
     super.initState();
+    // Register RxBus
     _registerBus();
     // Set currency locale here for the UI to access
     SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
@@ -122,7 +126,7 @@ class StateContainerState extends State<StateContainer> {
         curCurrency = currency;
       });
     });
-    // Deep link subscription
+    // Listen for deep link changes
     _deepLinkSub = getLinksStream().listen((String link) {
       if (link != null) {
         log.fine("deep link $link");
@@ -230,11 +234,7 @@ class StateContainerState extends State<StateContainer> {
     RxBus.destroy(tag: RX_FCM_UPDATE_TAG);
   }
 
-  // You can (and probably will) have methods on your StateContainer
-  // These methods are then used through our your app to 
-  // change state.
-  // Using setState() here tells Flutter to repaint all the 
-  // Widgets in the app that rely on the state you've changed.
+  // Update the global wallet instance with a new address
   void updateWallet({address}) {
     _registerBus();
     setState(() {
@@ -266,9 +266,6 @@ class StateContainerState extends State<StateContainer> {
   /// 
   void handleErrorResponse(ErrorResponse errorResponse) {
     RequestItem prevRequest = AccountService.pop();
-    if (prevRequest != null && prevRequest.fromTransfer) {
-      RxBus.post('err', tag: RX_TRANSFER_ERROR_TAG);
-    }
     AccountService.processQueue();
     if (errorResponse.error == null) { return; }
     // 1) Unreceivable error, due to already having received the block typically
@@ -288,6 +285,10 @@ class StateContainerState extends State<StateContainer> {
         requestUpdate();
       }
     }
+    // 3) Error from transfer request
+    if (prevRequest != null && prevRequest.fromTransfer) {
+      RxBus.post('err', tag: RX_TRANSFER_ERROR_TAG);
+    }
   }
 
   ///
@@ -299,8 +300,12 @@ class StateContainerState extends State<StateContainer> {
     // see what type of request sent this response
     bool doUpdate = true;
     RequestItem lastRequest = AccountService.pop();
+    // We always store the block we send for processing in a Map, get the entire block using hash
     StateBlock previous = pendingResponseBlockMap.remove(processResponse.hash);
+    // Standard process response handling (not from seed sweep/transfer)
     if (previous != null && !lastRequest.fromTransfer) {
+      // Update the frontier on process responses to avoid forks
+      // We use wallet.blockCount in history requests, to attempt to only request TXs we don't have, so update that too
       if (previous.subType == BlockTypes.OPEN) {
         setState(() {
           wallet.frontier = processResponse.hash;
@@ -312,9 +317,11 @@ class StateContainerState extends State<StateContainer> {
           wallet.blockCount = wallet.blockCount + 1;
         });
         if (previous.subType == BlockTypes.SEND) {
+          // post send event to let UI know send was successful
           RxBus.post(previous, tag:RX_SEND_COMPLETE_TAG);
         } else if (previous.subType == BlockTypes.RECEIVE) {
-          // Handle next receive if there is one
+          // Routine to handle multiple pending receives
+          // Handle next receive if there is one, we store these in a Map also
           StateBlock frontier = pendingBlockMap.remove(processResponse.hash);
           if (frontier != null && pendingBlockMap.length > 0) {
             StateBlock nextBlock = pendingBlockMap.remove(pendingBlockMap.keys.first);
@@ -331,10 +338,12 @@ class StateContainerState extends State<StateContainer> {
             });
           }
         } else if (previous.subType == BlockTypes.CHANGE) {
+          // Tell UI change rep was successful
           RxBus.post(previous, tag:RX_REP_CHANGED_TAG);
         }
       }
     } else {
+      // From seed sweep, UI gets a different response
       doUpdate = false;
       RxBus.post(TransferProcessResponse(account: previous.account, hash: processResponse.hash, balance: previous.balance), tag: RX_TRANSFER_PROCESS_TAG);
     }
@@ -349,10 +358,12 @@ class StateContainerState extends State<StateContainer> {
   void handlePendingResponse(PendingResponse response) {
     RequestItem prevRequest = AccountService.pop();
     if (prevRequest.fromTransfer) {
+      // Transfer/sweep pending requests get different handling
       PendingRequest pendingRequest = prevRequest.request;
       response.account = pendingRequest.account;
       RxBus.post(response, tag: RX_TRANSFER_PENDING_TAG);
     } else {
+      // Initiate receive/open request for each pending
       response.blocks.forEach((hash, pendingResponseItem) {
         PendingResponseItem pendingResponseItemN = pendingResponseItem;
         pendingResponseItemN.hash = hash;
@@ -390,6 +401,10 @@ class StateContainerState extends State<StateContainer> {
         curCurrency = currency;
       });
     });
+    // Server gives us a UUID for future requests on subscribe
+    if (response.uuid != null) {
+      SharedPrefsUtil.inst.setUuid(response.uuid);
+    }
     setState(() {
       wallet.loading = false;
       wallet.frontier = response.frontier;
@@ -397,11 +412,6 @@ class StateContainerState extends State<StateContainer> {
       wallet.representativeBlock = response.representativeBlock;
       wallet.openBlock = response.openBlock;
       wallet.blockCount = response.blockCount;
-      if (response.uuid != null) {
-        SharedPrefsUtil.inst.setUuid(response.uuid).then((result) {
-          wallet.uuid = response.uuid;
-        });
-      }
       if (response.balance == null) {
         wallet.accountBalance = BigInt.from(0);
       } else {
@@ -417,6 +427,7 @@ class StateContainerState extends State<StateContainer> {
     _checkDeepLink(response);
   }
 
+  /// Handle deep link
   void _checkDeepLink(SubscribeResponse resp) {
     try {
       if (_initialDeepLink == null) { return; }

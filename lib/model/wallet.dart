@@ -3,9 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
-/**
- * Represents the main wallet object
- */
+/// Main wallet object that's passed around the app via state
 class KaliumWallet {
   static const String defaultRepresentative = 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo';
 
@@ -20,13 +18,12 @@ class KaliumWallet {
   String _localCurrencyPrice;
   String _nanoPrice;
   String _btcPrice;
-  String _uuid;
   int _blockCount;
   List<AccountHistoryResponseItem> _history;
 
 
   KaliumWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
-                String representative, String localCurrencyPrice, String nanoPrice, String btcPrice, int blockCount, String uuid,
+                String representative, String localCurrencyPrice, String nanoPrice, String btcPrice, int blockCount,
                 List<AccountHistoryResponseItem> history, bool loading, bool historyLoading}) {
     this._address = address;
     this._accountBalance = accountBalance ?? BigInt.zero;
@@ -38,7 +35,6 @@ class KaliumWallet {
     this._nanoPrice = nanoPrice ?? "0";
     this._btcPrice = btcPrice ?? "0";
     this._blockCount = blockCount ?? 0;
-    this._uuid = uuid;
     this._history = history ?? new List<AccountHistoryResponseItem>();
     this._loading = loading ?? true;
     this._historyLoading = historyLoading  ?? true;
@@ -139,12 +135,6 @@ class KaliumWallet {
 
   set blockCount(int value) {
     _blockCount = value;
-  }
-
-  String get uuid => _uuid;
-
-  set uuid(String value) {
-    _uuid = value;
   }
 
   List<AccountHistoryResponseItem> get history => _history;
