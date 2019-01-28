@@ -31,8 +31,6 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
               KaliumLocalization.of(context).unlockBiometrics).then((authenticated) {
               if (authenticated) {
                 _goHome();
-              } else {
-                Navigator.of(context).pop();
               }
             });
           } else {
@@ -44,7 +42,6 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                                     (pin) {
                                       _goHome();
                                     },
-                                    onPopped: () { Navigator.of(context).pop(); },
                                     expectedPin:expectedPin,
                                     description: KaliumLocalization.of(context).unlockPin);
               }));

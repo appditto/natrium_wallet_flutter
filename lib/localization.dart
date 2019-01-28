@@ -675,7 +675,7 @@ class KaliumLocalization {
   }
 
   String get lockAppSetting {
-    return Intl.message("Authenticate to Open",
+    return Intl.message("Authenticate on Launch",
       desc: 'unlock_kalium_bio', name: 'unlockPin');
   }
 
