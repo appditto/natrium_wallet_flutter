@@ -153,8 +153,7 @@ class SplashState extends State<Splash> {
       if (await SharedPrefsUtil.inst.getLock()) {
         Navigator.of(context).pushReplacementNamed('/lock_screen');
       } else {
-        var stateContainer = StateContainer.of(context);
-        stateContainer.updateWallet(address: NanoUtil.seedToAddress(seed));
+        StateContainer.of(context).updateWallet(address: NanoUtil.seedToAddress(seed));
         Navigator.of(context).pushReplacementNamed('/home');
       }
     } else {

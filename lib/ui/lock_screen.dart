@@ -18,8 +18,11 @@ class KaliumLockScreen extends StatefulWidget {
 class _KaliumLockScreenState extends State<KaliumLockScreen> {
 
   Future<void> _goHome() async {
-    var stateContainer = StateContainer.of(context);
-    stateContainer.updateWallet(address: NanoUtil.seedToAddress(await Vault.inst.getSeed()));
+    if (StateContainer.of(context).wallet != null) {
+      StateContainer.of(context).reconnect();
+    } else {
+      StateContainer.of(context).updateWallet(address: NanoUtil.seedToAddress(await Vault.inst.getSeed()));
+    }
     Navigator.of(context).pushReplacementNamed('/home_transition');
   }
 
