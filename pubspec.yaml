@@ -7,7 +7,7 @@ description: A new Flutter project.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.9.1+10
+version: 0.9.1+11
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -102,7 +102,11 @@ dependencies:
   oktoast: ^2.1.4
 
   # Push notifications - TODO update to newer androidX version
-  firebase_messaging: 2.1.0
+  firebase_messaging:
+    git:
+      url: https://github.com/bbedward/plugins.git
+      path: packages/firebase_messaging
+      ref: master
 
 dev_dependencies:
   flutter_test:
