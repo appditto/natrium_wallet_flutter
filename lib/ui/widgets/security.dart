@@ -94,11 +94,21 @@ class _PinScreenState extends State<PinScreen>
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           if (type == PinOverlayType.ENTER_PIN) {
-            setState(() {
-              _pin = "";
-              _header = KaliumLocalization.of(context).pinInvalid;
-              _dotStates = List.filled(6, KaliumIcons.dotemtpy);
-              _controller.value = 0;
+            SharedPrefsUtil.inst.incrementLockAttempts().then((_) {
+              _failedAttempts++;
+              if (_failedAttempts >= MAX_ATTEMPTS) {
+                SharedPrefsUtil.inst.updateLockDate().then((_) {
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                });
+              } else {
+                setState(() {
+                  _pin = "";
+                  _header = KaliumLocalization.of(context).pinInvalid;
+                  _dotStates = List.filled(6, KaliumIcons.dotemtpy);
+                  _controller.value = 0;
+                });
+              }
             });
           } else {
             setState(() {
@@ -195,17 +205,7 @@ class _PinScreenState extends State<PinScreen>
                 // Pin is not what was expected
                 if (_pin != expectedPin) {
                   HapticUtil.error();
-                  SharedPrefsUtil.inst.incrementLockAttempts().then((_) {
-                    _failedAttempts++;
-                    if (_failedAttempts >= MAX_ATTEMPTS) {
-                      SharedPrefsUtil.inst.updateLockDate().then((_) {
-                        Navigator.of(context)
-                            .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-                      });
-                    } else {
-                      _controller.forward();
-                    }
-                  });
+                  _controller.forward();
                 } else {
                   SharedPrefsUtil.inst.resetLockAttempts().then((_) {
                     successCallback(_pin);
