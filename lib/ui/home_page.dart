@@ -354,7 +354,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   Widget _getListWidget(BuildContext context) {
     if (StateContainer.of(context).wallet.historyLoading) {
       // Loading Animation
-      return ListView(
+      return ReactiveRefreshIndicator(
+        onRefresh: _refresh,
+        isRefreshing: _isRefreshing,
+        child: ListView(
         padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
         children: <Widget>[
           _buildLoadingTransactionCard(
@@ -374,7 +377,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
           _buildLoadingTransactionCard(
               "Sent", "1,00000", "123456789121234", context),
         ],
-      );
+      ));
     } else if (StateContainer.of(context).wallet.history.length == 0) {
       _disposeAnimation();
       return ReactiveRefreshIndicator(
