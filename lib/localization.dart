@@ -679,6 +679,22 @@ class KaliumLocalization {
       desc: 'unlock_kalium_bio', name: 'unlockPin');
   }
 
+  String get locked {
+    return Intl.message("Locked",
+      desc: 'lockedtxt', name: 'locked');
+  }
+
+  String get unlock {
+    return Intl.message("Unlock",
+      desc: 'unlocktxt', name: 'unlock');
+  }
+
+  String get tooManyFailedAttempts {
+    return Intl.message("Too many failed unlock attempts.",
+      desc: 'fail', name: 'tooManyFailedAttempts');
+  }
+
+
   /// -- END LOCK SCREEN
 
   /// -- NON-TRANSLATABLE ITEMS

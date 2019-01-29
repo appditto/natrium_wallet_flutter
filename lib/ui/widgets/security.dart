@@ -9,6 +9,7 @@ import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/util/hapticutil.dart';
+import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 
 enum PinOverlayType { NEW_PIN, ENTER_PIN }
 
@@ -37,6 +38,8 @@ class PinScreen extends StatefulWidget {
 
 class _PinScreenState extends State<PinScreen>
     with SingleTickerProviderStateMixin {
+  static const int MAX_ATTEMPTS = 5;
+
   _PinScreenState(
       this.type, this.expectedPin, this.description, this.successCallback, this.pinScreenBackgroundColor);
 
@@ -57,6 +60,7 @@ class _PinScreenState extends State<PinScreen>
   bool
       _awaitingConfirmation; // true if pin has been entered once, false if not entered once
   String _header;
+  int _failedAttempts = 0;
 
   // Invalid animation
   AnimationController _controller;
@@ -70,6 +74,12 @@ class _PinScreenState extends State<PinScreen>
     _awaitingConfirmation = false;
     _pin = "";
     _pinConfirmed = "";
+    // Get adjusted failed attempts
+    SharedPrefsUtil.inst.getLockAttempts().then((attempts) {
+      setState(() {
+        _failedAttempts = attempts % MAX_ATTEMPTS;
+      });
+    });
     if (type == PinOverlayType.ENTER_PIN) {
       _header = pinEnterTitle;
     } else {
@@ -184,10 +194,22 @@ class _PinScreenState extends State<PinScreen>
               if (type == PinOverlayType.ENTER_PIN) {
                 // Pin is not what was expected
                 if (_pin != expectedPin) {
-                  HapticUtil.error();
-                  _controller.forward();
+                  SharedPrefsUtil.inst.incrementLockAttempts().then((_) {
+                    _failedAttempts++;
+                    if (_failedAttempts >= MAX_ATTEMPTS) {
+                      SharedPrefsUtil.inst.updateLockDate().then((_) {
+                        Navigator.of(context)
+                            .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                      });
+                    } else {
+                      HapticUtil.error();
+                      _controller.forward();
+                    }
+                  });
                 } else {
-                  successCallback(_pin);
+                  SharedPrefsUtil.inst.resetLockAttempts().then((_) {
+                    successCallback(_pin);
+                  });
                 }
               } else {
                 if (!_awaitingConfirmation) {

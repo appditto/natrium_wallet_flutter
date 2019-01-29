@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
@@ -23,6 +24,8 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
 
   bool _showUnlockButton = false;
   bool _showLock = false;
+  bool _lockedOut = true;
+  String _countDownTxt = "";
 
   Future<void> _goHome() async {
     if (StateContainer.of(context).wallet != null) {
@@ -45,7 +48,94 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
               pinScreenBackgroundColor: KaliumColors.background);
   }
 
+  String _formatCountDisplay(int count) {
+    if (count <= 60) {
+      // Seconds only
+      return "00:" + count.toString();
+    } else if (count > 60 && count <= 3600) {
+      // Minutes:Seconds
+      String minutesStr = "";
+      int minutes = count ~/ 60;
+      if (minutes < 10) {
+        minutesStr = "0" + minutes.toString();
+      } else {
+        minutesStr = minutes.toString();
+      }
+      String secondsStr = "";
+      int seconds = count % 60;
+      if (seconds < 10) {
+        secondsStr = "0" + seconds.toString();
+      } else {
+        secondsStr = seconds.toString();
+      }
+      return minutesStr + ":" + secondsStr;
+    } else {
+      // Hours:Minutes:Seconds
+      String hoursStr = "";
+      int hours = count ~/ 3600;
+      if (hours < 10) {
+        hoursStr = "0" + hours.toString();
+      } else {
+        hoursStr = hours.toString();
+      }
+      count = count % 3600;
+      String minutesStr = "";
+      int minutes = count ~/ 60;
+      if (minutes < 10) {
+        minutesStr = "0" + minutes.toString();
+      } else {
+        minutesStr = minutes.toString();
+      }
+      String secondsStr = "";
+      int seconds = count % 60;
+      if (seconds < 10) {
+        secondsStr = "0" + seconds.toString();
+      } else {
+        secondsStr = seconds.toString();
+      }
+      return hoursStr + ":" + minutesStr + ":" + secondsStr;
+    }
+  }
+
+  Future<void> _runCountdown(int count) async {
+    if (count >= 1) {
+      if (mounted) {
+        setState(() {
+          _showUnlockButton = true;
+          _showLock = true;
+          _lockedOut = true;
+          _countDownTxt = _formatCountDisplay(count);
+        });
+      }
+      Future.delayed(Duration(seconds: 1), () {
+        _runCountdown(count - 1);
+      });
+    } else {
+      if (mounted) {
+        setState(() {
+          _lockedOut = false;
+        });
+      }
+    }
+  }
+
   Future<void> _authenticate({bool transitions = false}) async {
+    // Test if user is locked out
+    // Get duration of lockout
+    DateTime lockUntil = await SharedPrefsUtil.inst.getLockDate();
+    if (lockUntil == null) {
+      await SharedPrefsUtil.inst.resetLockAttempts();
+    } else {
+      int countDown = lockUntil.difference(DateTime.now().toUtc()).inSeconds;
+      // They're not allowed to attempt
+      if (countDown > 0) {
+        _runCountdown(countDown);
+        return;
+      }
+    }
+    setState(() {
+      _lockedOut = false;
+    });
     SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
       BiometricUtil.hasBiometrics().then((hasBiometrics) {
         if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
@@ -121,7 +211,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                       ),
                       Container(
                         child: Text(
-                          "LOCKED",
+                          KaliumLocalization.of(context).locked.toUpperCase(),
                           style: KaliumStyles.TextStyleHeaderColored,
                         ),
                         margin: EdgeInsets.only(top:10),
@@ -130,14 +220,32 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                   ) : SizedBox(),
                 ),
                 _showUnlockButton ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(KaliumLocalization.of(context).tooManyFailedAttempts,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color: KaliumColors.primary,
+                            fontFamily: 'NunitoSans',
+                            fontWeight: FontWeight.w600,
+                          )),
+                    ),
+                  ],
+                ) : SizedBox(),
+                _showUnlockButton ? Row(
                   children: <Widget>[
                     KaliumButton.buildKaliumButton(
-                      KaliumButtonType.PRIMARY,
-                      "Unlock",
+                       KaliumButtonType.PRIMARY,
+                      _lockedOut ? _countDownTxt : KaliumLocalization.of(context).unlock,
                       Dimens.BUTTON_BOTTOM_DIMENS,
                       onPressed: () {
-                        _authenticate(transitions: true);
+                        if (!_lockedOut) {
+                          _authenticate(transitions: true);
+                        }
                       },
+                      disabled: _lockedOut
                     ),
                   ],
                 ) : SizedBox(),

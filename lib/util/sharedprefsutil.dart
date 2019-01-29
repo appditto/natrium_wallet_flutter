@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kalium_wallet_flutter/util/encrypt.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
@@ -26,6 +27,9 @@ class SharedPrefsUtil {
   static const String firstcontact_added = 'fkalium_first_c_added';
   static const String notification_enabled = 'fkalium_notification_on';
   static const String lock_kalium = 'fkalium_lock_dev';
+  // For maximum pin attempts
+  static const String pin_attempts = 'fkalium_pin_attempts';
+  static const String pin_lock_until = 'fkalium_lock_duraton';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -152,6 +156,52 @@ class SharedPrefsUtil {
     return await get(lock_kalium, defaultValue: false);
   }
 
+  // Locking out when max pin attempts exceeded
+  Future<int> getLockAttempts() async {
+    return await get(pin_attempts, defaultValue: 0);
+  }
+
+  Future<void> incrementLockAttempts() async {
+    await set(pin_attempts, await getLockAttempts() + 1);
+  }
+
+  Future<void> resetLockAttempts() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(pin_attempts);
+    await prefs.remove(pin_lock_until);
+  }
+
+  Future<bool> shouldLock() async {
+    if (await get(pin_lock_until) != null || await getLockAttempts() >= 5) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> updateLockDate() async {
+    int attempts = await getLockAttempts();
+    if (attempts >= 20) {
+      // 4+ failed attempts
+      await set(pin_lock_until, DateFormat.yMd().add_jms().format(DateTime.now().toUtc().add(Duration(hours: 24))));
+    } else if (attempts >= 15) {
+      // 3 failed attempts
+      await set(pin_lock_until, DateFormat.yMd().add_jms().format(DateTime.now().toUtc().add(Duration(minutes: 15))));
+    } else if (attempts >= 10) {
+      // 2 failed attempts
+      await set(pin_lock_until, DateFormat.yMd().add_jms().format(DateTime.now().toUtc().add(Duration(minutes: 5))));
+    } else if (attempts >= 5) {
+      await set(pin_lock_until, DateFormat.yMd().add_jms().format(DateTime.now().toUtc().add(Duration(minutes: 1))));
+    }
+  }
+
+  Future<DateTime> getLockDate() async {
+    String lockDateStr = await get(pin_lock_until);
+    if (lockDateStr == null) {
+      return null;
+    }
+    return DateFormat.yMd().add_jms().parseUtc(lockDateStr);
+  }
+
   // For logging out
   Future<void> deleteAll() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -163,5 +213,7 @@ class SharedPrefsUtil {
     await prefs.remove(auth_method);
     await prefs.remove(notification_enabled);
     await prefs.remove(lock_kalium);
+    await prefs.remove(pin_attempts);
+    await prefs.remove(pin_lock_until);
   }
 }
