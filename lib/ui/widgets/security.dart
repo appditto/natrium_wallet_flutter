@@ -26,25 +26,27 @@ class PinScreen extends StatefulWidget {
   final String description;
   final Function pinSuccessCallback;
   final Function onPopped;
+  final Color pinScreenBackgroundColor;
 
   PinScreen(this.type, this.pinSuccessCallback,
-      {this.description = "", this.expectedPin = "", this.onPopped});
+      {this.description = "", this.expectedPin = "", this.onPopped, this.pinScreenBackgroundColor = KaliumColors.backgroundDark});
 
   @override
   _PinScreenState createState() =>
-      _PinScreenState(type, expectedPin, description, pinSuccessCallback, onPopped);
+      _PinScreenState(type, expectedPin, description, pinSuccessCallback, onPopped, pinScreenBackgroundColor);
 }
 
 class _PinScreenState extends State<PinScreen>
     with SingleTickerProviderStateMixin {
   _PinScreenState(
-      this.type, this.expectedPin, this.description, this.successCallback, this.onPopped);
+      this.type, this.expectedPin, this.description, this.successCallback, this.onPopped, this.pinScreenBackgroundColor);
 
   PinOverlayType type;
   String expectedPin;
   Function successCallback;
   Function onPopped;
   String description;
+  Color pinScreenBackgroundColor;
   double buttonSize = 100.0;
 
   String pinEnterTitle = "";
@@ -263,7 +265,7 @@ class _PinScreenState extends State<PinScreen>
       body: Container(
         constraints: BoxConstraints.expand(),
         child: Material(
-          color: KaliumColors.backgroundDark,
+          color: pinScreenBackgroundColor,
           child: Column(
             children: <Widget>[
               Container(

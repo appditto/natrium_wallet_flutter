@@ -662,7 +662,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                       context,
                       KaliumLocalization.of(context).lockAppSetting,
                       _curUnlockSetting,
-                      KaliumIcons.logout,
+                      KaliumIcons.lock,
                       _lockDialog),
                   Divider(height: 2),
                   Container(

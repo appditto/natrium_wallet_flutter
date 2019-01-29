@@ -40,11 +40,12 @@ class KaliumIcons {
   static const IconData trashcan = const IconData(0xe811, fontFamily: _kFontFam);
   static const IconData currency = const IconData(0xe812, fontFamily: _kFontFam);
   static const IconData fingerprint = const IconData(0xe813, fontFamily: _kFontFam);
-  static const IconData logout = const IconData(0xe814, fontFamily: _kFontFam);
+  static const IconData warning = const IconData(0xe814, fontFamily: _kFontFam);
   static const IconData sent = const IconData(0xe815, fontFamily: _kFontFam);
   static const IconData received = const IconData(0xe816, fontFamily: _kFontFam);
   static const IconData info = const IconData(0xe817, fontFamily: _kFontFam);
   static const IconData btc = const IconData(0xe818, fontFamily: _kFontFam);
+  static const IconData lock = const IconData(0xe819, fontFamily: _kFontFam);
   static const IconData success = const IconData(0xe81a, fontFamily: _kFontFam);
   static const IconData export_icon = const IconData(0xe81c, fontFamily: _kFontFam);
   static const IconData import_icon = const IconData(0xe81d, fontFamily: _kFontFam);
@@ -54,6 +55,7 @@ class KaliumIcons {
   static const IconData addcontact = const IconData(0xe821, fontFamily: _kFontFam);
   static const IconData swapcurrency = const IconData(0xe822, fontFamily: _kFontFam);
   static const IconData max = const IconData(0xe823, fontFamily: _kFontFam);
+  static const IconData logout = const IconData(0xe824, fontFamily: _kFontFam);
   static const IconData bananocurrency = const IconData(0xe825, fontFamily: _kFontFam);
   static const IconData nanocurrency = const IconData(0xe826, fontFamily: _kFontFam);
 }
