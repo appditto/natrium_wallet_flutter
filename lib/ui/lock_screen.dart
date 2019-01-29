@@ -51,7 +51,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
         if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
           setState(() {
             _showLock = true;
-            _showUnlockButton = false;
+            _showUnlockButton = true;
           });
           BiometricUtil.authenticateWithBiometrics(
             KaliumLocalization.of(context).unlockBiometrics).then((authenticated) {
