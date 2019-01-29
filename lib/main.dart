@@ -120,6 +120,16 @@ class Splash extends StatefulWidget {
 
 class SplashState extends State<Splash> {
   Future checkLoggedIn() async {
+    // iOS key store is persistent, so if this is first launch then we will clear the keystore
+
+    // TODO - Uncomment this for app store release
+    /*
+    bool firstLaunch = await SharedPrefsUtil.inst.getFirstLaunch();
+    if (firstLaunch) {
+      await Vault.inst.deleteAll();
+    }
+    await SharedPrefsUtil.inst.setFirstLaunch();
+    */
     // See if logged in already
     bool isLoggedIn = false;
     var seed = await Vault.inst.getSeed();

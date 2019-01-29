@@ -18,6 +18,7 @@ class SharedPrefsUtil {
   static SharedPrefsUtil get inst => _singleton;
 
   // Keys
+  static const String first_launch_key = 'fkalium_first_launch';
   static const String seed_backed_up_key = 'fkalium_seed_backup';
   static const String app_uuid_key = 'fkalium_app_uuid';
   static const String price_conversion = 'fkalium_price_conversion_pref';
@@ -83,6 +84,15 @@ class SharedPrefsUtil {
   Future<bool> getSeedBackedUp() async {
     return await get(seed_backed_up_key, defaultValue: false);
   }
+
+  Future<void> setFirstLaunch() async {
+    return await set(first_launch_key, false);
+  }
+
+  Future<bool> getFirstLaunch() async {
+    return await get(first_launch_key, defaultValue: true);
+  }
+
 
   Future<void> setFirstContactAdded(bool value) async {
     return await set(firstcontact_added, value);

@@ -223,7 +223,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                     ],
                   ) : SizedBox(),
                 ),
-                _showUnlockButton ? Row(
+                _lockedOut ? Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Align(
