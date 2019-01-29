@@ -21,7 +21,6 @@ class KaliumLockScreen extends StatefulWidget {
 }
 
 class _KaliumLockScreenState extends State<KaliumLockScreen> {
-
   bool _showUnlockButton = false;
   bool _showLock = false;
   bool _lockedOut = true;
@@ -34,18 +33,17 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
       StateContainer.of(context).updateWallet(
           address: NanoUtil.seedToAddress(await Vault.inst.getSeed()));
     }
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('/home_transition', (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        '/home_transition', (Route<dynamic> route) => false);
   }
 
   Widget _buildPinScreen(BuildContext context, String expectedPin) {
-    return PinScreen(PinOverlayType.ENTER_PIN, 
-              (pin) {
-                _goHome();
-              },
-              expectedPin:expectedPin,
-              description: KaliumLocalization.of(context).unlockPin,
-              pinScreenBackgroundColor: KaliumColors.background);
+    return PinScreen(PinOverlayType.ENTER_PIN, (pin) {
+      _goHome();
+    },
+        expectedPin: expectedPin,
+        description: KaliumLocalization.of(context).unlockPin,
+        pinScreenBackgroundColor: KaliumColors.background);
   }
 
   String _formatCountDisplay(int count) {
@@ -148,29 +146,30 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
             _showUnlockButton = true;
           });
           BiometricUtil.authenticateWithBiometrics(
-            KaliumLocalization.of(context).unlockBiometrics).then((authenticated) {
+                  KaliumLocalization.of(context).unlockBiometrics)
+              .then((authenticated) {
             if (authenticated) {
               _goHome();
             } else {
               setState(() {
                 _showUnlockButton = true;
-              });              
+              });
             }
           });
         } else {
           // PIN Authentication
           Vault.inst.getPin().then((expectedPin) {
             if (transitions) {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return _buildPinScreen(context, expectedPin);
-                  }),
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (BuildContext context) {
+                  return _buildPinScreen(context, expectedPin);
+                }),
               );
             } else {
-              Navigator.of(context).push(NoPushTransitionRoute(
-                  builder: (BuildContext context) {
-                    return _buildPinScreen(context, expectedPin);
-                  }),
+              Navigator.of(context).push(
+                NoPushTransitionRoute(builder: (BuildContext context) {
+                  return _buildPinScreen(context, expectedPin);
+                }),
               );
             }
             Future.delayed(Duration(milliseconds: 200), () {
@@ -202,57 +201,59 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
             child: Column(
               children: <Widget>[
                 Expanded(
-                  child: _showLock ? Column(
-                    children: <Widget>[
-                      Container(
-                        child: Icon(
-                          KaliumIcons.lock,
-                          size: 80,
-                          color: KaliumColors.primary,
-                        ),
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.1),
-                      ),
-                      Container(
-                        child: Text(
-                          KaliumLocalization.of(context).locked.toUpperCase(),
-                          style: KaliumStyles.TextStyleHeaderColored,
-                        ),
-                        margin: EdgeInsets.only(top:10),
-                      ),
-                    ],
-                  ) : SizedBox(),
+                  child: _showLock
+                      ? Column(
+                          children: <Widget>[
+                            Container(
+                              child: Icon(
+                                KaliumIcons.lock,
+                                size: 80,
+                                color: KaliumColors.primary,
+                              ),
+                              margin: EdgeInsets.only(
+                                  top:
+                                      MediaQuery.of(context).size.height * 0.1),
+                            ),
+                            Container(
+                              child: Text(
+                                KaliumLocalization.of(context)
+                                    .locked
+                                    .toUpperCase(),
+                                style: KaliumStyles.TextStyleHeaderColored,
+                              ),
+                              margin: EdgeInsets.only(top: 10),
+                            ),
+                          ],
+                        )
+                      : SizedBox(),
                 ),
-                _lockedOut ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(KaliumLocalization.of(context).tooManyFailedAttempts,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: KaliumColors.primary,
-                            fontFamily: 'NunitoSans',
-                            fontWeight: FontWeight.w600,
-                          )),
-                    ),
-                  ],
-                ) : SizedBox(),
-                _showUnlockButton ? Row(
-                  children: <Widget>[
-                    KaliumButton.buildKaliumButton(
-                       KaliumButtonType.PRIMARY,
-                      _lockedOut ? _countDownTxt : KaliumLocalization.of(context).unlock,
-                      Dimens.BUTTON_BOTTOM_DIMENS,
-                      onPressed: () {
-                        if (!_lockedOut) {
-                          _authenticate(transitions: true);
-                        }
-                      },
-                      disabled: _lockedOut
-                    ),
-                  ],
-                ) : SizedBox(),
+                _lockedOut
+                    ? Container(
+                      width: MediaQuery.of(context).size.width-100,
+                      margin: EdgeInsets.symmetric(horizontal: 50),
+                      child: Text(
+                        KaliumLocalization.of(context).tooManyFailedAttempts,
+                        style: KaliumStyles.TextStyleErrorMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                    : SizedBox(),
+                _showUnlockButton
+                    ? Row(
+                        children: <Widget>[
+                          KaliumButton.buildKaliumButton(
+                              KaliumButtonType.PRIMARY,
+                              _lockedOut
+                                  ? _countDownTxt
+                                  : KaliumLocalization.of(context).unlock,
+                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                            if (!_lockedOut) {
+                              _authenticate(transitions: true);
+                            }
+                          }, disabled: _lockedOut),
+                        ],
+                      )
+                    : SizedBox(),
               ],
             )));
   }
