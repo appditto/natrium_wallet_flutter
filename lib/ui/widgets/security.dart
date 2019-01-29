@@ -99,7 +99,7 @@ class _PinScreenState extends State<PinScreen>
               if (_failedAttempts >= MAX_ATTEMPTS) {
                 SharedPrefsUtil.inst.updateLockDate().then((_) {
                   Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                      .pushNamedAndRemoveUntil('/lock_screen_transition', (Route<dynamic> route) => false);
                 });
               } else {
                 setState(() {

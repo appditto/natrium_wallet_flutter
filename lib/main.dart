@@ -102,6 +102,11 @@ class KaliumApp extends StatelessWidget {
                 builder: (_) => KaliumLockScreen(),
                 settings: settings,
               );            
+            case '/lock_screen_transition':
+              return MaterialPageRoute(
+                builder: (_) => KaliumLockScreen(),
+                settings: settings,
+              );          
             default:
               return null;
           }
