@@ -22,6 +22,7 @@ class KaliumLockScreen extends StatefulWidget {
 class _KaliumLockScreenState extends State<KaliumLockScreen> {
 
   bool _showUnlockButton = false;
+  bool _showLock = false;
 
   Future<void> _goHome() async {
     if (StateContainer.of(context).wallet != null) {
@@ -35,9 +36,6 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
   }
 
   Widget _buildPinScreen(BuildContext context, String expectedPin) {
-    setState(() {
-      _showUnlockButton = true;
-    });
     return PinScreen(PinOverlayType.ENTER_PIN, 
               (pin) {
                 _goHome();
@@ -52,6 +50,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
       BiometricUtil.hasBiometrics().then((hasBiometrics) {
         if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
           setState(() {
+            _showLock = true;
             _showUnlockButton = false;
           });
           BiometricUtil.authenticateWithBiometrics(
@@ -80,6 +79,14 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                   }),
               );
             }
+            Future.delayed(Duration(milliseconds: 200), () {
+              if (mounted) {
+                setState(() {
+                  _showUnlockButton = true;
+                  _showLock = true;
+                });
+              }
+            });
           });
         }
       });
@@ -101,7 +108,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
             child: Column(
               children: <Widget>[
                 Expanded(
-                  child: Column(
+                  child: _showLock ? Column(
                     children: <Widget>[
                       Container(
                         child: Icon(
@@ -120,7 +127,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                         margin: EdgeInsets.only(top:10),
                       ),
                     ],
-                  ),
+                  ) : SizedBox(),
                 ),
                 _showUnlockButton ? Row(
                   children: <Widget>[
