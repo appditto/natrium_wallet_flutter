@@ -25,23 +25,25 @@ class PinScreen extends StatefulWidget {
   final String expectedPin;
   final String description;
   final Function pinSuccessCallback;
+  final Function onPopped;
 
   PinScreen(this.type, this.pinSuccessCallback,
-      {this.description = "", this.expectedPin = ""});
+      {this.description = "", this.expectedPin = "", this.onPopped});
 
   @override
   _PinScreenState createState() =>
-      _PinScreenState(type, expectedPin, description, pinSuccessCallback);
+      _PinScreenState(type, expectedPin, description, pinSuccessCallback, onPopped);
 }
 
 class _PinScreenState extends State<PinScreen>
     with SingleTickerProviderStateMixin {
   _PinScreenState(
-      this.type, this.expectedPin, this.description, this.successCallback);
+      this.type, this.expectedPin, this.description, this.successCallback, this.onPopped);
 
   PinOverlayType type;
   String expectedPin;
   Function successCallback;
+  Function onPopped;
   String description;
   double buttonSize = 100.0;
 
@@ -225,6 +227,13 @@ class _PinScreenState extends State<PinScreen>
     );
   }
 
+  Future<bool> _onWillPop() async {
+    if (onPopped != null) {
+      onPopped();
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (pinEnterTitle.isEmpty) {
@@ -248,7 +257,9 @@ class _PinScreenState extends State<PinScreen>
         statusBarIconBrightness: Brightness.light,
         statusBarColor: Colors.transparent));
 
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
       body: Container(
         constraints: BoxConstraints.expand(),
         child: Material(
@@ -428,6 +439,6 @@ class _PinScreenState extends State<PinScreen>
           ),
         ),
       ),
-    );
+    ));
   }
 }

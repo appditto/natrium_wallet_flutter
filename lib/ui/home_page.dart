@@ -44,6 +44,7 @@ class KaliumHomePage extends StatefulWidget {
 
 class _KaliumHomePageState extends State<KaliumHomePage>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
+  static const int AUTO_LOCK_MINUTES = 5; // Auto lock after this time idle (if enabled in settings)
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final GlobalKey<KaliumScaffoldState> _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
 
@@ -293,10 +294,12 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     switch (state) {
       case AppLifecycleState.paused:
         _destroyBus();
+        setAppLockEvent();
         StateContainer.of(context).disconnect();
         super.didChangeAppLifecycleState(state);
         break;
       case AppLifecycleState.resumed:
+        cancelLockEvent();
         _registerBus();
         StateContainer.of(context).reconnect();
         super.didChangeAppLifecycleState(state);
@@ -304,6 +307,30 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       default:
         super.didChangeAppLifecycleState(state);
         break;
+    }
+  }
+
+  // To lock and unlock the app
+  StreamSubscription<dynamic> lockStreamListener;
+
+  Future<void> setAppLockEvent() async {
+    if (await SharedPrefsUtil.inst.getLock()) {
+      if (lockStreamListener != null) {
+        lockStreamListener.cancel();
+      }
+      Future<dynamic> delayed = new Future.delayed(new Duration(minutes: AUTO_LOCK_MINUTES));
+      delayed.then((_) {
+        return true;
+      });
+      lockStreamListener = delayed.asStream().listen((_) {
+        Navigator.of(context).pushReplacementNamed('/');
+      });
+    }
+  }
+
+  Future<void> cancelLockEvent() async {
+    if (lockStreamListener != null) {
+      lockStreamListener.cancel();
     }
   }
 

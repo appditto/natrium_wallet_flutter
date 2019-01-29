@@ -136,11 +136,13 @@ class KaliumLocalization {
       desc: "transaction_details", name: 'viewDetails');  
   }
 
+  // TODO - translate
   String get qrInvalidSeed {
     return Intl.message("QR code does not contain a valid seed or private key",
       desc: "invalid seed/privkey scanned", name: 'qrInvalidSeed');
   }
 
+  // TODO - translate
   String get qrInvalidAddress {
     return Intl.message("QR code does not contain a valid address",
       desc: "invalid  address scanned", name: 'qrInvalidAddress');
@@ -238,11 +240,13 @@ class KaliumLocalization {
         desc: 'intro_new_wallet_seed', name: 'seedBackupInfo');
   }
 
+  // TODO - translate
   String get copySeed {
     return Intl.message("Copy Seed",
       desc: 'copy seed button', name: 'copySeed');
   }
 
+  // TODO - translate
   String get seedCopiedShort {
     return Intl.message("Seed Copied",
       desc: 'seed copied button', name: 'seedCopiedShort');
@@ -581,6 +585,18 @@ class KaliumLocalization {
       desc: 'transfer_header', name: 'transferHeader');
   }
 
+  // TODO - translate
+  String get transfer {
+    return Intl.message("Transfer",
+      desc: 'TRANSFER', name: 'transfer');
+  }
+
+  // TODO - translate
+  String get transferManualHint {
+    return Intl.message("Please enter the seed below.",
+      desc: 'TRANSFER', name: 'transfer');
+  }
+
   String get transferIntro {
     return Intl.message("This process will transfer the funds from a paper wallet to your Kalium wallet.\n\nTap the \"%1\" button to start.",
       desc: 'transfer_intro', name: 'transferIntro');
@@ -643,6 +659,27 @@ class KaliumLocalization {
     return Intl.message("Scan a Banano \naddress QR code",
       desc: 'scan_send_instruction_label', name: 'scanInstructions');
   }
+
+  /// -- LOCK SCREEN 
+
+  // TODO - translate all of these
+
+  String get unlockPin {
+    return Intl.message("Enter PIN to Unlock Kalium",
+      desc: 'unlock_kalium_pin', name: 'unlockPin');
+  }
+
+  String get unlockBiometrics {
+    return Intl.message("Authenticate to Unlock Kalium",
+      desc: 'unlock_kalium_bio', name: 'unlockPin');
+  }
+
+  String get lockAppSetting {
+    return Intl.message("Authenticate on Launch",
+      desc: 'unlock_kalium_bio', name: 'unlockPin');
+  }
+
+  /// -- END LOCK SCREEN
 
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash) {
