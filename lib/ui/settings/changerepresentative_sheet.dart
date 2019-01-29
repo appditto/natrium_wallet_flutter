@@ -145,7 +145,7 @@ class KaliumChangeRepresentativeSheet {
                         margin: EdgeInsets.only(top: 10.0, right: 10.0),
                         child: FlatButton(
                           onPressed: () {
-                            BarcodeScanner.scan().then((result) {
+                            BarcodeScanner.scan("kalium").then((result) {
                               if (result == null) { return; }
                               Address address =
                                   new Address(result);

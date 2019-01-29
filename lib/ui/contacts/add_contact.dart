@@ -124,7 +124,7 @@ class AddContactSheet {
                       child:  address == null ? FlatButton(
                         onPressed: () {
                             try {
-                              BarcodeScanner.scan().then((value) {
+                              BarcodeScanner.scan("kalium").then((value) {
                                 Address address = Address(value);
                                 if (!address.isValid()) {
                                   UIUtil.showSnackbar(KaliumLocalization.of(context).qrInvalidAddress, context);
