@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/model/setting_item.dart';
 
 class KaliumSettings {
   //Settings item with a dropdown option
-  static Widget buildSettingsListItemDoubleLine(BuildContext context, String heading, SettingSelectionItem defaultMethod, IconData icon, Function onPressed) {
+  static Widget buildSettingsListItemDoubleLine(
+      BuildContext context,
+      String heading,
+      SettingSelectionItem defaultMethod,
+      IconData icon,
+      Function onPressed) {
     return FlatButton(
       onPressed: () {
         onPressed();
@@ -13,13 +19,16 @@ class KaliumSettings {
       padding: EdgeInsets.all(0.0),
       child: Container(
         height: 60.0,
-        margin: new EdgeInsets.only(left: 30.0),
+        margin: EdgeInsets.only(left: 30.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              margin: new EdgeInsets.only(right: 16.0),
-              child: new Icon(icon, color: KaliumColors.primary, size: 24),
+              margin: EdgeInsets.only(right: 13.0),
+              child: Container(
+                child: Icon(icon, color: KaliumColors.primary, size: 24),
+                margin: EdgeInsets.only(top: 3, left: 3, bottom: 3, right: 3),
+              ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -42,7 +51,9 @@ class KaliumSettings {
   }
 
   //Settings item without any dropdown option but rather a direct functionality
-  static Widget buildSettingsListItemSingleLine(String heading, IconData settingIcon, { Function onPressed }) {
+  static Widget buildSettingsListItemSingleLine(
+      String heading, IconData settingIcon,
+      {Function onPressed}) {
     return FlatButton(
       onPressed: () {
         if (onPressed != null) {
@@ -58,8 +69,19 @@ class KaliumSettings {
         child: Row(
           children: <Widget>[
             Container(
-                margin: new EdgeInsets.only(right: 16.0),
-                child: new Icon(settingIcon, color: KaliumColors.primary, size: 24)),
+                margin: new EdgeInsets.only(right: 13.0),
+                child: Container(
+                  child: new Icon(
+                    settingIcon,
+                    color: KaliumColors.primary,
+                    size: 24,
+                  ),
+                  margin: EdgeInsets.only(
+                      top: 3,
+                      left: settingIcon == KaliumIcons.logout ? 6 : 3,
+                      bottom: 3,
+                      right: settingIcon == KaliumIcons.logout ? 0 : 3,),
+                ),),
             Text(
               heading,
               style: KaliumStyles.TextStyleSettingItemHeader,
