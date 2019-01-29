@@ -44,7 +44,7 @@ class KaliumHomePage extends StatefulWidget {
 
 class _KaliumHomePageState extends State<KaliumHomePage>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
-  static const int AUTO_LOCK_MINUTES = 5; // Auto lock after this time idle (if enabled in settings)
+  static const int AUTO_LOCK_MINUTES = 1; // Auto lock after this time idle (if enabled in settings)
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final GlobalKey<KaliumScaffoldState> _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
 
