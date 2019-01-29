@@ -97,6 +97,9 @@ class _PinScreenState extends State<PinScreen>
             SharedPrefsUtil.inst.incrementLockAttempts().then((_) {
               _failedAttempts++;
               if (_failedAttempts >= MAX_ATTEMPTS) {
+                setState(() {
+                  _controller.value = 0;
+                });
                 SharedPrefsUtil.inst.updateLockDate().then((_) {
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil('/lock_screen_transition', (Route<dynamic> route) => false);
