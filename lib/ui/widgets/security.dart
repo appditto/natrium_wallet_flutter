@@ -194,6 +194,7 @@ class _PinScreenState extends State<PinScreen>
               if (type == PinOverlayType.ENTER_PIN) {
                 // Pin is not what was expected
                 if (_pin != expectedPin) {
+                  HapticUtil.error();
                   SharedPrefsUtil.inst.incrementLockAttempts().then((_) {
                     _failedAttempts++;
                     if (_failedAttempts >= MAX_ATTEMPTS) {
@@ -202,7 +203,6 @@ class _PinScreenState extends State<PinScreen>
                             .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                       });
                     } else {
-                      HapticUtil.error();
                       _controller.forward();
                     }
                   });
