@@ -51,7 +51,11 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
   String _formatCountDisplay(int count) {
     if (count <= 60) {
       // Seconds only
-      return "00:" + count.toString();
+      String secondsStr = count.toString();
+      if (count < 10) {
+        secondsStr = "0" + secondsStr;
+      }
+      return "00:" + secondsStr;
     } else if (count > 60 && count <= 3600) {
       // Minutes:Seconds
       String minutesStr = "";
