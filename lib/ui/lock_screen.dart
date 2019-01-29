@@ -36,16 +36,11 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
 
   Widget _buildPinScreen(BuildContext context, String expectedPin) {
     setState(() {
-      _showUnlockButton = false;
+      _showUnlockButton = true;
     });
     return PinScreen(PinOverlayType.ENTER_PIN, 
               (pin) {
                 _goHome();
-              },
-              onPopped: () {
-                setState(() {
-                  _showUnlockButton = true;
-                });
               },
               expectedPin:expectedPin,
               description: KaliumLocalization.of(context).unlockPin,
