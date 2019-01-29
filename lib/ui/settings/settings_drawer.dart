@@ -648,7 +648,6 @@ class _SettingsSheetState extends State<SettingsSheet>
                       _curNotificiationSetting,
                       KaliumIcons.notifications,
                       _notificationsDialog),
-                  Divider(height: 2),
                   _hasBiometrics ? Divider(height: 2) : null,
                   _hasBiometrics
                       ? KaliumSettings.buildSettingsListItemDoubleLine(
