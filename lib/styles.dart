@@ -217,6 +217,7 @@ class KaliumStyles {
       color: KaliumColors.text,
     );
   }
+
   // Text style for settings headers
   static TextStyle textStyleSettingsHeader() {
     return TextStyle(
@@ -261,6 +262,14 @@ class KaliumStyles {
     fontWeight: FontWeight.w100,
     color: KaliumColors.text60,
   );
+
+  // Text style for lock screen error
+  static const TextStyleErrorMedium = TextStyle(
+    fontSize: KaliumFontSizes.small,
+    color: KaliumColors.primary,
+    fontFamily: 'NunitoSans',
+    fontWeight: FontWeight.w600,
+  );
 }
 
 class KaliumFontSizes {
@@ -279,6 +288,7 @@ class KaliumFontSizes {
     }
     return _largest;
   }
+
   static double large(context) {
     if (smallScreen(context)) {
       return _sslarge;
@@ -287,8 +297,9 @@ class KaliumFontSizes {
   }
 }
 
-bool smallScreen(BuildContext context){
-  if(MediaQuery.of(context).size.height<667)
+bool smallScreen(BuildContext context) {
+  if (MediaQuery.of(context).size.height < 667)
     return true;
-  else return false;
+  else
+    return false;
 }
