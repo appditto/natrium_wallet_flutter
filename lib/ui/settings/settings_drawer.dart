@@ -641,6 +641,14 @@ class _SettingsSheetState extends State<SettingsSheet>
                       KaliumLocalization.of(context).language,
                       KaliumLocalization.of(context).systemDefault,
                       KaliumIcons.language),*/
+                  Divider(height: 2),
+                  KaliumSettings.buildSettingsListItemDoubleLine(
+                      context,
+                      KaliumLocalization.of(context).notifications,
+                      _curNotificiationSetting,
+                      KaliumIcons.notifications,
+                      _notificationsDialog),
+                  Divider(height: 2),
                   _hasBiometrics ? Divider(height: 2) : null,
                   _hasBiometrics
                       ? KaliumSettings.buildSettingsListItemDoubleLine(
@@ -650,13 +658,6 @@ class _SettingsSheetState extends State<SettingsSheet>
                           KaliumIcons.fingerprint,
                           _authMethodDialog)
                       : null,
-                  Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemDoubleLine(
-                      context,
-                      KaliumLocalization.of(context).notifications,
-                      _curNotificiationSetting,
-                      KaliumIcons.notifications,
-                      _notificationsDialog),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemDoubleLine(
                       context,
