@@ -9,6 +9,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
+import 'package:kalium_wallet_flutter/ui/util/routes.dart';
 
 class KaliumLockScreen extends StatefulWidget {
   @override
@@ -23,10 +24,20 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
     } else {
       StateContainer.of(context).updateWallet(address: NanoUtil.seedToAddress(await Vault.inst.getSeed()));
     }
-    Navigator.of(context).pushReplacementNamed('/home_transition');
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('/home_transition', (Route<dynamic> route) => false);
   }
 
-  Future<void> _authenticate() async {
+  Widget _buildPinScreen(BuildContext context, String expectedPin) {
+    return PinScreen(PinOverlayType.ENTER_PIN, 
+              (pin) {
+                _goHome();
+              },
+              expectedPin:expectedPin,
+              description: KaliumLocalization.of(context).unlockPin);
+  }
+
+  Future<void> _authenticate({bool transitions = false}) async {
       SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
         BiometricUtil.hasBiometrics().then((hasBiometrics) {
           if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
@@ -39,15 +50,19 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
           } else {
             // PIN Authentication
             Vault.inst.getPin().then((expectedPin) {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) {
-                return new PinScreen(PinOverlayType.ENTER_PIN, 
-                                    (pin) {
-                                      _goHome();
-                                    },
-                                    expectedPin:expectedPin,
-                                    description: KaliumLocalization.of(context).unlockPin);
-              }));
+              if (transitions) {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return _buildPinScreen(context, expectedPin);
+                    }),
+                );
+              } else {
+                Navigator.of(context).push(NoPushTransitionRoute(
+                    builder: (BuildContext context) {
+                      return _buildPinScreen(context, expectedPin);
+                    }),
+                );
+              }
             });
           }
         });
@@ -75,7 +90,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                   "Unlock",
                   Dimens.BUTTON_BOTTOM_DIMENS,
                   onPressed: () {
-                    _authenticate();
+                    _authenticate(transitions: true);
                   },
                 ),
               ],

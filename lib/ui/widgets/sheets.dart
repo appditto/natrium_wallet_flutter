@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:kalium_wallet_flutter/ui/util/routes.dart';
 
 class KaliumSheets {
   //Kalium Ninty Height Sheet
@@ -31,7 +32,7 @@ class KaliumSheets {
         onDisposed: onDisposed);
     if (removeUntilHome) {
       return Navigator.pushAndRemoveUntil<T>(
-          context, route, ModalRoute.withName('/home'));
+          context, route, RouteUtils.withNameLike('/home'));
     }
     return Navigator.push<T>(context, route);
   }

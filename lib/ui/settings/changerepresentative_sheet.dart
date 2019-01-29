@@ -15,6 +15,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
+import 'package:kalium_wallet_flutter/ui/util/routes.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/kalium_icons.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
@@ -57,7 +58,7 @@ class KaliumChangeRepresentativeSheet {
         StateContainer.of(context).wallet.representative =
             stateBlock.representative;
         UIUtil.showSnackbar(KaliumLocalization.of(context).changeRepSucces, context);
-        Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+        Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
       }
     });
 

@@ -15,6 +15,7 @@ import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_backup_seed.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_backup_confirm.dart';
 import 'package:kalium_wallet_flutter/ui/intro/intro_import_seed.dart';
+import 'package:kalium_wallet_flutter/ui/util/routes.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
@@ -72,7 +73,7 @@ class KaliumApp extends StatelessWidget {
                 settings: settings,
               );
             case '/home_transition':
-              return MaterialPageRoute(
+              return NoPopTransitionRoute(
                 builder: (_) => KaliumHomePage(),
                 settings: settings,
               );
@@ -107,21 +108,6 @@ class KaliumApp extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-/// NoTransitionRoute
-/// Custom route which has no transitions
-class NoTransitionRoute<T> extends MaterialPageRoute<T> {
-  NoTransitionRoute({ WidgetBuilder builder, RouteSettings settings })
-      : super(builder: builder, settings: settings);
-
-  @override
-  Widget buildTransitions(BuildContext context,
-      Animation<double> animation,
-      Animation<double> secondaryAnimation,
-      Widget child) {
-    return child;
   }
 }
 

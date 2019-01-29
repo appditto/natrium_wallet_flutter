@@ -27,6 +27,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_drawer.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/kalium_scaffold.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:kalium_wallet_flutter/ui/util/routes.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/reactive_refresh.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
@@ -221,7 +222,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             NumberUtil.getRawAsUsableString(stateBlock.sendAmount);
         DBHelper().getContactWithAddress(stateBlock.link).then((contact) {
           String contactName = contact == null ? null : contact.name;
-          Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+          Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
           KaliumSendCompleteSheet(displayAmount, stateBlock.link, contactName)
               .mainBottomSheet(context);
         });
@@ -253,7 +254,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
           contactName = contact.name;
         }
         // Remove any other screens from stack
-        Navigator.of(context).popUntil(ModalRoute.withName('/home'));
+        Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
         if (amount != null) {
           // Go to send confirm with amount
           KaliumSendConfirmSheet(
