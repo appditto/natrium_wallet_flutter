@@ -303,34 +303,41 @@ class KaliumSendSheet {
                                             alignment: Alignment.bottomCenter,
                                             constraints: BoxConstraints(
                                                 maxHeight: 174, minHeight: 0),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(25),
-                                                color: KaliumColors
-                                                    .backgroundDarkest,
-                                              ),
+                                            // ********************************************* //
+                                            // ********* The pop-up Contacts List ********* //
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(25),
+                                                  color: KaliumColors
+                                                      .backgroundDarkest,
                                                 ),
-                                                margin:
-                                                    EdgeInsets.only(bottom: 50),
-                                                // ********* The pop-up Contacts List ********* //
-                                                child: ListView.builder(
-                                                  shrinkWrap: true,
-                                                  padding: EdgeInsets.only(
-                                                      bottom: 0, top: 0),
-                                                  itemCount: _contacts.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return _buildContactItem(
-                                                        context,
-                                                        setState,
-                                                        _contacts[index]);
-                                                  },
-                                                ), // ********* The pop-up Contacts List End ********* //
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25),
+                                                  ),
+                                                  margin: EdgeInsets.only(
+                                                      bottom: 50),
+                                                  child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 0, top: 0),
+                                                    itemCount: _contacts.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return _buildContactItem(
+                                                          context,
+                                                          setState,
+                                                          _contacts[index]);
+                                                    },
+                                                  ), // ********* The pop-up Contacts List End ********* //
+                                                  // ************************************************** //
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -422,7 +429,10 @@ class KaliumSendSheet {
                               BarcodeScanner.scan().then((value) {
                                 Address address = Address(value);
                                 if (!address.isValid()) {
-                                  UIUtil.showSnackbar(KaliumLocalization.of(context).qrInvalidAddress, context);
+                                  UIUtil.showSnackbar(
+                                      KaliumLocalization.of(context)
+                                          .qrInvalidAddress,
+                                      context);
                                 } else {
                                   DBHelper()
                                       .getContactWithAddress(address.address)
@@ -504,7 +514,6 @@ class KaliumSendSheet {
       children: <Widget>[
         Container(
           height: 42,
-          margin: EdgeInsets.symmetric(horizontal: 25),
           width: double.infinity - 5,
           child: FlatButton(
             onPressed: () {
@@ -517,8 +526,6 @@ class KaliumSendSheet {
                 _sendAddressStyle = KaliumStyles.TextStyleAddressPrimary;
               });
             },
-            highlightColor: KaliumColors.text03,
-            splashColor: KaliumColors.text03,
             child: Text(contact.name,
                 textAlign: TextAlign.center,
                 style: KaliumStyles.TextStyleAddressPrimary),
