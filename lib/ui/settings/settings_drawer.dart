@@ -367,24 +367,24 @@ class _SettingsSheetState extends State<SettingsSheet>
             children: <Widget>[
               KaliumSimpleDialogOption(
                 onPressed: () {
-                  Navigator.pop(context, AuthMethod.PIN);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    KaliumLocalization.of(context).pinMethod,
-                    style: KaliumStyles.TextStyleDialogOptions,
-                  ),
-                ),
-              ),
-              KaliumSimpleDialogOption(
-                onPressed: () {
                   Navigator.pop(context, AuthMethod.BIOMETRICS);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     KaliumLocalization.of(context).biometricsMethod,
+                    style: KaliumStyles.TextStyleDialogOptions,
+                  ),
+                ),
+              ),
+              KaliumSimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, AuthMethod.PIN);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    KaliumLocalization.of(context).pinMethod,
                     style: KaliumStyles.TextStyleDialogOptions,
                   ),
                 ),

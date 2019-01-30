@@ -13,41 +13,50 @@ class KaliumSettings {
       IconData icon,
       Function onPressed,
       {bool disabled = false}) {
-    return FlatButton(
-      onPressed: () {
-        if(!disabled) {
+    return IgnorePointer(
+      ignoring: disabled,
+      child: FlatButton(
+        onPressed: () {
           onPressed();
-        }
-      },
-      padding: EdgeInsets.all(0.0),
-      child: Container(
-        height: 60.0,
-        margin: EdgeInsets.only(left: 30.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(right: 13.0),
-              child: Container(
-                child: Icon(icon, color: disabled ? KaliumColors.primary60 : KaliumColors.primary, size: 24),
-                margin: EdgeInsets.only(top: 3, left: 3, bottom: 3, right: 3),
+        },
+        padding: EdgeInsets.all(0.0),
+        child: Container(
+          height: 60.0,
+          margin: EdgeInsets.only(left: 30.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(right: 13.0),
+                child: Container(
+                  child: Icon(icon,
+                      color: disabled
+                          ? KaliumColors.primary45
+                          : KaliumColors.primary,
+                      size: 24),
+                  margin: EdgeInsets.only(top: 3, left: 3, bottom: 3, right: 3),
+                ),
               ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  heading,
-                  style: disabled ? KaliumStyles.TextStyleSettingItemHeader60 : KaliumStyles.TextStyleSettingItemHeader,
-                ),
-                Text(
-                  defaultMethod.getDisplayName(context),
-                  style: disabled ? KaliumStyles.TextStyleSettingItemSubheader20 : KaliumStyles.TextStyleSettingItemSubheader,
-                ),
-              ],
-            ),
-          ],
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    heading,
+                    style: disabled
+                        ? KaliumStyles.TextStyleSettingItemHeader45
+                        : KaliumStyles.TextStyleSettingItemHeader,
+                  ),
+                  Text(
+                    defaultMethod.getDisplayName(context),
+                    style: disabled
+                        ? KaliumStyles.TextStyleSettingItemSubheader30
+                        : KaliumStyles.TextStyleSettingItemSubheader,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -72,19 +81,21 @@ class KaliumSettings {
         child: Row(
           children: <Widget>[
             Container(
-                margin: new EdgeInsets.only(right: 13.0),
-                child: Container(
-                  child: new Icon(
-                    settingIcon,
-                    color: KaliumColors.primary,
-                    size: 24,
-                  ),
-                  margin: EdgeInsets.only(
-                      top: 3,
-                      left: settingIcon == KaliumIcons.logout ? 6 : 3,
-                      bottom: 3,
-                      right: settingIcon == KaliumIcons.logout ? 0 : 3,),
-                ),),
+              margin: new EdgeInsets.only(right: 13.0),
+              child: Container(
+                child: new Icon(
+                  settingIcon,
+                  color: KaliumColors.primary,
+                  size: 24,
+                ),
+                margin: EdgeInsets.only(
+                  top: 3,
+                  left: settingIcon == KaliumIcons.logout ? 6 : 3,
+                  bottom: 3,
+                  right: settingIcon == KaliumIcons.logout ? 0 : 3,
+                ),
+              ),
+            ),
             Text(
               heading,
               style: KaliumStyles.TextStyleSettingItemHeader,
