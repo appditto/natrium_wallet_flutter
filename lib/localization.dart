@@ -697,6 +697,17 @@ class KaliumLocalization {
 
   /// -- END LOCK SCREEN
 
+  /// -- SECURITY SETTINGS SUBMENU
+
+  // TODO - Translate
+
+  String get securityHeader {
+    return Intl.message("Security",
+      desc: 'security_header', name:'securityHeader');
+  }
+
+  /// -- END SECURITY SETTINGS SUBMENU
+
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash) {
     return 'https://creeper.banano.cc/explorer/block/$hash';

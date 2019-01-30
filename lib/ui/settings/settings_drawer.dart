@@ -51,6 +51,8 @@ class _SettingsSheetState extends State<SettingsSheet>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   AnimationController _controller;
   Animation<Offset> _offsetFloat;
+  AnimationController _securityController;
+  Animation<Offset> _securityOffsetFloat;
   Animation<double> _fade;
   Animation<double> _fade2;
 
@@ -67,6 +69,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       UnlockSetting(UnlockOption.NO);
 
   bool _contactsOpen;
+  bool _securityOpen;
 
   List<Contact> _contacts;
 
@@ -154,6 +157,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   void initState() {
     super.initState();
     _contactsOpen = false;
+    _securityOpen = false;
     // Determine if they have face or fingerprint enrolled, if not hide the setting
     BiometricUtil.hasBiometrics().then((bool hasBiometrics) {
       setState(() {
@@ -197,9 +201,16 @@ class _SettingsSheetState extends State<SettingsSheet>
       vsync: this,
       duration: const Duration(milliseconds: 220),
     );
+    // For security menu
+    _securityController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 220),
+    );
 
     _offsetFloat = Tween<Offset>(begin: Offset(1.1, 0), end: Offset(0, 0))
         .animate(_controller);
+    _securityOffsetFloat = Tween<Offset>(begin: Offset(1.1, 0), end: Offset(0, 0))
+        .animate(_securityController);
 
     // Version string
     PackageInfo.fromPlatform().then((packageInfo) {
@@ -258,6 +269,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   @override
   void dispose() {
     _controller.dispose();
+    _securityController.dispose();
     _destroyBus();
     super.dispose();
   }
@@ -569,6 +581,12 @@ class _SettingsSheetState extends State<SettingsSheet>
       });
       _controller.reverse();
       return false;
+    } else if (_securityOpen) {
+      setState(() {
+        _securityOpen = false;
+      });
+      _securityController.reverse();
+      return false;
     }
     return true;
   }
@@ -590,6 +608,8 @@ class _SettingsSheetState extends State<SettingsSheet>
             buildMainSettings(context),
             SlideTransition(
                 position: _offsetFloat, child: buildContacts(context)),
+            SlideTransition(
+                position: _securityOffsetFloat, child: buildSecurityMenu(context)),
           ],
         ),
       ),
@@ -682,6 +702,15 @@ class _SettingsSheetState extends State<SettingsSheet>
                       _contactsOpen = true;
                     });
                     _controller.forward();
+                  }),
+                  Divider(height: 2),
+                  KaliumSettings.buildSettingsListItemSingleLine(
+                      KaliumLocalization.of(context).securityHeader,
+                      KaliumIcons.contacts, onPressed: () {
+                    setState(() {
+                      _securityOpen = true;
+                    });
+                    _securityController.forward();
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
@@ -854,7 +883,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     ),
                     //Contacts Header Text
                     Text(
-                      "Contacts",
+                      KaliumLocalization.of(context).contactsHeader,
                       style: KaliumStyles.textStyleSettingsHeader(),
                     ),
                   ],
@@ -1028,6 +1057,134 @@ class _SettingsSheetState extends State<SettingsSheet>
           ),
         ),
       ]),
+    );
+  }
+
+Widget buildSecurityMenu(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: KaliumColors.backgroundDark,
+        boxShadow: [
+          BoxShadow(color: KaliumColors.overlay30, offset: Offset(-5, 0), blurRadius: 20),
+        ],
+      ),
+      child: Column(
+        children: <Widget>[
+          // Back button and Security Text
+          Container(
+            margin: EdgeInsets.only(top: 60.0, bottom: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    //Back button
+                    Container(
+                      height: 40,
+                      width: 40,
+                      margin: EdgeInsets.only(right: 10, left: 10),
+                      child: FlatButton(
+                          onPressed: () {
+                            setState(() {
+                              _securityOpen = false;
+                            });
+                            _securityController.reverse();
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0)),
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(KaliumIcons.back,
+                              color: KaliumColors.text, size: 24)),
+                    ),
+                    //Security Header Text
+                    Text(
+                      KaliumLocalization.of(context).securityHeader,
+                      style: KaliumStyles.textStyleSettingsHeader(),
+                    ),
+                  ],
+                ),                
+              ],
+            ),
+          ),
+          // Contacts list + top and bottom gradients
+          Expanded(
+            child: Stack(
+              children: <Widget>[
+                // Contacts list
+                ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(top: 15.0),
+                  itemCount: _contacts.length,
+                  itemBuilder: (context, index) {
+                    // Some disaster recovery if monKey is in DB, but doesnt exist in filesystem
+                    if (_contacts[index].monkeyPath != null) {
+                      File("$documentsDirectory/${_contacts[index].monkeyPath}")
+                          .exists()
+                          .then((exists) {
+                        if (!exists) {
+                          DBHelper()
+                              .setMonkeyForContact(_contacts[index], null);
+                        }
+                      });
+                    }
+                    // Build contact
+                    return buildSingleContact(context, _contacts[index]);
+                  },
+                ),
+                //List Top Gradient End
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height: 20.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          KaliumColors.backgroundDark,
+                          KaliumColors.backgroundDark00
+                        ],
+                        begin: Alignment(0.5, -1.0),
+                        end: Alignment(0.5, 1.0),
+                      ),
+                    ),
+                  ),
+                ),
+                //List Bottom Gradient End
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 15.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          KaliumColors.backgroundDark00,
+                          KaliumColors.backgroundDark,
+                        ],
+                        begin: Alignment(0.5, -1.0),
+                        end: Alignment(0.5, 1.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10),
+            child: Row(
+              children: <Widget>[
+                KaliumButton.buildKaliumButton(
+                    KaliumButtonType.TEXT_OUTLINE,
+                    KaliumLocalization.of(context).addContact,
+                    Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                  AddContactSheet().mainBottomSheet(context);
+                }),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
