@@ -31,7 +31,8 @@ class BiometricUtil {
       LocalAuthentication localAuth = new LocalAuthentication();
       return await localAuth.authenticateWithBiometrics(
         localizedReason: message,
-        useErrorDialogs: false
+        useErrorDialogs: false,
+        dialogTheme: FPDialogTheme.KALIUM
       );
     }
     return false;
