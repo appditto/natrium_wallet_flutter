@@ -488,24 +488,24 @@ class _SettingsSheetState extends State<SettingsSheet>
             children: <Widget>[
               KaliumSimpleDialogOption(
                 onPressed: () {
-                  Navigator.pop(context, UnlockOption.YES);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    KaliumLocalization.of(context).yes,
-                    style: KaliumStyles.TextStyleDialogOptions,
-                  ),
-                ),
-              ),
-              KaliumSimpleDialogOption(
-                onPressed: () {
                   Navigator.pop(context, UnlockOption.NO);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     KaliumLocalization.of(context).no,
+                    style: KaliumStyles.TextStyleDialogOptions,
+                  ),
+                ),
+              ),
+              KaliumSimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, UnlockOption.YES);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    KaliumLocalization.of(context).yes,
                     style: KaliumStyles.TextStyleDialogOptions,
                   ),
                 ),
