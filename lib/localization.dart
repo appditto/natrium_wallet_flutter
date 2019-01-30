@@ -136,16 +136,14 @@ class KaliumLocalization {
       desc: "transaction_details", name: 'viewDetails');  
   }
 
-  // TODO - translate
   String get qrInvalidSeed {
     return Intl.message("QR code does not contain a valid seed or private key",
-      desc: "invalid seed/privkey scanned", name: 'qrInvalidSeed');
+      desc: "qr_invalid_seed", name: 'qrInvalidSeed');
   }
 
-  // TODO - translate
   String get qrInvalidAddress {
     return Intl.message("QR code does not contain a valid address",
-      desc: "invalid  address scanned", name: 'qrInvalidAddress');
+      desc: "qr_invalid_address", name: 'qrInvalidAddress');
   }
 
   /// -- END GENERIC ITEMS
@@ -240,16 +238,14 @@ class KaliumLocalization {
         desc: 'intro_new_wallet_seed', name: 'seedBackupInfo');
   }
 
-  // TODO - translate
   String get copySeed {
     return Intl.message("Copy Seed",
-      desc: 'copy seed button', name: 'copySeed');
+      desc: 'copy_seed_btn', name: 'copySeed');
   }
 
-  // TODO - translate
   String get seedCopiedShort {
     return Intl.message("Seed Copied",
-      desc: 'seed copied button', name: 'seedCopiedShort');
+      desc: 'seed_copied_btn', name: 'seedCopiedShort');
   }
 
   String get importSeed {
@@ -722,7 +718,7 @@ class KaliumLocalization {
   }
 
   String get instantly {
-    return Intl.message("instantly",
+    return Intl.message("Instantly",
       desc: 'insantly', name: 'instantly');
   }
 
