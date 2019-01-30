@@ -61,8 +61,11 @@ dependencies:
   path_provider: ^0.4.1
 
   # TouchID/FaceID
-  local_auth: ^0.3.1
-
+  local_auth:
+    git:
+      url: https://github.com/bbedward/plugins.git
+      path: packages/local_auth
+      ref: master
   # RXDart
   rxdart : ^0.20.0
 
