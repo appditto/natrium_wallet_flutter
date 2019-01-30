@@ -668,22 +668,15 @@ class _SettingsSheetState extends State<SettingsSheet>
                       _curNotificiationSetting,
                       KaliumIcons.notifications,
                       _notificationsDialog),
-                  _hasBiometrics ? Divider(height: 2) : null,
-                  _hasBiometrics
-                      ? KaliumSettings.buildSettingsListItemDoubleLine(
-                          context,
-                          KaliumLocalization.of(context).authMethod,
-                          _curAuthMethod,
-                          KaliumIcons.fingerprint,
-                          _authMethodDialog)
-                      : null,
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemDoubleLine(
-                      context,
-                      KaliumLocalization.of(context).lockAppSetting,
-                      _curUnlockSetting,
-                      KaliumIcons.lock,
-                      _lockDialog),
+                  KaliumSettings.buildSettingsListItemSingleLine(
+                      KaliumLocalization.of(context).securityHeader,
+                      KaliumIcons.lock, onPressed: () {
+                    setState(() {
+                      _securityOpen = true;
+                    });
+                    _securityController.forward();
+                  }),
                   Divider(height: 2),
                   Container(
                     margin:
@@ -702,15 +695,6 @@ class _SettingsSheetState extends State<SettingsSheet>
                       _contactsOpen = true;
                     });
                     _controller.forward();
-                  }),
-                  Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).securityHeader,
-                      KaliumIcons.contacts, onPressed: () {
-                    setState(() {
-                      _securityOpen = true;
-                    });
-                    _securityController.forward();
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
@@ -1106,83 +1090,69 @@ Widget buildSecurityMenu(BuildContext context) {
               ],
             ),
           ),
-          // Contacts list + top and bottom gradients
           Expanded(
-            child: Stack(
-              children: <Widget>[
-                // Contacts list
-                ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.only(top: 15.0),
-                  itemCount: _contacts.length,
-                  itemBuilder: (context, index) {
-                    // Some disaster recovery if monKey is in DB, but doesnt exist in filesystem
-                    if (_contacts[index].monkeyPath != null) {
-                      File("$documentsDirectory/${_contacts[index].monkeyPath}")
-                          .exists()
-                          .then((exists) {
-                        if (!exists) {
-                          DBHelper()
-                              .setMonkeyForContact(_contacts[index], null);
-                        }
-                      });
-                    }
-                    // Build contact
-                    return buildSingleContact(context, _contacts[index]);
-                  },
-                ),
-                //List Top Gradient End
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    height: 20.0,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          KaliumColors.backgroundDark,
-                          KaliumColors.backgroundDark00
-                        ],
-                        begin: Alignment(0.5, -1.0),
-                        end: Alignment(0.5, 1.0),
-                      ),
+              child: Stack(
+            children: <Widget>[
+              ListView(
+                padding: EdgeInsets.only(top: 15.0),
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 30.0, bottom: 10),
+                    child: Text(KaliumLocalization.of(context).preferences,
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w100,
+                            color: KaliumColors.text60)),
+                  ),
+                  // Authentication Method
+                  _hasBiometrics ? Divider(height: 2) : null,
+                  _hasBiometrics
+                      ? KaliumSettings.buildSettingsListItemDoubleLine(
+                          context,
+                          KaliumLocalization.of(context).authMethod,
+                          _curAuthMethod,
+                          KaliumIcons.fingerprint,
+                          _authMethodDialog)
+                      : null,
+                  // Authenticate on Launch
+                  Divider(height: 2),
+                  KaliumSettings.buildSettingsListItemDoubleLine(
+                      context,
+                      KaliumLocalization.of(context).lockAppSetting,
+                      _curUnlockSetting,
+                      KaliumIcons.lock,
+                      _lockDialog),
+                  // Authentication Timer
+                  Divider(height: 2),
+                  KaliumSettings.buildSettingsListItemDoubleLine(
+                      context,
+                      KaliumLocalization.of(context).lockAppSetting,
+                      _curUnlockSetting,
+                      KaliumIcons.lock,
+                      _lockDialog),
+                  Divider(height: 2),
+                ].where(notNull).toList(),
+              ),
+              //List Top Gradient End
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  height: 20.0,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        KaliumColors.backgroundDark,
+                        KaliumColors.backgroundDark00
+                      ],
+                      begin: Alignment(0.5, -1.0),
+                      end: Alignment(0.5, 1.0),
                     ),
                   ),
                 ),
-                //List Bottom Gradient End
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 15.0,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          KaliumColors.backgroundDark00,
-                          KaliumColors.backgroundDark,
-                        ],
-                        begin: Alignment(0.5, -1.0),
-                        end: Alignment(0.5, 1.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Row(
-              children: <Widget>[
-                KaliumButton.buildKaliumButton(
-                    KaliumButtonType.TEXT_OUTLINE,
-                    KaliumLocalization.of(context).addContact,
-                    Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                  AddContactSheet().mainBottomSheet(context);
-                }),
-              ],
-            ),
-          ),
+              ), //List Top Gradient End
+            ],
+          )),
         ],
       ),
     );
