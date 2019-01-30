@@ -157,7 +157,7 @@ class KaliumTransferOverviewSheet {
                           KaliumLocalization.of(context).scanQrCode,
                           Dimens.BUTTON_TOP_DIMENS,
                           onPressed: () {
-                            BarcodeScanner.scan().then((value) {
+                            BarcodeScanner.scan(OverlayTheme.KALIUM).then((value) {
                               if (!NanoSeeds.isValidSeed(value)) {
                                 UIUtil.showSnackbar(KaliumLocalization.of(context).qrInvalidSeed, context);
                                 return;

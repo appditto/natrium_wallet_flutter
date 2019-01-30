@@ -426,7 +426,7 @@ class KaliumSendSheet {
                               KaliumLocalization.of(context).scanQrCode,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             try {
-                              BarcodeScanner.scan().then((value) {
+                              BarcodeScanner.scan(OverlayTheme.KALIUM).then((value) {
                                 Address address = Address(value);
                                 if (!address.isValid()) {
                                   UIUtil.showSnackbar(
