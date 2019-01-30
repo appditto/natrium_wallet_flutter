@@ -172,7 +172,7 @@ class KaliumTransferOverviewSheet {
                       children: <Widget>[
                         KaliumButton.buildKaliumButton(
                           KaliumButtonType.PRIMARY_OUTLINE,
-                          "Manual Entry",
+                          KaliumLocalization.of(context).manualEntry,
                           Dimens.BUTTON_BOTTOM_DIMENS,
                           onPressed: () {
                             KaliumTransferManualEntrySheet(manualEntryCallback)

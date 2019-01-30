@@ -20,6 +20,7 @@ import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/available_currency.dart';
 import 'package:kalium_wallet_flutter/model/device_unlock_option.dart';
+import 'package:kalium_wallet_flutter/model/device_lock_timeout.dart';
 import 'package:kalium_wallet_flutter/model/notification_settings.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
@@ -53,8 +54,6 @@ class _SettingsSheetState extends State<SettingsSheet>
   Animation<Offset> _offsetFloat;
   AnimationController _securityController;
   Animation<Offset> _securityOffsetFloat;
-  Animation<double> _fade;
-  Animation<double> _fade2;
 
   String documentsDirectory;
   String versionString = "";
@@ -67,6 +66,8 @@ class _SettingsSheetState extends State<SettingsSheet>
       NotificationSetting(NotificationOptions.ON);
   UnlockSetting _curUnlockSetting =
       UnlockSetting(UnlockOption.NO);
+  LockTimeoutSetting _curTimeoutSetting =
+      LockTimeoutSetting(LockTimeoutOption.ONE);
 
   bool _contactsOpen;
   bool _securityOpen;
@@ -170,11 +171,15 @@ class _SettingsSheetState extends State<SettingsSheet>
         _curAuthMethod = authMethod;
       });
     });
-    // Get default unlock setting
-    // Get default auth method setting
+    // Get default unlock settings
     SharedPrefsUtil.inst.getLock().then((lock) {
       setState(() {
         _curUnlockSetting = lock ? UnlockSetting(UnlockOption.YES) : UnlockSetting(UnlockOption.NO);
+      });
+    });
+    SharedPrefsUtil.inst.getLockTimeout().then((lockTimeout) {
+      setState(() {
+        _curTimeoutSetting = lockTimeout;
       });
     });
     // Get default notification setting
@@ -570,6 +575,55 @@ class _SettingsSheetState extends State<SettingsSheet>
           StateContainer.of(context).curCurrency = AvailableCurrency(selection);
         });
         StateContainer.of(context).requestSubscribe();
+      }
+    });
+  }
+
+  List<Widget> _buildLockTimeoutOptions() {
+    List<Widget> ret = new List();
+    LockTimeoutOption.values.forEach((LockTimeoutOption value) {
+      ret.add(SimpleDialogOption(
+        onPressed: () {
+          Navigator.pop(context, value);
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            LockTimeoutSetting(value).getDisplayName(context),
+            style: KaliumStyles.TextStyleDialogOptions,
+          ),
+        ),
+      ));
+    });
+    return ret;
+  }
+
+
+  Future<void> _lockTimeoutDialog() async {
+    LockTimeoutOption selection =
+        await showKaliumDialog<LockTimeoutOption>(
+            context: context,
+            builder: (BuildContext context) {
+              return KaliumSimpleDialog(
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Text(
+                    KaliumLocalization.of(context).autoLockHeader,
+                    style: KaliumStyles.TextStyleDialogHeader,
+                  ),
+                ),
+                children: _buildLockTimeoutOptions(),
+              );
+            });
+    SharedPrefsUtil.inst
+        .setLockTimeout(LockTimeoutSetting(selection))
+        .then((result) {
+      if (_curTimeoutSetting.setting != selection) {
+        SharedPrefsUtil.inst.setLockTimeout(LockTimeoutSetting(selection)).then((_) {
+          setState(() {
+            _curTimeoutSetting = LockTimeoutSetting(selection);
+          });
+        });
       }
     });
   }
@@ -1126,10 +1180,12 @@ Widget buildSecurityMenu(BuildContext context) {
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemDoubleLine(
                       context,
-                      KaliumLocalization.of(context).lockAppSetting,
-                      _curUnlockSetting,
+                      KaliumLocalization.of(context).autoLockHeader,
+                      _curTimeoutSetting,
                       KaliumIcons.lock,
-                      _lockDialog),
+                      _lockTimeoutDialog,
+                      disabled: _curUnlockSetting.setting == UnlockOption.NO,
+                  ),
                   Divider(height: 2),
                 ].where(notNull).toList(),
               ),

@@ -11,10 +11,13 @@ class KaliumSettings {
       String heading,
       SettingSelectionItem defaultMethod,
       IconData icon,
-      Function onPressed) {
+      Function onPressed,
+      {bool disabled = false}) {
     return FlatButton(
       onPressed: () {
-        onPressed();
+        if(!disabled) {
+          onPressed();
+        }
       },
       padding: EdgeInsets.all(0.0),
       child: Container(
@@ -26,7 +29,7 @@ class KaliumSettings {
             Container(
               margin: EdgeInsets.only(right: 13.0),
               child: Container(
-                child: Icon(icon, color: KaliumColors.primary, size: 24),
+                child: Icon(icon, color: disabled ? KaliumColors.primary60 : KaliumColors.primary, size: 24),
                 margin: EdgeInsets.only(top: 3, left: 3, bottom: 3, right: 3),
               ),
             ),
@@ -36,11 +39,11 @@ class KaliumSettings {
               children: <Widget>[
                 Text(
                   heading,
-                  style: KaliumStyles.TextStyleSettingItemHeader,
+                  style: disabled ? KaliumStyles.TextStyleSettingItemHeader60 : KaliumStyles.TextStyleSettingItemHeader,
                 ),
                 Text(
                   defaultMethod.getDisplayName(context),
-                  style: KaliumStyles.TextStyleSettingItemSubheader,
+                  style: disabled ? KaliumStyles.TextStyleSettingItemSubheader20 : KaliumStyles.TextStyleSettingItemSubheader,
                 ),
               ],
             ),

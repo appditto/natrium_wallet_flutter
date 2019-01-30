@@ -255,12 +255,24 @@ class KaliumStyles {
     fontWeight: FontWeight.w600,
     color: KaliumColors.text,
   );
+  static const TextStyleSettingItemHeader60 = TextStyle(
+    fontFamily: "NunitoSans",
+    fontSize: KaliumFontSizes.medium,
+    fontWeight: FontWeight.w600,
+    color: KaliumColors.text60,
+  );
   // Text style for setting item subheader
   static const TextStyleSettingItemSubheader = TextStyle(
     fontFamily: "NunitoSans",
     fontSize: KaliumFontSizes.smallest,
     fontWeight: FontWeight.w100,
     color: KaliumColors.text60,
+  );
+  static const TextStyleSettingItemSubheader20 = TextStyle(
+    fontFamily: "NunitoSans",
+    fontSize: KaliumFontSizes.smallest,
+    fontWeight: FontWeight.w100,
+    color: KaliumColors.text20,
   );
 
   // Text style for lock screen error

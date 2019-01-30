@@ -706,6 +706,26 @@ class KaliumLocalization {
       desc: 'security_header', name:'securityHeader');
   }
 
+  String get autoLockHeader {
+    return Intl.message("Automatically Lock",
+      desc: 'auto_lock_header', name:'autoLockHeader');
+  }
+
+  String get xMinutes {
+    return Intl.message("After %1 minutes",
+      desc: 'minutes', name: 'xMinutes');
+  }
+
+  String get xMinute {
+    return Intl.message("After %1 minute",
+      desc: 'minute', name: 'xMinute');
+  }
+
+  String get instantly {
+    return Intl.message("instantly",
+      desc: 'insantly', name: 'instantly');
+  }
+
   /// -- END SECURITY SETTINGS SUBMENU
 
   /// -- NON-TRANSLATABLE ITEMS

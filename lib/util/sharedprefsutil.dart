@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kalium_wallet_flutter/util/encrypt.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/available_currency.dart';
+import 'package:kalium_wallet_flutter/model/device_lock_timeout.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/model/wallet.dart';
 
@@ -28,6 +29,7 @@ class SharedPrefsUtil {
   static const String firstcontact_added = 'fkalium_first_c_added';
   static const String notification_enabled = 'fkalium_notification_on';
   static const String lock_kalium = 'fkalium_lock_dev';
+  static const String kalium_lock_timeout = 'fkalium_lock_timeout';
   // For maximum pin attempts
   static const String pin_attempts = 'fkalium_pin_attempts';
   static const String pin_lock_until = 'fkalium_lock_duraton';
@@ -166,6 +168,14 @@ class SharedPrefsUtil {
     return await get(lock_kalium, defaultValue: false);
   }
 
+  Future<void> setLockTimeout(LockTimeoutSetting setting) async {
+   return await set(kalium_lock_timeout, setting.getIndex());
+  }
+
+  Future<LockTimeoutSetting> getLockTimeout() async {
+    return LockTimeoutSetting(LockTimeoutOption.values[await get(kalium_lock_timeout, defaultValue: LockTimeoutOption.ONE.index)]);
+  }
+
   // Locking out when max pin attempts exceeded
   Future<int> getLockAttempts() async {
     return await get(pin_attempts, defaultValue: 0);
@@ -225,5 +235,6 @@ class SharedPrefsUtil {
     await prefs.remove(lock_kalium);
     await prefs.remove(pin_attempts);
     await prefs.remove(pin_lock_until);
+    await prefs.remove(kalium_lock_timeout);
   }
 }
