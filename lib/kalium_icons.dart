@@ -47,6 +47,7 @@ class KaliumIcons {
   static const IconData btc = const IconData(0xe818, fontFamily: _kFontFam);
   static const IconData lock = const IconData(0xe819, fontFamily: _kFontFam);
   static const IconData success = const IconData(0xe81a, fontFamily: _kFontFam);
+  static const IconData security = const IconData(0xe81b, fontFamily: _kFontFam);
   static const IconData export_icon = const IconData(0xe81c, fontFamily: _kFontFam);
   static const IconData import_icon = const IconData(0xe81d, fontFamily: _kFontFam);
   static const IconData bananologo = const IconData(0xe81e, fontFamily: _kFontFam);
@@ -58,4 +59,5 @@ class KaliumIcons {
   static const IconData logout = const IconData(0xe824, fontFamily: _kFontFam);
   static const IconData bananocurrency = const IconData(0xe825, fontFamily: _kFontFam);
   static const IconData nanocurrency = const IconData(0xe826, fontFamily: _kFontFam);
+  static const IconData timer = const IconData(0xe827, fontFamily: _kFontFam);
 }
