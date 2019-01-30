@@ -671,7 +671,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
                       KaliumLocalization.of(context).securityHeader,
-                      KaliumIcons.lock, onPressed: () {
+                      KaliumIcons.security, onPressed: () {
                     setState(() {
                       _securityOpen = true;
                     });
@@ -1128,7 +1128,7 @@ Widget buildSecurityMenu(BuildContext context) {
                       context,
                       KaliumLocalization.of(context).lockAppSetting,
                       _curUnlockSetting,
-                      KaliumIcons.lock,
+                      KaliumIcons.timer,
                       _lockDialog),
                   Divider(height: 2),
                 ].where(notNull).toList(),
