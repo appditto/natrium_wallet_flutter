@@ -16,6 +16,8 @@ class CurrencyFormatter extends TextInputFormatter {
     bool returnOriginal = true;
     if (newValue.text.contains(decimalSeparator) || newValue.text.contains(commaSeparator)) {
       returnOriginal = false;
+    } else if (newValue.text.isEmpty) {
+      return newValue;
     } else if (!newValue.text.startsWith(symbol)) {
       return newValue.copyWith(
         text: symbol + newValue.text,
