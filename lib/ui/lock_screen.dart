@@ -241,8 +241,8 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                 _showUnlockButton
                     ? Row(
                         children: <Widget>[
-                          KaliumButton.buildKaliumButton(
-                              KaliumButtonType.PRIMARY,
+                          AppButton.buildAppButton(
+                              AppButtonType.PRIMARY,
                               _lockedOut
                                   ? _countDownTxt
                                   : AppLocalization.of(context).unlock,

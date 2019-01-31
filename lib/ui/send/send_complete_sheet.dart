@@ -129,8 +129,8 @@ class KaliumSendCompleteSheet {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          KaliumButton.buildKaliumButton(
-                              KaliumButtonType.SUCCESS_OUTLINE,
+                          AppButton.buildAppButton(
+                              AppButtonType.SUCCESS_OUTLINE,
                               AppLocalization.of(context)
                                   .close
                                   .toUpperCase(),

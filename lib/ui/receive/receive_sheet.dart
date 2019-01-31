@@ -154,9 +154,9 @@ class KaliumReceiveSheet {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        KaliumButton.buildKaliumButton(
+                        AppButton.buildAppButton(
                           // Share Address Button
-                          _addressCopied ? KaliumButtonType.SUCCESS : KaliumButtonType.PRIMARY,
+                          _addressCopied ? AppButtonType.SUCCESS : AppButtonType.PRIMARY,
                           _addressCopied ? AppLocalization.of(context).addressCopied : AppLocalization.of(context).copyAddress,
                           Dimens.BUTTON_TOP_DIMENS,
                           onPressed: () {
@@ -181,9 +181,9 @@ class KaliumReceiveSheet {
                     ),
                     Row(
                       children: <Widget>[
-                        KaliumButton.buildKaliumButton(
+                        AppButton.buildAppButton(
                             // Share Address Button
-                            KaliumButtonType.PRIMARY_OUTLINE,
+                            AppButtonType.PRIMARY_OUTLINE,
                             _showShareCard ? "Loading" : AppLocalization.of(context).addressShare,
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             disabled: _showShareCard, onPressed: () {

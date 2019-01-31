@@ -1057,8 +1057,8 @@ class _SettingsSheetState extends State<SettingsSheet>
             margin: EdgeInsets.only(top: 10),
             child: Row(
               children: <Widget>[
-                KaliumButton.buildKaliumButton(
-                    KaliumButtonType.TEXT_OUTLINE,
+                AppButton.buildAppButton(
+                    AppButtonType.TEXT_OUTLINE,
                     AppLocalization.of(context).addContact,
                     Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                   AddContactSheet().mainBottomSheet(context);

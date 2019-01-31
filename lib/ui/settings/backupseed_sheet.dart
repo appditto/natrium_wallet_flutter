@@ -111,8 +111,8 @@ class KaliumSeedBackupSheet {
                     //A row with show/hide seed button
                     Row(
                       children: <Widget>[
-                        KaliumButton.buildKaliumButton(
-                          _seedCopied ? KaliumButtonType.SUCCESS : KaliumButtonType.PRIMARY,
+                        AppButton.buildAppButton(
+                          _seedCopied ? AppButtonType.SUCCESS : AppButtonType.PRIMARY,
                           _seedCopied ? AppLocalization.of(context).seedCopiedShort : AppLocalization.of(context).copySeed,
                           Dimens.BUTTON_TOP_DIMENS,
                           onPressed: () {
@@ -138,8 +138,8 @@ class KaliumSeedBackupSheet {
                     //A row with close button
                     Row(
                       children: <Widget>[
-                        KaliumButton.buildKaliumButton(
-                          KaliumButtonType.PRIMARY_OUTLINE,
+                        AppButton.buildAppButton(
+                          AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).close,
                           Dimens.BUTTON_BOTTOM_DIMENS,
                           onPressed: () {

@@ -1415,9 +1415,9 @@ class TransactionDetailsSheet {
                           // A row for Copy Address Button
                           Row(
                             children: <Widget>[
-                              KaliumButton.buildKaliumButton(
+                              AppButton.buildAppButton(
                                 // Share Address Button
-                                _addressCopied ? KaliumButtonType.SUCCESS : KaliumButtonType.PRIMARY,
+                                _addressCopied ? AppButtonType.SUCCESS : AppButtonType.PRIMARY,
                                 _addressCopied ? AppLocalization.of(context).addressCopied : AppLocalization.of(context).copyAddress,
                                 Dimens.BUTTON_TOP_EXCEPTION_DIMENS,
                                 onPressed: () {
@@ -1486,8 +1486,8 @@ class TransactionDetailsSheet {
                       // A row for View Details button
                       Row(
                         children: <Widget>[
-                          KaliumButton.buildKaliumButton(
-                              KaliumButtonType.PRIMARY_OUTLINE,
+                          AppButton.buildAppButton(
+                              AppButtonType.PRIMARY_OUTLINE,
                               AppLocalization.of(context).viewDetails,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(

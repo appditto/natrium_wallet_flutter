@@ -364,8 +364,8 @@ class KaliumChangeRepresentativeSheet {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          KaliumButton.buildKaliumButton(
-                            KaliumButtonType.PRIMARY,
+                          AppButton.buildAppButton(
+                            AppButtonType.PRIMARY,
                             AppLocalization.of(context)
                                 .changeRepButton
                                 .toUpperCase(),
@@ -489,8 +489,8 @@ class KaliumChangeRepresentativeSheet {
                       ),
                       Row(
                         children: <Widget>[
-                          KaliumButton.buildKaliumButton(
-                            KaliumButtonType.PRIMARY_OUTLINE,
+                          AppButton.buildAppButton(
+                            AppButtonType.PRIMARY_OUTLINE,
                             AppLocalization.of(context).close.toUpperCase(),
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             onPressed: () {

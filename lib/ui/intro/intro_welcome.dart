@@ -62,8 +62,8 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                     Row(
                       children: <Widget>[
                         // New Wallet Button
-                        KaliumButton.buildKaliumButton(
-                            KaliumButtonType.PRIMARY,
+                        AppButton.buildAppButton(
+                            AppButtonType.PRIMARY,
                             AppLocalization.of(context).newWallet,
                             Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                               Navigator.of(context).pushNamed('/intro_backup');
@@ -73,8 +73,8 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                     Row(
                       children: <Widget>[
                         // Import Wallet Button
-                        KaliumButton.buildKaliumButton(
-                            KaliumButtonType.PRIMARY_OUTLINE,
+                        AppButton.buildAppButton(
+                            AppButtonType.PRIMARY_OUTLINE,
                             AppLocalization.of(context).importWallet,
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                           Navigator.of(context).pushNamed('/intro_import');

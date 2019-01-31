@@ -90,8 +90,8 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                     Row(
                       children: <Widget>[
                         // YES Button
-                        KaliumButton.buildKaliumButton(
-                            KaliumButtonType.PRIMARY,
+                        AppButton.buildAppButton(
+                            AppButtonType.PRIMARY,
                             AppLocalization.of(context).yes.toUpperCase(),
                             Dimens.BUTTON_TOP_DIMENS, 
                           onPressed: () {
@@ -105,8 +105,8 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                     Row(
                       children: <Widget>[
                         // NO BUTTON
-                        KaliumButton.buildKaliumButton(
-                            KaliumButtonType.PRIMARY_OUTLINE,
+                        AppButton.buildAppButton(
+                            AppButtonType.PRIMARY_OUTLINE,
                             AppLocalization.of(context).no.toUpperCase(),
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                               Navigator.of(context).pop();
