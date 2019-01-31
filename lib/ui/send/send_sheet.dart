@@ -511,11 +511,16 @@ class KaliumSendSheet {
     if (convertedAmt.isEmpty) {
       return "";
     }
-    convertedAmt = convertedAmt.replaceAll(_localCurrencyFormat.symbols.DECIMAL_SEP, ".");
-    convertedAmt = convertedAmt.replaceAll(_localCurrencyFormat.currencySymbol, "");
-    Decimal valueLocal = Decimal.parse(convertedAmt);
-    Decimal conversion = Decimal.parse(StateContainer.of(context).wallet.localCurrencyConversion);
-    return NumberUtil.truncateDecimal(valueLocal / conversion).toString();
+    try {
+      convertedAmt = convertedAmt.replaceAll(_localCurrencyFormat.symbols.DECIMAL_SEP, ".");
+      convertedAmt = convertedAmt.replaceAll(_localCurrencyFormat.currencySymbol, "");
+      Decimal valueLocal = Decimal.parse(convertedAmt);
+      Decimal conversion = Decimal.parse(StateContainer.of(context).wallet.localCurrencyConversion);
+      return NumberUtil.truncateDecimal(valueLocal / conversion).toString();
+    } catch (e) {
+      _sendAmountController.text = "";
+      return "";
+    }
   }
 
   String _convertCryptoToLocalCurrency(BuildContext context) {
@@ -536,17 +541,25 @@ class KaliumSendSheet {
     // Sanitize commas
     if (_sendAmountController.text.isEmpty) {
       return false;
+    } else if (_sendAddressController.text.trim() == _localCurrencyFormat.currencySymbol) {
+      _sendAmountController.text = "";
+      return false;
     }
-    String textField = _localCurrencyMode ? _convertLocalCurrencyToCrypto(context) : _sendAmountController.text.replaceAll(r',', "");
-    String balance = StateContainer.of(context)
-        .wallet
-        .getAccountBalanceDisplay()
-        .replaceAll(r",", "");
-    // Convert to Integer representations
-    int textFieldInt =
-        (Decimal.parse(textField) * Decimal.fromInt(100)).toInt();
-    int balanceInt = (Decimal.parse(balance) * Decimal.fromInt(100)).toInt();
-    return textFieldInt == balanceInt;
+    try {
+      String textField = _localCurrencyMode ? _convertLocalCurrencyToCrypto(context) : _sendAmountController.text.replaceAll(r',', "");
+      String balance = StateContainer.of(context)
+          .wallet
+          .getAccountBalanceDisplay()
+          .replaceAll(r",", "");
+      // Convert to Integer representations
+      int textFieldInt =
+          (Decimal.parse(textField) * Decimal.fromInt(100)).toInt();
+      int balanceInt = (Decimal.parse(balance) * Decimal.fromInt(100)).toInt();
+      return textFieldInt == balanceInt;
+    } catch (e) {
+      _sendAmountController.text = "";
+      return false;
+    }
   }
 
   // Build contact items for the list

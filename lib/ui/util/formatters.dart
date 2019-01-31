@@ -16,7 +16,17 @@ class CurrencyFormatter extends TextInputFormatter {
     bool returnOriginal = true;
     if (newValue.text.contains(decimalSeparator) || newValue.text.contains(commaSeparator)) {
       returnOriginal = false;
+    } else if (!newValue.text.startsWith(symbol)) {
+      return newValue.copyWith(
+        text: symbol + newValue.text,
+        selection: new TextSelection.collapsed(offset: (symbol + newValue.text).length));
+    } else if (symbol.isEmpty && newValue.text.trim() == symbol) {
+      return newValue.copyWith(
+        text: "",
+        selection: new TextSelection.collapsed(offset: 0)
+      );
     }
+
     // If no text, or text doesnt contain a period of comma, no work to do here
     if(newValue.selection.baseOffset == 0 || returnOriginal) {
       return newValue;
