@@ -51,7 +51,7 @@ class KaliumSendConfirmSheet {
       Navigator.of(context).pop();
     });
 
-    KaliumSheets.showKaliumHeightNineSheet(
+    AppSheets.showAppHeightNineSheet(
         context: context,
         animationDurationMs: 100,
         onDisposed: _onWillPop,

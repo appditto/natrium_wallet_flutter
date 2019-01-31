@@ -25,7 +25,7 @@ class KaliumSeedBackupSheet {
       _seed = result;
       // Set initial seed copy state
       _seedCopied = false;
-      KaliumSheets.showKaliumHeightEightSheet(
+      AppSheets.showAppHeightEightSheet(
           context: context,
           builder: (BuildContext context) {
             return StatefulBuilder(

@@ -1397,7 +1397,7 @@ class TransactionDetailsSheet {
   Timer _addressCopiedTimer;
 
   mainBottomSheet(BuildContext context) {
-    KaliumSheets.showKaliumHeightEightSheet(
+    AppSheets.showAppHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(

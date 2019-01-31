@@ -73,7 +73,7 @@ class KaliumReceiveSheet {
 
     _showShareCard = false;
 
-    KaliumSheets.showKaliumHeightEightSheet(
+    AppSheets.showAppHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(

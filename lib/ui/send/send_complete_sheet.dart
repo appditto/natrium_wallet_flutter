@@ -21,7 +21,7 @@ class KaliumSendCompleteSheet {
   }
 
   mainBottomSheet(BuildContext context) {
-    KaliumSheets.showKaliumHeightNineSheet(
+    AppSheets.showAppHeightNineSheet(
         context: context,
         animationDurationMs: 100,
         removeUntilHome: false,

@@ -31,7 +31,7 @@ class ContactDetailsSheet {
   Timer _addressCopiedTimer;
 
   mainBottomSheet(BuildContext context) {
-    KaliumSheets.showKaliumHeightNineSheet(
+    AppSheets.showAppHeightNineSheet(
         context: context,
         animationDurationMs: 200,
         builder: (BuildContext context) {

@@ -66,7 +66,7 @@ class KaliumTransferOverviewSheet {
       startTransfer(context, seed, manualEntry: true);
     }
 
-    KaliumSheets.showKaliumHeightNineSheet(
+    AppSheets.showAppHeightNineSheet(
         context: context,
         onDisposed: _onWillPop,
         builder: (BuildContext context) {

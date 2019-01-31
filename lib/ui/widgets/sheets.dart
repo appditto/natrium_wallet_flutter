@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/ui/util/routes.dart';
 
-class KaliumSheets {
+class AppSheets {
   //Kalium Ninty Height Sheet
-  static Future<T> showKaliumHeightNineSheet<T>(
+  static Future<T> showAppHeightNineSheet<T>(
       {@required BuildContext context,
       @required WidgetBuilder builder,
       Color color = AppColors.backgroundDark,
@@ -20,7 +20,7 @@ class KaliumSheets {
     assert(builder != null);
     assert(radius != null && radius > 0.0);
     assert(color != null && color != Colors.transparent);
-    var route = _KaliumHeightNineModalRoute<T>(
+    var route = _AppHeightNineModalRoute<T>(
         builder: builder,
         color: color,
         radius: radius,
@@ -38,7 +38,7 @@ class KaliumSheets {
   }
 
   //Kalium Height Eigth Sheet
-  static Future<T> showKaliumHeightEightSheet<T>(
+  static Future<T> showAppHeightEightSheet<T>(
       {@required BuildContext context,
       @required WidgetBuilder builder,
       Color color = AppColors.backgroundDark,
@@ -51,7 +51,7 @@ class KaliumSheets {
     assert(color != null && color != Colors.transparent);
     return Navigator.push<T>(
         context,
-        _KaliumHeightEightModalRoute<T>(
+        _AppHeightEightModalRoute<T>(
             builder: builder,
             color: color,
             radius: radius,
@@ -62,8 +62,8 @@ class KaliumSheets {
   }
 }
 
-class _KaliumHeightNineSheetLayout extends SingleChildLayoutDelegate {
-  _KaliumHeightNineSheetLayout(this.progress);
+class _AppHeightNineSheetLayout extends SingleChildLayoutDelegate {
+  _AppHeightNineSheetLayout(this.progress);
 
   final double progress;
 
@@ -95,13 +95,13 @@ class _KaliumHeightNineSheetLayout extends SingleChildLayoutDelegate {
   }
 
   @override
-  bool shouldRelayout(_KaliumHeightNineSheetLayout oldDelegate) {
+  bool shouldRelayout(_AppHeightNineSheetLayout oldDelegate) {
     return progress != oldDelegate.progress;
   }
 }
 
-class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
-  _KaliumHeightNineModalRoute(
+class _AppHeightNineModalRoute<T> extends PopupRoute<T> {
+  _AppHeightNineModalRoute(
       {this.builder,
       this.barrierLabel,
       this.color,
@@ -166,7 +166,7 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
           child: AnimatedBuilder(
             animation: animation,
             builder: (context, child) => CustomSingleChildLayout(
-                  delegate: _KaliumHeightNineSheetLayout(animation.value),
+                  delegate: _AppHeightNineSheetLayout(animation.value),
                   child: BottomSheet(
                     animationController: _animationController,
                     onClosing: () => Navigator.pop(context),
@@ -200,8 +200,8 @@ class _KaliumHeightNineModalRoute<T> extends PopupRoute<T> {
 }
 //Kalium Height Nine Sheet End
 
-class _KaliumHeightEightSheetLayout extends SingleChildLayoutDelegate {
-  _KaliumHeightEightSheetLayout(this.progress);
+class _AppHeightEightSheetLayout extends SingleChildLayoutDelegate {
+  _AppHeightEightSheetLayout(this.progress);
 
   final double progress;
 
@@ -233,13 +233,13 @@ class _KaliumHeightEightSheetLayout extends SingleChildLayoutDelegate {
   }
 
   @override
-  bool shouldRelayout(_KaliumHeightEightSheetLayout oldDelegate) {
+  bool shouldRelayout(_AppHeightEightSheetLayout oldDelegate) {
     return progress != oldDelegate.progress;
   }
 }
 
-class _KaliumHeightEightModalRoute<T> extends PopupRoute<T> {
-  _KaliumHeightEightModalRoute(
+class _AppHeightEightModalRoute<T> extends PopupRoute<T> {
+  _AppHeightEightModalRoute(
       {this.builder,
       this.barrierLabel,
       this.color,
@@ -285,7 +285,7 @@ class _KaliumHeightEightModalRoute<T> extends PopupRoute<T> {
         child: AnimatedBuilder(
           animation: animation,
           builder: (context, child) => CustomSingleChildLayout(
-                delegate: _KaliumHeightEightSheetLayout(animation.value),
+                delegate: _AppHeightEightSheetLayout(animation.value),
                 child: BottomSheet(
                   animationController: _animationController,
                   onClosing: () => Navigator.pop(context),

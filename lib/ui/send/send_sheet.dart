@@ -99,7 +99,7 @@ class KaliumSendSheet {
         _localCurrencyFormat = NumberFormat.simpleCurrency(locale:locale);
         break;
     }
-    KaliumSheets.showKaliumHeightNineSheet(
+    AppSheets.showAppHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(

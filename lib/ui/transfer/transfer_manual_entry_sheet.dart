@@ -29,7 +29,7 @@ class KaliumTransferManualEntrySheet {
   mainBottomSheet(BuildContext context) {
     _seedTextStyle = _initialSeedTextStyle;
     _errorTextColor = _initialErrorTextColor;     
-    KaliumSheets.showKaliumHeightNineSheet(
+    AppSheets.showAppHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(

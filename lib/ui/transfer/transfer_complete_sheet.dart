@@ -14,7 +14,7 @@ class KaliumTransferCompleteSheet {
   KaliumTransferCompleteSheet(this.transferAmount);
 
   mainBottomSheet(BuildContext context) {
-    KaliumSheets.showKaliumHeightNineSheet(
+    AppSheets.showAppHeightNineSheet(
         context: context,
         closeOnTap: true,
         builder: (BuildContext context) {

@@ -143,7 +143,7 @@ class KaliumTransferConfirmSheet {
       errorCallback();
     });
 
-    KaliumSheets.showKaliumHeightNineSheet(
+    AppSheets.showAppHeightNineSheet(
         context: context,
         onDisposed: _onWillPop,
         builder: (BuildContext context) {
