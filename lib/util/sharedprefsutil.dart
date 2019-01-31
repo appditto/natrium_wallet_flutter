@@ -142,7 +142,7 @@ class SharedPrefsUtil {
   }
 
   Future<String> getRepresentative() async {
-    return await get(user_representative, defaultValue: KaliumWallet.defaultRepresentative);
+    return await get(user_representative, defaultValue: AppWallet.defaultRepresentative);
   }
 
   Future<void> setNotificationsOn(bool value) async {

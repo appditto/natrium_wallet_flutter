@@ -29,11 +29,11 @@ void main() async {
   });
   // Run app
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
-    runApp(new StateContainer(child: new KaliumApp()));
+    runApp(new StateContainer(child: new App()));
   });
 }
 
-class KaliumApp extends StatelessWidget {
+class App extends StatelessWidget {
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ import 'package:kalium_wallet_flutter/network/model/response/account_history_res
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
 /// Main wallet object that's passed around the app via state
-class KaliumWallet {
+class AppWallet {
   static const String defaultRepresentative = 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo';
 
   bool _loading; // Whether or not app is initially loading
@@ -22,7 +22,7 @@ class KaliumWallet {
   List<AccountHistoryResponseItem> _history;
 
 
-  KaliumWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
+  AppWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
                 String representative, String localCurrencyPrice, String nanoPrice, String btcPrice, int blockCount,
                 List<AccountHistoryResponseItem> history, bool loading, bool historyLoading}) {
     this._address = address;

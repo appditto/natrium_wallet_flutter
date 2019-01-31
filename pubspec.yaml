@@ -144,9 +144,9 @@ flutter:
           weight: 600
         - asset: fonts/OverpassMono-Light.ttf
           weight: 100
-    - family:  KaliumIcons
+    - family:  AppIcons
       fonts:
-        - asset: fonts/KaliumIcons.ttf
+        - asset: fonts/AppIcons.ttf
   assets:
     - assets/monkeyQR.svg
     - assets/welcome_animation.flr

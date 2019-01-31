@@ -59,7 +59,7 @@ class _InheritedStateContainer extends InheritedWidget {
 class StateContainer extends StatefulWidget {
    // You must pass through a child. 
   final Widget child;
-  final KaliumWallet wallet;
+  final AppWallet wallet;
   final String currencyLocale;
   final Locale deviceLocale;
   final AvailableCurrency curCurrency;
@@ -84,14 +84,14 @@ class StateContainer extends StatefulWidget {
   StateContainerState createState() => StateContainerState();
 }
 
-/// Kalium InheritedWidget
+/// App InheritedWidget
 /// This is where we handle the global state and also where
 /// we interact with the server and make requests/handle+propagate responses
 /// 
 /// Basically the central hub behind the entire app
 class StateContainerState extends State<StateContainer> {
   final Logger log = Logger("StateContainerState");
-  KaliumWallet wallet;
+  AppWallet wallet;
   String currencyLocale;
   Locale deviceLocale = Locale('en', 'US');
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
@@ -238,7 +238,7 @@ class StateContainerState extends State<StateContainer> {
   void updateWallet({address}) {
     _registerBus();
     setState(() {
-      wallet = KaliumWallet(address: address, loading: true);
+      wallet = AppWallet(address: address, loading: true);
       requestUpdate();
     });
   }
@@ -686,7 +686,7 @@ class StateContainerState extends State<StateContainer> {
 
   void logOut() {
     setState(() {
-      wallet = KaliumWallet();
+      wallet = AppWallet();
     });
     AccountService.clearQueue();
     _destroyBus();

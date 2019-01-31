@@ -21,7 +21,7 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class KaliumReceiveSheet {
-  KaliumWallet _wallet;
+  AppWallet _wallet;
 
   GlobalKey shareCardKey;
   Widget kaliumShareCard;
