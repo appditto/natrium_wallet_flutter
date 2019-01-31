@@ -70,7 +70,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
   // Price conversion state (BTC, NANO, NONE)
   PriceConversion _priceConversion;
-  TextStyle _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
+  TextStyle _convertedPriceStyle = AppStyles.TextStyleCurrencyAlt;
 
   bool _isRefreshing = false;
 
@@ -502,7 +502,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         statusBarColor: Colors.transparent));
     return KaliumScaffold(
       key: _scaffoldKey,
-      backgroundColor: KaliumColors.background,
+      backgroundColor: AppColors.background,
       drawer: SizedBox(
         width: UIUtil.drawerWidth(context),
         child: KaliumDrawer(
@@ -527,7 +527,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.w100,
-                    color: KaliumColors.text,
+                    color: AppColors.text,
                   ),
                 ),
               ],
@@ -548,8 +548,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          KaliumColors.background00,
-                          KaliumColors.background
+                          AppColors.background00,
+                          AppColors.background
                         ],
                         begin: Alignment(0.5, 1.0),
                         end: Alignment(0.5, -1.0),
@@ -567,8 +567,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          KaliumColors.background00,
-                          KaliumColors.background
+                          AppColors.background00,
+                          AppColors.background
                         ],
                         begin: Alignment(0.5, -1),
                         end: Alignment(0.5, 0.5),
@@ -582,7 +582,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
 
           //Buttons Area
           Container(
-            color: KaliumColors.background,
+            color: AppColors.background,
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -593,11 +593,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0)),
                       color: receive != null
-                          ? KaliumColors.primary
-                          : KaliumColors.primary60,
+                          ? AppColors.primary
+                          : AppColors.primary60,
                       child: Text(KaliumLocalization.of(context).receive,
                           textAlign: TextAlign.center,
-                          style: KaliumStyles.TextStyleButtonPrimary),
+                          style: AppStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
                       onPressed: () {
@@ -607,10 +607,10 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                         receive.mainBottomSheet(context);
                       },
                       highlightColor: receive != null
-                          ? KaliumColors.background40
+                          ? AppColors.background40
                           : Colors.transparent,
                       splashColor: receive != null
-                          ? KaliumColors.background40
+                          ? AppColors.background40
                           : Colors.transparent,
                     ),
                   ),
@@ -624,11 +624,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                           borderRadius: BorderRadius.circular(100.0)),
                       color: StateContainer.of(context).wallet.accountBalance >
                               BigInt.zero
-                          ? KaliumColors.primary
-                          : KaliumColors.primary60,
+                          ? AppColors.primary
+                          : AppColors.primary60,
                       child: Text(KaliumLocalization.of(context).send,
                           textAlign: TextAlign.center,
-                          style: KaliumStyles.TextStyleButtonPrimary),
+                          style: AppStyles.TextStyleButtonPrimary),
                       padding:
                           EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
                       onPressed: () {
@@ -640,12 +640,12 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       highlightColor:
                           StateContainer.of(context).wallet.accountBalance >
                                   BigInt.zero
-                              ? KaliumColors.background40
+                              ? AppColors.background40
                               : Colors.transparent,
                       splashColor:
                           StateContainer.of(context).wallet.accountBalance >
                                   BigInt.zero
-                              ? KaliumColors.background40
+                              ? AppColors.background40
                               : Colors.transparent,
                     ),
                   ),
@@ -669,11 +669,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     if (item.type == BlockTypes.SEND) {
       text = KaliumLocalization.of(context).sent;
       icon = KaliumIcons.sent;
-      iconColor = KaliumColors.text60;
+      iconColor = AppColors.text60;
     } else {
       text = KaliumLocalization.of(context).received;
       icon = KaliumIcons.received;
-      iconColor = KaliumColors.primary60;
+      iconColor = AppColors.primary60;
     }
     return SizeTransition(
       axis: Axis.vertical,
@@ -682,13 +682,13 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       child: Container(
         margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
         decoration: BoxDecoration(
-          color: KaliumColors.backgroundDark,
+          color: AppColors.backgroundDark,
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: FlatButton(
-          highlightColor: KaliumColors.text15,
-          splashColor: KaliumColors.text15,
-          color: KaliumColors.backgroundDark,
+          highlightColor: AppColors.text15,
+          splashColor: AppColors.text15,
+          color: AppColors.backgroundDark,
           padding: EdgeInsets.all(0.0),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -713,7 +713,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                             Text(
                               text,
                               textAlign: TextAlign.left,
-                              style: KaliumStyles.TextStyleTransactionType,
+                              style: AppStyles.TextStyleTransactionType,
                             ),
                             RichText(
                               textAlign: TextAlign.left,
@@ -723,12 +723,12 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                                   TextSpan(
                                     text: item.getFormattedAmount(),
                                     style:
-                                        KaliumStyles.TextStyleTransactionAmount,
+                                        AppStyles.TextStyleTransactionAmount,
                                   ),
                                   TextSpan(
                                     text: " BAN",
                                     style:
-                                        KaliumStyles.TextStyleTransactionUnit,
+                                        AppStyles.TextStyleTransactionUnit,
                                   ),
                                 ],
                               ),
@@ -743,7 +743,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     child: Text(
                       displayName,
                       textAlign: TextAlign.right,
-                      style: KaliumStyles.TextStyleTransactionAddress,
+                      style: AppStyles.TextStyleTransactionAddress,
                     ),
                   ),
                 ],
@@ -764,25 +764,25 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     if (type == "Sent") {
       text = "Sent";
       icon = KaliumIcons.sent;
-      iconColor = KaliumColors.text60;
+      iconColor = AppColors.text60;
     } else {
       text = "Received";
       icon = KaliumIcons.received;
-      iconColor = KaliumColors.primary60;
+      iconColor = AppColors.primary60;
     }
     return Container(
       margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
       decoration: BoxDecoration(
-        color: KaliumColors.backgroundDark,
+        color: AppColors.backgroundDark,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: FlatButton(
         onPressed: () {
           return null;
         },
-        highlightColor: KaliumColors.text15,
-        splashColor: KaliumColors.text15,
-        color: KaliumColors.backgroundDark,
+        highlightColor: AppColors.text15,
+        splashColor: AppColors.text15,
+        color: AppColors.backgroundDark,
         padding: EdgeInsets.all(0.0),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -806,7 +806,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                           Text(
                             text,
                             textAlign: TextAlign.left,
-                            style: KaliumStyles.TextStyleTransactionType,
+                            style: AppStyles.TextStyleTransactionType,
                           ),
                           RichText(
                             textAlign: TextAlign.left,
@@ -816,11 +816,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                                 TextSpan(
                                   text: amount,
                                   style:
-                                      KaliumStyles.TextStyleTransactionAmount,
+                                      AppStyles.TextStyleTransactionAmount,
                                 ),
                                 TextSpan(
                                   text: " BAN",
-                                  style: KaliumStyles.TextStyleTransactionUnit,
+                                  style: AppStyles.TextStyleTransactionUnit,
                                 ),
                               ],
                             ),
@@ -835,7 +835,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                   child: Text(
                     address,
                     textAlign: TextAlign.right,
-                    style: KaliumStyles.TextStyleTransactionAddress,
+                    style: AppStyles.TextStyleTransactionAddress,
                   ),
                 ),
               ],
@@ -851,7 +851,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     return Container(
       margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
       decoration: BoxDecoration(
-        color: KaliumColors.backgroundDark,
+        color: AppColors.backgroundDark,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: IntrinsicHeight(
@@ -864,7 +864,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     bottomLeft: Radius.circular(10.0)),
-                color: KaliumColors.primary,
+                color: AppColors.primary,
               ),
             ),
             Flexible(
@@ -878,15 +878,15 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                     children: [
                       TextSpan(
                         text: "Welcome to Kalium. Once you receive ",
-                        style: KaliumStyles.TextStyleTransactionWelcome,
+                        style: AppStyles.TextStyleTransactionWelcome,
                       ),
                       TextSpan(
                         text: "BANANO",
-                        style: KaliumStyles.TextStyleTransactionWelcomePrimary,
+                        style: AppStyles.TextStyleTransactionWelcomePrimary,
                       ),
                       TextSpan(
                         text: ", transactions will show up like below.",
-                        style: KaliumStyles.TextStyleTransactionWelcome,
+                        style: AppStyles.TextStyleTransactionWelcome,
                       ),
                     ],
                   ),
@@ -899,7 +899,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(10.0),
                     bottomRight: Radius.circular(10.0)),
-                color: KaliumColors.primary,
+                color: AppColors.primary,
               ),
             ),
           ],
@@ -917,25 +917,25 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     if (type == "Sent") {
       text = "Senttt";
       icon = KaliumIcons.dotfilled;
-      iconColor = KaliumColors.text20;
+      iconColor = AppColors.text20;
     } else {
       text = "Receiveddd";
       icon = KaliumIcons.dotfilled;
-      iconColor = KaliumColors.primary20;
+      iconColor = AppColors.primary20;
     }
     return Container(
       margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
       decoration: BoxDecoration(
-        color: KaliumColors.backgroundDark,
+        color: AppColors.backgroundDark,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: FlatButton(
         onPressed: () {
           return null;
         },
-        highlightColor: KaliumColors.text15,
-        splashColor: KaliumColors.text15,
-        color: KaliumColors.backgroundDark,
+        highlightColor: AppColors.text15,
+        splashColor: AppColors.text15,
+        color: AppColors.backgroundDark,
         padding: EdgeInsets.all(0.0),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -970,7 +970,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: "NunitoSans",
-                                    fontSize: KaliumFontSizes.small,
+                                    fontSize: AppFontSizes.small,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.transparent,
                                   ),
@@ -979,7 +979,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                                   opacity: _opacityAnimation.value,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: KaliumColors.text45,
+                                      color: AppColors.text45,
                                       borderRadius: BorderRadius.circular(100),
                                     ),
                                     child: Text(
@@ -987,7 +987,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                         fontFamily: "NunitoSans",
-                                        fontSize: KaliumFontSizes.small - 4,
+                                        fontSize: AppFontSizes.small - 4,
                                         fontWeight: FontWeight.w600,
                                         color: Colors.transparent,
                                       ),
@@ -1008,14 +1008,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                                   style: TextStyle(
                                       fontFamily: "NunitoSans",
                                       color: Colors.transparent,
-                                      fontSize: KaliumFontSizes.smallest,
+                                      fontSize: AppFontSizes.smallest,
                                       fontWeight: FontWeight.w600),
                                 ),
                                 Opacity(
                                   opacity: _opacityAnimation.value,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: KaliumColors.primary20,
+                                      color: AppColors.primary20,
                                       borderRadius: BorderRadius.circular(100),
                                     ),
                                     child: Text(
@@ -1025,7 +1025,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                                           fontFamily: "NunitoSans",
                                           color: Colors.transparent,
                                           fontSize:
-                                              KaliumFontSizes.smallest - 3,
+                                              AppFontSizes.smallest - 3,
                                           fontWeight: FontWeight.w600),
                                     ),
                                   ),
@@ -1052,7 +1052,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                               address,
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                fontSize: KaliumFontSizes.smallest,
+                                fontSize: AppFontSizes.smallest,
                                 fontFamily: 'OverpassMono',
                                 fontWeight: FontWeight.w100,
                                 color: Colors.transparent,
@@ -1062,14 +1062,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                               opacity: _opacityAnimation.value,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: KaliumColors.text20,
+                                  color: AppColors.text20,
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                                 child: Text(
                                   address,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                    fontSize: KaliumFontSizes.smallest - 3,
+                                    fontSize: AppFontSizes.smallest - 3,
                                     fontFamily: 'OverpassMono',
                                     fontWeight: FontWeight.w100,
                                     color: Colors.transparent,
@@ -1095,7 +1095,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   Widget _buildMainCard(BuildContext context, _scaffoldKey) {
     return Container(
       decoration: BoxDecoration(
-        color: KaliumColors.backgroundDark,
+        color: AppColors.backgroundDark,
         borderRadius: BorderRadius.circular(10.0),
       ),
       margin: EdgeInsets.only(
@@ -1124,7 +1124,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                           borderRadius: BorderRadius.circular(50.0)),
                       padding: EdgeInsets.all(0.0),
                       child: Icon(KaliumIcons.settings,
-                          color: KaliumColors.text, size: 24)),
+                          color: AppColors.text, size: 24)),
                 ),
               ],
             ),
@@ -1142,7 +1142,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                           child: Container(
                             width: 90,
                             height: 90,
-                            color: KaliumColors.backgroundDark,
+                            color: AppColors.backgroundDark,
                           ),
                         ),
                         _monKey
@@ -1183,7 +1183,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: "NunitoSans",
-                      fontSize: KaliumFontSizes.small,
+                      fontSize: AppFontSizes.small,
                       fontWeight: FontWeight.w600,
                       color: Colors.transparent),
                 ),
@@ -1191,7 +1191,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                   opacity: _opacityAnimation.value,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: KaliumColors.text20,
+                      color: AppColors.text20,
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: Text(
@@ -1199,7 +1199,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: "NunitoSans",
-                          fontSize: KaliumFontSizes.small - 3,
+                          fontSize: AppFontSizes.small - 3,
                           fontWeight: FontWeight.w600,
                           color: Colors.transparent),
                     ),
@@ -1218,7 +1218,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                   "1234567",
                   style: TextStyle(
                       fontFamily: "NunitoSans",
-                      fontSize: KaliumFontSizes.largestc,
+                      fontSize: AppFontSizes.largestc,
                       fontWeight: FontWeight.w900,
                       color: Colors.transparent),
                   maxLines: 1,
@@ -1229,14 +1229,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                   opacity: _opacityAnimation.value,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: KaliumColors.primary60,
+                      color: AppColors.primary60,
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: AutoSizeText(
                       "1234567",
                       style: TextStyle(
                           fontFamily: "NunitoSans",
-                          fontSize: KaliumFontSizes.largestc - 8,
+                          fontSize: AppFontSizes.largestc - 8,
                           fontWeight: FontWeight.w900,
                           color: Colors.transparent),
                       maxLines: 1,
@@ -1257,7 +1257,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: "NunitoSans",
-                      fontSize: KaliumFontSizes.small,
+                      fontSize: AppFontSizes.small,
                       fontWeight: FontWeight.w600,
                       color: Colors.transparent),
                 ),
@@ -1265,7 +1265,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                   opacity: _opacityAnimation.value,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: KaliumColors.text20,
+                      color: AppColors.text20,
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: Text(
@@ -1273,7 +1273,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: "NunitoSans",
-                          fontSize: KaliumFontSizes.small - 3,
+                          fontSize: AppFontSizes.small - 3,
                           fontWeight: FontWeight.w600,
                           color: Colors.transparent),
                     ),
@@ -1290,21 +1290,21 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         if (_priceConversion == PriceConversion.BTC) {
           // Cycle to NANO price
           setState(() {
-            _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
+            _convertedPriceStyle = AppStyles.TextStyleCurrencyAlt;
             _priceConversion = PriceConversion.NANO;
           });
           SharedPrefsUtil.inst.setPriceConversion(PriceConversion.NANO);
         } else if (_priceConversion == PriceConversion.NANO) {
           // Hide prices
           setState(() {
-            _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAltHidden;
+            _convertedPriceStyle = AppStyles.TextStyleCurrencyAltHidden;
             _priceConversion = PriceConversion.NONE;
           });
           SharedPrefsUtil.inst.setPriceConversion(PriceConversion.NONE);
         } else {
           // Cycle to BTC price
           setState(() {
-            _convertedPriceStyle = KaliumStyles.TextStyleCurrencyAlt;
+            _convertedPriceStyle = AppStyles.TextStyleCurrencyAlt;
             _priceConversion = PriceConversion.BTC;
           });
           SharedPrefsUtil.inst.setPriceConversion(PriceConversion.BTC);
@@ -1337,7 +1337,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                           text: "",
                           style: TextStyle(
                             fontFamily: 'KaliumIcons',
-                            color: KaliumColors.primary,
+                            color: AppColors.primary,
                             fontSize: 23.0,
                           ),
                         ),
@@ -1346,7 +1346,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                           text: StateContainer.of(context)
                               .wallet
                               .getAccountBalanceDisplay(),
-                          style: KaliumStyles.TextStyleCurrency,
+                          style: AppStyles.TextStyleCurrency,
                         ),
                       ],
                     ),
@@ -1367,7 +1367,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       : KaliumIcons.nanocurrency,
                   color: _priceConversion == PriceConversion.NONE
                       ? Colors.transparent
-                      : KaliumColors.text60,
+                      : AppColors.text60,
                   size: 14),
               Text(
                   _priceConversion == PriceConversion.BTC
@@ -1472,8 +1472,8 @@ class TransactionDetailsSheet {
                                           child: Icon(KaliumIcons.addcontact,
                                               size: 35,
                                               color: _addressCopied
-                                                  ? KaliumColors.successDark
-                                                  : KaliumColors
+                                                  ? AppColors.successDark
+                                                  : AppColors
                                                       .backgroundDark),
                                         )
                                       : SizedBox(),
@@ -1523,7 +1523,7 @@ class MonkeyOverlay extends ModalRoute<void> {
   bool get barrierDismissible => false;
 
   @override
-  Color get barrierColor => KaliumColors.overlay70;
+  Color get barrierColor => AppColors.overlay70;
 
   @override
   String get barrierLabel => null;

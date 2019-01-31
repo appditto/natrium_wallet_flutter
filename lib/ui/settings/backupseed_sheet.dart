@@ -44,7 +44,7 @@ class KaliumSeedBackupSheet {
                         children: <Widget>[
                           AutoSizeText(
                             KaliumLocalization.of(context).seed.toUpperCase(),
-                            style: KaliumStyles.textStyleHeader(context),
+                            style: AppStyles.textStyleHeader(context),
                             maxLines: 1,
                             stepGranularity: 0.1,
                           ),
@@ -62,7 +62,7 @@ class KaliumSeedBackupSheet {
                                 margin: EdgeInsets.only(left: 50, right: 50),
                                 child: Text(
                                   KaliumLocalization.of(context).seedBackupInfo,
-                                  style: KaliumStyles.TextStyleParagraph,
+                                  style: AppStyles.TextStyleParagraph,
                                 )),
                             new GestureDetector(
                               onTap: () {
@@ -83,11 +83,11 @@ class KaliumSeedBackupSheet {
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 25.0, vertical: 15.0),
                                     decoration: BoxDecoration(
-                                      color: KaliumColors.backgroundDarkest,
+                                      color: AppColors.backgroundDarkest,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     child: UIUtil.threeLineSeedText(_seedHidden ? _placeholderSeed : _seed,
-                                        textStyle: _seedCopied ? KaliumStyles.TextStyleSeedGreen : KaliumStyles.TextStyleSeed),
+                                        textStyle: _seedCopied ? AppStyles.TextStyleSeedGreen : AppStyles.TextStyleSeed),
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(top: 5),
@@ -95,7 +95,7 @@ class KaliumSeedBackupSheet {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 14.0,
-                                          color: _seedCopied ? KaliumColors.success : Colors.transparent,
+                                          color: _seedCopied ? AppColors.success : Colors.transparent,
                                           fontFamily: 'NunitoSans',
                                           fontWeight: FontWeight.w600,
                                         )),

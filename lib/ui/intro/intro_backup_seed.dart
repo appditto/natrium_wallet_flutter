@@ -20,7 +20,7 @@ class IntroBackupSeedPage extends StatefulWidget {
 class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _seed;
-  TextStyle _seedTapStyle = KaliumStyles.TextStyleSeed;
+  TextStyle _seedTapStyle = AppStyles.TextStyleSeed;
   var _seedCopiedColor = Colors.transparent;
   Timer _seedCopiedTimer;
 
@@ -48,7 +48,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
       onWillPop:_onWillPop,
       child: new Scaffold(
         key: _scaffoldKey,
-        backgroundColor: KaliumColors.background,
+        backgroundColor: AppColors.background,
         body: LayoutBuilder(
           builder: (context, constraints) => Column(
                 children: <Widget>[
@@ -76,7 +76,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                             BorderRadius.circular(50.0)),
                                     padding: EdgeInsets.all(0.0),
                                     child: Icon(KaliumIcons.back,
-                                        color: KaliumColors.text, size: 24)),
+                                        color: AppColors.text, size: 24)),
                               ),
                             ],
                           ),
@@ -89,7 +89,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               children: <Widget>[
                                 Text(
                                   KaliumLocalization.of(context).seed,
-                                  style: KaliumStyles.TextStyleHeaderColored,
+                                  style: AppStyles.TextStyleHeaderColored,
                                 ),
                               ],
                             ),
@@ -101,7 +101,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             alignment: Alignment.centerLeft,
                             child: Text(
                                 KaliumLocalization.of(context).seedBackupInfo,
-                                style: KaliumStyles.TextStyleParagraph),
+                                style: AppStyles.TextStyleParagraph),
                           ),
                           Container(
                             // A gesture detector to decide if the is tapped or not
@@ -111,8 +111,8 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                       new ClipboardData(text: _seed));
                                   ClipboardUtil.setClipboardClearEvent();
                                   setState(() {
-                                    _seedTapStyle = KaliumStyles.TextStyleSeedGreen;
-                                    _seedCopiedColor = KaliumColors.success;
+                                    _seedTapStyle = AppStyles.TextStyleSeedGreen;
+                                    _seedCopiedColor = AppColors.success;
                                   });
                                   if (_seedCopiedTimer != null) {
                                     _seedCopiedTimer.cancel();
@@ -120,7 +120,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                   _seedCopiedTimer = new Timer(
                                       const Duration(milliseconds: 1200), () {
                                     setState(() {
-                                      _seedTapStyle = KaliumStyles.TextStyleSeed;
+                                      _seedTapStyle = AppStyles.TextStyleSeed;
                                       _seedCopiedColor = Colors.transparent;
                                     });
                                   });
@@ -131,7 +131,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                       horizontal: 25.0, vertical: 15),
                                   margin: EdgeInsets.only(top: 25),
                                   decoration: BoxDecoration(
-                                    color: KaliumColors.backgroundDark,
+                                    color: AppColors.backgroundDark,
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   child:
@@ -164,8 +164,8 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                         height: 50,
                         width: 50,
                         child: FlatButton(
-                            splashColor: KaliumColors.primary30,
-                            highlightColor: KaliumColors.primary15,
+                            splashColor: AppColors.primary30,
+                            highlightColor: AppColors.primary15,
                             onPressed: () {
                               Vault.inst.setSeed(_seed).then((result) {
                                 // Update wallet
@@ -178,7 +178,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 borderRadius: BorderRadius.circular(50.0)),
                             padding: EdgeInsets.all(0.0),
                             child: Icon(KaliumIcons.forward,
-                                color: KaliumColors.primary, size: 50)),
+                                color: AppColors.primary, size: 50)),
                       ),
                     ],
                   ),

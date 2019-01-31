@@ -94,7 +94,7 @@ class KaliumTransferOverviewSheet {
                               Navigator.pop(context);
                             },
                             child: Icon(KaliumIcons.close,
-                                size: 16, color: KaliumColors.text),
+                                size: 16, color: AppColors.text),
                             padding: EdgeInsets.all(17.0),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(100.0)),
@@ -109,7 +109,7 @@ class KaliumTransferOverviewSheet {
                             KaliumLocalization.of(context)
                                 .transferHeader
                                 .toUpperCase(),
-                            style: KaliumStyles.textStyleHeader(context),
+                            style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                             stepGranularity: 0.1,
@@ -143,7 +143,7 @@ class KaliumTransferOverviewSheet {
                                   horizontal: smallScreen(context)?35:60, vertical: 20),
                               child: Text(
                                 KaliumLocalization.of(context).transferIntro.replaceAll("%1", KaliumLocalization.of(context).scanQrCode),
-                                style: KaliumStyles.TextStyleParagraph,
+                                style: AppStyles.TextStyleParagraph,
                                 textAlign: TextAlign.left,
                               )),
                         ],

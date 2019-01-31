@@ -40,16 +40,16 @@ class KaliumApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
     return OKToast(
-      textStyle: KaliumStyles.TextStyleSnackbar,
-      backgroundColor: KaliumColors.backgroundDark,
+      textStyle: AppStyles.TextStyleSnackbar,
+      backgroundColor: AppColors.backgroundDark,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Kalium',
         theme: ThemeData(
-          dialogBackgroundColor: KaliumColors.backgroundDark,
-          primaryColor: KaliumColors.primary,
-          accentColor: KaliumColors.primary10,
-          backgroundColor: KaliumColors.backgroundDark,
+          dialogBackgroundColor: AppColors.backgroundDark,
+          primaryColor: AppColors.primary,
+          accentColor: AppColors.primary10,
+          backgroundColor: AppColors.backgroundDark,
           fontFamily: 'NunitoSans',
           brightness: Brightness.dark,
         ),
@@ -178,7 +178,7 @@ class SplashState extends State<Splash> {
       StateContainer.of(context).curCurrency = currency;
     });
     return new Scaffold(
-      backgroundColor: KaliumColors.background,
+      backgroundColor: AppColors.background,
     );
   }
 }

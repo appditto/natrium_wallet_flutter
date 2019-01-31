@@ -9,9 +9,9 @@ class KaliumSheets {
   static Future<T> showKaliumHeightNineSheet<T>(
       {@required BuildContext context,
       @required WidgetBuilder builder,
-      Color color = KaliumColors.backgroundDark,
+      Color color = AppColors.backgroundDark,
       double radius = 30.0,
-      Color bgColor = KaliumColors.overlay70,
+      Color bgColor = AppColors.overlay70,
       int animationDurationMs = 200,
       bool removeUntilHome = false,
       bool closeOnTap = false,
@@ -41,9 +41,9 @@ class KaliumSheets {
   static Future<T> showKaliumHeightEightSheet<T>(
       {@required BuildContext context,
       @required WidgetBuilder builder,
-      Color color = KaliumColors.backgroundDark,
+      Color color = AppColors.backgroundDark,
       double radius = 30.0,
-      Color bgColor = KaliumColors.overlay70,
+      Color bgColor = AppColors.overlay70,
       int animationDurationMs = 200}) {
     assert(context != null);
     assert(builder != null);

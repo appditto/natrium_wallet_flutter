@@ -76,7 +76,7 @@ class ContactDetailsSheet {
                           cancelText: KaliumLocalization.of(context).no.toUpperCase());
                         },
                         child: Icon(KaliumIcons.trashcan,
-                            size: 24, color: KaliumColors.text),
+                            size: 24, color: AppColors.text),
                         padding: EdgeInsets.all(13.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -92,7 +92,7 @@ class ContactDetailsSheet {
                         children: <Widget>[
                           AutoSizeText(
                             KaliumLocalization.of(context).contactHeader.toUpperCase(),
-                            style: KaliumStyles.textStyleHeader(context),
+                            style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             stepGranularity: 0.1,
@@ -113,7 +113,7 @@ class ContactDetailsSheet {
                           }));
                         },
                         child: Icon(KaliumIcons.search,
-                            size: 24, color: KaliumColors.text),
+                            size: 24, color: AppColors.text),
                         padding: EdgeInsets.all(13.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -141,7 +141,7 @@ class ContactDetailsSheet {
                         padding: EdgeInsets.symmetric(
                             horizontal: 25.0, vertical: 12.0),
                         decoration: BoxDecoration(
-                          color: KaliumColors.backgroundDarkest,
+                          color: AppColors.backgroundDarkest,
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Text(
@@ -150,7 +150,7 @@ class ContactDetailsSheet {
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 16.0,
-                            color: KaliumColors.primary,
+                            color: AppColors.primary,
                             fontFamily: 'NunitoSans',
                           ),
                         ),
@@ -182,7 +182,7 @@ class ContactDetailsSheet {
                           padding: EdgeInsets.symmetric(
                               horizontal: 25.0, vertical: 15.0),
                           decoration: BoxDecoration(
-                            color: KaliumColors.backgroundDarkest,
+                            color: AppColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: UIUtil.threeLineAddressText(
@@ -197,7 +197,7 @@ class ContactDetailsSheet {
                         child: Text(_addressCopied ? KaliumLocalization.of(context).addressCopied : "",
                             style: TextStyle(
                               fontSize: 14.0,
-                              color: KaliumColors.success,
+                              color: AppColors.success,
                               fontFamily: 'NunitoSans',
                               fontWeight: FontWeight.w600,
                             )),

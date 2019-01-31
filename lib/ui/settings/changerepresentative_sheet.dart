@@ -42,7 +42,7 @@ class KaliumChangeRepresentativeSheet {
   KaliumChangeRepresentativeSheet() {
     _repFocusNode = new FocusNode();
     _repController = new TextEditingController();
-    _repAddressStyle = KaliumStyles.TextStyleAddressText60;
+    _repAddressStyle = AppStyles.TextStyleAddressText60;
   }
 
   Future<bool> _onWillPop() async {
@@ -111,7 +111,7 @@ class KaliumChangeRepresentativeSheet {
                                 KaliumLocalization.of(context).repInfo);
                           },
                           child: Icon(KaliumIcons.info,
-                              size: 24, color: KaliumColors.text),
+                              size: 24, color: AppColors.text),
                           padding: EdgeInsets.all(13.0),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100.0)),
@@ -130,7 +130,7 @@ class KaliumChangeRepresentativeSheet {
                             KaliumLocalization.of(context)
                                 .changeRepAuthenticate
                                 .toUpperCase(),
-                            style: KaliumStyles.textStyleHeader(context),
+                            style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                             stepGranularity: 0.1,
@@ -155,7 +155,7 @@ class KaliumChangeRepresentativeSheet {
                                       true;
                                   _showPasteButton = false;
                                   _repAddressStyle =
-                                      KaliumStyles
+                                      AppStyles
                                           .TextStyleAddressText90;
                                 });
                                 _repController.text =
@@ -167,7 +167,7 @@ class KaliumChangeRepresentativeSheet {
                             });
                           },
                           child: Icon(KaliumIcons.scan,
-                              size: 28, color: KaliumColors.text),
+                              size: 28, color: AppColors.text),
                           padding: EdgeInsets.all(11.0),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100.0)),
@@ -206,7 +206,7 @@ class KaliumChangeRepresentativeSheet {
                                 child: Text(
                                   KaliumLocalization.of(context)
                                       .currentlyRepresented,
-                                  style: KaliumStyles.TextStyleParagraph,
+                                  style: AppStyles.TextStyleParagraph,
                                 )),
                             Container(
                               width: double.infinity,
@@ -219,7 +219,7 @@ class KaliumChangeRepresentativeSheet {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 25.0, vertical: 15.0),
                               decoration: BoxDecoration(
-                                color: KaliumColors.backgroundDarkest,
+                                color: AppColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child: UIUtil.threeLineAddressText(
@@ -240,7 +240,7 @@ class KaliumChangeRepresentativeSheet {
                                       horizontal: 25.0, vertical: 15.0)
                                   : EdgeInsets.zero,
                               decoration: BoxDecoration(
-                                color: KaliumColors.backgroundDarkest,
+                                color: AppColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child: !_addressValidAndUnfocused
@@ -248,7 +248,7 @@ class KaliumChangeRepresentativeSheet {
                                       focusNode: _repFocusNode,
                                       controller: _repController,
                                       textAlign: TextAlign.center,
-                                      cursorColor: KaliumColors.primary,
+                                      cursorColor: AppColors.primary,
                                       inputFormatters: [
                                         LengthLimitingTextInputFormatter(64),
                                       ],
@@ -288,7 +288,7 @@ class KaliumChangeRepresentativeSheet {
                                                           true;
                                                       _showPasteButton = false;
                                                       _repAddressStyle =
-                                                          KaliumStyles
+                                                          AppStyles
                                                               .TextStyleAddressText90;
                                                     });
                                                     _repController.text =
@@ -299,7 +299,7 @@ class KaliumChangeRepresentativeSheet {
                                               },
                                               child: Icon(KaliumIcons.paste,
                                                   size: 20.0,
-                                                  color: KaliumColors.primary),
+                                                  color: AppColors.primary),
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -326,13 +326,13 @@ class KaliumChangeRepresentativeSheet {
                                           _repFocusNode.unfocus();
                                           setState(() {
                                             _showPasteButton = false;
-                                            _repAddressStyle = KaliumStyles
+                                            _repAddressStyle = AppStyles
                                                 .TextStyleAddressText90;
                                           });
                                         } else {
                                           setState(() {
                                             _showPasteButton = true;
-                                            _repAddressStyle = KaliumStyles
+                                            _repAddressStyle = AppStyles
                                                 .TextStyleAddressText60;
                                           });
                                         }

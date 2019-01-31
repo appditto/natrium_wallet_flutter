@@ -42,7 +42,7 @@ class KaliumSendCompleteSheet {
                         alignment: Alignment(0, 0),
                         margin: EdgeInsets.only(bottom: 25),
                         child: Icon(KaliumIcons.success,
-                            size: 100, color: KaliumColors.success),
+                            size: 100, color: AppColors.success),
                       ),
                       // Container for the Amount Text
                       Container(
@@ -53,7 +53,7 @@ class KaliumSendCompleteSheet {
                             EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: KaliumColors.backgroundDarkest,
+                          color: AppColors.backgroundDarkest,
                           borderRadius: BorderRadius.circular(50),
                         ),
                         // Amount text
@@ -65,7 +65,7 @@ class KaliumSendCompleteSheet {
                               TextSpan(
                                 text: "$_amount",
                                 style: TextStyle(
-                                  color: KaliumColors.success,
+                                  color: AppColors.success,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'NunitoSans',
@@ -74,7 +74,7 @@ class KaliumSendCompleteSheet {
                               TextSpan(
                                 text: " BAN",
                                 style: TextStyle(
-                                  color: KaliumColors.success,
+                                  color: AppColors.success,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w100,
                                   fontFamily: 'NunitoSans',
@@ -97,7 +97,7 @@ class KaliumSendCompleteSheet {
                               style: TextStyle(
                                 fontSize: 28.0,
                                 fontWeight: FontWeight.w700,
-                                color: KaliumColors.success,
+                                color: AppColors.success,
                                 fontFamily: 'NunitoSans',
                               ),
                             ),
@@ -113,7 +113,7 @@ class KaliumSendCompleteSheet {
                               right: MediaQuery.of(context).size.width * 0.105),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: KaliumColors.backgroundDarkest,
+                            color: AppColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
                           child: UIUtil.threeLineAddressText(_destination,

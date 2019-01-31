@@ -161,7 +161,7 @@ class KaliumTransferConfirmSheet {
                       margin: EdgeInsets.only(top: 30.0, left:70, right: 70),
                       child: AutoSizeText(
                         KaliumLocalization.of(context).transferHeader.toUpperCase(),
-                        style: KaliumStyles.textStyleHeader(context),
+                        style: AppStyles.textStyleHeader(context),
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         stepGranularity: 0.1,
@@ -180,21 +180,21 @@ class KaliumTransferConfirmSheet {
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
                                   KaliumLocalization.of(context).transferConfirmInfo.replaceAll("%1", totalAsBanano),
-                                  style: KaliumStyles.TextStyleParagraphPrimary,
+                                  style: AppStyles.TextStyleParagraphPrimary,
                                   textAlign: TextAlign.left,
                             )),
                             Container(
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
                                   KaliumLocalization.of(context).transferConfirmInfoSecond,
-                                  style: KaliumStyles.TextStyleParagraph,
+                                  style: AppStyles.TextStyleParagraph,
                                   textAlign: TextAlign.left,
                             )),
                             Container(
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
                                   KaliumLocalization.of(context).transferConfirmInfoThird,
-                                  style: KaliumStyles.TextStyleParagraph,
+                                  style: AppStyles.TextStyleParagraph,
                                   textAlign: TextAlign.left,
                             )),
                           ],

@@ -107,7 +107,7 @@ class AddContactSheet {
                         children: <Widget>[
                           AutoSizeText(
                             KaliumLocalization.of(context).addContact.toUpperCase(),
-                            style: KaliumStyles.textStyleHeader(context),
+                            style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             stepGranularity: 0.1,
@@ -147,7 +147,7 @@ class AddContactSheet {
                             }
                         },
                         child: Icon(KaliumIcons.scan,
-                            size: 28, color: KaliumColors.text),
+                            size: 28, color: AppColors.text),
                         padding: EdgeInsets.all(11.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -185,14 +185,14 @@ class AddContactSheet {
                               padding: EdgeInsets.symmetric(horizontal: 30),
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: KaliumColors.backgroundDarkest,
+                                color: AppColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               // Enter Name text field
                               child: TextField(
                                 focusNode: _nameFocusNode,
                                 controller: _nameController,
-                                cursorColor: KaliumColors.primary,
+                                cursorColor: AppColors.primary,
                                 textInputAction: address != null ? TextInputAction.done : TextInputAction.next,
                                 maxLines: null,
                                 autocorrect: false,
@@ -209,7 +209,7 @@ class AddContactSheet {
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16.0,
-                                  color: KaliumColors.text,
+                                  color: AppColors.text,
                                   fontFamily: 'NunitoSans',
                                 ),
                                 inputFormatters: [
@@ -235,7 +235,7 @@ class AddContactSheet {
                               child: Text(_nameValidationText,
                                   style: TextStyle(
                                     fontSize: 14.0,
-                                    color: KaliumColors.primary,
+                                    color: AppColors.primary,
                                     fontFamily: 'NunitoSans',
                                     fontWeight: FontWeight.w600,
                                   )),
@@ -249,16 +249,16 @@ class AddContactSheet {
                                     horizontal: 25.0, vertical: 15.0) : EdgeInsets.zero,
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: KaliumColors.backgroundDarkest,
+                                color: AppColors.backgroundDarkest,
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               // Enter Address text field
                               child: _shouldShowTextField() ? TextField(
                                 focusNode: _addressFocusNode,
                                 controller: _addressController,
-                                style: _addressValid ? KaliumStyles.TextStyleAddressText90 : KaliumStyles.TextStyleAddressText60,
+                                style: _addressValid ? AppStyles.TextStyleAddressText90 : AppStyles.TextStyleAddressText60,
                                 textAlign: TextAlign.center,
-                                cursorColor: KaliumColors.primary,
+                                cursorColor: AppColors.primary,
                                 keyboardAppearance: Brightness.dark,
                                 inputFormatters: [
                                   LengthLimitingTextInputFormatter(64),
@@ -284,8 +284,8 @@ class AddContactSheet {
                                     firstChild: Container(
                                         width: 48,
                                         child: FlatButton(
-                                          highlightColor: KaliumColors.primary15,
-                                          splashColor: KaliumColors.primary30,
+                                          highlightColor: AppColors.primary15,
+                                          splashColor: AppColors.primary30,
                                           padding: EdgeInsets.all(14.0),
                                           onPressed: () {
                                             if (!_showPasteButton) {
@@ -315,7 +315,7 @@ class AddContactSheet {
                                             });
                                           },
                                           child: Icon(KaliumIcons.paste,
-                                              size: 20, color: KaliumColors.primary),
+                                              size: 20, color: AppColors.primary),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(200.0)),
@@ -364,7 +364,7 @@ class AddContactSheet {
                               child: Text(_addressValidationText,
                                   style: TextStyle(
                                     fontSize: 14.0,
-                                    color: KaliumColors.primary,
+                                    color: AppColors.primary,
                                     fontFamily: 'NunitoSans',
                                     fontWeight: FontWeight.w600,
                                   )),

@@ -37,11 +37,11 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartOne,
-                    style: KaliumStyles.TextStyleAddressPrimary60,
+                    style: AppStyles.TextStyleAddressPrimary60,
                   ),
                   TextSpan(
                     text: stringPartTwo,
-                    style: KaliumStyles.TextStyleAddressText60,
+                    style: AppStyles.TextStyleAddressText60,
                   ),
                 ],
               ),
@@ -53,7 +53,7 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartThree,
-                    style: KaliumStyles.TextStyleAddressText60,
+                    style: AppStyles.TextStyleAddressText60,
                   ),
                 ],
               ),
@@ -65,11 +65,11 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartFour,
-                    style: KaliumStyles.TextStyleAddressText60,
+                    style: AppStyles.TextStyleAddressText60,
                   ),
                   TextSpan(
                     text: stringPartFive,
-                    style: KaliumStyles.TextStyleAddressPrimary60,
+                    style: AppStyles.TextStyleAddressPrimary60,
                   ),
                 ],
               ),
@@ -82,7 +82,7 @@ class UIUtil {
                 textAlign: TextAlign.center,
                 text: TextSpan(
                     text: contactName,
-                    style: KaliumStyles.TextStyleAddressPrimary))
+                    style: AppStyles.TextStyleAddressPrimary))
             : SizedBox();
         return Column(
           children: <Widget>[
@@ -94,11 +94,11 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartOne,
-                    style: KaliumStyles.TextStyleAddressPrimary,
+                    style: AppStyles.TextStyleAddressPrimary,
                   ),
                   TextSpan(
                     text: stringPartTwo,
-                    style: KaliumStyles.TextStyleAddressText90,
+                    style: AppStyles.TextStyleAddressText90,
                   ),
                 ],
               ),
@@ -110,7 +110,7 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartThree,
-                    style: KaliumStyles.TextStyleAddressText90,
+                    style: AppStyles.TextStyleAddressText90,
                   ),
                 ],
               ),
@@ -122,11 +122,11 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartFour,
-                    style: KaliumStyles.TextStyleAddressText90,
+                    style: AppStyles.TextStyleAddressText90,
                   ),
                   TextSpan(
                     text: stringPartFive,
-                    style: KaliumStyles.TextStyleAddressPrimary,
+                    style: AppStyles.TextStyleAddressPrimary,
                   ),
                 ],
               ),
@@ -139,7 +139,7 @@ class UIUtil {
                 textAlign: TextAlign.center,
                 text: TextSpan(
                     text: contactName,
-                    style: KaliumStyles.TextStyleAddressSuccess))
+                    style: AppStyles.TextStyleAddressSuccess))
             : SizedBox();
         return Column(
           children: <Widget>[
@@ -151,11 +151,11 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartOne,
-                    style: KaliumStyles.TextStyleAddressSuccess,
+                    style: AppStyles.TextStyleAddressSuccess,
                   ),
                   TextSpan(
                     text: stringPartTwo,
-                    style: KaliumStyles.TextStyleAddressText90,
+                    style: AppStyles.TextStyleAddressText90,
                   ),
                 ],
               ),
@@ -167,7 +167,7 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartThree,
-                    style: KaliumStyles.TextStyleAddressText90,
+                    style: AppStyles.TextStyleAddressText90,
                   ),
                 ],
               ),
@@ -179,11 +179,11 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartFour,
-                    style: KaliumStyles.TextStyleAddressText90,
+                    style: AppStyles.TextStyleAddressText90,
                   ),
                   TextSpan(
                     text: stringPartFive,
-                    style: KaliumStyles.TextStyleAddressSuccess,
+                    style: AppStyles.TextStyleAddressSuccess,
                   ),
                 ],
               ),
@@ -200,11 +200,11 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartOne,
-                    style: KaliumStyles.TextStyleAddressSuccess,
+                    style: AppStyles.TextStyleAddressSuccess,
                   ),
                   TextSpan(
                     text: stringPartTwo,
-                    style: KaliumStyles.TextStyleAddressSuccess,
+                    style: AppStyles.TextStyleAddressSuccess,
                   ),
                 ],
               ),
@@ -216,7 +216,7 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartThree,
-                    style: KaliumStyles.TextStyleAddressSuccess,
+                    style: AppStyles.TextStyleAddressSuccess,
                   ),
                 ],
               ),
@@ -228,11 +228,11 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartFour,
-                    style: KaliumStyles.TextStyleAddressSuccess,
+                    style: AppStyles.TextStyleAddressSuccess,
                   ),
                   TextSpan(
                     text: stringPartFive,
-                    style: KaliumStyles.TextStyleAddressSuccess,
+                    style: AppStyles.TextStyleAddressSuccess,
                   ),
                 ],
               ),
@@ -259,15 +259,15 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartOne,
-                    style: KaliumStyles.TextStyleAddressPrimary60,
+                    style: AppStyles.TextStyleAddressPrimary60,
                   ),
                   TextSpan(
                     text: "...",
-                    style: KaliumStyles.TextStyleAddressText60,
+                    style: AppStyles.TextStyleAddressText60,
                   ),
                   TextSpan(
                     text: stringPartFive,
-                    style: KaliumStyles.TextStyleAddressPrimary60,
+                    style: AppStyles.TextStyleAddressPrimary60,
                   ),
                 ],
               ),
@@ -284,15 +284,15 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartOne,
-                    style: KaliumStyles.TextStyleAddressPrimary,
+                    style: AppStyles.TextStyleAddressPrimary,
                   ),
                   TextSpan(
                     text: "...",
-                    style: KaliumStyles.TextStyleAddressText90,
+                    style: AppStyles.TextStyleAddressText90,
                   ),
                   TextSpan(
                     text: stringPartFive,
-                    style: KaliumStyles.TextStyleAddressPrimary,
+                    style: AppStyles.TextStyleAddressPrimary,
                   ),
                 ],
               ),
@@ -309,15 +309,15 @@ class UIUtil {
                 children: [
                   TextSpan(
                     text: stringPartOne,
-                    style: KaliumStyles.TextStyleAddressSuccess,
+                    style: AppStyles.TextStyleAddressSuccess,
                   ),
                   TextSpan(
                     text: "...",
-                    style: KaliumStyles.TextStyleAddressText90,
+                    style: AppStyles.TextStyleAddressText90,
                   ),
                   TextSpan(
                     text: stringPartFive,
-                    style: KaliumStyles.TextStyleAddressSuccess,
+                    style: AppStyles.TextStyleAddressSuccess,
                   ),
                 ],
               ),
@@ -330,7 +330,7 @@ class UIUtil {
   }
 
   static Widget threeLineSeedText(String address, {TextStyle textStyle}) {
-    textStyle = textStyle ?? KaliumStyles.TextStyleSeed;
+    textStyle = textStyle ?? AppStyles.TextStyleSeed;
     String stringPartOne = address.substring(0, 22);
     String stringPartTwo = address.substring(22, 44);
     String stringPartThree = address.substring(44, 64);
@@ -356,9 +356,9 @@ class UIUtil {
     return WebviewScaffold(
       url: KaliumLocalization.of(context).getBlockExplorerUrl(hash),
       appBar: new AppBar(
-        backgroundColor: KaliumColors.background,
+        backgroundColor: AppColors.background,
         brightness: Brightness.dark,
-        iconTheme: IconThemeData(color: KaliumColors.text),
+        iconTheme: IconThemeData(color: AppColors.text),
       ),
     );
   }
@@ -367,9 +367,9 @@ class UIUtil {
     return WebviewScaffold(
       url: KaliumLocalization.of(context).getAccountExplorerUrl(account),
       appBar: new AppBar(
-        backgroundColor: KaliumColors.background,
+        backgroundColor: AppColors.background,
         brightness: Brightness.dark,
-        iconTheme: IconThemeData(color: KaliumColors.text),
+        iconTheme: IconThemeData(color: AppColors.text),
       ),
     );
   }
@@ -378,9 +378,9 @@ class UIUtil {
     return WebviewScaffold(
       url: url,
       appBar: new AppBar(
-        backgroundColor: KaliumColors.background,
+        backgroundColor: AppColors.background,
         brightness: Brightness.dark,
-        iconTheme: IconThemeData(color: KaliumColors.text),
+        iconTheme: IconThemeData(color: AppColors.text),
       ),
     );
   }
@@ -444,15 +444,15 @@ class UIUtil {
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           width: MediaQuery.of(context).size.width - 30,
           decoration: BoxDecoration(
-            color: KaliumColors.primary,
+            color: AppColors.primary,
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
-              BoxShadow(color:KaliumColors.black80, offset: Offset(0, 15), blurRadius: 30, spreadRadius: -5),
+              BoxShadow(color:AppColors.black80, offset: Offset(0, 15), blurRadius: 30, spreadRadius: -5),
             ],
           ),
           child: Text(
             content,
-            style: KaliumStyles.TextStyleSnackbar,
+            style: AppStyles.TextStyleSnackbar,
             textAlign: TextAlign.left,
           ),
         ),

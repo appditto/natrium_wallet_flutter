@@ -18,14 +18,14 @@ class KaliumDialogs {
         return KaliumAlertDialog(
           title: Text(
             title,
-            style: KaliumStyles.TextStyleButtonPrimaryOutline,
+            style: AppStyles.TextStyleButtonPrimaryOutline,
           ),
-          content: Text(content, style: KaliumStyles.TextStyleParagraph),
+          content: Text(content, style: AppStyles.TextStyleParagraph),
           actions: <Widget>[
             FlatButton(
               child: Text(
                 cancelText,
-                style: KaliumStyles.TextStyleDialogButtonText,
+                style: AppStyles.TextStyleDialogButtonText,
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -34,7 +34,7 @@ class KaliumDialogs {
             FlatButton(
               padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(buttonText,
-                  style: KaliumStyles.TextStyleDialogButtonText),
+                  style: AppStyles.TextStyleDialogButtonText),
               onPressed: () {
                 Navigator.of(context).pop();
                 onPressed();
@@ -53,14 +53,14 @@ class KaliumDialogs {
         return KaliumAlertDialog(
           title: Text(
             title,
-            style: KaliumStyles.TextStyleButtonPrimaryOutline,
+            style: AppStyles.TextStyleButtonPrimaryOutline,
           ),
-          content: Text(content, style: KaliumStyles.TextStyleParagraph),
+          content: Text(content, style: AppStyles.TextStyleParagraph),
           actions: <Widget>[
             FlatButton(
               child: Text(
                 KaliumLocalization.of(context).cancel.toUpperCase(),
-                style: KaliumStyles.TextStyleDialogButtonText,
+                style: AppStyles.TextStyleDialogButtonText,
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -101,9 +101,9 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
     if (type == AnimationType.TRANSFER_TRANSFERRING ||
         type == AnimationType.TRANSFER_SEARCHING_QR ||
         type == AnimationType.TRANSFER_SEARCHING_MANUAL) {
-      return KaliumColors.overlay85;
+      return AppColors.overlay85;
     }
-    return KaliumColors.overlay70;
+    return AppColors.overlay70;
   }
 
   @override
@@ -152,7 +152,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
       default:
         return CircularProgressIndicator(
             valueColor:
-                new AlwaysStoppedAnimation<Color>(KaliumColors.primary60));
+                new AlwaysStoppedAnimation<Color>(AppColors.primary60));
     }
   }
 
@@ -196,7 +196,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Text(KaliumLocalization.of(context).transferLoading.toUpperCase(),
-                        style: KaliumStyles.TextStyleHeader2Colored),
+                        style: AppStyles.TextStyleHeader2Colored),
                     Container(
                       margin: EdgeInsets.only(bottom: 7),
                       width: 33.333,

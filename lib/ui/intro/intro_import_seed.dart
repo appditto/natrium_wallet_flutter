@@ -22,10 +22,10 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
   var _seedInputFocusNode = new FocusNode();
   var _seedInputController = new TextEditingController();
   // State constants
-  static const _initialSeedTextStyle = KaliumStyles.TextStyleSeedGray;
-  static const _validSeedTextStyle = KaliumStyles.TextStyleSeed;
+  static const _initialSeedTextStyle = AppStyles.TextStyleSeedGray;
+  static const _validSeedTextStyle = AppStyles.TextStyleSeed;
   static const _initialErrorTextColor = Colors.transparent;
-  static const _hasErrorTextColor = KaliumColors.primary;
+  static const _hasErrorTextColor = AppColors.primary;
   // State variables
   var _seedTextStyle;
   var _errorTextColor;
@@ -57,7 +57,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
       onWillPop:_onWillPop,
       child: new Scaffold(
         key: _scaffoldKey,
-        backgroundColor: KaliumColors.background,
+        backgroundColor: AppColors.background,
         body: LayoutBuilder(
           builder: (context, constraints) => Column(
                 children: <Widget>[
@@ -96,7 +96,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                                 BorderRadius.circular(50.0)),
                                         padding: EdgeInsets.all(0.0),
                                         child: Icon(KaliumIcons.back,
-                                            color: KaliumColors.text, size: 24)),
+                                            color: AppColors.text, size: 24)),
                                   ),
                                 ],
                               ),
@@ -109,7 +109,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   children: <Widget>[
                                     Text(
                                       KaliumLocalization.of(context).importSeed,
-                                      style: KaliumStyles.TextStyleHeaderColored,
+                                      style: AppStyles.TextStyleHeaderColored,
                                     ),
                                   ],
                                 ),
@@ -121,7 +121,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                     KaliumLocalization.of(context).importSeedHint,
-                                    style: KaliumStyles.TextStyleParagraph,
+                                    style: AppStyles.TextStyleParagraph,
                                     textAlign: TextAlign.left,),
                               ),
                               // The container for the seed
@@ -129,7 +129,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 margin: EdgeInsets.only(left: 50, right: 50, top: 20),
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: KaliumColors.backgroundDark,
+                                  color: AppColors.backgroundDark,
                                   borderRadius: BorderRadius.circular(25),
                                 ),
                                 // Text Field for the seed
@@ -137,7 +137,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   focusNode: _seedInputFocusNode,
                                   controller: _seedInputController,
                                   textAlign: TextAlign.center,
-                                  cursorColor: KaliumColors.primary,
+                                  cursorColor: AppColors.primary,
                                   inputFormatters: [
                                     LengthLimitingTextInputFormatter(64),
                                   ],
@@ -158,7 +158,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                         height: 48,
                                         child: FlatButton(
                                           child: Icon(KaliumIcons.paste,
-                                              size: 20, color: KaliumColors.primary),
+                                              size: 20, color: AppColors.primary),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(100.0)),
@@ -234,8 +234,8 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                         height: 50,
                         width: 50,
                         child: FlatButton(
-                            splashColor: KaliumColors.primary30,
-                            highlightColor: KaliumColors.primary15,
+                            splashColor: AppColors.primary30,
+                            highlightColor: AppColors.primary15,
                             onPressed: () {
                               _seedInputFocusNode.unfocus();
                               // If seed valid, log them in
@@ -260,7 +260,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 borderRadius: BorderRadius.circular(50.0)),
                             padding: EdgeInsets.all(0.0),
                             child: Icon(KaliumIcons.forward,
-                                color: KaliumColors.primary, size: 50)),
+                                color: AppColors.primary, size: 50)),
                       ),
                     ],
                   ),

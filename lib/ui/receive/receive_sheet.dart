@@ -95,7 +95,7 @@ class KaliumReceiveSheet {
                           Navigator.pop(context);
                         },
                         child: Icon(KaliumIcons.close,
-                            size: 16, color: KaliumColors.text),
+                            size: 16, color: AppColors.text),
                         padding: EdgeInsets.all(17.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -127,7 +127,7 @@ class KaliumReceiveSheet {
                           child: Container(
                             width: 260,
                             height: 150,
-                            color: KaliumColors.backgroundDark,
+                            color: AppColors.backgroundDark,
                           ),
                         ),
                         // Background/border part the monkeyQR

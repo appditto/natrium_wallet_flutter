@@ -25,7 +25,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
 
     return new Scaffold(
       key: _scaffoldKey,
-      backgroundColor: KaliumColors.background,
+      backgroundColor: AppColors.background,
       body: LayoutBuilder(
         builder: (context, constraints) => Column(
               children: <Widget>[
@@ -53,7 +53,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                                           BorderRadius.circular(50.0)),
                                   padding: EdgeInsets.all(0.0),
                                   child: Icon(KaliumIcons.back,
-                                      color: KaliumColors.text, size: 24)),
+                                      color: AppColors.text, size: 24)),
                             ),
                           ],
                         ),
@@ -66,7 +66,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                             children: <Widget>[
                               Text(
                                 KaliumLocalization.of(context).backupYourSeed,
-                                style: KaliumStyles.TextStyleHeaderColored,
+                                style: AppStyles.TextStyleHeaderColored,
                               ),
                             ],
                           ),
@@ -77,7 +77,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                               EdgeInsets.only(left: 50, right: 50, top: 15.0),
                           child: Text(
                               KaliumLocalization.of(context).backupSeedConfirm,
-                              style: KaliumStyles.TextStyleParagraph),
+                              style: AppStyles.TextStyleParagraph),
                         ),
                       ],
                     ),

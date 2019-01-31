@@ -75,7 +75,7 @@ class KaliumSendConfirmSheet {
                             children: <Widget>[
                               Text(
                                 KaliumLocalization.of(context).sending.toUpperCase(),
-                                style: KaliumStyles.textStyleHeader(context),
+                                style: AppStyles.textStyleHeader(context),
                               ),
                             ],
                           ),
@@ -87,7 +87,7 @@ class KaliumSendConfirmSheet {
                               EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: KaliumColors.backgroundDarkest,
+                            color: AppColors.backgroundDarkest,
                             borderRadius: BorderRadius.circular(50),
                           ),
                           // Amount text
@@ -99,7 +99,7 @@ class KaliumSendConfirmSheet {
                                 TextSpan(
                                   text: "$_amount",
                                   style: TextStyle(
-                                    color: KaliumColors.primary,
+                                    color: AppColors.primary,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w700,
                                     fontFamily: 'NunitoSans',
@@ -108,7 +108,7 @@ class KaliumSendConfirmSheet {
                                 TextSpan(
                                   text: " BAN",
                                   style: TextStyle(
-                                    color: KaliumColors.primary,
+                                    color: AppColors.primary,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w100,
                                     fontFamily: 'NunitoSans',
@@ -125,7 +125,7 @@ class KaliumSendConfirmSheet {
                             children: <Widget>[
                               Text(
                                 KaliumLocalization.of(context).to.toUpperCase(),
-                                style: KaliumStyles.textStyleHeader(context),
+                                style: AppStyles.textStyleHeader(context),
                               ),
                             ],
                           ),
@@ -137,7 +137,7 @@ class KaliumSendConfirmSheet {
                             margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: KaliumColors.backgroundDarkest,
+                              color: AppColors.backgroundDarkest,
                               borderRadius: BorderRadius.circular(25),
                             ),
                             child: UIUtil.threeLineAddressText(_destination, contactName: _contactName)),

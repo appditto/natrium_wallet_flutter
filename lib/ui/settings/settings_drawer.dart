@@ -362,7 +362,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           return KaliumSimpleDialog(
             title: Text(
               KaliumLocalization.of(context).authMethod,
-              style: KaliumStyles.TextStyleDialogHeader,
+              style: AppStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
               KaliumSimpleDialogOption(
@@ -373,7 +373,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     KaliumLocalization.of(context).biometricsMethod,
-                    style: KaliumStyles.TextStyleDialogOptions,
+                    style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
               ),
@@ -385,7 +385,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     KaliumLocalization.of(context).pinMethod,
-                    style: KaliumStyles.TextStyleDialogOptions,
+                    style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
               ),
@@ -420,7 +420,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           return KaliumSimpleDialog(
             title: Text(
               KaliumLocalization.of(context).notifications,
-              style: KaliumStyles.TextStyleDialogHeader,
+              style: AppStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
               KaliumSimpleDialogOption(
@@ -431,7 +431,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     KaliumLocalization.of(context).onStr,
-                    style: KaliumStyles.TextStyleDialogOptions,
+                    style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
               ),
@@ -443,7 +443,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     KaliumLocalization.of(context).off,
-                    style: KaliumStyles.TextStyleDialogOptions,
+                    style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
               ),
@@ -483,7 +483,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           return KaliumSimpleDialog(
             title: Text(
               KaliumLocalization.of(context).lockAppSetting,
-              style: KaliumStyles.TextStyleDialogHeader,
+              style: AppStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
               KaliumSimpleDialogOption(
@@ -494,7 +494,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     KaliumLocalization.of(context).no,
-                    style: KaliumStyles.TextStyleDialogOptions,
+                    style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
               ),
@@ -506,7 +506,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     KaliumLocalization.of(context).yes,
-                    style: KaliumStyles.TextStyleDialogOptions,
+                    style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
               ),
@@ -543,7 +543,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text(
             AvailableCurrency(value).getDisplayName(context),
-            style: KaliumStyles.TextStyleDialogOptions,
+            style: AppStyles.TextStyleDialogOptions,
           ),
         ),
       ));
@@ -561,7 +561,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
                     KaliumLocalization.of(context).changeCurrency,
-                    style: KaliumStyles.TextStyleDialogHeader,
+                    style: AppStyles.TextStyleDialogHeader,
                   ),
                 ),
                 children: _buildCurrencyOptions(),
@@ -590,7 +590,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text(
             LockTimeoutSetting(value).getDisplayName(context),
-            style: KaliumStyles.TextStyleDialogOptions,
+            style: AppStyles.TextStyleDialogOptions,
           ),
         ),
       ));
@@ -609,7 +609,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
                     KaliumLocalization.of(context).autoLockHeader,
-                    style: KaliumStyles.TextStyleDialogHeader,
+                    style: AppStyles.TextStyleDialogHeader,
                   ),
                 ),
                 children: _buildLockTimeoutOptions(),
@@ -656,7 +656,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         child: Stack(
           children: <Widget>[
             Container(
-              color: KaliumColors.backgroundDark,
+              color: AppColors.backgroundDark,
               constraints: BoxConstraints.expand(),
             ),
             buildMainSettings(context),
@@ -673,7 +673,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   Widget buildMainSettings(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: KaliumColors.backgroundDark,
+        color: AppColors.backgroundDark,
       ),
       child: Column(
         children: <Widget>[
@@ -683,7 +683,7 @@ class _SettingsSheetState extends State<SettingsSheet>
               children: <Widget>[
                 Text(
                   KaliumLocalization.of(context).settingsHeader,
-                  style: KaliumStyles.textStyleSettingsHeader(),
+                  style: AppStyles.textStyleSettingsHeader(),
                 ),
               ],
             ),
@@ -700,7 +700,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w100,
-                            color: KaliumColors.text60)),
+                            color: AppColors.text60)),
                   ),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemDoubleLine(
@@ -739,7 +739,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w100,
-                            color: KaliumColors.text60)),
+                            color: AppColors.text60)),
                   ),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
@@ -852,9 +852,9 @@ class _SettingsSheetState extends State<SettingsSheet>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(versionString,
-                            style: KaliumStyles.TextStyleVersion),
+                            style: AppStyles.TextStyleVersion),
                         Text(" | ",
-                            style: KaliumStyles.TextStyleVersion),
+                            style: AppStyles.TextStyleVersion),
                         GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
@@ -864,10 +864,10 @@ class _SettingsSheetState extends State<SettingsSheet>
                               }));      
                             },
                             child: Text(KaliumLocalization.of(context).privacyPolicy,
-                                    style: KaliumStyles.TextStyleVersionUnderline)
+                                    style: AppStyles.TextStyleVersionUnderline)
                         ),
                         Text(" | ",
-                            style: KaliumStyles.TextStyleVersion),
+                            style: AppStyles.TextStyleVersion),
                         GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
@@ -877,7 +877,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               }));                              
                             },
                             child: Text("EULA",
-                                    style: KaliumStyles.TextStyleVersionUnderline)
+                                    style: AppStyles.TextStyleVersionUnderline)
                         ),
                       ],
                     ),
@@ -893,8 +893,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        KaliumColors.backgroundDark,
-                        KaliumColors.backgroundDark00
+                        AppColors.backgroundDark,
+                        AppColors.backgroundDark00
                       ],
                       begin: Alignment(0.5, -1.0),
                       end: Alignment(0.5, 1.0),
@@ -912,9 +912,9 @@ class _SettingsSheetState extends State<SettingsSheet>
   Widget buildContacts(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: KaliumColors.backgroundDark,
+        color: AppColors.backgroundDark,
         boxShadow: [
-          BoxShadow(color: KaliumColors.overlay30, offset: Offset(-5, 0), blurRadius: 20),
+          BoxShadow(color: AppColors.overlay30, offset: Offset(-5, 0), blurRadius: 20),
         ],
       ),
       child: Column(
@@ -943,12 +943,12 @@ class _SettingsSheetState extends State<SettingsSheet>
                               borderRadius: BorderRadius.circular(50.0)),
                           padding: EdgeInsets.all(8.0),
                           child: Icon(KaliumIcons.back,
-                              color: KaliumColors.text, size: 24)),
+                              color: AppColors.text, size: 24)),
                     ),
                     //Contacts Header Text
                     Text(
                       KaliumLocalization.of(context).contactsHeader,
-                      style: KaliumStyles.textStyleSettingsHeader(),
+                      style: AppStyles.textStyleSettingsHeader(),
                     ),
                   ],
                 ),
@@ -967,7 +967,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               borderRadius: BorderRadius.circular(50.0)),
                           padding: EdgeInsets.all(8.0),
                           child: Icon(KaliumIcons.import_icon,
-                              color: KaliumColors.text, size: 24)),
+                              color: AppColors.text, size: 24)),
                     ),
                     //Export button
                     Container(
@@ -982,7 +982,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               borderRadius: BorderRadius.circular(50.0)),
                           padding: EdgeInsets.all(8.0),
                           child: Icon(KaliumIcons.export_icon,
-                              color: KaliumColors.text, size: 24)),
+                              color: AppColors.text, size: 24)),
                     ),
                   ],
                 ),
@@ -1023,8 +1023,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          KaliumColors.backgroundDark,
-                          KaliumColors.backgroundDark00
+                          AppColors.backgroundDark,
+                          AppColors.backgroundDark00
                         ],
                         begin: Alignment(0.5, -1.0),
                         end: Alignment(0.5, 1.0),
@@ -1041,8 +1041,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          KaliumColors.backgroundDark00,
-                          KaliumColors.backgroundDark,
+                          AppColors.backgroundDark00,
+                          AppColors.backgroundDark,
                         ],
                         begin: Alignment(0.5, -1.0),
                         end: Alignment(0.5, 1.0),
@@ -1107,12 +1107,12 @@ class _SettingsSheetState extends State<SettingsSheet>
                     //Contact name
                     Text(
                       contact.name,
-                      style: KaliumStyles.TextStyleSettingItemHeader,
+                      style: AppStyles.TextStyleSettingItemHeader,
                     ),
                     //Contact address
                     Text(
                       Address(contact.address).getShortString(),
-                      style: KaliumStyles.TextStyleTransactionAddress,
+                      style: AppStyles.TextStyleTransactionAddress,
                     ),
                   ],
                 ),
@@ -1127,9 +1127,9 @@ class _SettingsSheetState extends State<SettingsSheet>
 Widget buildSecurityMenu(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: KaliumColors.backgroundDark,
+        color: AppColors.backgroundDark,
         boxShadow: [
-          BoxShadow(color: KaliumColors.overlay30, offset: Offset(-5, 0), blurRadius: 20),
+          BoxShadow(color: AppColors.overlay30, offset: Offset(-5, 0), blurRadius: 20),
         ],
       ),
       child: Column(
@@ -1158,12 +1158,12 @@ Widget buildSecurityMenu(BuildContext context) {
                               borderRadius: BorderRadius.circular(50.0)),
                           padding: EdgeInsets.all(8.0),
                           child: Icon(KaliumIcons.back,
-                              color: KaliumColors.text, size: 24)),
+                              color: AppColors.text, size: 24)),
                     ),
                     //Security Header Text
                     Text(
                       KaliumLocalization.of(context).securityHeader,
-                      style: KaliumStyles.textStyleSettingsHeader(),
+                      style: AppStyles.textStyleSettingsHeader(),
                     ),
                   ],
                 ),                
@@ -1182,7 +1182,7 @@ Widget buildSecurityMenu(BuildContext context) {
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w100,
-                            color: KaliumColors.text60)),
+                            color: AppColors.text60)),
                   ),
                   // Authentication Method
                   _hasBiometrics ? Divider(height: 2) : null,
@@ -1224,8 +1224,8 @@ Widget buildSecurityMenu(BuildContext context) {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        KaliumColors.backgroundDark,
-                        KaliumColors.backgroundDark00
+                        AppColors.backgroundDark,
+                        AppColors.backgroundDark00
                       ],
                       begin: Alignment(0.5, -1.0),
                       end: Alignment(0.5, 1.0),

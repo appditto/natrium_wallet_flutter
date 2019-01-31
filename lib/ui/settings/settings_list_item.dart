@@ -31,8 +31,8 @@ class KaliumSettings {
                 child: Container(
                   child: Icon(icon,
                       color: disabled
-                          ? KaliumColors.primary45
-                          : KaliumColors.primary,
+                          ? AppColors.primary45
+                          : AppColors.primary,
                       size: 24),
                   margin: EdgeInsets.only(top: 3, left: 3, bottom: 3, right: 3),
                 ),
@@ -44,14 +44,14 @@ class KaliumSettings {
                   Text(
                     heading,
                     style: disabled
-                        ? KaliumStyles.TextStyleSettingItemHeader45
-                        : KaliumStyles.TextStyleSettingItemHeader,
+                        ? AppStyles.TextStyleSettingItemHeader45
+                        : AppStyles.TextStyleSettingItemHeader,
                   ),
                   Text(
                     defaultMethod.getDisplayName(context),
                     style: disabled
-                        ? KaliumStyles.TextStyleSettingItemSubheader30
-                        : KaliumStyles.TextStyleSettingItemSubheader,
+                        ? AppStyles.TextStyleSettingItemSubheader30
+                        : AppStyles.TextStyleSettingItemSubheader,
                   ),
                 ],
               ),
@@ -85,7 +85,7 @@ class KaliumSettings {
               child: Container(
                 child: new Icon(
                   settingIcon,
-                  color: KaliumColors.primary,
+                  color: AppColors.primary,
                   size: 24,
                 ),
                 margin: EdgeInsets.only(
@@ -98,7 +98,7 @@ class KaliumSettings {
             ),
             Text(
               heading,
-              style: KaliumStyles.TextStyleSettingItemHeader,
+              style: AppStyles.TextStyleSettingItemHeader,
             ),
           ],
         ),

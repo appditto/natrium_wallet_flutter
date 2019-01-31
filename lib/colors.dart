@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class KaliumColors {
+class AppColors {
   static const yellow = Color(0xFFFBDD11);
   static const yellow10 = Color(0x1AFBDD11);
   static const yellow15 = Color(0x26FBDD11);

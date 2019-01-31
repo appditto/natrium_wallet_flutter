@@ -35,7 +35,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
         height: 125,
         width: 241,
         decoration: BoxDecoration(
-          color: KaliumColors.backgroundDark,
+          color: AppColors.backgroundDark,
           borderRadius: BorderRadius.circular(12.5),
         ),
         child: Container(
@@ -104,7 +104,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                                   .address
                                   .substring(0, 11),
                               style: TextStyle(
-                                color: KaliumColors.primary,
+                                color: AppColors.primary,
                                 fontFamily: "OverpassMono",
                                 fontWeight: FontWeight.w100,
                               ),
@@ -124,7 +124,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                               minFontSize: 1.0,
                               stepGranularity: 0.1,
                               style: TextStyle(
-                                color: KaliumColors.text,
+                                color: AppColors.text,
                                 fontFamily: "OverpassMono",
                                 fontWeight: FontWeight.w100,
                               ),
@@ -144,7 +144,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
-                            color: KaliumColors.text,
+                            color: AppColors.text,
                             fontFamily: "OverpassMono",
                             fontWeight: FontWeight.w100,
                           ),
@@ -162,7 +162,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                           minFontSize: 1.0,
                           stepGranularity: 0.1,
                           style: TextStyle(
-                            color: KaliumColors.text,
+                            color: AppColors.text,
                             fontFamily: "OverpassMono",
                             fontWeight: FontWeight.w100,
                           ),
@@ -183,7 +183,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                               minFontSize: 1.0,
                               stepGranularity: 0.1,
                               style: TextStyle(
-                                color: KaliumColors.text,
+                                color: AppColors.text,
                                 fontFamily: "OverpassMono",
                                 fontWeight: FontWeight.w100,
                               ),
@@ -201,7 +201,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                               minFontSize: 1.0,
                               stepGranularity: 0.1,
                               style: TextStyle(
-                                color: KaliumColors.primary,
+                                color: AppColors.primary,
                                 fontFamily: "OverpassMono",
                                 fontWeight: FontWeight.w100,
                               ),
@@ -220,7 +220,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                       minFontSize: 1.0,
                       stepGranularity: 0.1,
                       style: TextStyle(
-                        color: KaliumColors.primary,
+                        color: AppColors.primary,
                         fontFamily: "NunitoSans",
                         fontWeight: FontWeight.w600,
                       ),

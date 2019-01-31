@@ -43,7 +43,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
     },
         expectedPin: expectedPin,
         description: KaliumLocalization.of(context).unlockPin,
-        pinScreenBackgroundColor: KaliumColors.background);
+        pinScreenBackgroundColor: AppColors.background);
   }
 
   String _formatCountDisplay(int count) {
@@ -196,7 +196,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: KaliumColors.background,
+            color: AppColors.background,
             width: double.infinity,
             child: Column(
               children: <Widget>[
@@ -208,7 +208,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                               child: Icon(
                                 KaliumIcons.lock,
                                 size: 80,
-                                color: KaliumColors.primary,
+                                color: AppColors.primary,
                               ),
                               margin: EdgeInsets.only(
                                   top:
@@ -219,7 +219,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                                 KaliumLocalization.of(context)
                                     .locked
                                     .toUpperCase(),
-                                style: KaliumStyles.TextStyleHeaderColored,
+                                style: AppStyles.TextStyleHeaderColored,
                               ),
                               margin: EdgeInsets.only(top: 10),
                             ),
@@ -233,7 +233,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 50),
                       child: Text(
                         KaliumLocalization.of(context).tooManyFailedAttempts,
-                        style: KaliumStyles.TextStyleErrorMedium,
+                        style: AppStyles.TextStyleErrorMedium,
                         textAlign: TextAlign.center,
                       ),
                     )

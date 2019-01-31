@@ -19,10 +19,10 @@ class KaliumButton {
             child: FlatButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),
-              color: disabled ? KaliumColors.primary60 : KaliumColors.primary,
+              color: disabled ? AppColors.primary60 : AppColors.primary,
               child: Text(buttonText,
                   textAlign: TextAlign.center,
-                  style: KaliumStyles.TextStyleButtonPrimary),
+                  style: AppStyles.TextStyleButtonPrimary),
               padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
               onPressed: () {
                 if (onPressed != null && !disabled) {
@@ -30,8 +30,8 @@ class KaliumButton {
                 }
                 return;
               },
-              highlightColor: KaliumColors.background40,
-              splashColor: KaliumColors.background40,
+              highlightColor: AppColors.background40,
+              splashColor: AppColors.background40,
             ),
           ),
         );
@@ -41,16 +41,16 @@ class KaliumButton {
             margin:
                 EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
             child: OutlineButton(
-              textColor: disabled ? KaliumColors.primary60 : KaliumColors.primary,
-              borderSide: BorderSide(color: disabled? KaliumColors.primary60 : KaliumColors.primary, width: 2.0),
-              highlightedBorderColor: disabled ? KaliumColors.primary60 : KaliumColors.primary,
-              splashColor: KaliumColors.primary30,
-              highlightColor: KaliumColors.primary15,
+              textColor: disabled ? AppColors.primary60 : AppColors.primary,
+              borderSide: BorderSide(color: disabled? AppColors.primary60 : AppColors.primary, width: 2.0),
+              highlightedBorderColor: disabled ? AppColors.primary60 : AppColors.primary,
+              splashColor: AppColors.primary30,
+              highlightColor: AppColors.primary15,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),
               child: Text(buttonText,
                   textAlign: TextAlign.center,
-                  style: disabled ? KaliumStyles.TextStyleButtonPrimaryOutlineDisabled : KaliumStyles.TextStyleButtonPrimaryOutline),
+                  style: disabled ? AppStyles.TextStyleButtonPrimaryOutlineDisabled : AppStyles.TextStyleButtonPrimaryOutline),
               padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
               onPressed: () {
                 if (onPressed != null && !disabled) {
@@ -69,10 +69,10 @@ class KaliumButton {
             child: FlatButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),
-              color: KaliumColors.success,
+              color: AppColors.success,
               child: Text(buttonText,
                   textAlign: TextAlign.center,
-                  style: KaliumStyles.TextStyleButtonPrimaryGreen),
+                  style: AppStyles.TextStyleButtonPrimaryGreen),
               padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
               onPressed: () {
                 if (onPressed != null && !disabled) {
@@ -80,8 +80,8 @@ class KaliumButton {
                 }
                 return;
               },
-              highlightColor: KaliumColors.success30,
-              splashColor: KaliumColors.successDark,
+              highlightColor: AppColors.success30,
+              splashColor: AppColors.successDark,
             ),
           ),
         );
@@ -91,16 +91,16 @@ class KaliumButton {
             margin:
                 EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
             child: OutlineButton(
-              textColor: KaliumColors.success,
-              borderSide: BorderSide(color: KaliumColors.success, width: 2.0),
-              highlightedBorderColor: KaliumColors.success,
-              splashColor: KaliumColors.success30,
-              highlightColor: KaliumColors.success15,
+              textColor: AppColors.success,
+              borderSide: BorderSide(color: AppColors.success, width: 2.0),
+              highlightedBorderColor: AppColors.success,
+              splashColor: AppColors.success30,
+              highlightColor: AppColors.success15,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),
               child: Text(buttonText,
                   textAlign: TextAlign.center,
-                  style: KaliumStyles.TextStyleButtonSuccessOutline),
+                  style: AppStyles.TextStyleButtonSuccessOutline),
               padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
               onPressed: () {
                 if (onPressed != null) {
@@ -117,16 +117,16 @@ class KaliumButton {
             margin:
                 EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
             child: OutlineButton(
-              textColor: KaliumColors.text,
-              borderSide: BorderSide(color: KaliumColors.text, width: 2.0),
-              highlightedBorderColor: KaliumColors.text,
-              splashColor: KaliumColors.text30,
-              highlightColor: KaliumColors.text15,
+              textColor: AppColors.text,
+              borderSide: BorderSide(color: AppColors.text, width: 2.0),
+              highlightedBorderColor: AppColors.text,
+              splashColor: AppColors.text30,
+              highlightColor: AppColors.text15,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),
               child: Text(buttonText,
                   textAlign: TextAlign.center,
-                  style: KaliumStyles.TextStyleButtonTextOutline),
+                  style: AppStyles.TextStyleButtonTextOutline),
               padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
               onPressed: () {
                 if (onPressed != null) {

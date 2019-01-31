@@ -18,10 +18,10 @@ class KaliumTransferManualEntrySheet {
   var _seedInputFocusNode = new FocusNode();
   var _seedInputController = new TextEditingController();
   // State constants
-  static const _initialSeedTextStyle = KaliumStyles.TextStyleSeedGray;
-  static const _validSeedTextStyle = KaliumStyles.TextStyleSeed;
+  static const _initialSeedTextStyle = AppStyles.TextStyleSeedGray;
+  static const _validSeedTextStyle = AppStyles.TextStyleSeed;
   static const _initialErrorTextColor = Colors.transparent;
-  static const _hasErrorTextColor = KaliumColors.primary;
+  static const _hasErrorTextColor = AppColors.primary;
   // State variables
   var _seedTextStyle;
   var _errorTextColor;
@@ -44,7 +44,7 @@ class KaliumTransferManualEntrySheet {
                     margin: EdgeInsets.only(top: 30.0, left:70, right: 70),
                     child: AutoSizeText(
                       KaliumLocalization.of(context).transferHeader.toUpperCase(),
-                      style: KaliumStyles.textStyleHeader(context),
+                      style: AppStyles.textStyleHeader(context),
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       stepGranularity: 0.1,
@@ -77,7 +77,7 @@ class KaliumTransferManualEntrySheet {
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                     KaliumLocalization.of(context).transferManualHint,
-                                    style: KaliumStyles.TextStyleParagraph,
+                                    style: AppStyles.TextStyleParagraph,
                                     textAlign: TextAlign.left,),
                               ),
                               // The container for the seed
@@ -88,7 +88,7 @@ class KaliumTransferManualEntrySheet {
                                                     0.105,),
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: KaliumColors.backgroundDarkest,
+                                  color: AppColors.backgroundDarkest,
                                   borderRadius: BorderRadius.circular(25),
                                 ),
                                 // Text Field for the seed
@@ -96,7 +96,7 @@ class KaliumTransferManualEntrySheet {
                                   focusNode: _seedInputFocusNode,
                                   controller: _seedInputController,
                                   textAlign: TextAlign.center,
-                                  cursorColor: KaliumColors.primary,
+                                  cursorColor: AppColors.primary,
                                   inputFormatters: [
                                     LengthLimitingTextInputFormatter(64),
                                   ],
@@ -117,7 +117,7 @@ class KaliumTransferManualEntrySheet {
                                         height: 48,
                                         child: FlatButton(
                                           child: Icon(KaliumIcons.paste,
-                                              size: 20, color: KaliumColors.primary),
+                                              size: 20, color: AppColors.primary),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(100.0)),
@@ -199,7 +199,7 @@ class KaliumTransferManualEntrySheet {
                             validSeedCallback(_seedInputController.text);
                           } else {
                             setState(() {
-                              _errorTextColor = KaliumColors.primary;
+                              _errorTextColor = AppColors.primary;
                             });
                           }
                         },

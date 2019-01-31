@@ -37,7 +37,7 @@ class KaliumTransferCompleteSheet {
                             Container(
                               margin: EdgeInsets.only(bottom: 30),
                               child: Icon(KaliumIcons.success,
-                                  size: 100, color: KaliumColors.success),
+                                  size: 100, color: AppColors.success),
                             ),
                             Container(
                               margin: EdgeInsets.only(bottom: 20),
@@ -57,7 +57,7 @@ class KaliumTransferCompleteSheet {
                                   KaliumLocalization.of(context)
                                       .transferComplete.replaceAll("%1", transferAmount),
                                   style:
-                                      KaliumStyles.TextStyleParagraphSuccess,
+                                      AppStyles.TextStyleParagraphSuccess,
                                   textAlign: TextAlign.left,
                                 )),
                             Container(
@@ -66,7 +66,7 @@ class KaliumTransferCompleteSheet {
                                 child: Text(
                                   KaliumLocalization.of(context)
                                       .transferClose,
-                                  style: KaliumStyles.TextStyleParagraph,
+                                  style: AppStyles.TextStyleParagraph,
                                   textAlign: TextAlign.left,
                                 )),
                           ],

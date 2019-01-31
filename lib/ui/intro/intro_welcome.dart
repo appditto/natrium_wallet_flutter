@@ -21,7 +21,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
         .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: KaliumColors.background,
+      backgroundColor: AppColors.background,
       body: LayoutBuilder(
         builder: (context, constraints) => Column(
               children: <Widget>[
@@ -48,7 +48,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                               horizontal: 50, vertical: 20),
                           child: Text(
                             KaliumLocalization.of(context).welcomeText,
-                            style: KaliumStyles.TextStyleParagraph,
+                            style: AppStyles.TextStyleParagraph,
                           ),
                         ),
                       ],

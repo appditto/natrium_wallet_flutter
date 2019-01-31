@@ -29,7 +29,7 @@ class PinScreen extends StatefulWidget {
   final Color pinScreenBackgroundColor;
 
   PinScreen(this.type, this.pinSuccessCallback,
-      {this.description = "", this.expectedPin = "", this.pinScreenBackgroundColor = KaliumColors.backgroundDark});
+      {this.description = "", this.expectedPin = "", this.pinScreenBackgroundColor = AppColors.backgroundDark});
 
   @override
   _PinScreenState createState() =>
@@ -193,8 +193,8 @@ class _PinScreenState extends State<PinScreen>
       width: smallScreen(context) ? buttonSize - 15 : buttonSize,
       child: InkWell(
         borderRadius: BorderRadius.circular(200),
-        highlightColor: KaliumColors.primary15,
-        splashColor: KaliumColors.primary30,
+        highlightColor: AppColors.primary15,
+        splashColor: AppColors.primary30,
         onTap: () {},
         onTapDown: (details) {
           if (_controller.status == AnimationStatus.forward ||
@@ -242,7 +242,7 @@ class _PinScreenState extends State<PinScreen>
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20.0,
-              color: KaliumColors.primary,
+              color: AppColors.primary,
               fontFamily: 'NunitoSans',
               fontWeight: FontWeight.w700,
             ),
@@ -292,7 +292,7 @@ class _PinScreenState extends State<PinScreen>
                       margin: EdgeInsets.symmetric(horizontal: 40),
                       child: AutoSizeText(
                         _header,
-                        style: KaliumStyles.TextStylePinScreenHeaderColored,
+                        style: AppStyles.TextStylePinScreenHeaderColored,
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         stepGranularity: 0.1,
@@ -304,7 +304,7 @@ class _PinScreenState extends State<PinScreen>
                           EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                       child: AutoSizeText(
                         description,
-                        style: KaliumStyles.TextStyleParagraph,
+                        style: AppStyles.TextStyleParagraph,
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         stepGranularity: 0.1,
@@ -324,32 +324,32 @@ class _PinScreenState extends State<PinScreen>
                         children: <Widget>[
                           Icon(
                             _dotStates[0],
-                            color: KaliumColors.primary,
+                            color: AppColors.primary,
                             size: 20.0,
                           ),
                           Icon(
                             _dotStates[1],
-                            color: KaliumColors.primary,
+                            color: AppColors.primary,
                             size: 20.0,
                           ),
                           Icon(
                             _dotStates[2],
-                            color: KaliumColors.primary,
+                            color: AppColors.primary,
                             size: 20.0,
                           ),
                           Icon(
                             _dotStates[3],
-                            color: KaliumColors.primary,
+                            color: AppColors.primary,
                             size: 20.0,
                           ),
                           Icon(
                             _dotStates[4],
-                            color: KaliumColors.primary,
+                            color: AppColors.primary,
                             size: 20.0,
                           ),
                           Icon(
                             _dotStates[5],
-                            color: KaliumColors.primary,
+                            color: AppColors.primary,
                             size: 20.0,
                           ),
                         ],
@@ -431,8 +431,8 @@ class _PinScreenState extends State<PinScreen>
                                   : buttonSize,
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(200),
-                                highlightColor: KaliumColors.primary15,
-                                splashColor: KaliumColors.primary30,
+                                highlightColor: AppColors.primary15,
+                                splashColor: AppColors.primary30,
                                 onTap: () {},
                                 onTapDown: (details) {
                                   _backSpace();
@@ -440,7 +440,7 @@ class _PinScreenState extends State<PinScreen>
                                 child: Container(
                                   alignment: Alignment(0, 0),
                                   child: Icon(Icons.backspace,
-                                      color: KaliumColors.primary, size: 20.0),
+                                      color: AppColors.primary, size: 20.0),
                                 ),
                               ),
                             ),

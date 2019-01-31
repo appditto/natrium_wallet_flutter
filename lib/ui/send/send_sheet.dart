@@ -51,7 +51,7 @@ class KaliumSendSheet {
     _sendAddressFocusNode = new FocusNode();
     _sendAmountController = new TextEditingController();
     _sendAddressController = new TextEditingController();
-    _sendAddressStyle = KaliumStyles.TextStyleAddressText60;
+    _sendAddressStyle = AppStyles.TextStyleAddressText60;
     _contacts = List();
     if (contact != null) {
       // Setup initial state for contact pre-filled
@@ -59,13 +59,13 @@ class KaliumSendSheet {
       _isContact = true;
       _showContactButton = false;
       _pasteButtonVisible = false;
-      _sendAddressStyle = KaliumStyles.TextStyleAddressPrimary;
+      _sendAddressStyle = AppStyles.TextStyleAddressPrimary;
     } else if (address != null) {
       // Setup initial state with prefilled address
       _sendAddressController.text = address;
       _showContactButton = false;
       _pasteButtonVisible = false;
-      _sendAddressStyle = KaliumStyles.TextStyleAddressText90;
+      _sendAddressStyle = AppStyles.TextStyleAddressText90;
       _addressValidAndUnfocused = true;
     }
   }
@@ -168,7 +168,7 @@ class KaliumSendSheet {
                           Navigator.pop(context);
                         },
                         child: Icon(KaliumIcons.close,
-                            size: 16, color: KaliumColors.text),
+                            size: 16, color: AppColors.text),
                         padding: EdgeInsets.all(17.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -188,7 +188,7 @@ class KaliumSendSheet {
                             KaliumLocalization.of(context)
                                 .sendFrom
                                 .toUpperCase(),
-                            style: KaliumStyles.textStyleHeader(context),
+                            style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             stepGranularity: 0.1,
@@ -245,7 +245,7 @@ class KaliumSendSheet {
                                             TextSpan(
                                               text: "(",
                                               style: TextStyle(
-                                                color: KaliumColors.primary60,
+                                                color: AppColors.primary60,
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.w100,
                                                 fontFamily: 'NunitoSans',
@@ -261,7 +261,7 @@ class KaliumSendSheet {
                                                     .wallet
                                                     .getAccountBalanceDisplay(),
                                               style: TextStyle(
-                                                color: KaliumColors.primary60,
+                                                color: AppColors.primary60,
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.w700,
                                                 fontFamily: 'NunitoSans',
@@ -270,7 +270,7 @@ class KaliumSendSheet {
                                             TextSpan(
                                               text: _localCurrencyMode ? ")" : " BAN)",
                                               style: TextStyle(
-                                                color: KaliumColors.primary60,
+                                                color: AppColors.primary60,
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.w100,
                                                 fontFamily: 'NunitoSans',
@@ -291,7 +291,7 @@ class KaliumSendSheet {
                                       child: Text(_amountValidationText,
                                           style: TextStyle(
                                             fontSize: 14.0,
-                                            color: KaliumColors.primary,
+                                            color: AppColors.primary,
                                             fontFamily: 'NunitoSans',
                                             fontWeight: FontWeight.w600,
                                           )),
@@ -330,7 +330,7 @@ class KaliumSendSheet {
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(25),
-                                                  color: KaliumColors
+                                                  color: AppColors
                                                       .backgroundDarkest,
                                                 ),
                                                 child: Container(
@@ -375,7 +375,7 @@ class KaliumSendSheet {
                                       child: Text(_addressValidationText,
                                           style: TextStyle(
                                             fontSize: 14.0,
-                                            color: KaliumColors.primary,
+                                            color: AppColors.primary,
                                             fontFamily: 'NunitoSans',
                                             fontWeight: FontWeight.w600,
                                           )),
@@ -460,7 +460,7 @@ class KaliumSendSheet {
                                         _isContact = false;
                                         _addressValidationText = "";
                                         _sendAddressStyle =
-                                            KaliumStyles.TextStyleAddressText90;
+                                            AppStyles.TextStyleAddressText90;
                                         _pasteButtonVisible = false;
                                         _showContactButton = false;
                                       });
@@ -475,7 +475,7 @@ class KaliumSendSheet {
                                       setState(() {
                                         _isContact = true;
                                         _addressValidationText = "";
-                                        _sendAddressStyle = KaliumStyles
+                                        _sendAddressStyle = AppStyles
                                             .TextStyleAddressPrimary;
                                         _pasteButtonVisible = false;
                                         _showContactButton = false;
@@ -579,18 +579,18 @@ class KaliumSendSheet {
                 _isContact = true;
                 _showContactButton = false;
                 _pasteButtonVisible = false;
-                _sendAddressStyle = KaliumStyles.TextStyleAddressPrimary;
+                _sendAddressStyle = AppStyles.TextStyleAddressPrimary;
               });
             },
             child: Text(contact.name,
                 textAlign: TextAlign.center,
-                style: KaliumStyles.TextStyleAddressPrimary),
+                style: AppStyles.TextStyleAddressPrimary),
           ),
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 25),
           height: 1,
-          color: KaliumColors.text03,
+          color: AppColors.text03,
         ),
       ],
     );
@@ -660,14 +660,14 @@ class KaliumSendSheet {
       ),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: KaliumColors.backgroundDarkest,
+        color: AppColors.backgroundDarkest,
         borderRadius: BorderRadius.circular(25),
       ),
       // Amount Text Field
       child: TextField(
         focusNode: _sendAmountFocusNode,
         controller: _sendAmountController,
-        cursorColor: KaliumColors.primary,
+        cursorColor: AppColors.primary,
         inputFormatters: [
           LengthLimitingTextInputFormatter(13),
           WhitelistingTextInputFormatter(RegExp("[0-9.,]")),
@@ -695,8 +695,8 @@ class KaliumSendSheet {
               height: 48,
               child: FlatButton(
                 padding: EdgeInsets.all(14.0),
-                highlightColor: KaliumColors.primary15,
-                splashColor: KaliumColors.primary30,
+                highlightColor: AppColors.primary15,
+                splashColor: AppColors.primary30,
                 onPressed: () {
                   if (_localCurrencyMode) {
                     // Switching to crypto-mode
@@ -710,7 +710,7 @@ class KaliumSendSheet {
                   });
                 },
                 child: Icon(KaliumIcons.swapcurrency,
-                    size: 20, color: KaliumColors.primary),
+                    size: 20, color: AppColors.primary),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(200.0)),
               ),
@@ -721,8 +721,8 @@ class KaliumSendSheet {
               width: 48,
               height: 48,
               child: FlatButton(
-                highlightColor: KaliumColors.primary15, 
-                splashColor: KaliumColors.primary30,
+                highlightColor: AppColors.primary15, 
+                splashColor: AppColors.primary30,
                 padding: EdgeInsets.all(12.0),
                 onPressed: () {
                   if (_isMaxSend(context)) {
@@ -736,7 +736,7 @@ class KaliumSendSheet {
                   });
                 },
                 child: Icon(KaliumIcons.max,
-                    size: 24, color: KaliumColors.primary),
+                    size: 24, color: AppColors.primary),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(200.0)),
               ),
@@ -752,7 +752,7 @@ class KaliumSendSheet {
         style: TextStyle(
           fontWeight: FontWeight.w700,
           fontSize: 16.0,
-          color: KaliumColors.primary,
+          color: AppColors.primary,
           fontFamily: 'NunitoSans',
         ),
         onSubmitted: (text) {
@@ -779,7 +779,7 @@ class KaliumSendSheet {
           : EdgeInsets.zero,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: KaliumColors.backgroundDarkest,
+        color: AppColors.backgroundDarkest,
         borderRadius: BorderRadius.circular(25),
       ),
       // Enter Address Text field
@@ -789,7 +789,7 @@ class KaliumSendSheet {
                   _isContact && false ? TextAlign.left : TextAlign.center,
               focusNode: _sendAddressFocusNode,
               controller: _sendAddressController,
-              cursorColor: KaliumColors.primary,
+              cursorColor: AppColors.primary,
               keyboardAppearance: Brightness.dark,
               inputFormatters: [
                 _isContact
@@ -813,8 +813,8 @@ class KaliumSendSheet {
                     width: 48.0,
                     height: 48.0,
                     child: FlatButton(
-                      highlightColor: KaliumColors.primary15,
-                      splashColor: KaliumColors.primary30,
+                      highlightColor: AppColors.primary15,
+                      splashColor: AppColors.primary30,
                       padding: EdgeInsets.all(14.0),
                       onPressed: () {
                         if (_showContactButton && _contacts.length == 0) {
@@ -836,7 +836,7 @@ class KaliumSendSheet {
                         }
                       },
                       child: Icon(KaliumIcons.at,
-                          size: 20, color: KaliumColors.primary),
+                          size: 20, color: AppColors.primary),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(200.0)),
                     ),
@@ -853,8 +853,8 @@ class KaliumSendSheet {
                     width: 48.0,
                     height: 48.0,
                     child: FlatButton(
-                      highlightColor: KaliumColors.primary15,
-                      splashColor: KaliumColors.primary30,
+                      highlightColor: AppColors.primary15,
+                      splashColor: AppColors.primary30,
                       padding: EdgeInsets.all(14.0),
                       onPressed: () {
                         if (!_pasteButtonVisible) {
@@ -875,7 +875,7 @@ class KaliumSendSheet {
                                   _isContact = false;
                                   _addressValidationText = "";
                                   _sendAddressStyle =
-                                      KaliumStyles.TextStyleAddressText90;
+                                      AppStyles.TextStyleAddressText90;
                                   _pasteButtonVisible = false;
                                   _showContactButton = false;
                                 });
@@ -890,7 +890,7 @@ class KaliumSendSheet {
                                   _isContact = true;
                                   _addressValidationText = "";
                                   _sendAddressStyle =
-                                      KaliumStyles.TextStyleAddressPrimary;
+                                      AppStyles.TextStyleAddressPrimary;
                                   _pasteButtonVisible = false;
                                   _showContactButton = false;
                                 });
@@ -901,7 +901,7 @@ class KaliumSendSheet {
                         });
                       },
                       child: Icon(KaliumIcons.paste,
-                          size: 20, color: KaliumColors.primary),
+                          size: 20, color: AppColors.primary),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(200.0)),
                     ),
@@ -947,26 +947,26 @@ class KaliumSendSheet {
                 if (!isContact && Address(text).isValid()) {
                   _sendAddressFocusNode.unfocus();
                   setState(() {
-                    _sendAddressStyle = KaliumStyles.TextStyleAddressText90;
+                    _sendAddressStyle = AppStyles.TextStyleAddressText90;
                     _addressValidationText = "";
                     _pasteButtonVisible = false;
                   });
                 } else if (!isContact) {
                   setState(() {
-                    _sendAddressStyle = KaliumStyles.TextStyleAddressText60;
+                    _sendAddressStyle = AppStyles.TextStyleAddressText60;
                     _pasteButtonVisible = true;
                   });
                 } else {
                   DBHelper().getContactWithName(text).then((contact) {
                     if (contact == null) {
                       setState(() {
-                        _sendAddressStyle = KaliumStyles.TextStyleAddressText60;
+                        _sendAddressStyle = AppStyles.TextStyleAddressText60;
                       });
                     } else {
                       setState(() {
                         _pasteButtonVisible = false;
                         _sendAddressStyle =
-                            KaliumStyles.TextStyleAddressPrimary;
+                            AppStyles.TextStyleAddressPrimary;
                       });
                     }
                   });
