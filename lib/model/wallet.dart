@@ -77,6 +77,10 @@ class KaliumWallet {
     _localCurrencyPrice = value;
   }
 
+  String get localCurrencyConversion {
+    return _localCurrencyPrice;
+  }
+
   String get btcPrice {
     Decimal converted = Decimal.parse(_btcPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
     // Show 4 decimal places for BTC price if its >= 0.0001 BTC, otherwise 6 decimals

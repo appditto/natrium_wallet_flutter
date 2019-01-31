@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:decimal/decimal.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:intl/intl.dart';
 
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
@@ -20,9 +21,6 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/formatters.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
-
-// TODO - We want to implement a max send, this can't just be balance
-// because there may be some off raw in the account. We want 0 as the balance_after_send
 
 class KaliumSendSheet {
   FocusNode _sendAddressFocusNode;
@@ -44,6 +42,8 @@ class KaliumSendSheet {
   // Buttons States (Used because we hide the buttons under certain conditions)
   bool _pasteButtonVisible = true;
   bool _showContactButton = true;
+  // Local currency mode/fiat conversion
+  bool _localCurrencyMode = false;
 
   KaliumSendSheet({Contact contact, String address}) {
     _sendAmountFocusNode = new FocusNode();
@@ -239,9 +239,14 @@ class KaliumSendSheet {
                                               ),
                                             ),
                                             TextSpan(
-                                              text: StateContainer.of(context)
-                                                  .wallet
-                                                  .getAccountBalanceDisplay(),
+                                              text: _localCurrencyMode ?
+                                                StateContainer.of(context)
+                                                    .wallet
+                                                    .getLocalCurrencyPrice(
+                                                              locale: StateContainer.of(context).currencyLocale)
+                                                : StateContainer.of(context)
+                                                    .wallet
+                                                    .getAccountBalanceDisplay(),
                                               style: TextStyle(
                                                 color: KaliumColors.primary60,
                                                 fontSize: 14.0,
@@ -250,7 +255,7 @@ class KaliumSendSheet {
                                               ),
                                             ),
                                             TextSpan(
-                                              text: " BAN)",
+                                              text: _localCurrencyMode ? ")" : " BAN)",
                                               style: TextStyle(
                                                 color: KaliumColors.primary60,
                                                 fontSize: 14.0,
@@ -488,13 +493,33 @@ class KaliumSendSheet {
         });
   }
 
+  String _convertLocalCurrencyToCrypto(BuildContext context) {
+    String convertedAmt = _sendAmountController.text;
+    NumberFormat currencyFormatter;
+    String locale = StateContainer.of(context).currencyLocale;
+    switch (locale) {
+      case "es_VE":
+        currencyFormatter = NumberFormat.currency(locale:locale, symbol: "Bs.S");
+        break;
+      case "tr_TR":
+        currencyFormatter = NumberFormat.currency(locale:locale, symbol: "₺");
+        break;
+      default:
+        currencyFormatter = NumberFormat.simpleCurrency(locale:locale);
+        break;
+    }
+    Decimal valueLocal = Decimal.parse(currencyFormatter.parse(convertedAmt).toString());
+    Decimal conversion = Decimal.parse(StateContainer.of(context).wallet.localCurrencyConversion);
+    return NumberUtil.truncateDecimal(valueLocal / conversion).toString();
+  }
+
   // Determine if this is a max send or not by comparing balances
   bool _isMaxSend(BuildContext context) {
     // Sanitize commas
     if (_sendAmountController.text.isEmpty) {
       return false;
     }
-    String textField = _sendAmountController.text.replaceAll(r',', "");
+    String textField = _localCurrencyMode ? _convertLocalCurrencyToCrypto(context) : _sendAmountController.text.replaceAll(r',', "");
     String balance = StateContainer.of(context)
         .wallet
         .getAccountBalanceDisplay()
@@ -615,7 +640,7 @@ class KaliumSendSheet {
         inputFormatters: [
           LengthLimitingTextInputFormatter(13),
           WhitelistingTextInputFormatter(RegExp("[0-9.,]")),
-          CurrencyInputFormatter()
+          _localCurrencyMode ? CurrencyFormatter(StateContainer.of(context).currencyLocale) : BananoCurrencyFormatter()
         ],
         onChanged: (text) {
           // Always reset the error message to be less annoying
@@ -634,25 +659,24 @@ class KaliumSendSheet {
               fontWeight: FontWeight.w100,
               fontFamily: 'NunitoSans'),
           // Currency Switch Button - TODO
-          prefixIcon: false
-              ? Container(
-                  width: 48,
-                  height: 48,
-                  child: FlatButton(
-                    padding: EdgeInsets.all(14.0),
-                    highlightColor: KaliumColors.primary15,
-                    splashColor: KaliumColors.primary30,
-                    onPressed: () {
-                      return null;
-                    },
-                    child: Icon(KaliumIcons.swapcurrency,
-                        size: 20, color: KaliumColors.primary),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(200.0)),
-                  ),
-                )
-              : SizedBox(),
-          // MAX Button
+          prefixIcon: Container(
+              width: 48,
+              height: 48,
+              child: FlatButton(
+                padding: EdgeInsets.all(14.0),
+                highlightColor: KaliumColors.primary15,
+                splashColor: KaliumColors.primary30,
+                onPressed: () {
+                  setState(() {
+                    _localCurrencyMode = !_localCurrencyMode;
+                  });
+                },
+                child: Icon(KaliumIcons.swapcurrency,
+                    size: 20, color: KaliumColors.primary),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(200.0)),
+              ),
+            ),          // MAX Button
           suffixIcon: AnimatedCrossFade(
             duration: Duration(milliseconds: 100),
             firstChild: Container(
