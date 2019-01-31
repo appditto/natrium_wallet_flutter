@@ -860,7 +860,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) {
                                 return UIUtil.showWebview(
-                                   KaliumLocalization.of(context).privacyPolicy);
+                                   KaliumLocalization.of(context).privacyUrl);
                               }));      
                             },
                             child: Text(KaliumLocalization.of(context).privacyPolicy,
