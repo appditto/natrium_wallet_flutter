@@ -11,7 +11,7 @@ import 'package:kalium_wallet_flutter/model/list_model.dart';
 import 'package:kalium_wallet_flutter/model/deep_link_action.dart';
 import 'package:kalium_wallet_flutter/model/state_block.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
-import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
+import 'package:kalium_wallet_flutter/model/db/appdb.dart';
 import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';

@@ -24,7 +24,7 @@ import 'package:kalium_wallet_flutter/model/device_lock_timeout.dart';
 import 'package:kalium_wallet_flutter/model/notification_settings.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
-import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
+import 'package:kalium_wallet_flutter/model/db/appdb.dart';
 import 'package:kalium_wallet_flutter/ui/settings/backupseed_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/contacts/add_contact.dart';
 import 'package:kalium_wallet_flutter/ui/contacts/contact_details.dart';
