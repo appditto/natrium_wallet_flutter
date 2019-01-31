@@ -581,16 +581,14 @@ class KaliumLocalization {
       desc: 'transfer_header', name: 'transferHeader');
   }
 
-  // TODO - translate
   String get transfer {
     return Intl.message("Transfer",
-      desc: 'TRANSFER', name: 'transfer');
+      desc: 'transfer_btn', name: 'transfer');
   }
 
-  // TODO - translate
   String get transferManualHint {
     return Intl.message("Please enter the seed below.",
-      desc: 'TRANSFER', name: 'transfer');
+      desc: 'transfer_hint', name: 'transferManualHint');
   }
 
   String get transferIntro {
@@ -658,8 +656,6 @@ class KaliumLocalization {
 
   /// -- LOCK SCREEN 
 
-  // TODO - translate all of these
-
   String get unlockPin {
     return Intl.message("Enter PIN to Unlock Kalium",
       desc: 'unlock_kalium_pin', name: 'unlockPin');
@@ -667,12 +663,12 @@ class KaliumLocalization {
 
   String get unlockBiometrics {
     return Intl.message("Authenticate to Unlock Kalium",
-      desc: 'unlock_kalium_bio', name: 'unlockPin');
+      desc: 'unlock_kalium_bio', name: 'unlockBiometrics');
   }
 
   String get lockAppSetting {
     return Intl.message("Authenticate on Launch",
-      desc: 'unlock_kalium_bio', name: 'unlockPin');
+      desc: 'authenticate_on_launch', name: 'lockAppSetting');
   }
 
   String get locked {
@@ -687,15 +683,13 @@ class KaliumLocalization {
 
   String get tooManyFailedAttempts {
     return Intl.message("Too many failed unlock attempts.",
-      desc: 'fail', name: 'tooManyFailedAttempts');
+      desc: 'fail_toomany_attempts', name: 'tooManyFailedAttempts');
   }
 
 
   /// -- END LOCK SCREEN
 
   /// -- SECURITY SETTINGS SUBMENU
-
-  // TODO - Translate
 
   String get securityHeader {
     return Intl.message("Security",
@@ -709,12 +703,12 @@ class KaliumLocalization {
 
   String get xMinutes {
     return Intl.message("After %1 minutes",
-      desc: 'minutes', name: 'xMinutes');
+      desc: 'after_minutes', name: 'xMinutes');
   }
 
   String get xMinute {
     return Intl.message("After %1 minute",
-      desc: 'minute', name: 'xMinute');
+      desc: 'after_minute', name: 'xMinute');
   }
 
   String get instantly {
