@@ -5,7 +5,7 @@ import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
@@ -75,7 +75,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                         borderRadius:
                                             BorderRadius.circular(50.0)),
                                     padding: EdgeInsets.all(0.0),
-                                    child: Icon(KaliumIcons.back,
+                                    child: Icon(AppIcons.back,
                                         color: AppColors.text, size: 24)),
                               ),
                             ],
@@ -177,7 +177,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50.0)),
                             padding: EdgeInsets.all(0.0),
-                            child: Icon(KaliumIcons.forward,
+                            child: Icon(AppIcons.forward,
                                 color: AppColors.primary, size: 50)),
                       ),
                     ],

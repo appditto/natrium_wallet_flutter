@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/util/hapticutil.dart';
@@ -70,7 +70,7 @@ class _PinScreenState extends State<PinScreen>
   void initState() {
     super.initState();
     // Initialize list all empty
-    _dotStates = List.filled(6, KaliumIcons.dotemtpy);
+    _dotStates = List.filled(6, AppIcons.dotemtpy);
     _awaitingConfirmation = false;
     _pin = "";
     _pinConfirmed = "";
@@ -108,7 +108,7 @@ class _PinScreenState extends State<PinScreen>
                 setState(() {
                   _pin = "";
                   _header = AppLocalization.of(context).pinInvalid;
-                  _dotStates = List.filled(6, KaliumIcons.dotemtpy);
+                  _dotStates = List.filled(6, AppIcons.dotemtpy);
                   _controller.value = 0;
                 });
               }
@@ -116,7 +116,7 @@ class _PinScreenState extends State<PinScreen>
           } else {
             setState(() {
               _awaitingConfirmation = false;
-              _dotStates = List.filled(6, KaliumIcons.dotemtpy);
+              _dotStates = List.filled(6, AppIcons.dotemtpy);
               _pin = "";
               _pinConfirmed = "";
               _header = AppLocalization.of(context).pinConfirmError;
@@ -151,33 +151,33 @@ class _PinScreenState extends State<PinScreen>
       });
     }
     for (int i = 0; i < _dotStates.length; i++) {
-      if (_dotStates[i] == KaliumIcons.dotemtpy) {
+      if (_dotStates[i] == AppIcons.dotemtpy) {
         setState(() {
-          _dotStates[i] = KaliumIcons.dotfilled;
+          _dotStates[i] = AppIcons.dotfilled;
         });
         break;
       }
     }
-    if (_dotStates.last == KaliumIcons.dotfilled) {
+    if (_dotStates.last == AppIcons.dotfilled) {
       return true;
     }
     return false;
   }
 
   void _backSpace() {
-    if (_dotStates[0] != KaliumIcons.dotemtpy) {
+    if (_dotStates[0] != AppIcons.dotemtpy) {
       int lastFilledIndex;
       for (int i = 0; i < _dotStates.length; i++) {
-        if (_dotStates[i] == KaliumIcons.dotfilled) {
+        if (_dotStates[i] == AppIcons.dotfilled) {
           if (i == _dotStates.length ||
-              _dotStates[i + 1] == KaliumIcons.dotemtpy) {
+              _dotStates[i + 1] == AppIcons.dotemtpy) {
             lastFilledIndex = i;
             break;
           }
         }
       }
       setState(() {
-        _dotStates[lastFilledIndex] = KaliumIcons.dotemtpy;
+        _dotStates[lastFilledIndex] = AppIcons.dotemtpy;
         if (_awaitingConfirmation) {
           _pinConfirmed = _pinConfirmed.substring(0, _pinConfirmed.length - 1);
         } else {
@@ -219,7 +219,7 @@ class _PinScreenState extends State<PinScreen>
                   // Switch to confirm pin
                   setState(() {
                     _awaitingConfirmation = true;
-                    _dotStates = List.filled(6, KaliumIcons.dotemtpy);
+                    _dotStates = List.filled(6, AppIcons.dotemtpy);
                     _header = AppLocalization.of(context).pinConfirmTitle;
                   });
                 } else {

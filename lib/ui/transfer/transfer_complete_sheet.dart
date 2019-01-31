@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
@@ -36,7 +36,7 @@ class KaliumTransferCompleteSheet {
                             // Success tick (icon)
                             Container(
                               margin: EdgeInsets.only(bottom: 30),
-                              child: Icon(KaliumIcons.success,
+                              child: Icon(AppIcons.success,
                                   size: 100, color: AppColors.success),
                             ),
                             Container(

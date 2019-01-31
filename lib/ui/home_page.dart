@@ -16,7 +16,7 @@ import 'package:kalium_wallet_flutter/network/model/block_types.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:kalium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/ui/contacts/add_contact.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/send/send_confirm_sheet.dart';
@@ -24,8 +24,8 @@ import 'package:kalium_wallet_flutter/ui/send/send_complete_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:kalium_wallet_flutter/ui/settings/settings_drawer.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/kalium_drawer.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/kalium_scaffold.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/app_drawer.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/app_scaffold.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/routes.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/reactive_refresh.dart';
@@ -668,11 +668,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     Color iconColor;
     if (item.type == BlockTypes.SEND) {
       text = AppLocalization.of(context).sent;
-      icon = KaliumIcons.sent;
+      icon = AppIcons.sent;
       iconColor = AppColors.text60;
     } else {
       text = AppLocalization.of(context).received;
-      icon = KaliumIcons.received;
+      icon = AppIcons.received;
       iconColor = AppColors.primary60;
     }
     return SizeTransition(
@@ -763,11 +763,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     Color iconColor;
     if (type == "Sent") {
       text = "Sent";
-      icon = KaliumIcons.sent;
+      icon = AppIcons.sent;
       iconColor = AppColors.text60;
     } else {
       text = "Received";
-      icon = KaliumIcons.received;
+      icon = AppIcons.received;
       iconColor = AppColors.primary60;
     }
     return Container(
@@ -916,11 +916,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     Color iconColor;
     if (type == "Sent") {
       text = "Senttt";
-      icon = KaliumIcons.dotfilled;
+      icon = AppIcons.dotfilled;
       iconColor = AppColors.text20;
     } else {
       text = "Receiveddd";
-      icon = KaliumIcons.dotfilled;
+      icon = AppIcons.dotfilled;
       iconColor = AppColors.primary20;
     }
     return Container(
@@ -1123,7 +1123,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50.0)),
                       padding: EdgeInsets.all(0.0),
-                      child: Icon(KaliumIcons.settings,
+                      child: Icon(AppIcons.settings,
                           color: AppColors.text, size: 24)),
                 ),
               ],
@@ -1363,8 +1363,8 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             children: <Widget>[
               Icon(
                   _priceConversion == PriceConversion.BTC
-                      ? KaliumIcons.btc
-                      : KaliumIcons.nanocurrency,
+                      ? AppIcons.btc
+                      : AppIcons.nanocurrency,
                   color: _priceConversion == PriceConversion.NONE
                       ? Colors.transparent
                       : AppColors.text60,
@@ -1469,7 +1469,7 @@ class TransactionDetailsSheet {
                                                   BorderRadius.circular(100.0)),
                                           padding: EdgeInsets.symmetric(
                                               vertical: 10.0, horizontal: 10),
-                                          child: Icon(KaliumIcons.addcontact,
+                                          child: Icon(AppIcons.addcontact,
                                               size: 35,
                                               color: _addressCopied
                                                   ? AppColors.successDark

@@ -9,7 +9,7 @@ import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/model/db/contact.dart';
 import 'package:kalium_wallet_flutter/model/db/kaliumdb.dart';
@@ -167,7 +167,7 @@ class KaliumSendSheet {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(KaliumIcons.close,
+                        child: Icon(AppIcons.close,
                             size: 16, color: AppColors.text),
                         padding: EdgeInsets.all(17.0),
                         shape: RoundedRectangleBorder(
@@ -709,7 +709,7 @@ class KaliumSendSheet {
                     _localCurrencyMode = !_localCurrencyMode;
                   });
                 },
-                child: Icon(KaliumIcons.swapcurrency,
+                child: Icon(AppIcons.swapcurrency,
                     size: 20, color: AppColors.primary),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(200.0)),
@@ -735,7 +735,7 @@ class KaliumSendSheet {
                         .replaceAll(r",", "");
                   });
                 },
-                child: Icon(KaliumIcons.max,
+                child: Icon(AppIcons.max,
                     size: 24, color: AppColors.primary),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(200.0)),
@@ -835,7 +835,7 @@ class KaliumSendSheet {
                           });
                         }
                       },
-                      child: Icon(KaliumIcons.at,
+                      child: Icon(AppIcons.at,
                           size: 20, color: AppColors.primary),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(200.0)),
@@ -900,7 +900,7 @@ class KaliumSendSheet {
                           }
                         });
                       },
-                      child: Icon(KaliumIcons.paste,
+                      child: Icon(AppIcons.paste,
                           size: 20, color: AppColors.primary),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(200.0)),

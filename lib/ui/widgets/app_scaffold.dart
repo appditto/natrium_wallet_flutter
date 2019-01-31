@@ -14,7 +14,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'package:kalium_wallet_flutter/ui/widgets/kalium_drawer.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/app_drawer.dart';
 
 const FloatingActionButtonLocation _kDefaultFloatingActionButtonLocation = FloatingActionButtonLocation.endFloat;
 const FloatingActionButtonAnimator _kDefaultFloatingActionButtonAnimator = FloatingActionButtonAnimator.scaling;

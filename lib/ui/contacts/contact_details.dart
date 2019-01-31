@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 
 import 'package:kalium_wallet_flutter/dimens.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
@@ -75,7 +75,7 @@ class ContactDetailsSheet {
                           },
                           cancelText: AppLocalization.of(context).no.toUpperCase());
                         },
-                        child: Icon(KaliumIcons.trashcan,
+                        child: Icon(AppIcons.trashcan,
                             size: 24, color: AppColors.text),
                         padding: EdgeInsets.all(13.0),
                         shape: RoundedRectangleBorder(
@@ -112,7 +112,7 @@ class ContactDetailsSheet {
                             return UIUtil.showAccountWebview(context, contact.address);
                           }));
                         },
-                        child: Icon(KaliumIcons.search,
+                        child: Icon(AppIcons.search,
                             size: 24, color: AppColors.text),
                         padding: EdgeInsets.all(13.0),
                         shape: RoundedRectangleBorder(

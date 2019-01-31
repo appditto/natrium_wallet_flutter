@@ -742,8 +742,8 @@ class AppLocalization {
   /// -- END NON-TRANSLATABLE ITEMS
 }
 
-class KaliumLocalizationsDelegate extends LocalizationsDelegate<AppLocalization> {
-  const KaliumLocalizationsDelegate();
+class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalization> {
+  const AppLocalizationsDelegate();
 
   @override
   bool isSupported(Locale locale) {

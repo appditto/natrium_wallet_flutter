@@ -5,7 +5,7 @@ import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
@@ -95,7 +95,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                             borderRadius:
                                                 BorderRadius.circular(50.0)),
                                         padding: EdgeInsets.all(0.0),
-                                        child: Icon(KaliumIcons.back,
+                                        child: Icon(AppIcons.back,
                                             color: AppColors.text, size: 24)),
                                   ),
                                 ],
@@ -157,7 +157,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                         width: 48,
                                         height: 48,
                                         child: FlatButton(
-                                          child: Icon(KaliumIcons.paste,
+                                          child: Icon(AppIcons.paste,
                                               size: 20, color: AppColors.primary),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
@@ -259,7 +259,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50.0)),
                             padding: EdgeInsets.all(0.0),
-                            child: Icon(KaliumIcons.forward,
+                            child: Icon(AppIcons.forward,
                                 color: AppColors.primary, size: 50)),
                       ),
                     ],

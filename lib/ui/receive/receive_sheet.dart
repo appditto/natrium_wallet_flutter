@@ -11,7 +11,7 @@ import 'package:flutter/rendering.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
@@ -94,7 +94,7 @@ class KaliumReceiveSheet {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(KaliumIcons.close,
+                        child: Icon(AppIcons.close,
                             size: 16, color: AppColors.text),
                         padding: EdgeInsets.all(17.0),
                         shape: RoundedRectangleBorder(

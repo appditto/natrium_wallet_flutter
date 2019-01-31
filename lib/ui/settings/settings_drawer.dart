@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart' as path;
-import 'package:kalium_wallet_flutter/ui/widgets/kalium_simpledialog.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 import 'package:logging/logging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:package_info/package_info.dart';
@@ -14,7 +14,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 import 'package:kalium_wallet_flutter/model/address.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
@@ -707,7 +707,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                       context,
                       AppLocalization.of(context).changeCurrency,
                       StateContainer.of(context).curCurrency,
-                      KaliumIcons.currency,
+                      AppIcons.currency,
                       _currencyDialog),
                   /*
                   Divider(height: 2),
@@ -720,12 +720,12 @@ class _SettingsSheetState extends State<SettingsSheet>
                       context,
                       AppLocalization.of(context).notifications,
                       _curNotificiationSetting,
-                      KaliumIcons.notifications,
+                      AppIcons.notifications,
                       _notificationsDialog),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).securityHeader,
-                      KaliumIcons.security, onPressed: () {
+                      AppIcons.security, onPressed: () {
                     setState(() {
                       _securityOpen = true;
                     });
@@ -744,7 +744,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).contactsHeader,
-                      KaliumIcons.contacts, onPressed: () {
+                      AppIcons.contacts, onPressed: () {
                     setState(() {
                       _contactsOpen = true;
                     });
@@ -753,7 +753,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).backupSeed,
-                      KaliumIcons.backupseed, onPressed: () {
+                      AppIcons.backupseed, onPressed: () {
                     // Authenticate
                     SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
                       BiometricUtil.hasBiometrics().then((hasBiometrics) {
@@ -794,26 +794,26 @@ class _SettingsSheetState extends State<SettingsSheet>
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).settingsTransfer,
-                      KaliumIcons.transferfunds, onPressed: () {
+                      AppIcons.transferfunds, onPressed: () {
                     KaliumTransferOverviewSheet().mainBottomSheet(context);
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).changeRepAuthenticate,
-                      KaliumIcons.changerepresentative, onPressed: () {
+                      AppIcons.changerepresentative, onPressed: () {
                     new KaliumChangeRepresentativeSheet()
                         .mainBottomSheet(context);
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).shareKalium,
-                      KaliumIcons.share, onPressed: () {
+                      AppIcons.share, onPressed: () {
                     Share.share(AppLocalization.of(context).shareKaliumText +
                         " https://kalium.banano.cc");
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
-                      AppLocalization.of(context).logout, KaliumIcons.logout,
+                      AppLocalization.of(context).logout, AppIcons.logout,
                       onPressed: () {
                     KaliumDialogs.showConfirmDialog(
                         context,
@@ -942,7 +942,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0)),
                           padding: EdgeInsets.all(8.0),
-                          child: Icon(KaliumIcons.back,
+                          child: Icon(AppIcons.back,
                               color: AppColors.text, size: 24)),
                     ),
                     //Contacts Header Text
@@ -966,7 +966,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0)),
                           padding: EdgeInsets.all(8.0),
-                          child: Icon(KaliumIcons.import_icon,
+                          child: Icon(AppIcons.import_icon,
                               color: AppColors.text, size: 24)),
                     ),
                     //Export button
@@ -981,7 +981,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0)),
                           padding: EdgeInsets.all(8.0),
-                          child: Icon(KaliumIcons.export_icon,
+                          child: Icon(AppIcons.export_icon,
                               color: AppColors.text, size: 24)),
                     ),
                   ],
@@ -1157,7 +1157,7 @@ Widget buildSecurityMenu(BuildContext context) {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50.0)),
                           padding: EdgeInsets.all(8.0),
-                          child: Icon(KaliumIcons.back,
+                          child: Icon(AppIcons.back,
                               color: AppColors.text, size: 24)),
                     ),
                     //Security Header Text
@@ -1191,7 +1191,7 @@ Widget buildSecurityMenu(BuildContext context) {
                           context,
                           AppLocalization.of(context).authMethod,
                           _curAuthMethod,
-                          KaliumIcons.fingerprint,
+                          AppIcons.fingerprint,
                           _authMethodDialog)
                       : null,
                   // Authenticate on Launch
@@ -1200,7 +1200,7 @@ Widget buildSecurityMenu(BuildContext context) {
                       context,
                       AppLocalization.of(context).lockAppSetting,
                       _curUnlockSetting,
-                      KaliumIcons.lock,
+                      AppIcons.lock,
                       _lockDialog),
                   // Authentication Timer
                   Divider(height: 2),
@@ -1208,7 +1208,7 @@ Widget buildSecurityMenu(BuildContext context) {
                       context,
                       AppLocalization.of(context).autoLockHeader,
                       _curTimeoutSetting,
-                      KaliumIcons.timer,
+                      AppIcons.timer,
                       _lockTimeoutDialog,
                       disabled: _curUnlockSetting.setting == UnlockOption.NO,
                   ),

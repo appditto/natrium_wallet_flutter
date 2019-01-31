@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/model/setting_item.dart';
 
@@ -90,9 +90,9 @@ class KaliumSettings {
                 ),
                 margin: EdgeInsets.only(
                   top: 3,
-                  left: settingIcon == KaliumIcons.logout ? 6 : 3,
+                  left: settingIcon == AppIcons.logout ? 6 : 3,
                   bottom: 3,
-                  right: settingIcon == KaliumIcons.logout ? 0 : 3,
+                  right: settingIcon == AppIcons.logout ? 0 : 3,
                 ),
               ),
             ),

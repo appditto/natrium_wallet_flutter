@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
@@ -41,7 +41,7 @@ class KaliumSendCompleteSheet {
                       Container(
                         alignment: Alignment(0, 0),
                         margin: EdgeInsets.only(bottom: 25),
-                        child: Icon(KaliumIcons.success,
+                        child: Icon(AppIcons.success,
                             size: 100, color: AppColors.success),
                       ),
                       // Container for the Amount Text

@@ -17,7 +17,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 import 'package:kalium_wallet_flutter/ui/util/routes.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:kalium_wallet_flutter/util/biometrics.dart';
 import 'package:kalium_wallet_flutter/util/hapticutil.dart';
@@ -110,7 +110,7 @@ class KaliumChangeRepresentativeSheet {
                                 AppLocalization.of(context).repInfoHeader,
                                 AppLocalization.of(context).repInfo);
                           },
-                          child: Icon(KaliumIcons.info,
+                          child: Icon(AppIcons.info,
                               size: 24, color: AppColors.text),
                           padding: EdgeInsets.all(13.0),
                           shape: RoundedRectangleBorder(
@@ -166,7 +166,7 @@ class KaliumChangeRepresentativeSheet {
                               }
                             });
                           },
-                          child: Icon(KaliumIcons.scan,
+                          child: Icon(AppIcons.scan,
                               size: 28, color: AppColors.text),
                           padding: EdgeInsets.all(11.0),
                           shape: RoundedRectangleBorder(
@@ -297,7 +297,7 @@ class KaliumChangeRepresentativeSheet {
                                                   }
                                                 });
                                               },
-                                              child: Icon(KaliumIcons.paste,
+                                              child: Icon(AppIcons.paste,
                                                   size: 20.0,
                                                   color: AppColors.primary),
                                               shape: RoundedRectangleBorder(

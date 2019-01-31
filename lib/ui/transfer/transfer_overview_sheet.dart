@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
@@ -93,7 +93,7 @@ class KaliumTransferOverviewSheet {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: Icon(KaliumIcons.close,
+                            child: Icon(AppIcons.close,
                                 size: 16, color: AppColors.text),
                             padding: EdgeInsets.all(17.0),
                             shape: RoundedRectangleBorder(

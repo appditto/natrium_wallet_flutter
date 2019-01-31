@@ -4,7 +4,7 @@ import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
@@ -116,7 +116,7 @@ class KaliumTransferManualEntrySheet {
                                         width: 48,
                                         height: 48,
                                         child: FlatButton(
-                                          child: Icon(KaliumIcons.paste,
+                                          child: Icon(AppIcons.paste,
                                               size: 20, color: AppColors.primary),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:

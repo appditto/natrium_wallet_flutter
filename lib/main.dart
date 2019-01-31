@@ -54,7 +54,7 @@ class KaliumApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         localizationsDelegates: [
-          KaliumLocalizationsDelegate(),
+          AppLocalizationsDelegate(),
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate
         ],

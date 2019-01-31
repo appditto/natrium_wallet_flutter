@@ -16,7 +16,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/formatters.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 
 // Add Contacts Sheet
 class AddContactSheet {
@@ -146,7 +146,7 @@ class AddContactSheet {
                               }
                             }
                         },
-                        child: Icon(KaliumIcons.scan,
+                        child: Icon(AppIcons.scan,
                             size: 28, color: AppColors.text),
                         padding: EdgeInsets.all(11.0),
                         shape: RoundedRectangleBorder(
@@ -314,7 +314,7 @@ class AddContactSheet {
                                               }
                                             });
                                           },
-                                          child: Icon(KaliumIcons.paste,
+                                          child: Icon(AppIcons.paste,
                                               size: 20, color: AppColors.primary),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:

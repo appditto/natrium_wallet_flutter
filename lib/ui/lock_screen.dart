@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/model/authentication_method.dart';
 import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
@@ -206,7 +206,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                           children: <Widget>[
                             Container(
                               child: Icon(
-                                KaliumIcons.lock,
+                                AppIcons.lock,
                                 size: 80,
                                 color: AppColors.primary,
                               ),

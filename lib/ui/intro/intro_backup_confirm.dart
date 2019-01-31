@@ -4,7 +4,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/localization.dart';
-import 'package:kalium_wallet_flutter/kalium_icons.dart';
+import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
@@ -52,7 +52,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                                       borderRadius:
                                           BorderRadius.circular(50.0)),
                                   padding: EdgeInsets.all(0.0),
-                                  child: Icon(KaliumIcons.back,
+                                  child: Icon(AppIcons.back,
                                       color: AppColors.text, size: 24)),
                             ),
                           ],
