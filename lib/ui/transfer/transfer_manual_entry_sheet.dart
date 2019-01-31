@@ -43,7 +43,7 @@ class KaliumTransferManualEntrySheet {
                   Container(
                     margin: EdgeInsets.only(top: 30.0, left:70, right: 70),
                     child: AutoSizeText(
-                      KaliumLocalization.of(context).transferHeader.toUpperCase(),
+                      AppLocalization.of(context).transferHeader.toUpperCase(),
                       style: AppStyles.textStyleHeader(context),
                       textAlign: TextAlign.center,
                       maxLines: 2,
@@ -76,7 +76,7 @@ class KaliumTransferManualEntrySheet {
                                     EdgeInsets.symmetric(horizontal: smallScreen(context)?50:60, vertical: 10),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                    KaliumLocalization.of(context).transferManualHint,
+                                    AppLocalization.of(context).transferManualHint,
                                     style: AppStyles.TextStyleParagraph,
                                     textAlign: TextAlign.left,),
                               ),
@@ -173,7 +173,7 @@ class KaliumTransferManualEntrySheet {
                               // "Invalid Seed" text that appears if the input is invalid
                               Container(
                                 margin: EdgeInsets.only(top: 5),
-                                child: Text(KaliumLocalization.of(context).seedInvalid,
+                                child: Text(AppLocalization.of(context).seedInvalid,
                                     style: TextStyle(
                                       fontSize: 14.0,
                                       color: _errorTextColor,
@@ -192,7 +192,7 @@ class KaliumTransferManualEntrySheet {
                     children: <Widget>[
                       KaliumButton.buildKaliumButton(
                         KaliumButtonType.PRIMARY,
-                        KaliumLocalization.of(context).transfer,
+                        AppLocalization.of(context).transfer,
                         Dimens.BUTTON_TOP_DIMENS,
                         onPressed: () {
                           if (NanoSeeds.isValidSeed(_seedInputController.text)) {
@@ -211,7 +211,7 @@ class KaliumTransferManualEntrySheet {
                     children: <Widget>[
                       KaliumButton.buildKaliumButton(
                         KaliumButtonType.PRIMARY_OUTLINE,
-                        KaliumLocalization.of(context).cancel,
+                        AppLocalization.of(context).cancel,
                         Dimens.BUTTON_BOTTOM_DIMENS,
                         onPressed: () {
                           Navigator.of(context).pop();

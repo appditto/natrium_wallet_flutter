@@ -106,7 +106,7 @@ class AddContactSheet {
                       child: Column(
                         children: <Widget>[
                           AutoSizeText(
-                            KaliumLocalization.of(context).addContact.toUpperCase(),
+                            AppLocalization.of(context).addContact.toUpperCase(),
                             style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 1,
@@ -127,7 +127,7 @@ class AddContactSheet {
                               BarcodeScanner.scan(OverlayTheme.KALIUM).then((value) {
                                 Address address = Address(value);
                                 if (!address.isValid()) {
-                                  UIUtil.showSnackbar(KaliumLocalization.of(context).qrInvalidAddress, context);
+                                  UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
                                 } else {
                                   setState(() {
                                     _addressController.text = address.address;
@@ -197,7 +197,7 @@ class AddContactSheet {
                                 maxLines: null,
                                 autocorrect: false,
                                 decoration: InputDecoration(
-                                  hintText: _showNameHint ? KaliumLocalization.of(context).contactNameHint : "",
+                                  hintText: _showNameHint ? AppLocalization.of(context).contactNameHint : "",
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(
                                       fontSize: 16.0,
@@ -267,7 +267,7 @@ class AddContactSheet {
                                 maxLines: null,
                                 autocorrect: false,
                                 decoration: InputDecoration(
-                                  hintText: _showAddressHint ? KaliumLocalization.of(context).addressHint : "",
+                                  hintText: _showAddressHint ? AppLocalization.of(context).addressHint : "",
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(
                                       fontSize: 16.0,
@@ -385,7 +385,7 @@ class AddContactSheet {
                           // Add Contact Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY,
-                              KaliumLocalization.of(context).addContact,
+                              AppLocalization.of(context).addContact,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             validateForm(context, setState).then((isValid) {
                               if (!isValid) {
@@ -397,7 +397,7 @@ class AddContactSheet {
                                 if (address == null) {
                                   RxBus.post(newContact, tag: RX_CONTACT_ADDED_TAG);
                                 }
-                                UIUtil.showSnackbar(KaliumLocalization.of(context).contactAdded.replaceAll("%1", newContact.name), context);
+                                UIUtil.showSnackbar(AppLocalization.of(context).contactAdded.replaceAll("%1", newContact.name), context);
                                 RxBus.post(newContact, tag: RX_CONTACT_MODIFIED_TAG);
                                 Navigator.of(context).pop();
                               });
@@ -410,7 +410,7 @@ class AddContactSheet {
                           // Close Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
-                              KaliumLocalization.of(context).close,
+                              AppLocalization.of(context).close,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.pop(context);
                           }),
@@ -433,12 +433,12 @@ class AddContactSheet {
       if (_addressController.text.isEmpty) {
         isValid = false;
         setState(() {
-          _addressValidationText = KaliumLocalization.of(context).addressMising;
+          _addressValidationText = AppLocalization.of(context).addressMising;
         });
       } else if (!Address(_addressController.text).isValid()) {
         isValid = false;
         setState(() {
-          _addressValidationText = KaliumLocalization.of(context).invalidAddress;
+          _addressValidationText = AppLocalization.of(context).invalidAddress;
         });
       } else {
         _addressFocusNode.unfocus();
@@ -447,7 +447,7 @@ class AddContactSheet {
         if (addressExists) {
           setState(() {
             isValid = false;
-            _addressValidationText = KaliumLocalization.of(context).contactExists;
+            _addressValidationText = AppLocalization.of(context).contactExists;
           });
         }
       }
@@ -456,7 +456,7 @@ class AddContactSheet {
     if (_nameController.text.isEmpty) {
       isValid = false;
       setState(() {
-        _nameValidationText = KaliumLocalization.of(context).contactNameMissing;
+        _nameValidationText = AppLocalization.of(context).contactNameMissing;
       });
     } else {
       DBHelper dbHelper = DBHelper();
@@ -464,7 +464,7 @@ class AddContactSheet {
       if (nameExists) {
         setState(() {
           isValid = false;
-          _nameValidationText = KaliumLocalization.of(context).contactExists;
+          _nameValidationText = AppLocalization.of(context).contactExists;
         });
       }
     }

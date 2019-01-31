@@ -43,7 +43,7 @@ class KaliumSeedBackupSheet {
                       child: Column(
                         children: <Widget>[
                           AutoSizeText(
-                            KaliumLocalization.of(context).seed.toUpperCase(),
+                            AppLocalization.of(context).seed.toUpperCase(),
                             style: AppStyles.textStyleHeader(context),
                             maxLines: 1,
                             stepGranularity: 0.1,
@@ -61,7 +61,7 @@ class KaliumSeedBackupSheet {
                             Container(
                                 margin: EdgeInsets.only(left: 50, right: 50),
                                 child: Text(
-                                  KaliumLocalization.of(context).seedBackupInfo,
+                                  AppLocalization.of(context).seedBackupInfo,
                                   style: AppStyles.TextStyleParagraph,
                                 )),
                             new GestureDetector(
@@ -91,7 +91,7 @@ class KaliumSeedBackupSheet {
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(top: 5),
-                                    child: Text(KaliumLocalization.of(context).seedCopied,
+                                    child: Text(AppLocalization.of(context).seedCopied,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 14.0,
@@ -113,7 +113,7 @@ class KaliumSeedBackupSheet {
                       children: <Widget>[
                         KaliumButton.buildKaliumButton(
                           _seedCopied ? KaliumButtonType.SUCCESS : KaliumButtonType.PRIMARY,
-                          _seedCopied ? KaliumLocalization.of(context).seedCopiedShort : KaliumLocalization.of(context).copySeed,
+                          _seedCopied ? AppLocalization.of(context).seedCopiedShort : AppLocalization.of(context).copySeed,
                           Dimens.BUTTON_TOP_DIMENS,
                           onPressed: () {
                             Clipboard.setData(
@@ -140,7 +140,7 @@ class KaliumSeedBackupSheet {
                       children: <Widget>[
                         KaliumButton.buildKaliumButton(
                           KaliumButtonType.PRIMARY_OUTLINE,
-                          KaliumLocalization.of(context).close,
+                          AppLocalization.of(context).close,
                           Dimens.BUTTON_BOTTOM_DIMENS,
                           onPressed: () {
                             Navigator.pop(context);

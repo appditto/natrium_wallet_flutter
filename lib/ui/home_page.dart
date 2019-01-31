@@ -522,7 +522,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
             child: Row(
               children: <Widget>[
                 Text(
-                  KaliumLocalization.of(context).transactions.toUpperCase(),
+                  AppLocalization.of(context).transactions.toUpperCase(),
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 14.0,
@@ -595,7 +595,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       color: receive != null
                           ? AppColors.primary
                           : AppColors.primary60,
-                      child: Text(KaliumLocalization.of(context).receive,
+                      child: Text(AppLocalization.of(context).receive,
                           textAlign: TextAlign.center,
                           style: AppStyles.TextStyleButtonPrimary),
                       padding:
@@ -626,7 +626,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                               BigInt.zero
                           ? AppColors.primary
                           : AppColors.primary60,
-                      child: Text(KaliumLocalization.of(context).send,
+                      child: Text(AppLocalization.of(context).send,
                           textAlign: TextAlign.center,
                           style: AppStyles.TextStyleButtonPrimary),
                       padding:
@@ -667,11 +667,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     IconData icon;
     Color iconColor;
     if (item.type == BlockTypes.SEND) {
-      text = KaliumLocalization.of(context).sent;
+      text = AppLocalization.of(context).sent;
       icon = KaliumIcons.sent;
       iconColor = AppColors.text60;
     } else {
-      text = KaliumLocalization.of(context).received;
+      text = AppLocalization.of(context).received;
       icon = KaliumIcons.received;
       iconColor = AppColors.primary60;
     }
@@ -1418,7 +1418,7 @@ class TransactionDetailsSheet {
                               KaliumButton.buildKaliumButton(
                                 // Share Address Button
                                 _addressCopied ? KaliumButtonType.SUCCESS : KaliumButtonType.PRIMARY,
-                                _addressCopied ? KaliumLocalization.of(context).addressCopied : KaliumLocalization.of(context).copyAddress,
+                                _addressCopied ? AppLocalization.of(context).addressCopied : AppLocalization.of(context).copyAddress,
                                 Dimens.BUTTON_TOP_EXCEPTION_DIMENS,
                                 onPressed: () {
                                   Clipboard.setData(
@@ -1488,7 +1488,7 @@ class TransactionDetailsSheet {
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
-                              KaliumLocalization.of(context).viewDetails,
+                              AppLocalization.of(context).viewDetails,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) {

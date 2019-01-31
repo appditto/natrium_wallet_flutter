@@ -47,7 +47,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                           margin: EdgeInsets.symmetric(
                               horizontal: 50, vertical: 20),
                           child: Text(
-                            KaliumLocalization.of(context).welcomeText,
+                            AppLocalization.of(context).welcomeText,
                             style: AppStyles.TextStyleParagraph,
                           ),
                         ),
@@ -64,7 +64,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                         // New Wallet Button
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY,
-                            KaliumLocalization.of(context).newWallet,
+                            AppLocalization.of(context).newWallet,
                             Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                               Navigator.of(context).pushNamed('/intro_backup');
                         }),
@@ -75,7 +75,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                         // Import Wallet Button
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY_OUTLINE,
-                            KaliumLocalization.of(context).importWallet,
+                            AppLocalization.of(context).importWallet,
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                           Navigator.of(context).pushNamed('/intro_import');
                         }),

@@ -65,7 +65,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                KaliumLocalization.of(context).backupYourSeed,
+                                AppLocalization.of(context).backupYourSeed,
                                 style: AppStyles.TextStyleHeaderColored,
                               ),
                             ],
@@ -76,7 +76,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                           margin:
                               EdgeInsets.only(left: 50, right: 50, top: 15.0),
                           child: Text(
-                              KaliumLocalization.of(context).backupSeedConfirm,
+                              AppLocalization.of(context).backupSeedConfirm,
                               style: AppStyles.TextStyleParagraph),
                         ),
                       ],
@@ -92,7 +92,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                         // YES Button
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY,
-                            KaliumLocalization.of(context).yes.toUpperCase(),
+                            AppLocalization.of(context).yes.toUpperCase(),
                             Dimens.BUTTON_TOP_DIMENS, 
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -107,7 +107,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                         // NO BUTTON
                         KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY_OUTLINE,
-                            KaliumLocalization.of(context).no.toUpperCase(),
+                            AppLocalization.of(context).no.toUpperCase(),
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                               Navigator.of(context).pop();
                         }),

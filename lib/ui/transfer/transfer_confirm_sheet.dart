@@ -160,7 +160,7 @@ class KaliumTransferConfirmSheet {
                     Container(
                       margin: EdgeInsets.only(top: 30.0, left:70, right: 70),
                       child: AutoSizeText(
-                        KaliumLocalization.of(context).transferHeader.toUpperCase(),
+                        AppLocalization.of(context).transferHeader.toUpperCase(),
                         style: AppStyles.textStyleHeader(context),
                         textAlign: TextAlign.center,
                         maxLines: 2,
@@ -179,21 +179,21 @@ class KaliumTransferConfirmSheet {
                             Container(
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
-                                  KaliumLocalization.of(context).transferConfirmInfo.replaceAll("%1", totalAsBanano),
+                                  AppLocalization.of(context).transferConfirmInfo.replaceAll("%1", totalAsBanano),
                                   style: AppStyles.TextStyleParagraphPrimary,
                                   textAlign: TextAlign.left,
                             )),
                             Container(
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
-                                  KaliumLocalization.of(context).transferConfirmInfoSecond,
+                                  AppLocalization.of(context).transferConfirmInfoSecond,
                                   style: AppStyles.TextStyleParagraph,
                                   textAlign: TextAlign.left,
                             )),
                             Container(
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
-                                  KaliumLocalization.of(context).transferConfirmInfoThird,
+                                  AppLocalization.of(context).transferConfirmInfoThird,
                                   style: AppStyles.TextStyleParagraph,
                                   textAlign: TextAlign.left,
                             )),
@@ -209,7 +209,7 @@ class KaliumTransferConfirmSheet {
                               // Send Button
                               KaliumButton.buildKaliumButton(
                                   KaliumButtonType.PRIMARY,
-                                  KaliumLocalization.of(context).confirm.toUpperCase(),
+                                  AppLocalization.of(context).confirm.toUpperCase(),
                                   Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                                 animationOpen = true;
                                 Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.TRANSFER_TRANSFERRING, onPoppedCallback: () { animationOpen = false; } ));
@@ -222,7 +222,7 @@ class KaliumTransferConfirmSheet {
                               // Scan QR Code Button
                               KaliumButton.buildKaliumButton(
                                   KaliumButtonType.PRIMARY_OUTLINE,
-                                  KaliumLocalization.of(context).cancel.toUpperCase(),
+                                  AppLocalization.of(context).cancel.toUpperCase(),
                                   Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                                 Navigator.of(context).pop();
                               }),

@@ -107,7 +107,7 @@ class _PinScreenState extends State<PinScreen>
               } else {
                 setState(() {
                   _pin = "";
-                  _header = KaliumLocalization.of(context).pinInvalid;
+                  _header = AppLocalization.of(context).pinInvalid;
                   _dotStates = List.filled(6, KaliumIcons.dotemtpy);
                   _controller.value = 0;
                 });
@@ -119,7 +119,7 @@ class _PinScreenState extends State<PinScreen>
               _dotStates = List.filled(6, KaliumIcons.dotemtpy);
               _pin = "";
               _pinConfirmed = "";
-              _header = KaliumLocalization.of(context).pinConfirmError;
+              _header = AppLocalization.of(context).pinConfirmError;
               _controller.value = 0;
             });
           }
@@ -220,7 +220,7 @@ class _PinScreenState extends State<PinScreen>
                   setState(() {
                     _awaitingConfirmation = true;
                     _dotStates = List.filled(6, KaliumIcons.dotemtpy);
-                    _header = KaliumLocalization.of(context).pinConfirmTitle;
+                    _header = AppLocalization.of(context).pinConfirmTitle;
                   });
                 } else {
                   // First and second pins match
@@ -256,7 +256,7 @@ class _PinScreenState extends State<PinScreen>
   Widget build(BuildContext context) {
     if (pinEnterTitle.isEmpty) {
       setState(() {
-        pinEnterTitle = KaliumLocalization.of(context).pinEnterTitle;
+        pinEnterTitle = AppLocalization.of(context).pinEnterTitle;
         if (type == PinOverlayType.ENTER_PIN) {
           _header = pinEnterTitle;
         }
@@ -264,7 +264,7 @@ class _PinScreenState extends State<PinScreen>
     }
     if (pinCreateTitle.isEmpty) {
       setState(() {
-        pinCreateTitle = KaliumLocalization.of(context).pinCreateTitle;
+        pinCreateTitle = AppLocalization.of(context).pinCreateTitle;
         if (type == PinOverlayType.NEW_PIN) {
           _header = pinCreateTitle;
         }

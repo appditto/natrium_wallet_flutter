@@ -51,9 +51,9 @@ class ContactDetailsSheet {
                       child: FlatButton(
                         onPressed: () {
                           KaliumDialogs.showConfirmDialog(context,
-                                                          KaliumLocalization.of(context).removeContact,
-                                                          KaliumLocalization.of(context).removeContactConfirmation.replaceAll('%1', contact.name),
-                                                          KaliumLocalization.of(context).yes.toUpperCase(),
+                                                          AppLocalization.of(context).removeContact,
+                                                          AppLocalization.of(context).removeContactConfirmation.replaceAll('%1', contact.name),
+                                                          AppLocalization.of(context).yes.toUpperCase(),
                           () {
                             DBHelper dbHelper = DBHelper();
                             dbHelper.deleteContact(contact).then((deleted) {
@@ -66,14 +66,14 @@ class ContactDetailsSheet {
                                 }
                                 RxBus.post(contact, tag: RX_CONTACT_REMOVED_TAG);
                                 RxBus.post(contact, tag: RX_CONTACT_MODIFIED_TAG);
-                                UIUtil.showSnackbar(KaliumLocalization.of(context).contactRemoved.replaceAll("%1", contact.name), context);
+                                UIUtil.showSnackbar(AppLocalization.of(context).contactRemoved.replaceAll("%1", contact.name), context);
                                 Navigator.of(context).pop();
                               } else {
                                 // TODO - error for failing to delete contact
                               }
                             });
                           },
-                          cancelText: KaliumLocalization.of(context).no.toUpperCase());
+                          cancelText: AppLocalization.of(context).no.toUpperCase());
                         },
                         child: Icon(KaliumIcons.trashcan,
                             size: 24, color: AppColors.text),
@@ -91,7 +91,7 @@ class ContactDetailsSheet {
                       child: Column(
                         children: <Widget>[
                           AutoSizeText(
-                            KaliumLocalization.of(context).contactHeader.toUpperCase(),
+                            AppLocalization.of(context).contactHeader.toUpperCase(),
                             style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 1,
@@ -194,7 +194,7 @@ class ContactDetailsSheet {
                       // Address Copied text container
                       Container(
                         margin: EdgeInsets.only(top: 5, bottom: 5),
-                        child: Text(_addressCopied ? KaliumLocalization.of(context).addressCopied : "",
+                        child: Text(_addressCopied ? AppLocalization.of(context).addressCopied : "",
                             style: TextStyle(
                               fontSize: 14.0,
                               color: AppColors.success,
@@ -215,7 +215,7 @@ class ContactDetailsSheet {
                           // Send Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY,
-                              KaliumLocalization.of(context).send,
+                              AppLocalization.of(context).send,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             Navigator.of(context).pop();
                             KaliumSendSheet(contact: contact).mainBottomSheet(context);
@@ -227,7 +227,7 @@ class ContactDetailsSheet {
                           // Close Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
-                              KaliumLocalization.of(context).close,
+                              AppLocalization.of(context).close,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.pop(context);
                           }),

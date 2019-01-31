@@ -47,7 +47,7 @@ class KaliumSendConfirmSheet {
       if (animationOpen) {
         Navigator.of(context).pop();
       }
-      UIUtil.showSnackbar(KaliumLocalization.of(context).sendError, context);
+      UIUtil.showSnackbar(AppLocalization.of(context).sendError, context);
       Navigator.of(context).pop();
     });
 
@@ -74,7 +74,7 @@ class KaliumSendConfirmSheet {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                KaliumLocalization.of(context).sending.toUpperCase(),
+                                AppLocalization.of(context).sending.toUpperCase(),
                                 style: AppStyles.textStyleHeader(context),
                               ),
                             ],
@@ -124,7 +124,7 @@ class KaliumSendConfirmSheet {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                KaliumLocalization.of(context).to.toUpperCase(),
+                                AppLocalization.of(context).to.toUpperCase(),
                                 style: AppStyles.textStyleHeader(context),
                               ),
                             ],
@@ -155,14 +155,14 @@ class KaliumSendConfirmSheet {
                             // CONFIRM Button
                             KaliumButton.buildKaliumButton(
                                 KaliumButtonType.PRIMARY,
-                                KaliumLocalization.of(context).confirm.toUpperCase(),
+                                AppLocalization.of(context).confirm.toUpperCase(),
                                 Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                                 // Authenticate
                                 SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
                                   BiometricUtil.hasBiometrics().then((hasBiometrics) {
                                     if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
                                       BiometricUtil.authenticateWithBiometrics(
-                                        KaliumLocalization.of(context).sendAmountConfirm.replaceAll("%1", _amount)).then((authenticated) {
+                                        AppLocalization.of(context).sendAmountConfirm.replaceAll("%1", _amount)).then((authenticated) {
                                         if (authenticated) {
                                           HapticUtil.fingerprintSucess();
                                           animationOpen = true;
@@ -189,7 +189,7 @@ class KaliumSendConfirmSheet {
                                                                     _maxSend ? "0" : _amountRaw);
                                                               },
                                                               expectedPin:expectedPin,
-                                                              description: KaliumLocalization.of(context).sendAmountConfirmPin.replaceAll("%1", _amount),);
+                                                              description: AppLocalization.of(context).sendAmountConfirmPin.replaceAll("%1", _amount),);
                                         }));
                                       });
                                     }
@@ -204,7 +204,7 @@ class KaliumSendConfirmSheet {
                             // CANCEL Button
                             KaliumButton.buildKaliumButton(
                                 KaliumButtonType.PRIMARY_OUTLINE,
-                                KaliumLocalization.of(context).cancel.toUpperCase(),
+                                AppLocalization.of(context).cancel.toUpperCase(),
                                 Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                               Navigator.of(context).pop();
                             }),

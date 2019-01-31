@@ -354,7 +354,7 @@ class UIUtil {
 
   static Widget showBlockExplorerWebview(BuildContext context, String hash) {
     return WebviewScaffold(
-      url: KaliumLocalization.of(context).getBlockExplorerUrl(hash),
+      url: AppLocalization.of(context).getBlockExplorerUrl(hash),
       appBar: new AppBar(
         backgroundColor: AppColors.background,
         brightness: Brightness.dark,
@@ -365,7 +365,7 @@ class UIUtil {
 
   static Widget showAccountWebview(BuildContext context, String account) {
     return WebviewScaffold(
-      url: KaliumLocalization.of(context).getAccountExplorerUrl(account),
+      url: AppLocalization.of(context).getAccountExplorerUrl(account),
       appBar: new AppBar(
         backgroundColor: AppColors.background,
         brightness: Brightness.dark,
@@ -420,7 +420,7 @@ class UIUtil {
     }
     // Download monKey and return file
     http.Client client = http.Client();
-    var req = await client.get(Uri.parse(KaliumLocalization.of(context)
+    var req = await client.get(Uri.parse(AppLocalization.of(context)
         .getMonkeyDownloadUrl(address, size: size)));
     var bytes = req.bodyBytes;
     File file = File(fileName);

@@ -10,7 +10,7 @@ class KaliumDialogs {
       var context, var title, var content, var buttonText, Function onPressed,
       {String cancelText}) {
     if (cancelText == null) {
-      cancelText = KaliumLocalization.of(context).cancel.toUpperCase();
+      cancelText = AppLocalization.of(context).cancel.toUpperCase();
     }
     showKaliumDialog(
       context: context,
@@ -59,7 +59,7 @@ class KaliumDialogs {
           actions: <Widget>[
             FlatButton(
               child: Text(
-                KaliumLocalization.of(context).cancel.toUpperCase(),
+                AppLocalization.of(context).cancel.toUpperCase(),
                 style: AppStyles.TextStyleDialogButtonText,
               ),
               onPressed: () {
@@ -195,7 +195,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Text(KaliumLocalization.of(context).transferLoading.toUpperCase(),
+                    Text(AppLocalization.of(context).transferLoading.toUpperCase(),
                         style: AppStyles.TextStyleHeader2Colored),
                     Container(
                       margin: EdgeInsets.only(bottom: 7),

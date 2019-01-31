@@ -85,8 +85,8 @@ class KaliumSendSheet {
   }
 
   mainBottomSheet(BuildContext context) {
-    _amountHint = KaliumLocalization.of(context).enterAmount;
-    _addressHint = KaliumLocalization.of(context).enterAddress;
+    _amountHint = AppLocalization.of(context).enterAmount;
+    _addressHint = AppLocalization.of(context).enterAddress;
     String locale = StateContainer.of(context).currencyLocale;
     switch (locale) {
       case "es_VE":
@@ -112,7 +112,7 @@ class KaliumSendSheet {
                 });
               } else {
                 setState(() {
-                  _amountHint = KaliumLocalization.of(context).enterAmount;
+                  _amountHint = AppLocalization.of(context).enterAmount;
                 });
               }
             });
@@ -136,7 +136,7 @@ class KaliumSendSheet {
                 }
               } else {
                 setState(() {
-                  _addressHint = KaliumLocalization.of(context).enterAddress;
+                  _addressHint = AppLocalization.of(context).enterAddress;
                   _contacts = [];
                   if (Address(_sendAddressController.text).isValid()) {
                     _addressValidAndUnfocused = true;
@@ -185,7 +185,7 @@ class KaliumSendSheet {
                         children: <Widget>[
                           // Header
                           AutoSizeText(
-                            KaliumLocalization.of(context)
+                            AppLocalization.of(context)
                                 .sendFrom
                                 .toUpperCase(),
                             style: AppStyles.textStyleHeader(context),
@@ -401,7 +401,7 @@ class KaliumSendSheet {
                           // Send Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY,
-                              KaliumLocalization.of(context).send,
+                              AppLocalization.of(context).send,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             bool validRequest =
                                 _validateRequest(context, setState);
@@ -415,7 +415,7 @@ class KaliumSendSheet {
                                 if (contact == null) {
                                   setState(() {
                                     _addressValidationText =
-                                        KaliumLocalization.of(context)
+                                        AppLocalization.of(context)
                                             .contactInvalid;
                                   });
                                 } else {
@@ -441,14 +441,14 @@ class KaliumSendSheet {
                           // Scan QR Code Button
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.PRIMARY_OUTLINE,
-                              KaliumLocalization.of(context).scanQrCode,
+                              AppLocalization.of(context).scanQrCode,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             try {
                               BarcodeScanner.scan(OverlayTheme.KALIUM).then((value) {
                                 Address address = Address(value);
                                 if (!address.isValid()) {
                                   UIUtil.showSnackbar(
-                                      KaliumLocalization.of(context)
+                                      AppLocalization.of(context)
                                           .qrInvalidAddress,
                                       context);
                                 } else {
@@ -606,7 +606,7 @@ class KaliumSendSheet {
     if (_sendAmountController.text.trim().isEmpty) {
       isValid = false;
       setState(() {
-        _amountValidationText = KaliumLocalization.of(context).amountMissing;
+        _amountValidationText = AppLocalization.of(context).amountMissing;
       });
     } else {
       BigInt balanceRaw = StateContainer.of(context).wallet.accountBalance;
@@ -615,13 +615,13 @@ class KaliumSendSheet {
       if (sendAmount == null || sendAmount == BigInt.zero) {
         isValid = false;
         setState(() {
-          _amountValidationText = KaliumLocalization.of(context).amountMissing;
+          _amountValidationText = AppLocalization.of(context).amountMissing;
         });
       } else if (sendAmount > balanceRaw) {
         isValid = false;
         setState(() {
           _amountValidationText =
-              KaliumLocalization.of(context).insufficientBalance;
+              AppLocalization.of(context).insufficientBalance;
         });
       }
     }
@@ -630,13 +630,13 @@ class KaliumSendSheet {
     if (_sendAddressController.text.trim().isEmpty) {
       isValid = false;
       setState(() {
-        _addressValidationText = KaliumLocalization.of(context).addressMising;
+        _addressValidationText = AppLocalization.of(context).addressMising;
         _pasteButtonVisible = true;
       });
     } else if (!isContact && !Address(_sendAddressController.text).isValid()) {
       isValid = false;
       setState(() {
-        _addressValidationText = KaliumLocalization.of(context).invalidAddress;
+        _addressValidationText = AppLocalization.of(context).invalidAddress;
         _pasteButtonVisible = true;
       });
     } else if (!isContact) {

@@ -53,7 +53,7 @@ class KaliumTransferOverviewSheet {
         privKeyBalanceMap.remove(account);
       });
       if (privKeyBalanceMap.length == 0) {
-        UIUtil.showSnackbar(KaliumLocalization.of(context).transferNoFunds, context);
+        UIUtil.showSnackbar(AppLocalization.of(context).transferNoFunds, context);
         return;
       }
       // Go to confirmation screen
@@ -106,7 +106,7 @@ class KaliumTransferOverviewSheet {
                           margin: EdgeInsets.only(top: 30.0),
                           constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width-140),
                           child: AutoSizeText(
-                            KaliumLocalization.of(context)
+                            AppLocalization.of(context)
                                 .transferHeader
                                 .toUpperCase(),
                             style: AppStyles.textStyleHeader(context),
@@ -142,7 +142,7 @@ class KaliumTransferOverviewSheet {
                               margin: EdgeInsets.symmetric(
                                   horizontal: smallScreen(context)?35:60, vertical: 20),
                               child: Text(
-                                KaliumLocalization.of(context).transferIntro.replaceAll("%1", KaliumLocalization.of(context).scanQrCode),
+                                AppLocalization.of(context).transferIntro.replaceAll("%1", AppLocalization.of(context).scanQrCode),
                                 style: AppStyles.TextStyleParagraph,
                                 textAlign: TextAlign.left,
                               )),
@@ -154,12 +154,12 @@ class KaliumTransferOverviewSheet {
                       children: <Widget>[
                         KaliumButton.buildKaliumButton(
                           KaliumButtonType.PRIMARY,
-                          KaliumLocalization.of(context).scanQrCode,
+                          AppLocalization.of(context).scanQrCode,
                           Dimens.BUTTON_TOP_DIMENS,
                           onPressed: () {
                             BarcodeScanner.scan(OverlayTheme.KALIUM).then((value) {
                               if (!NanoSeeds.isValidSeed(value)) {
-                                UIUtil.showSnackbar(KaliumLocalization.of(context).qrInvalidSeed, context);
+                                UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidSeed, context);
                                 return;
                               }
                               startTransfer(context, value);
@@ -172,7 +172,7 @@ class KaliumTransferOverviewSheet {
                       children: <Widget>[
                         KaliumButton.buildKaliumButton(
                           KaliumButtonType.PRIMARY_OUTLINE,
-                          KaliumLocalization.of(context).manualEntry,
+                          AppLocalization.of(context).manualEntry,
                           Dimens.BUTTON_BOTTOM_DIMENS,
                           onPressed: () {
                             KaliumTransferManualEntrySheet(manualEntryCallback)

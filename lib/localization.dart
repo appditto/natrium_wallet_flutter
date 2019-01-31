@@ -6,10 +6,10 @@ import 'package:intl/intl.dart';
 import 'l10n/messages_all.dart';
 
 /// Localization
-class KaliumLocalization {
+class AppLocalization {
   static Locale currentLocale = Locale('en', 'US');
 
-  static Future<KaliumLocalization> load(Locale locale) {
+  static Future<AppLocalization> load(Locale locale) {
     currentLocale = locale;
     final String name =
         locale.countryCode == null ? locale.languageCode : locale.toString();
@@ -17,12 +17,12 @@ class KaliumLocalization {
 
     return initializeMessages(localeName).then((bool _) {
       Intl.defaultLocale = localeName;
-      return new KaliumLocalization();
+      return new AppLocalization();
     });
   }
 
-  static KaliumLocalization of(BuildContext context) {
-    return Localizations.of<KaliumLocalization>(context, KaliumLocalization);
+  static AppLocalization of(BuildContext context) {
+    return Localizations.of<AppLocalization>(context, AppLocalization);
   }
 
   /// -- GENERIC ITEMS
@@ -742,7 +742,7 @@ class KaliumLocalization {
   /// -- END NON-TRANSLATABLE ITEMS
 }
 
-class KaliumLocalizationsDelegate extends LocalizationsDelegate<KaliumLocalization> {
+class KaliumLocalizationsDelegate extends LocalizationsDelegate<AppLocalization> {
   const KaliumLocalizationsDelegate();
 
   @override
@@ -751,12 +751,12 @@ class KaliumLocalizationsDelegate extends LocalizationsDelegate<KaliumLocalizati
   }
 
   @override
-  Future<KaliumLocalization> load(Locale locale) {
-    return KaliumLocalization.load(locale);
+  Future<AppLocalization> load(Locale locale) {
+    return AppLocalization.load(locale);
   }
 
   @override
-  bool shouldReload(LocalizationsDelegate<KaliumLocalization> old) {
+  bool shouldReload(LocalizationsDelegate<AppLocalization> old) {
     return true;
   }
 }

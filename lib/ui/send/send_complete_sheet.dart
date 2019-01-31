@@ -91,7 +91,7 @@ class KaliumSendCompleteSheet {
                           children: <Widget>[
                             // "SENT TO" text
                             Text(
-                              KaliumLocalization.of(context)
+                              AppLocalization.of(context)
                                   .sentTo
                                   .toUpperCase(),
                               style: TextStyle(
@@ -131,7 +131,7 @@ class KaliumSendCompleteSheet {
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
                               KaliumButtonType.SUCCESS_OUTLINE,
-                              KaliumLocalization.of(context)
+                              AppLocalization.of(context)
                                   .close
                                   .toUpperCase(),
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {

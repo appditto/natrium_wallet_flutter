@@ -108,7 +108,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      KaliumLocalization.of(context).importSeed,
+                                      AppLocalization.of(context).importSeed,
                                       style: AppStyles.TextStyleHeaderColored,
                                     ),
                                   ],
@@ -120,7 +120,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                     EdgeInsets.only(left: 50, right: 50, top: 15.0),
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                    KaliumLocalization.of(context).importSeedHint,
+                                    AppLocalization.of(context).importSeedHint,
                                     style: AppStyles.TextStyleParagraph,
                                     textAlign: TextAlign.left,),
                               ),
@@ -211,7 +211,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                               // "Invalid Seed" text that appears if the input is invalid
                               Container(
                                 margin: EdgeInsets.only(top: 5),
-                                child: Text(KaliumLocalization.of(context).seedInvalid,
+                                child: Text(AppLocalization.of(context).seedInvalid,
                                     style: TextStyle(
                                       fontSize: 14.0,
                                       color: _errorTextColor,

@@ -42,7 +42,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
       _goHome();
     },
         expectedPin: expectedPin,
-        description: KaliumLocalization.of(context).unlockPin,
+        description: AppLocalization.of(context).unlockPin,
         pinScreenBackgroundColor: AppColors.background);
   }
 
@@ -146,7 +146,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
             _showUnlockButton = true;
           });
           BiometricUtil.authenticateWithBiometrics(
-                  KaliumLocalization.of(context).unlockBiometrics)
+                  AppLocalization.of(context).unlockBiometrics)
               .then((authenticated) {
             if (authenticated) {
               _goHome();
@@ -216,7 +216,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                             ),
                             Container(
                               child: Text(
-                                KaliumLocalization.of(context)
+                                AppLocalization.of(context)
                                     .locked
                                     .toUpperCase(),
                                 style: AppStyles.TextStyleHeaderColored,
@@ -232,7 +232,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                       width: MediaQuery.of(context).size.width-100,
                       margin: EdgeInsets.symmetric(horizontal: 50),
                       child: Text(
-                        KaliumLocalization.of(context).tooManyFailedAttempts,
+                        AppLocalization.of(context).tooManyFailedAttempts,
                         style: AppStyles.TextStyleErrorMedium,
                         textAlign: TextAlign.center,
                       ),
@@ -245,7 +245,7 @@ class _KaliumLockScreenState extends State<KaliumLockScreen> {
                               KaliumButtonType.PRIMARY,
                               _lockedOut
                                   ? _countDownTxt
-                                  : KaliumLocalization.of(context).unlock,
+                                  : AppLocalization.of(context).unlock,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             if (!_lockedOut) {
                               _authenticate(transitions: true);

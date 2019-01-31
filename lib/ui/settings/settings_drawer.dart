@@ -79,14 +79,14 @@ class _SettingsSheetState extends State<SettingsSheet>
   // Called if transfer fails
   void transferError() {
     Navigator.of(context).pop();
-    UIUtil.showSnackbar(KaliumLocalization.of(context).transferError, context);
+    UIUtil.showSnackbar(AppLocalization.of(context).transferError, context);
   }
 
   Future<void> _exportContacts() async {
     List<Contact> contacts = await DBHelper().getContacts();
     if (contacts.length == 0) {
       UIUtil.showSnackbar(
-          KaliumLocalization.of(context).noContactsExport, context);
+          AppLocalization.of(context).noContactsExport, context);
       return;
     }
     List<Map<String, dynamic>> jsonList = List();
@@ -108,7 +108,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     File f = File(filePath);
     if (!await f.exists()) {
       UIUtil.showSnackbar(
-          KaliumLocalization.of(context).contactsImportErr, context);
+          AppLocalization.of(context).contactsImportErr, context);
       return;
     }
     try {
@@ -138,18 +138,18 @@ class _SettingsSheetState extends State<SettingsSheet>
         RxBus.post(Contact(name: "", address: ""),
             tag: RX_CONTACT_MODIFIED_TAG);
         UIUtil.showSnackbar(
-            KaliumLocalization.of(context)
+            AppLocalization.of(context)
                 .contactsImportSuccess
                 .replaceAll("%1", numSaved.toString()),
             context);
       } else {
         UIUtil.showSnackbar(
-            KaliumLocalization.of(context).noContactsImport, context);
+            AppLocalization.of(context).noContactsImport, context);
       }
     } catch (e) {
       log.severe(e.toString());
       UIUtil.showSnackbar(
-          KaliumLocalization.of(context).contactsImportErr, context);
+          AppLocalization.of(context).contactsImportErr, context);
       return;
     }
   }
@@ -361,7 +361,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         builder: (BuildContext context) {
           return KaliumSimpleDialog(
             title: Text(
-              KaliumLocalization.of(context).authMethod,
+              AppLocalization.of(context).authMethod,
               style: AppStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
@@ -372,7 +372,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    KaliumLocalization.of(context).biometricsMethod,
+                    AppLocalization.of(context).biometricsMethod,
                     style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
@@ -384,7 +384,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    KaliumLocalization.of(context).pinMethod,
+                    AppLocalization.of(context).pinMethod,
                     style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
@@ -419,7 +419,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         builder: (BuildContext context) {
           return KaliumSimpleDialog(
             title: Text(
-              KaliumLocalization.of(context).notifications,
+              AppLocalization.of(context).notifications,
               style: AppStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
@@ -430,7 +430,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    KaliumLocalization.of(context).onStr,
+                    AppLocalization.of(context).onStr,
                     style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
@@ -442,7 +442,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    KaliumLocalization.of(context).off,
+                    AppLocalization.of(context).off,
                     style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
@@ -482,7 +482,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         builder: (BuildContext context) {
           return KaliumSimpleDialog(
             title: Text(
-              KaliumLocalization.of(context).lockAppSetting,
+              AppLocalization.of(context).lockAppSetting,
               style: AppStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
@@ -493,7 +493,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    KaliumLocalization.of(context).no,
+                    AppLocalization.of(context).no,
                     style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
@@ -505,7 +505,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    KaliumLocalization.of(context).yes,
+                    AppLocalization.of(context).yes,
                     style: AppStyles.TextStyleDialogOptions,
                   ),
                 ),
@@ -560,7 +560,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
-                    KaliumLocalization.of(context).changeCurrency,
+                    AppLocalization.of(context).changeCurrency,
                     style: AppStyles.TextStyleDialogHeader,
                   ),
                 ),
@@ -608,7 +608,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
-                    KaliumLocalization.of(context).autoLockHeader,
+                    AppLocalization.of(context).autoLockHeader,
                     style: AppStyles.TextStyleDialogHeader,
                   ),
                 ),
@@ -682,7 +682,7 @@ class _SettingsSheetState extends State<SettingsSheet>
             child: Row(
               children: <Widget>[
                 Text(
-                  KaliumLocalization.of(context).settingsHeader,
+                  AppLocalization.of(context).settingsHeader,
                   style: AppStyles.textStyleSettingsHeader(),
                 ),
               ],
@@ -696,7 +696,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(left: 30.0, bottom: 10),
-                    child: Text(KaliumLocalization.of(context).preferences,
+                    child: Text(AppLocalization.of(context).preferences,
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w100,
@@ -705,7 +705,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemDoubleLine(
                       context,
-                      KaliumLocalization.of(context).changeCurrency,
+                      AppLocalization.of(context).changeCurrency,
                       StateContainer.of(context).curCurrency,
                       KaliumIcons.currency,
                       _currencyDialog),
@@ -718,13 +718,13 @@ class _SettingsSheetState extends State<SettingsSheet>
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemDoubleLine(
                       context,
-                      KaliumLocalization.of(context).notifications,
+                      AppLocalization.of(context).notifications,
                       _curNotificiationSetting,
                       KaliumIcons.notifications,
                       _notificationsDialog),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).securityHeader,
+                      AppLocalization.of(context).securityHeader,
                       KaliumIcons.security, onPressed: () {
                     setState(() {
                       _securityOpen = true;
@@ -735,7 +735,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   Container(
                     margin:
                         EdgeInsets.only(left: 30.0, top: 20.0, bottom: 10.0),
-                    child: Text(KaliumLocalization.of(context).manage,
+                    child: Text(AppLocalization.of(context).manage,
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w100,
@@ -743,7 +743,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   ),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).contactsHeader,
+                      AppLocalization.of(context).contactsHeader,
                       KaliumIcons.contacts, onPressed: () {
                     setState(() {
                       _contactsOpen = true;
@@ -752,7 +752,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).backupSeed,
+                      AppLocalization.of(context).backupSeed,
                       KaliumIcons.backupseed, onPressed: () {
                     // Authenticate
                     SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
@@ -760,7 +760,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                         if (authMethod.method == AuthMethod.BIOMETRICS &&
                             hasBiometrics) {
                           BiometricUtil.authenticateWithBiometrics(
-                                  KaliumLocalization.of(context)
+                                  AppLocalization.of(context)
                                       .fingerprintSeedBackup)
                               .then((authenticated) {
                             if (authenticated) {
@@ -782,7 +782,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                       .mainBottomSheet(context);
                                 },
                                 expectedPin: expectedPin,
-                                description: KaliumLocalization.of(context)
+                                description: AppLocalization.of(context)
                                     .pinSeedBackup,
                               );
                             }));
@@ -793,41 +793,41 @@ class _SettingsSheetState extends State<SettingsSheet>
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).settingsTransfer,
+                      AppLocalization.of(context).settingsTransfer,
                       KaliumIcons.transferfunds, onPressed: () {
                     KaliumTransferOverviewSheet().mainBottomSheet(context);
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).changeRepAuthenticate,
+                      AppLocalization.of(context).changeRepAuthenticate,
                       KaliumIcons.changerepresentative, onPressed: () {
                     new KaliumChangeRepresentativeSheet()
                         .mainBottomSheet(context);
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).shareKalium,
+                      AppLocalization.of(context).shareKalium,
                       KaliumIcons.share, onPressed: () {
-                    Share.share(KaliumLocalization.of(context).shareKaliumText +
+                    Share.share(AppLocalization.of(context).shareKaliumText +
                         " https://kalium.banano.cc");
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(
-                      KaliumLocalization.of(context).logout, KaliumIcons.logout,
+                      AppLocalization.of(context).logout, KaliumIcons.logout,
                       onPressed: () {
                     KaliumDialogs.showConfirmDialog(
                         context,
-                        KaliumLocalization.of(context).warning.toUpperCase(),
-                        KaliumLocalization.of(context).logoutDetail,
-                        KaliumLocalization.of(context)
+                        AppLocalization.of(context).warning.toUpperCase(),
+                        AppLocalization.of(context).logoutDetail,
+                        AppLocalization.of(context)
                             .logoutAction
                             .toUpperCase(), () {
                       // Show another confirm dialog
                       KaliumDialogs.showConfirmDialog(
                           context,
-                          KaliumLocalization.of(context).logoutAreYouSure,
-                          KaliumLocalization.of(context).logoutReassurance,
-                          KaliumLocalization.of(context).yes.toUpperCase(), () {
+                          AppLocalization.of(context).logoutAreYouSure,
+                          AppLocalization.of(context).logoutReassurance,
+                          AppLocalization.of(context).yes.toUpperCase(), () {
                         // Unsubscribe from notifications
                         SharedPrefsUtil.inst.setNotificationsOn(false).then((_) {
                           FirebaseMessaging().getToken().then((fcmToken) {
@@ -860,10 +860,10 @@ class _SettingsSheetState extends State<SettingsSheet>
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) {
                                 return UIUtil.showWebview(
-                                   KaliumLocalization.of(context).privacyUrl);
+                                   AppLocalization.of(context).privacyUrl);
                               }));      
                             },
-                            child: Text(KaliumLocalization.of(context).privacyPolicy,
+                            child: Text(AppLocalization.of(context).privacyPolicy,
                                     style: AppStyles.TextStyleVersionUnderline)
                         ),
                         Text(" | ",
@@ -873,7 +873,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) {
                                 return UIUtil.showWebview(
-                                   KaliumLocalization.of(context).eulaUrl);
+                                   AppLocalization.of(context).eulaUrl);
                               }));                              
                             },
                             child: Text("EULA",
@@ -947,7 +947,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     ),
                     //Contacts Header Text
                     Text(
-                      KaliumLocalization.of(context).contactsHeader,
+                      AppLocalization.of(context).contactsHeader,
                       style: AppStyles.textStyleSettingsHeader(),
                     ),
                   ],
@@ -1059,7 +1059,7 @@ class _SettingsSheetState extends State<SettingsSheet>
               children: <Widget>[
                 KaliumButton.buildKaliumButton(
                     KaliumButtonType.TEXT_OUTLINE,
-                    KaliumLocalization.of(context).addContact,
+                    AppLocalization.of(context).addContact,
                     Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                   AddContactSheet().mainBottomSheet(context);
                 }),
@@ -1162,7 +1162,7 @@ Widget buildSecurityMenu(BuildContext context) {
                     ),
                     //Security Header Text
                     Text(
-                      KaliumLocalization.of(context).securityHeader,
+                      AppLocalization.of(context).securityHeader,
                       style: AppStyles.textStyleSettingsHeader(),
                     ),
                   ],
@@ -1178,7 +1178,7 @@ Widget buildSecurityMenu(BuildContext context) {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(left: 30.0, bottom: 10),
-                    child: Text(KaliumLocalization.of(context).preferences,
+                    child: Text(AppLocalization.of(context).preferences,
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w100,
@@ -1189,7 +1189,7 @@ Widget buildSecurityMenu(BuildContext context) {
                   _hasBiometrics
                       ? KaliumSettings.buildSettingsListItemDoubleLine(
                           context,
-                          KaliumLocalization.of(context).authMethod,
+                          AppLocalization.of(context).authMethod,
                           _curAuthMethod,
                           KaliumIcons.fingerprint,
                           _authMethodDialog)
@@ -1198,7 +1198,7 @@ Widget buildSecurityMenu(BuildContext context) {
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemDoubleLine(
                       context,
-                      KaliumLocalization.of(context).lockAppSetting,
+                      AppLocalization.of(context).lockAppSetting,
                       _curUnlockSetting,
                       KaliumIcons.lock,
                       _lockDialog),
@@ -1206,7 +1206,7 @@ Widget buildSecurityMenu(BuildContext context) {
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemDoubleLine(
                       context,
-                      KaliumLocalization.of(context).autoLockHeader,
+                      AppLocalization.of(context).autoLockHeader,
                       _curTimeoutSetting,
                       KaliumIcons.timer,
                       _lockTimeoutDialog,

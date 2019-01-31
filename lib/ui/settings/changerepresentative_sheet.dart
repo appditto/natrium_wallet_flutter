@@ -51,13 +51,13 @@ class KaliumChangeRepresentativeSheet {
   }
 
   mainBottomSheet(BuildContext context) {
-    _changeRepHint = KaliumLocalization.of(context).changeRepHint;
+    _changeRepHint = AppLocalization.of(context).changeRepHint;
 
     RxBus.register<StateBlock>(tag: RX_REP_CHANGED_TAG).listen((stateBlock) {
       if (stateBlock != null) {
         StateContainer.of(context).wallet.representative =
             stateBlock.representative;
-        UIUtil.showSnackbar(KaliumLocalization.of(context).changeRepSucces, context);
+        UIUtil.showSnackbar(AppLocalization.of(context).changeRepSucces, context);
         Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
       }
     });
@@ -79,7 +79,7 @@ class KaliumChangeRepresentativeSheet {
                     TextPosition(offset: _repController.text.length));
               } else {
                 setState(() {
-                  _changeRepHint = KaliumLocalization.of(context).changeRepHint;
+                  _changeRepHint = AppLocalization.of(context).changeRepHint;
                   if (Address(_repController.text).isValid()) {
                     _addressValidAndUnfocused = true;
                   }
@@ -107,8 +107,8 @@ class KaliumChangeRepresentativeSheet {
                           onPressed: () {
                             KaliumDialogs.showInfoDialog(
                                 context,
-                                KaliumLocalization.of(context).repInfoHeader,
-                                KaliumLocalization.of(context).repInfo);
+                                AppLocalization.of(context).repInfoHeader,
+                                AppLocalization.of(context).repInfo);
                           },
                           child: Icon(KaliumIcons.info,
                               size: 24, color: AppColors.text),
@@ -127,7 +127,7 @@ class KaliumChangeRepresentativeSheet {
                               maxWidth:
                                   MediaQuery.of(context).size.width - 140),
                           child: AutoSizeText(
-                            KaliumLocalization.of(context)
+                            AppLocalization.of(context)
                                 .changeRepAuthenticate
                                 .toUpperCase(),
                             style: AppStyles.textStyleHeader(context),
@@ -162,7 +162,7 @@ class KaliumChangeRepresentativeSheet {
                                     address.address;
                                 _repFocusNode.unfocus();
                               } else {
-                                UIUtil.showSnackbar(KaliumLocalization.of(context).qrInvalidAddress, context);
+                                UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
                               }
                             });
                           },
@@ -204,7 +204,7 @@ class KaliumChangeRepresentativeSheet {
                                     right: MediaQuery.of(context).size.width *
                                         0.105),
                                 child: Text(
-                                  KaliumLocalization.of(context)
+                                  AppLocalization.of(context)
                                       .currentlyRepresented,
                                   style: AppStyles.TextStyleParagraph,
                                 )),
@@ -366,7 +366,7 @@ class KaliumChangeRepresentativeSheet {
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY,
-                            KaliumLocalization.of(context)
+                            AppLocalization.of(context)
                                 .changeRepButton
                                 .toUpperCase(),
                             Dimens.BUTTON_TOP_DIMENS,
@@ -385,7 +385,7 @@ class KaliumChangeRepresentativeSheet {
                                           AuthMethod.BIOMETRICS &&
                                       hasBiometrics) {
                                     BiometricUtil.authenticateWithBiometrics(
-                                            KaliumLocalization.of(context)
+                                            AppLocalization.of(context)
                                                 .changeRepAuthenticate)
                                         .then((authenticated) {
                                       if (authenticated) {
@@ -475,7 +475,7 @@ class KaliumChangeRepresentativeSheet {
                                           },
                                           expectedPin: expectedPin,
                                           description:
-                                              KaliumLocalization.of(context)
+                                              AppLocalization.of(context)
                                                   .pinRepChange,
                                         );
                                       }));
@@ -491,7 +491,7 @@ class KaliumChangeRepresentativeSheet {
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
                             KaliumButtonType.PRIMARY_OUTLINE,
-                            KaliumLocalization.of(context).close.toUpperCase(),
+                            AppLocalization.of(context).close.toUpperCase(),
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             onPressed: () {
                               Navigator.pop(context);

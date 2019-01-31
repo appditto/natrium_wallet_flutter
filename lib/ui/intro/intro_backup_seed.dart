@@ -88,7 +88,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  KaliumLocalization.of(context).seed,
+                                  AppLocalization.of(context).seed,
                                   style: AppStyles.TextStyleHeaderColored,
                                 ),
                               ],
@@ -100,7 +100,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 EdgeInsets.only(left: 50, right: 50, top: 15.0),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                                KaliumLocalization.of(context).seedBackupInfo,
+                                AppLocalization.of(context).seedBackupInfo,
                                 style: AppStyles.TextStyleParagraph),
                           ),
                           Container(
@@ -141,7 +141,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                           // "Seed copied to Clipboard" text that appaears when seed is tapped
                           Container(
                             margin: EdgeInsets.only(top: 5),
-                            child: Text(KaliumLocalization.of(context).seedCopied,
+                            child: Text(AppLocalization.of(context).seedCopied,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 14.0,

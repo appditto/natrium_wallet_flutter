@@ -13,19 +13,19 @@ class LockTimeoutSetting extends SettingSelectionItem {
   String getDisplayName(BuildContext context) {
     switch (setting) {
       case LockTimeoutOption.ZERO:
-        return KaliumLocalization.of(context).instantly;
+        return AppLocalization.of(context).instantly;
       case LockTimeoutOption.ONE:
-        return KaliumLocalization.of(context).xMinute.replaceAll("%1", "1");
+        return AppLocalization.of(context).xMinute.replaceAll("%1", "1");
       case LockTimeoutOption.FIVE:
-        return KaliumLocalization.of(context).xMinutes.replaceAll("%1", "5");
+        return AppLocalization.of(context).xMinutes.replaceAll("%1", "5");
       case LockTimeoutOption.FIFTEEN:
-        return KaliumLocalization.of(context).xMinutes.replaceAll("%1", "15");
+        return AppLocalization.of(context).xMinutes.replaceAll("%1", "15");
       case LockTimeoutOption.THIRTY:
-        return KaliumLocalization.of(context).xMinutes.replaceAll("%1", "30");
+        return AppLocalization.of(context).xMinutes.replaceAll("%1", "30");
       case LockTimeoutOption.SIXTY:
-        return KaliumLocalization.of(context).xMinutes.replaceAll("%1", "60");
+        return AppLocalization.of(context).xMinutes.replaceAll("%1", "60");
       default:
-        return KaliumLocalization.of(context).xMinute.replaceAll("%1", "1");
+        return AppLocalization.of(context).xMinute.replaceAll("%1", "1");
     }
   }
 

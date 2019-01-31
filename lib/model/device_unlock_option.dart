@@ -13,10 +13,10 @@ class UnlockSetting extends SettingSelectionItem {
   String getDisplayName(BuildContext context) {
     switch (setting) {
       case UnlockOption.YES:
-        return KaliumLocalization.of(context).yes;
+        return AppLocalization.of(context).yes;
       case UnlockOption.NO:
       default:
-        return KaliumLocalization.of(context).no;
+        return AppLocalization.of(context).no;
     }
   }
 

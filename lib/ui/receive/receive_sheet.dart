@@ -157,7 +157,7 @@ class KaliumReceiveSheet {
                         KaliumButton.buildKaliumButton(
                           // Share Address Button
                           _addressCopied ? KaliumButtonType.SUCCESS : KaliumButtonType.PRIMARY,
-                          _addressCopied ? KaliumLocalization.of(context).addressCopied : KaliumLocalization.of(context).copyAddress,
+                          _addressCopied ? AppLocalization.of(context).addressCopied : AppLocalization.of(context).copyAddress,
                           Dimens.BUTTON_TOP_DIMENS,
                           onPressed: () {
                             Clipboard.setData(
@@ -184,7 +184,7 @@ class KaliumReceiveSheet {
                         KaliumButton.buildKaliumButton(
                             // Share Address Button
                             KaliumButtonType.PRIMARY_OUTLINE,
-                            _showShareCard ? "Loading" : KaliumLocalization.of(context).addressShare,
+                            _showShareCard ? "Loading" : AppLocalization.of(context).addressShare,
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             disabled: _showShareCard, onPressed: () {
                           String receiveCardFileName = "share_${StateContainer.of(context).wallet.address}.png";

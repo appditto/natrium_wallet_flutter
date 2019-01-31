@@ -54,7 +54,7 @@ class KaliumTransferCompleteSheet {
                                 alignment: Alignment(-1, 0),
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
-                                  KaliumLocalization.of(context)
+                                  AppLocalization.of(context)
                                       .transferComplete.replaceAll("%1", transferAmount),
                                   style:
                                       AppStyles.TextStyleParagraphSuccess,
@@ -64,7 +64,7 @@ class KaliumTransferCompleteSheet {
                                 alignment: Alignment(-1, 0),
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
-                                  KaliumLocalization.of(context)
+                                  AppLocalization.of(context)
                                       .transferClose,
                                   style: AppStyles.TextStyleParagraph,
                                   textAlign: TextAlign.left,
@@ -77,7 +77,7 @@ class KaliumTransferCompleteSheet {
                         children: <Widget>[
                           KaliumButton.buildKaliumButton(
                             KaliumButtonType.SUCCESS_OUTLINE,
-                            KaliumLocalization.of(context)
+                            AppLocalization.of(context)
                                 .close
                                 .toUpperCase(),
                             Dimens.BUTTON_BOTTOM_DIMENS,
