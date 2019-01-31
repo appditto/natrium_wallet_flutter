@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
-/// Input formatter for BANANO amounts
-class BananoCurrencyFormatter extends TextInputFormatter {
+/// Input formatter for BANANO/Fiat amounts
+class CurrencyFormatter extends TextInputFormatter {
+
+  String commaSeparator;
+  String decimalSeparator;
+  String symbol;
+
+  CurrencyFormatter({this.commaSeparator = ",", this.decimalSeparator = ".", this.symbol = ""});
 
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     bool returnOriginal = true;
-    if (newValue.text.contains(".") || newValue.text.contains(",")) {
+    if (newValue.text.contains(decimalSeparator) || newValue.text.contains(commaSeparator)) {
       returnOriginal = false;
     }
     // If no text, or text doesnt contain a period of comma, no work to do here
@@ -16,17 +22,21 @@ class BananoCurrencyFormatter extends TextInputFormatter {
       return newValue;
     }
 
-    String workingText = newValue.text.replaceAll(r",", ".");
+    String workingText = newValue.text.replaceAll(commaSeparator, decimalSeparator);
     // if contains more than 2 decimals in newValue, return oldValue
-    if ('.'.allMatches(workingText).length > 1) {
+    if (decimalSeparator.allMatches(workingText).length > 1) {
       return newValue.copyWith(
         text: oldValue.text,
         selection: new TextSelection.collapsed(offset: oldValue.text.length));
-    } else if (workingText.startsWith(".")) {
+    } else if (workingText.startsWith(decimalSeparator)) {
       workingText = "0" + workingText;
     }
 
-    List<String> splitStr = workingText.split('.');
+    if (!workingText.startsWith(symbol)) {
+      workingText = symbol + workingText;
+    }
+
+    List<String> splitStr = workingText.split(decimalSeparator);
     // If this string contains more than 1 decimal, move all characters to after the first decimal
     if (splitStr.length > 2) {
       returnOriginal = false;
@@ -45,47 +55,10 @@ class BananoCurrencyFormatter extends TextInputFormatter {
           selection: new TextSelection.collapsed(offset: workingText.length));
        }
     }
-    String newText = splitStr[0] + "." + splitStr[1].substring(0, NumberUtil.maxDecimalDigits);
+    String newText = splitStr[0] + decimalSeparator + splitStr[1].substring(0, NumberUtil.maxDecimalDigits);
     return newValue.copyWith(
       text: newText,
       selection: new TextSelection.collapsed(offset: newText.length));
-  }
-}
-
-/// Input formatter for various fiat amounts
-class CurrencyFormatter extends TextInputFormatter {
-  String locale;
-
-  CurrencyFormatter(this.locale);
-
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    // If no text, or text doesnt contain a period of comma, no work to do here
-    if(newValue.selection.baseOffset == 0) {
-      return newValue;
-    }
-
-    String formatted;
-    try {
-      switch (locale) {
-        case "es_VE":
-          formatted = NumberFormat.currency(locale:locale, symbol: "Bs.S").format(double.parse(newValue.text));
-          break;
-        case "tr_TR":
-          formatted = NumberFormat.currency(locale:locale, symbol: "₺").format(double.parse(newValue.text));
-          break;
-        default:
-          formatted = NumberFormat.simpleCurrency(locale:locale).format(double.parse(newValue.text));
-          break;
-      }
-    } catch (e) {
-      return oldValue;
-    }
-    if (formatted != newValue.text) {
-      return newValue.copyWith(
-        text: formatted,
-        selection: new TextSelection.collapsed(offset: formatted.length));
-    }
-    return newValue;
   }
 }
 

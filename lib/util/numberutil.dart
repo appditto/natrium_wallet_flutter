@@ -23,7 +23,7 @@ class NumberUtil {
   /// @return double value 1.05
   ///
   static double truncateDecimal(Decimal input) {
-    return (input * Decimal.fromInt(pow(10, maxDecimalDigits))).truncateToDouble() / 100;
+    return (input * Decimal.fromInt(pow(10, maxDecimalDigits))).truncateToDouble() / pow(10, maxDecimalDigits);
   }
 
   /// Return raw as a normal amount.

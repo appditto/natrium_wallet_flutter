@@ -44,6 +44,7 @@ class KaliumSendSheet {
   bool _showContactButton = true;
   // Local currency mode/fiat conversion
   bool _localCurrencyMode = false;
+  NumberFormat _localCurrencyFormat;
 
   KaliumSendSheet({Contact contact, String address}) {
     _sendAmountFocusNode = new FocusNode();
@@ -86,6 +87,18 @@ class KaliumSendSheet {
   mainBottomSheet(BuildContext context) {
     _amountHint = KaliumLocalization.of(context).enterAmount;
     _addressHint = KaliumLocalization.of(context).enterAddress;
+    String locale = StateContainer.of(context).currencyLocale;
+    switch (locale) {
+      case "es_VE":
+        _localCurrencyFormat = NumberFormat.currency(locale:locale, symbol: "Bs.S");
+        break;
+      case "tr_TR":
+        _localCurrencyFormat = NumberFormat.currency(locale:locale, symbol: "₺");
+        break;
+      default:
+        _localCurrencyFormat = NumberFormat.simpleCurrency(locale:locale);
+        break;
+    }
     KaliumSheets.showKaliumHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
@@ -495,22 +508,27 @@ class KaliumSendSheet {
 
   String _convertLocalCurrencyToCrypto(BuildContext context) {
     String convertedAmt = _sendAmountController.text;
-    NumberFormat currencyFormatter;
-    String locale = StateContainer.of(context).currencyLocale;
-    switch (locale) {
-      case "es_VE":
-        currencyFormatter = NumberFormat.currency(locale:locale, symbol: "Bs.S");
-        break;
-      case "tr_TR":
-        currencyFormatter = NumberFormat.currency(locale:locale, symbol: "₺");
-        break;
-      default:
-        currencyFormatter = NumberFormat.simpleCurrency(locale:locale);
-        break;
+    if (convertedAmt.isEmpty) {
+      return "";
     }
-    Decimal valueLocal = Decimal.parse(currencyFormatter.parse(convertedAmt).toString());
+    convertedAmt = convertedAmt.replaceAll(_localCurrencyFormat.symbols.DECIMAL_SEP, ".");
+    convertedAmt = convertedAmt.replaceAll(_localCurrencyFormat.currencySymbol, "");
+    Decimal valueLocal = Decimal.parse(convertedAmt);
     Decimal conversion = Decimal.parse(StateContainer.of(context).wallet.localCurrencyConversion);
     return NumberUtil.truncateDecimal(valueLocal / conversion).toString();
+  }
+
+  String _convertCryptoToLocalCurrency(BuildContext context) {
+    String convertedAmt = _sendAmountController.text;
+    if (convertedAmt.isEmpty) {
+      return "";
+    }
+    Decimal valueCrypto = Decimal.parse(convertedAmt);
+    Decimal conversion = Decimal.parse(StateContainer.of(context).wallet.localCurrencyConversion);
+    convertedAmt = NumberUtil.truncateDecimal(valueCrypto * conversion).toString();    
+    convertedAmt = convertedAmt.replaceAll(".", _localCurrencyFormat.symbols.DECIMAL_SEP);
+    convertedAmt = _localCurrencyFormat.currencySymbol + convertedAmt;
+    return convertedAmt;
   }
 
   // Determine if this is a max send or not by comparing balances
@@ -640,7 +658,7 @@ class KaliumSendSheet {
         inputFormatters: [
           LengthLimitingTextInputFormatter(13),
           WhitelistingTextInputFormatter(RegExp("[0-9.,]")),
-          _localCurrencyMode ? CurrencyFormatter(StateContainer.of(context).currencyLocale) : BananoCurrencyFormatter()
+          _localCurrencyMode ? CurrencyFormatter(decimalSeparator: _localCurrencyFormat.symbols.DECIMAL_SEP, commaSeparator: _localCurrencyFormat.symbols.GROUP_SEP, symbol: _localCurrencyFormat.currencySymbol) : CurrencyFormatter()
         ],
         onChanged: (text) {
           // Always reset the error message to be less annoying
@@ -667,6 +685,13 @@ class KaliumSendSheet {
                 highlightColor: KaliumColors.primary15,
                 splashColor: KaliumColors.primary30,
                 onPressed: () {
+                  if (_localCurrencyMode) {
+                    // Switching to crypto-mode
+                    _sendAmountController.text = _convertLocalCurrencyToCrypto(context);
+                  } else {
+                    // Switching to local currency mode
+                    _sendAmountController.text = _convertCryptoToLocalCurrency(context);
+                  }
                   setState(() {
                     _localCurrencyMode = !_localCurrencyMode;
                   });
@@ -683,7 +708,7 @@ class KaliumSendSheet {
               width: 48,
               height: 48,
               child: FlatButton(
-                highlightColor: KaliumColors.primary15,
+                highlightColor: KaliumColors.primary15, 
                 splashColor: KaliumColors.primary30,
                 padding: EdgeInsets.all(12.0),
                 onPressed: () {
