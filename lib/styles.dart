@@ -162,6 +162,12 @@ class KaliumStyles {
       fontSize: KaliumFontSizes.small,
       fontWeight: FontWeight.w100,
       color: KaliumColors.text60);
+  static const TextStyleVersionUnderline = TextStyle(
+      fontFamily: "NunitoSans",
+      fontSize: KaliumFontSizes.small,
+      fontWeight: FontWeight.w100,
+      color: KaliumColors.text60,
+      decoration: TextDecoration.underline);
   // Text style for alert dialog header
   static const TextStyleDialogHeader = TextStyle(
     fontFamily: "NunitoSans",

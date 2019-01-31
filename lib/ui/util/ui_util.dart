@@ -374,6 +374,17 @@ class UIUtil {
     );
   }
 
+    static Widget showWebview(String url) {
+    return WebviewScaffold(
+      url: url,
+      appBar: new AppBar(
+        backgroundColor: KaliumColors.background,
+        brightness: Brightness.dark,
+        iconTheme: IconThemeData(color: KaliumColors.text),
+      ),
+    );
+  }
+
   static Future<File> downloadOrRetrieveMonkey(
       BuildContext context, String address, MonkeySize monkeySize) async {
     // Get expected path

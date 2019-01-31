@@ -736,6 +736,15 @@ class KaliumLocalization {
   String getMonkeyDownloadUrl(String account, { int size = 1000 }) {
     return 'https://bananomonkeys.herokuapp.com/image?format=png&address=$account&size=$size';
   }
+
+  String get eulaUrl {
+    return 'https://avengemedia.github.io/kalium/eula_kalium.html';
+  }
+
+  String get privacyUrl {
+    return 'https://avengemedia.github.io/kalium/privacy.html';
+  }
+
   /// -- END NON-TRANSLATABLE ITEMS
 }
 

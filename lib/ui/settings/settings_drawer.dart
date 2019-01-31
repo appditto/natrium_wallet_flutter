@@ -220,7 +220,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     // Version string
     PackageInfo.fromPlatform().then((packageInfo) {
       setState(() {
-        versionString = "Kalium v${packageInfo.version}";
+        versionString = "v${packageInfo.version}";
       });
     });
   }
@@ -853,6 +853,32 @@ class _SettingsSheetState extends State<SettingsSheet>
                       children: <Widget>[
                         Text(versionString,
                             style: KaliumStyles.TextStyleVersion),
+                        Text(" | ",
+                            style: KaliumStyles.TextStyleVersion),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return UIUtil.showWebview(
+                                   KaliumLocalization.of(context).privacyPolicy);
+                              }));      
+                            },
+                            child: Text(KaliumLocalization.of(context).privacyPolicy,
+                                    style: KaliumStyles.TextStyleVersionUnderline)
+                        ),
+                        Text(" | ",
+                            style: KaliumStyles.TextStyleVersion),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return UIUtil.showWebview(
+                                   KaliumLocalization.of(context).eulaUrl);
+                              }));                              
+                            },
+                            child: Text("EULA",
+                                    style: KaliumStyles.TextStyleVersionUnderline)
+                        ),
                       ],
                     ),
                   ),
