@@ -18,14 +18,14 @@ import 'package:kalium_wallet_flutter/util/numberutil.dart';
 import 'package:kalium_wallet_flutter/util/nanoutil.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 
-class KaliumTransferConfirmSheet {
+class AppTransferConfirmSheet {
   // accounts to private keys/account balances
   Map<String, AccountBalanceItem> privKeyBalanceMap;
   // accounts that have all been pocketed and ready to send
   Map<String, AccountBalanceItem> readyToSendMap = Map();
   // Total amount there is to transfer
   BigInt totalToTransfer = BigInt.zero;
-  String totalAsBanano = "";
+  String totalAsReadableAmount = "";
   // Total amount transferred in raw
   BigInt totalTransferred = BigInt.zero;
   // Need to be received by current account
@@ -37,7 +37,7 @@ class KaliumTransferConfirmSheet {
 
   Function errorCallback;
 
-  KaliumTransferConfirmSheet(this.privKeyBalanceMap, this.errorCallback);
+  AppTransferConfirmSheet(this.privKeyBalanceMap, this.errorCallback);
 
   Future<bool> _onWillPop() async {
     RxBus.destroy(tag: RX_TRANSFER_ACCOUNT_HISTORY_TAG);
@@ -66,7 +66,7 @@ class KaliumTransferConfirmSheet {
     accountsToRemove.forEach((account) {
       privKeyBalanceMap.remove(account);
     });
-    totalAsBanano = NumberUtil.getRawAsUsableString(totalToTransfer.toString());
+    totalAsReadableAmount = NumberUtil.getRawAsUsableString(totalToTransfer.toString());
 
     // Register event buses (this will probably get a little messy)
     // Receiving account history
@@ -107,7 +107,7 @@ class KaliumTransferConfirmSheet {
       } else {
         // Store result and start pocketing these
         accountPending = pendingResponse;
-        processKaliumPending(context);
+        processAppPending(context);
       }
     });
     // Process response
@@ -115,7 +115,7 @@ class KaliumTransferConfirmSheet {
       // If this is our own account
       if (processResponse.account == StateContainer.of(context).wallet.address) {
         StateContainer.of(context).wallet.frontier = processResponse.hash;
-        processKaliumPending(context);
+        processAppPending(context);
         return;
       }
       // A paper wallet account
@@ -179,7 +179,7 @@ class KaliumTransferConfirmSheet {
                             Container(
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
-                                  AppLocalization.of(context).transferConfirmInfo.replaceAll("%1", totalAsBanano),
+                                  AppLocalization.of(context).transferConfirmInfo.replaceAll("%1", totalAsReadableAmount),
                                   style: AppStyles.TextStyleParagraphPrimary,
                                   textAlign: TextAlign.left,
                             )),
@@ -282,13 +282,13 @@ class KaliumTransferConfirmSheet {
   }
 
   ///
-  /// processKaliumPending()
+  /// processAppPending()
   ///
   /// Start pocketing the transactions our logged in account received from this transfer
   ///
   /// @param context
   ///
-  void processKaliumPending(BuildContext context) {
+  void processAppPending(BuildContext context) {
     if (accountPending == null) {
       errorCallback();
     }

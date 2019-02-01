@@ -10,10 +10,10 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 
-class KaliumTransferManualEntrySheet {
+class AppTransferManualEntrySheet {
   Function validSeedCallback;
 
-  KaliumTransferManualEntrySheet(this.validSeedCallback);
+  AppTransferManualEntrySheet(this.validSeedCallback);
 
   var _seedInputFocusNode = new FocusNode();
   var _seedInputController = new TextEditingController();

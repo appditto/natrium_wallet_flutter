@@ -18,7 +18,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 
-class KaliumTransferOverviewSheet {
+class AppTransferOverviewSheet {
   static const int NUM_SWEEP = 15; // Number of accounts to sweep from a seed
 
   // accounts to private keys/account balances
@@ -175,7 +175,7 @@ class KaliumTransferOverviewSheet {
                           AppLocalization.of(context).manualEntry,
                           Dimens.BUTTON_BOTTOM_DIMENS,
                           onPressed: () {
-                            KaliumTransferManualEntrySheet(manualEntryCallback)
+                            AppTransferManualEntrySheet(manualEntryCallback)
                                 .mainBottomSheet(context);
                           },
                           

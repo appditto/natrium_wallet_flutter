@@ -247,14 +247,14 @@ class _SettingsSheetState extends State<SettingsSheet>
     RxBus.register<Map<String, AccountBalanceItem>>(
             tag: RX_TRANSFER_CONFIRM_TAG)
         .listen((Map<String, AccountBalanceItem> privKeyMap) {
-      KaliumTransferConfirmSheet(privKeyMap, transferError)
+      AppTransferConfirmSheet(privKeyMap, transferError)
           .mainBottomSheet(context);
     });
     // Ready to go to transfer complete
     RxBus.register<BigInt>(tag: RX_TRANSFER_COMPLETE_TAG)
         .listen((BigInt amount) {
       StateContainer.of(context).requestUpdate();
-      KaliumTransferCompleteSheet(
+      AppTransferCompleteSheet(
               NumberUtil.getRawAsUsableString(amount.toString()))
           .mainBottomSheet(context);
     });
@@ -795,7 +795,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   KaliumSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).settingsTransfer,
                       AppIcons.transferfunds, onPressed: () {
-                    KaliumTransferOverviewSheet().mainBottomSheet(context);
+                    AppTransferOverviewSheet().mainBottomSheet(context);
                   }),
                   Divider(height: 2),
                   KaliumSettings.buildSettingsListItemSingleLine(

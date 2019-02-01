@@ -8,10 +8,10 @@ import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 
-class KaliumTransferCompleteSheet {
+class AppTransferCompleteSheet {
   String transferAmount;
 
-  KaliumTransferCompleteSheet(this.transferAmount);
+  AppTransferCompleteSheet(this.transferAmount);
 
   mainBottomSheet(BuildContext context) {
     AppSheets.showAppHeightNineSheet(
