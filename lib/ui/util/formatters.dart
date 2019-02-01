@@ -65,7 +65,7 @@ class LocalCurrencyFormatter extends TextInputFormatter {
   LocalCurrencyFormatter({this.currencyFormat, this.active});
 
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    if (newValue.text.trim() == currencyFormat.currencySymbol.trim()) {
+    if (newValue.text.trim() == currencyFormat.currencySymbol.trim() || newValue.text.isEmpty) {
       // Return empty string
       return newValue.copyWith(
         text: "",

@@ -510,7 +510,8 @@ class AppSendSheet {
   }
 
   String _convertLocalCurrencyToCrypto(BuildContext context) {
-    String convertedAmt = NumberUtil.sanitizeNumber(_sendAmountController.text);
+    String convertedAmt = _sendAmountController.text.replaceAll(",", ".");
+    convertedAmt = NumberUtil.sanitizeNumber(convertedAmt);
     if (convertedAmt.isEmpty) {
       return "";
     }
@@ -539,7 +540,7 @@ class AppSendSheet {
       return false;
     }
     try {
-      String textField = _sendAmountController.text.replaceAll(r',', "");
+      String textField = _sendAmountController.text;
       String balance;
       if (_localCurrencyMode) {
         balance = StateContainer.of(context)
@@ -558,11 +559,14 @@ class AppSendSheet {
         // Sanitize currency values into plain integer representations
         textField = textField.replaceAll(",", ".");
         String sanitizedTextField = NumberUtil.sanitizeNumber(textField);
+        balance = balance.replaceAll(_localCurrencyFormat.symbols.GROUP_SEP, "");
+        balance = balance.replaceAll(",", ".");
         String sanitizedBalance = NumberUtil.sanitizeNumber(balance);
         textFieldInt =
             (Decimal.parse(sanitizedTextField) * Decimal.fromInt(100)).toInt();
         balanceInt = (Decimal.parse(sanitizedBalance) * Decimal.fromInt(100)).toInt();
       } else {
+        textField = textField.replaceAll(",", "");
         textFieldInt =
             (Decimal.parse(textField) * Decimal.fromInt(100)).toInt();
         balanceInt = (Decimal.parse(balance) * Decimal.fromInt(100)).toInt();
@@ -578,31 +582,46 @@ class AppSendSheet {
     // this way you can tap button and tap back and not end up with X.9993451 NANO
     if (_localCurrencyMode) {
       // Switching to crypto-mode
-      if (NumberUtil.sanitizeNumber(_sendAmountController.text) == _lastLocalCurrencyAmount) {
-        _sendAmountController.text = _lastCryptoAmount;
+      String cryptoAmountStr; 
+      // Check out previous state
+      if (_sendAmountController.text == _lastLocalCurrencyAmount) {
+        cryptoAmountStr = _lastCryptoAmount;
       } else {
-        _lastLocalCurrencyAmount = NumberUtil.sanitizeNumber(_sendAmountController.text);
-        _sendAmountController.text = _convertLocalCurrencyToCrypto(context);
+        _lastLocalCurrencyAmount = _sendAmountController.text;
+        _lastCryptoAmount =  _convertLocalCurrencyToCrypto(context);
+        cryptoAmountStr = _lastCryptoAmount;
       }
-      _sendAmountController.selection =
-          TextSelection.fromPosition(TextPosition(
-              offset:
-                  _sendAmountController.text.length));
       setState(() {
         _localCurrencyMode = false;
       });
+      Future.delayed(Duration(milliseconds: 50), () {
+        _sendAmountController.text = cryptoAmountStr;
+        _sendAmountController.selection =
+            TextSelection.fromPosition(TextPosition(
+                offset:
+                    cryptoAmountStr.length));
+      });
     } else {
       // Switching to local-currency mode
-      _lastCryptoAmount = _sendAmountController.text;
-      _lastLocalCurrencyAmount = NumberUtil.sanitizeNumber(_convertCryptoToLocalCurrency(context));
+      String localAmountStr;
+      // Check our previous state
+      if (_sendAmountController.text == _lastCryptoAmount) {
+        localAmountStr = _lastLocalCurrencyAmount;
+      } else {
+        _lastCryptoAmount = _sendAmountController.text;
+        _lastLocalCurrencyAmount =  _convertCryptoToLocalCurrency(context);
+        localAmountStr = _lastLocalCurrencyAmount;
+      }
       setState(() {
         _localCurrencyMode = true;
       });
-      _sendAmountController.text = _convertCryptoToLocalCurrency(context);
-      _sendAmountController.selection =
-          TextSelection.fromPosition(TextPosition(
-              offset:
-                  _sendAmountController.text.length));
+      Future.delayed(Duration(milliseconds: 50), () {
+        _sendAmountController.text = localAmountStr;
+        _sendAmountController.selection =
+            TextSelection.fromPosition(TextPosition(
+                offset:
+                    localAmountStr.length));
+      });
     }
   }
 
