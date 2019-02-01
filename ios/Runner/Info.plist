@@ -26,11 +26,11 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.banano.kaliumwallet</string>
+			<string>com.avengemedia.natrium</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>ban</string>
-				<string>banano</string>
+				<string>xrb</string>
+				<string>nano</string>
 			</array>
 		</dict>
 	</array>

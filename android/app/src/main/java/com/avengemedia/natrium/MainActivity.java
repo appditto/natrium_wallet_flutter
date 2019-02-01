@@ -1,4 +1,4 @@
-package com.banano.kaliumf;
+package com.avengemedia.natrium;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
