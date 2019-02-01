@@ -189,19 +189,19 @@ class _AppHomePageState extends State<AppHomePage>
     if (!contactAdded) {
       DBHelper db = DBHelper();
       bool addressExists = await db.contactExistsWithAddress(
-          "ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo");
+          "xrb_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd");
       if (addressExists) {
         return;
       }
-      bool nameExists = await db.contactExistsWithName("@KaliumDonations");
+      bool nameExists = await db.contactExistsWithName("@NatriumDonations");
       if (nameExists) {
         return;
       }
       await SharedPrefsUtil.inst.setFirstContactAdded(true);
       Contact c = Contact(
-          name: "@KaliumDonations",
+          name: "@NatriumDonations",
           address:
-              "ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo");
+              "xrb_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd");
       await db.saveContact(c);
     }
   }
