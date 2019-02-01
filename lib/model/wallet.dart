@@ -5,7 +5,7 @@ import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
 /// Main wallet object that's passed around the app via state
 class AppWallet {
-  static const String defaultRepresentative = 'ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo';
+  static const String defaultRepresentative = 'xrb_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd';
 
   bool _loading; // Whether or not app is initially loading
   bool _historyLoading; // Whether or not we have received initial account history response
@@ -16,14 +16,13 @@ class AppWallet {
   String _representativeBlock;
   String _representative;
   String _localCurrencyPrice;
-  String _nanoPrice;
   String _btcPrice;
   int _blockCount;
   List<AccountHistoryResponseItem> _history;
 
 
   AppWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
-                String representative, String localCurrencyPrice, String nanoPrice, String btcPrice, int blockCount,
+                String representative, String localCurrencyPrice,String btcPrice, int blockCount,
                 List<AccountHistoryResponseItem> history, bool loading, bool historyLoading}) {
     this._address = address;
     this._accountBalance = accountBalance ?? BigInt.zero;
@@ -32,7 +31,6 @@ class AppWallet {
     this._representativeBlock = representativeBlock;
     this._representative = representative;
     this._localCurrencyPrice = localCurrencyPrice ?? "0";
-    this._nanoPrice = nanoPrice ?? "0";
     this._btcPrice = btcPrice ?? "0";
     this._blockCount = blockCount ?? 0;
     this._history = history ?? new List<AccountHistoryResponseItem>();
@@ -93,20 +91,6 @@ class AppWallet {
 
   set btcPrice(String value) {
     _btcPrice = value;
-  }
-
-  String get nanoPrice {
-    Decimal converted = Decimal.parse(_nanoPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
-    // Show 2 decimal places for nano price if its >= 1 NANO, otherwise 4 decimals
-    if (converted >= Decimal.parse("1")) {
-      return new NumberFormat("#,##0.00", "en_US").format(converted.toDouble());
-    } else {
-      return new NumberFormat("#,##0.0000", "en_US").format(converted.toDouble());
-    }
-  }
-
-  set nanoPrice(String value) {
-    _nanoPrice = value;
   }
 
   String get representative {

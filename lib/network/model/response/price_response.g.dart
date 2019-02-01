@@ -10,14 +10,12 @@ PriceResponse _$PriceResponseFromJson(Map<String, dynamic> json) {
   return PriceResponse()
     ..currency = json['currency'] as String
     ..price = json['price'] == null ? null : _toDouble(json['price'])
-    ..btcPrice = json['btc'] == null ? null : _toDouble(json['btc'])
-    ..nanoPrice = json['nano'] == null ? null : _toDouble(json['nano']);
+    ..btcPrice = json['btc'] == null ? null : _toDouble(json['btc']);
 }
 
 Map<String, dynamic> _$PriceResponseToJson(PriceResponse instance) =>
     <String, dynamic>{
       'currency': instance.currency,
       'price': instance.price,
-      'btc': instance.btcPrice,
-      'nano': instance.nanoPrice
+      'btc': instance.btcPrice
     };

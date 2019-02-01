@@ -189,19 +189,19 @@ class _AppHomePageState extends State<AppHomePage>
     if (!contactAdded) {
       DBHelper db = DBHelper();
       bool addressExists = await db.contactExistsWithAddress(
-          "ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo");
+          "xrb_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd");
       if (addressExists) {
         return;
       }
-      bool nameExists = await db.contactExistsWithName("@KaliumDonations");
+      bool nameExists = await db.contactExistsWithName("@NatriumDonations");
       if (nameExists) {
         return;
       }
       await SharedPrefsUtil.inst.setFirstContactAdded(true);
       Contact c = Contact(
-          name: "@KaliumDonations",
+          name: "@NatriumDonations",
           address:
-              "ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo");
+              "xrb_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd");
       await db.saveContact(c);
     }
   }
@@ -1317,13 +1317,6 @@ class _AppHomePageState extends State<AppHomePage>
     return GestureDetector(
       onTap: () {
         if (_priceConversion == PriceConversion.BTC) {
-          // Cycle to NANO price
-          setState(() {
-            _convertedPriceStyle = AppStyles.TextStyleCurrencyAlt;
-            _priceConversion = PriceConversion.NANO;
-          });
-          SharedPrefsUtil.inst.setPriceConversion(PriceConversion.NANO);
-        } else if (_priceConversion == PriceConversion.NANO) {
           // Hide prices
           setState(() {
             _convertedPriceStyle = AppStyles.TextStyleCurrencyAltHidden;
@@ -1391,17 +1384,13 @@ class _AppHomePageState extends State<AppHomePage>
           Row(
             children: <Widget>[
               Icon(
-                  _priceConversion == PriceConversion.BTC
-                      ? AppIcons.btc
-                      : AppIcons.nanocurrency,
+                  AppIcons.back,
                   color: _priceConversion == PriceConversion.NONE
                       ? Colors.transparent
                       : AppColors.text60,
                   size: 14),
               Text(
-                  _priceConversion == PriceConversion.BTC
-                      ? StateContainer.of(context).wallet.btcPrice
-                      : StateContainer.of(context).wallet.nanoPrice,
+                  StateContainer.of(context).wallet.btcPrice,
                   textAlign: TextAlign.center,
                   style: _convertedPriceStyle),
             ],
