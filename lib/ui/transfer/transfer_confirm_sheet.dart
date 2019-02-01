@@ -1,0 +1,352 @@
+import 'package:flutter/material.dart';
+import 'package:kalium_wallet_flutter/appstate_container.dart';
+import 'package:kalium_wallet_flutter/localization.dart';
+import 'package:kalium_wallet_flutter/dimens.dart';
+import 'package:kalium_wallet_flutter/bus/rxbus.dart';
+import 'package:kalium_wallet_flutter/model/vault.dart';
+import 'package:kalium_wallet_flutter/network/model/response/account_balance_item.dart';
+import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/pending_response.dart';
+import 'package:kalium_wallet_flutter/network/model/response/pending_response_item.dart';
+import 'package:kalium_wallet_flutter/network/model/response/transfer_process_response.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:kalium_wallet_flutter/ui/transfer/transfer_complete_sheet.dart';
+import 'package:kalium_wallet_flutter/util/numberutil.dart';
+import 'package:kalium_wallet_flutter/util/nanoutil.dart';
+import 'package:kalium_wallet_flutter/styles.dart';
+
+class AppTransferConfirmSheet {
+  // accounts to private keys/account balances
+  Map<String, AccountBalanceItem> privKeyBalanceMap;
+  // accounts that have all been pocketed and ready to send
+  Map<String, AccountBalanceItem> readyToSendMap = Map();
+  // Total amount there is to transfer
+  BigInt totalToTransfer = BigInt.zero;
+  String totalAsReadableAmount = "";
+  // Total amount transferred in raw
+  BigInt totalTransferred = BigInt.zero;
+  // Need to be received by current account
+  PendingResponse accountPending;
+  // Whether we finished transfer and are ready to start pocketing
+  bool finished = false;
+  // Whether animation overlay is open
+  bool animationOpen = false;
+
+  Function errorCallback;
+
+  AppTransferConfirmSheet(this.privKeyBalanceMap, this.errorCallback);
+
+  Future<bool> _onWillPop() async {
+    RxBus.destroy(tag: RX_TRANSFER_ACCOUNT_HISTORY_TAG);
+    RxBus.destroy(tag: RX_TRANSFER_PENDING_TAG);
+    RxBus.destroy(tag: RX_TRANSFER_PROCESS_TAG);
+    RxBus.destroy(tag: RX_TRANSFER_ERROR_TAG);
+    RxBus.post("str", tag: RX_UNLOCK_CALLBACK_TAG);
+    return true;
+  }
+
+
+  mainBottomSheet(BuildContext context) {
+    // Block callback responses
+    StateContainer.of(context).lockCallback();
+    // See how much we have to transfer and separate accounts with pendings
+    List<String> accountsToRemove = List();
+    privKeyBalanceMap.forEach((String account, AccountBalanceItem accountBalanceItem) {
+      totalToTransfer += BigInt.parse(accountBalanceItem.balance) + BigInt.parse(accountBalanceItem.pending);
+      if (BigInt.parse(accountBalanceItem.pending) == BigInt.zero && BigInt.parse(accountBalanceItem.balance) > BigInt.zero) {
+        readyToSendMap.putIfAbsent(account, () => accountBalanceItem);
+        accountsToRemove.add(account);
+      } else if (BigInt.parse(accountBalanceItem.pending) == BigInt.zero && BigInt.parse(accountBalanceItem.balance) == BigInt.zero) {
+        accountsToRemove.add(account);
+      }
+    });
+    accountsToRemove.forEach((account) {
+      privKeyBalanceMap.remove(account);
+    });
+    totalAsReadableAmount = NumberUtil.getRawAsUsableString(totalToTransfer.toString());
+
+    // Register event buses (this will probably get a little messy)
+    // Receiving account history
+    RxBus.register<AccountHistoryResponse>(tag: RX_TRANSFER_ACCOUNT_HISTORY_TAG).listen((AccountHistoryResponse historyResponse) {
+      bool readyToSend = false;
+      String account = historyResponse.account;
+      AccountBalanceItem accountBalanceItem;
+      if (!privKeyBalanceMap.containsKey(account)) {
+        accountBalanceItem = readyToSendMap[account];
+        readyToSend = true;
+      } else {
+        accountBalanceItem = privKeyBalanceMap[account];
+      }
+      if (historyResponse.history.length > 0) {
+        accountBalanceItem.frontier = historyResponse.history.first.hash;
+        if (readyToSend) {
+          readyToSendMap[account] = accountBalanceItem;
+        } else {
+          privKeyBalanceMap[account] = accountBalanceItem;
+        }
+      }
+      if (readyToSend) {
+        startProcessing(context);
+      } else {
+        StateContainer.of(context).requestPending(account: account);
+      }
+    });
+    // Pending response
+    RxBus.register<PendingResponse>(tag: RX_TRANSFER_PENDING_TAG).listen((pendingResponse) {
+      // See if this is our account or a paper wallet account
+      if (pendingResponse.account != StateContainer.of(context).wallet.address) {
+        if (!privKeyBalanceMap.containsKey(pendingResponse.account)) {
+          errorCallback();
+        }
+        privKeyBalanceMap[pendingResponse.account].pendingResponse = pendingResponse;
+        // Begin open/receive with pendings
+        processNextPending(context, pendingResponse.account);
+      } else {
+        // Store result and start pocketing these
+        accountPending = pendingResponse;
+        processAppPending(context);
+      }
+    });
+    // Process response
+    RxBus.register<TransferProcessResponse>(tag: RX_TRANSFER_PROCESS_TAG).listen((processResponse) {
+      // If this is our own account
+      if (processResponse.account == StateContainer.of(context).wallet.address) {
+        StateContainer.of(context).wallet.frontier = processResponse.hash;
+        processAppPending(context);
+        return;
+      }
+      // A paper wallet account
+      AccountBalanceItem balItem = privKeyBalanceMap.remove(processResponse.account);
+      if (balItem != null) {
+        balItem.frontier = processResponse.hash;
+        balItem.balance = processResponse.balance;
+        privKeyBalanceMap[processResponse.account] = balItem;
+        // Process next item
+        processNextPending(context, processResponse.account);
+      } else {
+        balItem = readyToSendMap.remove(processResponse.account);
+        if (balItem == null) {
+          errorCallback();
+        }
+        totalTransferred += BigInt.parse(balItem.balance);
+        startProcessing(context);        
+      }
+    });
+    // Error response
+    RxBus.register<String>(tag: RX_TRANSFER_ERROR_TAG).listen((err) {
+      if (animationOpen) {
+        Navigator.of(context).pop();
+      }
+      errorCallback();
+    });
+
+    AppSheets.showAppHeightNineSheet(
+        context: context,
+        onDisposed: _onWillPop,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return WillPopScope(
+              onWillPop: _onWillPop,
+                child: Container(
+                width: double.infinity,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    //A container for the header
+                    Container(
+                      margin: EdgeInsets.only(top: 30.0, left:70, right: 70),
+                      child: AutoSizeText(
+                        AppLocalization.of(context).transferHeader.toUpperCase(),
+                        style: AppStyles.textStyleHeader(context),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        stepGranularity: 0.1,
+                      ),
+                    ),
+
+                    // A container for the paragraphs
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.1),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                                margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
+                                child: Text(
+                                  AppLocalization.of(context).transferConfirmInfo.replaceAll("%1", totalAsReadableAmount),
+                                  style: AppStyles.TextStyleParagraphPrimary,
+                                  textAlign: TextAlign.left,
+                            )),
+                            Container(
+                                margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
+                                child: Text(
+                                  AppLocalization.of(context).transferConfirmInfoSecond,
+                                  style: AppStyles.TextStyleParagraph,
+                                  textAlign: TextAlign.left,
+                            )),
+                            Container(
+                                margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
+                                child: Text(
+                                  AppLocalization.of(context).transferConfirmInfoThird,
+                                  style: AppStyles.TextStyleParagraph,
+                                  textAlign: TextAlign.left,
+                            )),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              // Send Button
+                              AppButton.buildAppButton(
+                                  AppButtonType.PRIMARY,
+                                  AppLocalization.of(context).confirm.toUpperCase(),
+                                  Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                                animationOpen = true;
+                                Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.TRANSFER_TRANSFERRING, onPoppedCallback: () { animationOpen = false; } ));
+                                startProcessing(context);
+                              }),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              // Scan QR Code Button
+                              AppButton.buildAppButton(
+                                  AppButtonType.PRIMARY_OUTLINE,
+                                  AppLocalization.of(context).cancel.toUpperCase(),
+                                  Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                                Navigator.of(context).pop();
+                              }),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          });
+        });
+  }
+
+  Future<String> _getPrivKey() async {
+   return NanoUtil.seedToPrivate(await Vault.inst.getSeed(), 0);
+  }
+
+  ///
+  /// processNextPending()
+  ///
+  /// Take the next pending block for this account and make a process request for an open/receive
+  /// If there are no more pendings, move the account to "readyToSend" and begin processing next
+  /// account.
+  ///
+  /// @param account
+  ///
+  void processNextPending(BuildContext context, String account) {
+    AccountBalanceItem accountBalanceItem = privKeyBalanceMap[account];
+    PendingResponse pendingResponse = accountBalanceItem.pendingResponse;
+    Map<String, PendingResponseItem> pendingBlocks = pendingResponse.blocks;
+    if (pendingBlocks.length  > 0) {
+      String hash = pendingBlocks.keys.first;
+      PendingResponseItem pendingItem = pendingBlocks.remove(hash);
+      if (accountBalanceItem.frontier != null) {
+        // Receive block
+        StateContainer.of(context).requestReceive(accountBalanceItem.frontier,
+                hash,
+                pendingItem.amount,
+                privKey: accountBalanceItem.privKey,
+                account: account);
+      } else {
+        // Open account
+        StateContainer.of(context).requestOpen("0",
+                hash,
+                pendingItem.amount,
+                privKey: accountBalanceItem.privKey,
+                account: account);
+      }
+    } else {
+      readyToSendMap.putIfAbsent(account, () => accountBalanceItem);
+      privKeyBalanceMap.remove(account);
+      startProcessing(context); // next account
+    }
+  }
+
+  ///
+  /// processAppPending()
+  ///
+  /// Start pocketing the transactions our logged in account received from this transfer
+  ///
+  /// @param context
+  ///
+  void processAppPending(BuildContext context) {
+    if (accountPending == null) {
+      errorCallback();
+    }
+    Map<String, PendingResponseItem> pendingBlocks = accountPending.blocks;
+    if (pendingBlocks.length > 0) {
+      String hash = pendingBlocks.keys.first;
+      PendingResponseItem pendingItem = pendingBlocks.remove(hash);
+      if (StateContainer.of(context).wallet.openBlock != null) {
+          // Receive block
+          _getPrivKey().then((result) {
+            StateContainer.of(context).requestReceive(StateContainer.of(context).wallet.frontier,
+                    hash,
+                    pendingItem.amount,
+                    privKey: result,
+                    account: StateContainer.of(context).wallet.address);
+          });
+      } else {
+          // Open account
+          _getPrivKey().then((result) {
+            StateContainer.of(context).requestOpen("0",
+                    hash,
+                    pendingItem.amount,
+                    privKey: result,
+                    account: StateContainer.of(context).wallet.address);
+          });
+      }
+    } else {
+        startProcessing(context); // Finish the process
+    }
+  }
+
+  void startProcessing(BuildContext context) {
+    if (privKeyBalanceMap.length > 0) {
+      String account = privKeyBalanceMap.keys.first;
+      StateContainer.of(context).requestAccountHistory(account);
+    } else if (readyToSendMap.length > 0) {
+      // Start requesting sends
+      String account = readyToSendMap.keys.first;
+      AccountBalanceItem balItem = readyToSendMap[account];
+      if (balItem.frontier == null) {
+        StateContainer.of(context).requestAccountHistory(account);
+      } else {
+        StateContainer.of(context).requestSend(
+          balItem.frontier,
+          StateContainer.of(context).wallet.address,
+          "0",
+          privKey: balItem.privKey,
+          account: account);
+      }
+    } else if (!finished) {
+      finished = true;
+      StateContainer.of(context).requestPending(account: StateContainer.of(context).wallet.address);
+    } else {
+      RxBus.post(totalToTransfer, tag: RX_TRANSFER_COMPLETE_TAG);
+      if (animationOpen) {
+        Navigator.of(context).pop();
+      }
+      Navigator.of(context).pop();
+    }
+  }
+}
