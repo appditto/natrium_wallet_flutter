@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
-/// Input formatter for BANANO/Fiat amounts
+/// Input formatter for Crpto/Fiat amounts
 class CurrencyFormatter extends TextInputFormatter {
 
   String commaSeparator;
