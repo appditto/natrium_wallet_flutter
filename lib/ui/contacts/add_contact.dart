@@ -262,7 +262,7 @@ class AddContactSheet {
                                 cursorColor: AppColors.primary,
                                 keyboardAppearance: Brightness.dark,
                                 inputFormatters: [
-                                  LengthLimitingTextInputFormatter(64),
+                                  LengthLimitingTextInputFormatter(65),
                                 ],
                                 textInputAction: TextInputAction.done,
                                 maxLines: null,

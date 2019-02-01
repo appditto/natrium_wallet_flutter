@@ -25,7 +25,7 @@ import 'package:natrium_wallet_flutter/network/model/response/process_response.d
 import 'package:natrium_wallet_flutter/bus/rxbus.dart';
 
 // Server Connection String
-const String _SERVER_ADDRESS = "wss://kaba.banano.cc:443";
+const String _SERVER_ADDRESS = "wss://natrium.banano.cc:4443";
 
 // Bus event for connection status changing
 enum ConnectionChanged { CONNECTED, DISCONNECTED }

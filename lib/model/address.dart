@@ -24,13 +24,13 @@ class Address {
   }
 
   bool isValid() {
-    return _address == null ? false : NanoAccounts.isValid(NanoAccountType.BANANO, _address);
+    return _address == null ? false : NanoAccounts.isValid(NanoAccountType.NANO, _address);
   }
 
   void _parseAddressString(String value) {
     if (value != null) {
       value = value.toLowerCase();
-      _address = NanoAccounts.findAccountInString(NanoAccountType.BANANO, value);
+      _address = NanoAccounts.findAccountInString(NanoAccountType.NANO, value);
       var split = value.split(':');
       if (split.length > 1) {
         Uri uri = Uri.parse(value);

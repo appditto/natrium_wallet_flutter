@@ -251,7 +251,7 @@ class AppChangeRepresentativeSheet {
                                       textAlign: TextAlign.center,
                                       cursorColor: AppColors.primary,
                                       inputFormatters: [
-                                        LengthLimitingTextInputFormatter(64),
+                                        LengthLimitingTextInputFormatter(65),
                                       ],
                                       textInputAction: TextInputAction.done,
                                       maxLines: null,
@@ -372,7 +372,7 @@ class AppChangeRepresentativeSheet {
                                 .toUpperCase(),
                             Dimens.BUTTON_TOP_DIMENS,
                             onPressed: () {
-                              if (!NanoAccounts.isValid(NanoAccountType.BANANO,
+                              if (!NanoAccounts.isValid(NanoAccountType.NANO,
                                   _repController.text)) {
                                 return;
                               }

@@ -211,7 +211,7 @@ class AppTransferOverviewSheet {
     // Get NUM_SWEEP private keys + accounts from seed
     for (int i=0; i < NUM_SWEEP; i++) {
       privKey = NanoKeys.seedToPrivate(seed, i);
-      address = NanoAccounts.createAccount(NanoAccountType.BANANO, NanoKeys.createPublicKey(privKey));
+      address = NanoAccounts.createAccount(NanoAccountType.NANO, NanoKeys.createPublicKey(privKey));
       // Don't add this if it is the currently logged in account
       if (address != StateContainer.of(context).wallet.address) {
         privKeyBalanceMap.putIfAbsent(address, () => AccountBalanceItem(privKey: privKey));
@@ -219,7 +219,7 @@ class AppTransferOverviewSheet {
       }
     }
     // Also treat this seed as a private key
-    address = NanoAccounts.createAccount(NanoAccountType.BANANO, NanoKeys.createPublicKey(seed));
+    address = NanoAccounts.createAccount(NanoAccountType.NANO, NanoKeys.createPublicKey(seed));
     if (address != StateContainer.of(context).wallet.address) {
       privKeyBalanceMap.putIfAbsent(address, () => AccountBalanceItem(privKey: seed));
       accountsToRequest.add(address);

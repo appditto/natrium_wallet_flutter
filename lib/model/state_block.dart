@@ -89,7 +89,7 @@ class StateBlock {
   String sign(String privateKey) {
     if (this.balance == null) { return null; }
     this.hash = NanoBlocks.computeStateHash(
-                      NanoAccountType.BANANO,
+                      NanoAccountType.NANO,
                       this.account,
                       this.previous,
                       this.representative,
