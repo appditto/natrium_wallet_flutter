@@ -5,7 +5,7 @@ import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/ui/util/routes.dart';
 
 class AppSheets {
-  //Kalium Ninty Height Sheet
+  //App Ninty Height Sheet
   static Future<T> showAppHeightNineSheet<T>(
       {@required BuildContext context,
       @required WidgetBuilder builder,
@@ -37,7 +37,7 @@ class AppSheets {
     return Navigator.push<T>(context, route);
   }
 
-  //Kalium Height Eigth Sheet
+  //App Height Eigth Sheet
   static Future<T> showAppHeightEightSheet<T>(
       {@required BuildContext context,
       @required WidgetBuilder builder,
@@ -198,7 +198,7 @@ class _AppHeightNineModalRoute<T> extends PopupRoute<T> {
   Duration get transitionDuration =>
       Duration(milliseconds: animationDurationMs);
 }
-//Kalium Height Nine Sheet End
+//App Height Nine Sheet End
 
 class _AppHeightEightSheetLayout extends SingleChildLayoutDelegate {
   _AppHeightEightSheetLayout(this.progress);
@@ -316,4 +316,4 @@ class _AppHeightEightModalRoute<T> extends PopupRoute<T> {
   Duration get transitionDuration =>
       Duration(milliseconds: animationDurationMs);
 }
-//Kalium HeightEight Sheet End
+//App HeightEight Sheet End

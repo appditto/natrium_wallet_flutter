@@ -16,20 +16,20 @@ import 'package:flutter/widgets.dart';
 /// A material design dialog.
 ///
 /// This dialog widget does not have any opinion about the contents of the
-/// dialog. Rather than using this widget directly, consider using [KaliumAlertDialog]
-/// or [KaliumSimpleDialog], which implement specific kinds of material design
+/// dialog. Rather than using this widget directly, consider using [AppAlertDialog]
+/// or [AppSimpleDialog], which implement specific kinds of material design
 /// dialogs.
 ///
 /// See also:
 ///
-///  * [KaliumAlertDialog], for dialogs that have a message and some buttons.
-///  * [KaliumSimpleDialog], for dialogs that offer a variety of options.
-///  * [showKaliumDialog], which actually displays the dialog and returns its result.
+///  * [AppAlertDialog], for dialogs that have a message and some buttons.
+///  * [AppSimpleDialog], for dialogs that offer a variety of options.
+///  * [showAppDialog], which actually displays the dialog and returns its result.
 ///  * <https://material.google.com/components/dialogs.html>
 class Dialog extends StatelessWidget {
   /// Creates a dialog.
   ///
-  /// Typically used in conjunction with [showKaliumDialog].
+  /// Typically used in conjunction with [showAppDialog].
   const Dialog({
     Key key,
     this.child,
@@ -116,15 +116,15 @@ class Dialog extends StatelessWidget {
 /// display the title and the actions and let the content overflow, which is
 /// rarely desired. Consider using a scrolling widget for [content], such as
 /// [SingleChildScrollView], to avoid overflow. (However, be aware that since
-/// [KaliumAlertDialog] tries to size itself using the intrinsic dimensions of its
+/// [AppAlertDialog] tries to size itself using the intrinsic dimensions of its
 /// children, widgets such as [ListView], [GridView], and [CustomScrollView],
 /// which use lazy viewports, will not work. If this is a problem, consider
 /// using [Dialog] directly.)
 ///
 /// For dialogs that offer the user a choice between several options, consider
-/// using a [KaliumSimpleDialog].
+/// using a [AppSimpleDialog].
 ///
-/// Typically passed as the child widget to [showKaliumDialog], which displays the
+/// Typically passed as the child widget to [showAppDialog], which displays the
 /// dialog.
 ///
 /// {@tool sample}
@@ -134,11 +134,11 @@ class Dialog extends StatelessWidget {
 ///
 /// ```dart
 /// Future<void> _neverSatisfied() async {
-///   return showKaliumDialog<void>(
+///   return showAppDialog<void>(
 ///     context: context,
 ///     barrierDismissible: false, // user must tap button!
 ///     builder: (BuildContext context) {
-///       return KaliumAlertDialog(
+///       return AppAlertDialog(
 ///         title: Text('Rewind and remember'),
 ///         content: SingleChildScrollView(
 ///           child: ListBody(
@@ -165,19 +165,19 @@ class Dialog extends StatelessWidget {
 ///
 /// See also:
 ///
-///  * [KaliumSimpleDialog], which handles the scrolling of the contents but has no [actions].
-///  * [Dialog], on which [KaliumAlertDialog] and [KaliumSimpleDialog] are based.
-///  * [showKaliumDialog], which actually displays the dialog and returns its result.
+///  * [AppSimpleDialog], which handles the scrolling of the contents but has no [actions].
+///  * [Dialog], on which [AppAlertDialog] and [AppSimpleDialog] are based.
+///  * [showAppDialog], which actually displays the dialog and returns its result.
 ///  * <https://material.google.com/components/dialogs.html#dialogs-alerts>
-class KaliumAlertDialog extends StatelessWidget {
+class AppAlertDialog extends StatelessWidget {
   /// Creates an alert dialog.
   ///
-  /// Typically used in conjunction with [showKaliumDialog].
+  /// Typically used in conjunction with [showAppDialog].
   ///
   /// The [contentPadding] must not be null. The [titlePadding] defaults to
   /// null, which implies a default that depends on the values of the other
   /// properties. See the documentation of [titlePadding] for details.
-  const KaliumAlertDialog({
+  const AppAlertDialog({
     Key key,
     this.title,
     this.titlePadding,
@@ -241,7 +241,7 @@ class KaliumAlertDialog extends StatelessWidget {
   ///
   /// If this label is not provided, a semantic label will be infered from the
   /// [title] if it is not null.  If there is no title, the label will be taken
-  /// from [MaterialLocalizations.KaliumAlertDialogLabel].
+  /// from [MaterialLocalizations.AppAlertDialogLabel].
   ///
   /// See also:
   ///
@@ -316,15 +316,15 @@ class KaliumAlertDialog extends StatelessWidget {
   }
 }
 
-/// An option used in a [KaliumSimpleDialog].
+/// An option used in a [AppSimpleDialog].
 ///
 /// A simple dialog offers the user a choice between several options. This
 /// widget is commonly used to represent each of the options. If the user
 /// selects this option, the widget will call the [onPressed] callback, which
 /// typically uses [Navigator.pop] to close the dialog.
 ///
-/// The padding on a [KaliumSimpleDialogOption] is configured to combine with the
-/// default [KaliumSimpleDialog.contentPadding] so that each option ends up 8 pixels
+/// The padding on a [AppSimpleDialogOption] is configured to combine with the
+/// default [AppSimpleDialog.contentPadding] so that each option ends up 8 pixels
 /// from the other vertically, with 20 pixels of spacing between the dialog's
 /// title and the first option, and 24 pixels of spacing between the last option
 /// and the bottom of the dialog.
@@ -332,7 +332,7 @@ class KaliumAlertDialog extends StatelessWidget {
 /// {@tool sample}
 ///
 /// ```dart
-/// KaliumSimpleDialogOption(
+/// AppSimpleDialogOption(
 ///   onPressed: () { Navigator.pop(context, Department.treasury); },
 ///   child: const Text('Treasury department'),
 /// )
@@ -341,14 +341,14 @@ class KaliumAlertDialog extends StatelessWidget {
 ///
 /// See also:
 ///
-///  * [KaliumSimpleDialog], for a dialog in which to use this widget.
-///  * [showKaliumDialog], which actually displays the dialog and returns its result.
+///  * [AppSimpleDialog], for a dialog in which to use this widget.
+///  * [showAppDialog], which actually displays the dialog and returns its result.
 ///  * [FlatButton], which are commonly used as actions in other kinds of
-///    dialogs, such as [KaliumAlertDialog]s.
+///    dialogs, such as [AppAlertDialog]s.
 ///  * <https://material.google.com/components/dialogs.html#dialogs-simple-dialogs>
-class KaliumSimpleDialogOption extends StatelessWidget {
-  /// Creates an option for a [KaliumSimpleDialog].
-  const KaliumSimpleDialogOption({
+class AppSimpleDialogOption extends StatelessWidget {
+  /// Creates an option for a [AppSimpleDialog].
+  const AppSimpleDialogOption({
     Key key,
     this.onPressed,
     this.child,
@@ -358,8 +358,8 @@ class KaliumSimpleDialogOption extends StatelessWidget {
   ///
   /// If this is set to null, the option cannot be selected.
   ///
-  /// When used in a [KaliumSimpleDialog], this will typically call [Navigator.pop]
-  /// with a value for [showKaliumDialog] to complete its future with.
+  /// When used in a [AppSimpleDialog], this will typically call [Navigator.pop]
+  /// with a value for [showAppDialog] to complete its future with.
   final VoidCallback onPressed;
 
   /// The widget below this widget in the tree.
@@ -384,20 +384,20 @@ class KaliumSimpleDialogOption extends StatelessWidget {
 /// A simple dialog offers the user a choice between several options. A simple
 /// dialog has an optional title that is displayed above the choices.
 ///
-/// Choices are normally represented using [KaliumSimpleDialogOption] widgets. If
+/// Choices are normally represented using [AppSimpleDialogOption] widgets. If
 /// other widgets are used, see [contentPadding] for notes regarding the
 /// conventions for obtaining the spacing expected by Material Design.
 ///
 /// For dialogs that inform the user about a situation, consider using an
-/// [KaliumAlertDialog].
+/// [AppAlertDialog].
 ///
-/// Typically passed as the child widget to [showKaliumDialog], which displays the
+/// Typically passed as the child widget to [showAppDialog], which displays the
 /// dialog.
 ///
 /// {@tool sample}
 ///
 /// In this example, the user is asked to select between two options. These
-/// options are represented as an enum. The [showKaliumDialog] method here returns
+/// options are represented as an enum. The [showAppDialog] method here returns
 /// a [Future] that completes to a value of that enum. If the user cancels
 /// the dialog (e.g. by hitting the back button on Android, or tapping on the
 /// mask behind the dialog) then the future completes with the null value.
@@ -409,17 +409,17 @@ class KaliumSimpleDialogOption extends StatelessWidget {
 ///
 /// ```dart
 /// Future<void> _askedToLead() async {
-///   switch (await showKaliumDialog<Department>(
+///   switch (await showAppDialog<Department>(
 ///     context: context,
 ///     builder: (BuildContext context) {
-///       return KaliumSimpleDialog(
+///       return AppSimpleDialog(
 ///         title: const Text('Select assignment'),
 ///         children: <Widget>[
-///           KaliumSimpleDialogOption(
+///           AppSimpleDialogOption(
 ///             onPressed: () { Navigator.pop(context, Department.treasury); },
 ///             child: const Text('Treasury department'),
 ///           ),
-///           KaliumSimpleDialogOption(
+///           AppSimpleDialogOption(
 ///             onPressed: () { Navigator.pop(context, Department.state); },
 ///             child: const Text('State department'),
 ///           ),
@@ -441,18 +441,18 @@ class KaliumSimpleDialogOption extends StatelessWidget {
 ///
 /// See also:
 ///
-///  * [KaliumSimpleDialogOption], which are options used in this type of dialog.
-///  * [KaliumAlertDialog], for dialogs that have a row of buttons below the body.
-///  * [Dialog], on which [KaliumSimpleDialog] and [KaliumAlertDialog] are based.
-///  * [showKaliumDialog], which actually displays the dialog and returns its result.
+///  * [AppSimpleDialogOption], which are options used in this type of dialog.
+///  * [AppAlertDialog], for dialogs that have a row of buttons below the body.
+///  * [Dialog], on which [AppSimpleDialog] and [AppAlertDialog] are based.
+///  * [showAppDialog], which actually displays the dialog and returns its result.
 ///  * <https://material.google.com/components/dialogs.html#dialogs-simple-dialogs>
-class KaliumSimpleDialog extends StatelessWidget {
+class AppSimpleDialog extends StatelessWidget {
   /// Creates a simple dialog.
   ///
-  /// Typically used in conjunction with [showKaliumDialog].
+  /// Typically used in conjunction with [showAppDialog].
   ///
   /// The [titlePadding] and [contentPadding] arguments must not be null.
-  const KaliumSimpleDialog({
+  const AppSimpleDialog({
     Key key,
     this.title,
     this.titlePadding = const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
@@ -484,7 +484,7 @@ class KaliumSimpleDialog extends StatelessWidget {
   /// The (optional) content of the dialog is displayed in a
   /// [SingleChildScrollView] underneath the title.
   ///
-  /// Typically a list of [KaliumSimpleDialogOption]s.
+  /// Typically a list of [AppSimpleDialogOption]s.
   final List<Widget> children;
 
   /// Padding around the content.
@@ -495,7 +495,7 @@ class KaliumSimpleDialog extends StatelessWidget {
   /// the content ends up being indented 20 pixels from the title, 24 pixels
   /// from the bottom, and 24 pixels from the sides.
   ///
-  /// The [KaliumSimpleDialogOption] widget uses such padding.
+  /// The [AppSimpleDialogOption] widget uses such padding.
   ///
   /// If there is no [title], the [contentPadding] should be adjusted so that
   /// the top padding ends up being 24 pixels.
@@ -590,7 +590,7 @@ Widget _buildMaterialDialogTransitions(BuildContext context, Animation<double> a
 /// This function takes a `builder` which typically builds a [Dialog] widget.
 /// Content below the dialog is dimmed with a [ModalBarrier]. The widget
 /// returned by the `builder` does not share a context with the location that
-/// `showKaliumDialog` is originally called from. Use a [StatefulBuilder] or a
+/// `showAppDialog` is originally called from. Use a [StatefulBuilder] or a
 /// custom [StatefulWidget] if the dialog needs to update dynamically.
 ///
 /// The `context` argument is used to look up the [Navigator] and [Theme] for
@@ -608,14 +608,14 @@ Widget _buildMaterialDialogTransitions(BuildContext context, Animation<double> a
 /// dialog rather than just `Navigator.pop(context, result)`.
 ///
 /// See also:
-///  * [KaliumAlertDialog], for dialogs that have a row of buttons below a body.
-///  * [KaliumSimpleDialog], which handles the scrolling of the contents and does
+///  * [AppAlertDialog], for dialogs that have a row of buttons below a body.
+///  * [AppSimpleDialog], which handles the scrolling of the contents and does
 ///    not show buttons below its body.
-///  * [Dialog], on which [KaliumSimpleDialog] and [KaliumAlertDialog] are based.
+///  * [Dialog], on which [AppSimpleDialog] and [AppAlertDialog] are based.
 ///  * [showCupertinoDialog], which displays an iOS-style dialog.
 ///  * [showGeneralDialog], which allows for customization of the dialog popup.
 ///  * <https://material.google.com/components/dialogs.html>
-Future<T> showKaliumDialog<T>({
+Future<T> showAppDialog<T>({
   @required BuildContext context,
   bool barrierDismissible = true,
   @Deprecated(

@@ -105,7 +105,7 @@ class KaliumChangeRepresentativeSheet {
                         margin: EdgeInsets.only(top: 10.0, left: 10.0),
                         child: FlatButton(
                           onPressed: () {
-                            KaliumDialogs.showInfoDialog(
+                            AppDialogs.showInfoDialog(
                                 context,
                                 AppLocalization.of(context).repInfoHeader,
                                 AppLocalization.of(context).repInfo);

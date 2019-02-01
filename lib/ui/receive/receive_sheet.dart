@@ -20,7 +20,7 @@ import 'package:kalium_wallet_flutter/model/wallet.dart';
 import 'package:kalium_wallet_flutter/appstate_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class KaliumReceiveSheet {
+class AppReceiveSheet {
   AppWallet _wallet;
 
   GlobalKey shareCardKey;
@@ -32,7 +32,7 @@ class KaliumReceiveSheet {
 
   Widget qrCode;
 
-  KaliumReceiveSheet(Widget qrWidget) {
+  AppReceiveSheet(Widget qrWidget) {
     // Create our SVG-heavy things in the constructor because they are slower operations
     monkeySVGBorder = SvgPicture.asset('assets/monkeyQR.svg');
     shareCardLogoSvg = SvgPicture.asset('assets/sharecard_bananologo.svg');

@@ -50,7 +50,7 @@ class ContactDetailsSheet {
                       margin: EdgeInsets.only(top: 10.0, left: 10.0),
                       child: FlatButton(
                         onPressed: () {
-                          KaliumDialogs.showConfirmDialog(context,
+                          AppDialogs.showConfirmDialog(context,
                                                           AppLocalization.of(context).removeContact,
                                                           AppLocalization.of(context).removeContactConfirmation.replaceAll('%1', contact.name),
                                                           AppLocalization.of(context).yes.toUpperCase(),
@@ -218,7 +218,7 @@ class ContactDetailsSheet {
                               AppLocalization.of(context).send,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             Navigator.of(context).pop();
-                            KaliumSendSheet(contact: contact).mainBottomSheet(context);
+                            AppSendSheet(contact: contact).mainBottomSheet(context);
                           }),
                         ],
                       ),

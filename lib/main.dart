@@ -69,12 +69,12 @@ class App extends StatelessWidget {
               ); 
             case '/home':
               return NoTransitionRoute(
-                builder: (_) => KaliumHomePage(),
+                builder: (_) => AppHomePage(),
                 settings: settings,
               );
             case '/home_transition':
               return NoPopTransitionRoute(
-                builder: (_) => KaliumHomePage(),
+                builder: (_) => AppHomePage(),
                 settings: settings,
               );
             case '/intro_welcome':
@@ -99,12 +99,12 @@ class App extends StatelessWidget {
               );
             case '/lock_screen':
               return NoTransitionRoute(
-                builder: (_) => KaliumLockScreen(),
+                builder: (_) => AppLockScreen(),
                 settings: settings,
               );            
             case '/lock_screen_transition':
               return MaterialPageRoute(
-                builder: (_) => KaliumLockScreen(),
+                builder: (_) => AppLockScreen(),
                 settings: settings,
               );          
             default:

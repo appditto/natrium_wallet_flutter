@@ -5,17 +5,17 @@ import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/colors.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 
-class KaliumDialogs {
+class AppDialogs {
   static void showConfirmDialog(
       var context, var title, var content, var buttonText, Function onPressed,
       {String cancelText}) {
     if (cancelText == null) {
       cancelText = AppLocalization.of(context).cancel.toUpperCase();
     }
-    showKaliumDialog(
+    showAppDialog(
       context: context,
       builder: (BuildContext context) {
-        return KaliumAlertDialog(
+        return AppAlertDialog(
           title: Text(
             title,
             style: AppStyles.TextStyleButtonPrimaryOutline,
@@ -50,7 +50,7 @@ class KaliumDialogs {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return KaliumAlertDialog(
+        return AppAlertDialog(
           title: Text(
             title,
             style: AppStyles.TextStyleButtonPrimaryOutline,

@@ -8,12 +8,12 @@ import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 
-class KaliumSendCompleteSheet {
+class AppSendCompleteSheet {
   String _amount;
   String _destination;
   String _contactName;
 
-  KaliumSendCompleteSheet(
+  AppSendCompleteSheet(
       String amount, String destinaton, String contactName) {
     _amount = amount;
     _destination = destinaton;

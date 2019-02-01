@@ -22,7 +22,7 @@ import 'package:kalium_wallet_flutter/ui/util/formatters.dart';
 import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:kalium_wallet_flutter/util/numberutil.dart';
 
-class KaliumSendSheet {
+class AppSendSheet {
   FocusNode _sendAddressFocusNode;
   TextEditingController _sendAddressController;
   FocusNode _sendAmountFocusNode;
@@ -46,7 +46,7 @@ class KaliumSendSheet {
   bool _localCurrencyMode = false;
   NumberFormat _localCurrencyFormat;
 
-  KaliumSendSheet({Contact contact, String address}) {
+  AppSendSheet({Contact contact, String address}) {
     _sendAmountFocusNode = new FocusNode();
     _sendAddressFocusNode = new FocusNode();
     _sendAmountController = new TextEditingController();
@@ -419,7 +419,7 @@ class KaliumSendSheet {
                                             .contactInvalid;
                                   });
                                 } else {
-                                  KaliumSendConfirmSheet(
+                                  AppSendConfirmSheet(
                                           _sendAmountController.text,
                                           contact.address,
                                           contactName: contact.name,
@@ -428,7 +428,7 @@ class KaliumSendSheet {
                                 }
                               });
                             } else if (validRequest) {
-                              KaliumSendConfirmSheet(_sendAmountController.text,
+                              AppSendConfirmSheet(_sendAmountController.text,
                                       _sendAddressController.text,
                                       maxSend: _isMaxSend(context))
                                   .mainBottomSheet(context);

@@ -38,15 +38,15 @@ import 'package:qr/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:kalium_wallet_flutter/bus/rxbus.dart';
 
-class KaliumHomePage extends StatefulWidget {
+class AppHomePage extends StatefulWidget {
   @override
-  _KaliumHomePageState createState() => _KaliumHomePageState();
+  _AppHomePageState createState() => _AppHomePageState();
 }
 
-class _KaliumHomePageState extends State<KaliumHomePage>
+class _AppHomePageState extends State<AppHomePage>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  final GlobalKey<KaliumScaffoldState> _scaffoldKey = new GlobalKey<KaliumScaffoldState>();
+  final GlobalKey<AppScaffoldState> _scaffoldKey = new GlobalKey<AppScaffoldState>();
 
   // Controller for placeholder card animations
   AnimationController _placeholderCardAnimationController;
@@ -54,7 +54,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
   bool _animationDisposed;
 
   // Receive card instance
-  KaliumReceiveSheet receive;
+  AppReceiveSheet receive;
 
   // A separate unfortunate instance of this list, is a little unfortunate
   // but seems the only way to handle the animations
@@ -222,7 +222,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         DBHelper().getContactWithAddress(stateBlock.link).then((contact) {
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-          KaliumSendCompleteSheet(displayAmount, stateBlock.link, contactName)
+          AppSendCompleteSheet(displayAmount, stateBlock.link, contactName)
               .mainBottomSheet(context);
         });
       }
@@ -256,14 +256,14 @@ class _KaliumHomePageState extends State<KaliumHomePage>
         Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
         if (amount != null) {
           // Go to send confirm with amount
-          KaliumSendConfirmSheet(
+          AppSendConfirmSheet(
                   NumberUtil.getRawAsUsableString(amount).replaceAll(",", ""),
                   result.sendDestination,
                   contactName: contactName)
               .mainBottomSheet(context);
         } else {
           // Go to send with address
-          KaliumSendSheet(contact: contact, address: result.sendDestination)
+          AppSendSheet(contact: contact, address: result.sendDestination)
               .mainBottomSheet(context);
         }
       });
@@ -460,7 +460,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
       );
       painter.toImageData(MediaQuery.of(context).size.width).then((byteData) {
         setState(() {
-          receive = KaliumReceiveSheet(Container(
+          receive = AppReceiveSheet(Container(
               width: MediaQuery.of(context).size.width / 3.13,
               child: Image.memory(byteData.buffer.asUint8List())));
         });
@@ -500,12 +500,12 @@ class _KaliumHomePageState extends State<KaliumHomePage>
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
         statusBarIconBrightness: Brightness.light,
         statusBarColor: Colors.transparent));
-    return KaliumScaffold(
+    return AppScaffold(
       key: _scaffoldKey,
       backgroundColor: AppColors.background,
       drawer: SizedBox(
         width: UIUtil.drawerWidth(context),
-        child: KaliumDrawer(
+        child: AppDrawer(
           child: SettingsSheet(),
         ),
       ),
@@ -634,7 +634,7 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                       onPressed: () {
                         if (StateContainer.of(context).wallet.accountBalance >
                             BigInt.zero) {
-                          KaliumSendSheet().mainBottomSheet(context);
+                          AppSendSheet().mainBottomSheet(context);
                         }
                       },
                       highlightColor:
@@ -1332,11 +1332,11 @@ class _KaliumHomePageState extends State<KaliumHomePage>
                   child: AutoSizeText.rich(
                     TextSpan(
                       children: [
-                        // Banano Icon
+                        // Currency Icon
                         TextSpan(
                           text: "",
                           style: TextStyle(
-                            fontFamily: 'KaliumIcons',
+                            fontFamily: 'AppIcons',
                             color: AppColors.primary,
                             fontSize: 23.0,
                           ),

@@ -1,4 +1,4 @@
-/// Modified to use KaliumDrawerController
+/// Modified to use AppDrawerController
 
 // Copyright 2015 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
@@ -42,10 +42,10 @@ enum _ScaffoldSlot {
 /// For a description of the [Scaffold]'s geometry after it has
 /// finished laying out, see the [ScaffoldGeometry].
 @immutable
-class KaliumScaffoldPrelayoutGeometry {
+class AppScaffoldPrelayoutGeometry {
   /// Abstract const constructor. This constructor enables subclasses to provide
   /// const constructors so that they can be used in const expressions.
-  const KaliumScaffoldPrelayoutGeometry({
+  const AppScaffoldPrelayoutGeometry({
     @required this.bottomSheetSize,
     @required this.contentBottom,
     @required this.contentTop,
@@ -131,7 +131,7 @@ class KaliumScaffoldPrelayoutGeometry {
 
 /// A snapshot of a transition between two [FloatingActionButtonLocation]s.
 ///
-/// [KaliumScaffoldState] uses this to seamlessly change transition animations
+/// [AppScaffoldState] uses this to seamlessly change transition animations
 /// when a running [FloatingActionButtonLocation] transition is interrupted by a new transition.
 @immutable
 class _TransitionSnapshotFabLocation extends FloatingActionButtonLocation {
@@ -171,7 +171,7 @@ class _TransitionSnapshotFabLocation extends FloatingActionButtonLocation {
 /// [FloatingActionButton].
 ///
 /// For information about the [Scaffold]'s geometry that is used while laying
-/// out the [FloatingActionButton], see [KaliumScaffoldPrelayoutGeometry].
+/// out the [FloatingActionButton], see [AppScaffoldPrelayoutGeometry].
 @immutable
 class ScaffoldGeometry {
   /// Create an object that describes the geometry of a [Scaffold].
@@ -646,8 +646,8 @@ class _FloatingActionButtonTransitionState extends State<_FloatingActionButtonTr
 /// This class provides APIs for showing drawers, snack bars, and bottom sheets.
 ///
 /// To display a snackbar or a persistent bottom sheet, obtain the
-/// [KaliumScaffoldState] for the current [BuildContext] via [Scaffold.of] and use the
-/// [KaliumScaffoldState.showSnackBar] and [KaliumScaffoldState.showBottomSheet] functions.
+/// [AppScaffoldState] for the current [BuildContext] via [Scaffold.of] and use the
+/// [AppScaffoldState.showSnackBar] and [AppScaffoldState.showBottomSheet] functions.
 ///
 /// {@tool snippet --template=stateful_widget}
 ///
@@ -700,16 +700,16 @@ class _FloatingActionButtonTransitionState extends State<_FloatingActionButtonTr
 ///    shown along the bottom of the app using the [bottomNavigationBar]
 ///    property.
 ///  * [SnackBar], which is a temporary notification typically shown near the
-///    bottom of the app using the [KaliumScaffoldState.showSnackBar] method.
+///    bottom of the app using the [AppScaffoldState.showSnackBar] method.
 ///  * [BottomSheet], which is an overlay typically shown near the bottom of the
 ///    app. A bottom sheet can either be persistent, in which case it is shown
-///    using the [KaliumScaffoldState.showBottomSheet] method, or modal, in which case
+///    using the [AppScaffoldState.showBottomSheet] method, or modal, in which case
 ///    it is shown using the [showModalBottomSheet] function.
-///  * [KaliumScaffoldState], which is the state associated with this widget.
+///  * [AppScaffoldState], which is the state associated with this widget.
 ///  * <https://material.io/design/layout/responsive-layout-grid.html>
-class KaliumScaffold extends StatefulWidget {
+class AppScaffold extends StatefulWidget {
   /// Creates a visual scaffold for material design widgets.
-  const KaliumScaffold({
+  const AppScaffold({
     Key key,
     this.appBar,
     this.body,
@@ -754,12 +754,12 @@ class KaliumScaffold extends StatefulWidget {
 
   /// Responsible for determining where the [floatingActionButton] should go.
   ///
-  /// If null, the [KaliumScaffoldState] will use the default location, [FloatingActionButtonLocation.endFloat].
+  /// If null, the [AppScaffoldState] will use the default location, [FloatingActionButtonLocation.endFloat].
   final FloatingActionButtonLocation floatingActionButtonLocation;
 
   /// Animator to move the [floatingActionButton] to a new [floatingActionButtonLocation].
   ///
-  /// If null, the [KaliumScaffoldState] will use the default animator, [FloatingActionButtonAnimator.scaling].
+  /// If null, the [AppScaffoldState] will use the default animator, [FloatingActionButtonAnimator.scaling].
   final FloatingActionButtonAnimator floatingActionButtonAnimator;
 
   /// A set of buttons that are displayed at the bottom of the scaffold.
@@ -778,7 +778,7 @@ class KaliumScaffold extends StatefulWidget {
   /// right-to-left ([TextDirection.rtl])
   ///
   /// In the uncommon case that you wish to open the drawer manually, use the
-  /// [KaliumScaffoldState.openDrawer] function.
+  /// [AppScaffoldState.openDrawer] function.
   ///
   /// Typically a [Drawer].
   final Widget drawer;
@@ -788,7 +788,7 @@ class KaliumScaffold extends StatefulWidget {
   /// left-to-right ([TextDirection.rtl])
   ///
   /// In the uncommon case that you wish to open the drawer manually, use the
-  /// [KaliumScaffoldState.openEndDrawer] function.
+  /// [AppScaffoldState.openEndDrawer] function.
   ///
   /// Typically a [Drawer].
   final Widget endDrawer;
@@ -916,14 +916,14 @@ class KaliumScaffold extends StatefulWidget {
   ///
   /// A less elegant but more expedient solution is assign a [GlobalKey] to the
   /// [Scaffold], then use the `key.currentState` property to obtain the
-  /// [KaliumScaffoldState] rather than using the [Scaffold.of] function.
+  /// [AppScaffoldState] rather than using the [Scaffold.of] function.
   ///
   /// If there is no [Scaffold] in scope, then this will throw an exception.
   /// To return null if there is no [Scaffold], then pass `nullOk: true`.
-  static KaliumScaffoldState of(BuildContext context, { bool nullOk = false }) {
+  static AppScaffoldState of(BuildContext context, { bool nullOk = false }) {
     assert(nullOk != null);
     assert(context != null);
-    final KaliumScaffoldState result = context.ancestorStateOfType(const TypeMatcher<KaliumScaffoldState>());
+    final AppScaffoldState result = context.ancestorStateOfType(const TypeMatcher<AppScaffoldState>());
     if (nullOk || result != null)
       return result;
     throw FlutterError(
@@ -940,7 +940,7 @@ class KaliumScaffold extends StatefulWidget {
       'you would have an outer widget that creates the Scaffold populated by instances of '
       'your new inner widgets, and then in these inner widgets you would use Scaffold.of().\n'
       'A less elegant but more expedient solution is assign a GlobalKey to the Scaffold, '
-      'then use the key.currentState property to obtain the KaliumScaffoldState rather than '
+      'then use the key.currentState property to obtain the AppScaffoldState rather than '
       'using the Scaffold.of() function.\n'
       'The context used was:\n'
       '  $context'
@@ -1000,7 +1000,7 @@ class KaliumScaffold extends StatefulWidget {
   ///
   /// See also:
   ///
-  ///  * [Scaffold.of], which provides access to the [KaliumScaffoldState] object as a
+  ///  * [Scaffold.of], which provides access to the [AppScaffoldState] object as a
   ///    whole, from which you can show snackbars, bottom sheets, and so forth.
   static bool hasDrawer(BuildContext context, { bool registerForUpdates = true }) {
     assert(registerForUpdates != null);
@@ -1009,24 +1009,24 @@ class KaliumScaffold extends StatefulWidget {
       final _ScaffoldScope scaffold = context.inheritFromWidgetOfExactType(_ScaffoldScope);
       return scaffold?.hasDrawer ?? false;
     } else {
-      final KaliumScaffoldState scaffold = context.ancestorStateOfType(const TypeMatcher<KaliumScaffoldState>());
+      final AppScaffoldState scaffold = context.ancestorStateOfType(const TypeMatcher<AppScaffoldState>());
       return scaffold?.hasDrawer ?? false;
     }
   }
 
   @override
-  KaliumScaffoldState createState() => KaliumScaffoldState();
+  AppScaffoldState createState() => AppScaffoldState();
 }
 
 /// State for a [Scaffold].
 ///
-/// Can display [SnackBar]s and [BottomSheet]s. Retrieve a [KaliumScaffoldState] from
+/// Can display [SnackBar]s and [BottomSheet]s. Retrieve a [AppScaffoldState] from
 /// the current [BuildContext] using [Scaffold.of].
-class KaliumScaffoldState extends State<KaliumScaffold> with TickerProviderStateMixin {
+class AppScaffoldState extends State<AppScaffold> with TickerProviderStateMixin {
 
   // DRAWER API
-  final GlobalKey<KaliumDrawerControllerState> _drawerKey = GlobalKey<KaliumDrawerControllerState>();
-  final GlobalKey<KaliumDrawerControllerState> _endDrawerKey = GlobalKey<KaliumDrawerControllerState>();
+  final GlobalKey<AppDrawerControllerState> _drawerKey = GlobalKey<AppDrawerControllerState>();
+  final GlobalKey<AppDrawerControllerState> _endDrawerKey = GlobalKey<AppDrawerControllerState>();
 
   /// Whether this scaffold has a non-null [Scaffold.drawer].
   bool get hasDrawer => widget.drawer != null;
@@ -1040,7 +1040,7 @@ class KaliumScaffoldState extends State<KaliumScaffold> with TickerProviderState
   ///
   /// See also:
   ///
-  ///  * [KaliumScaffoldState.openDrawer], which opens the [Scaffold.drawer] of a
+  ///  * [AppScaffoldState.openDrawer], which opens the [Scaffold.drawer] of a
   ///    [Scaffold].
   bool get isDrawerOpen => _drawerOpened;
 
@@ -1048,7 +1048,7 @@ class KaliumScaffoldState extends State<KaliumScaffold> with TickerProviderState
   ///
   /// See also:
   ///
-  ///  * [KaliumScaffoldState.openEndDrawer], which opens the [Scaffold.endDrawer] of
+  ///  * [AppScaffoldState.openEndDrawer], which opens the [Scaffold.endDrawer] of
   ///    a [Scaffold].
   bool get isEndDrawerOpen => _endDrawerOpened;
 
@@ -1075,7 +1075,7 @@ class KaliumScaffoldState extends State<KaliumScaffold> with TickerProviderState
   ///
   /// To close the drawer once it is open, use [Navigator.pop].
   ///
-  /// See [Scaffold.of] for information about how to obtain the [KaliumScaffoldState].
+  /// See [Scaffold.of] for information about how to obtain the [AppScaffoldState].
   void openDrawer() {
     if (_endDrawerKey.currentState != null && _endDrawerOpened)
       _endDrawerKey.currentState.close();
@@ -1093,7 +1093,7 @@ class KaliumScaffoldState extends State<KaliumScaffold> with TickerProviderState
   ///
   /// To close the end side drawer once it is open, use [Navigator.pop].
   ///
-  /// See [Scaffold.of] for information about how to obtain the [KaliumScaffoldState].
+  /// See [Scaffold.of] for information about how to obtain the [AppScaffoldState].
   void openEndDrawer() {
     if (_drawerKey.currentState != null && _drawerOpened)
       _drawerKey.currentState.close();
@@ -1121,7 +1121,7 @@ class KaliumScaffoldState extends State<KaliumScaffold> with TickerProviderState
   /// [ScaffoldFeatureController]. To remove a [SnackBar] suddenly (without an
   /// animation), use [removeCurrentSnackBar].
   ///
-  /// See [Scaffold.of] for information about how to obtain the [KaliumScaffoldState].
+  /// See [Scaffold.of] for information about how to obtain the [AppScaffoldState].
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(SnackBar snackbar) {
     _snackBarController ??= SnackBar.createAnimationController(vsync: this)
       ..addStatusListener(_handleSnackBarStatusChange);
@@ -1322,7 +1322,7 @@ class KaliumScaffoldState extends State<KaliumScaffold> with TickerProviderState
   ///  * [showBottomSheet], which calls this method given a [BuildContext].
   ///  * [showModalBottomSheet], which can be used to display a modal bottom
   ///    sheet.
-  ///  * [Scaffold.of], for information about how to obtain the [KaliumScaffoldState].
+  ///  * [Scaffold.of], for information about how to obtain the [AppScaffoldState].
   ///  * <https://material.io/design/components/sheets-bottom.html#standard-bottom-sheet>
   PersistentBottomSheetController<T> showBottomSheet<T>(WidgetBuilder builder) {
     _closeCurrentBottomSheet();
@@ -1401,7 +1401,7 @@ class KaliumScaffoldState extends State<KaliumScaffold> with TickerProviderState
   }
 
   @override
-  void didUpdateWidget(KaliumScaffold oldWidget) {
+  void didUpdateWidget(AppScaffold oldWidget) {
     // Update the Floating Action Button Animator, and then schedule the Floating Action Button for repositioning.
     if (widget.floatingActionButtonAnimator != oldWidget.floatingActionButtonAnimator) {
       _floatingActionButtonAnimator = widget.floatingActionButtonAnimator ?? _kDefaultFloatingActionButtonAnimator;
@@ -1486,9 +1486,9 @@ class KaliumScaffoldState extends State<KaliumScaffold> with TickerProviderState
       assert(hasEndDrawer);
       _addIfNonNull(
         children,
-        KaliumDrawerController(
+        AppDrawerController(
           key: _endDrawerKey,
-          alignment: KaliumDrawerAlignment.end,
+          alignment: AppDrawerAlignment.end,
           child: widget.endDrawer,
           drawerCallback: _endDrawerOpenedCallback,
         ),
@@ -1507,9 +1507,9 @@ class KaliumScaffoldState extends State<KaliumScaffold> with TickerProviderState
       assert(hasDrawer);
       _addIfNonNull(
         children,
-        KaliumDrawerController(
+        AppDrawerController(
           key: _drawerKey,
-          alignment: KaliumDrawerAlignment.start,
+          alignment: AppDrawerAlignment.start,
           child: widget.drawer,
           drawerCallback: _drawerOpenedCallback,
         ),
@@ -1736,7 +1736,7 @@ class KaliumScaffoldState extends State<KaliumScaffold> with TickerProviderState
 
 /// An interface for controlling a feature of a [Scaffold].
 ///
-/// Commonly obtained from [KaliumScaffoldState.showSnackBar] or [KaliumScaffoldState.showBottomSheet].
+/// Commonly obtained from [AppScaffoldState.showSnackBar] or [AppScaffoldState.showBottomSheet].
 class ScaffoldFeatureController<T extends Widget, U> {
   const ScaffoldFeatureController._(this._widget, this._completer, this.close, this.setState);
   final T _widget;
@@ -1827,7 +1827,7 @@ class _PersistentBottomSheetState extends State<_PersistentBottomSheet> {
 
 /// A [ScaffoldFeatureController] for persistent bottom sheets.
 ///
-/// This is the type of objects returned by [KaliumScaffoldState.showBottomSheet].
+/// This is the type of objects returned by [AppScaffoldState.showBottomSheet].
 class PersistentBottomSheetController<T> extends ScaffoldFeatureController<_PersistentBottomSheet, T> {
   const PersistentBottomSheetController._(
     _PersistentBottomSheet widget,

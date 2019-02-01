@@ -359,13 +359,13 @@ class _SettingsSheetState extends State<SettingsSheet>
     switch (await showDialog<AuthMethod>(
         context: context,
         builder: (BuildContext context) {
-          return KaliumSimpleDialog(
+          return AppSimpleDialog(
             title: Text(
               AppLocalization.of(context).authMethod,
               style: AppStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
-              KaliumSimpleDialogOption(
+              AppSimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, AuthMethod.BIOMETRICS);
                 },
@@ -377,7 +377,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   ),
                 ),
               ),
-              KaliumSimpleDialogOption(
+              AppSimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, AuthMethod.PIN);
                 },
@@ -417,13 +417,13 @@ class _SettingsSheetState extends State<SettingsSheet>
     switch (await showDialog<NotificationOptions>(
         context: context,
         builder: (BuildContext context) {
-          return KaliumSimpleDialog(
+          return AppSimpleDialog(
             title: Text(
               AppLocalization.of(context).notifications,
               style: AppStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
-              KaliumSimpleDialogOption(
+              AppSimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, NotificationOptions.ON);
                 },
@@ -435,7 +435,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   ),
                 ),
               ),
-              KaliumSimpleDialogOption(
+              AppSimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, NotificationOptions.OFF);
                 },
@@ -480,13 +480,13 @@ class _SettingsSheetState extends State<SettingsSheet>
     switch (await showDialog<UnlockOption>(
         context: context,
         builder: (BuildContext context) {
-          return KaliumSimpleDialog(
+          return AppSimpleDialog(
             title: Text(
               AppLocalization.of(context).lockAppSetting,
               style: AppStyles.TextStyleDialogHeader,
             ),
             children: <Widget>[
-              KaliumSimpleDialogOption(
+              AppSimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, UnlockOption.NO);
                 },
@@ -498,7 +498,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   ),
                 ),
               ),
-              KaliumSimpleDialogOption(
+              AppSimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context, UnlockOption.YES);
                 },
@@ -553,10 +553,10 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   Future<void> _currencyDialog() async {
     AvailableCurrencyEnum selection =
-        await showKaliumDialog<AvailableCurrencyEnum>(
+        await showAppDialog<AvailableCurrencyEnum>(
             context: context,
             builder: (BuildContext context) {
-              return KaliumSimpleDialog(
+              return AppSimpleDialog(
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
@@ -601,10 +601,10 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   Future<void> _lockTimeoutDialog() async {
     LockTimeoutOption selection =
-        await showKaliumDialog<LockTimeoutOption>(
+        await showAppDialog<LockTimeoutOption>(
             context: context,
             builder: (BuildContext context) {
-              return KaliumSimpleDialog(
+              return AppSimpleDialog(
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
@@ -815,7 +815,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   KaliumSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).logout, AppIcons.logout,
                       onPressed: () {
-                    KaliumDialogs.showConfirmDialog(
+                    AppDialogs.showConfirmDialog(
                         context,
                         AppLocalization.of(context).warning.toUpperCase(),
                         AppLocalization.of(context).logoutDetail,
@@ -823,7 +823,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                             .logoutAction
                             .toUpperCase(), () {
                       // Show another confirm dialog
-                      KaliumDialogs.showConfirmDialog(
+                      AppDialogs.showConfirmDialog(
                           context,
                           AppLocalization.of(context).logoutAreYouSure,
                           AppLocalization.of(context).logoutReassurance,

@@ -15,12 +15,12 @@ import 'package:kalium_wallet_flutter/localization.dart';
 import 'package:kalium_wallet_flutter/dimens.dart';
 import 'package:kalium_wallet_flutter/ui/util/routes.dart';
 
-class KaliumLockScreen extends StatefulWidget {
+class AppLockScreen extends StatefulWidget {
   @override
-  _KaliumLockScreenState createState() => _KaliumLockScreenState();
+  _AppLockScreenState createState() => _AppLockScreenState();
 }
 
-class _KaliumLockScreenState extends State<KaliumLockScreen> {
+class _AppLockScreenState extends State<AppLockScreen> {
   bool _showUnlockButton = false;
   bool _showLock = false;
   bool _lockedOut = true;

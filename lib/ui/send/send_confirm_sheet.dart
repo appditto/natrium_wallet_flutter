@@ -19,7 +19,7 @@ import 'package:kalium_wallet_flutter/model/vault.dart';
 import 'package:kalium_wallet_flutter/network/model/response/error_response.dart';
 import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
 
-class KaliumSendConfirmSheet {
+class AppSendConfirmSheet {
   String _amount;
   String _amountRaw;
   String _destination;
@@ -28,7 +28,7 @@ class KaliumSendConfirmSheet {
 
   bool animationOpen = false;
 
-  KaliumSendConfirmSheet(String amount, String destinaton, {bool maxSend = false, String contactName}) {
+  AppSendConfirmSheet(String amount, String destinaton, {bool maxSend = false, String contactName}) {
     _amount = amount;
     _amountRaw = NumberUtil.getAmountAsRaw(amount);
     _destination = destinaton;

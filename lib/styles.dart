@@ -149,7 +149,7 @@ class AppStyles {
     color: AppColors.text,
     fontFamily: 'NunitoSans',
   );
-  // Transaction Welcome "BANANO" Text
+  // Transaction Welcome Text
   static const TextStyleTransactionWelcomePrimary = TextStyle(
     fontSize: AppFontSizes.small,
     fontWeight: FontWeight.w200,
