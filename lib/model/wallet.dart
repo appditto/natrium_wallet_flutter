@@ -16,14 +16,13 @@ class AppWallet {
   String _representativeBlock;
   String _representative;
   String _localCurrencyPrice;
-  String _nanoPrice;
   String _btcPrice;
   int _blockCount;
   List<AccountHistoryResponseItem> _history;
 
 
   AppWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
-                String representative, String localCurrencyPrice, String nanoPrice, String btcPrice, int blockCount,
+                String representative, String localCurrencyPrice,String btcPrice, int blockCount,
                 List<AccountHistoryResponseItem> history, bool loading, bool historyLoading}) {
     this._address = address;
     this._accountBalance = accountBalance ?? BigInt.zero;
@@ -32,7 +31,6 @@ class AppWallet {
     this._representativeBlock = representativeBlock;
     this._representative = representative;
     this._localCurrencyPrice = localCurrencyPrice ?? "0";
-    this._nanoPrice = nanoPrice ?? "0";
     this._btcPrice = btcPrice ?? "0";
     this._blockCount = blockCount ?? 0;
     this._history = history ?? new List<AccountHistoryResponseItem>();
@@ -93,20 +91,6 @@ class AppWallet {
 
   set btcPrice(String value) {
     _btcPrice = value;
-  }
-
-  String get nanoPrice {
-    Decimal converted = Decimal.parse(_nanoPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
-    // Show 2 decimal places for nano price if its >= 1 NANO, otherwise 4 decimals
-    if (converted >= Decimal.parse("1")) {
-      return new NumberFormat("#,##0.00", "en_US").format(converted.toDouble());
-    } else {
-      return new NumberFormat("#,##0.0000", "en_US").format(converted.toDouble());
-    }
-  }
-
-  set nanoPrice(String value) {
-    _nanoPrice = value;
   }
 
   String get representative {

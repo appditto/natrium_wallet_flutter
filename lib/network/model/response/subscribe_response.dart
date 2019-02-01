@@ -42,9 +42,6 @@ class SubscribeResponse {
   @JsonKey(name:'btc', fromJson:_toDouble)
   double btcPrice;
 
-  @JsonKey(name:'nano', fromJson:_toDouble)
-  double nanoPrice;
-
   SubscribeResponse() {}
 
   factory SubscribeResponse.fromJson(Map<String, dynamic> json) => _$SubscribeResponseFromJson(json);

@@ -190,7 +190,6 @@ class StateContainerState extends State<StateContainer> {
     RxBus.register<PriceResponse>(tag: RX_PRICE_RESP_TAG).listen((priceResponse) {
       // PriceResponse's get pushed periodically, it wasn't a request we made so don't pop the queue
       setState(() {
-        wallet.nanoPrice = priceResponse.nanoPrice.toString();
         wallet.btcPrice = priceResponse.btcPrice.toString();
         wallet.localCurrencyPrice = priceResponse.price.toString();
       });
@@ -418,7 +417,6 @@ class StateContainerState extends State<StateContainer> {
         wallet.accountBalance = BigInt.tryParse(response.balance);
       }
       wallet.localCurrencyPrice = response.price.toString();
-      wallet.nanoPrice = response.nanoPrice.toString();
       wallet.btcPrice = response.btcPrice.toString();
     });
     AccountService.pop();

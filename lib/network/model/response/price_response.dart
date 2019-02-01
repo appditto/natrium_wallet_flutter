@@ -19,9 +19,6 @@ class PriceResponse {
   @JsonKey(name:'btc', fromJson:_toDouble)
   double btcPrice;
 
-  @JsonKey(name:'nano', fromJson:_toDouble)
-  double nanoPrice;
-
   PriceResponse();
 
   factory PriceResponse.fromJson(Map<String, dynamic> json) => _$PriceResponseFromJson(json);
