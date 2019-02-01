@@ -28,7 +28,7 @@ import 'package:kalium_wallet_flutter/model/vault.dart';
 
 // TODO - add validations
 
-class KaliumChangeRepresentativeSheet {
+class AppChangeRepresentativeSheet {
   FocusNode _repFocusNode;
   TextEditingController _repController;
 
@@ -39,7 +39,7 @@ class KaliumChangeRepresentativeSheet {
 
   bool _animationOpen = false;
 
-  KaliumChangeRepresentativeSheet() {
+  AppChangeRepresentativeSheet() {
     _repFocusNode = new FocusNode();
     _repController = new TextEditingController();
     _repAddressStyle = AppStyles.TextStyleAddressText60;

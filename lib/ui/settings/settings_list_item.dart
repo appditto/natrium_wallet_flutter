@@ -4,7 +4,7 @@ import 'package:kalium_wallet_flutter/app_icons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/model/setting_item.dart';
 
-class KaliumSettings {
+class AppSettings {
   //Settings item with a dropdown option
   static Widget buildSettingsListItemDoubleLine(
       BuildContext context,

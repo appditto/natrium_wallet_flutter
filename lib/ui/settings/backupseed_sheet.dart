@@ -12,7 +12,7 @@ import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:kalium_wallet_flutter/styles.dart';
 import 'package:kalium_wallet_flutter/util/clipboardutil.dart';
 
-class KaliumSeedBackupSheet {
+class AppSeedBackupSheet {
   // Seed copied state information
   String _placeholderSeed = '●'*64;
   bool _seedCopied;

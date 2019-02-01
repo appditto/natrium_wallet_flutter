@@ -703,7 +703,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                             color: AppColors.text60)),
                   ),
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemDoubleLine(
+                  AppSettings.buildSettingsListItemDoubleLine(
                       context,
                       AppLocalization.of(context).changeCurrency,
                       StateContainer.of(context).curCurrency,
@@ -712,18 +712,18 @@ class _SettingsSheetState extends State<SettingsSheet>
                   /*
                   Divider(height: 2),
                   buildSettingsListItemDoubleLine(
-                      KaliumLocalization.of(context).language,
-                      KaliumLocalization.of(context).systemDefault,
-                      KaliumIcons.language),*/
+                      AppLocalization.of(context).language,
+                      AppLocalization.of(context).systemDefault,
+                      AppIcons.language),*/
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemDoubleLine(
+                  AppSettings.buildSettingsListItemDoubleLine(
                       context,
                       AppLocalization.of(context).notifications,
                       _curNotificiationSetting,
                       AppIcons.notifications,
                       _notificationsDialog),
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemSingleLine(
+                  AppSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).securityHeader,
                       AppIcons.security, onPressed: () {
                     setState(() {
@@ -742,7 +742,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                             color: AppColors.text60)),
                   ),
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemSingleLine(
+                  AppSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).contactsHeader,
                       AppIcons.contacts, onPressed: () {
                     setState(() {
@@ -751,7 +751,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     _controller.forward();
                   }),
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemSingleLine(
+                  AppSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).backupSeed,
                       AppIcons.backupseed, onPressed: () {
                     // Authenticate
@@ -765,7 +765,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               .then((authenticated) {
                             if (authenticated) {
                               HapticUtil.fingerprintSucess();
-                              new KaliumSeedBackupSheet()
+                              new AppSeedBackupSheet()
                                   .mainBottomSheet(context);
                             }
                           });
@@ -778,7 +778,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                 PinOverlayType.ENTER_PIN,
                                 (pin) {
                                   Navigator.of(context).pop();
-                                  new KaliumSeedBackupSheet()
+                                  new AppSeedBackupSheet()
                                       .mainBottomSheet(context);
                                 },
                                 expectedPin: expectedPin,
@@ -792,27 +792,27 @@ class _SettingsSheetState extends State<SettingsSheet>
                     });
                   }),
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemSingleLine(
+                  AppSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).settingsTransfer,
                       AppIcons.transferfunds, onPressed: () {
                     AppTransferOverviewSheet().mainBottomSheet(context);
                   }),
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemSingleLine(
+                  AppSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).changeRepAuthenticate,
                       AppIcons.changerepresentative, onPressed: () {
-                    new KaliumChangeRepresentativeSheet()
+                    new AppChangeRepresentativeSheet()
                         .mainBottomSheet(context);
                   }),
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemSingleLine(
+                  AppSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).shareKalium,
                       AppIcons.share, onPressed: () {
                     Share.share(AppLocalization.of(context).shareKaliumText +
                         " https://kalium.banano.cc");
                   }),
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemSingleLine(
+                  AppSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).logout, AppIcons.logout,
                       onPressed: () {
                     AppDialogs.showConfirmDialog(
@@ -1187,7 +1187,7 @@ Widget buildSecurityMenu(BuildContext context) {
                   // Authentication Method
                   _hasBiometrics ? Divider(height: 2) : null,
                   _hasBiometrics
-                      ? KaliumSettings.buildSettingsListItemDoubleLine(
+                      ? AppSettings.buildSettingsListItemDoubleLine(
                           context,
                           AppLocalization.of(context).authMethod,
                           _curAuthMethod,
@@ -1196,7 +1196,7 @@ Widget buildSecurityMenu(BuildContext context) {
                       : null,
                   // Authenticate on Launch
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemDoubleLine(
+                  AppSettings.buildSettingsListItemDoubleLine(
                       context,
                       AppLocalization.of(context).lockAppSetting,
                       _curUnlockSetting,
@@ -1204,7 +1204,7 @@ Widget buildSecurityMenu(BuildContext context) {
                       _lockDialog),
                   // Authentication Timer
                   Divider(height: 2),
-                  KaliumSettings.buildSettingsListItemDoubleLine(
+                  AppSettings.buildSettingsListItemDoubleLine(
                       context,
                       AppLocalization.of(context).autoLockHeader,
                       _curTimeoutSetting,
