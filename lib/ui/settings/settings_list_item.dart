@@ -64,6 +64,7 @@ class AppSettings {
 
   //Settings item without any dropdown option but rather a direct functionality
   static Widget buildSettingsListItemSingleLine(
+    
       String heading, IconData settingIcon,
       {Function onPressed}) {
     return FlatButton(
@@ -81,7 +82,7 @@ class AppSettings {
         child: Row(
           children: <Widget>[
             Container(
-              margin: new EdgeInsets.only(right: 13.0),
+              margin: new EdgeInsets.only(right: 14.0),
               child: Container(
                 child: new Icon(
                   settingIcon,
@@ -90,9 +91,9 @@ class AppSettings {
                 ),
                 margin: EdgeInsets.only(
                   top: 3,
-                  left: settingIcon == AppIcons.logout ? 6 : 3,
+                  left: settingIcon == AppIcons.logout ? 6 : settingIcon == AppIcons.changerepresentative? 0: settingIcon == AppIcons.backupseed ? 1:3,
                   bottom: 3,
-                  right: settingIcon == AppIcons.logout ? 0 : 3,
+                  right: settingIcon == AppIcons.logout ? 0 : settingIcon == AppIcons.changerepresentative? 6: settingIcon == AppIcons.backupseed ? 5:3,
                 ),
               ),
             ),
@@ -103,6 +104,9 @@ class AppSettings {
           ],
         ),
       ),
+      
     );
+    
   }
+  
 }
