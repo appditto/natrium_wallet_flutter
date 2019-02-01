@@ -1,15 +1,13 @@
-\# Kalium - BANANO Mobile Wallet
+\# Natrium - Fast, Robust & Secure NANO Wallet
 
-## What is Kalium?
+## What is Natrium?
 
-Kalium is a cross-platform mobile wallet for the Banano cryptocurrency. It is written in Dart using [Flutter](https://flutter.io).
+Natrium is a cross-platform mobile wallet for the NANO cryptocurrency. It is written in Dart using [Flutter](https://flutter.io).
 
 | Link | Description |
 | :----- | :------ |
-[banano.cc](https://banano.cc) | Banano Homepage
-[chat.banano.cc](https://chat.banano.cc) | Banano Discord
-[@bananocoin](https://twitter.com/bananocoin) | Follow Banano on Twitter to stay up to date
-[banano.how](https://banano.how) | Getting started with Banano and more Information
+[natrium.io](https://natrium.io) | Natrium Homepage
+[nano.org](https://nano.org) | NANO Cryptocurrency Homepage
 
 ## Contributing
 
