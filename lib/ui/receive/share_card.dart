@@ -42,18 +42,18 @@ class _AppShareCardState extends State<AppShareCard> {
           margin:
               EdgeInsets.only(left: 12.5, right: 12.5, top: 12.5, bottom: 12.5),
           constraints: BoxConstraints.expand(),
-          // The main row that holds monkeyQR, logo, the address, ticker and the website text
+          // The main row that holds QR, logo, the address, ticker and the website text
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              // A container for monkeyQR
+              // A container for QR
               Container(
                 width: 105,
                 height: 100.0,
                 child: Stack(
                   children: <Widget>[
-                    // Background/border part of monkeyQR
+                    // Background/border part of QR
                     Center(
                       child: Container(
                         width: 105,
@@ -61,7 +61,7 @@ class _AppShareCardState extends State<AppShareCard> {
                         child: monkeySvg,
                       ),
                     ),
-                    // Actual QR part of the monkeyQR
+                    // Actual QR part of the QR
                     Center(
                       child: Container(
                         margin: EdgeInsets.only(top: 26.25),
