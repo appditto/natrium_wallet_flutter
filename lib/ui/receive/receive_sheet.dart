@@ -24,7 +24,7 @@ class AppReceiveSheet {
   AppWallet _wallet;
 
   GlobalKey shareCardKey;
-  Widget kaliumShareCard;
+  Widget appShareCard;
   ByteData shareImageData;
   Widget monkeySVGBorder;
   Widget shareCardLogoSvg;
@@ -38,8 +38,8 @@ class AppReceiveSheet {
     shareCardLogoSvg = SvgPicture.asset('assets/sharecard_bananologo.svg');
     // Share card initialization
     shareCardKey = GlobalKey();
-    kaliumShareCard = Container(
-      child: KaliumShareCard(shareCardKey, monkeySVGBorder, shareCardLogoSvg),
+    appShareCard = Container(
+      child: AppShareCard(shareCardKey, monkeySVGBorder, shareCardLogoSvg),
       alignment: Alignment(0.0, 0.0),
     );
     qrCode = qrWidget;
@@ -121,7 +121,7 @@ class AppReceiveSheet {
                   child: Center(
                     child: Stack(
                       children: <Widget>[
-                        _showShareCard ? kaliumShareCard : SizedBox(),
+                        _showShareCard ? appShareCard : SizedBox(),
                         // This is for hiding the share card
                         Center(
                           child: Container(

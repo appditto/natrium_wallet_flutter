@@ -7,24 +7,24 @@ import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:qr/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class KaliumShareCard extends StatefulWidget {
+class AppShareCard extends StatefulWidget {
   final GlobalKey key;
   final Widget monkeySvg;
   final Widget logoSvg;
 
-  KaliumShareCard(this.key, this.monkeySvg, this.logoSvg);
+  AppShareCard(this.key, this.monkeySvg, this.logoSvg);
 
   @override
-  _KaliumShareCardState createState() =>
-      _KaliumShareCardState(key, monkeySvg, logoSvg);
+  _AppShareCardState createState() =>
+      _AppShareCardState(key, monkeySvg, logoSvg);
 }
 
-class _KaliumShareCardState extends State<KaliumShareCard> {
+class _AppShareCardState extends State<AppShareCard> {
   GlobalKey globalKey;
   Widget monkeySvg;
   Widget logoSvg;
 
-  _KaliumShareCardState(
+  _AppShareCardState(
       this.globalKey, this.monkeySvg, this.logoSvg);
 
   @override
@@ -42,7 +42,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
           margin:
               EdgeInsets.only(left: 12.5, right: 12.5, top: 12.5, bottom: 12.5),
           constraints: BoxConstraints.expand(),
-          // The main row that holds monkeyQR, Banano logo, the address, ticker and the website text
+          // The main row that holds monkeyQR, logo, the address, ticker and the website text
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,12 +77,12 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                   ],
                 ),
               ),
-              // A column for Banano logo, address, ticker and website text
+              // A column for logo, address, ticker and website text
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  // Banano Logo
+                  // Logo
                   Container(
                     width: 97,
                     height: 15,
@@ -94,7 +94,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                       // First row of the address
                       Row(
                         children: <Widget>[
-                          // Yellow part of the first row
+                          // Primary part of the first row
                           Container(
                             width: 66.6875,
                             height: 12.5,
@@ -189,7 +189,7 @@ class _KaliumShareCardState extends State<KaliumShareCard> {
                               ),
                             ),
                           ),
-                          // Yellow part of the first row
+                          // Primary colored part of the first row
                           Container(
                             width: 36.375,
                             height: 12.5,
