@@ -148,7 +148,8 @@ flutter:
       fonts:
         - asset: fonts/AppIcons.ttf
   assets:
-    - assets/monkeyQR.svg
+    - assets/QR.svg
+    - assets/QRlogo.svg
     - assets/welcome_animation.flr
     - assets/send_animation.flr
     - assets/transfer_animation.flr

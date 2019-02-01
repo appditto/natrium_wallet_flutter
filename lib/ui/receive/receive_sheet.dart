@@ -26,7 +26,8 @@ class AppReceiveSheet {
   GlobalKey shareCardKey;
   Widget appShareCard;
   ByteData shareImageData;
-  Widget monkeySVGBorder;
+  Widget qrSVGBorder;
+  Widget qrSVGLogo;
   Widget shareCardLogoSvg;
   Widget shareCardTickerSvg;
 
@@ -34,12 +35,13 @@ class AppReceiveSheet {
 
   AppReceiveSheet(Widget qrWidget) {
     // Create our SVG-heavy things in the constructor because they are slower operations
-    monkeySVGBorder = SvgPicture.asset('assets/monkeyQR.svg');
+    qrSVGBorder = SvgPicture.asset('assets/QR.svg');
+    qrSVGLogo = SvgPicture.asset('assets/QRlogo.svg');
     shareCardLogoSvg = SvgPicture.asset('assets/sharecard_bananologo.svg');
     // Share card initialization
     shareCardKey = GlobalKey();
     appShareCard = Container(
-      child: AppShareCard(shareCardKey, monkeySVGBorder, shareCardLogoSvg),
+      child: AppShareCard(shareCardKey, qrSVGBorder, shareCardLogoSvg),
       alignment: Alignment(0.0, 0.0),
     );
     qrCode = qrWidget;
@@ -116,7 +118,7 @@ class AppReceiveSheet {
                   ],
                 ),
 
-                //MonkeyQR which takes all the available space left from the buttons & address text
+                // QR which takes all the available space left from the buttons & address text
                 Expanded(
                   child: Center(
                     child: Stack(
@@ -130,18 +132,24 @@ class AppReceiveSheet {
                             color: AppColors.backgroundDark,
                           ),
                         ),
-                        // Background/border part the monkeyQR
+                        // Background/border part the QR
                         Center(
                           child: Container(
-                            width: devicewidth / 1.5,
-                            child: monkeySVGBorder,
+                            width: devicewidth / 1.6,
+                            child: qrSVGBorder,
                           ),
                         ),
-                        // Actual QR part of the monkeyQR
+                        // Actual QR part of the QR
                         Center(
                           child: Container(
-                            margin: EdgeInsets.only(top: devicewidth / 6),
                             child: qrCode,
+                          ),
+                        ),
+                        // Logo on top of the qr
+                        Center(
+                          child: Container(
+                            child: qrSVGLogo,
+                            width: devicewidth / 1.6 / 4.21,
                           ),
                         ),
                       ],
