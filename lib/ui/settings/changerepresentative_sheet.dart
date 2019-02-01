@@ -145,6 +145,7 @@ class AppChangeRepresentativeSheet {
                         margin: EdgeInsets.only(top: 10.0, right: 10.0),
                         child: FlatButton(
                           onPressed: () {
+                            UIUtil.cancelLockEvent();
                             BarcodeScanner.scan(OverlayTheme.KALIUM).then((result) {
                               if (result == null) { return; }
                               Address address =

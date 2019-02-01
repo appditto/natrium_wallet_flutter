@@ -29,22 +29,22 @@ class LockTimeoutSetting extends SettingSelectionItem {
     }
   }
 
-  int getMinuteValue() {
+  Duration getDuration() {
     switch (setting) {
       case LockTimeoutOption.ZERO:
-        return 0;
+        return Duration(seconds:3);
       case LockTimeoutOption.ONE:
-        return 1;
+        return Duration(minutes:1);
       case LockTimeoutOption.FIVE:
-        return 5;
+        return Duration(minutes: 5);
       case LockTimeoutOption.FIFTEEN:
-        return 15;
+        return Duration(minutes: 15);
       case LockTimeoutOption.THIRTY:
-        return 30;
+        return Duration(minutes: 30);
       case LockTimeoutOption.SIXTY:
-        return 60;
+        return Duration(minutes:1);
       default:
-        return 1;
+        return Duration(minutes:1);
     }
   }
 

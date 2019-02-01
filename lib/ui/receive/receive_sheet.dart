@@ -202,6 +202,7 @@ class AppReceiveSheet {
                             File f = File(filePath);
                             if (f.existsSync()) {
                               try {
+                                UIUtil.cancelLockEvent();
                                 Share.shareFile(f, text: StateContainer.of(context).wallet.address);
                                 doCapture = false;
                               } catch (e) {
@@ -217,6 +218,7 @@ class AppReceiveSheet {
                                   _capturePng().then((byteData) {
                                     if (byteData != null) {
                                       f.writeAsBytes(byteData).then((file) {
+                                        UIUtil.cancelLockEvent();
                                         Share.shareFile(file, text: StateContainer.of(context).wallet.address);
                                       });
                                     } else {

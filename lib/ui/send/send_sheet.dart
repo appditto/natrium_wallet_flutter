@@ -44,6 +44,8 @@ class AppSendSheet {
   bool _showContactButton = true;
   // Local currency mode/fiat conversion
   bool _localCurrencyMode = false;
+  String _lastLocalCurrencyAmount = "";
+  String _lastCryptoAmount = "";
   NumberFormat _localCurrencyFormat;
 
   AppSendSheet({Contact contact, String address}) {
@@ -444,6 +446,7 @@ class AppSendSheet {
                               AppLocalization.of(context).scanQrCode,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             try {
+                              UIUtil.cancelLockEvent();
                               BarcodeScanner.scan(OverlayTheme.KALIUM).then((value) {
                                 Address address = Address(value);
                                 if (!address.isValid()) {
@@ -507,24 +510,17 @@ class AppSendSheet {
   }
 
   String _convertLocalCurrencyToCrypto(BuildContext context) {
-    String convertedAmt = _sendAmountController.text;
+    String convertedAmt = NumberUtil.sanitizeNumber(_sendAmountController.text);
     if (convertedAmt.isEmpty) {
       return "";
     }
-    try {
-      convertedAmt = convertedAmt.replaceAll(_localCurrencyFormat.symbols.DECIMAL_SEP, ".");
-      convertedAmt = convertedAmt.replaceAll(_localCurrencyFormat.currencySymbol, "");
-      Decimal valueLocal = Decimal.parse(convertedAmt);
-      Decimal conversion = Decimal.parse(StateContainer.of(context).wallet.localCurrencyConversion);
-      return NumberUtil.truncateDecimal(valueLocal / conversion).toString();
-    } catch (e) {
-      _sendAmountController.text = "";
-      return "";
-    }
+    Decimal valueLocal = Decimal.parse(convertedAmt);
+    Decimal conversion = Decimal.parse(StateContainer.of(context).wallet.localCurrencyConversion);
+    return NumberUtil.truncateDecimal(valueLocal / conversion).toString();
   }
 
   String _convertCryptoToLocalCurrency(BuildContext context) {
-    String convertedAmt = _sendAmountController.text;
+    String convertedAmt = NumberUtil.sanitizeNumber(_sendAmountController.text);
     if (convertedAmt.isEmpty) {
       return "";
     }
@@ -541,24 +537,72 @@ class AppSendSheet {
     // Sanitize commas
     if (_sendAmountController.text.isEmpty) {
       return false;
-    } else if (_sendAddressController.text.trim() == _localCurrencyFormat.currencySymbol) {
-      _sendAmountController.text = "";
-      return false;
     }
     try {
-      String textField = _localCurrencyMode ? _convertLocalCurrencyToCrypto(context) : _sendAmountController.text.replaceAll(r',', "");
-      String balance = StateContainer.of(context)
+      String textField = _sendAmountController.text.replaceAll(r',', "");
+      String balance;
+      if (_localCurrencyMode) {
+        balance = StateContainer.of(context)
+          .wallet
+          .getLocalCurrencyPrice(locale: StateContainer.of(context).currencyLocale);
+      } else {
+        balance = StateContainer.of(context)
           .wallet
           .getAccountBalanceDisplay()
           .replaceAll(r",", "");
+      }
       // Convert to Integer representations
-      int textFieldInt =
-          (Decimal.parse(textField) * Decimal.fromInt(100)).toInt();
-      int balanceInt = (Decimal.parse(balance) * Decimal.fromInt(100)).toInt();
+      int textFieldInt;
+      int balanceInt;
+      if (_localCurrencyMode) {
+        // Sanitize currency values into plain integer representations
+        textField = textField.replaceAll(",", ".");
+        String sanitizedTextField = NumberUtil.sanitizeNumber(textField);
+        String sanitizedBalance = NumberUtil.sanitizeNumber(balance);
+        textFieldInt =
+            (Decimal.parse(sanitizedTextField) * Decimal.fromInt(100)).toInt();
+        balanceInt = (Decimal.parse(sanitizedBalance) * Decimal.fromInt(100)).toInt();
+      } else {
+        textFieldInt =
+            (Decimal.parse(textField) * Decimal.fromInt(100)).toInt();
+        balanceInt = (Decimal.parse(balance) * Decimal.fromInt(100)).toInt();
+      }
       return textFieldInt == balanceInt;
     } catch (e) {
-      _sendAmountController.text = "";
       return false;
+    }
+  }
+
+  void toggleLocalCurrency(BuildContext context, StateSetter setState) {
+    // Keep a cache of previous amounts because, it's kinda nice to see approx what nano is worth
+    // this way you can tap button and tap back and not end up with X.9993451 NANO
+    if (_localCurrencyMode) {
+      // Switching to crypto-mode
+      if (NumberUtil.sanitizeNumber(_sendAmountController.text) == _lastLocalCurrencyAmount) {
+        _sendAmountController.text = _lastCryptoAmount;
+      } else {
+        _lastLocalCurrencyAmount = NumberUtil.sanitizeNumber(_sendAmountController.text);
+        _sendAmountController.text = _convertLocalCurrencyToCrypto(context);
+      }
+      _sendAmountController.selection =
+          TextSelection.fromPosition(TextPosition(
+              offset:
+                  _sendAmountController.text.length));
+      setState(() {
+        _localCurrencyMode = false;
+      });
+    } else {
+      // Switching to local-currency mode
+      _lastCryptoAmount = _sendAmountController.text;
+      _lastLocalCurrencyAmount = NumberUtil.sanitizeNumber(_convertCryptoToLocalCurrency(context));
+      setState(() {
+        _localCurrencyMode = true;
+      });
+      _sendAmountController.text = _convertCryptoToLocalCurrency(context);
+      _sendAmountController.selection =
+          TextSelection.fromPosition(TextPosition(
+              offset:
+                  _sendAmountController.text.length));
     }
   }
 
@@ -670,8 +714,10 @@ class AppSendSheet {
         cursorColor: AppColors.primary,
         inputFormatters: [
           LengthLimitingTextInputFormatter(13),
-          WhitelistingTextInputFormatter(RegExp("[0-9.,]")),
-          _localCurrencyMode ? CurrencyFormatter(decimalSeparator: _localCurrencyFormat.symbols.DECIMAL_SEP, commaSeparator: _localCurrencyFormat.symbols.GROUP_SEP, symbol: _localCurrencyFormat.currencySymbol) : CurrencyFormatter()
+          _localCurrencyMode ?
+            CurrencyFormatter(decimalSeparator: _localCurrencyFormat.symbols.DECIMAL_SEP, commaSeparator: _localCurrencyFormat.symbols.GROUP_SEP)
+          : CurrencyFormatter(),
+          LocalCurrencyFormatter(active: _localCurrencyMode, currencyFormat: _localCurrencyFormat)
         ],
         onChanged: (text) {
           // Always reset the error message to be less annoying
@@ -698,16 +744,7 @@ class AppSendSheet {
                 highlightColor: AppColors.primary15,
                 splashColor: AppColors.primary30,
                 onPressed: () {
-                  if (_localCurrencyMode) {
-                    // Switching to crypto-mode
-                    _sendAmountController.text = _convertLocalCurrencyToCrypto(context);
-                  } else {
-                    // Switching to local currency mode
-                    _sendAmountController.text = _convertCryptoToLocalCurrency(context);
-                  }
-                  setState(() {
-                    _localCurrencyMode = !_localCurrencyMode;
-                  });
+                  toggleLocalCurrency(context, setState);
                 },
                 child: Icon(AppIcons.swapcurrency,
                     size: 20, color: AppColors.primary),

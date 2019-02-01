@@ -157,6 +157,7 @@ class AppTransferOverviewSheet {
                           AppLocalization.of(context).scanQrCode,
                           Dimens.BUTTON_TOP_DIMENS,
                           onPressed: () {
+                            UIUtil.cancelLockEvent();
                             BarcodeScanner.scan(OverlayTheme.KALIUM).then((value) {
                               if (!NanoSeeds.isValidSeed(value)) {
                                 UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidSeed, context);

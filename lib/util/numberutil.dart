@@ -52,4 +52,23 @@ class NumberUtil {
     Decimal rawDecimal = Decimal.parse(rawPerBan.toString());
     return (asDecimal * rawDecimal).toString();
   }
+
+  /// Sanitize a number as something that can actually
+  /// be parsed. Expects "." to be decimal separator
+  /// @param amount $1,512
+  /// @returns 1.512
+  static String sanitizeNumber(String input) {
+    String sanitized = "";
+    for (int i=0; i< input.length; i++) {
+      try {
+        if (input[i] == ".") {
+          sanitized = sanitized + input[i];
+        } else {
+          int.parse(input[i]);
+          sanitized = sanitized + input[i];
+        }
+      } catch (e) { }
+    }
+    return sanitized;
+  }
 }
