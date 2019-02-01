@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:decimal/decimal.dart';
 
 class NumberUtil {
-  static final BigInt rawPerBan = BigInt.from(10).pow(29);
-  static const int maxDecimalDigits = 2; // Max digits after decimal
+  static final BigInt rawPerNano = BigInt.from(10).pow(30);
+  static const int maxDecimalDigits = 6; // Max digits after decimal
 
   /// Convert raw to ban and return as BigDecimal
   ///
@@ -13,7 +13,7 @@ class NumberUtil {
   ///
   static Decimal getRawAsUsableDecimal(String raw) {
     Decimal amount = Decimal.parse(raw.toString());
-    Decimal result = amount / Decimal.parse(rawPerBan.toString());
+    Decimal result = amount / Decimal.parse(rawPerNano.toString());
     return result;
   }
 
@@ -49,7 +49,7 @@ class NumberUtil {
   ///
   static String getAmountAsRaw(String amount) {
     Decimal asDecimal = Decimal.parse(amount);
-    Decimal rawDecimal = Decimal.parse(rawPerBan.toString());
+    Decimal rawDecimal = Decimal.parse(rawPerNano.toString());
     return (asDecimal * rawDecimal).toString();
   }
 
