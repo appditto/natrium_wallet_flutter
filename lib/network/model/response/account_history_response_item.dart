@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:kalium_wallet_flutter/model/address.dart';
-import 'package:kalium_wallet_flutter/util/numberutil.dart';
+import 'package:natrium_wallet_flutter/model/address.dart';
+import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
 part 'account_history_response_item.g.dart';
 

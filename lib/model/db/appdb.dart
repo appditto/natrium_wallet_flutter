@@ -3,7 +3,7 @@ import 'dart:io' as io;
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:kalium_wallet_flutter/model/db/contact.dart';
+import 'package:natrium_wallet_flutter/model/db/contact.dart';
 
 class DBHelper{
 

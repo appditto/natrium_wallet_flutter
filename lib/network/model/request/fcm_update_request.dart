@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:kalium_wallet_flutter/network/model/request/actions.dart';
-import 'package:kalium_wallet_flutter/network/model/base_request.dart';
+import 'package:natrium_wallet_flutter/network/model/request/actions.dart';
+import 'package:natrium_wallet_flutter/network/model/base_request.dart';
 
 part 'fcm_update_request.g.dart';
 

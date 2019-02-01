@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kalium_wallet_flutter/colors.dart';
-import 'package:kalium_wallet_flutter/dimens.dart';
-import 'package:kalium_wallet_flutter/styles.dart';
-import 'package:kalium_wallet_flutter/localization.dart';
-import 'package:kalium_wallet_flutter/app_icons.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
-import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
-import 'package:kalium_wallet_flutter/model/vault.dart';
+import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/app_icons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
+import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:natrium_wallet_flutter/model/vault.dart';
 
 class IntroBackupConfirm extends StatefulWidget {
   @override

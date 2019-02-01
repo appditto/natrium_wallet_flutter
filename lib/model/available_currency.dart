@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:kalium_wallet_flutter/model/setting_item.dart';
+import 'package:natrium_wallet_flutter/model/setting_item.dart';
 
 enum AvailableCurrencyEnum { USD, AUD, BRL, CAD, CHF, CLP, CNY, CZK, DKK,
                   EUR, GBP, HKD, HUF, IDR, ILS, INR, JPY, KRW,

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:kalium_wallet_flutter/appstate_container.dart';
-import 'package:kalium_wallet_flutter/localization.dart';
-import 'package:kalium_wallet_flutter/dimens.dart';
-import 'package:kalium_wallet_flutter/bus/rxbus.dart';
-import 'package:kalium_wallet_flutter/model/vault.dart';
-import 'package:kalium_wallet_flutter/network/model/response/account_balance_item.dart';
-import 'package:kalium_wallet_flutter/network/model/response/account_history_response.dart';
-import 'package:kalium_wallet_flutter/network/model/response/pending_response.dart';
-import 'package:kalium_wallet_flutter/network/model/response/pending_response_item.dart';
-import 'package:kalium_wallet_flutter/network/model/response/transfer_process_response.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
-import 'package:kalium_wallet_flutter/ui/transfer/transfer_complete_sheet.dart';
-import 'package:kalium_wallet_flutter/util/numberutil.dart';
-import 'package:kalium_wallet_flutter/util/nanoutil.dart';
-import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/bus/rxbus.dart';
+import 'package:natrium_wallet_flutter/model/vault.dart';
+import 'package:natrium_wallet_flutter/network/model/response/account_balance_item.dart';
+import 'package:natrium_wallet_flutter/network/model/response/account_history_response.dart';
+import 'package:natrium_wallet_flutter/network/model/response/pending_response.dart';
+import 'package:natrium_wallet_flutter/network/model/response/pending_response_item.dart';
+import 'package:natrium_wallet_flutter/network/model/response/transfer_process_response.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:natrium_wallet_flutter/ui/transfer/transfer_complete_sheet.dart';
+import 'package:natrium_wallet_flutter/util/numberutil.dart';
+import 'package:natrium_wallet_flutter/util/nanoutil.dart';
+import 'package:natrium_wallet_flutter/styles.dart';
 
 class AppTransferConfirmSheet {
   // accounts to private keys/account balances

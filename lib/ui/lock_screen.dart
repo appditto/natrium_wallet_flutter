@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kalium_wallet_flutter/colors.dart';
-import 'package:kalium_wallet_flutter/app_icons.dart';
-import 'package:kalium_wallet_flutter/model/authentication_method.dart';
-import 'package:kalium_wallet_flutter/model/vault.dart';
-import 'package:kalium_wallet_flutter/styles.dart';
-import 'package:kalium_wallet_flutter/util/biometrics.dart';
-import 'package:kalium_wallet_flutter/util/nanoutil.dart';
-import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/security.dart';
-import 'package:kalium_wallet_flutter/appstate_container.dart';
-import 'package:kalium_wallet_flutter/localization.dart';
-import 'package:kalium_wallet_flutter/dimens.dart';
-import 'package:kalium_wallet_flutter/ui/util/routes.dart';
+import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/app_icons.dart';
+import 'package:natrium_wallet_flutter/model/authentication_method.dart';
+import 'package:natrium_wallet_flutter/model/vault.dart';
+import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/util/biometrics.dart';
+import 'package:natrium_wallet_flutter/util/nanoutil.dart';
+import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 
 class AppLockScreen extends StatefulWidget {
   @override

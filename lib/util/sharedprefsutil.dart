@@ -2,12 +2,12 @@ import 'dart:ui';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:kalium_wallet_flutter/util/encrypt.dart';
-import 'package:kalium_wallet_flutter/model/authentication_method.dart';
-import 'package:kalium_wallet_flutter/model/available_currency.dart';
-import 'package:kalium_wallet_flutter/model/device_lock_timeout.dart';
-import 'package:kalium_wallet_flutter/model/vault.dart';
-import 'package:kalium_wallet_flutter/model/wallet.dart';
+import 'package:natrium_wallet_flutter/util/encrypt.dart';
+import 'package:natrium_wallet_flutter/model/authentication_method.dart';
+import 'package:natrium_wallet_flutter/model/available_currency.dart';
+import 'package:natrium_wallet_flutter/model/device_lock_timeout.dart';
+import 'package:natrium_wallet_flutter/model/vault.dart';
+import 'package:natrium_wallet_flutter/model/wallet.dart';
 
 /// Price conversion preference values
 enum PriceConversion { BTC, NANO, NONE }

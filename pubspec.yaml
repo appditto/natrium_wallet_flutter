@@ -1,5 +1,5 @@
-name: kalium_wallet_flutter
-description: A new Flutter project.
+name: natrium_wallet_flutter
+description: Natrium - Fast, Robust & Secure NANO Wallet.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -7,7 +7,7 @@ description: A new Flutter project.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.9.1+13
+version: 0.9.0+1
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"

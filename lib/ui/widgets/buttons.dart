@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kalium_wallet_flutter/colors.dart';
-import 'package:kalium_wallet_flutter/styles.dart';
-import 'package:kalium_wallet_flutter/ui/util/exceptions.dart';
+import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/ui/util/exceptions.dart';
 
 enum AppButtonType { PRIMARY, PRIMARY_OUTLINE, SUCCESS, SUCCESS_OUTLINE, TEXT_OUTLINE }
 

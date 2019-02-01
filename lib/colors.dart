@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const yellow = Color(0xFFFBDD11);
-  static const yellow10 = Color(0x1AFBDD11);
-  static const yellow15 = Color(0x26FBDD11);
-  static const yellow20 = Color(0x33FBDD11);
-  static const yellow30 = Color(0x4DFBDD11);
-  static const yellow45 = Color(0x73FBDD11);
-  static const yellow60 = Color(0x99FBDD11);
+  static const brightBlue = Color(0xFFA3CDFF);
+  static const brightBlue10 = Color(0x1AA3CDFF);
+  static const brightBlue15 = Color(0x26A3CDFF);
+  static const brightBlue20 = Color(0x33A3CDFF);
+  static const brightBlue30 = Color(0x4DA3CDFF);
+  static const brightBlue45 = Color(0x73A3CDFF);
+  static const brightBlue60 = Color(0x99A3CDFF);
 
-  static const green = Color(0xFF4CBF4B);
-  static const green60 = Color(0x994CBF4B);
-  static const green30 = Color(0x4D4CBF4B);
-  static const green15 = Color(0x264CBF4B);
-  static const greenDark = Color(0xFF276126);
-  static const greenDark30 = Color(0x4D276126);
+  static const green = Color(0xFF4AFFAE);
+  static const green60 = Color(0x994AFFAE);
+  static const green30 = Color(0x4D4AFFAE);
+  static const green15 = Color(0x264AFFAE);
+  static const greenDark = Color(0xFF18A264);
+  static const greenDark30 = Color(0x4D18A264);
 
-  static const greyLight = Color(0xFF2A2A2E);
-  static const greyLight40 = Color(0x662A2A2E);
-  static const greyLight00 = Color(0x002A2A2E);
+  static const blueishGreyLight = Color(0xFF1E2C3D);
+  static const blueishGreyLight40 = Color(0x661E2C3D);
+  static const blueishGreyLight00 = Color(0x001E2C3D);
 
-  static const greyDark = Color(0xFF212124);
-  static const greyDark00 = Color(0x00212124);
+  static const blueishGreyDark = Color(0xFF2A3A4D);
+  static const blueishGreyDark00 = Color(0x002A3A4D);
 
-  static const greyDarkest = Color(0xFF1A1A1C);
+  static const blueishGreyDarkest = Color(0xFF1E2C3D);
 
   static const white90 = Color(0xE6FFFFFF);
   static const white60 = Color(0x99FFFFFF);
@@ -43,13 +43,13 @@ class AppColors {
 
   static const blue = Color(0xFF4A90E2);
 
-  static const primary = yellow;
-  static const primary60 = yellow60;
-  static const primary45 = yellow45;
-  static const primary30 = yellow30;
-  static const primary20 = yellow20;
-  static const primary15 = yellow15;
-  static const primary10 = yellow10;
+  static const primary = brightBlue;
+  static const primary60 = brightBlue60;
+  static const primary45 = brightBlue45;
+  static const primary30 = brightBlue30;
+  static const primary20 = brightBlue20;
+  static const primary15 = brightBlue15;
+  static const primary10 = brightBlue10;
 
   static const success = green;
   static const success60 = green60;
@@ -58,14 +58,14 @@ class AppColors {
   static const successDark = greenDark;
   static const successDark30 = greenDark30;
 
-  static const background = greyLight;
-  static const background40 = greyLight40;
-  static const background00 = greyLight00;
+  static const background = blueishGreyLight;
+  static const background40 = blueishGreyLight40;
+  static const background00 = blueishGreyLight00;
 
-  static const backgroundDark = greyDark;
-  static const backgroundDark00 = greyDark00;
+  static const backgroundDark = blueishGreyDark;
+  static const backgroundDark00 = blueishGreyDark00;
 
-  static const backgroundDarkest = greyDarkest;
+  static const backgroundDarkest = blueishGreyDarkest;
 
   static const text = white90;
   static const text60 = white60;

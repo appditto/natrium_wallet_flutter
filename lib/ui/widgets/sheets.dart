@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:kalium_wallet_flutter/colors.dart';
-import 'package:kalium_wallet_flutter/ui/util/routes.dart';
+import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 
 class AppSheets {
   //App Ninty Height Sheet

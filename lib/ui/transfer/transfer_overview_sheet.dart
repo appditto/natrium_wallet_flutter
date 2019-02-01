@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:kalium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/colors.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
-import 'package:kalium_wallet_flutter/app_icons.dart';
-import 'package:kalium_wallet_flutter/localization.dart';
-import 'package:kalium_wallet_flutter/dimens.dart';
-import 'package:kalium_wallet_flutter/appstate_container.dart';
-import 'package:kalium_wallet_flutter/bus/rxbus.dart';
-import 'package:kalium_wallet_flutter/network/model/response/account_balance_item.dart';
-import 'package:kalium_wallet_flutter/network/model/response/accounts_balances_response.dart';
-import 'package:kalium_wallet_flutter/ui/transfer/transfer_manual_entry_sheet.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/auto_resize_text.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/sheets.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:kalium_wallet_flutter/ui/widgets/dialog.dart';
-import 'package:kalium_wallet_flutter/ui/util/ui_util.dart';
-import 'package:kalium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/app_icons.dart';
+import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/bus/rxbus.dart';
+import 'package:natrium_wallet_flutter/network/model/response/account_balance_item.dart';
+import 'package:natrium_wallet_flutter/network/model/response/accounts_balances_response.dart';
+import 'package:natrium_wallet_flutter/ui/transfer/transfer_manual_entry_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/styles.dart';
 
 class AppTransferOverviewSheet {
   static const int NUM_SWEEP = 15; // Number of accounts to sweep from a seed

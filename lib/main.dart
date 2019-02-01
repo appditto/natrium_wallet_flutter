@@ -6,19 +6,19 @@ import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
 import 'package:oktoast/oktoast.dart';
 
-import 'package:kalium_wallet_flutter/styles.dart';
-import 'package:kalium_wallet_flutter/appstate_container.dart';
-import 'package:kalium_wallet_flutter/localization.dart';
-import 'package:kalium_wallet_flutter/ui/home_page.dart';
-import 'package:kalium_wallet_flutter/ui/lock_screen.dart';
-import 'package:kalium_wallet_flutter/ui/intro/intro_welcome.dart';
-import 'package:kalium_wallet_flutter/ui/intro/intro_backup_seed.dart';
-import 'package:kalium_wallet_flutter/ui/intro/intro_backup_confirm.dart';
-import 'package:kalium_wallet_flutter/ui/intro/intro_import_seed.dart';
-import 'package:kalium_wallet_flutter/ui/util/routes.dart';
-import 'package:kalium_wallet_flutter/model/vault.dart';
-import 'package:kalium_wallet_flutter/util/nanoutil.dart';
-import 'package:kalium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/ui/home_page.dart';
+import 'package:natrium_wallet_flutter/ui/lock_screen.dart';
+import 'package:natrium_wallet_flutter/ui/intro/intro_welcome.dart';
+import 'package:natrium_wallet_flutter/ui/intro/intro_backup_seed.dart';
+import 'package:natrium_wallet_flutter/ui/intro/intro_backup_confirm.dart';
+import 'package:natrium_wallet_flutter/ui/intro/intro_import_seed.dart';
+import 'package:natrium_wallet_flutter/ui/util/routes.dart';
+import 'package:natrium_wallet_flutter/model/vault.dart';
+import 'package:natrium_wallet_flutter/util/nanoutil.dart';
+import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'colors.dart';
 
 void main() async {
@@ -44,7 +44,7 @@ class App extends StatelessWidget {
       backgroundColor: AppColors.backgroundDark,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Kalium',
+        title: 'Natrium',
         theme: ThemeData(
           dialogBackgroundColor: AppColors.backgroundDark,
           primaryColor: AppColors.primary,

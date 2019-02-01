@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:kalium_wallet_flutter/network/model/request/actions.dart';
-import 'package:kalium_wallet_flutter/network/model/base_request.dart';
+import 'package:natrium_wallet_flutter/network/model/request/actions.dart';
+import 'package:natrium_wallet_flutter/network/model/base_request.dart';
 
 part 'process_request.g.dart';
 
