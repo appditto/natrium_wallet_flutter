@@ -1384,7 +1384,7 @@ class _AppHomePageState extends State<AppHomePage>
           Row(
             children: <Widget>[
               Icon(
-                  AppIcons.back,
+                  AppIcons.btc,
                   color: _priceConversion == PriceConversion.NONE
                       ? Colors.transparent
                       : AppColors.text60,
