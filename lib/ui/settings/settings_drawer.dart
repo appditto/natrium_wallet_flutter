@@ -1084,24 +1084,13 @@ class _SettingsSheetState extends State<SettingsSheet>
         Divider(height: 2),
         // Main Container
         Container(
-          padding: EdgeInsets.symmetric(vertical: 5.0),
-          margin: new EdgeInsets.only(left: 20.0),
+          padding: EdgeInsets.symmetric(vertical: 16.0),
+          margin: new EdgeInsets.only(left: 36.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              //Container for monKey
-              contact.monkeyWidget != null && _contactsOpen
-                  ? Container(
-                      width: smallScreen(context) ? 55 : 70,
-                      height: smallScreen(context) ? 55 : 70,
-                      child: contact.monkeyWidget,
-                    )
-                  : SizedBox(
-                      width: smallScreen(context) ? 55 : 70,
-                      height: smallScreen(context) ? 55 : 70),
               //Contact info
               Container(
-                margin: EdgeInsets.only(left: 5),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -30,10 +30,10 @@ class AppIcons {
   static const IconData security = const IconData(0xe807, fontFamily: _kFontFam);
   static const IconData nanocurrency = const IconData(0xe808, fontFamily: _kFontFam);
   static const IconData logout = const IconData(0xe809, fontFamily: _kFontFam);
-  static const IconData received = const IconData(0xe80a, fontFamily: _kFontFam);
+  static const IconData sent = const IconData(0xe80a, fontFamily: _kFontFam);
   static const IconData dotfilled = const IconData(0xe80b, fontFamily: _kFontFam);
   static const IconData dotemtpy = const IconData(0xe80c, fontFamily: _kFontFam);
-  static const IconData sent = const IconData(0xe80d, fontFamily: _kFontFam);
+  static const IconData received = const IconData(0xe80d, fontFamily: _kFontFam);
   static const IconData success = const IconData(0xe80e, fontFamily: _kFontFam);
   static const IconData warning = const IconData(0xe80f, fontFamily: _kFontFam);
   static const IconData timer = const IconData(0xe810, fontFamily: _kFontFam);

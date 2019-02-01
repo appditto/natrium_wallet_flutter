@@ -1159,35 +1159,9 @@ class _AppHomePageState extends State<AppHomePage>
             ),
           ),
           _getBalanceWidget(context),
-          Container(
+          SizedBox(
             width: 90.0,
             height: 90.0,
-            child: FlatButton(
-                child: _monkeyOverlayOpen
-                    ? SizedBox()
-                    : Stack(children: <Widget>[
-                        Container(width: 80, height: 80, child: _largeMonKey),
-                        Center(
-                          child: Container(
-                            width: 90,
-                            height: 90,
-                            color: AppColors.backgroundDark,
-                          ),
-                        ),
-                        _monKey
-                      ]),
-                padding: EdgeInsets.all(0.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.0)),
-                onPressed: () {
-                  if (_monkeyOverlayOpen || _largeMonKey == null) {
-                    return;
-                  }
-                  setState(() {
-                    _monkeyOverlayOpen = true;
-                  });
-                  Navigator.of(context).push(MonkeyOverlay(_largeMonKey));
-                }),
           ),
         ],
       ),

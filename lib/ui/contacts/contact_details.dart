@@ -31,7 +31,7 @@ class ContactDetailsSheet {
   Timer _addressCopiedTimer;
 
   mainBottomSheet(BuildContext context) {
-    AppSheets.showAppHeightNineSheet(
+    AppSheets.showAppHeightEightSheet(
         context: context,
         animationDurationMs: 200,
         builder: (BuildContext context) {
@@ -123,14 +123,11 @@ class ContactDetailsSheet {
                   ],
                 ),
 
-                // The main container that holds monKey, Contact Name and Contact Address
+                // The main container that holds Contact Name and Contact Address
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      // monKey container
-                      contact.monkeyWidgetLarge != null ?
-                        contact.monkeyWidgetLarge : SizedBox(width: smallScreen(context)?130:200, height: smallScreen(context)?130:200),
                       // Contact Name container
                       Container(
                         width: double.infinity,
