@@ -37,11 +37,11 @@ class AppReceiveSheet {
     // Create our SVG-heavy things in the constructor because they are slower operations
     qrSVGBorder = SvgPicture.asset('assets/QR.svg');
     qrSVGLogo = SvgPicture.asset('assets/QRlogo.svg');
-    shareCardLogoSvg = SvgPicture.asset('assets/sharecard_bananologo.svg');
+    shareCardLogoSvg = SvgPicture.asset('assets/sharecard_logo.svg');
     // Share card initialization
     shareCardKey = GlobalKey();
     appShareCard = Container(
-      child: AppShareCard(shareCardKey, qrSVGBorder, shareCardLogoSvg),
+      child: AppShareCard(shareCardKey, qrSVGBorder, shareCardLogoSvg, qrSVGLogo),
       alignment: Alignment(0.0, 0.0),
     );
     qrCode = qrWidget;

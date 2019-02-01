@@ -9,23 +9,25 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class AppShareCard extends StatefulWidget {
   final GlobalKey key;
-  final Widget monkeySvg;
+  final Widget qrSVG;
   final Widget logoSvg;
+  final Widget qrLogoSVG;
 
-  AppShareCard(this.key, this.monkeySvg, this.logoSvg);
+  AppShareCard(this.key, this.qrSVG, this.logoSvg, this.qrLogoSVG);
 
   @override
   _AppShareCardState createState() =>
-      _AppShareCardState(key, monkeySvg, logoSvg);
+      _AppShareCardState(key, qrSVG, logoSvg, qrLogoSVG);
 }
 
 class _AppShareCardState extends State<AppShareCard> {
   GlobalKey globalKey;
-  Widget monkeySvg;
+  Widget qrSVG;
   Widget logoSvg;
+  Widget qrLogoSVG;
 
   _AppShareCardState(
-      this.globalKey, this.monkeySvg, this.logoSvg);
+      this.globalKey, this.qrSVG, this.logoSvg, this.qrLogoSVG);
 
   @override
   Widget build(BuildContext context) {
@@ -49,29 +51,35 @@ class _AppShareCardState extends State<AppShareCard> {
             children: <Widget>[
               // A container for QR
               Container(
-                width: 105,
+                width: 100,
                 height: 100.0,
                 child: Stack(
                   children: <Widget>[
                     // Background/border part of QR
                     Center(
                       child: Container(
-                        width: 105,
+                        width: 100,
                         height: 100.0,
-                        child: monkeySvg,
+                        child: qrSVG,
                       ),
                     ),
                     // Actual QR part of the QR
                     Center(
                       child: Container(
-                        margin: EdgeInsets.only(top: 26.25),
                         child: QrImage(
                           padding: EdgeInsets.all(0.0),
-                          size: 50.3194,
+                          size: 60,
                           data: StateContainer.of(context).wallet.address,
                           version: 6,
                           errorCorrectionLevel: QrErrorCorrectLevel.Q,
                         ),
+                      ),
+                    ),
+                    Center(
+                      child: Container(
+                          width: 23.753,
+                          height: 23.753,
+                          child: qrLogoSVG,
                       ),
                     ),
                   ],
@@ -85,7 +93,7 @@ class _AppShareCardState extends State<AppShareCard> {
                   // Logo
                   Container(
                     width: 97,
-                    height: 15,
+                    height: 12.75,
                     child: logoSvg,
                   ),
                   // Address
@@ -216,7 +224,7 @@ class _AppShareCardState extends State<AppShareCard> {
                     width: 97,
                     height: 13,
                     child: AutoSizeText(
-                      "\$BAN      BANANO.CC",
+                      "\$NANO      NANO.ORG",
                       minFontSize: 1.0,
                       stepGranularity: 0.1,
                       style: TextStyle(
