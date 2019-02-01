@@ -98,7 +98,7 @@ class AppTransferManualEntrySheet {
                                   textAlign: TextAlign.center,
                                   cursorColor: AppColors.primary,
                                   inputFormatters: [
-                                    LengthLimitingTextInputFormatter(64),
+                                    LengthLimitingTextInputFormatter(65),
                                   ],
                                   textInputAction: TextInputAction.done,
                                   maxLines: null,

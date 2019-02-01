@@ -74,6 +74,8 @@ class _AppHomePageState extends State<AppHomePage>
 
   bool _isRefreshing = false;
 
+  bool _lockDisabled = false; // whether we should avoid locking the app
+
   // FCM instance
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -145,6 +147,13 @@ class _AppHomePageState extends State<AppHomePage>
       if (token != null) {
         RxBus.post(token, tag: RX_FCM_UPDATE_TAG);
       }
+    });
+    // Hackish event to block auto-lock functionality
+    RxBus.register<bool>(tag: RX_DISABLE_LOCK_TIMEOUT_TAG).listen((disabled) {
+      if (disabled) {
+        cancelLockEvent();
+      }
+      _lockDisabled = disabled;
     });
   }
 
@@ -273,6 +282,7 @@ class _AppHomePageState extends State<AppHomePage>
   @override
   void dispose() {
     _destroyBus();
+    RxBus.destroy(tag: RX_DISABLE_LOCK_TIMEOUT_TAG);
     WidgetsBinding.instance.removeObserver(this);
     _placeholderCardAnimationController.dispose();
     super.dispose();
@@ -314,11 +324,11 @@ class _AppHomePageState extends State<AppHomePage>
   StreamSubscription<dynamic> lockStreamListener;
 
   Future<void> setAppLockEvent() async {
-    if (await SharedPrefsUtil.inst.getLock()) {
+    if (await SharedPrefsUtil.inst.getLock() && !_lockDisabled) {
       if (lockStreamListener != null) {
         lockStreamListener.cancel();
       }
-      Future<dynamic> delayed = new Future.delayed(new Duration(minutes: (await SharedPrefsUtil.inst.getLockTimeout()).getMinuteValue()));
+      Future<dynamic> delayed = new Future.delayed((await SharedPrefsUtil.inst.getLockTimeout()).getDuration());
       delayed.then((_) {
         return true;
       });
@@ -383,11 +393,11 @@ class _AppHomePageState extends State<AppHomePage>
         child: ListView(
           padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
           children: <Widget>[
-            _buildWelcomeTransactionCard(),
+            _buildWelcomeTransactionCard(context),
             _buildDummyTransactionCard(
-                "Sent", "A little", "to a random monkey", context),
+                AppLocalization.of(context).sent, AppLocalization.of(context).exampleCardLittle, AppLocalization.of(context).exampleCardTo, context),
             _buildDummyTransactionCard(
-                "Received", "A lot of", "from a random monkey", context),
+                AppLocalization.of(context).received, AppLocalization.of(context).exampleCardLot,AppLocalization.of(context).exampleCardFrom, context),
           ],
         ),
         onRefresh: _refresh,
@@ -847,7 +857,42 @@ class _AppHomePageState extends State<AppHomePage>
   } //Dummy Transaction Card End
 
   // Welcome Card
-  Widget _buildWelcomeTransactionCard() {
+  TextSpan _getExampleHeaderSpan(BuildContext context) {
+    String workingStr = AppLocalization.of(context).exampleCardIntro;
+    if (!workingStr.contains("BANANO")) {
+      return TextSpan(
+        text: workingStr,
+        style: AppStyles.TextStyleTransactionWelcome,
+      );   
+    }
+    // Colorize BANANO
+    List<String> splitStr = workingStr.split("BANANO");
+    if (splitStr.length != 2) {
+      return TextSpan(
+        text: workingStr,
+        style: AppStyles.TextStyleTransactionWelcome,
+      );   
+    }
+    return TextSpan(
+      text: '',
+      children: [
+        TextSpan(
+          text: splitStr[0],
+          style: AppStyles.TextStyleTransactionWelcome,
+        ),
+        TextSpan(
+          text: " BANANO ",
+          style: AppStyles.TextStyleTransactionWelcomePrimary,
+        ),
+        TextSpan(
+          text: splitStr[1],
+          style: AppStyles.TextStyleTransactionWelcome,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWelcomeTransactionCard(BuildContext context) {
     return Container(
       margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
       decoration: BoxDecoration(
@@ -873,23 +918,7 @@ class _AppHomePageState extends State<AppHomePage>
                     vertical: 14.0, horizontal: 15.0),
                 child: RichText(
                   textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: '',
-                    children: [
-                      TextSpan(
-                        text: "Welcome to Kalium. Once you receive ",
-                        style: AppStyles.TextStyleTransactionWelcome,
-                      ),
-                      TextSpan(
-                        text: "BANANO",
-                        style: AppStyles.TextStyleTransactionWelcomePrimary,
-                      ),
-                      TextSpan(
-                        text: ", transactions will show up like below.",
-                        style: AppStyles.TextStyleTransactionWelcome,
-                      ),
-                    ],
-                  ),
+                  text: _getExampleHeaderSpan(context),
                 ),
               ),
             ),

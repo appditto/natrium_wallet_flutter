@@ -8,25 +8,13 @@ class CurrencyFormatter extends TextInputFormatter {
 
   String commaSeparator;
   String decimalSeparator;
-  String symbol;
 
-  CurrencyFormatter({this.commaSeparator = ",", this.decimalSeparator = ".", this.symbol = ""});
+  CurrencyFormatter({this.commaSeparator = ",", this.decimalSeparator = "."});
 
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     bool returnOriginal = true;
     if (newValue.text.contains(decimalSeparator) || newValue.text.contains(commaSeparator)) {
       returnOriginal = false;
-    } else if (newValue.text.isEmpty) {
-      return newValue;
-    } else if (!newValue.text.startsWith(symbol)) {
-      return newValue.copyWith(
-        text: symbol + newValue.text,
-        selection: new TextSelection.collapsed(offset: (symbol + newValue.text).length));
-    } else if (symbol.isEmpty && newValue.text.trim() == symbol) {
-      return newValue.copyWith(
-        text: "",
-        selection: new TextSelection.collapsed(offset: 0)
-      );
     }
 
     // If no text, or text doesnt contain a period of comma, no work to do here
@@ -42,10 +30,6 @@ class CurrencyFormatter extends TextInputFormatter {
         selection: new TextSelection.collapsed(offset: oldValue.text.length));
     } else if (workingText.startsWith(decimalSeparator)) {
       workingText = "0" + workingText;
-    }
-
-    if (!workingText.startsWith(symbol)) {
-      workingText = symbol + workingText;
     }
 
     List<String> splitStr = workingText.split(decimalSeparator);
@@ -71,6 +55,44 @@ class CurrencyFormatter extends TextInputFormatter {
     return newValue.copyWith(
       text: newText,
       selection: new TextSelection.collapsed(offset: newText.length));
+  }
+}
+
+class LocalCurrencyFormatter extends TextInputFormatter {
+  NumberFormat currencyFormat;
+  bool active;
+
+  LocalCurrencyFormatter({this.currencyFormat, this.active});
+
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.trim() == currencyFormat.currencySymbol.trim()) {
+      // Return empty string
+      return newValue.copyWith(
+        text: "",
+        selection: new TextSelection.collapsed(offset: 0));
+    }
+    // Ensure our input is in the right formatting here
+    if (active) {
+      // Make local currency = symbol + amount with correct decimal separator
+      String curText = newValue.text;
+      String shouldBeText = NumberUtil.sanitizeNumber(curText.replaceAll(",", "."));
+      shouldBeText = currencyFormat.currencySymbol + shouldBeText.replaceAll(".", currencyFormat.symbols.DECIMAL_SEP);
+      if (shouldBeText != curText) {
+        return newValue.copyWith(
+          text: shouldBeText,
+          selection: TextSelection.collapsed(offset: shouldBeText.length));
+      }
+    } else {
+      // Make crypto amount have no symbol and formatted as US locale
+      String curText = newValue.text;
+      String shouldBeText = NumberUtil.sanitizeNumber(curText.replaceAll(",", "."));
+      if (shouldBeText != curText) {
+        return newValue.copyWith(
+          text: shouldBeText,
+          selection: TextSelection.collapsed(offset: shouldBeText.length));
+      }
+    }
+    return newValue;
   }
 }
 

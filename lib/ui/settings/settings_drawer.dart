@@ -99,10 +99,12 @@ class _SettingsSheetState extends State<SettingsSheet>
     Directory baseDirectory = await getApplicationDocumentsDirectory();
     File contactsFile = File("${baseDirectory.path}/$filename");
     await contactsFile.writeAsString(json.encode(jsonList));
+    UIUtil.cancelLockEvent();
     Share.shareFile(contactsFile);
   }
 
   Future<void> _importContacts() async {
+    UIUtil.cancelLockEvent();
     String filePath = await FilePicker.getFilePath(
         type: FileType.CUSTOM, fileExtension: "txt");
     File f = File(filePath);

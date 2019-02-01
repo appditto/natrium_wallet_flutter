@@ -718,6 +718,35 @@ class AppLocalization {
 
   /// -- END SECURITY SETTINGS SUBMENU
 
+  /// -- EXAMPLE HOME SCREEN CARDS
+
+  String get exampleCardIntro {
+    return Intl.message("Welcome to Kalium. Once you receive BANANO, transactions will show up like this:",
+      desc: 'example_card_intro', name: 'exampleCardIntro');
+  }
+
+  String get exampleCardLittle {
+    return Intl.message("A little",
+      desc: 'example_card_little', name: 'exampleCardLittle');
+  }
+
+  String get exampleCardLot {
+    return Intl.message("A lot of",
+      desc: 'example_card_lot', name: 'exampleCardLot');
+  }
+
+  String get exampleCardTo {
+    return Intl.message("to a random monkey",
+      desc: 'example_card_to', name: 'exampleCardTo');
+  }
+
+  String get exampleCardFrom {
+    return Intl.message("from a random monkey",
+      desc: 'example_card_from', name: 'exampleCardFrom');
+  }
+
+  /// -- END EXAMPLE HOME SCREEN CARDS
+
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash) {
     return 'https://creeper.banano.cc/explorer/block/$hash';

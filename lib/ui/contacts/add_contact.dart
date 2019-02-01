@@ -124,6 +124,7 @@ class AddContactSheet {
                       child:  address == null ? FlatButton(
                         onPressed: () {
                             try {
+                              UIUtil.cancelLockEvent();
                               BarcodeScanner.scan(OverlayTheme.KALIUM).then((value) {
                                 Address address = Address(value);
                                 if (!address.isValid()) {
@@ -261,7 +262,7 @@ class AddContactSheet {
                                 cursorColor: AppColors.primary,
                                 keyboardAppearance: Brightness.dark,
                                 inputFormatters: [
-                                  LengthLimitingTextInputFormatter(64),
+                                  LengthLimitingTextInputFormatter(65),
                                 ],
                                 textInputAction: TextInputAction.done,
                                 maxLines: null,

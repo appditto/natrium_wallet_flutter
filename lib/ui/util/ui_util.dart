@@ -2,13 +2,13 @@ import 'dart:io';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:oktoast/oktoast.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:natrium_wallet_flutter/colors.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/bus/rxbus.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/ui/util/exceptions.dart';
 
@@ -353,6 +353,7 @@ class UIUtil {
   }
 
   static Widget showBlockExplorerWebview(BuildContext context, String hash) {
+    cancelLockEvent();
     return WebviewScaffold(
       url: AppLocalization.of(context).getBlockExplorerUrl(hash),
       appBar: new AppBar(
@@ -364,6 +365,7 @@ class UIUtil {
   }
 
   static Widget showAccountWebview(BuildContext context, String account) {
+    cancelLockEvent();
     return WebviewScaffold(
       url: AppLocalization.of(context).getAccountExplorerUrl(account),
       appBar: new AppBar(
@@ -374,7 +376,8 @@ class UIUtil {
     );
   }
 
-    static Widget showWebview(String url) {
+  static Widget showWebview(String url) {
+    cancelLockEvent();
     return WebviewScaffold(
       url: url,
       appBar: new AppBar(
@@ -460,5 +463,22 @@ class UIUtil {
       dismissOtherToast: true,
       duration: Duration(milliseconds: 2500),
     );
+  }
+
+ static StreamSubscription<dynamic> _lockDisableSub;
+
+  static Future<void> cancelLockEvent() async {
+    // Cancel auto-lock event, usually if we are launching another intent
+    if (_lockDisableSub != null) {
+      _lockDisableSub.cancel();
+    }
+    RxBus.post(true, tag: RX_DISABLE_LOCK_TIMEOUT_TAG);
+    Future<dynamic> delayed = Future.delayed(Duration(seconds: 10));
+    delayed.then((_) {
+      return true;
+    });
+    _lockDisableSub = delayed.asStream().listen((_) {
+      RxBus.post(false, tag: RX_DISABLE_LOCK_TIMEOUT_TAG);
+    });
   }
 }
