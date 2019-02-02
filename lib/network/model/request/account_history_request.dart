@@ -18,7 +18,7 @@ class AccountHistoryRequest extends BaseRequest {
   AccountHistoryRequest({String action, String account, int count}):super() {
     this.action = Actions.ACCOUNT_HISTORY;
     this.account = account ?? "";
-    this.count = count ?? 0;
+    this.count = count ?? -1;
   }
 
   factory AccountHistoryRequest.fromJson(Map<String, dynamic> json) => _$AccountHistoryRequestFromJson(json);

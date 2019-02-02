@@ -415,7 +415,7 @@ class StateContainerState extends State<StateContainer> {
   /// Handle account_subscribe response
   void handleSubscribeResponse(SubscribeResponse response) {
     // Check next request to update block count
-    if (response.blockCount != null) {
+    if (response.blockCount != null && !wallet.historyLoading) {
       // Choose correct blockCount to minimize bandwidth
       // This is can still be improved because history excludes change/open, blockCount doesn't
       int count = response.blockCount;
@@ -559,7 +559,7 @@ class StateContainerState extends State<StateContainer> {
       pendingResponseBlockMap.clear();
       previousPendingMap.clear();
       AccountService.queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:uuid, fcmToken: fcmToken, notificationEnabled: notificationsEnabled));
-      AccountService.queueRequest(AccountHistoryRequest(account: wallet.address, count: 20));
+      AccountService.queueRequest(AccountHistoryRequest(account: wallet.address));
       AccountService.processQueue();
     }
   }
