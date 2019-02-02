@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:event_taxi/event_taxi.dart';
 
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/colors.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
-import 'package:natrium_wallet_flutter/bus/rxbus.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
@@ -16,7 +19,6 @@ import 'package:natrium_wallet_flutter/util/biometrics.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
-import 'package:natrium_wallet_flutter/network/model/response/error_response.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 
 class AppSendConfirmSheet {
@@ -36,13 +38,17 @@ class AppSendConfirmSheet {
     _maxSend = maxSend;
   }
 
+  StreamSubscription<SendFailedEvent> _sendEventFailedSub;
+
   Future<bool> _onWillPop() async {
-    RxBus.destroy(tag: RX_SEND_FAILED_TAG);
+    if (_sendEventFailedSub != null) {
+      _sendEventFailedSub.cancel();
+    }
     return true;
   }
 
   mainBottomSheet(BuildContext context) {
-    RxBus.register<ErrorResponse>(tag: RX_SEND_FAILED_TAG).listen((result) {
+    _sendEventFailedSub = EventTaxiImpl.singleton().registerTo<SendFailedEvent>().listen((event) {
       // Send failed
       if (animationOpen) {
         Navigator.of(context).pop();

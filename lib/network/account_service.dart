@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:web_socket_channel/io.dart';
 import 'package:package_info/package_info.dart';
 import 'package:logging/logging.dart';
+import 'package:event_taxi/event_taxi.dart';
 
 import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/network/model/base_request.dart';
@@ -22,17 +23,12 @@ import 'package:natrium_wallet_flutter/network/model/response/subscribe_response
 import 'package:natrium_wallet_flutter/network/model/response/price_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/pending_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/process_response.dart';
-import 'package:natrium_wallet_flutter/bus/rxbus.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 
 // Server Connection String
 const String _SERVER_ADDRESS = "wss://natrium.banano.cc:4443";
 
-// Bus event for connection status changing
-enum ConnectionChanged { CONNECTED, DISCONNECTED }
-
-/**
- * AccountService singleton
- */
+// AccountService singleton
 class AccountService {
   static final AccountService _singleton = AccountService._internal();
   static final Logger log = new Logger("AccountService");
@@ -79,14 +75,13 @@ class AccountService {
       log.fine("Connected to service");
       _isConnecting = false;
       _isConnected = true;
-      RxBus.post(ConnectionChanged.CONNECTED, tag: RX_CONN_STATUS_TAG);
+      EventTaxiImpl.singleton().fire(ConnStatusEvent(status: ConnectionStatus.CONNECTED));
       _channel.stream.listen(_onMessageReceived, onDone: connectionClosed, onError: connectionClosedError);
     } catch(e){
       log.severe("Error from service ${e.toString()}");
-      // TODO - error handling
       _isConnected = false;
       _isConnecting = false;
-      RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
+      EventTaxiImpl.singleton().fire(ConnStatusEvent(status: ConnectionStatus.DISCONNECTED));
     }
   }
 
@@ -96,7 +91,7 @@ class AccountService {
     _isConnecting = false;
     log.fine("disconnected from service");
     // Send disconnected message
-    RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
+    EventTaxiImpl.singleton().fire(ConnStatusEvent(status: ConnectionStatus.DISCONNECTED));
   }
 
   // Connection closed (with error)
@@ -105,7 +100,7 @@ class AccountService {
     _isConnecting = false;
     log.fine("disconnected from service with error ${e.toString()}");
     // Send disconnected message
-    RxBus.post(ConnectionChanged.DISCONNECTED, tag: RX_CONN_STATUS_TAG);
+    EventTaxiImpl.singleton().fire(ConnStatusEvent(status: ConnectionStatus.DISCONNECTED));
   }
 
   // Close connection
@@ -157,18 +152,18 @@ class AccountService {
       // Subscribe response
       SubscribeResponse resp = SubscribeResponse.fromJson(msg);
       // Post to callbacks
-      RxBus.post(resp, tag:RX_SUBSCRIBE_TAG);
+      EventTaxiImpl.singleton().fire(SubscribeEvent(response: resp));
     } else if (msg.containsKey("currency") && msg.containsKey("price") && msg.containsKey("btc")) {
       // Price info sent from server
       PriceResponse resp = PriceResponse.fromJson(msg);
-      RxBus.post(resp, tag: RX_PRICE_RESP_TAG);
+      EventTaxiImpl.singleton().fire(PriceEvent(response: resp));
     } else if (msg.containsKey("history")) {
       // Account history response
       if (msg['history'] == "") {
         msg['history'] = new List<AccountHistoryResponseItem>();
       }
       AccountHistoryResponse resp = AccountHistoryResponse.fromJson(msg);
-      RxBus.post(resp, tag: RX_HISTORY_TAG);
+      EventTaxiImpl.singleton().fire(HistoryEvent(response: resp));
     } else if (msg.containsKey("blocks")) {
       // This is either a 'blocks_info' response "or" a 'pending' response
       if (msg['blocks'] is Map && msg['blocks'].length > 0) {
@@ -177,10 +172,10 @@ class AccountService {
           if (blockMap[blockMap.keys.first].containsKey('block_account')) {
             // Blocks Info Response
             BlocksInfoResponse resp = BlocksInfoResponse.fromJson(msg);
-            RxBus.post(resp, tag: RX_BLOCKS_INFO_RESP_TAG);
+            EventTaxiImpl.singleton().fire(BlocksInfoEvent(response: resp));
           } else if (blockMap[blockMap.keys.first].containsKey('source')) {
             PendingResponse resp = PendingResponse.fromJson(msg);
-            RxBus.post(resp, tag: RX_PENDING_RESP_TAG);
+            EventTaxiImpl.singleton().fire(PendingEvent(response: resp));
           }
         }
       } else {
@@ -190,14 +185,14 @@ class AccountService {
       }
     } else if (msg.containsKey("block") && msg.containsKey("hash") && msg.containsKey("account")) {
       CallbackResponse resp = CallbackResponse.fromJson(msg);
-      RxBus.post(resp, tag: RX_CALLBACK_TAG);
+      EventTaxiImpl.singleton().fire(CallbackEvent(response: resp));
     } else if (msg.containsKey("hash")) {
       // process response
       ProcessResponse resp = ProcessResponse.fromJson(msg);
-      RxBus.post(resp, tag: RX_PROCESS_TAG);
+      EventTaxiImpl.singleton().fire(ProcessEvent(response: resp));
     } else if (msg.containsKey("error")) {
       ErrorResponse resp = ErrorResponse.fromJson(msg);
-      RxBus.post(resp, tag: RX_ERROR_RESP_TAG);
+      EventTaxiImpl.singleton().fire(ErrorEvent(response: resp));
     } else if (msg.containsKey("balances")) {
       // accounts_balances response
       if (msg['balances'] is Map && msg['balances'].length > 0) {
@@ -205,7 +200,7 @@ class AccountService {
         if (balancesMap != null && balancesMap.length > 0) {
           if (balancesMap[balancesMap.keys.first].containsKey('pending')) {
             AccountsBalancesResponse resp = AccountsBalancesResponse.fromJson(msg);
-            RxBus.post(resp, tag: RX_ACCOUNTS_BALANCES_TAG);
+            EventTaxiImpl.singleton().fire(AccountsBalancesEvent(response: resp));
             pop();
             processQueue();
           }

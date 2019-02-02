@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:event_taxi/event_taxi.dart';
 import 'package:http/http.dart' as http;
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:natrium_wallet_flutter/colors.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
-import 'package:natrium_wallet_flutter/bus/rxbus.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/ui/util/exceptions.dart';
 
@@ -472,13 +473,13 @@ class UIUtil {
     if (_lockDisableSub != null) {
       _lockDisableSub.cancel();
     }
-    RxBus.post(true, tag: RX_DISABLE_LOCK_TIMEOUT_TAG);
+    EventTaxiImpl.singleton().fire(DisableLockTimeoutEvent(disable: true));
     Future<dynamic> delayed = Future.delayed(Duration(seconds: 10));
     delayed.then((_) {
       return true;
     });
     _lockDisableSub = delayed.asStream().listen((_) {
-      RxBus.post(false, tag: RX_DISABLE_LOCK_TIMEOUT_TAG);
+      EventTaxiImpl.singleton().fire(DisableLockTimeoutEvent(disable: false));
     });
   }
 }

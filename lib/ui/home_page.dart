@@ -2,18 +2,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:event_taxi/event_taxi.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/colors.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/model/list_model.dart';
-import 'package:natrium_wallet_flutter/model/deep_link_action.dart';
-import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
-import 'package:natrium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
@@ -36,7 +34,7 @@ import 'package:natrium_wallet_flutter/util/fileutil.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:qr/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:natrium_wallet_flutter/bus/rxbus.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 
 class AppHomePage extends StatefulWidget {
   @override
@@ -132,28 +130,21 @@ class _AppHomePageState extends State<AppHomePage>
         });
         _firebaseMessaging.getToken().then((String token) {
           if (token != null) {
-            RxBus.post(token, tag: RX_FCM_UPDATE_TAG);
+            EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
           }
         });
       } else {
         SharedPrefsUtil.inst.setNotificationsOn(false).then((_) {
           _firebaseMessaging.getToken().then((String token) {
-            RxBus.post(token, tag: RX_FCM_UPDATE_TAG);
+            EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
           });
         });
       }
     });
     _firebaseMessaging.getToken().then((String token) {
       if (token != null) {
-        RxBus.post(token, tag: RX_FCM_UPDATE_TAG);
+        EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
       }
-    });
-    // Hackish event to block auto-lock functionality
-    RxBus.register<bool>(tag: RX_DISABLE_LOCK_TIMEOUT_TAG).listen((disabled) {
-      if (disabled) {
-        cancelLockEvent();
-      }
-      _lockDisabled = disabled;
     });
   }
 
@@ -214,50 +205,55 @@ class _AppHomePageState extends State<AppHomePage>
     });
   }
 
+  StreamSubscription<HistoryHomeEvent> _historySub;
+  StreamSubscription<ContactModifiedEvent> _contactModifiedSub;
+  StreamSubscription<SendCompleteEvent> _sendCompleteSub;
+  StreamSubscription<DisableLockTimeoutEvent> _disableLockSub;
+  StreamSubscription<MonkeyOverlayClosedEvent> _monkeyOverlaySub;
+  StreamSubscription<DeepLinkEvent> _deepLinkEventSub;
+
   void _registerBus() {
-    RxBus.register<AccountHistoryResponse>(tag: RX_HISTORY_HOME_TAG)
-        .listen((historyResponse) {
-      diffAndUpdateHistoryList(historyResponse.history);
+    _historySub = EventTaxiImpl.singleton().registerTo<HistoryHomeEvent>().listen((event) {
+      diffAndUpdateHistoryList(event.items);
       setState(() {
         _isRefreshing = false;
-      });  
+      });
     });
-    RxBus.register<StateBlock>(tag: RX_SEND_COMPLETE_TAG).listen((stateBlock) {
+    _sendCompleteSub = EventTaxiImpl.singleton().registerTo<SendCompleteEvent>().listen((event) {
       // Route to send complete if received process response for send block
-      if (stateBlock != null) {
+      if (event.previous != null) {
         // Route to send complete
         String displayAmount =
-            NumberUtil.getRawAsUsableString(stateBlock.sendAmount);
-        DBHelper().getContactWithAddress(stateBlock.link).then((contact) {
+            NumberUtil.getRawAsUsableString(event.previous.sendAmount);
+        DBHelper().getContactWithAddress(event.previous.link).then((contact) {
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-          AppSendCompleteSheet(displayAmount, stateBlock.link, contactName)
+          AppSendCompleteSheet(displayAmount, event.previous.link, contactName)
               .mainBottomSheet(context);
         });
       }
     });
-    RxBus.register<Contact>(tag: RX_CONTACT_MODIFIED_TAG).listen((contact) {
+    _contactModifiedSub = EventTaxiImpl.singleton().registerTo<ContactModifiedEvent>().listen((event) {
       _updateContacts();
     });
-    RxBus.register<bool>(tag: RX_MONKEY_OVERLAY_CLOSED_TAG).listen((result) {
+    _monkeyOverlaySub = EventTaxiImpl.singleton().registerTo<MonkeyOverlayClosedEvent>().listen((event) {
       Future.delayed(Duration(milliseconds: 150), () {
         setState(() {
           _monkeyOverlayOpen = false;
         });
       });
     });
-    RxBus.register<DeepLinkAction>(tag: RX_DEEP_LINK_TAG).listen((result) {
-      print("RECEIVED deep linke action ${result.sendDestination}");
+    _deepLinkEventSub = EventTaxiImpl.singleton().registerTo<DeepLinkEvent>().listen((event) {
       String amount;
       String contactName;
-      if (result.sendAmount != null) {
+      if (event.sendAmount != null) {
         // Require minimum 1 BANOSHI to send
-        if (BigInt.parse(result.sendAmount) >= BigInt.from(10).pow(27)) {
-          amount = result.sendAmount;
+        if (BigInt.parse(event.sendAmount) >= BigInt.from(10).pow(27)) {
+          amount = event.sendAmount;
         }
       }
       // See if a contact
-      DBHelper().getContactWithAddress(result.sendDestination).then((contact) {
+      DBHelper().getContactWithAddress(event.sendDestination).then((contact) {
         if (contact != null) {
           contactName = contact.name;
         }
@@ -267,34 +263,52 @@ class _AppHomePageState extends State<AppHomePage>
           // Go to send confirm with amount
           AppSendConfirmSheet(
                   NumberUtil.getRawAsUsableString(amount).replaceAll(",", ""),
-                  result.sendDestination,
+                  event.sendDestination,
                   contactName: contactName)
               .mainBottomSheet(context);
         } else {
           // Go to send with address
-          AppSendSheet(contact: contact, address: result.sendDestination)
+          AppSendSheet(contact: contact, address: event.sendDestination)
               .mainBottomSheet(context);
         }
-      });
+      });      
+    });
+    // Hackish event to block auto-lock functionality
+    _disableLockSub = EventTaxiImpl.singleton().registerTo<DisableLockTimeoutEvent>().listen((event) {
+      if (event.disable) {
+        cancelLockEvent();
+      }
+      _lockDisabled = event.disable;
     });
   }
 
   @override
   void dispose() {
     _destroyBus();
-    RxBus.destroy(tag: RX_DISABLE_LOCK_TIMEOUT_TAG);
     WidgetsBinding.instance.removeObserver(this);
     _placeholderCardAnimationController.dispose();
     super.dispose();
   }
 
   void _destroyBus() {
-    RxBus.destroy(tag: RX_HISTORY_HOME_TAG);
-    RxBus.destroy(tag: RX_PROCESS_TAG);
-    RxBus.destroy(tag: RX_CONTACT_MODIFIED_TAG);
-    RxBus.destroy(tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
-    RxBus.destroy(tag: RX_DEEP_LINK_TAG);
-    RxBus.destroy(tag: RX_SEND_COMPLETE_TAG);
+    if (_historySub != null) {
+      _historySub.cancel();
+    }
+    if (_contactModifiedSub != null) {
+      _contactModifiedSub.cancel();
+    }
+    if (_sendCompleteSub != null) {
+      _sendCompleteSub.cancel();
+    }
+    if (_disableLockSub != null) {
+      _disableLockSub.cancel();
+    }
+    if (_monkeyOverlaySub != null) {
+      _monkeyOverlaySub.cancel();
+    }
+    if (_deepLinkEventSub != null) {
+      _deepLinkEventSub.cancel();
+    }
   }
 
   @override
@@ -303,14 +317,12 @@ class _AppHomePageState extends State<AppHomePage>
     // terminate it to be eco-friendly
     switch (state) {
       case AppLifecycleState.paused:
-        _destroyBus();
         setAppLockEvent();
         StateContainer.of(context).disconnect();
         super.didChangeAppLifecycleState(state);
         break;
       case AppLifecycleState.resumed:
         cancelLockEvent();
-        _registerBus();
         StateContainer.of(context).reconnect();
         super.didChangeAppLifecycleState(state);
         break;
@@ -859,14 +871,14 @@ class _AppHomePageState extends State<AppHomePage>
   // Welcome Card
   TextSpan _getExampleHeaderSpan(BuildContext context) {
     String workingStr = AppLocalization.of(context).exampleCardIntro;
-    if (!workingStr.contains("BANANO")) {
+    if (!workingStr.contains("NANO")) {
       return TextSpan(
         text: workingStr,
         style: AppStyles.TextStyleTransactionWelcome,
       );   
     }
-    // Colorize BANANO
-    List<String> splitStr = workingStr.split("BANANO");
+    // Colorize NANO
+    List<String> splitStr = workingStr.split("NANO");
     if (splitStr.length != 2) {
       return TextSpan(
         text: workingStr,
@@ -881,7 +893,7 @@ class _AppHomePageState extends State<AppHomePage>
           style: AppStyles.TextStyleTransactionWelcome,
         ),
         TextSpan(
-          text: " BANANO ",
+          text: "BANANO",
           style: AppStyles.TextStyleTransactionWelcomePrimary,
         ),
         TextSpan(
@@ -1524,7 +1536,7 @@ class MonkeyOverlay extends ModalRoute<void> {
   bool get maintainState => false;
 
   Future<bool> _onClosed() async {
-    RxBus.post(true, tag: RX_MONKEY_OVERLAY_CLOSED_TAG);
+    EventTaxiImpl.singleton().fire(MonkeyOverlayClosedEvent());
     return true;
   }
 

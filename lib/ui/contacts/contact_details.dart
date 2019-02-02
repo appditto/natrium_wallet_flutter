@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:event_taxi/event_taxi.dart';
 
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
-import 'package:natrium_wallet_flutter/bus/rxbus.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
@@ -64,8 +65,8 @@ class ContactDetailsSheet {
                                     File("$documentsDirectory/${contact.monkeyPath}").delete();
                                   }
                                 }
-                                RxBus.post(contact, tag: RX_CONTACT_REMOVED_TAG);
-                                RxBus.post(contact, tag: RX_CONTACT_MODIFIED_TAG);
+                                EventTaxiImpl.singleton().fire(ContactRemovedEvent(contact: contact));
+                                EventTaxiImpl.singleton().fire(ContactModifiedEvent(contact: contact));
                                 UIUtil.showSnackbar(AppLocalization.of(context).contactRemoved.replaceAll("%1", contact.name), context);
                                 Navigator.of(context).pop();
                               } else {

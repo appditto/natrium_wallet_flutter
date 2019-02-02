@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:async';
+import 'package:event_taxi/event_taxi.dart';
 import 'package:path/path.dart' as path;
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 import 'package:logging/logging.dart';
@@ -15,7 +17,7 @@ import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
-import 'package:natrium_wallet_flutter/bus/rxbus.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/available_currency.dart';
@@ -137,8 +139,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       int numSaved = await dbHelper.saveContacts(contactsToAdd);
       if (numSaved > 0) {
         _updateContacts();
-        RxBus.post(Contact(name: "", address: ""),
-            tag: RX_CONTACT_MODIFIED_TAG);
+        EventTaxiImpl.singleton().fire(ContactModifiedEvent(contact: Contact(name: "", address: "")));
         UIUtil.showSnackbar(
             AppLocalization.of(context)
                 .contactsImportSuccess
@@ -227,50 +228,61 @@ class _SettingsSheetState extends State<SettingsSheet>
     });
   }
 
+  StreamSubscription<ContactAddedEvent> _contactAddedSub;
+  StreamSubscription<ContactRemovedEvent> _contactRemovedSub;
+  StreamSubscription<TransferConfirmEvent> _transferConfirmSub;
+  StreamSubscription<TransferCompleteEvent> _transferCompleteSub;
+  StreamSubscription<UnlockCallbackEvent> _callbackUnlockSub;
+
   void _registerBus() {
     // Contact added bus event
-    RxBus.register<Contact>(tag: RX_CONTACT_ADDED_TAG).listen((contact) {
+    _contactAddedSub = EventTaxiImpl.singleton().registerTo<ContactAddedEvent>().listen((event) {
       setState(() {
-        _contacts.add(contact);
+        _contacts.add(event.contact);
         //Sort by name
         _contacts.sort(
             (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       });
       // Full update which includes downloading new monKey
-      _updateContacts();
+      _updateContacts();      
     });
     // Contact removed bus event
-    RxBus.register<Contact>(tag: RX_CONTACT_REMOVED_TAG).listen((contact) {
+    _contactRemovedSub = EventTaxiImpl.singleton().registerTo<ContactRemovedEvent>().listen((event) {
       setState(() {
-        _contacts.remove(contact);
+        _contacts.remove(event.contact);
       });
     });
     // Ready to go to transfer confirm
-    RxBus.register<Map<String, AccountBalanceItem>>(
-            tag: RX_TRANSFER_CONFIRM_TAG)
-        .listen((Map<String, AccountBalanceItem> privKeyMap) {
-      AppTransferConfirmSheet(privKeyMap, transferError)
+    _transferConfirmSub = EventTaxiImpl.singleton().registerTo<TransferConfirmEvent>().listen((event) {
+      AppTransferConfirmSheet(event.balMap, transferError)
           .mainBottomSheet(context);
     });
     // Ready to go to transfer complete
-    RxBus.register<BigInt>(tag: RX_TRANSFER_COMPLETE_TAG)
-        .listen((BigInt amount) {
+    _transferCompleteSub = EventTaxiImpl.singleton().registerTo<TransferCompleteEvent>().listen((event) {
       StateContainer.of(context).requestUpdate();
       AppTransferCompleteSheet(
-              NumberUtil.getRawAsUsableString(amount.toString()))
+              NumberUtil.getRawAsUsableString(event.amount.toString()))
           .mainBottomSheet(context);
     });
     // Unlock callback
-    RxBus.register<String>(tag: RX_UNLOCK_CALLBACK_TAG).listen((result) {
+    _callbackUnlockSub = EventTaxiImpl.singleton().registerTo<UnlockCallbackEvent>().listen((event) {
       StateContainer.of(context).unlockCallback();
     });
   }
 
   void _destroyBus() {
-    RxBus.destroy(tag: RX_CONTACT_ADDED_TAG);
-    RxBus.destroy(tag: RX_CONTACT_REMOVED_TAG);
-    RxBus.destroy(tag: RX_TRANSFER_CONFIRM_TAG);
-    RxBus.destroy(tag: RX_UNLOCK_CALLBACK_TAG);
+    if (_contactAddedSub != null) {
+      _contactAddedSub.cancel();
+    }
+    if (_contactRemovedSub != null) {
+      _contactRemovedSub.cancel();
+    }
+    if (_transferConfirmSub != null) {
+      _transferConfirmSub.cancel();
+    }
+    if (_transferCompleteSub != null) {
+      _transferCompleteSub.cancel();
+    }
   }
 
   @override
@@ -285,11 +297,9 @@ class _SettingsSheetState extends State<SettingsSheet>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.paused:
-        _destroyBus();
         super.didChangeAppLifecycleState(state);
         break;
       case AppLifecycleState.resumed:
-        _registerBus();
         super.didChangeAppLifecycleState(state);
         break;
       default:
@@ -460,7 +470,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           });
           FirebaseMessaging().requestNotificationPermissions();
           FirebaseMessaging().getToken().then((fcmToken) {
-            RxBus.post(fcmToken, tag: RX_FCM_UPDATE_TAG);
+            EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: fcmToken));
           });
         });
         break;
@@ -471,7 +481,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 NotificationSetting(NotificationOptions.OFF);
           });
           FirebaseMessaging().getToken().then((fcmToken) {
-            RxBus.post(fcmToken, tag: RX_FCM_UPDATE_TAG);
+            EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: fcmToken));
           });
         });
         break;
@@ -833,7 +843,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                         // Unsubscribe from notifications
                         SharedPrefsUtil.inst.setNotificationsOn(false).then((_) {
                           FirebaseMessaging().getToken().then((fcmToken) {
-                            RxBus.post(fcmToken, tag: RX_FCM_UPDATE_TAG);
+                          EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: fcmToken));
                             // Delete all data
                             Vault.inst.deleteAll().then((_) {
                               SharedPrefsUtil.inst.deleteAll().then((result) {

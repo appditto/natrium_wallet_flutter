@@ -36,8 +36,23 @@ class NumberUtil {
     String asString = nf.format(truncateDecimal(getRawAsUsableDecimal(raw)));
     var split = asString.split(".");
     if (split.length > 1) {
+      // Remove trailing 0s from this
       if (int.parse(split[1]) == 0) {
         asString = split[0];
+      } else {
+        String newStr = split[0] + ".";
+        String digits = split[1];
+        int endIndex = digits.length;
+        for (int i = 1; i <= digits.length; i++) {
+          if (int.parse(digits[digits.length - i]) == 0) {
+            endIndex--;
+          } else {
+            break;
+          }
+        }
+        digits = digits.substring(0, endIndex);
+        newStr = split[0] + "." + digits;
+        asString = newStr;
       }
     }
     return asString;

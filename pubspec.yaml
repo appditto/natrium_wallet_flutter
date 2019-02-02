@@ -66,8 +66,9 @@ dependencies:
       url: https://github.com/bbedward/plugins.git
       path: packages/local_auth
       ref: master
-  # RXDart
-  rxdart : ^0.20.0
+
+  # Eventbus
+  event_taxi: ^0.1.5
 
   # SVG
   flutter_svg: ^0.10.3

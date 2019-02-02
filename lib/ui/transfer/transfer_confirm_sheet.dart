@@ -1,19 +1,19 @@
+import 'dart:async';
+import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
-import 'package:natrium_wallet_flutter/bus/rxbus.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_balance_item.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/pending_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/pending_response_item.dart';
-import 'package:natrium_wallet_flutter/network/model/response/transfer_process_response.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
-import 'package:natrium_wallet_flutter/ui/transfer/transfer_complete_sheet.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
@@ -39,12 +39,25 @@ class AppTransferConfirmSheet {
 
   AppTransferConfirmSheet(this.privKeyBalanceMap, this.errorCallback);
 
+  StreamSubscription<TransferAccountHistoryEvent> _historySub;
+  StreamSubscription<TransferProcessEvent> _processSub;
+  StreamSubscription<TransferPendingEvent> _pendingSub;
+  StreamSubscription<TransferErrorEvent> _errorSub;
+
   Future<bool> _onWillPop() async {
-    RxBus.destroy(tag: RX_TRANSFER_ACCOUNT_HISTORY_TAG);
-    RxBus.destroy(tag: RX_TRANSFER_PENDING_TAG);
-    RxBus.destroy(tag: RX_TRANSFER_PROCESS_TAG);
-    RxBus.destroy(tag: RX_TRANSFER_ERROR_TAG);
-    RxBus.post("str", tag: RX_UNLOCK_CALLBACK_TAG);
+    if (_historySub != null) {
+      _historySub.cancel();
+    }
+    if (_processSub != null) {
+      _processSub.cancel();
+    }
+    if (_pendingSub != null) {
+      _pendingSub.cancel();
+    }
+    if (_errorSub != null) {
+      _errorSub.cancel();
+    }
+    EventTaxiImpl.singleton().fire(UnlockCallbackEvent());
     return true;
   }
 
@@ -70,7 +83,8 @@ class AppTransferConfirmSheet {
 
     // Register event buses (this will probably get a little messy)
     // Receiving account history
-    RxBus.register<AccountHistoryResponse>(tag: RX_TRANSFER_ACCOUNT_HISTORY_TAG).listen((AccountHistoryResponse historyResponse) {
+    _historySub = EventTaxiImpl.singleton().registerTo<TransferAccountHistoryEvent>().listen((event) {
+      AccountHistoryResponse historyResponse = event.response;
       bool readyToSend = false;
       String account = historyResponse.account;
       AccountBalanceItem accountBalanceItem;
@@ -95,23 +109,23 @@ class AppTransferConfirmSheet {
       }
     });
     // Pending response
-    RxBus.register<PendingResponse>(tag: RX_TRANSFER_PENDING_TAG).listen((pendingResponse) {
+    _pendingSub = EventTaxiImpl.singleton().registerTo<TransferPendingEvent>().listen((event) {
       // See if this is our account or a paper wallet account
-      if (pendingResponse.account != StateContainer.of(context).wallet.address) {
-        if (!privKeyBalanceMap.containsKey(pendingResponse.account)) {
+      if (event.response.account != StateContainer.of(context).wallet.address) {
+        if (!privKeyBalanceMap.containsKey(event.response.account)) {
           errorCallback();
         }
-        privKeyBalanceMap[pendingResponse.account].pendingResponse = pendingResponse;
+        privKeyBalanceMap[event.response.account].pendingResponse = event.response;
         // Begin open/receive with pendings
-        processNextPending(context, pendingResponse.account);
+        processNextPending(context, event.response.account);
       } else {
         // Store result and start pocketing these
-        accountPending = pendingResponse;
+        accountPending = event.response;
         processAppPending(context);
       }
     });
     // Process response
-    RxBus.register<TransferProcessResponse>(tag: RX_TRANSFER_PROCESS_TAG).listen((processResponse) {
+    _processSub = EventTaxiImpl.singleton().registerTo<TransferProcessEvent>().listen((processResponse) {
       // If this is our own account
       if (processResponse.account == StateContainer.of(context).wallet.address) {
         StateContainer.of(context).wallet.frontier = processResponse.hash;
@@ -136,13 +150,12 @@ class AppTransferConfirmSheet {
       }
     });
     // Error response
-    RxBus.register<String>(tag: RX_TRANSFER_ERROR_TAG).listen((err) {
+    _errorSub = EventTaxiImpl.singleton().registerTo<TransferErrorEvent>().listen((event) {
       if (animationOpen) {
         Navigator.of(context).pop();
       }
       errorCallback();
     });
-
     AppSheets.showAppHeightNineSheet(
         context: context,
         onDisposed: _onWillPop,
@@ -342,7 +355,7 @@ class AppTransferConfirmSheet {
       finished = true;
       StateContainer.of(context).requestPending(account: StateContainer.of(context).wallet.address);
     } else {
-      RxBus.post(totalToTransfer, tag: RX_TRANSFER_COMPLETE_TAG);
+      EventTaxiImpl.singleton().fire(TransferCompleteEvent(amount: totalToTransfer));
       if (animationOpen) {
         Navigator.of(context).pop();
       }

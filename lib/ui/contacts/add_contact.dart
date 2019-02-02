@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:event_taxi/event_taxi.dart';
 
 import 'package:natrium_wallet_flutter/colors.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
-import 'package:natrium_wallet_flutter/bus/rxbus.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
@@ -396,10 +397,10 @@ class AddContactSheet {
                               Contact newContact = Contact(name: _nameController.text, address: address == null ? _addressController.text : address);
                               dbHelper.saveContact(newContact).then((id) {
                                 if (address == null) {
-                                  RxBus.post(newContact, tag: RX_CONTACT_ADDED_TAG);
+                                  EventTaxiImpl.singleton().fire(ContactAddedEvent(contact: newContact));
                                 }
                                 UIUtil.showSnackbar(AppLocalization.of(context).contactAdded.replaceAll("%1", newContact.name), context);
-                                RxBus.post(newContact, tag: RX_CONTACT_MODIFIED_TAG);
+                                EventTaxiImpl.singleton().fire(ContactModifiedEvent(contact: newContact));
                                 Navigator.of(context).pop();
                               });
                             });
