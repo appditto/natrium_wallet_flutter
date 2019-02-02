@@ -736,7 +736,7 @@ class _AppHomePageState extends State<AppHomePage>
                                         AppStyles.TextStyleTransactionAmount,
                                   ),
                                   TextSpan(
-                                    text: " BAN",
+                                    text: " NANO",
                                     style:
                                         AppStyles.TextStyleTransactionUnit,
                                   ),
@@ -829,7 +829,7 @@ class _AppHomePageState extends State<AppHomePage>
                                       AppStyles.TextStyleTransactionAmount,
                                 ),
                                 TextSpan(
-                                  text: " BAN",
+                                  text: " NANO",
                                   style: AppStyles.TextStyleTransactionUnit,
                                 ),
                               ],
