@@ -358,6 +358,7 @@ class _AppHomePageState extends State<AppHomePage>
     if (StateContainer.of(context).wallet.historyLoading) {
       // Loading Animation
       return ReactiveRefreshIndicator(
+        backgroundColor: AppColors.backgroundDark,
         onRefresh: _refresh,
         isRefreshing: _isRefreshing,
         child: ListView(
@@ -384,6 +385,7 @@ class _AppHomePageState extends State<AppHomePage>
     } else if (StateContainer.of(context).wallet.history.length == 0) {
       _disposeAnimation();
       return ReactiveRefreshIndicator(
+        backgroundColor: AppColors.backgroundDark,
         child: ListView(
           padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
           children: <Widget>[
@@ -410,6 +412,7 @@ class _AppHomePageState extends State<AppHomePage>
       });
     }
     return ReactiveRefreshIndicator(
+      backgroundColor: AppColors.backgroundDark,
       child: AnimatedList(
         key: _listKey,
         padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
@@ -1100,7 +1103,7 @@ class _AppHomePageState extends State<AppHomePage>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-            width: 90.0,
+            width: 70.0,
             height: 120.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1124,8 +1127,8 @@ class _AppHomePageState extends State<AppHomePage>
           ),
           _getBalanceWidget(context),
           SizedBox(
-            width: 90.0,
-            height: 90.0,
+            width: 70.0,
+            height: 70.0,
           ),
         ],
       ),
@@ -1177,12 +1180,12 @@ class _AppHomePageState extends State<AppHomePage>
           ),
           Container(
             constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width - 225),
+                maxWidth: MediaQuery.of(context).size.width - 170),
             child: Stack(
               alignment: AlignmentDirectional(0, 0),
               children: <Widget>[
                 AutoSizeText(
-                  "1234567",
+                  "12345678",
                   style: TextStyle(
                       fontFamily: "NunitoSans",
                       fontSize: AppFontSizes.largestc,
@@ -1200,7 +1203,7 @@ class _AppHomePageState extends State<AppHomePage>
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: AutoSizeText(
-                      "1234567",
+                      "12345678",
                       style: TextStyle(
                           fontFamily: "NunitoSans",
                           fontSize: AppFontSizes.largestc - 8,
@@ -1288,7 +1291,7 @@ class _AppHomePageState extends State<AppHomePage>
               children: <Widget>[
                 Container(
                   constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width - 225),
+                      maxWidth: MediaQuery.of(context).size.width - 170),
                   child: AutoSizeText.rich(
                     TextSpan(
                       children: [
