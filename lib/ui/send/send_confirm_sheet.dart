@@ -26,16 +26,18 @@ class AppSendConfirmSheet {
   String _amountRaw;
   String _destination;
   String _contactName;
+  String _localCurrency;
   bool _maxSend;
 
   bool animationOpen = false;
 
-  AppSendConfirmSheet(String amount, String destinaton, {bool maxSend = false, String contactName}) {
+  AppSendConfirmSheet(String amount, String destinaton, {bool maxSend = false, String contactName, String localCurrencyAmount}) {
     _amount = amount;
     _amountRaw = NumberUtil.getAmountAsRaw(amount);
     _destination = destinaton;
     _contactName = contactName;
     _maxSend = maxSend;
+    _localCurrency = localCurrencyAmount;
   }
 
   StreamSubscription<SendFailedEvent> _sendEventFailedSub;
@@ -112,11 +114,20 @@ class AppSendConfirmSheet {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: " BAN",
+                                  text: " NANO",
                                   style: TextStyle(
                                     color: AppColors.primary,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w100,
+                                    fontFamily: 'NunitoSans',
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: _localCurrency != null ? " ($_localCurrency)" : "",
+                                  style: TextStyle(
+                                    color: AppColors.primary,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700,
                                     fontFamily: 'NunitoSans',
                                   ),
                                 ),
@@ -176,7 +187,8 @@ class AppSendConfirmSheet {
                                           StateContainer.of(context).requestSend(
                                               StateContainer.of(context).wallet.frontier,
                                               _destination,
-                                              _maxSend ? "0" : _amountRaw);
+                                              _maxSend ? "0" : _amountRaw,
+                                              localCurrencyAmount: _localCurrency);
                                         }
                                       });
                                     } else {

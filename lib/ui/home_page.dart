@@ -58,11 +58,6 @@ class _AppHomePageState extends State<AppHomePage>
   // but seems the only way to handle the animations
   ListModel<AccountHistoryResponseItem> _historyList;
 
-  // monKey widget
-  Widget _monKey;
-  Widget _largeMonKey;
-  bool _monkeyOverlayOpen = false;
-  bool _monkeyDownloadTriggered = false;
   // List of contacts (Store it so we only have to query the DB once for transaction cards)
   List<Contact> _contacts = List();
 
@@ -81,14 +76,12 @@ class _AppHomePageState extends State<AppHomePage>
   void initState() {
     super.initState();
     _registerBus();
-    _monKey = SizedBox();
     WidgetsBinding.instance.addObserver(this);
     SharedPrefsUtil.inst.getPriceConversion().then((result) {
       _priceConversion = result;
     });
     _addSampleContact();
     _updateContacts();
-    _monkeyDownloadTriggered = false;
     // Setup placeholder animation and start
     _animationDisposed = false;
     _placeholderCardAnimationController = new AnimationController(
@@ -209,7 +202,6 @@ class _AppHomePageState extends State<AppHomePage>
   StreamSubscription<ContactModifiedEvent> _contactModifiedSub;
   StreamSubscription<SendCompleteEvent> _sendCompleteSub;
   StreamSubscription<DisableLockTimeoutEvent> _disableLockSub;
-  StreamSubscription<MonkeyOverlayClosedEvent> _monkeyOverlaySub;
   StreamSubscription<DeepLinkEvent> _deepLinkEventSub;
 
   void _registerBus() {
@@ -228,20 +220,13 @@ class _AppHomePageState extends State<AppHomePage>
         DBHelper().getContactWithAddress(event.previous.link).then((contact) {
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-          AppSendCompleteSheet(displayAmount, event.previous.link, contactName)
+          AppSendCompleteSheet(displayAmount, event.previous.link, contactName, localAmount: event.previous.localCurrencyValue)
               .mainBottomSheet(context);
         });
       }
     });
     _contactModifiedSub = EventTaxiImpl.singleton().registerTo<ContactModifiedEvent>().listen((event) {
       _updateContacts();
-    });
-    _monkeyOverlaySub = EventTaxiImpl.singleton().registerTo<MonkeyOverlayClosedEvent>().listen((event) {
-      Future.delayed(Duration(milliseconds: 150), () {
-        setState(() {
-          _monkeyOverlayOpen = false;
-        });
-      });
     });
     _deepLinkEventSub = EventTaxiImpl.singleton().registerTo<DeepLinkEvent>().listen((event) {
       String amount;
@@ -302,9 +287,6 @@ class _AppHomePageState extends State<AppHomePage>
     }
     if (_disableLockSub != null) {
       _disableLockSub.cancel();
-    }
-    if (_monkeyOverlaySub != null) {
-      _monkeyOverlaySub.cancel();
     }
     if (_deepLinkEventSub != null) {
       _deepLinkEventSub.cancel();
@@ -486,36 +468,6 @@ class _AppHomePageState extends State<AppHomePage>
               width: MediaQuery.of(context).size.width / 2.675,
               child: Image.memory(byteData.buffer.asUint8List())));
         });
-      });
-    }
-    // Download/Retrieve smaller and large monKeys
-    if (!_monkeyDownloadTriggered) {
-      _monkeyDownloadTriggered = true;
-      UIUtil.downloadOrRetrieveMonkey(context,
-              StateContainer.of(context).wallet.address, MonkeySize.HOME_SMALL)
-          .then((result) {
-        if (result != null) {
-          FileUtil.pngHasValidSignature(result).then((valid) {
-            if (valid) {
-              setState(() {
-                _monKey = Image.file(result);
-              });
-            }
-          });
-        }
-      });
-      UIUtil.downloadOrRetrieveMonkey(context,
-              StateContainer.of(context).wallet.address, MonkeySize.LARGE)
-          .then((result) {
-        if (result != null) {
-          FileUtil.pngHasValidSignature(result).then((valid) {
-            if (valid) {
-              setState(() {
-                _largeMonKey = Image.file(result);
-              });
-            }
-          });
-        }
       });
     }
 
@@ -1509,96 +1461,5 @@ class TransactionDetailsSheet {
             );
           });
         });
-  }
-}
-
-// monKey Overlay
-class MonkeyOverlay extends ModalRoute<void> {
-  var monKey;
-  MonkeyOverlay(this.monKey);
-
-  @override
-  Duration get transitionDuration => Duration(milliseconds: 200);
-
-  @override
-  bool get opaque => false;
-
-  @override
-  bool get barrierDismissible => false;
-
-  @override
-  Color get barrierColor => AppColors.overlay70;
-
-  @override
-  String get barrierLabel => null;
-
-  @override
-  bool get maintainState => false;
-
-  Future<bool> _onClosed() async {
-    EventTaxiImpl.singleton().fire(MonkeyOverlayClosedEvent());
-    return true;
-  }
-
-  @override
-  Widget buildPage(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-  ) {
-    // Setup position transition
-    return WillPopScope(
-      onWillPop: _onClosed,
-      child: Material(
-        type: MaterialType.transparency,
-        child: SafeArea(child: _buildOverlayContent(context)),
-      ),
-    );
-  }
-
-  Widget _buildOverlayContent(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints.expand(),
-      child: Stack(
-        children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              _onClosed();
-              Navigator.pop(context);
-            },
-            child: Container(
-              color: Colors.transparent,
-              child: SizedBox.expand(),
-              constraints: BoxConstraints.expand(),
-            ),
-          ),
-          Container(
-            alignment: Alignment(0, -0.3),
-            child: ClipOval(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width,
-                child: monKey,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(0.42, -0.42),
-        end: Offset.zero,
-      ).animate(animation),
-      child: ScaleTransition(
-        scale: animation,
-        child: FadeTransition(opacity: animation, child: child),
-      ),
-    );
   }
 }

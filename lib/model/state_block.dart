@@ -43,6 +43,9 @@ class StateBlock {
   // Represents subtype of this block: send/receive/change/openm
   @JsonKey(ignore:true)
   String subType;
+  // Represents local currency value of this TX
+  @JsonKey(ignore: true)
+  String localCurrencyValue;
 
   /// StateBlock constructor.
   /// subtype is one of "send", "receive", "change", "open"
@@ -52,7 +55,7 @@ class StateBlock {
   /// and update it later before signing
   StateBlock({String subtype, @required String previous, @required String representative,
               @required String balance, @required String link, @required String account,
-              this.privKey}) {
+              this.privKey, this.localCurrencyValue}) {
     this.link = link;
     this.subType = subtype;
     this.type = BlockTypes.STATE;

@@ -389,49 +389,6 @@ class UIUtil {
     );
   }
 
-  static Future<File> downloadOrRetrieveMonkey(
-      BuildContext context, String address, MonkeySize monkeySize) async {
-    // Get expected path
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    String prefix;
-    // Compute size required in pixels
-    int size = 1000;
-    switch (monkeySize) {
-      case MonkeySize.LARGE:
-        prefix = "large_";
-        size = (MediaQuery.of(context).size.width *
-                MediaQuery.of(context).devicePixelRatio)
-            .toInt();
-        break;
-      case MonkeySize.NORMAL:
-        prefix = "normal_";
-        int multiplier = smallScreen(context) ? 130 : 200;
-        size = (multiplier * MediaQuery.of(context).devicePixelRatio).toInt();
-        break;
-      case MonkeySize.SMALL:
-        prefix = "small_";
-        int multiplier = smallScreen(context) ? 55 : 70;
-        size = (multiplier * MediaQuery.of(context).devicePixelRatio).toInt();
-        break;
-      case MonkeySize.HOME_SMALL:
-        prefix = "home_";
-        size = (90 * MediaQuery.of(context).devicePixelRatio).toInt();
-        break;
-    }
-    String fileName = '$dir/$prefix$address.png';
-    if (await File(fileName).exists()) {
-      return File(fileName);
-    }
-    // Download monKey and return file
-    http.Client client = http.Client();
-    var req = await client.get(Uri.parse(AppLocalization.of(context)
-        .getMonkeyDownloadUrl(address, size: size)));
-    var bytes = req.bodyBytes;
-    File file = File(fileName);
-    await file.writeAsBytes(bytes);
-    return file;
-  }
-
   static double drawerWidth(BuildContext context) {
     if (MediaQuery.of(context).size.width < 375)
       return MediaQuery.of(context).size.width * 0.94;

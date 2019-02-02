@@ -259,7 +259,7 @@ class AppLocalization {
   }
 
   String get welcomeText {
-    return Intl.message("Welcome to Kalium. To begin you may create a new wallet or import an existing one.",
+    return Intl.message("Welcome to Natrium. To begin you may create a new wallet or import an existing one.",
         desc: 'intro_welcome_title', name: 'welcomeText');
   }
 
@@ -291,7 +291,7 @@ class AppLocalization {
   }
 
   String get sendAmountConfirm {
-    return Intl.message("Send %1 BANANO",
+    return Intl.message("Send %1 NANO",
         desc: 'send_pin_description', name: 'sendAmountConfirm');
   }
 
@@ -439,14 +439,14 @@ class AppLocalization {
       desc: 'settings_change_language', name: 'language');
   }
 
-  String get shareKalium {
-    return Intl.message("Share Kalium",
-      desc: 'settings_share', name: 'shareKalium');
+  String get shareNatrium {
+    return Intl.message("Share Natrium",
+      desc: 'settings_share', name: 'shareNatrium');
   }
 
-  String get shareKaliumText {
-    return Intl.message("Check out Kalium! Banano's official mobile wallet!",
-      desc: 'share_extra', name: 'shareKaliumText');
+  String get shareNatriumText {
+    return Intl.message("Check out Natrium! Intuitive NANO mobile wallet!",
+      desc: 'share_extra', name: 'shareNatriumText');
   }
 
   String get logout {
@@ -460,7 +460,7 @@ class AppLocalization {
   }
 
   String get logoutDetail {
-    return Intl.message("Logging out will remove your seed and all Kalium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
+    return Intl.message("Logging out will remove your seed and all Natrium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
       desc: 'settings_logout_alert_message', name: 'logoutDetail');
   }
 
@@ -520,12 +520,12 @@ class AppLocalization {
   }
 
   String get notificationTitle {
-    return Intl.message("Received %1 BANANO",
+    return Intl.message("Received %1 NANO",
       desc: 'notification_title', name: 'notificationTitle');
   }
 
   String get notificationBody {
-    return Intl.message("Open Kalium to view this transaction",
+    return Intl.message("Open Natrium to view this transaction",
       desc: 'notification_body', name: 'notificationBody');
   }
 
@@ -555,7 +555,7 @@ class AppLocalization {
   }
 
   String get kaliumWallet {
-    return Intl.message("Kalium Wallet",
+    return Intl.message("Natrium Wallet",
       desc: 'kalium_wallet', name: 'kaliumWallet');
   }
 
@@ -592,12 +592,12 @@ class AppLocalization {
   }
 
   String get transferIntro {
-    return Intl.message("This process will transfer the funds from a paper wallet to your Kalium wallet.\n\nTap the \"%1\" button to start.",
+    return Intl.message("This process will transfer the funds from a paper wallet to your Natrium wallet.\n\nTap the \"%1\" button to start.",
       desc: 'transfer_intro', name: 'transferIntro');
   }
 
   String get transferQrScanHint {
-    return Intl.message("Scan a Banano \nseed or private key",
+    return Intl.message("Scan a Nano \nseed or private key",
       desc: 'transfer_qr_scan_hint', name: 'transferQrScanHint');
   }
 
@@ -607,14 +607,14 @@ class AppLocalization {
   }
 
   String get transferNoFunds {
-    return Intl.message("This seed does not have any BANANO on it",
+    return Intl.message("This seed does not have any NANO on it",
       desc: 'transfer_no_funds_toast', name: 'transferNoFunds');
   }
 
   // Confirm screen
 
   String get transferConfirmInfo {
-    return Intl.message("A wallet with a balance of %1 BANANO has been detected.\n",
+    return Intl.message("A wallet with a balance of %1 NANO has been detected.\n",
       desc: 'transfer_confirm_info_first', name: 'transferConfirmInfo');
   }
 
@@ -636,7 +636,7 @@ class AppLocalization {
   // Compelte screen
 
   String get transferComplete {
-    return Intl.message("%1 BANANO successfully transferred to your Kalium Wallet.\n",
+    return Intl.message("%1 NANO successfully transferred to your Natrium Wallet.\n",
       desc: 'transfer_complete_text', name: 'transferComplete');
   }
 
@@ -650,19 +650,19 @@ class AppLocalization {
   // Scan
 
   String get scanInstructions {
-    return Intl.message("Scan a Banano \naddress QR code",
+    return Intl.message("Scan a Nano \naddress QR code",
       desc: 'scan_send_instruction_label', name: 'scanInstructions');
   }
 
   /// -- LOCK SCREEN 
 
   String get unlockPin {
-    return Intl.message("Enter PIN to Unlock Kalium",
+    return Intl.message("Enter PIN to Unlock Natrium",
       desc: 'unlock_kalium_pin', name: 'unlockPin');
   }
 
   String get unlockBiometrics {
-    return Intl.message("Authenticate to Unlock Kalium",
+    return Intl.message("Authenticate to Unlock Natrium",
       desc: 'unlock_kalium_bio', name: 'unlockBiometrics');
   }
 
@@ -721,7 +721,7 @@ class AppLocalization {
   /// -- EXAMPLE HOME SCREEN CARDS
 
   String get exampleCardIntro {
-    return Intl.message("Welcome to Kalium. Once you receive BANANO, transactions will show up like this:",
+    return Intl.message("Welcome to Natrium. Once you receive NANO, transactions will show up like this:",
       desc: 'example_card_intro', name: 'exampleCardIntro');
   }
 
@@ -736,12 +736,12 @@ class AppLocalization {
   }
 
   String get exampleCardTo {
-    return Intl.message("to a random monkey",
+    return Intl.message("to someone",
       desc: 'example_card_to', name: 'exampleCardTo');
   }
 
   String get exampleCardFrom {
-    return Intl.message("from a random monkey",
+    return Intl.message("from a someone",
       desc: 'example_card_from', name: 'exampleCardFrom');
   }
 
@@ -749,19 +749,15 @@ class AppLocalization {
 
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash) {
-    return 'https://creeper.banano.cc/explorer/block/$hash';
+    return 'https://nanocrawler.cc/explorer/block/$hash';
   }
 
   String getAccountExplorerUrl(String account) {
-    return 'https://creeper.banano.cc/explorer/account/$account';
-  }
-
-  String getMonkeyDownloadUrl(String account, { int size = 1000 }) {
-    return 'https://bananomonkeys.herokuapp.com/image?format=png&address=$account&size=$size';
+    return 'https://nanocrawler.cc/explorer/account/$account';
   }
 
   String get eulaUrl {
-    return 'https://avengemedia.github.io/kalium/eula_kalium.html';
+    return 'https://avengemedia.github.io/kalium/eula_natrium.html';
   }
 
   String get privacyUrl {

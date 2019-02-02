@@ -270,7 +270,7 @@ class AppSendSheet {
                                               ),
                                             ),
                                             TextSpan(
-                                              text: _localCurrencyMode ? ")" : " BAN)",
+                                              text: _localCurrencyMode ? ")" : " NANO)",
                                               style: TextStyle(
                                                 color: AppColors.primary60,
                                                 fontSize: 14.0,
@@ -422,17 +422,19 @@ class AppSendSheet {
                                   });
                                 } else {
                                   AppSendConfirmSheet(
-                                          _sendAmountController.text,
+                                          _localCurrencyMode ? _convertLocalCurrencyToCrypto(context) : _sendAmountController.text,
                                           contact.address,
                                           contactName: contact.name,
-                                          maxSend: _isMaxSend(context))
+                                          maxSend: _isMaxSend(context),
+                                          localCurrencyAmount: _localCurrencyMode ? _sendAmountController.text : null)
                                       .mainBottomSheet(context);
                                 }
                               });
                             } else if (validRequest) {
-                              AppSendConfirmSheet(_sendAmountController.text,
+                              AppSendConfirmSheet(_localCurrencyMode ? _convertLocalCurrencyToCrypto(context) : _sendAmountController.text,
                                       _sendAddressController.text,
-                                      maxSend: _isMaxSend(context))
+                                      maxSend: _isMaxSend(context),
+                                      localCurrencyAmount: _localCurrencyMode ? _sendAmountController.text : null)
                                   .mainBottomSheet(context);
                             }
                           }),
@@ -672,9 +674,10 @@ class AppSendSheet {
         _amountValidationText = AppLocalization.of(context).amountMissing;
       });
     } else {
+      String nanoAmount = _localCurrencyMode ? _convertLocalCurrencyToCrypto(context) : _sendAmountController.text;
       BigInt balanceRaw = StateContainer.of(context).wallet.accountBalance;
       BigInt sendAmount = BigInt.tryParse(
-          NumberUtil.getAmountAsRaw(_sendAmountController.text));
+          NumberUtil.getAmountAsRaw(nanoAmount));
       if (sendAmount == null || sendAmount == BigInt.zero) {
         isValid = false;
         setState(() {
@@ -784,12 +787,26 @@ class AppSendSheet {
                   if (_isMaxSend(context)) {
                     return;
                   }
-                  setState(() {
+                  if (!_localCurrencyMode) {
                     _sendAmountController.text = StateContainer.of(context)
                         .wallet
                         .getAccountBalanceDisplay()
                         .replaceAll(r",", "");
-                  });
+                    _sendAddressController.selection =
+                        TextSelection.fromPosition(TextPosition(
+                            offset:
+                                _sendAddressController.text.length));
+                  } else {
+                    String localAmount = StateContainer.of(context).wallet.getLocalCurrencyPrice(locale: StateContainer.of(context).currencyLocale);
+                    localAmount = localAmount.replaceAll(_localCurrencyFormat.symbols.GROUP_SEP, "");
+                    localAmount = localAmount.replaceAll(_localCurrencyFormat.symbols.DECIMAL_SEP, ".");
+                    localAmount = NumberUtil.sanitizeNumber(localAmount).replaceAll(".", _localCurrencyFormat.symbols.DECIMAL_SEP);
+                    _sendAmountController.text = _localCurrencyFormat.currencySymbol + localAmount;
+                    _sendAddressController.selection =
+                        TextSelection.fromPosition(TextPosition(
+                            offset:
+                                _sendAddressController.text.length));
+                  }
                 },
                 child: Icon(AppIcons.max,
                     size: 24, color: AppColors.primary),

@@ -325,48 +325,6 @@ class _SettingsSheetState extends State<SettingsSheet>
         _contacts.sort(
             (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       });
-      // Get any monKeys that are missing
-      for (Contact c in _contacts) {
-        // Download monKeys if not existing
-        if (c.monkeyWidget == null) {
-          if (c.monkeyPath != null) {
-            setState(() {
-              c.monkeyWidget = Image.file(
-                  File("$documentsDirectory/${c.monkeyPath}"),
-                  width: smallScreen(context) ? 55 : 70,
-                  height: smallScreen(context) ? 55 : 70);
-            });
-          } else {
-            UIUtil.downloadOrRetrieveMonkey(
-                    context, c.address, MonkeySize.SMALL)
-                .then((result) {
-              FileUtil.pngHasValidSignature(result).then((valid) {
-                if (valid) {
-                  setState(() {
-                    c.monkeyWidget = Image.file(result);
-                    c.monkeyPath = path.basename(result.path);
-                  });
-                  DBHelper().setMonkeyForContact(c, c.monkeyPath);
-                }
-              });
-            });
-          }
-        }
-        if (c.monkeyWidgetLarge == null) {
-          UIUtil.downloadOrRetrieveMonkey(context, c.address, MonkeySize.NORMAL)
-              .then((result) {
-            FileUtil.pngHasValidSignature(result).then((valid) {
-              if (valid) {
-                setState(() {
-                  c.monkeyWidgetLarge = Image.file(result,
-                      width: smallScreen(context) ? 130 : 200,
-                      height: smallScreen(context) ? 130 : 200);
-                });
-              }
-            });
-          });
-        }
-      }
     });
   }
 
@@ -821,10 +779,10 @@ class _SettingsSheetState extends State<SettingsSheet>
                   }),
                   Divider(height: 2),
                   AppSettings.buildSettingsListItemSingleLine(
-                      AppLocalization.of(context).shareKalium,
+                      AppLocalization.of(context).shareNatrium,
                       AppIcons.share, onPressed: () {
-                    Share.share(AppLocalization.of(context).shareKaliumText +
-                        " https://kalium.banano.cc");
+                    Share.share(AppLocalization.of(context).shareNatrium +
+                        " https://natrium.io");
                   }),
                   Divider(height: 2),
                   AppSettings.buildSettingsListItemSingleLine(

@@ -12,12 +12,14 @@ class AppSendCompleteSheet {
   String _amount;
   String _destination;
   String _contactName;
+  String _localAmount;
 
   AppSendCompleteSheet(
-      String amount, String destinaton, String contactName) {
+      String amount, String destinaton, String contactName, {String localAmount}) {
     _amount = amount;
     _destination = destinaton;
     _contactName = contactName;
+    _localAmount = localAmount;
   }
 
   mainBottomSheet(BuildContext context) {
@@ -72,11 +74,20 @@ class AppSendCompleteSheet {
                                 ),
                               ),
                               TextSpan(
-                                text: " BAN",
+                                text: " NANO",
                                 style: TextStyle(
                                   color: AppColors.success,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w100,
+                                  fontFamily: 'NunitoSans',
+                                ),
+                              ),
+                              TextSpan(
+                                text: _localAmount != null ? " ($_localAmount)" : "",
+                                style: TextStyle(
+                                  color: AppColors.success,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w700,
                                   fontFamily: 'NunitoSans',
                                 ),
                               ),
