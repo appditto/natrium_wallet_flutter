@@ -97,7 +97,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     });
     DateTime exportTime = DateTime.now();
     String filename =
-        "kaliumcontacts_${exportTime.year}${exportTime.month}${exportTime.day}${exportTime.hour}${exportTime.minute}${exportTime.second}.txt";
+        "natriumcontacts_${exportTime.year}${exportTime.month}${exportTime.day}${exportTime.hour}${exportTime.minute}${exportTime.second}.txt";
     Directory baseDirectory = await getApplicationDocumentsDirectory();
     File contactsFile = File("${baseDirectory.path}/$filename");
     await contactsFile.writeAsString(json.encode(jsonList));
@@ -282,6 +282,9 @@ class _SettingsSheetState extends State<SettingsSheet>
     }
     if (_transferCompleteSub != null) {
       _transferCompleteSub.cancel();
+    }
+    if (_callbackUnlockSub != null) {
+      _callbackUnlockSub.cancel();
     }
   }
 
