@@ -352,8 +352,10 @@ class AppTransferConfirmSheet {
           account: account);
       }
     } else if (!finished) {
+      // TODO - for some reason the NANO node doesnt know about our pendings right away, so don't try to receive this transfer here for now
       finished = true;
-      StateContainer.of(context).requestPending(account: StateContainer.of(context).wallet.address);
+      //StateContainer.of(context).requestPending(account: StateContainer.of(context).wallet.address);
+      startProcessing(context);
     } else {
       EventTaxiImpl.singleton().fire(TransferCompleteEvent(amount: totalToTransfer));
       if (animationOpen) {
