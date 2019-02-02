@@ -7,34 +7,34 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>769401031477-ed4a9jgchqfa9fjb3a5ql451lv793gsh.apps.googleusercontent.com</string>
+	<string>716870170992-uke8jjre8p1nlscfam7igdidpe0foppl.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.769401031477-ed4a9jgchqfa9fjb3a5ql451lv793gsh</string>
+	<string>com.googleusercontent.apps.716870170992-uke8jjre8p1nlscfam7igdidpe0foppl</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAiSBynbqiS5fS14Y0WIqplOfUGIImDVt4</string>
+	<string>AIzaSyB5HtyFdGqSpixSTybYHLoxv5tJ_30nrCQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>769401031477</string>
+	<string>716870170992</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.banano.kaliumwallet</string>
+	<string>com.avengemedia.natrium</string>
 	<key>PROJECT_ID</key>
-	<string>kalium-d4116</string>
+	<string>natrium-edfa2</string>
 	<key>STORAGE_BUCKET</key>
-	<string>kalium-d4116.appspot.com</string>
+	<string>natrium-edfa2.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
 	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false></false>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
 	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:769401031477:ios:e61aab7d5fd41832</string>
+	<string>1:716870170992:ios:693a7e526e5dae98</string>
 	<key>DATABASE_URL</key>
-	<string>https://kalium-d4116.firebaseio.com</string>
+	<string>https://natrium-edfa2.firebaseio.com</string>
 </dict>
 </plist>
