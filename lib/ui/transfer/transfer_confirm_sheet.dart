@@ -337,16 +337,13 @@ class AppTransferConfirmSheet {
     if (privKeyBalanceMap.length > 0) {
       String account = privKeyBalanceMap.keys.first;
       StateContainer.of(context).requestAccountHistory(account);
-      print("HISTREQUEST");
     } else if (readyToSendMap.length > 0) {
       // Start requesting sends
       String account = readyToSendMap.keys.first;
       AccountBalanceItem balItem = readyToSendMap[account];
       if (balItem.frontier == null) {
-        print("NULLFRONTIERSEND");
         StateContainer.of(context).requestAccountHistory(account);
       } else {
-        print("SEND");
         StateContainer.of(context).requestSend(
           balItem.frontier,
           StateContainer.of(context).wallet.address,
@@ -355,11 +352,9 @@ class AppTransferConfirmSheet {
           account: account);
       }
     } else if (!finished) {
-      print("FINISHING");
       finished = true;
       StateContainer.of(context).requestPending(account: StateContainer.of(context).wallet.address);
     } else {
-      print("FINISHED FULLY");
       EventTaxiImpl.singleton().fire(TransferCompleteEvent(amount: totalToTransfer));
       if (animationOpen) {
         Navigator.of(context).pop();
