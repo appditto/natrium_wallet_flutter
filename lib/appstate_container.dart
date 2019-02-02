@@ -394,7 +394,7 @@ class StateContainerState extends State<StateContainer> {
   // Handle pending response
   void handlePendingResponse(PendingResponse response) {
     RequestItem prevRequest = AccountService.pop();
-    if (prevRequest.fromTransfer) {
+    if (prevRequest != null && prevRequest.fromTransfer) {
       // Transfer/sweep pending requests get different handling
       PendingRequest pendingRequest = prevRequest.request;
       response.account = pendingRequest.account;
@@ -418,7 +418,7 @@ class StateContainerState extends State<StateContainer> {
     if (response.blockCount != null) {
       // Choose correct blockCount to minimize bandwidth
       // This is can still be improved because history excludes change/open, blockCount doesn't
-      int count = response.blockCount > wallet.blockCount ? response.blockCount : wallet.blockCount;
+      int count = response.blockCount;
       if (wallet.history.length < count) {
         count = count - wallet.history.length + 5; // Add a buffer of 5 because we do want at least 1 item we already have
       }
