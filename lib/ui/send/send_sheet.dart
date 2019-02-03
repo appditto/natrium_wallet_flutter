@@ -449,7 +449,7 @@ class AppSendSheet {
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             try {
                               UIUtil.cancelLockEvent();
-                              BarcodeScanner.scan(OverlayTheme.KALIUM).then((value) {
+                              BarcodeScanner.scan(OverlayTheme.NATRIUM).then((value) {
                                 Address address = Address(value);
                                 if (!address.isValid()) {
                                   UIUtil.showSnackbar(

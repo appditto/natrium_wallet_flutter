@@ -163,7 +163,7 @@ class AppTransferOverviewSheet {
                           Dimens.BUTTON_TOP_DIMENS,
                           onPressed: () {
                             UIUtil.cancelLockEvent();
-                            BarcodeScanner.scan(OverlayTheme.KALIUM).then((value) {
+                            BarcodeScanner.scan(OverlayTheme.NATRIUM).then((value) {
                               if (!NanoSeeds.isValidSeed(value)) {
                                 UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidSeed, context);
                                 return;

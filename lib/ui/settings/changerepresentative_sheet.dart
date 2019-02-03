@@ -153,7 +153,7 @@ class AppChangeRepresentativeSheet {
                         child: FlatButton(
                           onPressed: () {
                             UIUtil.cancelLockEvent();
-                            BarcodeScanner.scan(OverlayTheme.KALIUM).then((result) {
+                            BarcodeScanner.scan(OverlayTheme.NATRIUM).then((result) {
                               if (result == null) { return; }
                               Address address =
                                   new Address(result);
