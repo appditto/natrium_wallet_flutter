@@ -32,7 +32,7 @@ class BiometricUtil {
       return await localAuth.authenticateWithBiometrics(
         localizedReason: message,
         useErrorDialogs: false,
-        dialogTheme: FPDialogTheme.KALIUM
+        dialogTheme: FPDialogTheme.NATRIUM
       );
     }
     return false;
