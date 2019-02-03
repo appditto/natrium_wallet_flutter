@@ -72,8 +72,15 @@ class NumberUtil {
   /// be parsed. Expects "." to be decimal separator
   /// @param amount $1,512
   /// @returns 1.512
-  static String sanitizeNumber(String input) {
+  static String sanitizeNumber(String input, {int maxDecimalDigits = maxDecimalDigits}) {
     String sanitized = "";
+    List<String> splitStr = input.split(".");
+    if (splitStr.length > 1) {
+      if (splitStr[1].length > maxDecimalDigits) {
+        splitStr[1] = splitStr[1].substring(0, maxDecimalDigits);
+        input = splitStr[0] + "." + splitStr[1];
+      }
+    }
     for (int i=0; i< input.length; i++) {
       try {
         if (input[i] == ".") {
