@@ -418,13 +418,13 @@ class StateContainerState extends State<StateContainer> {
     if (response.blockCount != null && !wallet.historyLoading) {
       // Choose correct blockCount to minimize bandwidth
       // This is can still be improved because history excludes change/open, blockCount doesn't
-      int count = response.blockCount;
-      if (wallet.history.length < count) {
-        count = count - wallet.history.length + 5; // Add a buffer of 5 because we do want at least 1 item we already have
-      }
-      if (count <= 0) {
-        count = 10;
-      }
+
+      // Get largest count we have + 5 (just a safe-buffer)
+      int count = max(response.blockCount, wallet.history.length) + 5;
+      // Subtract by what we already have to get amount we want to request
+      count -= wallet.history.length;
+      // Minimum of 10 to request
+      count = count <= 0 ? 10 : count;
       AccountService.requestQueue.forEach((requestItem) {
         if (requestItem.request is AccountHistoryRequest) {
           requestItem.request.count = count;
