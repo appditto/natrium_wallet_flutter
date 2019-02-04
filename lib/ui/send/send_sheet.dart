@@ -529,7 +529,7 @@ class AppSendSheet {
     }
     Decimal valueCrypto = Decimal.parse(convertedAmt);
     Decimal conversion = Decimal.parse(StateContainer.of(context).wallet.localCurrencyConversion);
-    convertedAmt = NumberUtil.truncateDecimal(valueCrypto * conversion).toString();    
+    convertedAmt = NumberUtil.truncateDecimal(valueCrypto * conversion, maxDecimalDigits: 2).toString();    
     convertedAmt = convertedAmt.replaceAll(".", _localCurrencyFormat.symbols.DECIMAL_SEP);
     convertedAmt = _localCurrencyFormat.currencySymbol + convertedAmt;
     return convertedAmt;
