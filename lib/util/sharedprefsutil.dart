@@ -28,7 +28,6 @@ class SharedPrefsUtil {
   static const String user_representative = 'fkalium_user_rep'; // For when non-opened accounts have set a representative
   static const String firstcontact_added = 'fkalium_first_c_added';
   static const String notification_enabled = 'fkalium_notification_on';
-  static const String notificaion_disabled_ios = 'fkalium_notification_disable'; // They've disabled it in iOS app settings
   static const String lock_kalium = 'fkalium_lock_dev';
   static const String kalium_lock_timeout = 'fkalium_lock_timeout';
   // For maximum pin attempts
@@ -150,23 +149,9 @@ class SharedPrefsUtil {
     return await set(notification_enabled, value);
   }
 
-  Future<bool> getDisabledNotificationsIos() async {
-    if (!Platform.isIOS) {
-      return false;
-    }
-    return await get(notificaion_disabled_ios, defaultValue: true);
-  }
-
-  Future<void> setDisabledNotificationsIos(bool value) async {
-    return await set(notificaion_disabled_ios, value);
-  }
-
   Future<bool> getNotificationsOn() async {
     // Notifications off by default on iOS, 
     bool defaultValue = Platform.isIOS ? false : true;
-    if (await getDisabledNotificationsIos()) {
-      return false;
-    }
     return await get(notification_enabled, defaultValue: defaultValue);
   }
 

@@ -73,7 +73,6 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   bool _contactsOpen;
   bool _securityOpen;
-  bool _notificationsDisabled = true; // if on iOS and disabled them system-wide or denied permission
 
   List<Contact> _contacts;
 
@@ -163,9 +162,6 @@ class _SettingsSheetState extends State<SettingsSheet>
     super.initState();
     _contactsOpen = false;
     _securityOpen = false;
-    SharedPrefsUtil.inst.getDisabledNotificationsIos().then((disabled) {
-      _notificationsDisabled = disabled;
-    });
     // Determine if they have face or fingerprint enrolled, if not hide the setting
     BiometricUtil.hasBiometrics().then((bool hasBiometrics) {
       setState(() {
@@ -433,6 +429,7 @@ class _SettingsSheetState extends State<SettingsSheet>
             _curNotificiationSetting =
                 NotificationSetting(NotificationOptions.ON);
           });
+          FirebaseMessaging().requestNotificationPermissions();
           FirebaseMessaging().getToken().then((fcmToken) {
             EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: fcmToken));
           });
@@ -697,8 +694,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                       AppLocalization.of(context).notifications,
                       _curNotificiationSetting,
                       AppIcons.notifications,
-                      _notificationsDialog,
-                      disabled: _notificationsDisabled),
+                      _notificationsDialog),
                   Divider(height: 2),
                   AppSettings.buildSettingsListItemSingleLine(
                       AppLocalization.of(context).securityHeader,
