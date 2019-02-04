@@ -22,6 +22,7 @@ class ShakeCurve extends Curve {
 }
 
 class PinScreen extends StatefulWidget {
+
   final PinOverlayType type;
   final String expectedPin;
   final String description;
@@ -39,6 +40,7 @@ class PinScreen extends StatefulWidget {
 class _PinScreenState extends State<PinScreen>
     with SingleTickerProviderStateMixin {
   static const int MAX_ATTEMPTS = 5;
+  static const int PIN_LENGTH = 4;
 
   _PinScreenState(
       this.type, this.expectedPin, this.description, this.successCallback, this.pinScreenBackgroundColor);
@@ -70,7 +72,7 @@ class _PinScreenState extends State<PinScreen>
   void initState() {
     super.initState();
     // Initialize list all empty
-    _dotStates = List.filled(6, AppIcons.dotemtpy);
+    _dotStates = List.filled(PIN_LENGTH, AppIcons.dotemtpy);
     _awaitingConfirmation = false;
     _pin = "";
     _pinConfirmed = "";
@@ -108,7 +110,7 @@ class _PinScreenState extends State<PinScreen>
                 setState(() {
                   _pin = "";
                   _header = AppLocalization.of(context).pinInvalid;
-                  _dotStates = List.filled(6, AppIcons.dotemtpy);
+                  _dotStates = List.filled(PIN_LENGTH, AppIcons.dotemtpy);
                   _controller.value = 0;
                 });
               }
@@ -116,7 +118,7 @@ class _PinScreenState extends State<PinScreen>
           } else {
             setState(() {
               _awaitingConfirmation = false;
-              _dotStates = List.filled(6, AppIcons.dotemtpy);
+              _dotStates = List.filled(PIN_LENGTH, AppIcons.dotemtpy);
               _pin = "";
               _pinConfirmed = "";
               _header = AppLocalization.of(context).pinConfirmError;
@@ -219,7 +221,7 @@ class _PinScreenState extends State<PinScreen>
                   // Switch to confirm pin
                   setState(() {
                     _awaitingConfirmation = true;
-                    _dotStates = List.filled(6, AppIcons.dotemtpy);
+                    _dotStates = List.filled(PIN_LENGTH, AppIcons.dotemtpy);
                     _header = AppLocalization.of(context).pinConfirmTitle;
                   });
                 } else {
@@ -250,6 +252,17 @@ class _PinScreenState extends State<PinScreen>
         ),
       ),
     );
+  }
+
+  List<Widget> _buildPinDots() {
+    List<Widget> ret = List();
+    for (int i = 0; i < PIN_LENGTH; i++) {
+      ret.add(Icon(
+                _dotStates[i],
+                color: AppColors.primary,
+                size: 20.0));
+    }
+    return ret;
   }
 
   @override
@@ -321,38 +334,7 @@ class _PinScreenState extends State<PinScreen>
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Icon(
-                            _dotStates[0],
-                            color: AppColors.primary,
-                            size: 20.0,
-                          ),
-                          Icon(
-                            _dotStates[1],
-                            color: AppColors.primary,
-                            size: 20.0,
-                          ),
-                          Icon(
-                            _dotStates[2],
-                            color: AppColors.primary,
-                            size: 20.0,
-                          ),
-                          Icon(
-                            _dotStates[3],
-                            color: AppColors.primary,
-                            size: 20.0,
-                          ),
-                          Icon(
-                            _dotStates[4],
-                            color: AppColors.primary,
-                            size: 20.0,
-                          ),
-                          Icon(
-                            _dotStates[5],
-                            color: AppColors.primary,
-                            size: 20.0,
-                          ),
-                        ],
+                        children: _buildPinDots()
                       ),
                     ),
                   ],

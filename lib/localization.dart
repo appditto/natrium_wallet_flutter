@@ -342,7 +342,7 @@ class AppLocalization {
 
   /// -- PIN SCREEN
   String get pinCreateTitle {
-    return Intl.message("Create a 6-digit pin",
+    return Intl.message("Create a 4-digit pin",
       desc: 'pin_create_title', name: 'pinCreateTitle');
   }
 
