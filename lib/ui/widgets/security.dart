@@ -40,7 +40,7 @@ class PinScreen extends StatefulWidget {
 class _PinScreenState extends State<PinScreen>
     with SingleTickerProviderStateMixin {
   static const int MAX_ATTEMPTS = 5;
-  static const int PIN_LENGTH = 4;
+  static const int PIN_LENGTH = 6;
 
   _PinScreenState(
       this.type, this.expectedPin, this.description, this.successCallback, this.pinScreenBackgroundColor);
