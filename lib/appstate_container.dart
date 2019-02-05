@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logging/logging.dart';
-import 'package:uni_links/uni_links.dart';
 import 'package:natrium_wallet_flutter/model/available_currency.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/state_block.dart';
@@ -95,10 +94,6 @@ class StateContainerState extends State<StateContainer> {
   Locale deviceLocale = Locale('en', 'US');
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
 
-  // Subscribe to deep link changes
-  StreamSubscription _deepLinkSub;
-  String _initialDeepLink; // If app hasn't loaded yet, store initial DL here
-
   // If callback is locked
   bool _locked = false;
 
@@ -123,23 +118,6 @@ class StateContainerState extends State<StateContainer> {
         currencyLocale = currency.getLocale().toString();
         curCurrency = currency;
       });
-    });
-    // Listen for deep link changes
-    _deepLinkSub = getLinksStream().listen((String link) {
-      if (link != null) {
-        log.fine("deep link $link");
-        if (wallet.loading) {
-          _initialDeepLink = link;
-        } else {
-          Address address = Address(link);
-          if (!address.isValid()) { return; }
-          Future.delayed(Duration(milliseconds: 100), () {
-            EventTaxiImpl.singleton().fire(DeepLinkEvent(sendDestination: address.address, sendAmount: address.amount));
-          });
-        }
-      }
-    }, onError: (e) {
-      log.severe(e.toString());
     });
   }
 
@@ -237,7 +215,6 @@ class StateContainerState extends State<StateContainer> {
   @override
   void dispose() {
     _destroyBus();
-    _deepLinkSub.cancel();
     super.dispose();
   }
 
@@ -459,22 +436,8 @@ class StateContainerState extends State<StateContainer> {
     });
     AccountService.pop();
     AccountService.processQueue();
-    // If this is first load, handle any deep links that may have opened the app
-    _checkDeepLink(response);
   }
-
-  /// Handle deep link
-  void _checkDeepLink(SubscribeResponse resp) {
-    try {
-      if (_initialDeepLink == null) { return; }
-      Address address = Address(_initialDeepLink);
-      if (!address.isValid()) { return; }
-      EventTaxiImpl.singleton().fire(DeepLinkEvent(sendDestination: address.address, sendAmount: address.amount));
-    } catch (e) {
-      log.severe(e.toString());
-    }
-  }
-  
+ 
   /// Handle blocks_info response
   /// Typically, this preceeds a process request. And we want to update
   /// that request with data from the previous block (which is what we got from this request)
