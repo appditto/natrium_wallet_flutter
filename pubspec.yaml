@@ -21,7 +21,7 @@ dependencies:
   # Securley store data in a keystore
   flutter_secure_storage:
     git:
-      url: https://github.com/bbedward/flutter_secure_storage.git
+      url: https://github.com/mogol/flutter_secure_storage.git
       ref: develop
 
   # Nano core functions
