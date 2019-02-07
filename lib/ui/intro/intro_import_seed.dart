@@ -103,15 +103,10 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                               // The header
                               Container(
                                 margin: EdgeInsets.only(top: 15.0, left: 50),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      AppLocalization.of(context).importSeed,
-                                      style: AppStyles.TextStyleHeaderColored,
-                                    ),
-                                  ],
+                                alignment: Alignment(-1, 0),
+                                child: Text(
+                                  AppLocalization.of(context).importSeed,
+                                  style: AppStyles.TextStyleHeaderColored,
                                 ),
                               ),
                               // The paragraph
