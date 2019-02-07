@@ -60,13 +60,12 @@ class AccountService {
     } else if (_suspended && !unsuspend) {
       return;
     }
-    _suspended = false;
-    reset();
 
     try {
       var packageInfo = await PackageInfo.fromPlatform();
 
       _isConnecting = true;
+      _suspended = false;
       _channel = new IOWebSocketChannel
                       .connect(_SERVER_ADDRESS,
                                headers: {
