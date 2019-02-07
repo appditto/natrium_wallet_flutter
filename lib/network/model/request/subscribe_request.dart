@@ -24,18 +24,7 @@ class SubscribeRequest extends BaseRequest {
   @JsonKey(name:'notification_enabled')
   bool notificationEnabled;
 
-  SubscribeRequest({String account, String currency, String uuid, String fcmToken, bool notificationEnabled}) : super() {
-    this.action = Actions.SUBSCRIBE;
-    this.currency = currency ?? null;
-    if (uuid != null) {
-      this.uuid = uuid;
-      this.account = null;
-    } else {
-      this.account = account ?? null;
-    }
-    this.fcmToken = fcmToken ?? null;
-    this.notificationEnabled = notificationEnabled;
-  }
+  SubscribeRequest({this.action = Actions.SUBSCRIBE, this.account, this.currency, this.uuid, this.fcmToken, this.notificationEnabled}) : super();
 
   factory SubscribeRequest.fromJson(Map<String, dynamic> json) => _$SubscribeRequestFromJson(json);
   Map<String, dynamic> toJson() => _$SubscribeRequestToJson(this);
