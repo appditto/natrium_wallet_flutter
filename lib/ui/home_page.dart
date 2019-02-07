@@ -54,6 +54,7 @@ class _AppHomePageState extends State<AppHomePage>
   AnimationController _placeholderCardAnimationController;
   Animation<double> _opacityAnimation;
   bool _animationDisposed;
+  bool _blockDisconnect = false;
 
   // Receive card instance
   AppReceiveSheet receive;
@@ -111,10 +112,10 @@ class _AppHomePageState extends State<AppHomePage>
         print("onMessage: $message");
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
+        _blockDisconnect = true;
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
+        _blockDisconnect = true;
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
@@ -274,8 +275,12 @@ class _AppHomePageState extends State<AppHomePage>
     // terminate it to be eco-friendly
     switch (state) {
       case AppLifecycleState.paused:
-        setAppLockEvent();
-        StateContainer.of(context).disconnect();
+        if (_blockDisconnect) {
+          _blockDisconnect = false;
+        } else {
+          setAppLockEvent();
+          StateContainer.of(context).disconnect();
+        }
         super.didChangeAppLifecycleState(state);
         break;
       case AppLifecycleState.resumed:
