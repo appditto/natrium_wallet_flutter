@@ -493,6 +493,7 @@ class _AppHomePageState extends State<AppHomePage>
         statusBarColor: Colors.transparent));
     return AppScaffold(
       key: _scaffoldKey,
+      resizeToAvoidBottomPadding: false,
       backgroundColor: AppColors.background,
       drawer: SizedBox(
         width: UIUtil.drawerWidth(context),
