@@ -56,6 +56,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
     return new WillPopScope(
       onWillPop:_onWillPop,
       child: new Scaffold(
+        resizeToAvoidBottomPadding: false,
         key: _scaffoldKey,
         backgroundColor: AppColors.background,
         body: LayoutBuilder(
