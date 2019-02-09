@@ -47,6 +47,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
     return new WillPopScope(
       onWillPop:_onWillPop,
       child: new Scaffold(
+        resizeToAvoidBottomPadding: false,
         key: _scaffoldKey,
         backgroundColor: AppColors.background,
         body: LayoutBuilder(

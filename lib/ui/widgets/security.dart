@@ -289,6 +289,7 @@ class _PinScreenState extends State<PinScreen>
         statusBarColor: Colors.transparent));
 
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Container(
         constraints: BoxConstraints.expand(),
         child: Material(

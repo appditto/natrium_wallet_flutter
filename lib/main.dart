@@ -174,6 +174,7 @@ class SplashState extends State<Splash> {
       StateContainer.of(context).curCurrency = currency;
     });
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: AppColors.background,
     );
   }

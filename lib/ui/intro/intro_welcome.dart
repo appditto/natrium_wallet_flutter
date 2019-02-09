@@ -20,6 +20,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
         .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
       backgroundColor: AppColors.background,
       body: LayoutBuilder(

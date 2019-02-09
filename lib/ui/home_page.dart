@@ -47,7 +47,8 @@ class AppHomePage extends StatefulWidget {
 class _AppHomePageState extends State<AppHomePage>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  final GlobalKey<AppScaffoldState> _scaffoldKey = new GlobalKey<AppScaffoldState>();
+  final GlobalKey<AppScaffoldState> _scaffoldKey =
+      new GlobalKey<AppScaffoldState>();
   final Logger log = Logger("HomePage");
 
   // Controller for placeholder card animations
@@ -94,9 +95,9 @@ class _AppHomePageState extends State<AppHomePage>
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
-    _placeholderCardAnimationController.addListener(_animationControllerListener);
-    _opacityAnimation =
-        new Tween(begin: 1.0, end: 0.4).animate(
+    _placeholderCardAnimationController
+        .addListener(_animationControllerListener);
+    _opacityAnimation = new Tween(begin: 1.0, end: 0.4).animate(
       CurvedAnimation(
         parent: _placeholderCardAnimationController,
         curve: Curves.easeIn,
@@ -157,7 +158,7 @@ class _AppHomePageState extends State<AppHomePage>
         break;
       default:
         return null;
-    }    
+    }
   }
 
   void _animationControllerListener() {
@@ -168,7 +169,8 @@ class _AppHomePageState extends State<AppHomePage>
     if (!_animationDisposed) {
       _animationDisposed = true;
       _opacityAnimation.removeStatusListener(_animationStatusListener);
-      _placeholderCardAnimationController.removeListener(_animationControllerListener);
+      _placeholderCardAnimationController
+          .removeListener(_animationControllerListener);
       _placeholderCardAnimationController.stop();
     }
   }
@@ -210,13 +212,17 @@ class _AppHomePageState extends State<AppHomePage>
   StreamSubscription<DisableLockTimeoutEvent> _disableLockSub;
 
   void _registerBus() {
-    _historySub = EventTaxiImpl.singleton().registerTo<HistoryHomeEvent>().listen((event) {
+    _historySub = EventTaxiImpl.singleton()
+        .registerTo<HistoryHomeEvent>()
+        .listen((event) {
       diffAndUpdateHistoryList(event.items);
       setState(() {
         _isRefreshing = false;
       });
     });
-    _sendCompleteSub = EventTaxiImpl.singleton().registerTo<SendCompleteEvent>().listen((event) {
+    _sendCompleteSub = EventTaxiImpl.singleton()
+        .registerTo<SendCompleteEvent>()
+        .listen((event) {
       // Route to send complete if received process response for send block
       if (event.previous != null) {
         // Route to send complete
@@ -225,16 +231,21 @@ class _AppHomePageState extends State<AppHomePage>
         DBHelper().getContactWithAddress(event.previous.link).then((contact) {
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-          AppSendCompleteSheet(displayAmount, event.previous.link, contactName, localAmount: event.previous.localCurrencyValue)
+          AppSendCompleteSheet(displayAmount, event.previous.link, contactName,
+                  localAmount: event.previous.localCurrencyValue)
               .mainBottomSheet(context);
         });
       }
     });
-    _contactModifiedSub = EventTaxiImpl.singleton().registerTo<ContactModifiedEvent>().listen((event) {
+    _contactModifiedSub = EventTaxiImpl.singleton()
+        .registerTo<ContactModifiedEvent>()
+        .listen((event) {
       _updateContacts();
     });
     // Hackish event to block auto-lock functionality
-    _disableLockSub = EventTaxiImpl.singleton().registerTo<DisableLockTimeoutEvent>().listen((event) {
+    _disableLockSub = EventTaxiImpl.singleton()
+        .registerTo<DisableLockTimeoutEvent>()
+        .listen((event) {
       if (event.disable) {
         cancelLockEvent();
       }
@@ -297,7 +308,8 @@ class _AppHomePageState extends State<AppHomePage>
       if (lockStreamListener != null) {
         lockStreamListener.cancel();
       }
-      Future<dynamic> delayed = new Future.delayed((await SharedPrefsUtil.inst.getLockTimeout()).getDuration());
+      Future<dynamic> delayed = new Future.delayed(
+          (await SharedPrefsUtil.inst.getLockTimeout()).getDuration());
       delayed.then((_) {
         return true;
       });
@@ -333,30 +345,30 @@ class _AppHomePageState extends State<AppHomePage>
     if (StateContainer.of(context).wallet.historyLoading) {
       // Loading Animation
       return ReactiveRefreshIndicator(
-        backgroundColor: AppColors.backgroundDark,
-        onRefresh: _refresh,
-        isRefreshing: _isRefreshing,
-        child: ListView(
-        padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
-        children: <Widget>[
-          _buildLoadingTransactionCard(
-              "Sent", "10244000", "123456789121234", context),
-          _buildLoadingTransactionCard(
-              "Received", "100,00000", "@bbedwards1234", context),
-          _buildLoadingTransactionCard(
-              "Sent", "14500000", "12345678912345671234", context),
-          _buildLoadingTransactionCard(
-              "Sent", "12,51200", "123456789121234", context),
-          _buildLoadingTransactionCard(
-              "Received", "1,45300", "123456789121234", context),
-          _buildLoadingTransactionCard(
-              "Sent", "100,00000", "12345678912345671234", context),
-          _buildLoadingTransactionCard(
-              "Received", "24,00000", "12345678912345671234", context),
-          _buildLoadingTransactionCard(
-              "Sent", "1,00000", "123456789121234", context),
-        ],
-      ));
+          backgroundColor: AppColors.backgroundDark,
+          onRefresh: _refresh,
+          isRefreshing: _isRefreshing,
+          child: ListView(
+            padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
+            children: <Widget>[
+              _buildLoadingTransactionCard(
+                  "Sent", "10244000", "123456789121234", context),
+              _buildLoadingTransactionCard(
+                  "Received", "100,00000", "@bbedwards1234", context),
+              _buildLoadingTransactionCard(
+                  "Sent", "14500000", "12345678912345671234", context),
+              _buildLoadingTransactionCard(
+                  "Sent", "12,51200", "123456789121234", context),
+              _buildLoadingTransactionCard(
+                  "Received", "1,45300", "123456789121234", context),
+              _buildLoadingTransactionCard(
+                  "Sent", "100,00000", "12345678912345671234", context),
+              _buildLoadingTransactionCard(
+                  "Received", "24,00000", "12345678912345671234", context),
+              _buildLoadingTransactionCard(
+                  "Sent", "1,00000", "123456789121234", context),
+            ],
+          ));
     } else if (StateContainer.of(context).wallet.history.length == 0) {
       _disposeAnimation();
       return ReactiveRefreshIndicator(
@@ -366,9 +378,15 @@ class _AppHomePageState extends State<AppHomePage>
           children: <Widget>[
             _buildWelcomeTransactionCard(context),
             _buildDummyTransactionCard(
-                AppLocalization.of(context).sent, AppLocalization.of(context).exampleCardLittle, AppLocalization.of(context).exampleCardTo, context),
+                AppLocalization.of(context).sent,
+                AppLocalization.of(context).exampleCardLittle,
+                AppLocalization.of(context).exampleCardTo,
+                context),
             _buildDummyTransactionCard(
-                AppLocalization.of(context).received, AppLocalization.of(context).exampleCardLot,AppLocalization.of(context).exampleCardFrom, context),
+                AppLocalization.of(context).received,
+                AppLocalization.of(context).exampleCardLot,
+                AppLocalization.of(context).exampleCardFrom,
+                context),
           ],
         ),
         onRefresh: _refresh,
@@ -410,7 +428,7 @@ class _AppHomePageState extends State<AppHomePage>
     Future.delayed(new Duration(seconds: 3), () {
       setState(() {
         _isRefreshing = false;
-      });   
+      });
     });
   }
 
@@ -425,7 +443,9 @@ class _AppHomePageState extends State<AppHomePage>
   void diffAndUpdateHistoryList(List<AccountHistoryResponseItem> newList) {
     if (newList == null || newList.length == 0 || _historyList == null) return;
     // Get items not in current list, and add them from top-down
-    newList.reversed.where((item) => !_historyList.items.contains(item)).forEach((historyItem) {
+    newList.reversed
+        .where((item) => !_historyList.items.contains(item))
+        .forEach((historyItem) {
       setState(() {
         _historyList.insertAtTop(historyItem);
       });
@@ -437,40 +457,42 @@ class _AppHomePageState extends State<AppHomePage>
     if (_deepLinkSub == null && !StateContainer.of(context).wallet.loading) {
       // Listen for deep link changes
       _deepLinkSub = getLinksStream().listen((String link) {
-            Address address = Address(link);
-            if (!address.isValid()) { return; }
-            String amount;
-            String contactName;
-            if (address.amount != null) {
-              // Require minimum 1 RAI to send
-              if (BigInt.parse(address.amount) >= BigInt.from(10).pow(24)) {
-                amount = address.amount;
-              }
-            }
-            // See if a contact
-            DBHelper().getContactWithAddress(address.address).then((contact) {
-              if (contact != null) {
-                contactName = contact.name;
-              }
-              // Remove any other screens from stack
-              Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-              if (amount != null) {
-                // Go to send confirm with amount
-                AppSendConfirmSheet(
-                        NumberUtil.getRawAsUsableString(amount).replaceAll(",", ""),
-                        address.address,
-                        contactName: contactName)
-                    .mainBottomSheet(context);
-              } else {
-                // Go to send with address
-                AppSendSheet(contact: contact, address: address.address)
-                    .mainBottomSheet(context);
-              }
-            });
+        Address address = Address(link);
+        if (!address.isValid()) {
+          return;
+        }
+        String amount;
+        String contactName;
+        if (address.amount != null) {
+          // Require minimum 1 RAI to send
+          if (BigInt.parse(address.amount) >= BigInt.from(10).pow(24)) {
+            amount = address.amount;
+          }
+        }
+        // See if a contact
+        DBHelper().getContactWithAddress(address.address).then((contact) {
+          if (contact != null) {
+            contactName = contact.name;
+          }
+          // Remove any other screens from stack
+          Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
+          if (amount != null) {
+            // Go to send confirm with amount
+            AppSendConfirmSheet(
+                    NumberUtil.getRawAsUsableString(amount).replaceAll(",", ""),
+                    address.address,
+                    contactName: contactName)
+                .mainBottomSheet(context);
+          } else {
+            // Go to send with address
+            AppSendSheet(contact: contact, address: address.address)
+                .mainBottomSheet(context);
+          }
+        });
       }, onError: (e) {
         log.severe(e.toString());
-      });      
-    } 
+      });
+    }
 
     // Create QR ahead of time because it improves performance this way
     if (receive == null) {
@@ -492,8 +514,8 @@ class _AppHomePageState extends State<AppHomePage>
         statusBarIconBrightness: Brightness.light,
         statusBarColor: Colors.transparent));
     return AppScaffold(
-      key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
+      key: _scaffoldKey,
       backgroundColor: AppColors.background,
       drawer: SizedBox(
         width: UIUtil.drawerWidth(context),
@@ -539,10 +561,7 @@ class _AppHomePageState extends State<AppHomePage>
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
-                          AppColors.background00,
-                          AppColors.background
-                        ],
+                        colors: [AppColors.background00, AppColors.background],
                         begin: Alignment(0.5, 1.0),
                         end: Alignment(0.5, -1.0),
                       ),
@@ -558,10 +577,7 @@ class _AppHomePageState extends State<AppHomePage>
                     width: double.infinity,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
-                          AppColors.background00,
-                          AppColors.background
-                        ],
+                        colors: [AppColors.background00, AppColors.background],
                         begin: Alignment(0.5, -1),
                         end: Alignment(0.5, 0.5),
                       ),
@@ -579,6 +595,7 @@ class _AppHomePageState extends State<AppHomePage>
               children: <Widget>[
                 Expanded(
                   child: Container(
+                    height: 55,
                     margin: EdgeInsets.fromLTRB(14.0, 0.0, 7.0,
                         MediaQuery.of(context).size.height * 0.035),
                     child: FlatButton(
@@ -587,11 +604,13 @@ class _AppHomePageState extends State<AppHomePage>
                       color: receive != null
                           ? AppColors.primary
                           : AppColors.primary60,
-                      child: Text(AppLocalization.of(context).receive,
-                          textAlign: TextAlign.center,
-                          style: AppStyles.TextStyleButtonPrimary),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+                      child: AutoSizeText(
+                        AppLocalization.of(context).receive,
+                        textAlign: TextAlign.center,
+                        style: AppStyles.TextStyleButtonPrimary,
+                        maxLines: 1,
+                        stepGranularity: 0.5,
+                      ),
                       onPressed: () {
                         if (receive == null) {
                           return;
@@ -609,6 +628,7 @@ class _AppHomePageState extends State<AppHomePage>
                 ),
                 Expanded(
                   child: Container(
+                    height: 55,
                     margin: EdgeInsets.fromLTRB(7.0, 0.0, 14.0,
                         MediaQuery.of(context).size.height * 0.035),
                     child: FlatButton(
@@ -618,11 +638,13 @@ class _AppHomePageState extends State<AppHomePage>
                               BigInt.zero
                           ? AppColors.primary
                           : AppColors.primary60,
-                      child: Text(AppLocalization.of(context).send,
-                          textAlign: TextAlign.center,
-                          style: AppStyles.TextStyleButtonPrimary),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+                      child: AutoSizeText(
+                        AppLocalization.of(context).send,
+                        textAlign: TextAlign.center,
+                        style: AppStyles.TextStyleButtonPrimary,
+                        maxLines: 1,
+                        stepGranularity: 0.5,
+                      ),
                       onPressed: () {
                         if (StateContainer.of(context).wallet.accountBalance >
                             BigInt.zero) {
@@ -714,13 +736,11 @@ class _AppHomePageState extends State<AppHomePage>
                                 children: [
                                   TextSpan(
                                     text: item.getFormattedAmount(),
-                                    style:
-                                        AppStyles.TextStyleTransactionAmount,
+                                    style: AppStyles.TextStyleTransactionAmount,
                                   ),
                                   TextSpan(
                                     text: " NANO",
-                                    style:
-                                        AppStyles.TextStyleTransactionUnit,
+                                    style: AppStyles.TextStyleTransactionUnit,
                                   ),
                                 ],
                               ),
@@ -807,8 +827,7 @@ class _AppHomePageState extends State<AppHomePage>
                               children: [
                                 TextSpan(
                                   text: amount,
-                                  style:
-                                      AppStyles.TextStyleTransactionAmount,
+                                  style: AppStyles.TextStyleTransactionAmount,
                                 ),
                                 TextSpan(
                                   text: " NANO",
@@ -845,7 +864,7 @@ class _AppHomePageState extends State<AppHomePage>
       return TextSpan(
         text: workingStr,
         style: AppStyles.TextStyleTransactionWelcome,
-      );   
+      );
     }
     // Colorize NANO
     List<String> splitStr = workingStr.split("NANO");
@@ -853,7 +872,7 @@ class _AppHomePageState extends State<AppHomePage>
       return TextSpan(
         text: workingStr,
         style: AppStyles.TextStyleTransactionWelcome,
-      );   
+      );
     }
     return TextSpan(
       text: '',
@@ -1035,8 +1054,7 @@ class _AppHomePageState extends State<AppHomePage>
                                       style: TextStyle(
                                           fontFamily: "NunitoSans",
                                           color: Colors.transparent,
-                                          fontSize:
-                                              AppFontSizes.smallest - 3,
+                                          fontSize: AppFontSizes.smallest - 3,
                                           fontWeight: FontWeight.w600),
                                     ),
                                   ),
@@ -1339,16 +1357,13 @@ class _AppHomePageState extends State<AppHomePage>
           ),
           Row(
             children: <Widget>[
-              Icon(
-                  AppIcons.btc,
+              Icon(AppIcons.btc,
                   color: _priceConversion == PriceConversion.NONE
                       ? Colors.transparent
                       : AppColors.text60,
                   size: 14),
-              Text(
-                  StateContainer.of(context).wallet.btcPrice,
-                  textAlign: TextAlign.center,
-                  style: _convertedPriceStyle),
+              Text(StateContainer.of(context).wallet.btcPrice,
+                  textAlign: TextAlign.center, style: _convertedPriceStyle),
             ],
           ),
         ],
@@ -1390,29 +1405,32 @@ class TransactionDetailsSheet {
                           Row(
                             children: <Widget>[
                               AppButton.buildAppButton(
-                                // Share Address Button
-                                _addressCopied ? AppButtonType.SUCCESS : AppButtonType.PRIMARY,
-                                _addressCopied ? AppLocalization.of(context).addressCopied : AppLocalization.of(context).copyAddress,
-                                Dimens.BUTTON_TOP_EXCEPTION_DIMENS,
-                                onPressed: () {
-                                  Clipboard.setData(
-                                      new ClipboardData(text: _address));
-                                  setState(() {
-                                    // Set copied style
-                                    _addressCopied = true;
-                                  });
-                                  if (_addressCopiedTimer != null) {
-                                    _addressCopiedTimer.cancel();
-                                  }
-                                  _addressCopiedTimer = new Timer(
-                                      const Duration(milliseconds: 800),
-                                      () {
-                                    setState(() {
-                                      _addressCopied = false;
-                                    });
-                                  });
+                                  // Share Address Button
+                                  _addressCopied
+                                      ? AppButtonType.SUCCESS
+                                      : AppButtonType.PRIMARY,
+                                  _addressCopied
+                                      ? AppLocalization.of(context)
+                                          .addressCopied
+                                      : AppLocalization.of(context).copyAddress,
+                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS,
+                                  onPressed: () {
+                                Clipboard.setData(
+                                    new ClipboardData(text: _address));
+                                setState(() {
+                                  // Set copied style
+                                  _addressCopied = true;
+                                });
+                                if (_addressCopiedTimer != null) {
+                                  _addressCopiedTimer.cancel();
                                 }
-                              ),
+                                _addressCopiedTimer = new Timer(
+                                    const Duration(milliseconds: 800), () {
+                                  setState(() {
+                                    _addressCopied = false;
+                                  });
+                                });
+                              }),
                             ],
                           ),
                           // A row for Add Contact Button
@@ -1447,8 +1465,7 @@ class TransactionDetailsSheet {
                                               size: 35,
                                               color: _addressCopied
                                                   ? AppColors.successDark
-                                                  : AppColors
-                                                      .backgroundDark),
+                                                  : AppColors.backgroundDark),
                                         )
                                       : SizedBox(),
                                 ),
