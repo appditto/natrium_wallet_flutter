@@ -564,7 +564,7 @@ class StateContainerState extends State<StateContainer> {
       AccountService.queueRequest(PendingRequest(account: wallet.address, count: max(wallet.blockCount ?? 0, 10)));
       AccountService.processQueue();
     } else {
-      AccountService.queueRequest(PendingRequest(account:account, count: 10), fromTransfer: true);
+      AccountService.queueRequest(PendingRequest(account:account, count: 20), fromTransfer: true);
       AccountService.processQueue(); 
     }
   }
