@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:natrium_wallet_flutter/model/setting_item.dart';
 
-enum AvailableCurrencyEnum { USD, AUD, BRL, CAD, CHF, CLP, CNY, CZK, DKK,
+enum AvailableCurrencyEnum { USD, ARS, AUD, BRL, CAD, CHF, CLP, CNY, CZK, DKK,
                   EUR, GBP, HKD, HUF, IDR, ILS, INR, JPY, KRW,
                   MXN, MYR, NOK, NZD, PHP, PKR, PLN, RUB, SEK,
                   SGD, THB, TRY, TWD, VES, ZAR }
@@ -23,6 +23,8 @@ class AvailableCurrency extends SettingSelectionItem {
 
   String getDisplayNameNoSymbol() {
     switch (getIso4217Code()) {
+      case "ARS":
+          return "Argentine Peso";
       case "AUD":
           return "Australian Dollar";
       case "BRL":
@@ -95,6 +97,8 @@ class AvailableCurrency extends SettingSelectionItem {
 
   String getCurrencySymbol() {
     switch (getIso4217Code()) {
+      case "ARS":
+          return "\$";
       case "AUD":
           return "\$";
       case "BRL":
@@ -167,6 +171,8 @@ class AvailableCurrency extends SettingSelectionItem {
 
   Locale getLocale() {
     switch (getIso4217Code()) {
+      case "ARS":
+          return Locale("es", "AR");
       case "AUD":
           return new Locale("en", "AU");
       case "BRL":
@@ -245,13 +251,12 @@ class AvailableCurrency extends SettingSelectionItem {
   // Get best currency for a given locale
   // Default to USD
   static AvailableCurrency getBestForLocale(Locale locale) {
-    return AvailableCurrency(AvailableCurrencyEnum.USD);
-    // TODO - Since adding KaliumLocalizations we only get language code in locale, not country code
-    // Cause the below code to crash
     AvailableCurrencyEnum.values.forEach((value) {
       AvailableCurrency currency = AvailableCurrency(value);
-      if (currency.getLocale().countryCode.toUpperCase() == locale.countryCode.toUpperCase()) {
-        return currency;
+      if (locale != null && locale.countryCode == null) {
+        if (currency.getLocale().countryCode.toUpperCase() == locale.countryCode.toUpperCase()) {
+          return currency;
+        }
       }
     });
     return AvailableCurrency(AvailableCurrencyEnum.USD);
