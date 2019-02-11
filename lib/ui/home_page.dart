@@ -515,8 +515,8 @@ class _AppHomePageState extends State<AppHomePage>
         statusBarIconBrightness: Brightness.light,
         statusBarColor: Colors.transparent));
     return AppScaffold(
-      resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
+      resizeToAvoidBottomPadding: false,
       backgroundColor: AppColors.background,
       drawer: SizedBox(
         width: UIUtil.drawerWidth(context),
