@@ -1,0 +1,819 @@
+{
+    "@@last_modified": "2019-02-04T09:26:48.408903",
+    "contactsImportSuccess": "Berhasil mengimpor %1 kontak",
+    "@contactsImportSuccess": {
+        "description": "contact_import_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "Pilih Nama Untuk Kontak",
+    "@contactNameMissing": {
+        "description": "contact_name_missing",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressShare": "Bagikan",
+    "@addressShare": {
+        "description": "receive_share_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "cancel": "Batal",
+    "@cancel": {
+        "description": "dialog_cancel",
+        "type": "text",
+        "placeholders": {}
+    },
+    "close": "Tutup",
+    "@close": {
+        "description": "dialog_close",
+        "type": "text",
+        "placeholders": {}
+    },
+    "confirm": "Konfirmasi",
+    "@confirm": {
+        "description": "dialog_confirm",
+        "type": "text",
+        "placeholders": {}
+    },
+    "no": "Tidak",
+    "@no": {
+        "description": "intro_new_wallet_backup_no",
+        "type": "text",
+        "placeholders": {}
+    },
+    "yes": "Ya",
+    "@yes": {
+        "description": "intro_new_wallet_backup_yes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onStr": "Hidup",
+    "@onStr": {
+        "description": "generic_on",
+        "type": "text",
+        "placeholders": {}
+    },
+    "off": "Mati",
+    "@off": {
+        "description": "generic_off",
+        "type": "text",
+        "placeholders": {}
+    },
+    "send": "Kirim",
+    "@send": {
+        "description": "home_send_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "receive": "Terima",
+    "@receive": {
+        "description": "home_receive_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sent": "Terkirim",
+    "@sent": {
+        "description": "history_sent",
+        "type": "text",
+        "placeholders": {}
+    },
+    "received": "Diterima",
+    "@received": {
+        "description": "history_received",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transactions": "Transaksi",
+    "@transactions": {
+        "description": "transaction_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressCopied": "Alamat berhasil disalin.",
+    "@addressCopied": {
+        "description": "receive_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "copyAddress": "Salin Alamat",
+    "@copyAddress": {
+        "description": "receive_copy_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressHint": "Masukkan Alamat",
+    "@addressHint": {
+        "description": "send_address_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seed": "Benih",
+    "@seed": {
+        "description": "intro_new_wallet_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedInvalid": "Benih tidak sesuai",
+    "@seedInvalid": {
+        "description": "intro_seed_invalid",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedCopied": "Benih disalin kedalam papan klip.\n Hanya bisa ditempel dalam waktu 2 menit.",
+    "@seedCopied": {
+        "description": "intro_new_wallet_seed_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanQrCode": "Pindai QR Code",
+    "@scanQrCode": {
+        "description": "send_scan_qr",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsImportErr": "Gagal mengimpor kontak",
+    "@contactsImportErr": {
+        "description": "contact_import_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "viewDetails": "Lihat Rincian",
+    "@viewDetails": {
+        "description": "transaction_details",
+        "type": "text",
+        "placeholders": {}
+    },
+    "qrInvalidSeed": "Kode QR tidak mengandung benih atau kunci pribadi yg valid",
+    "@qrInvalidSeed": {
+        "description": "qr_invalid_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "qrInvalidAddress": "Kode QR tidak mengandung alamat yg valid",
+    "@qrInvalidAddress": {
+        "description": "qr_invalid_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContact": "Hapus Kontak",
+    "@removeContact": {
+        "description": "contact_remove_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContactConfirmation": "Anda yakib akan menghapus %1?",
+    "@removeContactConfirmation": {
+        "description": "contact_remove_sure",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactHeader": "Kontak",
+    "@contactHeader": {
+        "description": "contact_view_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsHeader": "Kontak",
+    "@contactsHeader": {
+        "description": "contact_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addContact": "Tambah Kontak",
+    "@addContact": {
+        "description": "contact_add_button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameHint": "Masukkan Nama @",
+    "@contactNameHint": {
+        "description": "contact_name_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactInvalid": "Kontak Tidak Valid",
+    "@contactInvalid": {
+        "description": "contact_invalid_name",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsExport": "Tidak ada kontak yg bisa di ekspor",
+    "@noContactsExport": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsImport": "Tidak menemukan untuk impor",
+    "@noContactsImport": {
+        "description": "contact_import_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactAdded": "%1 ditambahkan ke kontak!",
+    "@contactAdded": {
+        "description": "contact_added",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactRemoved": "%1 kontak berhasil dihapus!",
+    "@contactRemoved": {
+        "description": "contact_removed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "Tidak ada kontak yg bisa di ekspor",
+    "@contactNameMissing": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactExists": "Kontak Sudah Ada",
+    "@contactExists": {
+        "description": "contact_name_exists",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupYourSeed": "Simpan benih anda",
+    "@backupYourSeed": {
+        "description": "intro_new_wallet_seed_backup_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeedConfirm": "Apakah anda yakin sudah menyimpan benih anda dengan aman?",
+    "@backupSeedConfirm": {
+        "description": "intro_new_wallet_backup",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedBackupInfo": "Dibawah ini adalah benih dompet anda. Sangat penting bahwa anda harus menyimpan benih dompet anda dan tidak pernah menyimpannya dalam bentuk dokumen tertulis atau tangkapan layar.",
+    "@seedBackupInfo": {
+        "description": "intro_new_wallet_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "copySeed": "Salin Benih",
+    "@copySeed": {
+        "description": "copy_seed_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedCopiedShort": "Benih Disalin",
+    "@seedCopiedShort": {
+        "description": "seed_copied_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeed": "Impor Benih",
+    "@importSeed": {
+        "description": "intro_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeedHint": "Masukkan benih dompet anda dibawah ini.",
+    "@importSeedHint": {
+        "description": "intro_seed_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "welcomeText": "Selamat datang di Natrium. Untuk melanjutkan, anda bisa membuat dompet baru atau mengimpor dompet lama anda.",
+    "@welcomeText": {
+        "description": "intro_welcome_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "newWallet": "Buat Dompet",
+    "@newWallet": {
+        "description": "intro_welcome_new_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importWallet": "Impor Dompet",
+    "@importWallet": {
+        "description": "intro_welcome_have_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sentTo": "Terkirim Kepada",
+    "@sentTo": {
+        "description": "sent_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sending": "Mengirim",
+    "@sending": {
+        "description": "send_sending",
+        "type": "text",
+        "placeholders": {}
+    },
+    "to": "Kepada",
+    "@to": {
+        "description": "send_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendAmountConfirm": "Kirim %1 Nano?",
+    "@sendAmountConfirm": {
+        "description": "send_pin_description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendError": "Terjadi kesalahan. Coba lagi nanti.",
+    "@sendError": {
+        "description": "send_generic_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "enterAmount": "Masukkan Jumlah",
+    "@enterAmount": {
+        "description": "send_amount_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "invalidAddress": "Alamat Tujuan Tidak Valid",
+    "@invalidAddress": {
+        "description": "send_invalid_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressMising": "Masukkan alamat",
+    "@addressMising": {
+        "description": "send_enter_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "amountMissing": "Masukkan jumlah",
+    "@amountMissing": {
+        "description": "send_enter_amount",
+        "type": "text",
+        "placeholders": {}
+    },
+    "insufficientBalance": "Saldo Tidak mencukupi",
+    "@insufficientBalance": {
+        "description": "send_insufficient_balance",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendFrom": "Kirim Dari",
+    "@sendFrom": {
+        "description": "send_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinCreateTitle": "Buat pin 6 angka",
+    "@pinCreateTitle": {
+        "description": "pin_create_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmTitle": "Konfirmasi pin anda",
+    "@pinConfirmTitle": {
+        "description": "pin_confirm_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinEnterTitle": "Masukkan pin",
+    "@pinEnterTitle": {
+        "description": "pin_enter_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmError": "Pin tidak sama",
+    "@pinConfirmError": {
+        "description": "pin_confirm_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinInvalid": "Pin yang dimasukkan salah",
+    "@pinInvalid": {
+        "description": "pin_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "themeHeader": "Tema",
+    "@themeHeader": {
+        "description": "theme_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepButton": "Ubah",
+    "@changeRepButton": {
+        "description": "change_representative_change",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepAuthenticate": "Ubah Perwakilan",
+    "@changeRepAuthenticate": {
+        "description": "settings_change_rep",
+        "type": "text",
+        "placeholders": {}
+    },
+    "currentlyRepresented": "Saat ini diwakilkan oleh",
+    "@currentlyRepresented": {
+        "description": "change_representative_current_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepSucces": "Perwakilan Berhasil Diubah",
+    "@changeRepSucces": {
+        "description": "change_representative_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfoHeader": "Apa itu perwakilan?",
+    "@repInfoHeader": {
+        "description": "change_representative_info_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfo": "Perwakilan adalah akun yang memberikan suara untuk konsensus jaringan. Kekuatan voting ditimbang dengan keseimbangan, Anda dapat mendelegasikan saldo Anda untuk menambah berat suara dari perwakilan yang Anda percayai. Perwakilan Anda tidak memiliki kekuasaan atas dana Anda. Anda harus memilih perwakilan yang memiliki sedikit waktu henti dan dapat dipercaya.",
+    "@repInfo": {
+        "description": "change_representative_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinRepChange": "Masukkan pin untuk mengubah perwakilan",
+    "@pinRepChange": {
+        "description": "change_representative_pin",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepHint": "Masukkan perwakilan baru",
+    "@changeRepHint": {
+        "description": "change_representative_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "authMethod": "Metode Otentikasi",
+    "@authMethod": {
+        "description": "settings_disable_fingerprint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinMethod": "PIN",
+    "@pinMethod": {
+        "description": "settings_pin_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "privacyPolicy": "Kebijakan Privasi",
+    "@privacyPolicy": {
+        "description": "settings_privacy_policy",
+        "type": "text",
+        "placeholders": {}
+    },
+    "biometricsMethod": "Biometrik",
+    "@biometricsMethod": {
+        "description": "settings_fingerprint_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeCurrency": "Ubah Mata Uang",
+    "@changeCurrency": {
+        "description": "settings_local_currency",
+        "type": "text",
+        "placeholders": {}
+    },
+    "language": "Bahasa",
+    "@language": {
+        "description": "settings_change_language",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareNatrium": "Bagikan Natrium",
+    "@shareNatrium": {
+        "description": "settings_share",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareNatriumText": "Ayo Cek Natrium! Nano's official Android Wallet!",
+    "@shareNatriumText": {
+        "description": "share_extra",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logout": "Keluar",
+    "@logout": {
+        "description": "settings_logout",
+        "type": "text",
+        "placeholders": {}
+    },
+    "warning": "PERINGATAN",
+    "@warning": {
+        "description": "settings_logout_alert_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutDetail": "Keluar akan menghapus benih anda dan semua data terkait kalium dari perangkat ini. Jika benih anda belum disimpan, Anda tidak akan pernah bisa mengakses dana anda lagi.",
+    "@logoutDetail": {
+        "description": "settings_logout_alert_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAction": "Hapus benih dan keluar",
+    "@logoutAction": {
+        "description": "settings_logout_alert_confirm_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAreYouSure": "Anda Yakin?",
+    "@logoutAreYouSure": {
+        "description": "settings_logout_warning_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutReassurance": "Selama anda yakin sudah menyimpan benih anda dengan aman, anda tidak perlu khawatir.",
+    "@logoutReassurance": {
+        "description": "settings_logout_warning_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsHeader": "Pengaturan",
+    "@settingsHeader": {
+        "description": "settings_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "preferences": "Preferensi",
+    "@preferences": {
+        "description": "settings_preferences_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "manage": "Mengelola",
+    "@manage": {
+        "description": "settings_manage_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeed": "Simpan Benih",
+    "@backupSeed": {
+        "description": "settings_backup_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "fingerprintSeedBackup": "Konfirmasi sidik jari untuk menyimpan benih.",
+    "@fingerprintSeedBackup": {
+        "description": "settings_fingerprint_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinSeedBackup": "Masukkan pin untuk melihat benih dompet Anda.",
+    "@pinSeedBackup": {
+        "description": "settings_pin_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "systemDefault": "Default Sistem",
+    "@systemDefault": {
+        "description": "settings_default_language_string",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notifications": "Notifikasi",
+    "@notifications": {
+        "description": "notifications_settings",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationTitle": "Menerima %1 NANO",
+    "@notificationTitle": {
+        "description": "notification_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationBody": "Buka Natrium untuk melihat transaksi.",
+    "@notificationBody": {
+        "description": "notification_body",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationHeaderSupplement": "Tekan untuk membuka",
+    "@notificationHeaderSupplement": {
+        "description": "notificaiton_header_suplement",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsTransfer": "Muat dari Dompet Kertas",
+    "@settingsTransfer": {
+        "description": "settings_transfer",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferError": "Terjadi kesalahan selama transfer. Silakan coba lagi nanti.",
+    "@transferError": {
+        "description": "transfer_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "paperWallet": "Dompet Kertas",
+    "@paperWallet": {
+        "description": "paper_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "kaliumWallet": "Dompet Natrium",
+    "@kaliumWallet": {
+        "description": "kalium_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "manualEntry": "Entri Manual",
+    "@manualEntry": {
+        "description": "transfer_manual_entry",
+        "type": "text",
+        "placeholders": {}
+    },
+    "mnemonicPhrase": "Frase Mnemonic",
+    "@mnemonicPhrase": {
+        "description": "mnemonic_phrase",
+        "type": "text",
+        "placeholders": {}
+    },
+    "rawSeed": "Benih Mentah",
+    "@rawSeed": {
+        "description": "raw_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferHeader": "Transfer\nDana",
+    "@transferHeader": {
+        "description": "transfer_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transfer": "Transfer",
+    "@transfer": {
+        "description": "transfer_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferManualHint": "Mohon masukkan benih dibawah ini.",
+    "@transferManualHint": {
+        "description": "transfer_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferIntro": "Proses ini akan mentransfer dana dari dompet kertas ke dompet Natrium Anda.\n\nKetuk \"%1\" tombol untuk memulai.",
+    "@transferIntro": {
+        "description": "transfer_intro",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferQrScanHint": "Pindai Benih\n atau kunci pribadi",
+    "@transferQrScanHint": {
+        "description": "transfer_qr_scan_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferQrScanError": "Kode QR ini tidak mengandung benih yg valid.",
+    "@transferQrScanError": {
+        "description": "transfer_qr_scan_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferNoFunds": "Tidak ada NANO di dalam benih ini.",
+    "@transferNoFunds": {
+        "description": "transfer_no_funds_toast",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfo": "Dompet dengan saldo %1 NANO telah terdeteksi.\n",
+    "@transferConfirmInfo": {
+        "description": "transfer_confirm_info_first",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfoSecond": "Ketuk konfirmasi untuk mentransfer dana.\n",
+    "@transferConfirmInfoSecond": {
+        "description": "transfer_confirm_info_second",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfoThird": "Transfer membutuhkan beberapa detik.",
+    "@transferConfirmInfoThird": {
+        "description": "transfer_confirm_info_third",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferLoading": "Mentransfer",
+    "@transferLoading": {
+        "description": "transfer_loading_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferComplete": "%1 NANO berhasil ditransfer ke Dompet Natrium Anda.",
+    "@transferComplete": {
+        "description": "transfer_complete_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferClose": "Ketuk di mana saja untuk melanjutkan.",
+    "@transferClose": {
+        "description": "transfer_close_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanInstructions": "Pindai QR code\n alamat Nano",
+    "@scanInstructions": {
+        "description": "scan_send_instruction_label",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlockPin": "Masukkan PIN untuk membuka KALIUM",
+    "@unlockPin": {
+        "description": "unlock_kalium_pin",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlockBiometrics": "Otentikasi untuk Membuka Natrium",
+    "@unlockBiometrics": {
+        "description": "unlock_kalium_bio",
+        "type": "text",
+        "placeholders": {}
+    },
+    "lockAppSetting": "Otentikasi saat diluncurkan.",
+    "@lockAppSetting": {
+        "description": "authenticate_on_launch",
+        "type": "text",
+        "placeholders": {}
+    },
+    "locked": "Terkunci",
+    "@locked": {
+        "description": "lockedtxt",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlock": "Terbuka",
+    "@unlock": {
+        "description": "unlocktxt",
+        "type": "text",
+        "placeholders": {}
+    },
+    "tooManyFailedAttempts": "Terlalu banyak percobaan gagal.",
+    "@tooManyFailedAttempts": {
+        "description": "fail_toomany_attempts",
+        "type": "text",
+        "placeholders": {}
+    },
+    "securityHeader": "Keamanan",
+    "@securityHeader": {
+        "description": "security_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "autoLockHeader": "Kunci Otomatis",
+    "@autoLockHeader": {
+        "description": "auto_lock_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "xMinutes": "Setelah %1 menit",
+    "@xMinutes": {
+        "description": "after_minutes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "xMinute": "Setelah %1 menit",
+    "@xMinute": {
+        "description": "after_minute",
+        "type": "text",
+        "placeholders": {}
+    },
+    "instantly": "Segera",
+    "@instantly": {
+        "description": "insantly",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardIntro": "Hai, Saat anda mengirim dan menerima NANO, akan terlihat seperti ini",
+    "@exampleCardIntro": {
+        "description": "example_card_intro",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLittle": "Sedikit",
+    "@exampleCardLittle": {
+        "description": "example_card_little",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLot": " Banyak",
+    "@exampleCardLot": {
+        "description": "example_card_lot",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardTo": "untuk seseorang",
+    "@exampleCardTo": {
+        "description": "example_card_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardFrom": "dari seseorang",
+    "@exampleCardFrom": {
+        "description": "example_card_from",
+        "type": "text",
+        "placeholders": {}
+    }
+}

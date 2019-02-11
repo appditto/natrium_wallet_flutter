@@ -16,6 +16,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 
 class AppTransferConfirmSheet {
@@ -173,7 +174,7 @@ class AppTransferConfirmSheet {
                     Container(
                       margin: EdgeInsets.only(top: 30.0, left:70, right: 70),
                       child: AutoSizeText(
-                        AppLocalization.of(context).transferHeader.toUpperCase(),
+                        CaseChange.toUpperCase(AppLocalization.of(context).transferHeader, context),
                         style: AppStyles.textStyleHeader(context),
                         textAlign: TextAlign.center,
                         maxLines: 2,
@@ -222,7 +223,7 @@ class AppTransferConfirmSheet {
                               // Send Button
                               AppButton.buildAppButton(
                                   AppButtonType.PRIMARY,
-                                  AppLocalization.of(context).confirm.toUpperCase(),
+                                  CaseChange.toUpperCase(AppLocalization.of(context).confirm, context),
                                   Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                                 animationOpen = true;
                                 Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.TRANSFER_TRANSFERRING, onPoppedCallback: () { animationOpen = false; } ));

@@ -1,0 +1,603 @@
+{
+    "@@last_modified": "2019-02-04T09:26:48.408903",
+    "contactsImportSuccess": "%1 संपर्क सफलतापूर्वक आयात (इम्पोर्ट) हो गए हैं",
+    "@contactsImportSuccess": {
+        "description": "contact_import_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "संपर्क का नाम डालें ",
+    "@contactNameMissing": {
+        "description": "contact_name_missing",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressShare": "साझा (शेयर) करें",
+    "@addressShare": {
+        "description": "receive_share_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "cancel": "रद्द (कैंसल) करें",
+    "@cancel": {
+        "description": "dialog_cancel",
+        "type": "text",
+        "placeholders": {}
+    },
+    "close": "बंद करें ",
+    "@close": {
+        "description": "dialog_close",
+        "type": "text",
+        "placeholders": {}
+    },
+    "confirm": "पुष्टि (कन्फर्म) करें ",
+    "@confirm": {
+        "description": "dialog_confirm",
+        "type": "text",
+        "placeholders": {}
+    },
+    "no": "नहीं ",
+    "@no": {
+        "description": "intro_new_wallet_backup_no",
+        "type": "text",
+        "placeholders": {}
+    },
+    "yes": "हाँ ",
+    "@yes": {
+        "description": "intro_new_wallet_backup_yes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onStr": "चालू",
+    "@onStr": {
+        "description": "generic_on",
+        "type": "text",
+        "placeholders": {}
+    },
+    "off": "बंद",
+    "@off": {
+        "description": "generic_off",
+        "type": "text",
+        "placeholders": {}
+    },
+    "send": "भेजें ",
+    "@send": {
+        "description": "home_send_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "receive": "प्राप्त करें",
+    "@receive": {
+        "description": "home_receive_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sent": "भेजे -  ",
+    "@sent": {
+        "description": "history_sent",
+        "type": "text",
+        "placeholders": {}
+    },
+    "received": "मिले -",
+    "@received": {
+        "description": "history_received",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transactions": "लेनदेन",
+    "@transactions": {
+        "description": "transaction_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressCopied": "पता कॉपी हो गया ",
+    "@addressCopied": {
+        "description": "receive_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "copyAddress": "पता कॉपी करें ",
+    "@copyAddress": {
+        "description": "receive_copy_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressHint": "पता दर्ज करें ",
+    "@addressHint": {
+        "description": "send_address_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seed": "बीज (सीड)",
+    "@seed": {
+        "description": "intro_new_wallet_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedInvalid": "बीज (सीड) गलत है",
+    "@seedInvalid": {
+        "description": "intro_seed_invalid",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedCopied": "आपका बीज (सीड) क्लिपबोर्ड में कॉपी हो गया है।  इसे अगले २ (2) मिनट तक पेस्ट किया जा सकता है। ",
+    "@seedCopied": {
+        "description": "intro_new_wallet_seed_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanQrCode": "क्यू आर कोड स्कैन करें ",
+    "@scanQrCode": {
+        "description": "send_scan_qr",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsImportErr": "संपर्क आयात (इम्पोर्ट) नहीं हो सकें",
+    "@contactsImportErr": {
+        "description": "contact_import_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "viewDetails": "अधिक जानकारी देखें ",
+    "@viewDetails": {
+        "description": "transaction_details",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContact": "संपर्क मिटाएं",
+    "@removeContact": {
+        "description": "contact_remove_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContactConfirmation": "क्या आप वाकई %1 को संपर्कों में से मिटाना चाहतें हैं?",
+    "@removeContactConfirmation": {
+        "description": "contact_remove_sure",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactHeader": "संपर्क -",
+    "@contactHeader": {
+        "description": "contact_view_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsHeader": "संपर्क",
+    "@contactsHeader": {
+        "description": "contact_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addContact": "संपर्क डालें",
+    "@addContact": {
+        "description": "contact_add_button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameHint": "संपर्क का @नाम डालें",
+    "@contactNameHint": {
+        "description": "contact_name_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactInvalid": "संपर्क के नाम में गलती है",
+    "@contactInvalid": {
+        "description": "contact_invalid_name",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsExport": "निर्यात (एक्सपोर्ट) करने के लिए कोई संपर्क नहीं हैं",
+    "@noContactsExport": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsImport": "आयात (इम्पोर्ट) करने के लिए कोई संपर्क नहीं मिले",
+    "@noContactsImport": {
+        "description": "contact_import_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactAdded": "%1 अब आपके सम्पर्को में है!",
+    "@contactAdded": {
+        "description": "contact_added",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactRemoved": "%1 का नाम संपर्कों में से मिटा दिया गया!",
+    "@contactRemoved": {
+        "description": "contact_removed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "निर्यात (एक्सपोर्ट) करने के लिए कोई संपर्क नहीं हैं",
+    "@contactNameMissing": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactExists": "इस संपर्क का नाम पहले से मौजूद है",
+    "@contactExists": {
+        "description": "contact_name_exists",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupYourSeed": "बीज (सीड) बैकअप करें ",
+    "@backupYourSeed": {
+        "description": "intro_new_wallet_seed_backup_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeedConfirm": "क्या आपने वाकई अपने वॉलेट का बीज (सीड) बैकअप कर लिया है?",
+    "@backupSeedConfirm": {
+        "description": "intro_new_wallet_backup",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedBackupInfo": "नीचे आपके वॉलेट का बीज (सीड) है। इसका बैकअप करना आवश्यक है। कृपया इसे हमेशा सुरक्षित रखें और टेक्स्ट या स्क्रीनशॉट के रूप में हरगिज़ न रखें।",
+    "@seedBackupInfo": {
+        "description": "intro_new_wallet_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeed": "बीज (सीड) इम्पोर्ट करें ",
+    "@importSeed": {
+        "description": "intro_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeedHint": "कृपया नीचे अपना बीज (सीड) दर्ज करें।",
+    "@importSeedHint": {
+        "description": "intro_seed_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "welcomeText": "नेट्रियम में आपका स्वागत है। आगे बढ़ने के लिए, आप एक नया वॉलेट बना सकते हैं या एक मौजूदा वॉलेट खोल सकते हैं। ",
+    "@welcomeText": {
+        "description": "intro_welcome_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "newWallet": "नया वॉलेट",
+    "@newWallet": {
+        "description": "intro_welcome_new_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importWallet": "मौजूदा वॉलेट",
+    "@importWallet": {
+        "description": "intro_welcome_have_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sentTo": "इसको भेजा गया -",
+    "@sentTo": {
+        "description": "sent_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sending": "भेजा जा रहा है - ",
+    "@sending": {
+        "description": "send_sending",
+        "type": "text",
+        "placeholders": {}
+    },
+    "to": "इसको - ",
+    "@to": {
+        "description": "send_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendAmountConfirm": "%1 बनानो भेजें ? ",
+    "@sendAmountConfirm": {
+        "description": "send_pin_description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendError": "एक समस्या हुई। बाद में फिर से कोशिश करें।",
+    "@sendError": {
+        "description": "send_generic_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "enterAmount": "राशि दर्ज करें",
+    "@enterAmount": {
+        "description": "send_amount_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "invalidAddress": "गलत (डेस्टिनेशन) गंतव्य पता",
+    "@invalidAddress": {
+        "description": "send_invalid_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressMising": "कृपया एक पता दर्ज करें",
+    "@addressMising": {
+        "description": "send_enter_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "amountMissing": "कृपया राशि दर्ज करें",
+    "@amountMissing": {
+        "description": "send_enter_amount",
+        "type": "text",
+        "placeholders": {}
+    },
+    "insufficientBalance": "अपर्याप्त शेष राशि (बैलेंस)",
+    "@insufficientBalance": {
+        "description": "send_insufficient_balance",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendFrom": "भेजने का पता -",
+    "@sendFrom": {
+        "description": "send_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinCreateTitle": "एक ४ (6) अंकों का पिन बनाएँ",
+    "@pinCreateTitle": {
+        "description": "pin_create_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmTitle": "अपने पिन को दोबारा लिखें ",
+    "@pinConfirmTitle": {
+        "description": "pin_confirm_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinEnterTitle": "पिन दर्ज करें",
+    "@pinEnterTitle": {
+        "description": "pin_enter_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmError": "पिन एक दूसरे से नहीं मिल रहे",
+    "@pinConfirmError": {
+        "description": "pin_confirm_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinInvalid": "गलत पिन दर्ज किया गया",
+    "@pinInvalid": {
+        "description": "pin_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "themeHeader": "विषय",
+    "@themeHeader": {
+        "description": "theme_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepButton": "बदलें",
+    "@changeRepButton": {
+        "description": "change_representative_change",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepAuthenticate": "प्रतिनिधि (रिप्रेजेन्टेटिव) बदलें",
+    "@changeRepAuthenticate": {
+        "description": "settings_change_rep",
+        "type": "text",
+        "placeholders": {}
+    },
+    "currentlyRepresented": "वर्तमान प्रतिनिधि (रिप्रेजेन्टेटिव)",
+    "@currentlyRepresented": {
+        "description": "change_representative_current_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepSucces": "प्रतिनिधि (रिप्रेजेन्टेटिव) सफलतापूर्वक बदल गया",
+    "@changeRepSucces": {
+        "description": "change_representative_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfoHeader": "प्रतिनिधि (रिप्रेजेन्टेटिव) क्या है?",
+    "@repInfoHeader": {
+        "description": "change_representative_info_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfo": "प्रतिनिधि (रिप्रेजेन्टेटिव) एक खाता है जो नेटवर्क सर्वसम्मति (कंसेंसस) के लिए वोट देता है। हर प्रतिनिधि (रिप्रेजेन्टेटिव) की मतदान शक्ति (वोटिंग पावर) उसे चुनने वालों की कुल धनराशि पर निर्भर है। आप किसी भी समय एक भरोसेमंद प्रतिनिधि (रिप्रेजेन्टेटिव) को चुन कर, अपनी धनराशि से उस प्रतिनिधि (रिप्रेजेन्टेटिव) की मतदान शक्ति (वोटिंग पावर) बढ़ा सकते हैं। आपके प्रतिनिधि (रिप्रेजेन्टेटिव) को आपका धन खर्च करने का अधिकार नहीं है। आपको ऐसा प्रतिनिधि चुनना चाहिए जो भरोसेमंद हो और अधिकतर उपस्थित रहे।",
+    "@repInfo": {
+        "description": "change_representative_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinRepChange": "प्रतिनिधि बदलने के लिए पिन दर्ज करें",
+    "@pinRepChange": {
+        "description": "change_representative_pin",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepHint": "नए प्रतिनिधि का पता दर्ज करें",
+    "@changeRepHint": {
+        "description": "change_representative_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "authMethod": "प्रमाणीकरण (ऑथेंटिकेशन) का तरीका",
+    "@authMethod": {
+        "description": "settings_disable_fingerprint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinMethod": "पिन",
+    "@pinMethod": {
+        "description": "settings_pin_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "biometricsMethod": "बॉयोमेट्रिक्स",
+    "@biometricsMethod": {
+        "description": "settings_fingerprint_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeCurrency": "मुद्रा (करेंसी) बदलें",
+    "@changeCurrency": {
+        "description": "settings_local_currency",
+        "type": "text",
+        "placeholders": {}
+    },
+    "language": "भाषा",
+    "@language": {
+        "description": "settings_change_language",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareKalium": "नेट्रियम साझा (शेयर) करें",
+    "@shareKalium": {
+        "description": "settings_share",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareKaliumText": "नेट्रियम - बनानो का एंड्रॉइड वॉलेट देखें!",
+    "@shareKaliumText": {
+        "description": "share_extra",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logout": "लॉगआउट करें",
+    "@logout": {
+        "description": "settings_logout",
+        "type": "text",
+        "placeholders": {}
+    },
+    "warning": "चेतावनी !",
+    "@warning": {
+        "description": "settings_logout_alert_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutDetail": "लॉगआउट करने पर आपके  बीज (सीड) और नेट्रियम से संबंधित सभी डेटा हट जाएंगे। यदि आपने अपने बीज को बैकअप नहीं किया, तो आप कभी भी अपने धन का उपयोग नहीं कर पाएंगे।",
+    "@logoutDetail": {
+        "description": "settings_logout_alert_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAction": "बीज मिटा कर लॉगआउट करें ",
+    "@logoutAction": {
+        "description": "settings_logout_alert_confirm_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAreYouSure": "क्या आप निश्चित हैं?",
+    "@logoutAreYouSure": {
+        "description": "settings_logout_warning_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutReassurance": "अगर आपने अपने बीज को बैकअप कर लिया है, तो आपको चिंता करने की कोई आवश्यकता नहीं है।",
+    "@logoutReassurance": {
+        "description": "settings_logout_warning_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsHeader": "सेटिंग्स ",
+    "@settingsHeader": {
+        "description": "settings_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "preferences": "पसंद | प्रेफरेन्सेस",
+    "@preferences": {
+        "description": "settings_preferences_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "manage": "प्रबंधन | मैनेज",
+    "@manage": {
+        "description": "settings_manage_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeed": "बीज (सीड) बैकअप करें",
+    "@backupSeed": {
+        "description": "settings_backup_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "fingerprintSeedBackup": "उंगली के निशान की सहायता से बीज (सीड) बैकअप करें।",
+    "@fingerprintSeedBackup": {
+        "description": "settings_fingerprint_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinSeedBackup": "वॉलेट के बीज को देखने के लिए पिन दर्ज करें।",
+    "@pinSeedBackup": {
+        "description": "settings_pin_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "systemDefault": "डिवाइस की भाषा",
+    "@systemDefault": {
+        "description": "settings_default_language_string",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notifications": "सूचनाएं",
+    "@notifications": {
+        "description": "notifications_settings",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationTitle": " %1 बनानो प्राप्त हुए",
+    "@notificationTitle": {
+        "description": "notification_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationBody": "इस लेनदेन को देखने के लिए नेट्रियम खोलें ",
+    "@notificationBody": {
+        "description": "notification_body",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationHeaderSupplement": "ऐप्प खोलने के लिए छुएं",
+    "@notificationHeaderSupplement": {
+        "description": "notificaiton_header_suplement",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanInstructions": "बनानो के पते का \nक्यू आर कोड स्कैन करें ",
+    "@scanInstructions": {
+        "description": "scan_send_instruction_label",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardIntro": "नेट्रियम में आपका स्वागत है। बनानो प्राप्त करने पर सभी लेनदेन इस तरह नीचे दिखाई देंगे -",
+    "@exampleCardIntro": {
+        "description": "example_card_intro",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLittle": "थोड़े से",
+    "@exampleCardLittle": {
+        "description": "example_card_little",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLot": "बहुत सारे",
+    "@exampleCardLot": {
+        "description": "example_card_lot",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardTo": "अजनबी बंदर को",
+    "@exampleCardTo": {
+        "description": "example_card_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardFrom": "अजनबी बंदर से",
+    "@exampleCardFrom": {
+        "description": "example_card_from",
+        "type": "text",
+        "placeholders": {}
+    }
+}

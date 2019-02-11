@@ -7,6 +7,7 @@ import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
 class AppSendCompleteSheet {
   String _amount;
@@ -102,9 +103,8 @@ class AppSendCompleteSheet {
                           children: <Widget>[
                             // "SENT TO" text
                             Text(
-                              AppLocalization.of(context)
-                                  .sentTo
-                                  .toUpperCase(),
+                              CaseChange.toUpperCase(AppLocalization.of(context)
+                                  .sentTo, context),
                               style: TextStyle(
                                 fontSize: 28.0,
                                 fontWeight: FontWeight.w700,
@@ -142,9 +142,8 @@ class AppSendCompleteSheet {
                         children: <Widget>[
                           AppButton.buildAppButton(
                               AppButtonType.SUCCESS_OUTLINE,
-                              AppLocalization.of(context)
-                                  .close
-                                  .toUpperCase(),
+                              CaseChange.toUpperCase(AppLocalization.of(context)
+                                  .close, context),
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.of(context).pop();
                           }),

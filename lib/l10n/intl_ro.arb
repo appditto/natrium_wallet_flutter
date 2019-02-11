@@ -1,0 +1,819 @@
+{
+    "@@last_modified": "2019-02-04T09:26:48.408903",
+    "contactsImportSuccess": "Am importat %1 contacte",
+    "@contactsImportSuccess": {
+        "description": "contact_import_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "Alege un nume pentru acest contact",
+    "@contactNameMissing": {
+        "description": "contact_name_missing",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressShare": "Share",
+    "@addressShare": {
+        "description": "receive_share_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "cancel": "Renunţare",
+    "@cancel": {
+        "description": "dialog_cancel",
+        "type": "text",
+        "placeholders": {}
+    },
+    "close": "Închide",
+    "@close": {
+        "description": "dialog_close",
+        "type": "text",
+        "placeholders": {}
+    },
+    "confirm": "Confirmare",
+    "@confirm": {
+        "description": "dialog_confirm",
+        "type": "text",
+        "placeholders": {}
+    },
+    "no": "Nu",
+    "@no": {
+        "description": "intro_new_wallet_backup_no",
+        "type": "text",
+        "placeholders": {}
+    },
+    "yes": "Da",
+    "@yes": {
+        "description": "intro_new_wallet_backup_yes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onStr": "Activate",
+    "@onStr": {
+        "description": "generic_on",
+        "type": "text",
+        "placeholders": {}
+    },
+    "off": "Dezactivate",
+    "@off": {
+        "description": "generic_off",
+        "type": "text",
+        "placeholders": {}
+    },
+    "send": "Trimise",
+    "@send": {
+        "description": "home_send_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "receive": "Primește",
+    "@receive": {
+        "description": "home_receive_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sent": "Trimise",
+    "@sent": {
+        "description": "history_sent",
+        "type": "text",
+        "placeholders": {}
+    },
+    "received": "Primite",
+    "@received": {
+        "description": "history_received",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transactions": "Tranzacții",
+    "@transactions": {
+        "description": "transaction_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressCopied": "Adresă copiată",
+    "@addressCopied": {
+        "description": "receive_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "copyAddress": "Copiază adresa",
+    "@copyAddress": {
+        "description": "receive_copy_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressHint": "Introdu adresa",
+    "@addressHint": {
+        "description": "send_address_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seed": "Seed",
+    "@seed": {
+        "description": "intro_new_wallet_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedInvalid": "Seed invalid",
+    "@seedInvalid": {
+        "description": "intro_seed_invalid",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedCopied": "Seed-ul a fost copiat în clipboard. \n Opțiunea Copy-Paște este valabilă două minute.",
+    "@seedCopied": {
+        "description": "intro_new_wallet_seed_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanQrCode": "Scanare cod QR",
+    "@scanQrCode": {
+        "description": "send_scan_qr",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsImportErr": "Importarea contactelor a eșuat",
+    "@contactsImportErr": {
+        "description": "contact_import_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "viewDetails": "Detalii",
+    "@viewDetails": {
+        "description": "transaction_details",
+        "type": "text",
+        "placeholders": {}
+    },
+    "qrInvalidSeed": "Codul QR nu conține un seed sau private key valid",
+    "@qrInvalidSeed": {
+        "description": "qr_invalid_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "qrInvalidAddress": "Codul QR nu conține o adresă validă",
+    "@qrInvalidAddress": {
+        "description": "qr_invalid_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContact": "Șterge contactul",
+    "@removeContact": {
+        "description": "contact_remove_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContactConfirmation": "Dorești să elimini contactul %1?",
+    "@removeContactConfirmation": {
+        "description": "contact_remove_sure",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactHeader": "Contact",
+    "@contactHeader": {
+        "description": "contact_view_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsHeader": "Contacte",
+    "@contactsHeader": {
+        "description": "contact_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addContact": "Adaugă un contact",
+    "@addContact": {
+        "description": "contact_add_button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameHint": "Introdu un nume @",
+    "@contactNameHint": {
+        "description": "contact_name_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactInvalid": "Nume invalid",
+    "@contactInvalid": {
+        "description": "contact_invalid_name",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsExport": "Nu există contacte pentru exportare",
+    "@noContactsExport": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsImport": " Nu am gasit contacte pentru importare",
+    "@noContactsImport": {
+        "description": "contact_import_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactAdded": "%1 a fost adăugat la contacte!",
+    "@contactAdded": {
+        "description": "contact_added",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactRemoved": "%1 a fost șters din lista contactelor!",
+    "@contactRemoved": {
+        "description": "contact_removed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "Nu există contacte pentru exportare",
+    "@contactNameMissing": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactExists": "Contact deja existent",
+    "@contactExists": {
+        "description": "contact_name_exists",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupYourSeed": "Salvați-vă seed-ul (backup)",
+    "@backupYourSeed": {
+        "description": "intro_new_wallet_seed_backup_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeedConfirm": "Sunteți sigur/ă că ați salvat seed-ul portofelului??",
+    "@backupSeedConfirm": {
+        "description": "intro_new_wallet_backup",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedBackupInfo": "Mai jos se află seed-ul dumneavoastră. Este foarte important să îi faceți o copie de rezervă (backup). Nu fotografiați niciodată seed-ul și nu îl stocați pe un dispozitiv.",
+    "@seedBackupInfo": {
+        "description": "intro_new_wallet_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "copySeed": "Copiere seed",
+    "@copySeed": {
+        "description": "copy_seed_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedCopiedShort": "Seed-ul a fost copiat",
+    "@seedCopiedShort": {
+        "description": "seed_copied_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeed": "Importă seed-ul",
+    "@importSeed": {
+        "description": "intro_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeedHint": "Introdu seed-ul mai jos.",
+    "@importSeedHint": {
+        "description": "intro_seed_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "welcomeText": "Bun venit la Kalium. Pentru a continua, puteți crea un nou portofel sau puteți importa unul existent.",
+    "@welcomeText": {
+        "description": "intro_welcome_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "newWallet": "Portofel nou",
+    "@newWallet": {
+        "description": "intro_welcome_new_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importWallet": "Importă portofelul\"",
+    "@importWallet": {
+        "description": "intro_welcome_have_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sentTo": "Trmite către",
+    "@sentTo": {
+        "description": "sent_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sending": "Trimitere...",
+    "@sending": {
+        "description": "send_sending",
+        "type": "text",
+        "placeholders": {}
+    },
+    "to": "Către",
+    "@to": {
+        "description": "send_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendAmountConfirm": "Trimite %1 Banano",
+    "@sendAmountConfirm": {
+        "description": "send_pin_description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendError": "A apărut o eroare. Încercați din nou mai târziu.",
+    "@sendError": {
+        "description": "send_generic_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "enterAmount": "Introdu suma",
+    "@enterAmount": {
+        "description": "send_amount_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "invalidAddress": "Adresa de destinație este invalidă",
+    "@invalidAddress": {
+        "description": "send_invalid_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressMising": "Introduceți o destinație",
+    "@addressMising": {
+        "description": "send_enter_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "amountMissing": "Introduceți o sumă",
+    "@amountMissing": {
+        "description": "send_enter_amount",
+        "type": "text",
+        "placeholders": {}
+    },
+    "insufficientBalance": "Fonduri insuficiente",
+    "@insufficientBalance": {
+        "description": "send_insufficient_balance",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendFrom": "Trimite de la",
+    "@sendFrom": {
+        "description": "send_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinCreateTitle": "Creați un PIN cu 6 cifre",
+    "@pinCreateTitle": {
+        "description": "pin_create_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmTitle": "Confirmă PIN-ul",
+    "@pinConfirmTitle": {
+        "description": "pin_confirm_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinEnterTitle": "Introdu PIN-ul",
+    "@pinEnterTitle": {
+        "description": "pin_enter_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmError": "PIN-urile nu corespund",
+    "@pinConfirmError": {
+        "description": "pin_confirm_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinInvalid": "PIN invalid",
+    "@pinInvalid": {
+        "description": "pin_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "themeHeader": "Temă",
+    "@themeHeader": {
+        "description": "theme_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepButton": "Schimbă",
+    "@changeRepButton": {
+        "description": "change_representative_change",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepAuthenticate": "Schimbă reprezentantul",
+    "@changeRepAuthenticate": {
+        "description": "settings_change_rep",
+        "type": "text",
+        "placeholders": {}
+    },
+    "currentlyRepresented": "Reprezentantul curent:",
+    "@currentlyRepresented": {
+        "description": "change_representative_current_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepSucces": "Reprezentant schimbat cu succes",
+    "@changeRepSucces": {
+        "description": "change_representative_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfoHeader": "Ce este un reprezentant?",
+    "@repInfoHeader": {
+        "description": "change_representative_info_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfo": "Un reprezentant este un cont care votează pentru buna funcționare a rețelei. Puterea de vot este determinată de sold. Puteți delega soldul dumneavoastră pentru a mări puterea de vot a unui reprezentant de încredere. Acesta nu poate cheltui fondurile dumneavoastră. Alegeți un reprezentant activ și de încredere.",
+    "@repInfo": {
+        "description": "change_representative_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinRepChange": "Introdu PIN-ul pentru a schimba reprezentantul",
+    "@pinRepChange": {
+        "description": "change_representative_pin",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepHint": "Introdu noul reprezentant",
+    "@changeRepHint": {
+        "description": "change_representative_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "authMethod": "Metoda de Autentificare",
+    "@authMethod": {
+        "description": "settings_disable_fingerprint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinMethod": "PIN",
+    "@pinMethod": {
+        "description": "settings_pin_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "privacyPolicy": "Politica de confidențialitate",
+    "@privacyPolicy": {
+        "description": "settings_privacy_policy",
+        "type": "text",
+        "placeholders": {}
+    },
+    "biometricsMethod": "Biometria",
+    "@biometricsMethod": {
+        "description": "settings_fingerprint_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeCurrency": "Schimbă moneda",
+    "@changeCurrency": {
+        "description": "settings_local_currency",
+        "type": "text",
+        "placeholders": {}
+    },
+    "language": "Limba",
+    "@language": {
+        "description": "settings_change_language",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareKalium": "Share Kalium",
+    "@shareKalium": {
+        "description": "settings_share",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareKaliumText": "Acesta este Kalium! Portofelul oficial pentru Banano pe Android!",
+    "@shareKaliumText": {
+        "description": "share_extra",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logout": "Deconectare",
+    "@logout": {
+        "description": "settings_logout",
+        "type": "text",
+        "placeholders": {}
+    },
+    "warning": "AVERTISMENT",
+    "@warning": {
+        "description": "settings_logout_alert_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutDetail": "Prin deconectare vom elimina seed-ul și toate datele legate de Kalium de pe acest dispozitiv. Dacă seed-ul nu are o copie de rezervă/backup, fondurile for fi pierdute permanent.",
+    "@logoutDetail": {
+        "description": "settings_logout_alert_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAction": "Șterge seed-ul și deconectează-mă",
+    "@logoutAction": {
+        "description": "settings_logout_alert_confirm_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAreYouSure": "Sunteți sigur/ă?",
+    "@logoutAreYouSure": {
+        "description": "settings_logout_warning_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutReassurance": "Dacă aveți seed-ul salvat nu există motive de îngrijorare.",
+    "@logoutReassurance": {
+        "description": "settings_logout_warning_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsHeader": "Setări",
+    "@settingsHeader": {
+        "description": "settings_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "preferences": "Preferințe",
+    "@preferences": {
+        "description": "settings_preferences_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "manage": "Administrare",
+    "@manage": {
+        "description": "settings_manage_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeed": "Copie de rezervă pentru seed",
+    "@backupSeed": {
+        "description": "settings_backup_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "fingerprintSeedBackup": "Confirmați amprenta pentru a face o copie de seed-ului",
+    "@fingerprintSeedBackup": {
+        "description": "settings_fingerprint_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinSeedBackup": "Introdu PIN-ul pentru a vedea seed-ul portofelului.",
+    "@pinSeedBackup": {
+        "description": "settings_pin_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "systemDefault": "Limba implicită",
+    "@systemDefault": {
+        "description": "settings_default_language_string",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notifications": "Notificări",
+    "@notifications": {
+        "description": "notifications_settings",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationTitle": "Ai primit %1 BANANO",
+    "@notificationTitle": {
+        "description": "notification_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationBody": "Deschide Kalium pentru a vizualiza tranzacția.",
+    "@notificationBody": {
+        "description": "notification_body",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationHeaderSupplement": "Apasă pentru deschidere",
+    "@notificationHeaderSupplement": {
+        "description": "notificaiton_header_suplement",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsTransfer": "Încarcă din Paper Wallet",
+    "@settingsTransfer": {
+        "description": "settings_transfer",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferError": " A avut loc o eroare în timpul transferului. Vă rugăm să încercați din nou mai târziu.",
+    "@transferError": {
+        "description": "transfer_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "paperWallet": "Paper Wallet",
+    "@paperWallet": {
+        "description": "paper_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "kaliumWallet": "Portofel Kalium",
+    "@kaliumWallet": {
+        "description": "kalium_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "manualEntry": "Introducere manuală",
+    "@manualEntry": {
+        "description": "transfer_manual_entry",
+        "type": "text",
+        "placeholders": {}
+    },
+    "mnemonicPhrase": "Frază de memorat",
+    "@mnemonicPhrase": {
+        "description": "mnemonic_phrase",
+        "type": "text",
+        "placeholders": {}
+    },
+    "rawSeed": "Seed simplu",
+    "@rawSeed": {
+        "description": "raw_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferHeader": "Transferă\nFonduri",
+    "@transferHeader": {
+        "description": "transfer_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transfer": "Transferă",
+    "@transfer": {
+        "description": "transfer_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferManualHint": "Introduceți seed-ul mai jos.",
+    "@transferManualHint": {
+        "description": "transfer_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferIntro": "Acest proces va transfera fondurile dintr-un Paper Wallet către contul dvs. Kalium.\n\nAtingeți butonul \"%1\" pentru a începe.",
+    "@transferIntro": {
+        "description": "transfer_intro",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferQrScanHint": "Scanați un seed pentru Banano\n sau un private key",
+    "@transferQrScanHint": {
+        "description": "transfer_qr_scan_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferQrScanError": "Acest cod QR nu conține un seed valid.",
+    "@transferQrScanError": {
+        "description": "transfer_qr_scan_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferNoFunds": "Acest seed nu conține BANANO.",
+    "@transferNoFunds": {
+        "description": "transfer_no_funds_toast",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfo": "Un portofel cu un sold de %1 BANANO a fost detectat.\n",
+    "@transferConfirmInfo": {
+        "description": "transfer_confirm_info_first",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfoSecond": "Apăsați pentru a confirma transferul.\n",
+    "@transferConfirmInfoSecond": {
+        "description": "transfer_confirm_info_second",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfoThird": "Transferul poate dura câteva secunde.",
+    "@transferConfirmInfoThird": {
+        "description": "transfer_confirm_info_third",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferLoading": "Se transferă...",
+    "@transferLoading": {
+        "description": "transfer_loading_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferComplete": "%1 BANANO au fost transferate cu succes în portofelul dvs. Kalium.",
+    "@transferComplete": {
+        "description": "transfer_complete_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferClose": "Apăsați oriunde pentru a închide această fereastră.",
+    "@transferClose": {
+        "description": "transfer_close_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanInstructions": "Scanează o adresă de Banano de tip cod QR",
+    "@scanInstructions": {
+        "description": "scan_send_instruction_label",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlockPin": "Introduceți codul PIN pentru a debloca Kalium",
+    "@unlockPin": {
+        "description": "unlock_kalium_pin",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlockBiometrics": "Autentificaţi-vă pentru a debloca Kalium",
+    "@unlockBiometrics": {
+        "description": "unlock_kalium_bio",
+        "type": "text",
+        "placeholders": {}
+    },
+    "lockAppSetting": "Autentificați-vă la deschidere",
+    "@lockAppSetting": {
+        "description": "authenticate_on_launch",
+        "type": "text",
+        "placeholders": {}
+    },
+    "locked": "Închis",
+    "@locked": {
+        "description": "lockedtxt",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlock": "Deblochează",
+    "@unlock": {
+        "description": "unlocktxt",
+        "type": "text",
+        "placeholders": {}
+    },
+    "tooManyFailedAttempts": "Prea multe încercări de deblocare eșuate.",
+    "@tooManyFailedAttempts": {
+        "description": "fail_toomany_attempts",
+        "type": "text",
+        "placeholders": {}
+    },
+    "securityHeader": "Securitate",
+    "@securityHeader": {
+        "description": "security_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "autoLockHeader": "Blocare automată",
+    "@autoLockHeader": {
+        "description": "auto_lock_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "xMinutes": "După %1 minute",
+    "@xMinutes": {
+        "description": "after_minutes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "xMinute": "După %1 minut",
+    "@xMinute": {
+        "description": "after_minute",
+        "type": "text",
+        "placeholders": {}
+    },
+    "instantly": "Imediat",
+    "@instantly": {
+        "description": "insantly",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardIntro": "Bun venit la Kalium. Odată ce primiți sau trimiteți BANANO, tranzacțiile vor arăta astfel",
+    "@exampleCardIntro": {
+        "description": "example_card_intro",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLittle": "Un pic de",
+    "@exampleCardLittle": {
+        "description": "example_card_little",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLot": "O mulțime de",
+    "@exampleCardLot": {
+        "description": "example_card_lot",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardTo": "unui om oarecare",
+    "@exampleCardTo": {
+        "description": "example_card_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardFrom": "de la un om oarecare",
+    "@exampleCardFrom": {
+        "description": "example_card_from",
+        "type": "text",
+        "placeholders": {}
+    }
+}

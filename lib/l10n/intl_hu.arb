@@ -1,0 +1,711 @@
+{
+    "@@last_modified": "2019-02-04T09:26:48.408903",
+    "contactsImportSuccess": "Sikeresen importáltál %1 kontaktot",
+    "@contactsImportSuccess": {
+        "description": "contact_import_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "Válassz egy nevet ennek a kontaktnak",
+    "@contactNameMissing": {
+        "description": "contact_name_missing",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressShare": "Megosztás",
+    "@addressShare": {
+        "description": "receive_share_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "cancel": "Mégse",
+    "@cancel": {
+        "description": "dialog_cancel",
+        "type": "text",
+        "placeholders": {}
+    },
+    "close": "Bezárás",
+    "@close": {
+        "description": "dialog_close",
+        "type": "text",
+        "placeholders": {}
+    },
+    "confirm": "Megerősít",
+    "@confirm": {
+        "description": "dialog_confirm",
+        "type": "text",
+        "placeholders": {}
+    },
+    "no": "Nem",
+    "@no": {
+        "description": "intro_new_wallet_backup_no",
+        "type": "text",
+        "placeholders": {}
+    },
+    "yes": "Igen",
+    "@yes": {
+        "description": "intro_new_wallet_backup_yes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onStr": "Be",
+    "@onStr": {
+        "description": "generic_on",
+        "type": "text",
+        "placeholders": {}
+    },
+    "off": "Ki",
+    "@off": {
+        "description": "generic_off",
+        "type": "text",
+        "placeholders": {}
+    },
+    "send": "Küldés",
+    "@send": {
+        "description": "home_send_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "receive": "Fogadás",
+    "@receive": {
+        "description": "home_receive_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sent": "Küldött",
+    "@sent": {
+        "description": "history_sent",
+        "type": "text",
+        "placeholders": {}
+    },
+    "received": "Fogadott",
+    "@received": {
+        "description": "history_received",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transactions": "Tranzakciók",
+    "@transactions": {
+        "description": "transaction_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressCopied": "Cím Másolva",
+    "@addressCopied": {
+        "description": "receive_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "copyAddress": "Cím Másolása",
+    "@copyAddress": {
+        "description": "receive_copy_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressHint": "Küldés Erre A Címre",
+    "@addressHint": {
+        "description": "send_address_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seed": "Seed",
+    "@seed": {
+        "description": "intro_new_wallet_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedInvalid": "Helytelen Seed",
+    "@seedInvalid": {
+        "description": "intro_seed_invalid",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedCopied": "Seed másolva a clipboardra.\n 2 percig beilleszthető.",
+    "@seedCopied": {
+        "description": "intro_new_wallet_seed_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanQrCode": "Olvasd be a QR Kódot",
+    "@scanQrCode": {
+        "description": "send_scan_qr",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsImportErr": "Sikertelen kontakt importálás",
+    "@contactsImportErr": {
+        "description": "contact_import_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "viewDetails": "Részletek Mutatása",
+    "@viewDetails": {
+        "description": "transaction_details",
+        "type": "text",
+        "placeholders": {}
+    },
+    "qrInvalidSeed": "QR-kód nem tartalmaz érvényes seedet vagy privát kulcsot",
+    "@qrInvalidSeed": {
+        "description": "qr_invalid_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "qrInvalidAddress": "QR-kód nem tartalmaz érvényes címet",
+    "@qrInvalidAddress": {
+        "description": "qr_invalid_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContact": "Kontakt Törlése",
+    "@removeContact": {
+        "description": "contact_remove_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContactConfirmation": "Biztos, hogy törölni szeretnéd %1-t?",
+    "@removeContactConfirmation": {
+        "description": "contact_remove_sure",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactHeader": "Kontakt",
+    "@contactHeader": {
+        "description": "contact_view_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsHeader": "Kontaktok",
+    "@contactsHeader": {
+        "description": "contact_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addContact": "Kontakt Hozzáadása",
+    "@addContact": {
+        "description": "contact_add_button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameHint": "Írj be egy nevet @",
+    "@contactNameHint": {
+        "description": "contact_name_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactInvalid": "Helytelen kontakt név",
+    "@contactInvalid": {
+        "description": "contact_invalid_name",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsExport": "Nincsenek exportálható kontaktok",
+    "@noContactsExport": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsImport": "Nincsenek importálható kontaktok",
+    "@noContactsImport": {
+        "description": "contact_import_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactAdded": "%1 hozzá lett adva a kontaktokhoz!",
+    "@contactAdded": {
+        "description": "contact_added",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactRemoved": "Törölted %1-t a kontaktjaid közül!",
+    "@contactRemoved": {
+        "description": "contact_removed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "Nincsenek exportálható kontaktok",
+    "@contactNameMissing": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactExists": "Ez a kontakt már létezik!",
+    "@contactExists": {
+        "description": "contact_name_exists",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupYourSeed": "Seed másolása",
+    "@backupYourSeed": {
+        "description": "intro_new_wallet_seed_backup_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeedConfirm": "Biztos vagy benne, hogy elmentetted a seeded?",
+    "@backupSeedConfirm": {
+        "description": "intro_new_wallet_backup",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedBackupInfo": "Ez itt a tárcád seedje. Nagyon fontos, hogy megőrizd, és soha ne készíts róla screenshotot, vagy őrizd egyszerű szöveg formátumban.",
+    "@seedBackupInfo": {
+        "description": "intro_new_wallet_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "copySeed": "Seed Másolása",
+    "@copySeed": {
+        "description": "copy_seed_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedCopiedShort": "Seed Másolva",
+    "@seedCopiedShort": {
+        "description": "seed_copied_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeed": "Seed importálása",
+    "@importSeed": {
+        "description": "intro_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeedHint": "Írd be a seeded.",
+    "@importSeedHint": {
+        "description": "intro_seed_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "welcomeText": "Üdvözöllek a Natriumban! Hozz létre egy új tárcát, vagy importálj egy létezőt.",
+    "@welcomeText": {
+        "description": "intro_welcome_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "newWallet": "Új Tárca",
+    "@newWallet": {
+        "description": "intro_welcome_new_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importWallet": "Tárca Importálása",
+    "@importWallet": {
+        "description": "intro_welcome_have_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sentTo": "Elküldve ide",
+    "@sentTo": {
+        "description": "sent_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sending": "Küldés folyamatban",
+    "@sending": {
+        "description": "send_sending",
+        "type": "text",
+        "placeholders": {}
+    },
+    "to": "Küldés ide",
+    "@to": {
+        "description": "send_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendAmountConfirm": "%1 Nano küldése?",
+    "@sendAmountConfirm": {
+        "description": "send_pin_description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendError": "Hiba történt. Próbálkozz később.",
+    "@sendError": {
+        "description": "send_generic_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "enterAmount": "Küldött Mennyiség",
+    "@enterAmount": {
+        "description": "send_amount_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "invalidAddress": "Helytelen Cím",
+    "@invalidAddress": {
+        "description": "send_invalid_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressMising": "Adjon meg egy célt",
+    "@addressMising": {
+        "description": "send_enter_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "amountMissing": "Adjon meg egy összeget",
+    "@amountMissing": {
+        "description": "send_enter_amount",
+        "type": "text",
+        "placeholders": {}
+    },
+    "insufficientBalance": "Elégtelen Számlaegyenleg",
+    "@insufficientBalance": {
+        "description": "send_insufficient_balance",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendFrom": "Küldés Innen",
+    "@sendFrom": {
+        "description": "send_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinCreateTitle": "Hozz létre egy 6 számjegyű PIN-kódot",
+    "@pinCreateTitle": {
+        "description": "pin_create_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmTitle": "Erősítsd meg a PIN-kódod",
+    "@pinConfirmTitle": {
+        "description": "pin_confirm_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinEnterTitle": "Írd be a PIN-kódod",
+    "@pinEnterTitle": {
+        "description": "pin_enter_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmError": "PIN-kódok nem egyeznek",
+    "@pinConfirmError": {
+        "description": "pin_confirm_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinInvalid": "Helytelen PIN-kód",
+    "@pinInvalid": {
+        "description": "pin_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "themeHeader": "Téma",
+    "@themeHeader": {
+        "description": "theme_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepButton": "Megváltoztat",
+    "@changeRepButton": {
+        "description": "change_representative_change",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepAuthenticate": "Képviselő Megváltoztatása",
+    "@changeRepAuthenticate": {
+        "description": "settings_change_rep",
+        "type": "text",
+        "placeholders": {}
+    },
+    "currentlyRepresented": "Jelenlegi Képviselő",
+    "@currentlyRepresented": {
+        "description": "change_representative_current_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepSucces": "Képviselő Sikeresen Kiválasztva",
+    "@changeRepSucces": {
+        "description": "change_representative_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfoHeader": "Mi az a Képviselő?",
+    "@repInfoHeader": {
+        "description": "change_representative_info_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfo": "A Képviselő egy olyan felhasználó, aki szavaz a hálózati konszenzusról, így fenntartja annak működését. A szavazati ereje a rendelkezésre álló tőkéje alapján súlyozott. A saját tőkédet delegálhatod egy Képviselőre, akiben bízol. A Képviselő nem tudja elkölteni a tőkéd. Egy olyan Képviselőt válassz, aki megbízható, és keveset szünetelteti a szolgáltatását.",
+    "@repInfo": {
+        "description": "change_representative_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinRepChange": "Írd be a PIN-kódod, hogy megváltoztasd a Képviselőd",
+    "@pinRepChange": {
+        "description": "change_representative_pin",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepHint": "Új Képviselő",
+    "@changeRepHint": {
+        "description": "change_representative_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "authMethod": "Hitelesítési Módszer",
+    "@authMethod": {
+        "description": "settings_disable_fingerprint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinMethod": "PIN",
+    "@pinMethod": {
+        "description": "settings_pin_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "privacyPolicy": "Adatvédelmi Szabályzat",
+    "@privacyPolicy": {
+        "description": "settings_privacy_policy",
+        "type": "text",
+        "placeholders": {}
+    },
+    "biometricsMethod": "Biometria",
+    "@biometricsMethod": {
+        "description": "settings_fingerprint_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeCurrency": "Valuta Megváltoztatása",
+    "@changeCurrency": {
+        "description": "settings_local_currency",
+        "type": "text",
+        "placeholders": {}
+    },
+    "language": "Nyelv",
+    "@language": {
+        "description": "settings_change_language",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareNatrium": "Oszd meg a Natriumot",
+    "@shareNatrium": {
+        "description": "settings_share",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareNatriumText": "Próbáld ki a Natriumot, a Nano hivatalos Androidos tárcáját!",
+    "@shareNatriumText": {
+        "description": "share_extra",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logout": "Kijelentkezés",
+    "@logout": {
+        "description": "settings_logout",
+        "type": "text",
+        "placeholders": {}
+    },
+    "warning": "FIGYELEM",
+    "@warning": {
+        "description": "settings_logout_alert_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutDetail": "Ha kijelentkezel, elvész a beírt seeded, és minden Natriumhoz kapcsolódó adatod az eszközről. Ha nem őrizted meg a seeded, nem fogsz tudni hozzáférni a tőkédhez.",
+    "@logoutDetail": {
+        "description": "settings_logout_alert_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAction": "Seed törlése és kijelentkezés",
+    "@logoutAction": {
+        "description": "settings_logout_alert_confirm_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAreYouSure": "Biztos, hogy kijelentkezel?",
+    "@logoutAreYouSure": {
+        "description": "settings_logout_warning_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutReassurance": "Ha elmentetted a seeded, akkor nem lehet baj.",
+    "@logoutReassurance": {
+        "description": "settings_logout_warning_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsHeader": "Beállítások",
+    "@settingsHeader": {
+        "description": "settings_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "preferences": "Preferenciák",
+    "@preferences": {
+        "description": "settings_preferences_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "manage": "Kezelés",
+    "@manage": {
+        "description": "settings_manage_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeed": "Seed Másolása",
+    "@backupSeed": {
+        "description": "settings_backup_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "fingerprintSeedBackup": "Erősítsd meg az ujjlenyomatoddal, hogy szeretnéd elmenteni a seeded.",
+    "@fingerprintSeedBackup": {
+        "description": "settings_fingerprint_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinSeedBackup": "Írd be a PIN-kódod, hogy megjelenjen a seeded.",
+    "@pinSeedBackup": {
+        "description": "settings_pin_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "systemDefault": "Rendszer alapértelmezett",
+    "@systemDefault": {
+        "description": "settings_default_language_string",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notifications": "Értesítések",
+    "@notifications": {
+        "description": "notifications_settings",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationTitle": "Kaptál %1 NANO-t",
+    "@notificationTitle": {
+        "description": "notification_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationBody": "Nyisd meg a Natriumot, hogy megnézhesd a tranzakciót.",
+    "@notificationBody": {
+        "description": "notification_body",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationHeaderSupplement": "Koppints a megnyitáshoz",
+    "@notificationHeaderSupplement": {
+        "description": "notificaiton_header_suplement",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transfer": "Küldés",
+    "@transfer": {
+        "description": "transfer_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferManualHint": "Írd be a seedet.",
+    "@transferManualHint": {
+        "description": "transfer_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanInstructions": "Olvass be QR kóddal egy Nano \ncímet",
+    "@scanInstructions": {
+        "description": "scan_send_instruction_label",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlockPin": "Írd be a PIN-t a Bejelentkezéshez a Natriumba",
+    "@unlockPin": {
+        "description": "unlock_kalium_pin",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlockBiometrics": "Hitelesítés Szükséges a Natriumba való bejelentkezéshez",
+    "@unlockBiometrics": {
+        "description": "unlock_kalium_bio",
+        "type": "text",
+        "placeholders": {}
+    },
+    "lockAppSetting": "Hitelesítés az Indításnál",
+    "@lockAppSetting": {
+        "description": "authenticate_on_launch",
+        "type": "text",
+        "placeholders": {}
+    },
+    "locked": "Lezárva",
+    "@locked": {
+        "description": "lockedtxt",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlock": "Feloldás",
+    "@unlock": {
+        "description": "unlocktxt",
+        "type": "text",
+        "placeholders": {}
+    },
+    "tooManyFailedAttempts": "Túl sok hibás feloldási kísérlet.",
+    "@tooManyFailedAttempts": {
+        "description": "fail_toomany_attempts",
+        "type": "text",
+        "placeholders": {}
+    },
+    "securityHeader": "Biztonság",
+    "@securityHeader": {
+        "description": "security_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "autoLockHeader": "Automatikus Feloldás",
+    "@autoLockHeader": {
+        "description": "auto_lock_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "xMinutes": "%1 perc után",
+    "@xMinutes": {
+        "description": "after_minutes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "xMinute": "%1 perc után",
+    "@xMinute": {
+        "description": "after_minute",
+        "type": "text",
+        "placeholders": {}
+    },
+    "instantly": "Azonnal",
+    "@instantly": {
+        "description": "insantly",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardIntro": "Üdvözöllek a Natriumban! Így fogod látni a tranzakcióid, amikor kapsz NANO-t.",
+    "@exampleCardIntro": {
+        "description": "example_card_intro",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLittle": "Egy kevés",
+    "@exampleCardLittle": {
+        "description": "example_card_little",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLot": "Rengeteg",
+    "@exampleCardLot": {
+        "description": "example_card_lot",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardTo": "valakinek",
+    "@exampleCardTo": {
+        "description": "example_card_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardFrom": "valakitől",
+    "@exampleCardFrom": {
+        "description": "example_card_from",
+        "type": "text",
+        "placeholders": {}
+    }
+}

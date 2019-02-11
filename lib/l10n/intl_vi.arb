@@ -1,0 +1,705 @@
+{
+	"@@last_modified": "2019-01-19T10:52:44.632276",
+	"contactNameMissing": "Không có liên hệ nào để xuất ra",
+	"@contactNameMissing": {
+		"description": "contact_name_missing",
+		"type": "text",
+		"placeholders": {}
+	},
+	"contactsImportSuccess": "Đã được nhập thành công %1 liên hệ",
+	"@contactsImportSuccess": {
+		"description": "contact_import_success",
+		"type": "text",
+		"placeholders": {}
+	},
+	"addressShare": "Chia sẻ",
+	"@addressShare": {
+		"description": "receive_share_cta",
+		"type": "text",
+		"placeholders": {}
+	},
+	"cancel": "Hủy",
+	"@cancel": {
+		"description": "dialog_cancel",
+		"type": "text",
+		"placeholders": {}
+	},
+	"close": "Đóng",
+	"@close": {
+		"description": "dialog_close",
+		"type": "text",
+		"placeholders": {}
+	},
+	"confirm": "Xác nhận",
+	"@confirm": {
+		"description": "dialog_confirm",
+		"type": "text",
+		"placeholders": {}
+	},
+	"no": "Không",
+	"@no": {
+		"description": "intro_new_wallet_backup_no",
+		"type": "text",
+		"placeholders": {}
+	},
+	"yes": "Có",
+	"@yes": {
+		"description": "intro_new_wallet_backup_yes",
+		"type": "text",
+		"placeholders": {}
+	},
+	"onStr": "Bật",
+	"@onStr": {
+		"description": "generic_on",
+		"type": "text",
+		"placeholders": {}
+	},
+	"off": "Tắt",
+	"@off": {
+		"description": "generic_off",
+		"type": "text",
+		"placeholders": {}
+	},
+	"send": "Gửi",
+	"@send": {
+		"description": "home_send_cta",
+		"type": "text",
+		"placeholders": {}
+	},
+	"receive": "Nhận được",
+	"@receive": {
+		"description": "home_receive_cta",
+		"type": "text",
+		"placeholders": {}
+	},
+	"sent": "Đã gửi",
+	"@sent": {
+		"description": "history_sent",
+		"type": "text",
+		"placeholders": {}
+	},
+	"received": "Đã nhận",
+	"@received": {
+		"description": "history_received",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transactions": "Giao dịch",
+	"@transactions": {
+		"description": "transaction_header",
+		"type": "text",
+		"placeholders": {}
+	},
+	"addressCopied": "Đã sao chép địa chỉ",
+	"@addressCopied": {
+		"description": "receive_copied",
+		"type": "text",
+		"placeholders": {}
+	},
+	"copyAddress": "Sao chép địa chỉ",
+	"@copyAddress": {
+		"description": "receive_copy_cta",
+		"type": "text",
+		"placeholders": {}
+	},
+	"addressShare": "Share Address",
+	"@addressShare": {
+		"description": "share_address",
+		"type": "text",
+		"placeholders": {}
+	},
+	"addressHint": "Nhập địa chỉ",
+	"@addressHint": {
+		"description": "send_address_hint",
+		"type": "text",
+		"placeholders": {}
+	},
+	"seed": "Hạt giống",
+	"@seed": {
+		"description": "intro_new_wallet_seed_header",
+		"type": "text",
+		"placeholders": {}
+	},
+	"seedInvalid": "Hạt giống (Seed) không hợp lệ",
+	"@seedInvalid": {
+		"description": "intro_seed_invalid",
+		"type": "text",
+		"placeholders": {}
+	},
+	"seedCopied": "Đã sao chép hạt giống .n Có thể dán trong 2 phút.",
+	"@seedCopied": {
+		"description": "intro_new_wallet_seed_copied",
+		"type": "text",
+		"placeholders": {}
+	},
+	"scanQrCode": "Quét mã QR",
+	"@scanQrCode": {
+		"description": "send_scan_qr",
+		"type": "text",
+		"placeholders": {}
+	},
+	"fileReadErr": "Couldn't read file",
+	"@fileReadErr": {
+		"description": "file_error",
+		"type": "text",
+		"placeholders": {}
+	},
+	"fileParseErr": "Couldn't parse file",
+	"@fileParseErr": {
+		"description": "file_parse_error",
+		"type": "text",
+		"placeholders": {}
+	},
+	"viewDetails": "Xem chi tiết",
+	"@viewDetails": {
+		"description": "transaction_details",
+		"type": "text",
+		"placeholders": {}
+	},
+	"removeContact": "Xóa liên hệ",
+	"@removeContact": {
+		"description": "contact_remove_btn",
+		"type": "text",
+		"placeholders": {}
+	},
+	"removeContactConfirmation": "Bạn có chắc là muốn xóa %1?",
+	"@removeContactConfirmation": {
+		"description": "contact_remove_sure",
+		"type": "text",
+		"placeholders": {}
+	},
+	"contactHeader": "Liên hệ",
+	"@contactHeader": {
+		"description": "contact_view_header",
+		"type": "text",
+		"placeholders": {}
+	},
+	"contactsHeader": "Danh bạ",
+	"@contactsHeader": {
+		"description": "contact_header",
+		"type": "text",
+		"placeholders": {}
+	},
+	"addContact": "Thêm liên hệ",
+	"@addContact": {
+		"description": "contact_add_button",
+		"type": "text",
+		"placeholders": {}
+	},
+	"contactNameHint": "Nhập tên @",
+	"@contactNameHint": {
+		"description": "contact_name_hint",
+		"type": "text",
+		"placeholders": {}
+	},
+	"contactInvalid": "Tên liên hệ không phù hợp",
+	"@contactInvalid": {
+		"description": "contact_invalid_name",
+		"type": "text",
+		"placeholders": {}
+	},
+	"noContactsExport": "Không có liên hệ nào để xuất ra",
+	"@noContactsExport": {
+		"description": "contact_export_none",
+		"type": "text",
+		"placeholders": {}
+	},
+	"noContactsImport": "Không có liên hệ nào để nhập",
+	"@noContactsImport": {
+		"description": "contact_import_none",
+		"type": "text",
+		"placeholders": {}
+	},
+	"contactsImportSuccess": "Sucessfully imported %1 contacts.",
+	"@contactsImportSuccess": {
+		"description": "contacts_import_success",
+		"type": "text",
+		"placeholders": {}
+	},
+	"contactAdded": "%1 Đã thêm vào danh bạ!",
+	"@contactAdded": {
+		"description": "contact_added",
+		"type": "text",
+		"placeholders": {}
+	},
+	"contactNameMissing": "Không có liên hệ nào để xuất ra",
+	"@contactNameMissing": {
+		"description": "contact_export_none",
+		"type": "text",
+		"placeholders": {}
+	},
+	"contactExists": "Địa chỉ liên hệ đã tồn tại",
+	"@contactExists": {
+		"description": "contact_name_exists",
+		"type": "text",
+		"placeholders": {}
+	},
+	"backupYourSeed": "Sao lưu hạt giống của bạn",
+	"@backupYourSeed": {
+		"description": "intro_new_wallet_seed_backup_header",
+		"type": "text",
+		"placeholders": {}
+	},
+	"backupSeedConfirm": "Bạn có chắc chắn rằng bạn đã sao lưu hạt giống của mình?",
+	"@backupSeedConfirm": {
+		"description": "intro_new_wallet_backup",
+		"type": "text",
+		"placeholders": {}
+	},
+	"seedBackupInfo": "Dưới đây là ví của bạn. Điều quan trọng là bạn sao lưu hạt giống này và không bao giờ lưu trữ nó dưới dạng văn bản thông thường hoặc dưới dạng ảnh chụp màn hình.",
+	"@seedBackupInfo": {
+		"description": "intro_new_wallet_seed",
+		"type": "text",
+		"placeholders": {}
+	},
+	"importSeed": "Nhập hạt giống",
+	"@importSeed": {
+		"description": "intro_seed_header",
+		"type": "text",
+		"placeholders": {}
+	},
+	"importSeedHint": "Vui lòng nhập hạt giống của bạn bên dưới.",
+	"@importSeedHint": {
+		"description": "intro_seed_info",
+		"type": "text",
+		"placeholders": {}
+	},
+	"welcomeText": "Chào mừng đến với Kalium. Để tiếp tục, bạn có thể tạo một ví mới hoặc nhập một ví hiện có.",
+	"@welcomeText": {
+		"description": "intro_welcome_title",
+		"type": "text",
+		"placeholders": {}
+	},
+	"newWallet": "Tạo ví mới",
+	"@newWallet": {
+		"description": "intro_welcome_new_wallet",
+		"type": "text",
+		"placeholders": {}
+	},
+	"importWallet": "Nhập ví hiện có",
+	"@importWallet": {
+		"description": "intro_welcome_have_wallet",
+		"type": "text",
+		"placeholders": {}
+	},
+	"sentTo": "Gửi tới",
+	"@sentTo": {
+		"description": "sent_to",
+		"type": "text",
+		"placeholders": {}
+	},
+	"sending": "Đang gửi",
+	"@sending": {
+		"description": "send_sending",
+		"type": "text",
+		"placeholders": {}
+	},
+	"to": "tới",
+	"@to": {
+		"description": "send_to",
+		"type": "text",
+		"placeholders": {}
+	},
+	"sendAmountConfirm": "Gửi %1 Banano?",
+	"@sendAmountConfirm": {
+		"description": "send_pin_description",
+		"type": "text",
+		"placeholders": {}
+	},
+	"enterAmount": "Nhập số tiền",
+	"@enterAmount": {
+		"description": "send_amount_hint",
+		"type": "text",
+		"placeholders": {}
+	},
+	"enterAddress": "Enter Address",
+	"@enterAddress": {
+		"description": "enter_address",
+		"type": "text",
+		"placeholders": {}
+	},
+	"invalidAddress": "Địa chỉ không hợp lệ",
+	"@invalidAddress": {
+		"description": "send_invalid_address",
+		"type": "text",
+		"placeholders": {}
+	},
+	"addressMising": "Hãy nhập một địa chỉ",
+	"@addressMising": {
+		"description": "send_enter_address",
+		"type": "text",
+		"placeholders": {}
+	},
+	"amountMissing": "Hãy nhập một số lượng",
+	"@amountMissing": {
+		"description": "send_enter_amount",
+		"type": "text",
+		"placeholders": {}
+	},
+	"insufficientBalance": "Không đủ số dư",
+	"@insufficientBalance": {
+		"description": "send_insufficient_balance",
+		"type": "text",
+		"placeholders": {}
+	},
+	"sendFrom": "Gửi từ",
+	"@sendFrom": {
+		"description": "send_title",
+		"type": "text",
+		"placeholders": {}
+	},
+	"pinCreateTitle": "Tạo mã gồm 6 chữ số",
+	"@pinCreateTitle": {
+		"description": "pin_create_title",
+		"type": "text",
+		"placeholders": {}
+	},
+	"pinConfirmTitle": "Xác nhận mã pin của bạn",
+	"@pinConfirmTitle": {
+		"description": "pin_confirm_title",
+		"type": "text",
+		"placeholders": {}
+	},
+	"pinEnterTitle": "Nhập PIN",
+	"@pinEnterTitle": {
+		"description": "pin_enter_title",
+		"type": "text",
+		"placeholders": {}
+	},
+	"pinConfirmError": "Mã PIN không khớp",
+	"@pinConfirmError": {
+		"description": "pin_confirm_error",
+		"type": "text",
+		"placeholders": {}
+	},
+	"pinInvalid": "Mã PIN đã nhập không hợp lệ",
+	"@pinInvalid": {
+		"description": "pin_error",
+		"type": "text",
+		"placeholders": {}
+	},
+    "themeHeader": "Chủ đề",
+    "@themeHeader": {
+        "description": "theme_header",
+        "type": "text",
+        "placeholders": {}
+    },
+	"changeRepButton": "Thay đổi",
+	"@changeRepButton": {
+		"description": "change_representative_change",
+		"type": "text",
+		"placeholders": {}
+	},
+	"changeRepAuthenticate": "Thay đổi đại diện",
+	"@changeRepAuthenticate": {
+		"description": "settings_change_rep",
+		"type": "text",
+		"placeholders": {}
+	},
+	"currentlyRepresented": "Hiện đang được đại diện bởi",
+	"@currentlyRepresented": {
+		"description": "change_representative_current_header",
+		"type": "text",
+		"placeholders": {}
+	},
+	"changeRepSucces": "Đại diện đã thay đổi thành công",
+	"@changeRepSucces": {
+		"description": "change_representative_success",
+		"type": "text",
+		"placeholders": {}
+	},
+	"repInfoHeader": "Đại diện là gì?",
+	"@repInfoHeader": {
+		"description": "change_representative_info_header",
+		"type": "text",
+		"placeholders": {}
+	},
+	"repInfo": "Đại diện là một tài khoản bỏ phiếu cho sự đồng thuận trên nền tảng Internet . Quyền biểu quyết được cân bằng theo số dư, bạn có thể ủy quyền số dư của mình để tăng số biểu quyết của đại diện mà bạn tin cậy.n    Người đại diện của bạn không có quyền sử dụng số tiền của bạn. Bạn nên chọn một đại diện có nhiều thời gian cho bạn và đáng tin cậy.",
+	"@repInfo": {
+		"description": "change_representative_info",
+		"type": "text",
+		"placeholders": {}
+	},
+	"pinRepChange": "Nhập mã PIN để thay đổi đại diện",
+	"@pinRepChange": {
+		"description": "change_representative_pin",
+		"type": "text",
+		"placeholders": {}
+	},
+	"changeRepHint": "Nhập đại diện mới",
+	"@changeRepHint": {
+		"description": "change_representative_hint",
+		"type": "text",
+		"placeholders": {}
+	},
+	"authMethod": "Phương thức đặt xác thực",
+	"@authMethod": {
+		"description": "settings_disable_fingerprint",
+		"type": "text",
+		"placeholders": {}
+	},
+	"pinMethod": "Mã PIN",
+	"@pinMethod": {
+		"description": "settings_pin_method",
+		"type": "text",
+		"placeholders": {}
+	},
+	"privacyPolicy": "Chính sách",
+	"@privacyPolicy": {
+		"description": "settings_privacy_policy",
+		"type": "text",
+		"placeholders": {}
+	},
+	"biometricsMethod": "Sinh trắc học",
+	"@biometricsMethod": {
+		"description": "settings_fingerprint_method",
+		"type": "text",
+		"placeholders": {}
+	},
+	"changeCurrency": "Đổi loại tiền",
+	"@changeCurrency": {
+		"description": "settings_local_currency",
+		"type": "text",
+		"placeholders": {}
+	},
+	"language": "Ngôn ngữ",
+	"@language": {
+		"description": "settings_change_language",
+		"type": "text",
+		"placeholders": {}
+	},
+	"shareKalium": "Chia sẻ Kalium",
+	"@shareKalium": {
+		"description": "settings_share",
+		"type": "text",
+		"placeholders": {}
+	},
+	"shareKaliumText": "Hãy xem Kalium! Ví Android chính thức của Banano.",
+	"@shareKaliumText": {
+		"description": "share_extra",
+		"type": "text",
+		"placeholders": {}
+	},
+	"logout": "Đăng xuất",
+	"@logout": {
+		"description": "settings_logout",
+		"type": "text",
+		"placeholders": {}
+	},
+	"warning": "CẢNH BÁO!",
+	"@warning": {
+		"description": "settings_logout_alert_title",
+		"type": "text",
+		"placeholders": {}
+	},
+	"logoutDetail": "Đăng xuất sẽ xóa hạt giống(seed) của bạn và tất cả dữ liệu liên quan đến Kalium khỏi thiết bị này. Nếu hạt giống của bạn không được sao lưu, bạn sẽ không bao giờ có thể truy cập lại vào tiền của mình.",
+	"@logoutDetail": {
+		"description": "settings_logout_alert_message",
+		"type": "text",
+		"placeholders": {}
+	},
+	"logoutAction": "Xóa hạt giống và đăng xuất",
+	"@logoutAction": {
+		"description": "settings_logout_alert_confirm_cta",
+		"type": "text",
+		"placeholders": {}
+	},
+	"logoutAreYouSure": "Bạn có chắc không?",
+	"@logoutAreYouSure": {
+		"description": "settings_logout_warning_title",
+		"type": "text",
+		"placeholders": {}
+	},
+	"logoutReassurance": "Miễn là bạn đã sao lưu hạt giống, bạn không có gì phải lo lắng.",
+	"@logoutReassurance": {
+		"description": "settings_logout_warning_message",
+		"type": "text",
+		"placeholders": {}
+	},
+	"settingsHeader": "Cài đặt",
+	"@settingsHeader": {
+		"description": "settings_title",
+		"type": "text",
+		"placeholders": {}
+	},
+	"preferences": "Tùy Chọn",
+	"@preferences": {
+		"description": "settings_preferences_header",
+		"type": "text",
+		"placeholders": {}
+	},
+	"manage": "Quản lí",
+	"@manage": {
+		"description": "settings_manage_header",
+		"type": "text",
+		"placeholders": {}
+	},
+	"backupSeed": "Sao lưu hạt giống(SEED)",
+	"@backupSeed": {
+		"description": "settings_backup_seed",
+		"type": "text",
+		"placeholders": {}
+	},
+	"fingerprintSeedBackup": "Xác nhận vân tay để sao lưu ví.",
+	"@fingerprintSeedBackup": {
+		"description": "settings_fingerprint_title",
+		"type": "text",
+		"placeholders": {}
+	},
+	"pinSeedBackup": "Nhập mã pin để xem hạt giống ví.",
+	"@pinSeedBackup": {
+		"description": "settings_pin_title",
+		"type": "text",
+		"placeholders": {}
+	},
+	"systemDefault": "Mặc định hệ thống",
+	"@systemDefault": {
+		"description": "settings_default_language_string",
+		"type": "text",
+		"placeholders": {}
+	},
+	"notifications": "Thông báo",
+	"@notifications": {
+		"description": "notifications_settings",
+		"type": "text",
+		"placeholders": {}
+	},
+	"notificationTitle": "Đã nhận được %1 BANANO",
+	"@notificationTitle": {
+		"description": "notification_title",
+		"type": "text",
+		"placeholders": {}
+	},
+	"notificationBody": "Mở Kalium để xem giao dịch này.",
+	"@notificationBody": {
+		"description": "notification_body",
+		"type": "text",
+		"placeholders": {}
+	},
+	"notificationHeaderSupplement": "Chạm vào để mở",
+	"@notificationHeaderSupplement": {
+		"description": "notificaiton_header_suplement",
+		"type": "text",
+		"placeholders": {}
+	},
+	"settingsTransfer": "Tải lên từ ví giấy",
+	"@settingsTransfer": {
+		"description": "settings_transfer",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferError": "Một lỗi đã xảy ra trong quá trình chuyển. hãy thử lại sau.",
+	"@transferError": {
+		"description": "transfer_error",
+		"type": "text",
+		"placeholders": {}
+	},
+	"paperWallet": "Ví giấy",
+	"@paperWallet": {
+		"description": "paper_wallet",
+		"type": "text",
+		"placeholders": {}
+	},
+	"kaliumWallet": "Ví Kalium",
+	"@kaliumWallet": {
+		"description": "kalium_wallet",
+		"type": "text",
+		"placeholders": {}
+	},
+	"manualEntry": "Nhập thủ công",
+	"@manualEntry": {
+		"description": "transfer_manual_entry",
+		"type": "text",
+		"placeholders": {}
+	},
+	"mnemonicPhrase": "Cụm từ ghi nhớ",
+	"@mnemonicPhrase": {
+		"description": "mnemonic_phrase",
+		"type": "text",
+		"placeholders": {}
+	},
+	"rawSeed": "Hạt giống",
+	"@rawSeed": {
+		"description": "raw_seed",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferHeader": "ChuyểnnFunds",
+	"@transferHeader": {
+		"description": "transfer_header",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferIntro": "Quá trình này sẽ chuyển từ quỹ ví giấy sang ví Kalium của bạn.nnNhấn vào \"%1\" Nút để bắt đầu.",
+	"@transferIntro": {
+		"description": "transfer_intro",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferQrScanHint": "Quét một Banano nseed hoặc private key",
+	"@transferQrScanHint": {
+		"description": "transfer_qr_scan_hint",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferQrScanError": "Mã QR này không chứa hạt giống hợp lệ.",
+	"@transferQrScanError": {
+		"description": "transfer_qr_scan_error",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferNoFunds": "Hạt giống này không chứa bất kỳ BANANO bên trong.",
+	"@transferNoFunds": {
+		"description": "transfer_no_funds_toast",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferConfirmInfo": "Một ví có số dư là %1 BANANO đã được tìm thấy.\n",
+	"@transferConfirmInfo": {
+		"description": "transfer_confirm_info_first",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferConfirmInfoSecond": "Nhấn để xác nhận chuyển quỹ.\n",
+	"@transferConfirmInfoSecond": {
+		"description": "transfer_confirm_info_second",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferConfirmInfoThird": "Chuyển có thể mất vài giây để hoàn thành.",
+	"@transferConfirmInfoThird": {
+		"description": "transfer_confirm_info_third",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferLoading": "Chuyển",
+	"@transferLoading": {
+		"description": "transfer_loading_text",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferComplete": "%1 BANANO đã được chuyển thành công vào ví Kalium của bạn.",
+	"@transferComplete": {
+		"description": "transfer_complete_text",
+		"type": "text",
+		"placeholders": {}
+	},
+	"transferClose": "Nhấn vào bất kỳ đâu để đóng cửa sổ.",
+	"@transferClose": {
+		"description": "transfer_close_text",
+		"type": "text",
+		"placeholders": {}
+	},
+	"scanInstructions": "Quét 1 Banano nđịa chỉ mã QR",
+	"@scanInstructions": {
+		"description": "scan_send_instruction_label",
+		"type": "text",
+		"placeholders": {}
+	},
+    "instantly": "Ngay bây giờ",
+    "@instantly": {
+        "description": "insantly",
+        "type": "text",
+        "placeholders": {}
+    }
+}

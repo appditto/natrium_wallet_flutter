@@ -11,6 +11,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/util/clipboardutil.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
 class AppSeedBackupSheet {
   // Seed copied state information
@@ -43,7 +44,7 @@ class AppSeedBackupSheet {
                       child: Column(
                         children: <Widget>[
                           AutoSizeText(
-                            AppLocalization.of(context).seed.toUpperCase(),
+                            CaseChange.toUpperCase(AppLocalization.of(context).seed, context),
                             style: AppStyles.textStyleHeader(context),
                             maxLines: 1,
                             stepGranularity: 0.1,

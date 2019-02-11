@@ -1,0 +1,813 @@
+{
+    "@@last_modified": "2019-02-04T09:26:48.408903",
+    "contactsImportSuccess": "Lyckad import av %1 kontakter",
+    "@contactsImportSuccess": {
+        "description": "contact_import_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "Välj ett namn för denna kontakt",
+    "@contactNameMissing": {
+        "description": "contact_name_missing",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressShare": "Dela",
+    "@addressShare": {
+        "description": "receive_share_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "cancel": "Avbryt",
+    "@cancel": {
+        "description": "dialog_cancel",
+        "type": "text",
+        "placeholders": {}
+    },
+    "close": "Stäng",
+    "@close": {
+        "description": "dialog_close",
+        "type": "text",
+        "placeholders": {}
+    },
+    "confirm": "Bekräfta",
+    "@confirm": {
+        "description": "dialog_confirm",
+        "type": "text",
+        "placeholders": {}
+    },
+    "no": "Nej",
+    "@no": {
+        "description": "intro_new_wallet_backup_no",
+        "type": "text",
+        "placeholders": {}
+    },
+    "yes": "Ja",
+    "@yes": {
+        "description": "intro_new_wallet_backup_yes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onStr": "På",
+    "@onStr": {
+        "description": "generic_on",
+        "type": "text",
+        "placeholders": {}
+    },
+    "off": "Av",
+    "@off": {
+        "description": "generic_off",
+        "type": "text",
+        "placeholders": {}
+    },
+    "send": "Skicka",
+    "@send": {
+        "description": "home_send_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "receive": "Ta emot",
+    "@receive": {
+        "description": "home_receive_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sent": "Skickat",
+    "@sent": {
+        "description": "history_sent",
+        "type": "text",
+        "placeholders": {}
+    },
+    "received": "Mottagit",
+    "@received": {
+        "description": "history_received",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transactions": "Transaktioner",
+    "@transactions": {
+        "description": "transaction_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressCopied": "Adress kopierad",
+    "@addressCopied": {
+        "description": "receive_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "copyAddress": "Kopiera adress",
+    "@copyAddress": {
+        "description": "receive_copy_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressHint": "Ange adress",
+    "@addressHint": {
+        "description": "send_address_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seed": "Seed",
+    "@seed": {
+        "description": "intro_new_wallet_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedInvalid": "Angiven seed är ogiltig",
+    "@seedInvalid": {
+        "description": "intro_seed_invalid",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedCopied": "Din seed är kopierad till urklipp.\n Den går att klistra in under 2 minuter.",
+    "@seedCopied": {
+        "description": "intro_new_wallet_seed_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanQrCode": "Skanna QR-kod",
+    "@scanQrCode": {
+        "description": "send_scan_qr",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsImportErr": "Gick ej att importera kontakter",
+    "@contactsImportErr": {
+        "description": "contact_import_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "viewDetails": "Visa detaljer",
+    "@viewDetails": {
+        "description": "transaction_details",
+        "type": "text",
+        "placeholders": {}
+    },
+    "qrInvalidSeed": "QR-koden innehåller ingen giltig seed eller privatnyckel",
+    "@qrInvalidSeed": {
+        "description": "qr_invalid_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "qrInvalidAddress": "QR-koden innehåller ingen giltig adress",
+    "@qrInvalidAddress": {
+        "description": "qr_invalid_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContact": "Ta bort kontakt",
+    "@removeContact": {
+        "description": "contact_remove_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContactConfirmation": "Är du säker på att du vill radera %1?",
+    "@removeContactConfirmation": {
+        "description": "contact_remove_sure",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactHeader": "Kontakter",
+    "@contactHeader": {
+        "description": "contact_view_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsHeader": "Kontakter",
+    "@contactsHeader": {
+        "description": "contact_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addContact": "Lägg till kontakt",
+    "@addContact": {
+        "description": "contact_add_button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameHint": "Ange ett namn @",
+    "@contactNameHint": {
+        "description": "contact_name_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactInvalid": "Ogiltigt kontaktnamn",
+    "@contactInvalid": {
+        "description": "contact_invalid_name",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsExport": "Det finns inga kontakter att exportera",
+    "@noContactsExport": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsImport": "Hittade inga kontakter att importera",
+    "@noContactsImport": {
+        "description": "contact_import_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactAdded": "%1 har lagts till under kontakter!",
+    "@contactAdded": {
+        "description": "contact_added",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactRemoved": "%1 har raderats från dina kontakter!",
+    "@contactRemoved": {
+        "description": "contact_removed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "Det finns inga kontakter att exportera",
+    "@contactNameMissing": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactExists": "Kontakten existerar redan",
+    "@contactExists": {
+        "description": "contact_name_exists",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupYourSeed": "Säkerhetskopiera din seed",
+    "@backupYourSeed": {
+        "description": "intro_new_wallet_seed_backup_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeedConfirm": "Är du säker på att du har säkerhetskopierat din plånboks seed?",
+    "@backupSeedConfirm": {
+        "description": "intro_new_wallet_backup",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedBackupInfo": "Detta är din plånboks seed. Det är av extrem vikt att du sparar denna seed på ett säkert sätt. Spara aldrig din seed i text- eller bildformat.",
+    "@seedBackupInfo": {
+        "description": "intro_new_wallet_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "copySeed": "Kopiera seed",
+    "@copySeed": {
+        "description": "copy_seed_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedCopiedShort": "Seed kopierad",
+    "@seedCopiedShort": {
+        "description": "seed_copied_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeed": "Importera seed",
+    "@importSeed": {
+        "description": "intro_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeedHint": "Ange din seed nedanför.",
+    "@importSeedHint": {
+        "description": "intro_seed_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "welcomeText": "Välkommen till Natrium. För att fortsätta, behöver du skapa en ny plånbok eller importera en befintlig.",
+    "@welcomeText": {
+        "description": "intro_welcome_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "newWallet": "Ny plånbok",
+    "@newWallet": {
+        "description": "intro_welcome_new_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importWallet": "Importera plånbok",
+    "@importWallet": {
+        "description": "intro_welcome_have_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sentTo": "Skickat till",
+    "@sentTo": {
+        "description": "sent_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sending": "Skickar",
+    "@sending": {
+        "description": "send_sending",
+        "type": "text",
+        "placeholders": {}
+    },
+    "to": "Till",
+    "@to": {
+        "description": "send_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendAmountConfirm": "Skicka %1 Nano?",
+    "@sendAmountConfirm": {
+        "description": "send_pin_description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendError": "Ett fel har uppstått. Försök igen senare.",
+    "@sendError": {
+        "description": "send_generic_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "enterAmount": "Ange belopp",
+    "@enterAmount": {
+        "description": "send_amount_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "invalidAddress": "Ogiltig mottagaradress",
+    "@invalidAddress": {
+        "description": "send_invalid_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressMising": "Ange en destination",
+    "@addressMising": {
+        "description": "send_enter_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "amountMissing": "Ange ett belopp",
+    "@amountMissing": {
+        "description": "send_enter_amount",
+        "type": "text",
+        "placeholders": {}
+    },
+    "insufficientBalance": "Saknas täckning",
+    "@insufficientBalance": {
+        "description": "send_insufficient_balance",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendFrom": "Skicka från",
+    "@sendFrom": {
+        "description": "send_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinCreateTitle": "Skapa en 6-siffrig PIN-kod",
+    "@pinCreateTitle": {
+        "description": "pin_create_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmTitle": "Bekräfta din PIN-kod",
+    "@pinConfirmTitle": {
+        "description": "pin_confirm_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinEnterTitle": "Ange PIN-kod",
+    "@pinEnterTitle": {
+        "description": "pin_enter_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmError": "PIN-kod matchar ej",
+    "@pinConfirmError": {
+        "description": "pin_confirm_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinInvalid": "Felaktig PIN-kod angiven",
+    "@pinInvalid": {
+        "description": "pin_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "themeHeader": "Tema",
+    "@themeHeader": {
+        "description": "theme_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepButton": "Ändra",
+    "@changeRepButton": {
+        "description": "change_representative_change",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepAuthenticate": "Byt representant",
+    "@changeRepAuthenticate": {
+        "description": "settings_change_rep",
+        "type": "text",
+        "placeholders": {}
+    },
+    "currentlyRepresented": "Aktiv representant",
+    "@currentlyRepresented": {
+        "description": "change_representative_current_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepSucces": "Representanten är nu ändrad",
+    "@changeRepSucces": {
+        "description": "change_representative_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfoHeader": "Vad är en representant?",
+    "@repInfoHeader": {
+        "description": "change_representative_info_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfo": "En representant är ett konto som röstar för samsyn i nätverket. Rösträtten påverkas av saldot, och du kan delegera ditt saldo för att öka din rösträtt. Din representant har ingen befogenhet över dina resurser. Du bör välja en representant som har hög drifttid och är trovärdig.",
+    "@repInfo": {
+        "description": "change_representative_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinRepChange": "Ange PIN för att byta representant",
+    "@pinRepChange": {
+        "description": "change_representative_pin",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepHint": "Ange ny representant",
+    "@changeRepHint": {
+        "description": "change_representative_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "authMethod": "Autentiseringsmetod",
+    "@authMethod": {
+        "description": "settings_disable_fingerprint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinMethod": "PIN",
+    "@pinMethod": {
+        "description": "settings_pin_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "privacyPolicy": "Privatpolicy",
+    "@privacyPolicy": {
+        "description": "settings_privacy_policy",
+        "type": "text",
+        "placeholders": {}
+    },
+    "biometricsMethod": "Biometrics",
+    "@biometricsMethod": {
+        "description": "settings_fingerprint_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeCurrency": "Ändra valuta",
+    "@changeCurrency": {
+        "description": "settings_local_currency",
+        "type": "text",
+        "placeholders": {}
+    },
+    "language": "Språk",
+    "@language": {
+        "description": "settings_change_language",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareNatrium": "Dela Natrium",
+    "@shareNatrium": {
+        "description": "settings_share",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareNatriumText": "Kolla in Natrium! Nanos officiella Androidplånbok!",
+    "@shareNatriumText": {
+        "description": "share_extra",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logout": "Logga ut",
+    "@logout": {
+        "description": "settings_logout",
+        "type": "text",
+        "placeholders": {}
+    },
+    "warning": "Varning",
+    "@warning": {
+        "description": "settings_logout_alert_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutDetail": "Vid utloggning raderas din seed och all kaliumrelaterad data från denna enhet. Om du inte har säkerhetskopierat din seed, kommer du aldrig att kunna komma åt dina resurser igen.",
+    "@logoutDetail": {
+        "description": "settings_logout_alert_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAction": "Ta bort seed och logga ut",
+    "@logoutAction": {
+        "description": "settings_logout_alert_confirm_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAreYouSure": "Är du säker?",
+    "@logoutAreYouSure": {
+        "description": "settings_logout_warning_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutReassurance": "Så länge du har säkerhetskopierat din seed har du inget att oroa dig över.",
+    "@logoutReassurance": {
+        "description": "settings_logout_warning_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsHeader": "Inställningar",
+    "@settingsHeader": {
+        "description": "settings_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "preferences": "Inställningar",
+    "@preferences": {
+        "description": "settings_preferences_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "manage": "Förvaltning",
+    "@manage": {
+        "description": "settings_manage_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeed": "Säkerhetskopiera seed",
+    "@backupSeed": {
+        "description": "settings_backup_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "fingerprintSeedBackup": "Bekräfta fingeravtryck för att säkerhetskopiera plånboks-seed.",
+    "@fingerprintSeedBackup": {
+        "description": "settings_fingerprint_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinSeedBackup": "Ange din PIN-kod för att se din seed.",
+    "@pinSeedBackup": {
+        "description": "settings_pin_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "systemDefault": "Systemfel",
+    "@systemDefault": {
+        "description": "settings_default_language_string",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notifications": "Aviseringar",
+    "@notifications": {
+        "description": "notifications_settings",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationTitle": "Mottog %1 NANO",
+    "@notificationTitle": {
+        "description": "notification_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationBody": "Öppna Natrium för att visa transaktion.",
+    "@notificationBody": {
+        "description": "notification_body",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationHeaderSupplement": "Tryck för att öppna",
+    "@notificationHeaderSupplement": {
+        "description": "notificaiton_header_suplement",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsTransfer": "Ladda från pappersplånbok",
+    "@settingsTransfer": {
+        "description": "settings_transfer",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferError": "Ett fel uppstod vid överföringen. Försök igen senare.",
+    "@transferError": {
+        "description": "transfer_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "paperWallet": "Pappersplånbok",
+    "@paperWallet": {
+        "description": "paper_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "kaliumWallet": "Natrium-plånbok",
+    "@kaliumWallet": {
+        "description": "kalium_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "manualEntry": "Ange manuellt",
+    "@manualEntry": {
+        "description": "transfer_manual_entry",
+        "type": "text",
+        "placeholders": {}
+    },
+    "mnemonicPhrase": "Minnesfras",
+    "@mnemonicPhrase": {
+        "description": "mnemonic_phrase",
+        "type": "text",
+        "placeholders": {}
+    },
+    "rawSeed": "Seed",
+    "@rawSeed": {
+        "description": "raw_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferHeader": "Överför\nmedel",
+    "@transferHeader": {
+        "description": "transfer_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transfer": "Överför",
+    "@transfer": {
+        "description": "transfer_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferManualHint": "Vänligen ange PIN nedan.",
+    "@transferManualHint": {
+        "description": "transfer_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferIntro": "Den här processen kommer att överföra medel från en pappersplånbok till din Natrium-plånbok.\n\nTryck på \"%1\" knappen för att starta.",
+    "@transferIntro": {
+        "description": "transfer_intro",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferQrScanHint": "Skanna en Nano \nseed eller en privat nyckel",
+    "@transferQrScanHint": {
+        "description": "transfer_qr_scan_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferQrScanError": "Denna QR-kod innehåller ingen giltig seed.",
+    "@transferQrScanError": {
+        "description": "transfer_qr_scan_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferNoFunds": "Denna seed innehåller inga NANO.",
+    "@transferNoFunds": {
+        "description": "transfer_no_funds_toast",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfo": "En plånbok med ett saldo om %1 NANO har upptäckts.\n",
+    "@transferConfirmInfo": {
+        "description": "transfer_confirm_info_first",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfoSecond": "Tryck på bekräfta för att överföra medel.\n",
+    "@transferConfirmInfoSecond": {
+        "description": "transfer_confirm_info_second",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfoThird": "Överföringen kan ta upp till flera sekunder att genomföras.",
+    "@transferConfirmInfoThird": {
+        "description": "transfer_confirm_info_third",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferLoading": "Överför",
+    "@transferLoading": {
+        "description": "transfer_loading_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferComplete": "%1 NANO har överförts till din Natrium-plånbok.",
+    "@transferComplete": {
+        "description": "transfer_complete_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferClose": "Tryck någonstans för att stänga fönstret.",
+    "@transferClose": {
+        "description": "transfer_close_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanInstructions": "Skanna en Nano\nadress QR-kod",
+    "@scanInstructions": {
+        "description": "scan_send_instruction_label",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlockPin": "Ange PIN för att låsa upp Natrium",
+    "@unlockPin": {
+        "description": "unlock_kalium_pin",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlockBiometrics": "Verifiera för att låsa upp Natrium",
+    "@unlockBiometrics": {
+        "description": "unlock_kalium_bio",
+        "type": "text",
+        "placeholders": {}
+    },
+    "lockAppSetting": "Verifiera vid uppstart",
+    "@lockAppSetting": {
+        "description": "authenticate_on_launch",
+        "type": "text",
+        "placeholders": {}
+    },
+    "locked": "Låst",
+    "@locked": {
+        "description": "lockedtxt",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlock": "Olåst",
+    "@unlock": {
+        "description": "unlocktxt",
+        "type": "text",
+        "placeholders": {}
+    },
+    "tooManyFailedAttempts": "För många ogiltiga försök.",
+    "@tooManyFailedAttempts": {
+        "description": "fail_toomany_attempts",
+        "type": "text",
+        "placeholders": {}
+    },
+    "securityHeader": "Säkerhet",
+    "@securityHeader": {
+        "description": "security_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "xMinutes": "Efter %1 minutes",
+    "@xMinutes": {
+        "description": "after_minutes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "xMinute": "Efter %1 minute",
+    "@xMinute": {
+        "description": "after_minute",
+        "type": "text",
+        "placeholders": {}
+    },
+    "instantly": "Omedelbart",
+    "@instantly": {
+        "description": "insantly",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardIntro": "Välkommen till Natrium. Så snart du tar emot NANO, visas transaktionerna på detta vis",
+    "@exampleCardIntro": {
+        "description": "example_card_intro",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLittle": "Lite",
+    "@exampleCardLittle": {
+        "description": "example_card_little",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLot": "Många",
+    "@exampleCardLot": {
+        "description": "example_card_lot",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardTo": "till någon",
+    "@exampleCardTo": {
+        "description": "example_card_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardFrom": "från någon",
+    "@exampleCardFrom": {
+        "description": "example_card_from",
+        "type": "text",
+        "placeholders": {}
+    }
+}

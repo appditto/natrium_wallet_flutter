@@ -24,6 +24,7 @@ import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/biometrics.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/state_block.dart';
@@ -134,9 +135,8 @@ class AppChangeRepresentativeSheet {
                               maxWidth:
                                   MediaQuery.of(context).size.width - 140),
                           child: AutoSizeText(
-                            AppLocalization.of(context)
-                                .changeRepAuthenticate
-                                .toUpperCase(),
+                            CaseChange.toUpperCase(AppLocalization.of(context)
+                                .changeRepAuthenticate, context),
                             style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 2,
@@ -499,7 +499,7 @@ class AppChangeRepresentativeSheet {
                         children: <Widget>[
                           AppButton.buildAppButton(
                             AppButtonType.PRIMARY_OUTLINE,
-                            AppLocalization.of(context).close.toUpperCase(),
+                            CaseChange.toUpperCase(AppLocalization.of(context).close, context),
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             onPressed: () {
                               Navigator.pop(context);

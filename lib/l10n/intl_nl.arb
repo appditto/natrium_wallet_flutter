@@ -1,0 +1,819 @@
+{
+    "@@last_modified": "2019-02-04T09:26:48.408903",
+    "contactsImportSuccess": "%1 contacten succesvol geïmporteerd",
+    "@contactsImportSuccess": {
+        "description": "contact_import_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "Geef dit contact een naam",
+    "@contactNameMissing": {
+        "description": "contact_name_missing",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressShare": "Deel",
+    "@addressShare": {
+        "description": "receive_share_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "cancel": "Annuleer",
+    "@cancel": {
+        "description": "dialog_cancel",
+        "type": "text",
+        "placeholders": {}
+    },
+    "close": "Sluit",
+    "@close": {
+        "description": "dialog_close",
+        "type": "text",
+        "placeholders": {}
+    },
+    "confirm": "Bevestig",
+    "@confirm": {
+        "description": "dialog_confirm",
+        "type": "text",
+        "placeholders": {}
+    },
+    "no": "Nee",
+    "@no": {
+        "description": "intro_new_wallet_backup_no",
+        "type": "text",
+        "placeholders": {}
+    },
+    "yes": "Ja",
+    "@yes": {
+        "description": "intro_new_wallet_backup_yes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "onStr": "Aan",
+    "@onStr": {
+        "description": "generic_on",
+        "type": "text",
+        "placeholders": {}
+    },
+    "off": "Uit",
+    "@off": {
+        "description": "generic_off",
+        "type": "text",
+        "placeholders": {}
+    },
+    "send": "Verstuur",
+    "@send": {
+        "description": "home_send_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "receive": "Ontvang",
+    "@receive": {
+        "description": "home_receive_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sent": "Verstuurd",
+    "@sent": {
+        "description": "history_sent",
+        "type": "text",
+        "placeholders": {}
+    },
+    "received": "Ontvangen",
+    "@received": {
+        "description": "history_received",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transactions": "Transacties",
+    "@transactions": {
+        "description": "transaction_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressCopied": "Adres gekopieerd",
+    "@addressCopied": {
+        "description": "receive_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "copyAddress": "Kopieer adres",
+    "@copyAddress": {
+        "description": "receive_copy_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressHint": "Vul adres in",
+    "@addressHint": {
+        "description": "send_address_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seed": "Seed",
+    "@seed": {
+        "description": "intro_new_wallet_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedInvalid": "Seed is ongeldig",
+    "@seedInvalid": {
+        "description": "intro_seed_invalid",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedCopied": "Seed is gekopieerd naar klembord en blijft 2 minuten beschikbaar.",
+    "@seedCopied": {
+        "description": "intro_new_wallet_seed_copied",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanQrCode": "Scan QR Code",
+    "@scanQrCode": {
+        "description": "send_scan_qr",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsImportErr": "Contactpen importeren mislukt",
+    "@contactsImportErr": {
+        "description": "contact_import_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "viewDetails": "Bekijk details",
+    "@viewDetails": {
+        "description": "transaction_details",
+        "type": "text",
+        "placeholders": {}
+    },
+    "qrInvalidSeed": "QR code bevat geen geldige seed of privé sleutel",
+    "@qrInvalidSeed": {
+        "description": "qr_invalid_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "qrInvalidAddress": "QR code bevat geen geldig adres",
+    "@qrInvalidAddress": {
+        "description": "qr_invalid_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContact": "Verwijder contact",
+    "@removeContact": {
+        "description": "contact_remove_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "removeContactConfirmation": "Weet je zeker dat je het contact %1 wil verwijderen?",
+    "@removeContactConfirmation": {
+        "description": "contact_remove_sure",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactHeader": "Contact",
+    "@contactHeader": {
+        "description": "contact_view_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactsHeader": "Contacten",
+    "@contactsHeader": {
+        "description": "contact_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addContact": "Contact toevoegen",
+    "@addContact": {
+        "description": "contact_add_button",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameHint": "Voer naam in @",
+    "@contactNameHint": {
+        "description": "contact_name_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactInvalid": "Ongeldige contact naam",
+    "@contactInvalid": {
+        "description": "contact_invalid_name",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsExport": "Er zijn geen contacten aanwezig om te verwijderen",
+    "@noContactsExport": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "noContactsImport": "Geen contacten gevonden om te importeren",
+    "@noContactsImport": {
+        "description": "contact_import_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactAdded": "%1 is toegevoegd aan contact!",
+    "@contactAdded": {
+        "description": "contact_added",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactRemoved": "%1 is verwijderd uit contacten!",
+    "@contactRemoved": {
+        "description": "contact_removed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactNameMissing": "Er zijn geen contacten aanwezig om te verwijderen",
+    "@contactNameMissing": {
+        "description": "contact_export_none",
+        "type": "text",
+        "placeholders": {}
+    },
+    "contactExists": "Contact bestaat al",
+    "@contactExists": {
+        "description": "contact_name_exists",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupYourSeed": "Maak een back-up van jouw seed",
+    "@backupYourSeed": {
+        "description": "intro_new_wallet_seed_backup_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeedConfirm": "Weet je zeker dat jouw wallet seed is opgeslagen?",
+    "@backupSeedConfirm": {
+        "description": "intro_new_wallet_backup",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedBackupInfo": "Hieronder staat de seed van jouw wallet. Maak hier altijd een back-up van en sla deze veilig op.",
+    "@seedBackupInfo": {
+        "description": "intro_new_wallet_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "copySeed": "Kopieer Seed",
+    "@copySeed": {
+        "description": "copy_seed_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "seedCopiedShort": "Seed gekopieerd",
+    "@seedCopiedShort": {
+        "description": "seed_copied_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeed": "Importeer seed",
+    "@importSeed": {
+        "description": "intro_seed_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importSeedHint": "Vul jouw seed in.",
+    "@importSeedHint": {
+        "description": "intro_seed_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "welcomeText": "Welkom bij Natrium. Creëer een nieuwe wallet of importeer een bestaande wallet om verder te gaan.",
+    "@welcomeText": {
+        "description": "intro_welcome_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "newWallet": "Nieuwe wallet",
+    "@newWallet": {
+        "description": "intro_welcome_new_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "importWallet": "Importeer wallet",
+    "@importWallet": {
+        "description": "intro_welcome_have_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sentTo": "Verstuur naar",
+    "@sentTo": {
+        "description": "sent_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sending": "Versturen",
+    "@sending": {
+        "description": "send_sending",
+        "type": "text",
+        "placeholders": {}
+    },
+    "to": "Naar",
+    "@to": {
+        "description": "send_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendAmountConfirm": "Verstuur %1 Nano?",
+    "@sendAmountConfirm": {
+        "description": "send_pin_description",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendError": "Er ging iets fout. Probeer het a.u.b. nog een keer.",
+    "@sendError": {
+        "description": "send_generic_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "enterAmount": "Vul bedrag in",
+    "@enterAmount": {
+        "description": "send_amount_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "invalidAddress": "Ongeldige ontvanger",
+    "@invalidAddress": {
+        "description": "send_invalid_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "addressMising": "Voer a.u.b. een adres in",
+    "@addressMising": {
+        "description": "send_enter_address",
+        "type": "text",
+        "placeholders": {}
+    },
+    "amountMissing": "Voer a.u.b. een hoeveelheid in",
+    "@amountMissing": {
+        "description": "send_enter_amount",
+        "type": "text",
+        "placeholders": {}
+    },
+    "insufficientBalance": "Onvoldoende saldo",
+    "@insufficientBalance": {
+        "description": "send_insufficient_balance",
+        "type": "text",
+        "placeholders": {}
+    },
+    "sendFrom": "Verstuur via",
+    "@sendFrom": {
+        "description": "send_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinCreateTitle": "Creëer een 6-cijferige pincode",
+    "@pinCreateTitle": {
+        "description": "pin_create_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmTitle": "Bevestig pincode",
+    "@pinConfirmTitle": {
+        "description": "pin_confirm_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinEnterTitle": "Voer pincode in",
+    "@pinEnterTitle": {
+        "description": "pin_enter_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinConfirmError": "Pincodes komen niet overeen",
+    "@pinConfirmError": {
+        "description": "pin_confirm_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinInvalid": "Ongeldige pincode ingevoerd",
+    "@pinInvalid": {
+        "description": "pin_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "themeHeader": "Thema",
+    "@themeHeader": {
+        "description": "theme_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepButton": "Verander",
+    "@changeRepButton": {
+        "description": "change_representative_change",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepAuthenticate": "Verander van vertegenwoordiger",
+    "@changeRepAuthenticate": {
+        "description": "settings_change_rep",
+        "type": "text",
+        "placeholders": {}
+    },
+    "currentlyRepresented": "Jouw huidige vertegenwoordiger is",
+    "@currentlyRepresented": {
+        "description": "change_representative_current_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepSucces": "Nieuwe vertegenwoordiger opgeslagen",
+    "@changeRepSucces": {
+        "description": "change_representative_success",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfoHeader": "Wat is een vertegenwoordiger?",
+    "@repInfoHeader": {
+        "description": "change_representative_info_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "repInfo": "Een vertegenwoordiger stemt mee om consensus te bereiken in het netwerk. De waarde van de stem van een vertegenwoordiger wordt bepaald door de balans van dat account. Je kunt ervoor kiezen jouw balans toe te wijzen aan een vertegenwoordiger, zodat deze meer stemrecht krijgt. Geen zorgen, jouw balans blijft altijd volledig in eigen beheer. Kies bij voorkeur een betrouwbare vertegenwoordiger die altijd online is.",
+    "@repInfo": {
+        "description": "change_representative_info",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinRepChange": "Voer PIN in om van vertegenwoordiger te veranderen",
+    "@pinRepChange": {
+        "description": "change_representative_pin",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeRepHint": "Vul nieuwe vertegenwoordiger in",
+    "@changeRepHint": {
+        "description": "change_representative_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "authMethod": "Verificatiemethode",
+    "@authMethod": {
+        "description": "settings_disable_fingerprint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinMethod": "Pincode",
+    "@pinMethod": {
+        "description": "settings_pin_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "privacyPolicy": "",
+    "@privacyPolicy": {
+        "description": "settings_privacy_policy",
+        "type": "text",
+        "placeholders": {}
+    },
+    "biometricsMethod": "biometrie",
+    "@biometricsMethod": {
+        "description": "settings_fingerprint_method",
+        "type": "text",
+        "placeholders": {}
+    },
+    "changeCurrency": "Verander valuta",
+    "@changeCurrency": {
+        "description": "settings_local_currency",
+        "type": "text",
+        "placeholders": {}
+    },
+    "language": "Taal",
+    "@language": {
+        "description": "settings_change_language",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareNatrium": "Deel Natrium",
+    "@shareNatrium": {
+        "description": "settings_share",
+        "type": "text",
+        "placeholders": {}
+    },
+    "shareNatriumText": "Check Natrium! Nano Android Wallet!",
+    "@shareNatriumText": {
+        "description": "share_extra",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logout": "Uitloggen",
+    "@logout": {
+        "description": "settings_logout",
+        "type": "text",
+        "placeholders": {}
+    },
+    "warning": "WAARSCHUWING",
+    "@warning": {
+        "description": "settings_logout_alert_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutDetail": "Uitloggen zorgt ervoor dat jouw seed en alle Natrium-gerelateerde informatie van dit toestel worden verwijderd. Als je geen back-up hebt gemaakt, kan je niet meer bij de inhoud van jouw wallet.",
+    "@logoutDetail": {
+        "description": "settings_logout_alert_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAction": "Seed verwijderen en uitloggen",
+    "@logoutAction": {
+        "description": "settings_logout_alert_confirm_cta",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutAreYouSure": "Weet je het zeker?",
+    "@logoutAreYouSure": {
+        "description": "settings_logout_warning_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "logoutReassurance": "Als je een back-up hebt gemaakt van jouw seed, is er niks aan de hand.",
+    "@logoutReassurance": {
+        "description": "settings_logout_warning_message",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsHeader": "Instellingen",
+    "@settingsHeader": {
+        "description": "settings_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "preferences": "Voorkeuren",
+    "@preferences": {
+        "description": "settings_preferences_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "manage": "Beheren",
+    "@manage": {
+        "description": "settings_manage_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "backupSeed": "Maak seed back-up",
+    "@backupSeed": {
+        "description": "settings_backup_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "fingerprintSeedBackup": "Bevestig je vingerafdruk om een back-up te maken.",
+    "@fingerprintSeedBackup": {
+        "description": "settings_fingerprint_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "pinSeedBackup": "Vul je pincode in om je wallet seed te zien.",
+    "@pinSeedBackup": {
+        "description": "settings_pin_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "systemDefault": "Systeemfout",
+    "@systemDefault": {
+        "description": "settings_default_language_string",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notifications": "Notificaties",
+    "@notifications": {
+        "description": "notifications_settings",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationTitle": "%1 NANO ontvangen",
+    "@notificationTitle": {
+        "description": "notification_title",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationBody": "Open Natrium om de transactie te zien.",
+    "@notificationBody": {
+        "description": "notification_body",
+        "type": "text",
+        "placeholders": {}
+    },
+    "notificationHeaderSupplement": "Tik om te openen",
+    "@notificationHeaderSupplement": {
+        "description": "notificaiton_header_suplement",
+        "type": "text",
+        "placeholders": {}
+    },
+    "settingsTransfer": "Van papieren wallet importeren",
+    "@settingsTransfer": {
+        "description": "settings_transfer",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferError": "Tijdens het overzetten is een fout opgetreden. Probeer het later nog eens.",
+    "@transferError": {
+        "description": "transfer_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "paperWallet": "Papieren wallet",
+    "@paperWallet": {
+        "description": "paper_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "kaliumWallet": "Natrium wallet",
+    "@kaliumWallet": {
+        "description": "kalium_wallet",
+        "type": "text",
+        "placeholders": {}
+    },
+    "manualEntry": "Handmatige invoer",
+    "@manualEntry": {
+        "description": "transfer_manual_entry",
+        "type": "text",
+        "placeholders": {}
+    },
+    "mnemonicPhrase": "Woordvolgorde",
+    "@mnemonicPhrase": {
+        "description": "mnemonic_phrase",
+        "type": "text",
+        "placeholders": {}
+    },
+    "rawSeed": "Seed",
+    "@rawSeed": {
+        "description": "raw_seed",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferHeader": "Bedragen overzetten",
+    "@transferHeader": {
+        "description": "transfer_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transfer": "Overzetten",
+    "@transfer": {
+        "description": "transfer_btn",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferManualHint": "A.u.b. hieronder de seed invoeren.",
+    "@transferManualHint": {
+        "description": "transfer_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferIntro": "Met dit proces worden de bedragen van een papieren wallet overgezet naar uw Natrium-wallet.\n\nTik op de \"%1\" knop om te starten.",
+    "@transferIntro": {
+        "description": "transfer_intro",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferQrScanHint": "Scan een Nano \nseed of private key",
+    "@transferQrScanHint": {
+        "description": "transfer_qr_scan_hint",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferQrScanError": "Deze QR-code bevat geen geldige seed.",
+    "@transferQrScanError": {
+        "description": "transfer_qr_scan_error",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferNoFunds": "Deze seed bevat geen Nano.",
+    "@transferNoFunds": {
+        "description": "transfer_no_funds_toast",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfo": "Een wallet met een balans van %1 Nano is gedetecteerd.\n",
+    "@transferConfirmInfo": {
+        "description": "transfer_confirm_info_first",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfoSecond": "Tik op bevestigen om het bedrag over te zetten.\n",
+    "@transferConfirmInfoSecond": {
+        "description": "transfer_confirm_info_second",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferConfirmInfoThird": "Het overzetten kan enkele seconden duren om te voltooien.",
+    "@transferConfirmInfoThird": {
+        "description": "transfer_confirm_info_third",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferLoading": "Overzetten",
+    "@transferLoading": {
+        "description": "transfer_loading_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferComplete": "%1 Nano succesvol overgezet naar uw Natrium-wallet.",
+    "@transferComplete": {
+        "description": "transfer_complete_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "transferClose": "Tik ergens om het venster te sluiten.",
+    "@transferClose": {
+        "description": "transfer_close_text",
+        "type": "text",
+        "placeholders": {}
+    },
+    "scanInstructions": "Scan een Nano\nadres QR code",
+    "@scanInstructions": {
+        "description": "scan_send_instruction_label",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlockPin": "PIN invoeren om Natrium te ontgrendelen",
+    "@unlockPin": {
+        "description": "unlock_kalium_pin",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlockBiometrics": "Verifiëren om Natrium te ontgrendelen",
+    "@unlockBiometrics": {
+        "description": "unlock_kalium_bio",
+        "type": "text",
+        "placeholders": {}
+    },
+    "lockAppSetting": "Verifiëren bij starten",
+    "@lockAppSetting": {
+        "description": "authenticate_on_launch",
+        "type": "text",
+        "placeholders": {}
+    },
+    "locked": "Vergrendeld",
+    "@locked": {
+        "description": "lockedtxt",
+        "type": "text",
+        "placeholders": {}
+    },
+    "unlock": "Ontgrendelen",
+    "@unlock": {
+        "description": "unlocktxt",
+        "type": "text",
+        "placeholders": {}
+    },
+    "tooManyFailedAttempts": "Te veel mislukte ontgrendelpogingen.",
+    "@tooManyFailedAttempts": {
+        "description": "fail_toomany_attempts",
+        "type": "text",
+        "placeholders": {}
+    },
+    "securityHeader": "Beveiliging",
+    "@securityHeader": {
+        "description": "security_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "autoLockHeader": "Automatisch vergrendelen",
+    "@autoLockHeader": {
+        "description": "auto_lock_header",
+        "type": "text",
+        "placeholders": {}
+    },
+    "xMinutes": "Na %1 minuut",
+    "@xMinutes": {
+        "description": "after_minutes",
+        "type": "text",
+        "placeholders": {}
+    },
+    "xMinute": "Na %1 minuten",
+    "@xMinute": {
+        "description": "after_minute",
+        "type": "text",
+        "placeholders": {}
+    },
+    "instantly": "Direct",
+    "@instantly": {
+        "description": "insantly",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardIntro": "Welkom bij Natrium. Zodra je NANO ontvangt zullen jouw transacties op deze manier verschijnen",
+    "@exampleCardIntro": {
+        "description": "example_card_intro",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLittle": "Een paar",
+    "@exampleCardLittle": {
+        "description": "example_card_little",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardLot": "Heel veel",
+    "@exampleCardLot": {
+        "description": "example_card_lot",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardTo": "naar iemand",
+    "@exampleCardTo": {
+        "description": "example_card_to",
+        "type": "text",
+        "placeholders": {}
+    },
+    "exampleCardFrom": "van iemand",
+    "@exampleCardFrom": {
+        "description": "example_card_from",
+        "type": "text",
+        "placeholders": {}
+    }
+}

@@ -21,6 +21,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
 class AppSendSheet {
   FocusNode _sendAddressFocusNode;
@@ -88,7 +89,7 @@ class AppSendSheet {
 
   mainBottomSheet(BuildContext context) {
     _amountHint = AppLocalization.of(context).enterAmount;
-    _addressHint = AppLocalization.of(context).enterAddress;
+    _addressHint = AppLocalization.of(context).addressHint;
     String locale = StateContainer.of(context).currencyLocale;
     switch (locale) {
       case "es_VE":
@@ -138,7 +139,7 @@ class AppSendSheet {
                 }
               } else {
                 setState(() {
-                  _addressHint = AppLocalization.of(context).enterAddress;
+                  _addressHint = AppLocalization.of(context).addressHint;
                   _contacts = [];
                   if (Address(_sendAddressController.text).isValid()) {
                     _addressValidAndUnfocused = true;
@@ -187,9 +188,8 @@ class AppSendSheet {
                         children: <Widget>[
                           // Header
                           AutoSizeText(
-                            AppLocalization.of(context)
-                                .sendFrom
-                                .toUpperCase(),
+                            CaseChange.toUpperCase(AppLocalization.of(context)
+                                .sendFrom, context),
                             style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 1,

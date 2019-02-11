@@ -18,6 +18,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
 class AppTransferOverviewSheet {
   static const int NUM_SWEEP = 15; // Number of accounts to sweep from a seed
@@ -111,9 +112,8 @@ class AppTransferOverviewSheet {
                           margin: EdgeInsets.only(top: 30.0),
                           constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width-140),
                           child: AutoSizeText(
-                            AppLocalization.of(context)
-                                .transferHeader
-                                .toUpperCase(),
+                            CaseChange.toUpperCase(AppLocalization.of(context)
+                                .transferHeader, context),
                             style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 2,

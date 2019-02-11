@@ -17,6 +17,7 @@ import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/biometrics.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
@@ -82,7 +83,7 @@ class AppSendConfirmSheet {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                AppLocalization.of(context).sending.toUpperCase(),
+                                CaseChange.toUpperCase(AppLocalization.of(context).sending, context),
                                 style: AppStyles.textStyleHeader(context),
                               ),
                             ],
@@ -141,7 +142,7 @@ class AppSendConfirmSheet {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                AppLocalization.of(context).to.toUpperCase(),
+                                CaseChange.toUpperCase(AppLocalization.of(context).to, context),
                                 style: AppStyles.textStyleHeader(context),
                               ),
                             ],
@@ -172,7 +173,7 @@ class AppSendConfirmSheet {
                             // CONFIRM Button
                             AppButton.buildAppButton(
                                 AppButtonType.PRIMARY,
-                                AppLocalization.of(context).confirm.toUpperCase(),
+                                CaseChange.toUpperCase(AppLocalization.of(context).confirm, context),
                                 Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                                 // Authenticate
                                 SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
@@ -222,7 +223,7 @@ class AppSendConfirmSheet {
                             // CANCEL Button
                             AppButton.buildAppButton(
                                 AppButtonType.PRIMARY_OUTLINE,
-                                AppLocalization.of(context).cancel.toUpperCase(),
+                                CaseChange.toUpperCase(AppLocalization.of(context).cancel, context),
                                 Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                               Navigator.of(context).pop();
                             }),

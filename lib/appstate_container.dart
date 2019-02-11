@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logging/logging.dart';
 import 'package:natrium_wallet_flutter/model/available_currency.dart';
+import 'package:natrium_wallet_flutter/model/available_language.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
@@ -27,7 +28,6 @@ import 'package:natrium_wallet_flutter/network/model/response/callback_response.
 import 'package:natrium_wallet_flutter/network/model/response/error_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/blocks_info_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/subscribe_response.dart';
-import 'package:natrium_wallet_flutter/network/model/response/price_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/process_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/pending_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/pending_response_item.dart';
@@ -61,13 +61,15 @@ class StateContainer extends StatefulWidget {
   final String currencyLocale;
   final Locale deviceLocale;
   final AvailableCurrency curCurrency;
+  final LanguageSetting curLanguage;
 
   StateContainer({
     @required this.child,
     this.wallet,
     this.currencyLocale,
     this.deviceLocale,
-    this.curCurrency
+    this.curCurrency,
+    this.curLanguage
   });
 
   // This is the secret sauce. Write your own 'of' method that will behave
@@ -93,6 +95,7 @@ class StateContainerState extends State<StateContainer> {
   String currencyLocale;
   Locale deviceLocale = Locale('en', 'US');
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
+  LanguageSetting curLanguage = LanguageSetting(AvailableLanguage.DEFAULT);
 
   // If callback is locked
   bool _locked = false;
@@ -117,6 +120,12 @@ class StateContainerState extends State<StateContainer> {
       setState(() {
         currencyLocale = currency.getLocale().toString();
         curCurrency = currency;
+      });
+    });
+    // Get default language setting
+    SharedPrefsUtil.inst.getLanguage().then((language) {
+      setState(() {
+        curLanguage = language;
       });
     });
   }
@@ -256,6 +265,13 @@ class StateContainerState extends State<StateContainer> {
     setState(() {
       wallet = AppWallet(address: address, loading: true);
       requestUpdate();
+    });
+  }
+
+  // Change language
+  void updateLanguage(LanguageSetting language) {
+    setState(() {
+      curLanguage = language;
     });
   }
 

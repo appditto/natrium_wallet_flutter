@@ -33,7 +33,13 @@ void main() async {
   });
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => new _AppState();
+}
+
+
+class _AppState extends State<App> {
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
@@ -54,11 +60,92 @@ class App extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         localizationsDelegates: [
-          AppLocalizationsDelegate(),
+          AppLocalizationsDelegate(StateContainer.of(context).curLanguage),
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate
         ],
-        supportedLocales: [Locale("en"), Locale("es"), Locale("pt")],
+        supportedLocales: [
+          const Locale('en', 'US'), // English
+          const Locale('he', 'IL'), // Hebrew
+          const Locale('de', 'DE'), // German
+          const Locale('es'), // Spanish
+          const Locale('hi'), // Hindi
+          const Locale('hu'), // Hungarian
+          const Locale('hi'), // Hindi
+          const Locale('id'), // Indonesian
+          const Locale('it'), // Italian
+          const Locale('ko'), // Korean
+          const Locale('ms'), // Malay
+          const Locale('nl'), // Dutch
+          const Locale('pl'), // Polish
+          const Locale('pt'), // Portugese
+          const Locale('ro'), // Romanian
+          const Locale('ru'), // Russian
+          const Locale('sv'), // Swedish
+          const Locale('tl'), // Tagalog
+          const Locale('tr'), // Turkish
+          const Locale('vi'), // Vietnamese
+          const Locale('zh-Hans'), // Chinese Simplified
+          const Locale('zh-Hant'), // Chinese Traditional
+          // Currency-default requires country included
+          const Locale("es", "AR"),
+          const Locale("en", "AU"),
+          const Locale("pt", "BR"),
+          const Locale("en", "CA"),
+          const Locale("de", "CH"),
+          const Locale("es", "CL"),
+          const Locale("zh", "CN"),
+          const Locale("cs", "CZ"),
+          const Locale("da", "DK"),
+          const Locale("fr", "FR"),
+          const Locale("en", "GB"),
+          const Locale("zh", "HK"),
+          const Locale("hu", "HU"),
+          const Locale("id", "ID"),
+          const Locale("he", "IL"),
+          const Locale("hi", "IN"),
+          const Locale("ja", "JP"),
+          const Locale("ko", "KR"),
+          const Locale("es", "MX"),
+          const Locale("ta", "MY"),
+          const Locale("nn", "NO"),
+          const Locale("en", "NZ"),
+          const Locale("tl", "PH"),
+          const Locale("ur", "PK"),
+          const Locale("pl", "PL"),
+          const Locale("ru", "RU"),
+          const Locale("sv", "SE"),
+          const Locale("zh", "SG"),
+          const Locale("th", "TH"),
+          const Locale("tr", "TR"),
+          const Locale("en", "TW"),
+          const Locale("es", "VE"),
+          const Locale("en", "ZA"),
+          const Locale("en", "US"),
+          const Locale("es", "AR"),
+          const Locale("de", "AT"),
+          const Locale("fr", "BE"),
+          const Locale("de", "BE"),
+          const Locale("nl", "BE"),
+          const Locale("tr", "CY"),
+          const Locale("et", "EE"),
+          const Locale("fi", "FI"),
+          const Locale("fr", "FR"),
+          const Locale("el", "GR"),
+          const Locale("es", "AR"),
+          const Locale("en", "IE"),
+          const Locale("it", "IT"),
+          const Locale("es", "AR"),
+          const Locale("lv", "LV"),
+          const Locale("lt", "LT"),
+          const Locale("fr", "LU"),
+          const Locale("en", "MT"),
+          const Locale("nl", "NL"),
+          const Locale("pt", "PT"),
+          const Locale("sk", "SK"),
+          const Locale("sl", "SI"),
+          const Locale("es", "ES"),
+        ],
         initialRoute: '/',
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
@@ -123,7 +210,7 @@ class Splash extends StatefulWidget {
   SplashState createState() => new SplashState();
 }
 
-class SplashState extends State<Splash> {
+class SplashState extends State<Splash> with WidgetsBindingObserver {
   Future checkLoggedIn() async {
     // iOS key store is persistent, so if this is first launch then we will clear the keystore
     bool firstLaunch = await SharedPrefsUtil.inst.getFirstLaunch();
@@ -158,23 +245,55 @@ class SplashState extends State<Splash> {
     }
   }
 
-  @override
+   @override
   void initState() {
     super.initState();
     checkLoggedIn();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Account for user changing locale when leaving the app
+    switch (state) {
+      case AppLifecycleState.paused:
+        super.didChangeAppLifecycleState(state);
+        break;
+      case AppLifecycleState.resumed:
+        setLanguage();
+        super.didChangeAppLifecycleState(state);
+        break;
+      default:
+        super.didChangeAppLifecycleState(state);
+        break;
+    }
+  }
+
+  void setLanguage() {
+    setState(() {
+      StateContainer.of(context).deviceLocale = Localizations.localeOf(context);
+    });
+    SharedPrefsUtil.inst.getLanguage().then((setting) {
+      setState(() {
+        StateContainer.of(context).updateLanguage(setting);
+      });
+    });    
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
     // This seems to be the earliest place we can retrieve the device Locale
-    StateContainer.of(context).deviceLocale = Localizations.localeOf(context);
+    setLanguage();
     SharedPrefsUtil.inst.getCurrency(StateContainer.of(context).deviceLocale).then((currency) {
       StateContainer.of(context).curCurrency = currency;
     });
     return new Scaffold(
-      resizeToAvoidBottomPadding: false,
       backgroundColor: AppColors.background,
     );
   }

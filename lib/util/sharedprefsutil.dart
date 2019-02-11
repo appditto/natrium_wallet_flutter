@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:natrium_wallet_flutter/util/encrypt.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/available_currency.dart';
+import 'package:natrium_wallet_flutter/model/available_language.dart';
 import 'package:natrium_wallet_flutter/model/device_lock_timeout.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';
@@ -25,6 +26,7 @@ class SharedPrefsUtil {
   static const String price_conversion = 'fkalium_price_conversion_pref';
   static const String auth_method = 'fkalium_auth_method';
   static const String cur_currency = 'fkalium_currency_pref';
+  static const String cur_language = 'fkalium_language_pref';
   static const String user_representative = 'fkalium_user_rep'; // For when non-opened accounts have set a representative
   static const String firstcontact_added = 'fkalium_first_c_added';
   static const String notification_enabled = 'fkalium_notification_on';
@@ -135,6 +137,14 @@ class SharedPrefsUtil {
 
   Future<AvailableCurrency> getCurrency(Locale deviceLocale) async {
     return AvailableCurrency(AvailableCurrencyEnum.values[await get(cur_currency, defaultValue: AvailableCurrency.getBestForLocale(deviceLocale).currency.index)]);
+  }
+
+  Future<void> setLanguage(LanguageSetting language) async {
+   return await set(cur_language, language.getIndex());
+  }
+
+  Future<LanguageSetting> getLanguage() async {
+    return LanguageSetting(AvailableLanguage.values[await get(cur_language, defaultValue: AvailableLanguage.DEFAULT.index)]);
   }
 
   Future<void> setRepresentative(String rep) async {

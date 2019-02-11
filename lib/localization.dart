@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:natrium_wallet_flutter/model/available_language.dart';
 
 import 'l10n/messages_all.dart';
 
@@ -98,7 +99,7 @@ class AppLocalization {
 
   String get addressShare {
     return Intl.message('Share Address',
-        desc: 'share_address', name: 'addressShare');
+        desc: 'receive_share_cta', name: 'addressShare');
   }
 
   String get addressHint {
@@ -197,7 +198,7 @@ class AppLocalization {
 
   String get contactsImportSuccess {
     return Intl.message("Sucessfully imported %1 contacts.",
-      desc: 'contacts_import_success', name: 'contactsImportSuccess');
+      desc: 'contact_import_success', name: 'contactsImportSuccess');
   }
 
   String get contactAdded {
@@ -212,7 +213,7 @@ class AppLocalization {
 
   String get contactNameMissing {
     return Intl.message("Choose a Name for this Contact",
-      desc: 'contact_export_none', name: 'contactNameMissing');
+      desc: 'contact_name_missing', name: 'contactNameMissing');
   }
 
   String get contactExists {
@@ -369,6 +370,12 @@ class AppLocalization {
   /// -- END PIN SCREEN
 
   /// -- SETTINGS ITEMS
+  
+  String get themeHeader {
+    return Intl.message("Theme",
+      desc: 'theme_header', name: 'themeHeader');
+  }
+
   String get changeRepButton {
     return Intl.message("Change",
       desc: 'change_representative_change', name: 'changeRepButton');
@@ -445,7 +452,7 @@ class AppLocalization {
   }
 
   String get shareNatriumText {
-    return Intl.message("Check out Natrium! Intuitive NANO mobile wallet!",
+    return Intl.message("Check out Natrium! A premier NANO mobile wallet!",
       desc: 'share_extra', name: 'shareNatriumText');
   }
 
@@ -741,7 +748,7 @@ class AppLocalization {
   }
 
   String get exampleCardFrom {
-    return Intl.message("from a someone",
+    return Intl.message("from someone",
       desc: 'example_card_from', name: 'exampleCardFrom');
   }
 
@@ -768,16 +775,21 @@ class AppLocalization {
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalization> {
-  const AppLocalizationsDelegate();
+  final LanguageSetting languageSetting;
+
+  const AppLocalizationsDelegate(this.languageSetting);
 
   @override
   bool isSupported(Locale locale) {
-    return ['en'].contains(locale.languageCode);
+    return languageSetting != null;
   }
 
   @override
   Future<AppLocalization> load(Locale locale) {
-    return AppLocalization.load(locale);
+    if (languageSetting.language == AvailableLanguage.DEFAULT) {
+      return AppLocalization.load(locale);
+    }
+    return AppLocalization.load(Locale(languageSetting.getLocaleString()));
   }
 
   @override

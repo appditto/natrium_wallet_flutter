@@ -17,6 +17,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 
 // Add Contacts Sheet
@@ -107,7 +108,7 @@ class AddContactSheet {
                       child: Column(
                         children: <Widget>[
                           AutoSizeText(
-                            AppLocalization.of(context).addContact.toUpperCase(),
+                            CaseChange.toUpperCase(AppLocalization.of(context).addContact, context),
                             style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 1,

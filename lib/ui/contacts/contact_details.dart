@@ -18,6 +18,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
 // Contact Details Sheet
 class ContactDetailsSheet {
@@ -54,7 +55,7 @@ class ContactDetailsSheet {
                           AppDialogs.showConfirmDialog(context,
                                                           AppLocalization.of(context).removeContact,
                                                           AppLocalization.of(context).removeContactConfirmation.replaceAll('%1', contact.name),
-                                                          AppLocalization.of(context).yes.toUpperCase(),
+                                                          CaseChange.toUpperCase(AppLocalization.of(context).yes, context),
                           () {
                             DBHelper dbHelper = DBHelper();
                             dbHelper.deleteContact(contact).then((deleted) {
@@ -74,7 +75,7 @@ class ContactDetailsSheet {
                               }
                             });
                           },
-                          cancelText: AppLocalization.of(context).no.toUpperCase());
+                          cancelText: CaseChange.toUpperCase(AppLocalization.of(context).no, context));
                         },
                         child: Icon(AppIcons.trashcan,
                             size: 24, color: AppColors.text),
@@ -92,7 +93,7 @@ class ContactDetailsSheet {
                       child: Column(
                         children: <Widget>[
                           AutoSizeText(
-                            AppLocalization.of(context).contactHeader.toUpperCase(),
+                            CaseChange.toUpperCase(AppLocalization.of(context).contactHeader, context),
                             style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 1,
