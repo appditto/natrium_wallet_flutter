@@ -276,7 +276,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "welcomeText": "ברוך הבא לקאליום. בכדי להמשיך, אתה רשאי לייצר ארנק חדש או לייבא אחד קיים.",
+    "welcomeText": "ברוך הבא לנאטריום. בכדי להמשיך, אתה רשאי לייצר ארנק חדש או לייבא אחד קיים.",
     "@welcomeText": {
         "description": "intro_welcome_title",
         "type": "text",
@@ -312,7 +312,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "sendAmountConfirm": "שלח %1 באנאנו?",
+    "sendAmountConfirm": "שלח %1 נאנו?",
     "@sendAmountConfirm": {
         "description": "send_pin_description",
         "type": "text",
@@ -480,13 +480,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "shareKalium": "שתף את קאליום",
+    "shareKalium": "שתף את נאטריום",
     "@shareKalium": {
         "description": "settings_share",
         "type": "text",
         "placeholders": {}
     },
-    "shareKaliumText": ".התנתקות תוביל להסרת הסיד וכל המידע הקשור לקאליום מהמכשיר. אם הסיד שלך אינו מגובה, אתה לעולם לא תוכל לקבל גישה לכספים שלך יותר.",
+    "shareKaliumText": ".התנתקות תוביל להסרת הסיד וכל המידע הקשור לנאטריום מהמכשיר. אם הסיד שלך אינו מגובה, אתה לעולם לא תוכל לקבל גישה לכספים שלך יותר.",
     "@logoutDetail": {
         "description": "settings_logout_alert_message",
         "type": "text",
@@ -558,13 +558,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "notificationTitle": "%1 באנאנו התקבלו",
+    "notificationTitle": "%1 נאנו התקבלו",
     "@notificationTitle": {
         "description": "notification_title",
         "type": "text",
         "placeholders": {}
     },
-    "notificationBody": "פתח את קאליום בשביל לצפות בטרנסקציה.",
+    "notificationBody": "פתח את נאטריום בשביל לצפות בטרנסקציה.",
     "@notificationBody": {
         "description": "notification_body",
         "type": "text",
@@ -594,7 +594,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "kaliumWallet": "ארנק קאליום",
+    "kaliumWallet": "ארנק נאטריום",
     "@kaliumWallet": {
         "description": "kalium_wallet",
         "type": "text",
@@ -636,13 +636,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferIntro": "התהליך יעביר את הסכום שברשותך מארנק הנייר לארנק קאליום\n\nלחץ על כפתור ה \"%1\" בכדי להתחיל.",
+    "transferIntro": "התהליך יעביר את הסכום שברשותך מארנק הנייר לארנק נאטריום\n\nלחץ על כפתור ה \"%1\" בכדי להתחיל.",
     "@transferIntro": {
         "description": "transfer_intro",
         "type": "text",
         "placeholders": {}
     },
-    "transferQrScanHint": "סרוק סיד של \nבאנאנו או ארנק נייר",
+    "transferQrScanHint": "סרוק סיד של \nנאנו או ארנק נייר",
     "@transferQrScanHint": {
         "description": "transfer_qr_scan_hint",
         "type": "text",
@@ -654,13 +654,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferNoFunds": "אין שום באנאנו בסיד המצורף.",
+    "transferNoFunds": "אין שום נאנו בסיד המצורף.",
     "@transferNoFunds": {
         "description": "transfer_no_funds_toast",
         "type": "text",
         "placeholders": {}
     },
-    "transferConfirmInfo": "\nארנק עם מאזן של %1 באנאנו אותר.",
+    "transferConfirmInfo": "\nארנק עם מאזן של %1 נאנו אותר.",
     "@transferConfirmInfo": {
         "description": "transfer_confirm_info_first",
         "type": "text",
@@ -684,7 +684,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferComplete": "%1 באנאנו הועברו לארנק קאליום.",
+    "transferComplete": "%1 נאנו הועברו לארנק נאטריום.",
     "@transferComplete": {
         "description": "transfer_complete_text",
         "type": "text",
@@ -696,19 +696,19 @@
         "type": "text",
         "placeholders": {}
     },
-    "scanInstructions": "סרוק כתובת ברקוד \n של באנאנו",
+    "scanInstructions": "סרוק כתובת ברקוד \n של נאנו",
     "@scanInstructions": {
         "description": "scan_send_instruction_label",
         "type": "text",
         "placeholders": {}
     },
-    "unlockPin": "הכנס קוד בשביל לשחרר את קאליום מנעילה",
+    "unlockPin": "הכנס קוד בשביל לשחרר את נאטריום מנעילה",
     "@unlockPin": {
         "description": "unlock_kalium_pin",
         "type": "text",
         "placeholders": {}
     },
-    "unlockBiometrics": "בצע אימות בכדי לשחרר את קאליום מנעילה",
+    "unlockBiometrics": "בצע אימות בכדי לשחרר את נאטריום מנעילה",
     "@unlockBiometrics": {
         "description": "unlock_kalium_bio",
         "type": "text",
@@ -768,7 +768,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "exampleCardIntro": "ברוך הבא לקאליום. בכדי להמשיך, אתה רשאי לייצר ארנק חדש או לייבא אחד קיים",
+    "exampleCardIntro": "ברוך הבא לנאטריום. בכדי להמשיך, אתה רשאי לייצר ארנק חדש או לייבא אחד קיים",
     "@exampleCardIntro": {
         "description": "example_card_intro",
         "type": "text",
