@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/themes.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
@@ -19,14 +20,14 @@ class AppDialogs {
         return AppAlertDialog(
           title: Text(
             title,
-            style: AppStyles.TextStyleButtonPrimaryOutline,
+            style: AppStyles.textStyleButtonPrimaryOutline(context),
           ),
-          content: Text(content, style: AppStyles.TextStyleParagraph),
+          content: Text(content, style: AppStyles.textStyleParagraph(context)),
           actions: <Widget>[
             FlatButton(
               child: Text(
                 cancelText,
-                style: AppStyles.TextStyleDialogButtonText,
+                style: AppStyles.textStyleDialogButtonText(context),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -35,7 +36,7 @@ class AppDialogs {
             FlatButton(
               padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Text(buttonText,
-                  style: AppStyles.TextStyleDialogButtonText),
+                  style: AppStyles.textStyleDialogButtonText(context)),
               onPressed: () {
                 Navigator.of(context).pop();
                 onPressed();
@@ -54,14 +55,14 @@ class AppDialogs {
         return AppAlertDialog(
           title: Text(
             title,
-            style: AppStyles.TextStyleButtonPrimaryOutline,
+            style: AppStyles.textStyleButtonPrimaryOutline(context),
           ),
-          content: Text(content, style: AppStyles.TextStyleParagraph),
+          content: Text(content, style: AppStyles.textStyleParagraph(context)),
           actions: <Widget>[
             FlatButton(
               child: Text(
                 AppLocalization.of(context).cancel.toUpperCase(),
-                style: AppStyles.TextStyleDialogButtonText,
+                style: AppStyles.textStyleDialogButtonText(context),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -153,7 +154,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
       default:
         return CircularProgressIndicator(
             valueColor:
-                new AlwaysStoppedAnimation<Color>(AppColors.primary60));
+                new AlwaysStoppedAnimation<Color>(StateContainer.of(context).curTheme.primary60));
     }
   }
 
@@ -197,7 +198,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Text(CaseChange.toUpperCase(AppLocalization.of(context).transferLoading, context),
-                        style: AppStyles.TextStyleHeader2Colored),
+                        style: AppStyles.textStyleHeader2Colored(context)),
                     Container(
                       margin: EdgeInsets.only(bottom: 7),
                       width: 33.333,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
@@ -20,13 +19,10 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
-
-    return new Scaffold(
+    return Scaffold(
       resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
-      backgroundColor: AppColors.background,
+      backgroundColor: StateContainer.of(context).curTheme.background,
       body: LayoutBuilder(
         builder: (context, constraints) => Column(
               children: <Widget>[
@@ -54,22 +50,17 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                                           BorderRadius.circular(50.0)),
                                   padding: EdgeInsets.all(0.0),
                                   child: Icon(AppIcons.back,
-                                      color: AppColors.text, size: 24)),
+                                      color: StateContainer.of(context).curTheme.text, size: 24)),
                             ),
                           ],
                         ),
                         // The header
                         Container(
                           margin: EdgeInsets.only(top: 15.0, left: 50),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                AppLocalization.of(context).backupYourSeed,
-                                style: AppStyles.TextStyleHeaderColored,
-                              ),
-                            ],
+                          alignment: Alignment(-1, 0),
+                          child: Text(
+                            AppLocalization.of(context).backupYourSeed,
+                            style: AppStyles.textStyleHeaderColored(context),
                           ),
                         ),
                         // The paragraph
@@ -78,7 +69,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                               EdgeInsets.only(left: 50, right: 50, top: 15.0),
                           child: Text(
                               AppLocalization.of(context).backupSeedConfirm,
-                              style: AppStyles.TextStyleParagraph),
+                              style: AppStyles.textStyleParagraph(context)),
                         ),
                       ],
                     ),
@@ -91,7 +82,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                     Row(
                       children: <Widget>[
                         // YES Button
-                        AppButton.buildAppButton(
+                        AppButton.buildAppButton(context, 
                             AppButtonType.PRIMARY,
                             AppLocalization.of(context).yes.toUpperCase(),
                             Dimens.BUTTON_TOP_DIMENS, 
@@ -106,7 +97,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                     Row(
                       children: <Widget>[
                         // NO BUTTON
-                        AppButton.buildAppButton(
+                        AppButton.buildAppButton(context, 
                             AppButtonType.PRIMARY_OUTLINE,
                             AppLocalization.of(context).no.toUpperCase(),
                             Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {

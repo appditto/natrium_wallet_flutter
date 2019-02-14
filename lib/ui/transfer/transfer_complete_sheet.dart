@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -37,7 +37,7 @@ class AppTransferCompleteSheet {
                             Container(
                               margin: EdgeInsets.only(bottom: 30),
                               child: Icon(AppIcons.success,
-                                  size: 100, color: AppColors.success),
+                                  size: 100, color: StateContainer.of(context).curTheme.success),
                             ),
                             Container(
                               margin: EdgeInsets.only(bottom: 20),
@@ -57,7 +57,7 @@ class AppTransferCompleteSheet {
                                   AppLocalization.of(context)
                                       .transferComplete.replaceAll("%1", transferAmount),
                                   style:
-                                      AppStyles.TextStyleParagraphSuccess,
+                                      AppStyles.textStyleParagraphSuccess(context),
                                   textAlign: TextAlign.left,
                                 )),
                             Container(
@@ -66,7 +66,7 @@ class AppTransferCompleteSheet {
                                 child: Text(
                                   AppLocalization.of(context)
                                       .transferClose,
-                                  style: AppStyles.TextStyleParagraph,
+                                  style: AppStyles.textStyleParagraph(context),
                                   textAlign: TextAlign.left,
                                 )),
                           ],
@@ -75,7 +75,7 @@ class AppTransferCompleteSheet {
 
                       Row(
                         children: <Widget>[
-                          AppButton.buildAppButton(
+                          AppButton.buildAppButton(context, 
                             AppButtonType.SUCCESS_OUTLINE,
                             AppLocalization.of(context)
                                 .close

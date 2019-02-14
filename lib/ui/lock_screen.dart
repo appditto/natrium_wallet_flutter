@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
@@ -43,7 +42,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
     },
         expectedPin: expectedPin,
         description: AppLocalization.of(context).unlockPin,
-        pinScreenBackgroundColor: AppColors.background);
+        pinScreenBackgroundColor: StateContainer.of(context).curTheme.background);
   }
 
   String _formatCountDisplay(int count) {
@@ -196,7 +195,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: AppColors.background,
+            color: StateContainer.of(context).curTheme.background,
             width: double.infinity,
             child: Column(
               children: <Widget>[
@@ -208,7 +207,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
                               child: Icon(
                                 AppIcons.lock,
                                 size: 80,
-                                color: AppColors.primary,
+                                color: StateContainer.of(context).curTheme.primary,
                               ),
                               margin: EdgeInsets.only(
                                   top:
@@ -218,7 +217,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
                               child: Text(
                                 CaseChange.toUpperCase(AppLocalization.of(context)
                                     .locked, context),
-                                style: AppStyles.TextStyleHeaderColored,
+                                style: AppStyles.textStyleHeaderColored(context),
                               ),
                               margin: EdgeInsets.only(top: 10),
                             ),
@@ -232,7 +231,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 50),
                       child: Text(
                         AppLocalization.of(context).tooManyFailedAttempts,
-                        style: AppStyles.TextStyleErrorMedium,
+                        style: AppStyles.textStyleErrorMedium(context),
                         textAlign: TextAlign.center,
                       ),
                     )
@@ -240,7 +239,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
                 _showUnlockButton
                     ? Row(
                         children: <Widget>[
-                          AppButton.buildAppButton(
+                          AppButton.buildAppButton(context, 
                               AppButtonType.PRIMARY,
                               _lockedOut
                                   ? _countDownTxt

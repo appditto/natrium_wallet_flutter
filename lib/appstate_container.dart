@@ -8,6 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:logging/logging.dart';
+import 'package:natrium_wallet_flutter/themes.dart';
+import 'package:natrium_wallet_flutter/model/available_themes.dart';
 import 'package:natrium_wallet_flutter/model/available_currency.dart';
 import 'package:natrium_wallet_flutter/model/available_language.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
@@ -57,19 +59,9 @@ class _InheritedStateContainer extends InheritedWidget {
 class StateContainer extends StatefulWidget {
    // You must pass through a child. 
   final Widget child;
-  final AppWallet wallet;
-  final String currencyLocale;
-  final Locale deviceLocale;
-  final AvailableCurrency curCurrency;
-  final LanguageSetting curLanguage;
 
   StateContainer({
-    @required this.child,
-    this.wallet,
-    this.currencyLocale,
-    this.deviceLocale,
-    this.curCurrency,
-    this.curLanguage
+    @required this.child
   });
 
   // This is the secret sauce. Write your own 'of' method that will behave
@@ -91,11 +83,13 @@ class StateContainer extends StatefulWidget {
 /// Basically the central hub behind the entire app
 class StateContainerState extends State<StateContainer> {
   final Logger log = Logger("StateContainerState");
+
   AppWallet wallet;
   String currencyLocale;
   Locale deviceLocale = Locale('en', 'US');
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
   LanguageSetting curLanguage = LanguageSetting(AvailableLanguage.DEFAULT);
+  BaseTheme curTheme = NatriumTheme();
 
   // If callback is locked
   bool _locked = false;
@@ -127,6 +121,10 @@ class StateContainerState extends State<StateContainer> {
       setState(() {
         curLanguage = language;
       });
+    });
+    // Get theme default
+    SharedPrefsUtil.inst.getTheme().then((theme) {
+      updateTheme(theme);
     });
   }
 
@@ -272,6 +270,13 @@ class StateContainerState extends State<StateContainer> {
   void updateLanguage(LanguageSetting language) {
     setState(() {
       curLanguage = language;
+    });
+  }
+
+  // Change theme
+  void updateTheme(ThemeSetting theme) {
+    setState(() {
+      curTheme = theme.getTheme();
     });
   }
 

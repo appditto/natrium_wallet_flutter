@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:natrium_wallet_flutter/util/encrypt.dart';
+import 'package:natrium_wallet_flutter/model/available_themes.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/available_currency.dart';
 import 'package:natrium_wallet_flutter/model/available_language.dart';
@@ -27,6 +28,7 @@ class SharedPrefsUtil {
   static const String auth_method = 'fkalium_auth_method';
   static const String cur_currency = 'fkalium_currency_pref';
   static const String cur_language = 'fkalium_language_pref';
+  static const String cur_theme = 'fkalium_theme_pref';
   static const String user_representative = 'fkalium_user_rep'; // For when non-opened accounts have set a representative
   static const String firstcontact_added = 'fkalium_first_c_added';
   static const String notification_enabled = 'fkalium_notification_on';
@@ -145,6 +147,14 @@ class SharedPrefsUtil {
 
   Future<LanguageSetting> getLanguage() async {
     return LanguageSetting(AvailableLanguage.values[await get(cur_language, defaultValue: AvailableLanguage.DEFAULT.index)]);
+  }
+
+  Future<void> setTheme(ThemeSetting theme) async {
+   return await set(cur_theme, theme.getIndex());
+  }
+
+  Future<ThemeSetting> getTheme() async {
+    return ThemeSetting(ThemeOptions.values[await get(cur_theme, defaultValue: ThemeOptions.NATRIUM.index)]);
   }
 
   Future<void> setRepresentative(String rep) async {

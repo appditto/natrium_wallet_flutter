@@ -1,9 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
@@ -30,7 +29,7 @@ class PinScreen extends StatefulWidget {
   final Color pinScreenBackgroundColor;
 
   PinScreen(this.type, this.pinSuccessCallback,
-      {this.description = "", this.expectedPin = "", this.pinScreenBackgroundColor = AppColors.backgroundDark});
+      {this.description = "", this.expectedPin = "", this.pinScreenBackgroundColor});
 
   @override
   _PinScreenState createState() =>
@@ -195,8 +194,8 @@ class _PinScreenState extends State<PinScreen>
       width: smallScreen(context) ? buttonSize - 15 : buttonSize,
       child: InkWell(
         borderRadius: BorderRadius.circular(200),
-        highlightColor: AppColors.primary15,
-        splashColor: AppColors.primary30,
+        highlightColor: StateContainer.of(context).curTheme.primary15,
+        splashColor: StateContainer.of(context).curTheme.primary30,
         onTap: () {},
         onTapDown: (details) {
           if (_controller.status == AnimationStatus.forward ||
@@ -244,7 +243,7 @@ class _PinScreenState extends State<PinScreen>
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20.0,
-              color: AppColors.primary,
+              color: StateContainer.of(context).curTheme.primary,
               fontFamily: 'NunitoSans',
               fontWeight: FontWeight.w700,
             ),
@@ -259,7 +258,7 @@ class _PinScreenState extends State<PinScreen>
     for (int i = 0; i < PIN_LENGTH; i++) {
       ret.add(Icon(
                 _dotStates[i],
-                color: AppColors.primary,
+                color: StateContainer.of(context).curTheme.primary,
                 size: 20.0));
     }
     return ret;
@@ -267,6 +266,11 @@ class _PinScreenState extends State<PinScreen>
 
   @override
   Widget build(BuildContext context) {
+    if (this.pinScreenBackgroundColor == null) {
+      setState(() {
+        pinScreenBackgroundColor = StateContainer.of(context).curTheme.backgroundDark;
+      });
+    }
     if (pinEnterTitle.isEmpty) {
       setState(() {
         pinEnterTitle = AppLocalization.of(context).pinEnterTitle;
@@ -283,10 +287,6 @@ class _PinScreenState extends State<PinScreen>
         }
       });
     }
-
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-        statusBarIconBrightness: Brightness.light,
-        statusBarColor: Colors.transparent));
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -306,7 +306,7 @@ class _PinScreenState extends State<PinScreen>
                       margin: EdgeInsets.symmetric(horizontal: 40),
                       child: AutoSizeText(
                         _header,
-                        style: AppStyles.TextStylePinScreenHeaderColored,
+                        style: AppStyles.textStylePinScreenHeaderColored(context),
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         stepGranularity: 0.1,
@@ -318,7 +318,7 @@ class _PinScreenState extends State<PinScreen>
                           EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                       child: AutoSizeText(
                         description,
-                        style: AppStyles.TextStyleParagraph,
+                        style: AppStyles.textStyleParagraph(context),
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         stepGranularity: 0.1,
@@ -414,8 +414,8 @@ class _PinScreenState extends State<PinScreen>
                                   : buttonSize,
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(200),
-                                highlightColor: AppColors.primary15,
-                                splashColor: AppColors.primary30,
+                                highlightColor: StateContainer.of(context).curTheme.primary15,
+                                splashColor: StateContainer.of(context).curTheme.primary30,
                                 onTap: () {},
                                 onTapDown: (details) {
                                   _backSpace();
@@ -423,7 +423,7 @@ class _PinScreenState extends State<PinScreen>
                                 child: Container(
                                   alignment: Alignment(0, 0),
                                   child: Icon(Icons.backspace,
-                                      color: AppColors.primary, size: 20.0),
+                                      color: StateContainer.of(context).curTheme.primary, size: 20.0),
                                 ),
                               ),
                             ),

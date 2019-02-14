@@ -19,7 +19,6 @@ import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
-import 'colors.dart';
 
 void main() async {
   // Setup logger
@@ -40,22 +39,26 @@ class App extends StatefulWidget {
 
 
 class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(StateContainer.of(context).curTheme.statusBar);
     return OKToast(
-      textStyle: AppStyles.TextStyleSnackbar,
-      backgroundColor: AppColors.backgroundDark,
+      textStyle: AppStyles.textStyleSnackbar(context),
+      backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Natrium',
         theme: ThemeData(
-          dialogBackgroundColor: AppColors.backgroundDark,
-          primaryColor: AppColors.primary,
-          accentColor: AppColors.primary10,
-          backgroundColor: AppColors.backgroundDark,
+          dialogBackgroundColor: StateContainer.of(context).curTheme.backgroundDark,
+          primaryColor: StateContainer.of(context).curTheme.primary,
+          accentColor: StateContainer.of(context).curTheme.primary10,
+          backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
           fontFamily: 'NunitoSans',
           brightness: Brightness.dark,
         ),
@@ -245,7 +248,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
     }
   }
 
-   @override
+  @override
   void initState() {
     super.initState();
     checkLoggedIn();
@@ -294,7 +297,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
       StateContainer.of(context).curCurrency = currency;
     });
     return new Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: StateContainer.of(context).curTheme.background,
     );
   }
 }

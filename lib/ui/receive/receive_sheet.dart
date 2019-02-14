@@ -8,7 +8,6 @@ import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
@@ -32,20 +31,9 @@ class AppReceiveSheet {
   Widget shareCardTickerSvg;
 
   Widget qrCode;
-
-  AppReceiveSheet(Widget qrWidget) {
-    // Create our SVG-heavy things in the constructor because they are slower operations
-    qrSVGBorder = SvgPicture.asset('assets/QR.svg');
-    qrSVGLogo = SvgPicture.asset('assets/QRlogo.svg');
-    shareCardLogoSvg = SvgPicture.asset('assets/sharecard_logo.svg');
-    // Share card initialization
-    shareCardKey = GlobalKey();
-    appShareCard = Container(
-      child: AppShareCard(shareCardKey, qrSVGBorder, shareCardLogoSvg, qrSVGLogo),
-      alignment: Alignment(0.0, 0.0),
-    );
-    qrCode = qrWidget;
-  }
+  Widget qrWidget;
+  
+  AppReceiveSheet(this.qrWidget);
 
   // Address copied items
   // Current state references
@@ -72,6 +60,17 @@ class AppReceiveSheet {
     // Set initial state of copy button
     _addressCopied = false;
     double devicewidth = MediaQuery.of(context).size.width;
+    // Create our SVG-heavy things in the constructor because they are slower operations
+    qrSVGBorder = SvgPicture.asset('assets/QR.svg');
+    qrSVGLogo = SvgPicture.asset('assets/QRlogo.svg');
+    shareCardLogoSvg = SvgPicture.asset('assets/sharecard_logo.svg');
+    // Share card initialization
+    shareCardKey = GlobalKey();
+    appShareCard = Container(
+      child: AppShareCard(shareCardKey, qrSVGBorder, shareCardLogoSvg, qrSVGLogo),
+      alignment: Alignment(0.0, 0.0),
+    );
+    qrCode = qrWidget;
 
     _showShareCard = false;
 
@@ -97,7 +96,7 @@ class AppReceiveSheet {
                           Navigator.pop(context);
                         },
                         child: Icon(AppIcons.close,
-                            size: 16, color: AppColors.text),
+                            size: 16, color: StateContainer.of(context).curTheme.text),
                         padding: EdgeInsets.all(17.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -107,7 +106,7 @@ class AppReceiveSheet {
                     //Container for the address text
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
-                      child: UIUtil.threeLineAddressText(_wallet.address,
+                      child: UIUtil.threeLineAddressText(context, _wallet.address,
                           type: ThreeLineAddressTextType.PRIMARY60),
                     ),
                     //Empty SizedBox
@@ -129,7 +128,7 @@ class AppReceiveSheet {
                           child: Container(
                             width: 260,
                             height: 150,
-                            color: AppColors.backgroundDark,
+                            color: StateContainer.of(context).curTheme.backgroundDark,
                           ),
                         ),
                         // Background/border part the QR
@@ -162,7 +161,7 @@ class AppReceiveSheet {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        AppButton.buildAppButton(
+                        AppButton.buildAppButton(context, 
                           // Share Address Button
                           _addressCopied ? AppButtonType.SUCCESS : AppButtonType.PRIMARY,
                           _addressCopied ? AppLocalization.of(context).addressCopied : AppLocalization.of(context).copyAddress,
@@ -189,7 +188,7 @@ class AppReceiveSheet {
                     ),
                     Row(
                       children: <Widget>[
-                        AppButton.buildAppButton(
+                        AppButton.buildAppButton(context, 
                             // Share Address Button
                             AppButtonType.PRIMARY_OUTLINE,
                             _showShareCard ? "Loading" : AppLocalization.of(context).addressShare,
@@ -197,40 +196,28 @@ class AppReceiveSheet {
                             disabled: _showShareCard, onPressed: () {
                           String receiveCardFileName = "share_${StateContainer.of(context).wallet.address}.png";
                           getApplicationDocumentsDirectory().then((directory) {
-                            bool doCapture = true;
                             String filePath = "${directory.path}/$receiveCardFileName";
                             File f = File(filePath);
-                            if (f.existsSync()) {
-                              try {
-                                UIUtil.cancelLockEvent();
-                                Share.shareFile(f, text: StateContainer.of(context).wallet.address);
-                                doCapture = false;
-                              } catch (e) {
-                                doCapture = true;
-                              }
-                            }
-                            if (doCapture) {
-                              setState(() {
-                                _showShareCard = true;
-                              });
-                              Future.delayed(new Duration(milliseconds: 300), () {
-                                if (_showShareCard) {
-                                  _capturePng().then((byteData) {
-                                    if (byteData != null) {
-                                      f.writeAsBytes(byteData).then((file) {
-                                        UIUtil.cancelLockEvent();
-                                        Share.shareFile(file, text: StateContainer.of(context).wallet.address);
-                                      });
-                                    } else {
-                                      // TODO - show a something went wrong message
-                                    }
-                                    setState(() {
-                                      _showShareCard = false;
+                            setState(() {
+                              _showShareCard = true;
+                            });
+                            Future.delayed(new Duration(milliseconds: 300), () {
+                              if (_showShareCard) {
+                                _capturePng().then((byteData) {
+                                  if (byteData != null) {
+                                    f.writeAsBytes(byteData).then((file) {
+                                      UIUtil.cancelLockEvent();
+                                      Share.shareFile(file, text: StateContainer.of(context).wallet.address);
                                     });
+                                  } else {
+                                    // TODO - show a something went wrong message
+                                  }
+                                  setState(() {
+                                    _showShareCard = false;
                                   });
-                                }
-                              });
-                            }
+                                });
+                              }
+                            });
                           });
                         }),
                       ],

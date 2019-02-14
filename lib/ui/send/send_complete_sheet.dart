@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
@@ -45,7 +45,7 @@ class AppSendCompleteSheet {
                         alignment: Alignment(0, 0),
                         margin: EdgeInsets.only(bottom: 25),
                         child: Icon(AppIcons.success,
-                            size: 100, color: AppColors.success),
+                            size: 100, color: StateContainer.of(context).curTheme.success),
                       ),
                       // Container for the Amount Text
                       Container(
@@ -56,7 +56,7 @@ class AppSendCompleteSheet {
                             EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppColors.backgroundDarkest,
+                          color: StateContainer.of(context).curTheme.backgroundDarkest,
                           borderRadius: BorderRadius.circular(50),
                         ),
                         // Amount text
@@ -68,7 +68,7 @@ class AppSendCompleteSheet {
                               TextSpan(
                                 text: "$_amount",
                                 style: TextStyle(
-                                  color: AppColors.success,
+                                  color: StateContainer.of(context).curTheme.success,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'NunitoSans',
@@ -77,7 +77,7 @@ class AppSendCompleteSheet {
                               TextSpan(
                                 text: " NANO",
                                 style: TextStyle(
-                                  color: AppColors.success,
+                                  color: StateContainer.of(context).curTheme.success,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w100,
                                   fontFamily: 'NunitoSans',
@@ -86,7 +86,7 @@ class AppSendCompleteSheet {
                               TextSpan(
                                 text: _localAmount != null ? " ($_localAmount)" : "",
                                 style: TextStyle(
-                                  color: AppColors.success,
+                                  color: StateContainer.of(context).curTheme.success,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'NunitoSans',
@@ -108,7 +108,7 @@ class AppSendCompleteSheet {
                               style: TextStyle(
                                 fontSize: 28.0,
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.success,
+                                color: StateContainer.of(context).curTheme.success,
                                 fontFamily: 'NunitoSans',
                               ),
                             ),
@@ -124,10 +124,10 @@ class AppSendCompleteSheet {
                               right: MediaQuery.of(context).size.width * 0.105),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: AppColors.backgroundDarkest,
+                            color: StateContainer.of(context).curTheme.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: UIUtil.threeLineAddressText(_destination,
+                          child: UIUtil.threeLineAddressText(context, _destination,
                               type: ThreeLineAddressTextType.SUCCESS,
                               contactName: _contactName)),
                     ],
@@ -140,7 +140,7 @@ class AppSendCompleteSheet {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          AppButton.buildAppButton(
+                          AppButton.buildAppButton(context, 
                               AppButtonType.SUCCESS_OUTLINE,
                               CaseChange.toUpperCase(AppLocalization.of(context)
                                   .close, context),

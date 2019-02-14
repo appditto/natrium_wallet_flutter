@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
@@ -100,7 +99,7 @@ class AppTransferOverviewSheet {
                               Navigator.pop(context);
                             },
                             child: Icon(AppIcons.close,
-                                size: 16, color: AppColors.text),
+                                size: 16, color: StateContainer.of(context).curTheme.text),
                             padding: EdgeInsets.all(17.0),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(100.0)),
@@ -148,7 +147,7 @@ class AppTransferOverviewSheet {
                                   horizontal: smallScreen(context)?35:60, vertical: 20),
                               child: Text(
                                 AppLocalization.of(context).transferIntro.replaceAll("%1", AppLocalization.of(context).scanQrCode),
-                                style: AppStyles.TextStyleParagraph,
+                                style: AppStyles.textStyleParagraph(context),
                                 textAlign: TextAlign.left,
                               )),
                         ],
@@ -157,7 +156,7 @@ class AppTransferOverviewSheet {
 
                     Row(
                       children: <Widget>[
-                        AppButton.buildAppButton(
+                        AppButton.buildAppButton(context, 
                           AppButtonType.PRIMARY,
                           AppLocalization.of(context).scanQrCode,
                           Dimens.BUTTON_TOP_DIMENS,
@@ -176,7 +175,7 @@ class AppTransferOverviewSheet {
                     ),
                     Row(
                       children: <Widget>[
-                        AppButton.buildAppButton(
+                        AppButton.buildAppButton(context, 
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).manualEntry,
                           Dimens.BUTTON_BOTTOM_DIMENS,

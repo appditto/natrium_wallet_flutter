@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/model/setting_item.dart';
@@ -31,8 +31,8 @@ class AppSettings {
                 child: Container(
                   child: Icon(icon,
                       color: disabled
-                          ? AppColors.primary45
-                          : AppColors.primary,
+                          ? StateContainer.of(context).curTheme.primary45
+                          : StateContainer.of(context).curTheme.primary,
                       size: 24),
                   margin: EdgeInsets.only(top: 3, left: 3, bottom: 3, right: 3),
                 ),
@@ -44,14 +44,14 @@ class AppSettings {
                   Text(
                     heading,
                     style: disabled
-                        ? AppStyles.TextStyleSettingItemHeader45
-                        : AppStyles.TextStyleSettingItemHeader,
+                        ? AppStyles.textStyleSettingItemHeader45(context)
+                        : AppStyles.textStyleSettingItemHeader(context),
                   ),
                   Text(
                     defaultMethod.getDisplayName(context),
                     style: disabled
-                        ? AppStyles.TextStyleSettingItemSubheader30
-                        : AppStyles.TextStyleSettingItemSubheader,
+                        ? AppStyles.textStyleSettingItemSubheader30(context)
+                        : AppStyles.textStyleSettingItemSubheader(context),
                   ),
                 ],
               ),
@@ -63,9 +63,8 @@ class AppSettings {
   }
 
   //Settings item without any dropdown option but rather a direct functionality
-  static Widget buildSettingsListItemSingleLine(
-    
-      String heading, IconData settingIcon,
+  static Widget buildSettingsListItemSingleLine( 
+      BuildContext context, String heading, IconData settingIcon,
       {Function onPressed}) {
     return FlatButton(
       onPressed: () {
@@ -82,31 +81,28 @@ class AppSettings {
         child: Row(
           children: <Widget>[
             Container(
-              margin: new EdgeInsets.only(right: 14.0),
+              margin: new EdgeInsets.only(right: 13.0),
               child: Container(
                 child: new Icon(
                   settingIcon,
-                  color: AppColors.primary,
+                  color: StateContainer.of(context).curTheme.primary,
                   size: 24,
                 ),
                 margin: EdgeInsets.only(
                   top: 3,
-                  left: settingIcon == AppIcons.logout ? 6 : settingIcon == AppIcons.changerepresentative? 0: settingIcon == AppIcons.backupseed ? 1:3,
+                  left: settingIcon == AppIcons.logout ? 6 : 3,
                   bottom: 3,
-                  right: settingIcon == AppIcons.logout ? 0 : settingIcon == AppIcons.changerepresentative? 6: settingIcon == AppIcons.backupseed ? 5:3,
+                  right: settingIcon == AppIcons.logout ? 0 : 3,
                 ),
               ),
             ),
             Text(
               heading,
-              style: AppStyles.TextStyleSettingItemHeader,
+              style: AppStyles.textStyleSettingItemHeader(context),
             ),
           ],
         ),
       ),
-      
     );
-    
   }
-  
 }

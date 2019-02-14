@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
@@ -63,7 +63,7 @@ class AppSeedBackupSheet {
                                 margin: EdgeInsets.only(left: 50, right: 50),
                                 child: Text(
                                   AppLocalization.of(context).seedBackupInfo,
-                                  style: AppStyles.TextStyleParagraph,
+                                  style: AppStyles.textStyleParagraph(context),
                                 )),
                             new GestureDetector(
                               onTap: () {
@@ -84,11 +84,11 @@ class AppSeedBackupSheet {
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 25.0, vertical: 15.0),
                                     decoration: BoxDecoration(
-                                      color: AppColors.backgroundDarkest,
+                                      color: StateContainer.of(context).curTheme.backgroundDarkest,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
-                                    child: UIUtil.threeLineSeedText(_seedHidden ? _placeholderSeed : _seed,
-                                        textStyle: _seedCopied ? AppStyles.TextStyleSeedGreen : AppStyles.TextStyleSeed),
+                                    child: UIUtil.threeLineSeedText(context, _seedHidden ? _placeholderSeed : _seed,
+                                        textStyle: _seedCopied ? AppStyles.textStyleSeedGreen(context) : AppStyles.textStyleSeed(context)),
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(top: 5),
@@ -96,7 +96,7 @@ class AppSeedBackupSheet {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 14.0,
-                                          color: _seedCopied ? AppColors.success : Colors.transparent,
+                                          color: _seedCopied ? StateContainer.of(context).curTheme.success : Colors.transparent,
                                           fontFamily: 'NunitoSans',
                                           fontWeight: FontWeight.w600,
                                         )),
@@ -112,7 +112,7 @@ class AppSeedBackupSheet {
                     //A row with show/hide seed button
                     Row(
                       children: <Widget>[
-                        AppButton.buildAppButton(
+                        AppButton.buildAppButton(context, 
                           _seedCopied ? AppButtonType.SUCCESS : AppButtonType.PRIMARY,
                           _seedCopied ? AppLocalization.of(context).seedCopiedShort : AppLocalization.of(context).copySeed,
                           Dimens.BUTTON_TOP_DIMENS,
@@ -139,7 +139,7 @@ class AppSeedBackupSheet {
                     //A row with close button
                     Row(
                       children: <Widget>[
-                        AppButton.buildAppButton(
+                        AppButton.buildAppButton(context, 
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).close,
                           Dimens.BUTTON_BOTTOM_DIMENS,

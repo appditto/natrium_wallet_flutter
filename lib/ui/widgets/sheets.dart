@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 
 class AppSheets {
@@ -9,9 +9,9 @@ class AppSheets {
   static Future<T> showAppHeightNineSheet<T>(
       {@required BuildContext context,
       @required WidgetBuilder builder,
-      Color color = AppColors.backgroundDark,
+      Color color,
       double radius = 30.0,
-      Color bgColor = AppColors.overlay70,
+      Color bgColor,
       int animationDurationMs = 200,
       bool removeUntilHome = false,
       bool closeOnTap = false,
@@ -19,7 +19,12 @@ class AppSheets {
     assert(context != null);
     assert(builder != null);
     assert(radius != null && radius > 0.0);
-    assert(color != null && color != Colors.transparent);
+    if (color == null) {
+      color = StateContainer.of(context).curTheme.backgroundDark;
+    }
+    if (bgColor == null) {
+      bgColor = StateContainer.of(context).curTheme.overlay70;
+    }
     var route = _AppHeightNineModalRoute<T>(
         builder: builder,
         color: color,
@@ -41,14 +46,19 @@ class AppSheets {
   static Future<T> showAppHeightEightSheet<T>(
       {@required BuildContext context,
       @required WidgetBuilder builder,
-      Color color = AppColors.backgroundDark,
+      Color color,
       double radius = 30.0,
-      Color bgColor = AppColors.overlay70,
+      Color bgColor,
       int animationDurationMs = 200}) {
     assert(context != null);
     assert(builder != null);
     assert(radius != null && radius > 0.0);
-    assert(color != null && color != Colors.transparent);
+    if (color == null) {
+      color = StateContainer.of(context).curTheme.backgroundDark;
+    }
+    if (bgColor == null) {
+      bgColor = StateContainer.of(context).curTheme.overlay70;
+    }
     return Navigator.push<T>(
         context,
         _AppHeightEightModalRoute<T>(

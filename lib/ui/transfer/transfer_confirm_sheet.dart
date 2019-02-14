@@ -194,21 +194,21 @@ class AppTransferConfirmSheet {
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
                                   AppLocalization.of(context).transferConfirmInfo.replaceAll("%1", totalAsReadableAmount),
-                                  style: AppStyles.TextStyleParagraphPrimary,
+                                  style: AppStyles.textStyleParagraphPrimary(context),
                                   textAlign: TextAlign.left,
                             )),
                             Container(
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
                                   AppLocalization.of(context).transferConfirmInfoSecond,
-                                  style: AppStyles.TextStyleParagraph,
+                                  style: AppStyles.textStyleParagraph(context),
                                   textAlign: TextAlign.left,
                             )),
                             Container(
                                 margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
                                 child: Text(
                                   AppLocalization.of(context).transferConfirmInfoThird,
-                                  style: AppStyles.TextStyleParagraph,
+                                  style: AppStyles.textStyleParagraph(context),
                                   textAlign: TextAlign.left,
                             )),
                           ],
@@ -221,7 +221,7 @@ class AppTransferConfirmSheet {
                           Row(
                             children: <Widget>[
                               // Send Button
-                              AppButton.buildAppButton(
+                              AppButton.buildAppButton(context, 
                                   AppButtonType.PRIMARY,
                                   CaseChange.toUpperCase(AppLocalization.of(context).confirm, context),
                                   Dimens.BUTTON_TOP_DIMENS, onPressed: () {
@@ -234,7 +234,7 @@ class AppTransferConfirmSheet {
                           Row(
                             children: <Widget>[
                               // Scan QR Code Button
-                              AppButton.buildAppButton(
+                              AppButton.buildAppButton(context, 
                                   AppButtonType.PRIMARY_OUTLINE,
                                   AppLocalization.of(context).cancel.toUpperCase(),
                                   Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {

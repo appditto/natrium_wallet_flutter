@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:event_taxi/event_taxi.dart';
 
 import 'package:natrium_wallet_flutter/appstate_container.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
@@ -96,7 +95,7 @@ class AppSendConfirmSheet {
                               EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: AppColors.backgroundDarkest,
+                            color: StateContainer.of(context).curTheme.backgroundDarkest,
                             borderRadius: BorderRadius.circular(50),
                           ),
                           // Amount text
@@ -108,7 +107,7 @@ class AppSendConfirmSheet {
                                 TextSpan(
                                   text: "$_amount",
                                   style: TextStyle(
-                                    color: AppColors.primary,
+                                    color: StateContainer.of(context).curTheme.primary,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w700,
                                     fontFamily: 'NunitoSans',
@@ -117,7 +116,7 @@ class AppSendConfirmSheet {
                                 TextSpan(
                                   text: " NANO",
                                   style: TextStyle(
-                                    color: AppColors.primary,
+                                    color: StateContainer.of(context).curTheme.primary,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w100,
                                     fontFamily: 'NunitoSans',
@@ -126,7 +125,7 @@ class AppSendConfirmSheet {
                                 TextSpan(
                                   text: _localCurrency != null ? " ($_localCurrency)" : "",
                                   style: TextStyle(
-                                    color: AppColors.primary,
+                                    color: StateContainer.of(context).curTheme.primary,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w700,
                                     fontFamily: 'NunitoSans',
@@ -155,10 +154,10 @@ class AppSendConfirmSheet {
                             margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: AppColors.backgroundDarkest,
+                              color: StateContainer.of(context).curTheme.backgroundDarkest,
                               borderRadius: BorderRadius.circular(25),
                             ),
-                            child: UIUtil.threeLineAddressText(_destination, contactName: _contactName)),
+                            child: UIUtil.threeLineAddressText(context, _destination, contactName: _contactName)),
                       ],
                     ),
                   ),
@@ -171,7 +170,7 @@ class AppSendConfirmSheet {
                         Row(
                           children: <Widget>[
                             // CONFIRM Button
-                            AppButton.buildAppButton(
+                            AppButton.buildAppButton(context, 
                                 AppButtonType.PRIMARY,
                                 CaseChange.toUpperCase(AppLocalization.of(context).confirm, context),
                                 Dimens.BUTTON_TOP_DIMENS, onPressed: () {
@@ -221,7 +220,7 @@ class AppSendConfirmSheet {
                         Row(
                           children: <Widget>[
                             // CANCEL Button
-                            AppButton.buildAppButton(
+                            AppButton.buildAppButton(context, 
                                 AppButtonType.PRIMARY_OUTLINE,
                                 CaseChange.toUpperCase(AppLocalization.of(context).cancel, context),
                                 Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {

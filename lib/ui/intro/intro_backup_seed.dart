@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
@@ -20,9 +19,11 @@ class IntroBackupSeedPage extends StatefulWidget {
 class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _seed;
-  TextStyle _seedTapStyle = AppStyles.TextStyleSeed;
+  TextStyle _seedTapStyle;
   var _seedCopiedColor = Colors.transparent;
   Timer _seedCopiedTimer;
+
+  bool _seedCopied = false;
 
   @override
   void initState() {
@@ -32,9 +33,6 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light
-        .copyWith(statusBarIconBrightness: Brightness.light, statusBarColor: Colors.transparent));
-
     // Back button pressed
     Future<bool> _onWillPop() async {
       // Delete seed
@@ -46,10 +44,10 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
 
     return new WillPopScope(
       onWillPop:_onWillPop,
-      child: new Scaffold(
+      child: Scaffold(
         resizeToAvoidBottomPadding: false,
         key: _scaffoldKey,
-        backgroundColor: AppColors.background,
+        backgroundColor: StateContainer.of(context).curTheme.background,
         body: LayoutBuilder(
           builder: (context, constraints) => Column(
                 children: <Widget>[
@@ -77,22 +75,17 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                             BorderRadius.circular(50.0)),
                                     padding: EdgeInsets.all(0.0),
                                     child: Icon(AppIcons.back,
-                                        color: AppColors.text, size: 24)),
+                                        color: StateContainer.of(context).curTheme.text, size: 24)),
                               ),
                             ],
                           ),
                           // The header
                           Container(
                             margin: EdgeInsets.only(top: 15.0, left: 50),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  AppLocalization.of(context).seed,
-                                  style: AppStyles.TextStyleHeaderColored,
-                                ),
-                              ],
+                            alignment: Alignment(-1, 0),
+                            child: Text(
+                              AppLocalization.of(context).seed,
+                              style: AppStyles.textStyleHeaderColored(context),
                             ),
                           ),
                           // The paragraph
@@ -102,7 +95,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             alignment: Alignment.centerLeft,
                             child: Text(
                                 AppLocalization.of(context).seedBackupInfo,
-                                style: AppStyles.TextStyleParagraph),
+                                style: AppStyles.textStyleParagraph(context)),
                           ),
                           Container(
                             // A gesture detector to decide if the is tapped or not
@@ -112,8 +105,8 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                       new ClipboardData(text: _seed));
                                   ClipboardUtil.setClipboardClearEvent();
                                   setState(() {
-                                    _seedTapStyle = AppStyles.TextStyleSeedGreen;
-                                    _seedCopiedColor = AppColors.success;
+                                    _seedCopied = true;
+                                    _seedCopiedColor = StateContainer.of(context).curTheme.success;
                                   });
                                   if (_seedCopiedTimer != null) {
                                     _seedCopiedTimer.cancel();
@@ -121,7 +114,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                   _seedCopiedTimer = new Timer(
                                       const Duration(milliseconds: 1200), () {
                                     setState(() {
-                                      _seedTapStyle = AppStyles.TextStyleSeed;
+                                      _seedCopied = false;
                                       _seedCopiedColor = Colors.transparent;
                                     });
                                   });
@@ -132,11 +125,11 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                       horizontal: 25.0, vertical: 15),
                                   margin: EdgeInsets.only(top: 25),
                                   decoration: BoxDecoration(
-                                    color: AppColors.backgroundDark,
+                                    color: StateContainer.of(context).curTheme.backgroundDark,
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   child:
-                                    UIUtil.threeLineSeedText(_seed, textStyle: _seedTapStyle),    
+                                    UIUtil.threeLineSeedText(context, _seed, textStyle: _seedCopied ? AppStyles.textStyleSeedGreen(context) : AppStyles.textStyleSeed(context)),    
                                 )),
                           ),
                           // "Seed copied to Clipboard" text that appaears when seed is tapped
@@ -165,8 +158,8 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                         height: 50,
                         width: 50,
                         child: FlatButton(
-                            splashColor: AppColors.primary30,
-                            highlightColor: AppColors.primary15,
+                            splashColor: StateContainer.of(context).curTheme.primary30,
+                            highlightColor: StateContainer.of(context).curTheme.primary15,
                             onPressed: () {
                               Vault.inst.setSeed(_seed).then((result) {
                                 // Update wallet
@@ -179,7 +172,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 borderRadius: BorderRadius.circular(50.0)),
                             padding: EdgeInsets.all(0.0),
                             child: Icon(AppIcons.forward,
-                                color: AppColors.primary, size: 50)),
+                                color: StateContainer.of(context).curTheme.primary, size: 50)),
                       ),
                     ],
                   ),

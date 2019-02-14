@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:natrium_wallet_flutter/colors.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:event_taxi/event_taxi.dart';
 
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -78,7 +78,7 @@ class ContactDetailsSheet {
                           cancelText: CaseChange.toUpperCase(AppLocalization.of(context).no, context));
                         },
                         child: Icon(AppIcons.trashcan,
-                            size: 24, color: AppColors.text),
+                            size: 24, color: StateContainer.of(context).curTheme.text),
                         padding: EdgeInsets.all(13.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -115,7 +115,7 @@ class ContactDetailsSheet {
                           }));
                         },
                         child: Icon(AppIcons.search,
-                            size: 24, color: AppColors.text),
+                            size: 24, color: StateContainer.of(context).curTheme.text),
                         padding: EdgeInsets.all(13.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -140,7 +140,7 @@ class ContactDetailsSheet {
                         padding: EdgeInsets.symmetric(
                             horizontal: 25.0, vertical: 12.0),
                         decoration: BoxDecoration(
-                          color: AppColors.backgroundDarkest,
+                          color: StateContainer.of(context).curTheme.backgroundDarkest,
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Text(
@@ -149,7 +149,7 @@ class ContactDetailsSheet {
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 16.0,
-                            color: AppColors.primary,
+                            color: StateContainer.of(context).curTheme.primary,
                             fontFamily: 'NunitoSans',
                           ),
                         ),
@@ -181,10 +181,10 @@ class ContactDetailsSheet {
                           padding: EdgeInsets.symmetric(
                               horizontal: 25.0, vertical: 15.0),
                           decoration: BoxDecoration(
-                            color: AppColors.backgroundDarkest,
+                            color: StateContainer.of(context).curTheme.backgroundDarkest,
                             borderRadius: BorderRadius.circular(25),
                           ),
-                          child: UIUtil.threeLineAddressText(
+                          child: UIUtil.threeLineAddressText(context, 
                             contact.address,
                             type: _addressCopied ? ThreeLineAddressTextType.SUCCESS_FULL : ThreeLineAddressTextType.PRIMARY
                           ),
@@ -196,7 +196,7 @@ class ContactDetailsSheet {
                         child: Text(_addressCopied ? AppLocalization.of(context).addressCopied : "",
                             style: TextStyle(
                               fontSize: 14.0,
-                              color: AppColors.success,
+                              color: StateContainer.of(context).curTheme.success,
                               fontFamily: 'NunitoSans',
                               fontWeight: FontWeight.w600,
                             )),
@@ -212,7 +212,7 @@ class ContactDetailsSheet {
                       Row(
                         children: <Widget>[
                           // Send Button
-                          AppButton.buildAppButton(
+                          AppButton.buildAppButton(context, 
                               AppButtonType.PRIMARY,
                               AppLocalization.of(context).send,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
@@ -224,7 +224,7 @@ class ContactDetailsSheet {
                       Row(
                         children: <Widget>[
                           // Close Button
-                          AppButton.buildAppButton(
+                          AppButton.buildAppButton(context, 
                               AppButtonType.PRIMARY_OUTLINE,
                               AppLocalization.of(context).close,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
