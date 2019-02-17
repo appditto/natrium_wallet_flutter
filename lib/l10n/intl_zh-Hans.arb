@@ -1,18 +1,18 @@
 {
     "@@last_modified": "2019-02-04T09:26:48.408903",
-    "contactsImportSuccess": "已成功導入％d個聯絡人",
+    "contactsImportSuccess": "已成功导入％d个联系人",
     "@contactsImportSuccess": {
         "description": "contact_import_success",
         "type": "text",
         "placeholders": {}
     },
-    "contactNameMissing": "選擇此聯絡人的姓名",
+    "contactNameMissing": "请给此联系人一个名字",
     "@contactNameMissing": {
         "description": "contact_name_missing",
         "type": "text",
         "placeholders": {}
     },
-    "addressShare": "分享",
+    "addressShare": "分享地址",
     "@addressShare": {
         "description": "receive_share_cta",
         "type": "text",
@@ -132,7 +132,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "contactsImportErr": "無法導入聯絡人",
+    "contactsImportErr": "无法导入联系人",
     "@contactsImportErr": {
         "description": "contact_import_error",
         "type": "text",
@@ -144,91 +144,91 @@
         "type": "text",
         "placeholders": {}
     },
-    "removeContact": "刪除聯絡人",
+    "removeContact": "删除联系人",
     "@removeContact": {
         "description": "contact_remove_btn",
         "type": "text",
         "placeholders": {}
     },
-    "removeContactConfirmation": "您確定要刪除%1嗎？",
+    "removeContactConfirmation": "您确认要刪除%1吗？",
     "@removeContactConfirmation": {
         "description": "contact_remove_sure",
         "type": "text",
         "placeholders": {}
     },
-    "contactHeader": "聯絡人",
+    "contactHeader": "联系人",
     "@contactHeader": {
         "description": "contact_view_header",
         "type": "text",
         "placeholders": {}
     },
-    "contactsHeader": "聯絡人名單",
+    "contactsHeader": "联系人名单",
     "@contactsHeader": {
         "description": "contact_header",
         "type": "text",
         "placeholders": {}
     },
-    "addContact": "添加聯絡人",
+    "addContact": "添加联系人",
     "@addContact": {
         "description": "contact_add_button",
         "type": "text",
         "placeholders": {}
     },
-    "contactNameHint": "輸入姓名@",
+    "contactNameHint": "输入姓名@",
     "@contactNameHint": {
         "description": "contact_name_hint",
         "type": "text",
         "placeholders": {}
     },
-    "contactInvalid": "聯絡人姓名無效",
+    "contactInvalid": "联系人姓名无效",
     "@contactInvalid": {
         "description": "contact_invalid_name",
         "type": "text",
         "placeholders": {}
     },
-    "noContactsExport": "沒有要導出的聯絡人",
+    "noContactsExport": "没有要导出的联系人",
     "@noContactsExport": {
         "description": "contact_export_none",
         "type": "text",
         "placeholders": {}
     },
-    "noContactsImport": "找不到要導入的聯絡人",
+    "noContactsImport": "找不到要导入的联系人",
     "@noContactsImport": {
         "description": "contact_import_none",
         "type": "text",
         "placeholders": {}
     },
-    "contactAdded": "%1已被添加到聯絡人！",
+    "contactAdded": "%1已被添加到联系人！",
     "@contactAdded": {
         "description": "contact_added",
         "type": "text",
         "placeholders": {}
     },
-    "contactRemoved": "%1已從聯絡人名單中刪除!",
+    "contactRemoved": "%1已从联系人名单中刪除!",
     "@contactRemoved": {
         "description": "contact_removed",
         "type": "text",
         "placeholders": {}
     },
-    "contactNameMissing": "沒有要導出的聯絡人",
+    "contactNameMissing": "没有要导出的联系人",
     "@contactNameMissing": {
         "description": "contact_export_none",
         "type": "text",
         "placeholders": {}
     },
-    "contactExists": "聯絡人已存在",
+    "contactExists": "联系人已存在",
     "@contactExists": {
         "description": "contact_name_exists",
         "type": "text",
         "placeholders": {}
     },
-    "backupYourSeed": "备份你的种子代码",
+    "backupYourSeed": "备份您的种子代码",
     "@backupYourSeed": {
         "description": "intro_new_wallet_seed_backup_header",
         "type": "text",
         "placeholders": {}
     },
-    "backupSeedConfirm": "你确认你备份了您的钱包种子吗？",
+    "backupSeedConfirm": "您确认您备份了您的钱包种子吗？",
     "@backupSeedConfirm": {
         "description": "intro_new_wallet_backup",
         "type": "text",
@@ -246,7 +246,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "importSeedHint": "请在下面输入您的种子",
+    "importSeedHint": "请在下面输入您的种子代码",
     "@importSeedHint": {
         "description": "intro_seed_info",
         "type": "text",
@@ -294,7 +294,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "sendError": "发生错误。稍后再试。",
+    "sendError": "发生错误。请稍后再试。",
     "@sendError": {
         "description": "send_generic_error",
         "type": "text",
@@ -312,7 +312,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "addressMising": "请输入目的地",
+    "addressMising": "请输入目标地址",
     "@addressMising": {
         "description": "send_enter_address",
         "type": "text",
@@ -324,7 +324,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "insufficientBalance": "平衡不足",
+    "insufficientBalance": "余额不足",
     "@insufficientBalance": {
         "description": "send_insufficient_balance",
         "type": "text",
@@ -342,7 +342,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "pinConfirmTitle": "确认你的识别码",
+    "pinConfirmTitle": "确认您的识别码",
     "@pinConfirmTitle": {
         "description": "pin_confirm_title",
         "type": "text",
@@ -378,13 +378,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "changeRepAuthenticate": "变更代理人",
+    "changeRepAuthenticate": "更改指定代表",
     "@changeRepAuthenticate": {
         "description": "settings_change_rep",
         "type": "text",
         "placeholders": {}
     },
-    "currentlyRepresented": "目前指定代表",
+    "currentlyRepresented": "当前指定代表",
     "@currentlyRepresented": {
         "description": "change_representative_current_header",
         "type": "text",
@@ -402,13 +402,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "repInfo": "指定代表是投票支持网络共识的帐户。投票权由余额加权，您可以委派余额来增加您信任的代表的投票权重。您的代表对您的资金没有消费能力。您应该选择一个停机时间很少且值得信赖的代表。",
+    "repInfo": "指定代表是投票支持网络共识的帐户。投票权重由账户余额加权，您可以用余额投票来增加您信任的代表的投票权重。您的代表对您的资金没有控制权。您应该选择一个下线时间很少并且值得信赖的代表。",
     "@repInfo": {
         "description": "change_representative_info",
         "type": "text",
         "placeholders": {}
     },
-    "pinRepChange": "输入识别码以变更代理人。",
+    "pinRepChange": "输入识别码以更改指定代表。",
     "@pinRepChange": {
         "description": "change_representative_pin",
         "type": "text",
@@ -438,7 +438,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "changeCurrency": "改变货币",
+    "changeCurrency": "更改货币",
     "@changeCurrency": {
         "description": "settings_local_currency",
         "type": "text",
@@ -456,7 +456,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "shareKaliumText": "看看Kalium！ Banano的官方Android钱包！",
+    "shareKaliumText": "来试试Kalium！ Banano的官方钱包！",
     "@shareKaliumText": {
         "description": "share_extra",
         "type": "text",
@@ -474,25 +474,25 @@
         "type": "text",
         "placeholders": {}
     },
-    "logoutDetail": "注销将从此设备中删除您的种子和所有与Kalium相关的数据。如果您的种子没有备份，您将永远无法再次访问您的帐户",
+    "logoutDetail": "注销将从此设备中删除您的种子代码和所有与Kalium相关的数据。如果您的种子代码没有备份，您将永远无法再次访问您的帐户",
     "@logoutDetail": {
         "description": "settings_logout_alert_message",
         "type": "text",
         "placeholders": {}
     },
-    "logoutAction": "删除种子并登出",
+    "logoutAction": "删除种子代码并登出",
     "@logoutAction": {
         "description": "settings_logout_alert_confirm_cta",
         "type": "text",
         "placeholders": {}
     },
-    "logoutAreYouSure": "你确定？",
+    "logoutAreYouSure": "您确定？",
     "@logoutAreYouSure": {
         "description": "settings_logout_warning_title",
         "type": "text",
         "placeholders": {}
     },
-    "logoutReassurance": "只要你有备份你的种子，就没有什么可担心的",
+    "logoutReassurance": "只要您有备份您的种子代码，就没有什么可担心的",
     "@logoutReassurance": {
         "description": "settings_logout_warning_message",
         "type": "text",
@@ -516,7 +516,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "backupSeed": "备份种子",
+    "backupSeed": "备份种子代码",
     "@backupSeed": {
         "description": "settings_backup_seed",
         "type": "text",
@@ -564,13 +564,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "settingsTransfer": "用纸钱包增值",
+    "settingsTransfer": "用纸钱包充值",
     "@settingsTransfer": {
         "description": "settings_transfer",
         "type": "text",
         "placeholders": {}
     },
-    "transferError": "传递出现了问题，请稍后再尝试。",
+    "transferError": "传送出现了问题，请稍后再尝试。",
     "@transferError": {
         "description": "transfer_error",
         "type": "text",
@@ -600,13 +600,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "rawSeed": "私钥",
+    "rawSeed": "种子代码",
     "@rawSeed": {
         "description": "raw_seed",
         "type": "text",
         "placeholders": {}
     },
-    "transferHeader": "输送钱币",
+    "transferHeader": "传送钱币",
     "@transferHeader": {
         "description": "transfer_header",
         "type": "text",
@@ -618,31 +618,31 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferManualHint": "请输入私钥。",
+    "transferManualHint": "请输入种子代码。",
     "@transferManualHint": {
         "description": "transfer_hint",
         "type": "text",
         "placeholders": {}
     },
-    "transferIntro": "这个过程会将纸钱包的钱币转移到你的 Kalium 钱包。\n\n请按 \"%1\" 键开始。",
+    "transferIntro": "这个过程会将纸钱包的钱币转移到您的 Kalium 钱包。\n\n请按 \"%1\" 键开始。",
     "@transferIntro": {
         "description": "transfer_intro",
         "type": "text",
         "placeholders": {}
     },
-    "transferQrScanHint": "请扫描 Banano \n私钥",
+    "transferQrScanHint": "请扫描 Banano \n种子代码",
     "@transferQrScanHint": {
         "description": "transfer_qr_scan_hint",
         "type": "text",
         "placeholders": {}
     },
-    "transferQrScanError": "这个二维码没有包含任何有效的私钥",
+    "transferQrScanError": "这个二维码没有包含任何有效的种子代码",
     "@transferQrScanError": {
         "description": "transfer_qr_scan_error",
         "type": "text",
         "placeholders": {}
     },
-    "transferNoFunds": "这个私钥没有 BANANO",
+    "transferNoFunds": "这个种子代码没有包含任何 BANANO",
     "@transferNoFunds": {
         "description": "transfer_no_funds_toast",
         "type": "text",
@@ -654,25 +654,25 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferConfirmInfoSecond": "按键确定输送钱币。\n",
+    "transferConfirmInfoSecond": "按键确定传送钱币。\n",
     "@transferConfirmInfoSecond": {
         "description": "transfer_confirm_info_second",
         "type": "text",
         "placeholders": {}
     },
-    "transferConfirmInfoThird": "输送需要几秒钟完成，请稍等一下。",
+    "transferConfirmInfoThird": "传送需要几秒钟完成，请稍等一下。",
     "@transferConfirmInfoThird": {
         "description": "transfer_confirm_info_third",
         "type": "text",
         "placeholders": {}
     },
-    "transferLoading": "输送中",
+    "transferLoading": "传送中",
     "@transferLoading": {
         "description": "transfer_loading_text",
         "type": "text",
         "placeholders": {}
     },
-    "transferComplete": "%1 BANANO 成功输送到你的 Kalium 钱包。\n",
+    "transferComplete": "%1 BANANO 成功传送到您的 Kalium 钱包。\n",
     "@transferComplete": {
         "description": "transfer_complete_text",
         "type": "text",
@@ -684,7 +684,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "unlockPin": "请输入 PIN 码解锁 Kalium",
+    "unlockPin": "请输入识别码码解锁 Kalium",
     "@unlockPin": {
         "description": "unlock_kalium_pin",
         "type": "text",
@@ -750,19 +750,19 @@
         "type": "text",
         "placeholders": {}
     },
-    "copySeed": "复制私钥",
+    "copySeed": "复制种子代码",
     "@copySeed": {
         "description": "copy_seed_btn",
         "type": "text",
         "placeholders": {}
     },
-    "seedCopiedShort": "私钥已复制",
+    "seedCopiedShort": "种子代码已复制",
     "@seedCopiedShort": {
         "description": "seed_copied_btn",
         "type": "text",
         "placeholders": {}
     },
-    "qrInvalidSeed": "二维码没有包含任何有效的私钥",
+    "qrInvalidSeed": "二维码没有包含任何有效的种子代码",
     "@qrInvalidSeed": {
         "description": "qr_invalid_seed",
         "type": "text",
@@ -804,7 +804,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "exampleCardFrom": "从一只未知的猴子",
+    "exampleCardFrom": "来自一只未知的猴子",
     "@exampleCardFrom": {
         "description": "example_card_from",
         "type": "text",
