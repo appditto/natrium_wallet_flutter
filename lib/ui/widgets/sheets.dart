@@ -159,21 +159,21 @@ class _AppHeightNineModalRoute<T> extends PopupRoute<T> {
     _animationController =
         BottomSheet.createAnimationController(navigator.overlay);
     _animationController.duration = Duration(milliseconds: animationDurationMs);
+    this.appSheetAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOut,
+      reverseCurve: Curves.linear)
+      ..addStatusListener((animationStatus) {
+        if (animationStatus == AnimationStatus.completed) {
+          appSheetAnimation.curve = Curves.linear;
+        }
+      });
     return _animationController;
   }
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    appSheetAnimation = CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeOut,
-        reverseCurve: Curves.linear);
-    appSheetAnimation.addStatusListener((animationStatus) {
-      if (animationStatus == AnimationStatus.completed) {
-        appSheetAnimation.curve = Curves.linear;
-      }
-    });
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -296,21 +296,21 @@ class _AppHeightEightModalRoute<T> extends PopupRoute<T> {
     _animationController =
         BottomSheet.createAnimationController(navigator.overlay);
     _animationController.duration = Duration(milliseconds: animationDurationMs);
+    this.appSheetAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeOut,
+      reverseCurve: Curves.linear)
+      ..addStatusListener((animationStatus) {
+        if (animationStatus == AnimationStatus.completed) {
+          appSheetAnimation.curve = Curves.linear;
+        }
+      });
     return _animationController;
   }
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    appSheetAnimation = CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeOut,
-        reverseCurve: Curves.linear);
-    appSheetAnimation.addStatusListener((animationStatus) {
-      if (animationStatus == AnimationStatus.completed) {
-        appSheetAnimation.curve = Curves.linear;
-      }
-    });
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,

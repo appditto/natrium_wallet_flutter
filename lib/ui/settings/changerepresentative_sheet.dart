@@ -439,7 +439,7 @@ class AppChangeRepresentativeSheet {
                                 Dimens.BUTTON_TOP_DIMENS,
                                 onPressed: () {
                                   if (!NanoAccounts.isValid(
-                                      NanoAccountType.BANANO,
+                                      NanoAccountType.NANO,
                                       _repController.text)) {
                                     return;
                                   }
