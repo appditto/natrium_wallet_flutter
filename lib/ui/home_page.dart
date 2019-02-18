@@ -996,14 +996,14 @@ class _AppHomePageState extends State<AppHomePage>
   // Welcome Card
   TextSpan _getExampleHeaderSpan(BuildContext context) {
     String workingStr = AppLocalization.of(context).exampleCardIntro;
-    if (!workingStr.contains("BANANO")) {
+    if (!workingStr.contains("NANO")) {
       return TextSpan(
         text: workingStr,
         style: AppStyles.textStyleTransactionWelcome(context),
       );
     }
-    // Colorize BANANO
-    List<String> splitStr = workingStr.split("BANANO");
+    // Colorize NANO
+    List<String> splitStr = workingStr.split("NANO");
     if (splitStr.length != 2) {
       return TextSpan(
         text: workingStr,
@@ -1018,7 +1018,7 @@ class _AppHomePageState extends State<AppHomePage>
           style: AppStyles.textStyleTransactionWelcome(context),
         ),
         TextSpan(
-          text: "BANANO",
+          text: "NANO",
           style: AppStyles.textStyleTransactionWelcomePrimary(context),
         ),
         TextSpan(
