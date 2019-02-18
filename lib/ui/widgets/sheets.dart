@@ -12,7 +12,7 @@ class AppSheets {
       Color color,
       double radius = 30.0,
       Color bgColor,
-      int animationDurationMs = 200,
+      int animationDurationMs = 250,
       bool removeUntilHome = false,
       bool closeOnTap = false,
       Function onDisposed}) {
@@ -49,7 +49,7 @@ class AppSheets {
       Color color,
       double radius = 30.0,
       Color bgColor,
-      int animationDurationMs = 200}) {
+      int animationDurationMs = 225}) {
     assert(context != null);
     assert(builder != null);
     assert(radius != null && radius > 0.0);
@@ -72,7 +72,6 @@ class AppSheets {
   }
 }
 
-// App Height Nine Sheet Layout
 class _AppHeightNineSheetLayout extends SingleChildLayoutDelegate {
   _AppHeightNineSheetLayout(this.progress);
 
@@ -85,8 +84,10 @@ class _AppHeightNineSheetLayout extends SingleChildLayoutDelegate {
           minWidth: constraints.maxWidth,
           maxWidth: constraints.maxWidth,
           minHeight: 0.0,
-          maxHeight: constraints.maxHeight * 0.95); 
-    if ((constraints.maxHeight/constraints.maxWidth > 2.1  && Platform.isAndroid) || constraints.maxHeight>812)
+          maxHeight: constraints.maxHeight * 0.95);
+    if ((constraints.maxHeight / constraints.maxWidth > 2.1 &&
+            Platform.isAndroid) ||
+        constraints.maxHeight > 812)
       return BoxConstraints(
           minWidth: constraints.maxWidth,
           maxWidth: constraints.maxWidth,
@@ -109,9 +110,8 @@ class _AppHeightNineSheetLayout extends SingleChildLayoutDelegate {
   bool shouldRelayout(_AppHeightNineSheetLayout oldDelegate) {
     return progress != oldDelegate.progress;
   }
-}// App Height Nine Sheet Layout END
+}
 
-// App Height Nine Sheet Modal Route
 class _AppHeightNineModalRoute<T> extends PopupRoute<T> {
   _AppHeightNineModalRoute(
       {this.builder,
@@ -151,18 +151,29 @@ class _AppHeightNineModalRoute<T> extends PopupRoute<T> {
   }
 
   AnimationController _animationController;
+  CurvedAnimation appSheetAnimation;
 
   @override
   AnimationController createAnimationController() {
     assert(_animationController == null);
     _animationController =
         BottomSheet.createAnimationController(navigator.overlay);
+    _animationController.duration = Duration(milliseconds: animationDurationMs);
     return _animationController;
   }
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
+    appSheetAnimation = CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOut,
+        reverseCurve: Curves.linear);
+    appSheetAnimation.addStatusListener((animationStatus) {
+      if (animationStatus == AnimationStatus.completed) {
+        appSheetAnimation.curve = Curves.linear;
+      }
+    });
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -176,9 +187,9 @@ class _AppHeightNineModalRoute<T> extends PopupRoute<T> {
         child: Theme(
           data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
           child: AnimatedBuilder(
-            animation: animation,
+            animation: appSheetAnimation,
             builder: (context, child) => CustomSingleChildLayout(
-                  delegate: _AppHeightNineSheetLayout(animation.value),
+                  delegate: _AppHeightNineSheetLayout(appSheetAnimation.value),
                   child: BottomSheet(
                     animationController: _animationController,
                     onClosing: () => Navigator.pop(context),
@@ -210,10 +221,8 @@ class _AppHeightNineModalRoute<T> extends PopupRoute<T> {
   Duration get transitionDuration =>
       Duration(milliseconds: animationDurationMs);
 }
-// App Height Nine Sheet Modal Route END
+//App Height Nine Sheet End
 
-
-// App Height Eight Sheet Layout
 class _AppHeightEightSheetLayout extends SingleChildLayoutDelegate {
   _AppHeightEightSheetLayout(this.progress);
 
@@ -250,10 +259,8 @@ class _AppHeightEightSheetLayout extends SingleChildLayoutDelegate {
   bool shouldRelayout(_AppHeightEightSheetLayout oldDelegate) {
     return progress != oldDelegate.progress;
   }
-}// App Height Eight Sheet Layout END
+}
 
-
-// App Height Eight Sheet Modal Route
 class _AppHeightEightModalRoute<T> extends PopupRoute<T> {
   _AppHeightEightModalRoute(
       {this.builder,
@@ -281,27 +288,38 @@ class _AppHeightEightModalRoute<T> extends PopupRoute<T> {
   String barrierLabel;
 
   AnimationController _animationController;
+  CurvedAnimation appSheetAnimation;
 
   @override
   AnimationController createAnimationController() {
     assert(_animationController == null);
     _animationController =
         BottomSheet.createAnimationController(navigator.overlay);
+    _animationController.duration = Duration(milliseconds: animationDurationMs);
     return _animationController;
   }
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
+    appSheetAnimation = CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOut,
+        reverseCurve: Curves.linear);
+    appSheetAnimation.addStatusListener((animationStatus) {
+      if (animationStatus == AnimationStatus.completed) {
+        appSheetAnimation.curve = Curves.linear;
+      }
+    });
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
       child: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
         child: AnimatedBuilder(
-          animation: animation,
+          animation: appSheetAnimation,
           builder: (context, child) => CustomSingleChildLayout(
-                delegate: _AppHeightEightSheetLayout(animation.value),
+                delegate: _AppHeightEightSheetLayout(appSheetAnimation.value),
                 child: BottomSheet(
                   animationController: _animationController,
                   onClosing: () => Navigator.pop(context),
@@ -331,4 +349,5 @@ class _AppHeightEightModalRoute<T> extends PopupRoute<T> {
   @override
   Duration get transitionDuration =>
       Duration(milliseconds: animationDurationMs);
-}// App Height Eight Sheet Modal Route END
+}
+//App HeightEight Sheet End
