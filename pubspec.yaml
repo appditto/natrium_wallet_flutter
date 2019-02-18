@@ -151,6 +151,14 @@ flutter:
     - family:  AppIcons
       fonts:
         - asset: fonts/AppIcons.ttf
+    - family: Comfortaa
+      fonts:
+        - asset: fonts/Comfortaa-Bold.ttf
+          weight: 700
+        - asset: fonts/Comfortaa-Regular.ttf
+          weight: 400
+        - asset: fonts/OverpassMono-Light.ttf
+          weight: 300
   assets:
     - assets/QR.svg
     - assets/QRlogo.svg
