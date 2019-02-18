@@ -39,26 +39,15 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                           //Width/Height ratio for the animation is needed because BoxFit is not working as expected
                           width: double.infinity,
                           height: MediaQuery.of(context).size.width * 5 / 8,
-                          child: Stack(
-                            children: <Widget>[
-                              Center(
-                                child: FlareActor(
-                                  "assets/welcome_animation_bananasonly.flr",
-                                  animation: "main",
-                                  fit: BoxFit.contain,
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .primary,
-                                ),
-                              ),
-                              Center(
-                                child: FlareActor(
-                                  "assets/welcome_animation_monkeysonly.flr",
-                                  animation: "main",
-                                  fit: BoxFit.contain,
-                                ),
-                              )
-                            ],
+                          child: Center(
+                            child: FlareActor(
+                              "assets/welcome_animation.flr",
+                              animation: "main",
+                              fit: BoxFit.contain,
+                              color: StateContainer.of(context)
+                                  .curTheme
+                                  .primary,
+                            ),
                           ),
                         ),
                         //Container for the paragraph
