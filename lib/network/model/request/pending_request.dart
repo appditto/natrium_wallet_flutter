@@ -4,6 +4,8 @@ import 'package:natrium_wallet_flutter/network/model/base_request.dart';
 
 part 'pending_request.g.dart';
 
+// TODO - Implement threshold here - it also changes the response format which is why it isnt done yet
+
 @JsonSerializable()
 class PendingRequest extends BaseRequest {
   @JsonKey(name:'action')

@@ -83,6 +83,8 @@ class StateContainer extends StatefulWidget {
 /// Basically the central hub behind the entire app
 class StateContainerState extends State<StateContainer> {
   final Logger log = Logger("StateContainerState");
+  // Minimum receive = 0.000001 NANO
+  static String RECEIVE_THRESHOLD = BigInt.from(10).pow(24).toString();
 
   AppWallet wallet;
   String currencyLocale;
@@ -513,6 +515,12 @@ class StateContainerState extends State<StateContainer> {
   }
 
   void handlePendingItem(PendingResponseItem item) {
+    BigInt amountBigInt = BigInt.tryParse(item.amount);
+    if (amountBigInt != null) {
+      if (amountBigInt < BigInt.parse(RECEIVE_THRESHOLD)) {
+        return;
+      }
+    }
     if (!AccountService.queueContainsRequestWithHash(item.hash) && !pendingBlockMap.containsKey(item.hash)) {
       if (wallet.openBlock == null && !AccountService.queueContainsOpenBlock()) {
         requestOpen("0", item.hash, item.amount);
