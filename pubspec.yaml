@@ -156,14 +156,21 @@ flutter:
     - assets/QRlogo.svg
     - assets/welcome_animation.flr
     - assets/send_animation.flr
-    - assets/transfer_animation.flr
-    - assets/searchseedqr_animation.flr
-    - assets/searchseedmanual_animation.flr
+    - assets/transfer_animation_natriumwalletonly.flr
+    - assets/transfer_animation_paperwalletonly.flr
+    - assets/searchseedqr_animation_magnifyingglassonly.flr
+    - assets/searchseedqr_animation_glassonly.flr
+    - assets/searchseedqr_animation_qronly.flr
+    - assets/searchseedmanual_animation_magnifyingglassonly.flr
+    - assets/searchseedmanual_animation_glassonly.flr
+    - assets/searchseedmanual_animation_seedonly.flr
     - assets/threedot_animation.flr
     - assets/offline_animation.flr
     - assets/sharecard_logo.svg
-    - assets/transferfunds_illustration_start.svg
-    - assets/transferfunds_illustration_end.svg
+    - assets/transferfunds_illustration_start_natriumwalletonly.svg
+    - assets/transferfunds_illustration_start_paperwalletonly.svg
+    - assets/transferfunds_illustration_end_natriumwalletonly.svg
+    - assets/transferfunds_illustration_end_paperwalletonly.svg
     - assets/pulltosend_animation.flr
 
   # The following line ensures that the Material Icons font is
