@@ -556,7 +556,7 @@ class _AppHomePageState extends State<AppHomePage>
         setState(() {
           receive = AppReceiveSheet(
             Container(
-                width: MediaQuery.of(context).size.width / 3.13,
+                width: MediaQuery.of(context).size.width / 2.675,
                 child: Image.memory(byteData.buffer.asUint8List())),
           );
         });

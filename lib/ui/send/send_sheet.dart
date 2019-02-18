@@ -119,6 +119,12 @@ class AppSendSheet {
             // On amount focus change
             _sendAmountFocusNode.addListener(() {
               if (_sendAmountFocusNode.hasFocus) {
+                if (quickSendAmount != null) {
+                  _sendAmountController.text = "";
+                  setState(() {
+                    quickSendAmount = null;
+                  });
+                }
                 setState(() {
                   _amountHint = "";
                 });
