@@ -4,8 +4,6 @@ import 'package:natrium_wallet_flutter/network/model/base_request.dart';
 
 part 'pending_request.g.dart';
 
-// TODO - Implement threshold here - it also changes the response format which is why it isnt done yet
-
 @JsonSerializable()
 class PendingRequest extends BaseRequest {
   @JsonKey(name:'action')
@@ -20,7 +18,10 @@ class PendingRequest extends BaseRequest {
   @JsonKey(name:"count")
   int count;
 
-  PendingRequest({this.action = Actions.PENDING, this.account, this.source = true, this.count});
+  @JsonKey(name:"threshold", includeIfNull: false)
+  String threshold;
+
+  PendingRequest({this.action = Actions.PENDING, this.account, this.source = true, this.count, this.threshold});
 
   factory PendingRequest.fromJson(Map<String, dynamic> json) => _$PendingRequestFromJson(json);
   Map<String, dynamic> toJson() => _$PendingRequestToJson(this);

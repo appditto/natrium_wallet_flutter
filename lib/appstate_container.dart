@@ -590,10 +590,10 @@ class StateContainerState extends State<StateContainer> {
   /// 
   void requestPending({String account}) {
     if (wallet.address != null && account == null) {
-      AccountService.queueRequest(PendingRequest(account: wallet.address, count: max(wallet.blockCount ?? 0, 10)));
+      AccountService.queueRequest(PendingRequest(account: wallet.address, count: max(wallet.blockCount ?? 0, 10), threshold: RECEIVE_THRESHOLD));
       AccountService.processQueue();
     } else {
-      AccountService.queueRequest(PendingRequest(account:account, count: 20), fromTransfer: true);
+      AccountService.queueRequest(PendingRequest(account:account, count: 20, threshold: RECEIVE_THRESHOLD), fromTransfer: true);
       AccountService.processQueue(); 
     }
   }
