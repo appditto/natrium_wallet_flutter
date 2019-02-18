@@ -870,7 +870,7 @@ class _AppHomePageState extends State<AppHomePage>
                                               context),
                                     ),
                                     TextSpan(
-                                      text: " BAN",
+                                      text: " NANO",
                                       style: AppStyles.textStyleTransactionUnit(
                                           context),
                                     ),
