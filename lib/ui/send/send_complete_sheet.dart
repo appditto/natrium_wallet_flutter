@@ -26,7 +26,6 @@ class AppSendCompleteSheet {
   mainBottomSheet(BuildContext context) {
     AppSheets.showAppHeightNineSheet(
         context: context,
-        animationDurationMs: 100,
         removeUntilHome: false,
         closeOnTap: true,
         builder: (BuildContext context) {

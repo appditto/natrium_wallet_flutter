@@ -63,7 +63,6 @@ class AppSendConfirmSheet {
 
     AppSheets.showAppHeightNineSheet(
         context: context,
-        animationDurationMs: 100,
         onDisposed: _onWillPop,
         builder: (BuildContext context) {
           return StatefulBuilder(
