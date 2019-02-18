@@ -81,12 +81,12 @@ class NatriumTheme extends BaseTheme {
   static const greenDark = Color(0xFF18A264);
   static const greenDark30 = Color(0x4D18A264);
 
-  static const blueishGreyLight = Color(0xFF1E2C3D);
-  static const blueishGreyLight40 = Color(0x661E2C3D);
-  static const blueishGreyLight00 = Color(0x001E2C3D);
+  static const blueishGreyDark = Color(0xFF1E2C3D);
+  static const blueishGreyDark40 = Color(0x661E2C3D);
+  static const blueishGreyDark00 = Color(0x001E2C3D);
 
-  static const blueishGreyDark = Color(0xFF2A3A4D);
-  static const blueishGreyDark00 = Color(0x002A3A4D);
+  static const blueishGreyLight = Color(0xFF2A3A4D);
+  static const blueishGreyLight00 = Color(0x002A3A4D);
 
   static const blueishGreyDarkest = Color(0xFF1E2C3D);
 
@@ -121,12 +121,12 @@ class NatriumTheme extends BaseTheme {
   Color successDark = greenDark;
   Color successDark30 = greenDark30;
 
-  Color background = blueishGreyLight;
-  Color background40 = blueishGreyLight40;
-  Color background00 = blueishGreyLight00;
+  Color background = blueishGreyDark;
+  Color background40 = blueishGreyDark40;
+  Color background00 = blueishGreyDark00;
 
-  Color backgroundDark = blueishGreyDark;
-  Color backgroundDark00 = blueishGreyDark00;
+  Color backgroundDark = blueishGreyLight;
+  Color backgroundDark00 = blueishGreyLight00;
 
   Color backgroundDarkest = blueishGreyDarkest;
 

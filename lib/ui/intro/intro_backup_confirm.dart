@@ -22,7 +22,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
-      backgroundColor: StateContainer.of(context).curTheme.background,
+      backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       body: LayoutBuilder(
         builder: (context, constraints) => SafeArea(
               minimum: EdgeInsets.only(

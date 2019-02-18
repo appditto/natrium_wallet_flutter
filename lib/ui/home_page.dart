@@ -1482,12 +1482,12 @@ class _AppHomePageState extends State<AppHomePage>
                         children: [
                           // Currency Icon
                           TextSpan(
-                            text: "",
+                            text: "",
                             style: TextStyle(
                               fontFamily: 'AppIcons',
                               color:
                                   StateContainer.of(context).curTheme.primary,
-                              fontSize: 23.0,
+                              fontSize: 26.0,
                             ),
                           ),
                           // Main balance text

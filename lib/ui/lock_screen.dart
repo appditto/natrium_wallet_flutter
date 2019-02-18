@@ -42,7 +42,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
     },
         expectedPin: expectedPin,
         description: AppLocalization.of(context).unlockPin,
-        pinScreenBackgroundColor: StateContainer.of(context).curTheme.background);
+        pinScreenBackgroundColor: StateContainer.of(context).curTheme.backgroundDark);
   }
 
   String _formatCountDisplay(int count) {

@@ -55,7 +55,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
         child: new Scaffold(
           resizeToAvoidBottomPadding: false,
           key: _scaffoldKey,
-          backgroundColor: StateContainer.of(context).curTheme.background,
+          backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
           body: LayoutBuilder(
             builder: (context, constraints) => SafeArea(
                   minimum: EdgeInsets.only(
@@ -112,7 +112,8 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 ),
                                 // The header
                                 Container(
-                                  margin: EdgeInsets.only(top: 15.0, left: 50, right: 50),
+                                  margin: EdgeInsets.only(
+                                      top: 15.0, left: 50, right: 50),
                                   alignment: Alignment(-1, 0),
                                   child: Text(
                                     AppLocalization.of(context).importSeed,
@@ -140,113 +141,120 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   decoration: BoxDecoration(
                                     color: StateContainer.of(context)
                                         .curTheme
-                                        .backgroundDark,
+                                        .backgroundDarkest,
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   // Text Field for the seed
-                                  child: TextField(
-                                    focusNode: _seedInputFocusNode,
-                                    controller: _seedInputController,
-                                    textAlign: TextAlign.center,
-                                    cursorColor: StateContainer.of(context)
-                                        .curTheme
-                                        .primary,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(64),
-                                    ],
-                                    textInputAction: TextInputAction.done,
-                                    maxLines: null,
-                                    autocorrect: false,
-                                    decoration: InputDecoration(
-                                      // Emtpy SizedBox
-                                      prefixIcon: SizedBox(
-                                        width: 48,
-                                        height: 48,
-                                      ),
-                                      // Paste Button
-                                      suffixIcon: AnimatedCrossFade(
-                                        duration: Duration(milliseconds: 100),
-                                        firstChild: Container(
+                                  child: Theme(
+                                    data: Theme.of(context).copyWith(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent),
+                                    child: TextField(
+                                      focusNode: _seedInputFocusNode,
+                                      controller: _seedInputController,
+                                      textAlign: TextAlign.center,
+                                      cursorColor: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(64),
+                                      ],
+                                      textInputAction: TextInputAction.done,
+                                      maxLines: null,
+                                      autocorrect: false,
+                                      decoration: InputDecoration(
+                                        // Emtpy SizedBox
+                                        prefixIcon: SizedBox(
                                           width: 48,
                                           height: 48,
-                                          child: FlatButton(
-                                            highlightColor:
-                                                StateContainer.of(context)
-                                                    .curTheme
-                                                    .primary15,
-                                            splashColor:
-                                                StateContainer.of(context)
-                                                    .curTheme
-                                                    .primary30,
-                                            child: Icon(AppIcons.paste,
-                                                size: 20,
-                                                color:
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .primary),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        100.0)),
-                                            padding: EdgeInsets.all(14.0),
-                                            onPressed: () {
-                                              if (NanoSeeds.isValidSeed(
-                                                  _seedInputController.text)) {
-                                                return;
-                                              }
-                                              Clipboard.getData("text/plain")
-                                                  .then((ClipboardData data) {
-                                                if (data == null ||
-                                                    data.text == null) {
-                                                  return;
-                                                } else if (NanoSeeds
-                                                    .isValidSeed(data.text)) {
-                                                  _seedInputController.text =
-                                                      data.text;
-                                                  _seedTextStyle =
-                                                      _validSeedTextStyle;
-                                                }
-                                              });
-                                            },
-                                          ),
                                         ),
-                                        secondChild: SizedBox(),
-                                        crossFadeState: NanoSeeds.isValidSeed(
-                                                _seedInputController.text)
-                                            ? CrossFadeState.showSecond
-                                            : CrossFadeState.showFirst,
+                                        // Paste Button
+                                        suffixIcon: AnimatedCrossFade(
+                                          duration: Duration(milliseconds: 100),
+                                          firstChild: Container(
+                                            width: 48,
+                                            height: 48,
+                                            child: FlatButton(
+                                              highlightColor:
+                                                  StateContainer.of(context)
+                                                      .curTheme
+                                                      .primary15,
+                                              splashColor:
+                                                  StateContainer.of(context)
+                                                      .curTheme
+                                                      .primary30,
+                                              child: Icon(AppIcons.paste,
+                                                  size: 20,
+                                                  color:
+                                                      StateContainer.of(context)
+                                                          .curTheme
+                                                          .primary),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100.0)),
+                                              padding: EdgeInsets.all(14.0),
+                                              onPressed: () {
+                                                if (NanoSeeds.isValidSeed(
+                                                    _seedInputController
+                                                        .text)) {
+                                                  return;
+                                                }
+                                                Clipboard.getData("text/plain")
+                                                    .then((ClipboardData data) {
+                                                  if (data == null ||
+                                                      data.text == null) {
+                                                    return;
+                                                  } else if (NanoSeeds
+                                                      .isValidSeed(data.text)) {
+                                                    _seedInputController.text =
+                                                        data.text;
+                                                    _seedTextStyle =
+                                                        _validSeedTextStyle;
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          secondChild: SizedBox(),
+                                          crossFadeState: NanoSeeds.isValidSeed(
+                                                  _seedInputController.text)
+                                              ? CrossFadeState.showSecond
+                                              : CrossFadeState.showFirst,
+                                        ),
+                                        border: InputBorder.none,
+                                        hintStyle: TextStyle(
+                                          fontFamily: 'NunitoSans',
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w100,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .text60,
+                                        ),
                                       ),
-                                      border: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                        fontFamily: 'NunitoSans',
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w100,
-                                        color: StateContainer.of(context)
-                                            .curTheme
-                                            .text60,
-                                      ),
+                                      keyboardType: TextInputType.text,
+                                      style: _seedTextStyle,
+                                      onChanged: (text) {
+                                        // Always reset the error message to be less annoying
+                                        setState(() {
+                                          _errorTextColor =
+                                              _initialErrorTextColor;
+                                        });
+                                        // If valid seed, clear focus/close keyboard
+                                        if (NanoSeeds.isValidSeed(text)) {
+                                          _seedInputFocusNode.unfocus();
+                                          setState(() {
+                                            _seedTextStyle =
+                                                _validSeedTextStyle;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            _seedTextStyle =
+                                                _initialSeedTextStyle;
+                                          });
+                                        }
+                                      },
                                     ),
-                                    keyboardType: TextInputType.text,
-                                    style: _seedTextStyle,
-                                    onChanged: (text) {
-                                      // Always reset the error message to be less annoying
-                                      setState(() {
-                                        _errorTextColor =
-                                            _initialErrorTextColor;
-                                      });
-                                      // If valid seed, clear focus/close keyboard
-                                      if (NanoSeeds.isValidSeed(text)) {
-                                        _seedInputFocusNode.unfocus();
-                                        setState(() {
-                                          _seedTextStyle = _validSeedTextStyle;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          _seedTextStyle =
-                                              _initialSeedTextStyle;
-                                        });
-                                      }
-                                    },
                                   ),
                                 ),
                                 // "Invalid Seed" text that appears if the input is invalid

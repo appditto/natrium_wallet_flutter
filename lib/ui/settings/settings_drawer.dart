@@ -748,244 +748,249 @@ class _SettingsSheetState extends State<SettingsSheet>
       decoration: BoxDecoration(
         color: StateContainer.of(context).curTheme.backgroundDark,
       ),
-      child: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(left: 30.0, top: 60.0, bottom: 10.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  AppLocalization.of(context).settingsHeader,
-                  style: AppStyles.textStyleSettingsHeader(context),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-              child: Stack(
-            children: <Widget>[
-              ListView(
-                padding: EdgeInsets.only(top: 15.0),
+      child: SafeArea(
+        minimum: EdgeInsets.only(
+          top: 60,
+        ),
+              child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(left: 30.0, bottom: 10.0, top: 5),
+              child: Row(
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(left: 30.0, bottom: 10),
-                    child: Text(AppLocalization.of(context).preferences,
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w100,
-                            color: StateContainer.of(context).curTheme.text60)),
+                  Text(
+                    AppLocalization.of(context).settingsHeader,
+                    style: AppStyles.textStyleSettingsHeader(context),
                   ),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemDoubleLine(
-                      context,
-                      AppLocalization.of(context).changeCurrency,
-                      StateContainer.of(context).curCurrency,
-                      AppIcons.currency,
-                      _currencyDialog),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemDoubleLine(
-                      context,
-                      AppLocalization.of(context).language,
-                      StateContainer.of(context).curLanguage,
-                      AppIcons.language,
-                      _languageDialog),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemDoubleLine(
-                      context,
-                      AppLocalization.of(context).notifications,
-                      _curNotificiationSetting,
-                      AppIcons.notifications,
-                      _notificationsDialog),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemDoubleLine(
-                      context,
-                      AppLocalization.of(context).themeHeader,
-                      _curThemeSetting,
-                      AppIcons.theme,
-                      _themeDialog),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemSingleLine(context, 
-                      AppLocalization.of(context).securityHeader,
-                      AppIcons.security, onPressed: () {
-                    setState(() {
-                      _securityOpen = true;
-                    });
-                    _securityController.forward();
-                  }),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  Container(
-                    margin:
-                        EdgeInsets.only(left: 30.0, top: 20.0, bottom: 10.0),
-                    child: Text(AppLocalization.of(context).manage,
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w100,
-                            color: StateContainer.of(context).curTheme.text60)),
-                  ),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemSingleLine(context, 
-                      AppLocalization.of(context).contactsHeader,
-                      AppIcons.contact, onPressed: () {
-                    setState(() {
-                      _contactsOpen = true;
-                    });
-                    _controller.forward();
-                  }),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemSingleLine(context, 
-                      AppLocalization.of(context).backupSeed,
-                      AppIcons.backupseed, onPressed: () {
-                    // Authenticate
-                    SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
-                      BiometricUtil.hasBiometrics().then((hasBiometrics) {
-                        if (authMethod.method == AuthMethod.BIOMETRICS &&
-                            hasBiometrics) {
-                          BiometricUtil.authenticateWithBiometrics(context,
-                                  AppLocalization.of(context)
-                                      .fingerprintSeedBackup)
-                              .then((authenticated) {
-                            if (authenticated) {
-                              HapticUtil.fingerprintSucess();
-                              new AppSeedBackupSheet()
-                                  .mainBottomSheet(context);
-                            }
-                          });
-                        } else {
-                          // PIN Authentication
-                          Vault.inst.getPin().then((expectedPin) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) {
-                              return new PinScreen(
-                                PinOverlayType.ENTER_PIN,
-                                (pin) {
-                                  Navigator.of(context).pop();
-                                  new AppSeedBackupSheet()
-                                      .mainBottomSheet(context);
-                                },
-                                expectedPin: expectedPin,
-                                description: AppLocalization.of(context)
-                                    .pinSeedBackup,
-                              );
-                            }));
-                          });
-                        }
-                      });
-                    });
-                  }),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemSingleLine(context,
-                      AppLocalization.of(context).settingsTransfer,
-                      AppIcons.transferfunds, onPressed: () {
-                    AppTransferOverviewSheet().mainBottomSheet(context);
-                  }),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemSingleLine(context,
-                      AppLocalization.of(context).changeRepAuthenticate,
-                      AppIcons.changerepresentative, onPressed: () {
-                    new AppChangeRepresentativeSheet()
-                        .mainBottomSheet(context);
-                  }),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemSingleLine(context,
-                      AppLocalization.of(context).shareNatrium,
-                      AppIcons.share, onPressed: () {
-                    Share.share("Check out Natrium - NANO Wallet for iOS and Android" +
-                        " https://natrium.io");
-                  }),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemSingleLine(context,
-                      AppLocalization.of(context).logout, AppIcons.logout,
-                      onPressed: () {
-                    AppDialogs.showConfirmDialog(
+                ],
+              ),
+            ),
+            Expanded(
+                child: Stack(
+              children: <Widget>[
+                ListView(
+                  padding: EdgeInsets.only(top: 15.0),
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(left: 30.0, bottom: 10),
+                      child: Text(AppLocalization.of(context).preferences,
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w100,
+                              color: StateContainer.of(context).curTheme.text60)),
+                    ),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemDoubleLine(
                         context,
-                        CaseChange.toUpperCase(AppLocalization.of(context).warning, context),
-                        AppLocalization.of(context).logoutDetail,
-                        AppLocalization.of(context)
-                            .logoutAction
-                            .toUpperCase(), () {
-                      // Show another confirm dialog
+                        AppLocalization.of(context).changeCurrency,
+                        StateContainer.of(context).curCurrency,
+                        AppIcons.currency,
+                        _currencyDialog),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemDoubleLine(
+                        context,
+                        AppLocalization.of(context).language,
+                        StateContainer.of(context).curLanguage,
+                        AppIcons.language,
+                        _languageDialog),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemDoubleLine(
+                        context,
+                        AppLocalization.of(context).notifications,
+                        _curNotificiationSetting,
+                        AppIcons.notifications,
+                        _notificationsDialog),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemDoubleLine(
+                        context,
+                        AppLocalization.of(context).themeHeader,
+                        _curThemeSetting,
+                        AppIcons.theme,
+                        _themeDialog),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemSingleLine(context, 
+                        AppLocalization.of(context).securityHeader,
+                        AppIcons.security, onPressed: () {
+                      setState(() {
+                        _securityOpen = true;
+                      });
+                      _securityController.forward();
+                    }),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    Container(
+                      margin:
+                          EdgeInsets.only(left: 30.0, top: 20.0, bottom: 10.0),
+                      child: Text(AppLocalization.of(context).manage,
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w100,
+                              color: StateContainer.of(context).curTheme.text60)),
+                    ),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemSingleLine(context, 
+                        AppLocalization.of(context).contactsHeader,
+                        AppIcons.contact, onPressed: () {
+                      setState(() {
+                        _contactsOpen = true;
+                      });
+                      _controller.forward();
+                    }),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemSingleLine(context, 
+                        AppLocalization.of(context).backupSeed,
+                        AppIcons.backupseed, onPressed: () {
+                      // Authenticate
+                      SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
+                        BiometricUtil.hasBiometrics().then((hasBiometrics) {
+                          if (authMethod.method == AuthMethod.BIOMETRICS &&
+                              hasBiometrics) {
+                            BiometricUtil.authenticateWithBiometrics(context,
+                                    AppLocalization.of(context)
+                                        .fingerprintSeedBackup)
+                                .then((authenticated) {
+                              if (authenticated) {
+                                HapticUtil.fingerprintSucess();
+                                new AppSeedBackupSheet()
+                                    .mainBottomSheet(context);
+                              }
+                            });
+                          } else {
+                            // PIN Authentication
+                            Vault.inst.getPin().then((expectedPin) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return new PinScreen(
+                                  PinOverlayType.ENTER_PIN,
+                                  (pin) {
+                                    Navigator.of(context).pop();
+                                    new AppSeedBackupSheet()
+                                        .mainBottomSheet(context);
+                                  },
+                                  expectedPin: expectedPin,
+                                  description: AppLocalization.of(context)
+                                      .pinSeedBackup,
+                                );
+                              }));
+                            });
+                          }
+                        });
+                      });
+                    }),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemSingleLine(context,
+                        AppLocalization.of(context).settingsTransfer,
+                        AppIcons.transferfunds, onPressed: () {
+                      AppTransferOverviewSheet().mainBottomSheet(context);
+                    }),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemSingleLine(context,
+                        AppLocalization.of(context).changeRepAuthenticate,
+                        AppIcons.changerepresentative, onPressed: () {
+                      new AppChangeRepresentativeSheet()
+                          .mainBottomSheet(context);
+                    }),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemSingleLine(context,
+                        AppLocalization.of(context).shareNatrium,
+                        AppIcons.share, onPressed: () {
+                      Share.share("Check out Natrium - NANO Wallet for iOS and Android" +
+                          " https://natrium.io");
+                    }),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemSingleLine(context,
+                        AppLocalization.of(context).logout, AppIcons.logout,
+                        onPressed: () {
                       AppDialogs.showConfirmDialog(
                           context,
-                          AppLocalization.of(context).logoutAreYouSure,
-                          AppLocalization.of(context).logoutReassurance,
-                          CaseChange.toUpperCase(AppLocalization.of(context).yes, context), () {
-                        // Unsubscribe from notifications
-                        SharedPrefsUtil.inst.setNotificationsOn(false).then((_) {
-                          FirebaseMessaging().getToken().then((fcmToken) {
-                          EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: fcmToken));
-                            // Delete all data
-                            Vault.inst.deleteAll().then((_) {
-                              SharedPrefsUtil.inst.deleteAll().then((result) {
-                                StateContainer.of(context).logOut();
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                    '/', (Route<dynamic> route) => false);
+                          CaseChange.toUpperCase(AppLocalization.of(context).warning, context),
+                          AppLocalization.of(context).logoutDetail,
+                          AppLocalization.of(context)
+                              .logoutAction
+                              .toUpperCase(), () {
+                        // Show another confirm dialog
+                        AppDialogs.showConfirmDialog(
+                            context,
+                            AppLocalization.of(context).logoutAreYouSure,
+                            AppLocalization.of(context).logoutReassurance,
+                            CaseChange.toUpperCase(AppLocalization.of(context).yes, context), () {
+                          // Unsubscribe from notifications
+                          SharedPrefsUtil.inst.setNotificationsOn(false).then((_) {
+                            FirebaseMessaging().getToken().then((fcmToken) {
+                            EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: fcmToken));
+                              // Delete all data
+                              Vault.inst.deleteAll().then((_) {
+                                SharedPrefsUtil.inst.deleteAll().then((result) {
+                                  StateContainer.of(context).logOut();
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      '/', (Route<dynamic> route) => false);
+                                });
                               });
                             });
                           });
                         });
                       });
-                    });
-                  }),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(versionString,
-                            style: AppStyles.textStyleVersion(context)),
-                        Text(" | ",
-                            style: AppStyles.textStyleVersion(context)),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                return UIUtil.showWebview(context, 
-                                   AppLocalization.of(context).privacyUrl);
-                              }));      
-                            },
-                            child: Text(AppLocalization.of(context).privacyPolicy,
-                                    style: AppStyles.textStyleVersionUnderline(context))
-                        ),
-                        Text(" | ",
-                            style: AppStyles.textStyleVersion(context)),
-                        GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                return UIUtil.showWebview(context, 
-                                   AppLocalization.of(context).eulaUrl);
-                              }));                              
-                            },
-                            child: Text("EULA",
-                                    style: AppStyles.textStyleVersionUnderline(context))
-                        ),
-                      ],
+                    }),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(versionString,
+                              style: AppStyles.textStyleVersion(context)),
+                          Text(" | ",
+                              style: AppStyles.textStyleVersion(context)),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                  return UIUtil.showWebview(context, 
+                                     AppLocalization.of(context).privacyUrl);
+                                }));      
+                              },
+                              child: Text(AppLocalization.of(context).privacyPolicy,
+                                      style: AppStyles.textStyleVersionUnderline(context))
+                          ),
+                          Text(" | ",
+                              style: AppStyles.textStyleVersion(context)),
+                          GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                  return UIUtil.showWebview(context, 
+                                     AppLocalization.of(context).eulaUrl);
+                                }));                              
+                              },
+                              child: Text("EULA",
+                                      style: AppStyles.textStyleVersionUnderline(context))
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ].where(notNull).toList(),
-              ),
-              //List Top Gradient End
-              Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  height: 20.0,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        StateContainer.of(context).curTheme.backgroundDark,
-                        StateContainer.of(context).curTheme.backgroundDark00
-                      ],
-                      begin: Alignment(0.5, -1.0),
-                      end: Alignment(0.5, 1.0),
-                    ),
-                  ),
+                  ].where(notNull).toList(),
                 ),
-              ), //List Top Gradient End
-            ],
-          )),
-        ],
+                //List Top Gradient End
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height: 20.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          StateContainer.of(context).curTheme.backgroundDark,
+                          StateContainer.of(context).curTheme.backgroundDark00
+                        ],
+                        begin: Alignment(0.5, -1.0),
+                        end: Alignment(0.5, 1.0),
+                      ),
+                    ),
+                  ),
+                ), //List Top Gradient End
+              ],
+            )),
+          ],
+        ),
       ),
     );
   }
@@ -1000,14 +1005,14 @@ class _SettingsSheetState extends State<SettingsSheet>
       ),
       child: SafeArea(
         minimum: EdgeInsets.only(
-          bottom: 10,
+          bottom: MediaQuery.of(context).size.height * 0.035,
           top: 60,
         ),
         child: Column(
           children: <Widget>[
           // Back button and Contacts Text
           Container(
-            margin: EdgeInsets.only(top: 60.0, bottom: 10.0),
+            margin: EdgeInsets.only(bottom: 10.0, top: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -1219,114 +1224,119 @@ Widget buildSecurityMenu(BuildContext context) {
           BoxShadow(color: StateContainer.of(context).curTheme.overlay30, offset: Offset(-5, 0), blurRadius: 20),
         ],
       ),
-      child: Column(
-        children: <Widget>[
-          // Back button and Security Text
-          Container(
-            margin: EdgeInsets.only(top: 60.0, bottom: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    //Back button
-                    Container(
-                      height: 40,
-                      width: 40,
-                      margin: EdgeInsets.only(right: 10, left: 10),
-                      child: FlatButton(
-                          highlightColor:
-                              StateContainer.of(context).curTheme.text15,
-                          splashColor:
-                              StateContainer.of(context).curTheme.text15,
-                          onPressed: () {
-                            setState(() {
-                              _securityOpen = false;
-                            });
-                            _securityController.reverse();
-                          },
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0)),
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(AppIcons.back,
-                              color: StateContainer.of(context).curTheme.text, size: 24)),
-                    ),
-                    //Security Header Text
-                    Text(
-                      AppLocalization.of(context).securityHeader,
-                      style: AppStyles.textStyleSettingsHeader(context),
-                    ),
-                  ],
-                ),                
-              ],
-            ),
-          ),
-          Expanded(
-              child: Stack(
-            children: <Widget>[
-              ListView(
-                padding: EdgeInsets.only(top: 15.0),
+      child: SafeArea(
+        minimum: EdgeInsets.only(
+          top: 60,
+        ),
+              child: Column(
+          children: <Widget>[
+            // Back button and Security Text
+            Container(
+              margin: EdgeInsets.only(bottom: 10.0, top: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(left: 30.0, bottom: 10),
-                    child: Text(AppLocalization.of(context).preferences,
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w100,
-                            color: StateContainer.of(context).curTheme.text60)),
-                  ),
-                  // Authentication Method
-                  _hasBiometrics ? Divider(height: 2, color: StateContainer.of(context).curTheme.text15,) : null,
-                  _hasBiometrics
-                      ? AppSettings.buildSettingsListItemDoubleLine(
-                          context,
-                          AppLocalization.of(context).authMethod,
-                          _curAuthMethod,
-                          AppIcons.fingerprint,
-                          _authMethodDialog)
-                      : null,
-                  // Authenticate on Launch
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemDoubleLine(
-                      context,
-                      AppLocalization.of(context).lockAppSetting,
-                      _curUnlockSetting,
-                      AppIcons.lock,
-                      _lockDialog),
-                  // Authentication Timer
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                  AppSettings.buildSettingsListItemDoubleLine(
-                      context,
-                      AppLocalization.of(context).autoLockHeader,
-                      _curTimeoutSetting,
-                      AppIcons.timer,
-                      _lockTimeoutDialog,
-                      disabled: _curUnlockSetting.setting == UnlockOption.NO,
-                  ),
-                  Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
-                ].where(notNull).toList(),
+                  Row(
+                    children: <Widget>[
+                      //Back button
+                      Container(
+                        height: 40,
+                        width: 40,
+                        margin: EdgeInsets.only(right: 10, left: 10),
+                        child: FlatButton(
+                            highlightColor:
+                                StateContainer.of(context).curTheme.text15,
+                            splashColor:
+                                StateContainer.of(context).curTheme.text15,
+                            onPressed: () {
+                              setState(() {
+                                _securityOpen = false;
+                              });
+                              _securityController.reverse();
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50.0)),
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(AppIcons.back,
+                                color: StateContainer.of(context).curTheme.text, size: 24)),
+                      ),
+                      //Security Header Text
+                      Text(
+                        AppLocalization.of(context).securityHeader,
+                        style: AppStyles.textStyleSettingsHeader(context),
+                      ),
+                    ],
+                  ),                
+                ],
               ),
-              //List Top Gradient End
-              Align(
-                alignment: Alignment.topCenter,
-                child: Container(
-                  height: 20.0,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        StateContainer.of(context).curTheme.backgroundDark,
-                        StateContainer.of(context).curTheme.backgroundDark00
-                      ],
-                      begin: Alignment(0.5, -1.0),
-                      end: Alignment(0.5, 1.0),
+            ),
+            Expanded(
+                child: Stack(
+              children: <Widget>[
+                ListView(
+                  padding: EdgeInsets.only(top: 15.0),
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(left: 30.0, bottom: 10),
+                      child: Text(AppLocalization.of(context).preferences,
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w100,
+                              color: StateContainer.of(context).curTheme.text60)),
+                    ),
+                    // Authentication Method
+                    _hasBiometrics ? Divider(height: 2, color: StateContainer.of(context).curTheme.text15,) : null,
+                    _hasBiometrics
+                        ? AppSettings.buildSettingsListItemDoubleLine(
+                            context,
+                            AppLocalization.of(context).authMethod,
+                            _curAuthMethod,
+                            AppIcons.fingerprint,
+                            _authMethodDialog)
+                        : null,
+                    // Authenticate on Launch
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemDoubleLine(
+                        context,
+                        AppLocalization.of(context).lockAppSetting,
+                        _curUnlockSetting,
+                        AppIcons.lock,
+                        _lockDialog),
+                    // Authentication Timer
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                    AppSettings.buildSettingsListItemDoubleLine(
+                        context,
+                        AppLocalization.of(context).autoLockHeader,
+                        _curTimeoutSetting,
+                        AppIcons.timer,
+                        _lockTimeoutDialog,
+                        disabled: _curUnlockSetting.setting == UnlockOption.NO,
+                    ),
+                    Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
+                  ].where(notNull).toList(),
+                ),
+                //List Top Gradient End
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height: 20.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          StateContainer.of(context).curTheme.backgroundDark,
+                          StateContainer.of(context).curTheme.backgroundDark00
+                        ],
+                        begin: Alignment(0.5, -1.0),
+                        end: Alignment(0.5, 1.0),
+                      ),
                     ),
                   ),
-                ),
-              ), //List Top Gradient End
-            ],
-          )),
-        ],
+                ), //List Top Gradient End
+              ],
+            )),
+          ],
+        ),
       ),
     );
   }

@@ -33,8 +33,7 @@ class AppSeedBackupSheet {
                 builder: (BuildContext context, StateSetter setState) {
               return SafeArea(
                 minimum: EdgeInsets.only(
-                  bottom: 10,
-                  top: 60,
+                  bottom: MediaQuery.of(context).size.height * 0.035,
                 ),
                 child: Container(
                 width: double.infinity,
