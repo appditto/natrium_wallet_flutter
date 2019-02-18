@@ -1548,7 +1548,7 @@ class TransactionDetailsSheet {
 
   mainBottomSheet(BuildContext context) {
     AppSheets.showAppHeightEightSheet(
-        animationDurationMs: 200,
+        animationDurationMs: 175,
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(
