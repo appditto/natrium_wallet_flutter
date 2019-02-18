@@ -31,7 +31,12 @@ class AppSeedBackupSheet {
           builder: (BuildContext context) {
             return StatefulBuilder(
                 builder: (BuildContext context, StateSetter setState) {
-              return Container(
+              return SafeArea(
+                minimum: EdgeInsets.only(
+                  bottom: 10,
+                  top: 60,
+                ),
+                child: Container(
                 width: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -151,7 +156,7 @@ class AppSeedBackupSheet {
                     ),
                   ],
                 ),
-              );
+              ));
             });
           });
     });

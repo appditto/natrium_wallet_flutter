@@ -25,18 +25,31 @@ class AppDialogs {
           content: Text(content, style: AppStyles.textStyleParagraph(context)),
           actions: <Widget>[
             FlatButton(
-              child: Text(
-                cancelText,
-                style: AppStyles.textStyleDialogButtonText(context),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.0)),
+              padding: EdgeInsets.all(12),
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 100),
+                child: Text(
+                  cancelText,
+                  style: AppStyles.textStyleDialogButtonText(context),
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             FlatButton(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              child: Text(buttonText,
-                  style: AppStyles.textStyleDialogButtonText(context)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.0)),
+              padding: EdgeInsets.all(12),
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 100),
+                child: Text(
+                  buttonText,
+                  style: AppStyles.textStyleDialogButtonText(context),
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 onPressed();
@@ -139,22 +152,101 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
   Widget _getAnimation(BuildContext context) {
     switch (type) {
       case AnimationType.SEND:
-        return FlareActor("assets/send_animation.flr",
-            animation: "main", fit: BoxFit.contain);
+        return Stack(
+          children: <Widget>[
+            Center(
+              child: FlareActor(
+                "assets/send_animation_bananasonly.flr",
+                animation: "main",
+                fit: BoxFit.contain,
+                color: StateContainer.of(context).curTheme.primary,
+              ),
+            ),
+            Center(
+              child: FlareActor(
+                "assets/send_animation_shadowsonly.flr",
+                animation: "main",
+                fit: BoxFit.contain,
+              ),
+            ),
+          ],
+        );
       case AnimationType.TRANSFER_SEARCHING_QR:
-        return FlareActor("assets/searchseedqr_animation.flr",
-            animation: "main", fit: BoxFit.contain);
+        return Stack(
+          children: <Widget>[
+            Center(
+              child: FlareActor(
+                "assets/searchseedqr_animation_qronly.flr",
+                animation: "main",
+                fit: BoxFit.contain,
+              ),
+            ),
+            Center(
+              child: FlareActor(
+                "assets/searchseedqr_animation_glassonly.flr",
+                animation: "main",
+                fit: BoxFit.contain,
+              ),
+            ),
+            Center(
+              child: FlareActor(
+                "assets/searchseedqr_animation_magnifyingglassonly.flr",
+                animation: "main",
+                fit: BoxFit.contain,
+                color: StateContainer.of(context).curTheme.primary,
+              ),
+            ),
+          ],
+        );
       case AnimationType.TRANSFER_SEARCHING_MANUAL:
-        return FlareActor("assets/searchseedmanual_animation.flr",
-            animation: "main", fit: BoxFit.contain);
+        return Stack(
+          children: <Widget>[
+            Center(
+              child: FlareActor(
+                "assets/searchseedmanual_animation_seedonly.flr",
+                animation: "main",
+                fit: BoxFit.contain,
+                color: StateContainer.of(context).curTheme.primary30,
+              ),
+            ),
+            Center(
+              child: FlareActor(
+                "assets/searchseedmanual_animation_glassonly.flr",
+                animation: "main",
+                fit: BoxFit.contain,
+              ),
+            ),
+            Center(
+              child: FlareActor(
+                "assets/searchseedmanual_animation_magnifyingglassonly.flr",
+                animation: "main",
+                fit: BoxFit.contain,
+                color: StateContainer.of(context).curTheme.primary,
+              ),
+            ),
+          ],
+        );
       case AnimationType.TRANSFER_TRANSFERRING:
-        return FlareActor("assets/transfer_animation.flr",
-            animation: "main", fit: BoxFit.contain);
+        return Stack(
+          children: <Widget>[
+            FlareActor(
+              "assets/transfer_animation_paperwalletonly.flr",
+              animation: "main",
+              fit: BoxFit.contain,
+            ),
+            FlareActor(
+              "assets/transfer_animation_natriumwalletonly.flr",
+              animation: "main",
+              fit: BoxFit.contain,
+              color: StateContainer.of(context).curTheme.primary,
+            ),
+          ],
+        );
       case AnimationType.GENERIC:
       default:
         return CircularProgressIndicator(
-            valueColor:
-                new AlwaysStoppedAnimation<Color>(StateContainer.of(context).curTheme.primary60));
+            valueColor: new AlwaysStoppedAnimation<Color>(
+                StateContainer.of(context).curTheme.primary60));
     }
   }
 
@@ -188,23 +280,33 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
               Container(
                 alignment: Alignment(0, -0.5),
                 width: MediaQuery.of(context).size.width / 1.4,
-                height: MediaQuery.of(context).size.width / 1.4/2,
+                height: MediaQuery.of(context).size.width / 1.4 / 2,
                 child: _getAnimation(context),
               ),
               Container(
-                margin: EdgeInsets.only(left: 10, top:20, bottom: MediaQuery.of(context).size.height*0.15),
-                              child: Row(
+                margin: EdgeInsets.only(
+                    left: 10,
+                    top: 20,
+                    bottom: MediaQuery.of(context).size.height * 0.15),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Text(CaseChange.toUpperCase(AppLocalization.of(context).transferLoading, context),
+                    Text(
+                        CaseChange.toUpperCase(
+                            AppLocalization.of(context).transferLoading,
+                            context),
                         style: AppStyles.textStyleHeader2Colored(context)),
                     Container(
                       margin: EdgeInsets.only(bottom: 7),
                       width: 33.333,
                       height: 8.866,
-                      child: FlareActor("assets/threedot_animation.flr",
-                          animation: "main", fit: BoxFit.contain),
+                      child: FlareActor(
+                        "assets/threedot_animation.flr",
+                        animation: "main",
+                        fit: BoxFit.contain,
+                        color: StateContainer.of(context).curTheme.primary,
+                      ),
                     ),
                   ],
                 ),

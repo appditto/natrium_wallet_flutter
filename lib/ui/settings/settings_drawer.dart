@@ -840,7 +840,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                       BiometricUtil.hasBiometrics().then((hasBiometrics) {
                         if (authMethod.method == AuthMethod.BIOMETRICS &&
                             hasBiometrics) {
-                          BiometricUtil.authenticateWithBiometrics(
+                          BiometricUtil.authenticateWithBiometrics(context,
                                   AppLocalization.of(context)
                                       .fingerprintSeedBackup)
                               .then((authenticated) {
@@ -889,7 +889,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   AppSettings.buildSettingsListItemSingleLine(context,
                       AppLocalization.of(context).shareNatrium,
                       AppIcons.share, onPressed: () {
-                    Share.share(AppLocalization.of(context).shareNatrium +
+                    Share.share("Check out Natrium - NANO Wallet for iOS and Android" +
                         " https://natrium.io");
                   }),
                   Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
@@ -998,8 +998,13 @@ class _SettingsSheetState extends State<SettingsSheet>
           BoxShadow(color: StateContainer.of(context).curTheme.overlay30, offset: Offset(-5, 0), blurRadius: 20),
         ],
       ),
-      child: Column(
-        children: <Widget>[
+      child: SafeArea(
+        minimum: EdgeInsets.only(
+          bottom: 10,
+          top: 60,
+        ),
+        child: Column(
+          children: <Widget>[
           // Back button and Contacts Text
           Container(
             margin: EdgeInsets.only(top: 60.0, bottom: 10.0),
@@ -1014,6 +1019,10 @@ class _SettingsSheetState extends State<SettingsSheet>
                       width: 40,
                       margin: EdgeInsets.only(right: 10, left: 10),
                       child: FlatButton(
+                          highlightColor:
+                              StateContainer.of(context).curTheme.text15,
+                          splashColor:
+                              StateContainer.of(context).curTheme.text15,
                           onPressed: () {
                             setState(() {
                               _contactsOpen = false;
@@ -1041,6 +1050,10 @@ class _SettingsSheetState extends State<SettingsSheet>
                       width: 40,
                       margin: EdgeInsets.only(right: 5),
                       child: FlatButton(
+                          highlightColor:
+                              StateContainer.of(context).curTheme.text15,
+                          splashColor:
+                              StateContainer.of(context).curTheme.text15,
                           onPressed: () {
                             _importContacts();
                           },
@@ -1056,6 +1069,10 @@ class _SettingsSheetState extends State<SettingsSheet>
                       width: 40,
                       margin: EdgeInsets.only(right: 20),
                       child: FlatButton(
+                          highlightColor:
+                              StateContainer.of(context).curTheme.text15,
+                          splashColor:
+                              StateContainer.of(context).curTheme.text15,
                           onPressed: () {
                             _exportContacts();
                           },
@@ -1149,7 +1166,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget buildSingleContact(BuildContext context, Contact contact) {
@@ -1218,6 +1235,10 @@ Widget buildSecurityMenu(BuildContext context) {
                       width: 40,
                       margin: EdgeInsets.only(right: 10, left: 10),
                       child: FlatButton(
+                          highlightColor:
+                              StateContainer.of(context).curTheme.text15,
+                          splashColor:
+                              StateContainer.of(context).curTheme.text15,
                           onPressed: () {
                             setState(() {
                               _securityOpen = false;

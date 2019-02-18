@@ -15,7 +15,7 @@ class ClipboardUtil {
     });
     setStream = delayed.asStream().listen((_) {
       Clipboard.getData("text/plain").then((data) {
-        if (NanoSeeds.isValidSeed(data.text)) {
+        if (data != null && data.text != null && NanoSeeds.isValidSeed(data.text)) {
           Clipboard.setData(ClipboardData(text: ""));
         }
       });

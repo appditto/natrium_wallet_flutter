@@ -144,7 +144,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
             _showLock = true;
             _showUnlockButton = true;
           });
-          BiometricUtil.authenticateWithBiometrics(
+          BiometricUtil.authenticateWithBiometrics(context,
                   AppLocalization.of(context).unlockBiometrics)
               .then((authenticated) {
             if (authenticated) {
@@ -197,7 +197,12 @@ class _AppLockScreenState extends State<AppLockScreen> {
         body: Container(
             color: StateContainer.of(context).curTheme.background,
             width: double.infinity,
-            child: Column(
+            child: SafeArea(
+              minimum: EdgeInsets.only(
+               bottom: MediaQuery.of(context).size.height * 0.035,
+               top: MediaQuery.of(context).size.height * 0.1,
+              ),
+              child: Column(
               children: <Widget>[
                 Expanded(
                   child: _showLock
@@ -253,6 +258,8 @@ class _AppLockScreenState extends State<AppLockScreen> {
                       )
                     : SizedBox(),
               ],
-            )));
+            )
+          )
+        ));
   }
 }

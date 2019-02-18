@@ -66,7 +66,7 @@ class AvailableCurrency extends SettingSelectionItem {
       case "NOK":
           return "Norwegian Krone";
       case "NZD":
-          return "New Zealand Dollar";
+          return "Zealand Dollar";
       case "PHP":
           return "Philippine Peso";
       case "PKR":
@@ -84,7 +84,7 @@ class AvailableCurrency extends SettingSelectionItem {
       case "TRY":
           return "Turkish Lira";
       case "TWD":
-          return "Taiwan New Dollar";
+          return "Taiwan Dollar";
       case "VES":
           return "Venezuelan Bolivar";
       case "ZAR":
@@ -174,72 +174,72 @@ class AvailableCurrency extends SettingSelectionItem {
       case "ARS":
           return Locale("es", "AR");
       case "AUD":
-          return new Locale("en", "AU");
+          return Locale("en", "AU");
       case "BRL":
-          return new Locale("pt", "BR");
+          return Locale("pt", "BR");
       case "CAD":
-          return new Locale("en", "CA");
+          return Locale("en", "CA");
       case "CHF":
-          return new Locale("de", "CH");
+          return Locale("de", "CH");
       case "CLP":
-          return new Locale("es", "CL");
+          return Locale("es", "CL");
       case "CNY":
-          return new Locale("zh", "CN");
+          return Locale("zh", "CN");
       case "CZK":
-          return new Locale("cs", "CZ");
+          return Locale("cs", "CZ");
       case "DKK":
-          return new Locale("da", "DK");
+          return Locale("da", "DK");
       case "EUR":
-          return new Locale("fr", "FR");
+          return Locale("fr", "FR");
       case "GBP":
-          return new Locale("en", "GB");
+          return Locale("en", "GB");
       case "HKD":
-          return new Locale("zh", "HK");
+          return Locale("zh", "HK");
       case "HUF":
-          return new Locale("hu", "HU");
+          return Locale("hu", "HU");
       case "IDR":
-          return new Locale("id", "ID");
+          return Locale("id", "ID");
       case "ILS":
-          return new Locale("he", "IL");
+          return Locale("he", "IL");
       case "INR":
-          return new Locale("hi", "IN");
+          return Locale("hi", "IN");
       case "JPY":
-          return new Locale("ja", "JP");
+          return Locale("ja", "JP");
       case "KRW":
-          return new Locale("ko", "KR");
+          return Locale("ko", "KR");
       case "MXN":
-          return new Locale("es", "MX");
+          return Locale("es", "MX");
       case "MYR":
-          return new Locale("ta", "MY");
+          return Locale("ta", "MY");
       case "NOK":
-          return new Locale("nn", "NO");
+          return Locale("nn", "NO");
       case "NZD":
-          return new Locale("en", "NZ");
+          return Locale("en", "NZ");
       case "PHP":
-          return new Locale("tl", "PH");
+          return Locale("tl", "PH");
       case "PKR":
-          return new Locale("ur", "PK");
+          return Locale("ur", "PK");
       case "PLN":
-          return new Locale("pl", "PL");
+          return Locale("pl", "PL");
       case "RUB":
-          return new Locale("ru", "RU");
+          return Locale("ru", "RU");
       case "SEK":
-          return new Locale("sv", "SE");
+          return Locale("sv", "SE");
       case "SGD":
-          return new Locale("zh", "SG");
+          return Locale("zh", "SG");
       case "THB":
-          return new Locale("th", "TH");
+          return Locale("th", "TH");
       case "TRY":
-          return new Locale("tr", "TR");
+          return Locale("tr", "TR");
       case "TWD":
-          return new Locale("en", "TW");
+          return Locale("en", "TW");
       case "VES":
-          return new Locale("es", "VE");
+          return Locale("es", "VE");
       case "ZAR":
-          return new Locale("en", "ZA");
+          return Locale("en", "ZA");
       case "USD":
       default:
-          return new Locale("en", "US");
+          return Locale("en", "US");
     }
   }
 
@@ -254,7 +254,10 @@ class AvailableCurrency extends SettingSelectionItem {
     AvailableCurrencyEnum.values.forEach((value) {
       AvailableCurrency currency = AvailableCurrency(value);
       if (locale != null && locale.countryCode == null) {
-        if (currency.getLocale().countryCode.toUpperCase() == locale.countryCode.toUpperCase()) {
+        // Special cases
+        if (['AT', 'BE', 'CY', 'EE', 'FI', 'FR', 'DE', 'GR', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PT', 'SK', 'SI', 'ES'].contains(locale.countryCode)) {
+          return AvailableCurrency(AvailableCurrencyEnum.EUR);
+        } else if (currency.getLocale().countryCode.toUpperCase() == locale.countryCode.toUpperCase()) {
           return currency;
         }
       }

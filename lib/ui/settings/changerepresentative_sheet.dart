@@ -95,7 +95,12 @@ class AppChangeRepresentativeSheet {
             });
             return WillPopScope(
                 onWillPop: _onWillPop,
-                child: Container(
+                child: SafeArea(
+                  minimum: EdgeInsets.only(
+                    bottom: 10,
+                    top: 60,
+                  ),
+                  child: Container(
                   width: double.infinity,
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -111,6 +116,10 @@ class AppChangeRepresentativeSheet {
                             height: 50,
                             margin: EdgeInsets.only(top: 10.0, left: 10.0),
                             child: FlatButton(
+                              highlightColor:
+                                  StateContainer.of(context).curTheme.text15,
+                              splashColor:
+                                  StateContainer.of(context).curTheme.text15,
                               onPressed: () {
                                 AppDialogs.showInfoDialog(
                                     context,
@@ -155,9 +164,13 @@ class AppChangeRepresentativeSheet {
                             height: 50,
                             margin: EdgeInsets.only(top: 10.0, right: 10.0),
                             child: FlatButton(
+                              highlightColor:
+                                  StateContainer.of(context).curTheme.text15,
+                              splashColor:
+                                  StateContainer.of(context).curTheme.text15,
                               onPressed: () {
                                 UIUtil.cancelLockEvent();
-                                BarcodeScanner.scan(OverlayTheme.KALIUM)
+                                BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme)
                                     .then((result) {
                                   if (result == null) {
                                     return;
@@ -300,6 +313,14 @@ class AppChangeRepresentativeSheet {
                                                 width: 48.0,
                                                 height: 48.0,
                                                 child: FlatButton(
+                                                  highlightColor:
+                                                      StateContainer.of(context)
+                                                          .curTheme
+                                                          .primary15,
+                                                  splashColor:
+                                                      StateContainer.of(context)
+                                                          .curTheme
+                                                          .primary30,
                                                   padding: EdgeInsets.all(15.0),
                                                   onPressed: () {
                                                     if (!_showPasteButton) {
@@ -433,7 +454,7 @@ class AppChangeRepresentativeSheet {
                                               AuthMethod.BIOMETRICS &&
                                           hasBiometrics) {
                                         BiometricUtil
-                                                .authenticateWithBiometrics(
+                                                .authenticateWithBiometrics(context,
                                                     AppLocalization.of(context)
                                                         .changeRepAuthenticate)
                                             .then((authenticated) {
@@ -560,7 +581,8 @@ class AppChangeRepresentativeSheet {
                       )
                     ],
                   ),
-                ));
+                )
+              ));
           });
         });
   }

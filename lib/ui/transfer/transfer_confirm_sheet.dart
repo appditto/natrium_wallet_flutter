@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/material.dart';
+import 'package:event_taxi/event_taxi.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -62,29 +62,35 @@ class AppTransferConfirmSheet {
     return true;
   }
 
-
   mainBottomSheet(BuildContext context) {
     // Block callback responses
     StateContainer.of(context).lockCallback();
     // See how much we have to transfer and separate accounts with pendings
     List<String> accountsToRemove = List();
-    privKeyBalanceMap.forEach((String account, AccountBalanceItem accountBalanceItem) {
-      totalToTransfer += BigInt.parse(accountBalanceItem.balance) + BigInt.parse(accountBalanceItem.pending);
-      if (BigInt.parse(accountBalanceItem.pending) == BigInt.zero && BigInt.parse(accountBalanceItem.balance) > BigInt.zero) {
+    privKeyBalanceMap
+        .forEach((String account, AccountBalanceItem accountBalanceItem) {
+      totalToTransfer += BigInt.parse(accountBalanceItem.balance) +
+          BigInt.parse(accountBalanceItem.pending);
+      if (BigInt.parse(accountBalanceItem.pending) == BigInt.zero &&
+          BigInt.parse(accountBalanceItem.balance) > BigInt.zero) {
         readyToSendMap.putIfAbsent(account, () => accountBalanceItem);
         accountsToRemove.add(account);
-      } else if (BigInt.parse(accountBalanceItem.pending) == BigInt.zero && BigInt.parse(accountBalanceItem.balance) == BigInt.zero) {
+      } else if (BigInt.parse(accountBalanceItem.pending) == BigInt.zero &&
+          BigInt.parse(accountBalanceItem.balance) == BigInt.zero) {
         accountsToRemove.add(account);
       }
     });
     accountsToRemove.forEach((account) {
       privKeyBalanceMap.remove(account);
     });
-    totalAsReadableAmount = NumberUtil.getRawAsUsableString(totalToTransfer.toString());
+    totalAsReadableAmount =
+        NumberUtil.getRawAsUsableString(totalToTransfer.toString());
 
     // Register event buses (this will probably get a little messy)
     // Receiving account history
-    _historySub = EventTaxiImpl.singleton().registerTo<TransferAccountHistoryEvent>().listen((event) {
+    _historySub = EventTaxiImpl.singleton()
+        .registerTo<TransferAccountHistoryEvent>()
+        .listen((event) {
       AccountHistoryResponse historyResponse = event.response;
       bool readyToSend = false;
       String account = historyResponse.account;
@@ -110,13 +116,16 @@ class AppTransferConfirmSheet {
       }
     });
     // Pending response
-    _pendingSub = EventTaxiImpl.singleton().registerTo<TransferPendingEvent>().listen((event) {
+    _pendingSub = EventTaxiImpl.singleton()
+        .registerTo<TransferPendingEvent>()
+        .listen((event) {
       // See if this is our account or a paper wallet account
       if (event.response.account != StateContainer.of(context).wallet.address) {
         if (!privKeyBalanceMap.containsKey(event.response.account)) {
           errorCallback();
         }
-        privKeyBalanceMap[event.response.account].pendingResponse = event.response;
+        privKeyBalanceMap[event.response.account].pendingResponse =
+            event.response;
         // Begin open/receive with pendings
         processNextPending(context, event.response.account);
       } else {
@@ -126,15 +135,19 @@ class AppTransferConfirmSheet {
       }
     });
     // Process response
-    _processSub = EventTaxiImpl.singleton().registerTo<TransferProcessEvent>().listen((processResponse) {
+    _processSub = EventTaxiImpl.singleton()
+        .registerTo<TransferProcessEvent>()
+        .listen((processResponse) {
       // If this is our own account
-      if (processResponse.account == StateContainer.of(context).wallet.address) {
+      if (processResponse.account ==
+          StateContainer.of(context).wallet.address) {
         StateContainer.of(context).wallet.frontier = processResponse.hash;
         processAppPending(context);
         return;
       }
       // A paper wallet account
-      AccountBalanceItem balItem = privKeyBalanceMap.remove(processResponse.account);
+      AccountBalanceItem balItem =
+          privKeyBalanceMap.remove(processResponse.account);
       if (balItem != null) {
         balItem.frontier = processResponse.hash;
         balItem.balance = processResponse.balance;
@@ -147,11 +160,13 @@ class AppTransferConfirmSheet {
           errorCallback();
         }
         totalTransferred += BigInt.parse(balItem.balance);
-        startProcessing(context);        
+        startProcessing(context);
       }
     });
     // Error response
-    _errorSub = EventTaxiImpl.singleton().registerTo<TransferErrorEvent>().listen((event) {
+    _errorSub = EventTaxiImpl.singleton()
+        .registerTo<TransferErrorEvent>()
+        .listen((event) {
       if (animationOpen) {
         Navigator.of(context).pop();
       }
@@ -165,87 +180,120 @@ class AppTransferConfirmSheet {
               builder: (BuildContext context, StateSetter setState) {
             return WillPopScope(
               onWillPop: _onWillPop,
+              child: SafeArea(
+                minimum: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.035,
+                ),
                 child: Container(
-                width: double.infinity,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    //A container for the header
-                    Container(
-                      margin: EdgeInsets.only(top: 30.0, left:70, right: 70),
-                      child: AutoSizeText(
-                        CaseChange.toUpperCase(AppLocalization.of(context).transferHeader, context),
-                        style: AppStyles.textStyleHeader(context),
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        stepGranularity: 0.1,
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      //A container for the header
+                      Container(
+                        margin: EdgeInsets.only(top: 30.0, left: 70, right: 70),
+                        child: AutoSizeText(
+                          CaseChange.toUpperCase(
+                              AppLocalization.of(context).transferHeader,
+                              context),
+                          style: AppStyles.textStyleHeader(context),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          stepGranularity: 0.1,
+                        ),
                       ),
-                    ),
 
-                    // A container for the paragraphs
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.1),
+                      // A container for the paragraphs
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.1),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal:
+                                          smallScreen(context) ? 35 : 60),
+                                  child: Text(
+                                    AppLocalization.of(context)
+                                        .transferConfirmInfo
+                                        .replaceAll(
+                                            "%1", totalAsReadableAmount),
+                                    style: AppStyles.textStyleParagraphPrimary(
+                                        context),
+                                    textAlign: TextAlign.left,
+                                  )),
+                              Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal:
+                                          smallScreen(context) ? 35 : 60),
+                                  child: Text(
+                                    AppLocalization.of(context)
+                                        .transferConfirmInfoSecond,
+                                    style:
+                                        AppStyles.textStyleParagraph(context),
+                                    textAlign: TextAlign.left,
+                                  )),
+                              Container(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal:
+                                          smallScreen(context) ? 35 : 60),
+                                  child: Text(
+                                    AppLocalization.of(context)
+                                        .transferConfirmInfoThird,
+                                    style:
+                                        AppStyles.textStyleParagraph(context),
+                                    textAlign: TextAlign.left,
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Container(
-                                margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
-                                child: Text(
-                                  AppLocalization.of(context).transferConfirmInfo.replaceAll("%1", totalAsReadableAmount),
-                                  style: AppStyles.textStyleParagraphPrimary(context),
-                                  textAlign: TextAlign.left,
-                            )),
-                            Container(
-                                margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
-                                child: Text(
-                                  AppLocalization.of(context).transferConfirmInfoSecond,
-                                  style: AppStyles.textStyleParagraph(context),
-                                  textAlign: TextAlign.left,
-                            )),
-                            Container(
-                                margin: EdgeInsets.symmetric(horizontal: smallScreen(context)?35:60),
-                                child: Text(
-                                  AppLocalization.of(context).transferConfirmInfoThird,
-                                  style: AppStyles.textStyleParagraph(context),
-                                  textAlign: TextAlign.left,
-                            )),
+                            Row(
+                              children: <Widget>[
+                                // Send Button
+                                AppButton.buildAppButton(
+                                    context,
+                                    AppButtonType.PRIMARY,
+                                    CaseChange.toUpperCase(
+                                        AppLocalization.of(context).confirm,
+                                        context),
+                                    Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                                  animationOpen = true;
+                                  Navigator.of(context).push(
+                                      AnimationLoadingOverlay(
+                                          AnimationType.TRANSFER_TRANSFERRING,
+                                          onPoppedCallback: () {
+                                    animationOpen = false;
+                                  }));
+                                  startProcessing(context);
+                                }),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                // Scan QR Code Button
+                                AppButton.buildAppButton(
+                                    context,
+                                    AppButtonType.PRIMARY_OUTLINE,
+                                    AppLocalization.of(context)
+                                        .cancel
+                                        .toUpperCase(),
+                                    Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                                  Navigator.of(context).pop();
+                                }),
+                              ],
+                            ),
                           ],
                         ),
                       ),
-                    ),
-                    Container(
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              // Send Button
-                              AppButton.buildAppButton(context, 
-                                  AppButtonType.PRIMARY,
-                                  CaseChange.toUpperCase(AppLocalization.of(context).confirm, context),
-                                  Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                                animationOpen = true;
-                                Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.TRANSFER_TRANSFERRING, onPoppedCallback: () { animationOpen = false; } ));
-                                startProcessing(context);
-                              }),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              // Scan QR Code Button
-                              AppButton.buildAppButton(context, 
-                                  AppButtonType.PRIMARY_OUTLINE,
-                                  AppLocalization.of(context).cancel.toUpperCase(),
-                                  Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                                Navigator.of(context).pop();
-                              }),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
@@ -254,7 +302,7 @@ class AppTransferConfirmSheet {
   }
 
   Future<String> _getPrivKey() async {
-   return NanoUtil.seedToPrivate(await Vault.inst.getSeed(), 0);
+    return NanoUtil.seedToPrivate(await Vault.inst.getSeed(), 0);
   }
 
   ///
@@ -270,23 +318,18 @@ class AppTransferConfirmSheet {
     AccountBalanceItem accountBalanceItem = privKeyBalanceMap[account];
     PendingResponse pendingResponse = accountBalanceItem.pendingResponse;
     Map<String, PendingResponseItem> pendingBlocks = pendingResponse.blocks;
-    if (pendingBlocks.length  > 0) {
+    if (pendingBlocks.length > 0) {
       String hash = pendingBlocks.keys.first;
       PendingResponseItem pendingItem = pendingBlocks.remove(hash);
       if (accountBalanceItem.frontier != null) {
         // Receive block
-        StateContainer.of(context).requestReceive(accountBalanceItem.frontier,
-                hash,
-                pendingItem.amount,
-                privKey: accountBalanceItem.privKey,
-                account: account);
+        StateContainer.of(context).requestReceive(
+            accountBalanceItem.frontier, hash, pendingItem.amount,
+            privKey: accountBalanceItem.privKey, account: account);
       } else {
         // Open account
-        StateContainer.of(context).requestOpen("0",
-                hash,
-                pendingItem.amount,
-                privKey: accountBalanceItem.privKey,
-                account: account);
+        StateContainer.of(context).requestOpen("0", hash, pendingItem.amount,
+            privKey: accountBalanceItem.privKey, account: account);
       }
     } else {
       readyToSendMap.putIfAbsent(account, () => accountBalanceItem);
@@ -311,26 +354,25 @@ class AppTransferConfirmSheet {
       String hash = pendingBlocks.keys.first;
       PendingResponseItem pendingItem = pendingBlocks.remove(hash);
       if (StateContainer.of(context).wallet.openBlock != null) {
-          // Receive block
-          _getPrivKey().then((result) {
-            StateContainer.of(context).requestReceive(StateContainer.of(context).wallet.frontier,
-                    hash,
-                    pendingItem.amount,
-                    privKey: result,
-                    account: StateContainer.of(context).wallet.address);
-          });
+        // Receive block
+        _getPrivKey().then((result) {
+          StateContainer.of(context).requestReceive(
+              StateContainer.of(context).wallet.frontier,
+              hash,
+              pendingItem.amount,
+              privKey: result,
+              account: StateContainer.of(context).wallet.address);
+        });
       } else {
-          // Open account
-          _getPrivKey().then((result) {
-            StateContainer.of(context).requestOpen("0",
-                    hash,
-                    pendingItem.amount,
-                    privKey: result,
-                    account: StateContainer.of(context).wallet.address);
-          });
+        // Open account
+        _getPrivKey().then((result) {
+          StateContainer.of(context).requestOpen("0", hash, pendingItem.amount,
+              privKey: result,
+              account: StateContainer.of(context).wallet.address);
+        });
       }
     } else {
-        startProcessing(context); // Finish the process
+      startProcessing(context); // Finish the process
     }
   }
 
@@ -346,19 +388,16 @@ class AppTransferConfirmSheet {
         StateContainer.of(context).requestAccountHistory(account);
       } else {
         StateContainer.of(context).requestSend(
-          balItem.frontier,
-          StateContainer.of(context).wallet.address,
-          "0",
-          privKey: balItem.privKey,
-          account: account);
+            balItem.frontier, StateContainer.of(context).wallet.address, "0",
+            privKey: balItem.privKey, account: account);
       }
     } else if (!finished) {
-      // TODO - for some reason the NANO node doesnt know about our pendings right away, so don't try to receive this transfer here for now
       finished = true;
-      //StateContainer.of(context).requestPending(account: StateContainer.of(context).wallet.address);
-      startProcessing(context);
+      StateContainer.of(context)
+          .requestPending(account: StateContainer.of(context).wallet.address);
     } else {
-      EventTaxiImpl.singleton().fire(TransferCompleteEvent(amount: totalToTransfer));
+      EventTaxiImpl.singleton()
+          .fire(TransferCompleteEvent(amount: totalToTransfer));
       if (animationOpen) {
         Navigator.of(context).pop();
       }

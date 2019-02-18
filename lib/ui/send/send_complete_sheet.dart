@@ -15,8 +15,8 @@ class AppSendCompleteSheet {
   String _contactName;
   String _localAmount;
 
-  AppSendCompleteSheet(
-      String amount, String destinaton, String contactName, {String localAmount}) {
+  AppSendCompleteSheet(String amount, String destinaton, String contactName,
+      {String localAmount}) {
     _amount = amount;
     _destination = destinaton;
     _contactName = contactName;
@@ -33,7 +33,10 @@ class AppSendCompleteSheet {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
             // The main column that holds everything
-            return Column(
+            return SafeArea(
+              minimum: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.035),
+              child: Column(
               children: <Widget>[
                 //A main container that holds the amount, address and "SENT TO" texts
                 Expanded(
@@ -153,7 +156,7 @@ class AppSendCompleteSheet {
                   ),
                 ),
               ],
-            );
+            ));
           });
         });
   }

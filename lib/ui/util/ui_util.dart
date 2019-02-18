@@ -4,19 +4,15 @@ import 'package:event_taxi/event_taxi.dart';
 import 'package:http/http.dart' as http;
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
-import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/ui/util/exceptions.dart';
 
 enum ThreeLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS, SUCCESS_FULL }
 enum OneLineAddressTextType { PRIMARY60, PRIMARY, SUCCESS }
-
-enum MonkeySize { SMALL, HOME_SMALL, NORMAL, LARGE }
 
 class UIUtil {
   static Widget threeLineAddressText(BuildContext context, String address,
@@ -358,8 +354,8 @@ class UIUtil {
     return WebviewScaffold(
       url: AppLocalization.of(context).getBlockExplorerUrl(hash),
       appBar: new AppBar(
-        backgroundColor: StateContainer.of(context).curTheme.background,
-        brightness: Brightness.dark,
+        backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
+        brightness: StateContainer.of(context).curTheme.brightness,
         iconTheme: IconThemeData(color: StateContainer.of(context).curTheme.text),
       ),
     );
@@ -370,8 +366,8 @@ class UIUtil {
     return WebviewScaffold(
       url: AppLocalization.of(context).getAccountExplorerUrl(account),
       appBar: new AppBar(
-        backgroundColor: StateContainer.of(context).curTheme.background,
-        brightness: Brightness.dark,
+        backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
+        brightness: StateContainer.of(context).curTheme.brightness,
         iconTheme: IconThemeData(color: StateContainer.of(context).curTheme.text),
       ),
     );
@@ -382,8 +378,8 @@ class UIUtil {
     return WebviewScaffold(
       url: url,
       appBar: new AppBar(
-        backgroundColor: StateContainer.of(context).curTheme.background,
-        brightness: Brightness.dark,
+        backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
+        brightness: StateContainer.of(context).curTheme.brightness,
         iconTheme: IconThemeData(color: StateContainer.of(context).curTheme.text),
       ),
     );

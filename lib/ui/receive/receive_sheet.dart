@@ -79,7 +79,10 @@ class AppReceiveSheet {
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return Column(
+            return SafeArea(
+              minimum: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height * 0.035),
+              child: Column(
               children: <Widget>[
                 // A row for the address text and close button
                 Row(
@@ -92,11 +95,15 @@ class AppReceiveSheet {
                       height: 50,
                       margin: EdgeInsets.only(top: 10.0, left: 10.0),
                       child: FlatButton(
+                        highlightColor:
+                            StateContainer.of(context).curTheme.text15,
+                        splashColor: StateContainer.of(context).curTheme.text15,
                         onPressed: () {
                           Navigator.pop(context);
                         },
                         child: Icon(AppIcons.close,
-                            size: 16, color: StateContainer.of(context).curTheme.text),
+                            size: 16,
+                            color: StateContainer.of(context).curTheme.text),
                         padding: EdgeInsets.all(17.0),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -106,7 +113,8 @@ class AppReceiveSheet {
                     //Container for the address text
                     Container(
                       margin: EdgeInsets.only(top: 30.0),
-                      child: UIUtil.threeLineAddressText(context, _wallet.address,
+                      child: UIUtil.threeLineAddressText(
+                          context, _wallet.address,
                           type: ThreeLineAddressTextType.PRIMARY60),
                     ),
                     //Empty SizedBox
@@ -128,7 +136,9 @@ class AppReceiveSheet {
                           child: Container(
                             width: 260,
                             height: 150,
-                            color: StateContainer.of(context).curTheme.backgroundDark,
+                            color: StateContainer.of(context)
+                                .curTheme
+                                .backgroundDark,
                           ),
                         ),
                         // Background/border part the QR
@@ -161,42 +171,50 @@ class AppReceiveSheet {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        AppButton.buildAppButton(context, 
-                          // Share Address Button
-                          _addressCopied ? AppButtonType.SUCCESS : AppButtonType.PRIMARY,
-                          _addressCopied ? AppLocalization.of(context).addressCopied : AppLocalization.of(context).copyAddress,
-                          Dimens.BUTTON_TOP_DIMENS,
-                          onPressed: () {
-                            Clipboard.setData(
-                                new ClipboardData(text: _wallet.address));
-                            setState(() {
-                              // Set copied style
-                              _addressCopied = true;
-                            });
-                            if (_addressCopiedTimer != null) {
-                              _addressCopiedTimer.cancel();
-                            }
-                            _addressCopiedTimer = new Timer(
-                                const Duration(milliseconds: 800), () {
-                              setState(() {
-                                _addressCopied = false;
-                              });
-                            });
+                        AppButton.buildAppButton(
+                            context,
+                            // Share Address Button
+                            _addressCopied
+                                ? AppButtonType.SUCCESS
+                                : AppButtonType.PRIMARY,
+                            _addressCopied
+                                ? AppLocalization.of(context).addressCopied
+                                : AppLocalization.of(context).copyAddress,
+                            Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                          Clipboard.setData(
+                              new ClipboardData(text: _wallet.address));
+                          setState(() {
+                            // Set copied style
+                            _addressCopied = true;
+                          });
+                          if (_addressCopiedTimer != null) {
+                            _addressCopiedTimer.cancel();
                           }
-                        ),
+                          _addressCopiedTimer =
+                              new Timer(const Duration(milliseconds: 800), () {
+                            setState(() {
+                              _addressCopied = false;
+                            });
+                          });
+                        }),
                       ],
                     ),
                     Row(
                       children: <Widget>[
-                        AppButton.buildAppButton(context, 
+                        AppButton.buildAppButton(
+                            context,
                             // Share Address Button
                             AppButtonType.PRIMARY_OUTLINE,
-                            _showShareCard ? "Loading" : AppLocalization.of(context).addressShare,
+                            _showShareCard
+                                ? "Loading"
+                                : AppLocalization.of(context).addressShare,
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             disabled: _showShareCard, onPressed: () {
-                          String receiveCardFileName = "share_${StateContainer.of(context).wallet.address}.png";
+                          String receiveCardFileName =
+                              "share_${StateContainer.of(context).wallet.address}.png";
                           getApplicationDocumentsDirectory().then((directory) {
-                            String filePath = "${directory.path}/$receiveCardFileName";
+                            String filePath =
+                                "${directory.path}/$receiveCardFileName";
                             File f = File(filePath);
                             setState(() {
                               _showShareCard = true;
@@ -207,7 +225,10 @@ class AppReceiveSheet {
                                   if (byteData != null) {
                                     f.writeAsBytes(byteData).then((file) {
                                       UIUtil.cancelLockEvent();
-                                      Share.shareFile(file, text: StateContainer.of(context).wallet.address);
+                                      Share.shareFile(file,
+                                          text: StateContainer.of(context)
+                                              .wallet
+                                              .address);
                                     });
                                   } else {
                                     // TODO - show a something went wrong message
@@ -225,7 +246,7 @@ class AppReceiveSheet {
                   ],
                 ),
               ],
-            );
+            ));
           });
         });
   }

@@ -50,8 +50,9 @@ class AppSendSheet {
 
   Contact contact;
   String address;
+  String quickSendAmount;
 
-  AppSendSheet({this.contact, this.address});
+  AppSendSheet({this.contact, this.address, this.quickSendAmount});
 
   // A method for deciding if 1 or 3 line address text should be used
   _oneOrthreeLineAddressText(BuildContext context) {
@@ -75,6 +76,9 @@ class AppSendSheet {
     _sendAmountController = new TextEditingController();
     _sendAddressController = new TextEditingController();
     _sendAddressStyle = AppStyles.textStyleAddressText60(context);
+    if (quickSendAmount != null && StateContainer.of(context).wallet.accountBalance >= BigInt.parse(quickSendAmount)) {
+      _sendAmountController.text = NumberUtil.getRawAsUsableString(quickSendAmount).replaceAll(",", "");
+    }
     _contacts = List();
     if (contact != null) {
       // Setup initial state for contact pre-filled
@@ -159,7 +163,10 @@ class AppSendSheet {
               }
             });
             // The main column that holds everything
-            return Column(
+            return SafeArea(
+              minimum: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.height * 0.035),
+              child: Column(
               children: <Widget>[
                 // A row for the header of the sheet, balance text and close button
                 Row(
@@ -172,6 +179,9 @@ class AppSendSheet {
                       height: 50,
                       margin: EdgeInsets.only(top: 10.0, left: 10.0),
                       child: FlatButton(
+                        highlightColor:
+                            StateContainer.of(context).curTheme.text15,
+                        splashColor: StateContainer.of(context).curTheme.text15,
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -488,7 +498,7 @@ class AppSendSheet {
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             try {
                               UIUtil.cancelLockEvent();
-                              BarcodeScanner.scan(OverlayTheme.KALIUM)
+                              BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme)
                                   .then((value) {
                                 Address address = Address(value);
                                 if (!address.isValid()) {
@@ -530,6 +540,13 @@ class AppSendSheet {
                                       _sendAddressController.text =
                                           contact.name;
                                     }
+                                    // Fill amount
+                                    if (address.amount != null) {
+                                      if (_localCurrencyMode) {
+                                        toggleLocalCurrency(context, setState);
+                                      }
+                                      _sendAmountController.text = NumberUtil.getRawAsUsableString(address.amount);
+                                    }
                                   });
                                   _sendAddressFocusNode.unfocus();
                                 }
@@ -548,7 +565,7 @@ class AppSendSheet {
                   ),
                 ),
               ],
-            );
+            ));
           });
         });
   }

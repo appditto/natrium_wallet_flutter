@@ -24,13 +24,14 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
       key: _scaffoldKey,
       backgroundColor: StateContainer.of(context).curTheme.background,
       body: LayoutBuilder(
-        builder: (context, constraints) => Column(
-              children: <Widget>[
-                //A widget that holds the header, the paragraph and Back Button
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(
-                        vertical: MediaQuery.of(context).size.height * 0.075),
+        builder: (context, constraints) => SafeArea(
+              minimum: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.035,
+                  top: MediaQuery.of(context).size.height * 0.075),
+              child: Column(
+                children: <Widget>[
+                  //A widget that holds the header, the paragraph and Back Button
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
@@ -42,6 +43,12 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                               height: 50,
                               width: 50,
                               child: FlatButton(
+                                  highlightColor: StateContainer.of(context)
+                                      .curTheme
+                                      .text15,
+                                  splashColor: StateContainer.of(context)
+                                      .curTheme
+                                      .text15,
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
@@ -50,13 +57,16 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                                           BorderRadius.circular(50.0)),
                                   padding: EdgeInsets.all(0.0),
                                   child: Icon(AppIcons.back,
-                                      color: StateContainer.of(context).curTheme.text, size: 24)),
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .text,
+                                      size: 24)),
                             ),
                           ],
                         ),
                         // The header
                         Container(
-                          margin: EdgeInsets.only(top: 15.0, left: 50),
+                          margin: EdgeInsets.only(top: 15.0, left: 50, right: 50),
                           alignment: Alignment(-1, 0),
                           child: Text(
                             AppLocalization.of(context).backupYourSeed,
@@ -74,40 +84,42 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                       ],
                     ),
                   ),
-                ),
 
-               //A column with YES and NO buttons
-                Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        // YES Button
-                        AppButton.buildAppButton(context, 
-                            AppButtonType.PRIMARY,
-                            AppLocalization.of(context).yes.toUpperCase(),
-                            Dimens.BUTTON_TOP_DIMENS, 
-                          onPressed: () {
+                  //A column with YES and NO buttons
+                  Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          // YES Button
+                          AppButton.buildAppButton(
+                              context,
+                              AppButtonType.PRIMARY,
+                              AppLocalization.of(context).yes.toUpperCase(),
+                              Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) {
-                              return new PinScreen(PinOverlayType.NEW_PIN, (_pinEnteredCallback));
+                              return new PinScreen(PinOverlayType.NEW_PIN,
+                                  (_pinEnteredCallback));
                             }));
-                        }),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        // NO BUTTON
-                        AppButton.buildAppButton(context, 
-                            AppButtonType.PRIMARY_OUTLINE,
-                            AppLocalization.of(context).no.toUpperCase(),
-                            Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                              Navigator.of(context).pop();
-                        }),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                          }),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          // NO BUTTON
+                          AppButton.buildAppButton(
+                              context,
+                              AppButtonType.PRIMARY_OUTLINE,
+                              AppLocalization.of(context).no.toUpperCase(),
+                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                            Navigator.of(context).pop();
+                          }),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
       ),
     );

@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:event_taxi/event_taxi.dart';
+import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -38,12 +38,15 @@ class AppTransferOverviewSheet {
 
   mainBottomSheet(BuildContext context) {
     // Handle accounts balances response
-    _balancesSub = EventTaxiImpl.singleton().registerTo<AccountsBalancesEvent>().listen((event) {
+    _balancesSub = EventTaxiImpl.singleton()
+        .registerTo<AccountsBalancesEvent>()
+        .listen((event) {
       if (_animationOpen) {
         Navigator.of(context).pop();
       }
       List<String> accountsToRemove = List();
-      event.response.balances.forEach((String account, AccountBalanceItem balItem) {
+      event.response.balances
+          .forEach((String account, AccountBalanceItem balItem) {
         BigInt balance = BigInt.parse(balItem.balance);
         BigInt pending = BigInt.parse(balItem.pending);
         if (balance + pending == BigInt.zero) {
@@ -58,11 +61,13 @@ class AppTransferOverviewSheet {
         privKeyBalanceMap.remove(account);
       });
       if (privKeyBalanceMap.length == 0) {
-        UIUtil.showSnackbar(AppLocalization.of(context).transferNoFunds, context);
+        UIUtil.showSnackbar(
+            AppLocalization.of(context).transferNoFunds, context);
         return;
       }
       // Go to confirmation screen
-      EventTaxiImpl.singleton().fire(TransferConfirmEvent(balMap: privKeyBalanceMap));
+      EventTaxiImpl.singleton()
+          .fire(TransferConfirmEvent(balMap: privKeyBalanceMap));
       Navigator.of(context).pop();
     });
 
@@ -79,115 +84,162 @@ class AppTransferOverviewSheet {
               builder: (BuildContext context, StateSetter setState) {
             return WillPopScope(
               onWillPop: _onWillPop,
-              child: Container(
-                width: double.infinity,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    // A container for the header
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        //Close Button
-                        Container(
-                          width: 50,
-                          height: 50,
-                          margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                          child: FlatButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(AppIcons.close,
-                                size: 16, color: StateContainer.of(context).curTheme.text),
-                            padding: EdgeInsets.all(17.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100.0)),
-                            materialTapTargetSize: MaterialTapTargetSize.padded,
-                          ),
-                        ),
-                        // The header
-                        Container(
-                          margin: EdgeInsets.only(top: 30.0),
-                          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width-140),
-                          child: AutoSizeText(
-                            CaseChange.toUpperCase(AppLocalization.of(context)
-                                .transferHeader, context),
-                            style: AppStyles.textStyleHeader(context),
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            stepGranularity: 0.1,
-                          ),
-                        ),
-                        // Emtpy SizedBox
-                        SizedBox(
-                          height: 60,
-                          width: 60,
-                        ),
-                      ],
-                    ),
-
-                    // A container for the illustration and paragraphs
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+              child: SafeArea(
+                minimum: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.035,
+                ),
+                child: Container(
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      // A container for the header
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          //Close Button
                           Container(
-                            constraints: BoxConstraints(
-                                maxHeight:
-                                    MediaQuery.of(context).size.height * 0.2,
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.6),
-                            child: SvgPicture.asset('assets/transferfunds_illustration_start.svg'),
+                            width: 50,
+                            height: 50,
+                            margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                            child: FlatButton(
+                              highlightColor:
+                                  StateContainer.of(context).curTheme.text15,
+                              splashColor:
+                                  StateContainer.of(context).curTheme.text15,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(AppIcons.close,
+                                  size: 16,
+                                  color:
+                                      StateContainer.of(context).curTheme.text),
+                              padding: EdgeInsets.all(17.0),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100.0)),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.padded,
+                            ),
                           ),
+                          // The header
                           Container(
-                              alignment: Alignment(-1, 0),
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: smallScreen(context)?35:60, vertical: 20),
-                              child: Text(
-                                AppLocalization.of(context).transferIntro.replaceAll("%1", AppLocalization.of(context).scanQrCode),
-                                style: AppStyles.textStyleParagraph(context),
-                                textAlign: TextAlign.left,
-                              )),
+                            margin: EdgeInsets.only(top: 30.0),
+                            constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width - 140),
+                            child: AutoSizeText(
+                              CaseChange.toUpperCase(
+                                  AppLocalization.of(context).transferHeader,
+                                  context),
+                              style: AppStyles.textStyleHeader(context),
+                              textAlign: TextAlign.center,
+                              maxLines: 2,
+                              stepGranularity: 0.1,
+                            ),
+                          ),
+                          // Emtpy SizedBox
+                          SizedBox(
+                            height: 60,
+                            width: 60,
+                          ),
                         ],
                       ),
-                    ),
 
-                    Row(
-                      children: <Widget>[
-                        AppButton.buildAppButton(context, 
-                          AppButtonType.PRIMARY,
-                          AppLocalization.of(context).scanQrCode,
-                          Dimens.BUTTON_TOP_DIMENS,
-                          onPressed: () {
-                            UIUtil.cancelLockEvent();
-                            BarcodeScanner.scan(OverlayTheme.NATRIUM).then((value) {
-                              if (!NanoSeeds.isValidSeed(value)) {
-                                UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidSeed, context);
-                                return;
-                              }
-                              startTransfer(context, value);
-                            });
-                          },
+                      // A container for the illustration and paragraphs
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              constraints: BoxConstraints(
+                                  maxHeight:
+                                      MediaQuery.of(context).size.height * 0.2,
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.6),
+                              child: Stack(
+                                children: <Widget>[
+                                  Center(
+                                    child: SvgPicture.asset(
+                                      'assets/transferfunds_illustration_start_paperwalletonly.svg',
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .text45,
+                                    ),
+                                  ),
+                                  Center(
+                                    child: SvgPicture.asset(
+                                      'assets/transferfunds_illustration_start_natriumwalletonly.svg',
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment(-1, 0),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: smallScreen(context) ? 35 : 50,
+                                  vertical: 20),
+                              child: AutoSizeText(
+                                AppLocalization.of(context)
+                                    .transferIntro
+                                    .replaceAll("%1",
+                                        AppLocalization.of(context).scanQrCode),
+                                style: AppStyles.textStyleParagraph(context),
+                                textAlign: TextAlign.left,
+                                maxLines: 6,
+                                stepGranularity: 0.5,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        AppButton.buildAppButton(context, 
-                          AppButtonType.PRIMARY_OUTLINE,
-                          AppLocalization.of(context).manualEntry,
-                          Dimens.BUTTON_BOTTOM_DIMENS,
-                          onPressed: () {
-                            AppTransferManualEntrySheet(manualEntryCallback)
-                                .mainBottomSheet(context);
-                          },
-                          
-                        ),
-                      ],
-                    ),
-                  ],
+                      ),
+
+                      Row(
+                        children: <Widget>[
+                          AppButton.buildAppButton(
+                            context,
+                            AppButtonType.PRIMARY,
+                            AppLocalization.of(context).scanQrCode,
+                            Dimens.BUTTON_TOP_DIMENS,
+                            onPressed: () {
+                              UIUtil.cancelLockEvent();
+                              BarcodeScanner.scan(StateContainer.of(context)
+                                      .curTheme
+                                      .qrScanTheme)
+                                  .then((value) {
+                                if (!NanoSeeds.isValidSeed(value)) {
+                                  UIUtil.showSnackbar(
+                                      AppLocalization.of(context).qrInvalidSeed,
+                                      context);
+                                  return;
+                                }
+                                startTransfer(context, value);
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          AppButton.buildAppButton(
+                            context,
+                            AppButtonType.PRIMARY_OUTLINE,
+                            AppLocalization.of(context).manualEntry,
+                            Dimens.BUTTON_BOTTOM_DIMENS,
+                            onPressed: () {
+                              AppTransferManualEntrySheet(manualEntryCallback)
+                                  .mainBottomSheet(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -195,12 +247,17 @@ class AppTransferOverviewSheet {
         });
   }
 
-  void startTransfer(BuildContext context, String seed, {bool manualEntry = false}) {
+  void startTransfer(BuildContext context, String seed,
+      {bool manualEntry = false}) {
     // Show loading overlay
     _animationOpen = true;
-    AnimationType animation = manualEntry ? AnimationType.TRANSFER_SEARCHING_MANUAL : AnimationType.TRANSFER_SEARCHING_QR;
+    AnimationType animation = manualEntry
+        ? AnimationType.TRANSFER_SEARCHING_MANUAL
+        : AnimationType.TRANSFER_SEARCHING_QR;
     Navigator.of(context)
-                  .push(AnimationLoadingOverlay(animation, onPoppedCallback: () { _animationOpen = false; }));
+        .push(AnimationLoadingOverlay(animation, onPoppedCallback: () {
+      _animationOpen = false;
+    }));
     // Get accounts from seed
     List<String> accountsToRequest = getAccountsFromSeed(context, seed);
     // Make balances request
@@ -213,19 +270,23 @@ class AppTransferOverviewSheet {
     String privKey;
     String address;
     // Get NUM_SWEEP private keys + accounts from seed
-    for (int i=0; i < NUM_SWEEP; i++) {
+    for (int i = 0; i < NUM_SWEEP; i++) {
       privKey = NanoKeys.seedToPrivate(seed, i);
-      address = NanoAccounts.createAccount(NanoAccountType.NANO, NanoKeys.createPublicKey(privKey));
+      address = NanoAccounts.createAccount(
+          NanoAccountType.BANANO, NanoKeys.createPublicKey(privKey));
       // Don't add this if it is the currently logged in account
       if (address != StateContainer.of(context).wallet.address) {
-        privKeyBalanceMap.putIfAbsent(address, () => AccountBalanceItem(privKey: privKey));
+        privKeyBalanceMap.putIfAbsent(
+            address, () => AccountBalanceItem(privKey: privKey));
         accountsToRequest.add(address);
       }
     }
     // Also treat this seed as a private key
-    address = NanoAccounts.createAccount(NanoAccountType.NANO, NanoKeys.createPublicKey(seed));
+    address = NanoAccounts.createAccount(
+        NanoAccountType.BANANO, NanoKeys.createPublicKey(seed));
     if (address != StateContainer.of(context).wallet.address) {
-      privKeyBalanceMap.putIfAbsent(address, () => AccountBalanceItem(privKey: seed));
+      privKeyBalanceMap.putIfAbsent(
+          address, () => AccountBalanceItem(privKey: seed));
       accountsToRequest.add(address);
     }
     return accountsToRequest;

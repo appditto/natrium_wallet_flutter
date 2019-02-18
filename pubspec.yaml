@@ -164,6 +164,7 @@ flutter:
     - assets/sharecard_logo.svg
     - assets/transferfunds_illustration_start.svg
     - assets/transferfunds_illustration_end.svg
+    - assets/pulltosend_animation.flr
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

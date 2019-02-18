@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'package:flare_flutter/flare.dart';
+import 'package:flare_dart/math/mat2d.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -10,10 +14,10 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/list_model.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
-import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
@@ -28,12 +32,12 @@ import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_scaffold.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/list_slidable.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/reactive_refresh.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
-import 'package:natrium_wallet_flutter/util/fileutil.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:qr/qr.dart';
@@ -46,7 +50,7 @@ class AppHomePage extends StatefulWidget {
 }
 
 class _AppHomePageState extends State<AppHomePage>
-    with WidgetsBindingObserver, SingleTickerProviderStateMixin {
+    with WidgetsBindingObserver, SingleTickerProviderStateMixin, FlareController {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final GlobalKey<AppScaffoldState> _scaffoldKey =
       new GlobalKey<AppScaffoldState>();
@@ -79,6 +83,31 @@ class _AppHomePageState extends State<AppHomePage>
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   StreamSubscription _deepLinkSub;
+
+  // Animation for swiping to send
+  ActorAnimation _sendSlideAnimation;
+  ActorAnimation _sendSlideReleaseAnimation;
+  double _fanimationPosition;
+  bool releaseAnimation = false;
+
+  void initialize(FlutterActorArtboard actor) {
+    _fanimationPosition = 0.0;
+    _sendSlideAnimation = actor.getAnimation("pull");
+    _sendSlideReleaseAnimation = actor.getAnimation("release");
+  }
+
+  void setViewTransform(Mat2D viewTransform) {}
+
+  bool advance(FlutterActorArtboard artboard, double elapsed) {
+    if (releaseAnimation) {
+      _sendSlideReleaseAnimation.apply(_sendSlideReleaseAnimation.duration * (1-_fanimationPosition),
+                                      artboard, 1.0);
+    } else {
+      _sendSlideAnimation.apply(
+          _sendSlideAnimation.duration * _fanimationPosition, artboard, 1.0);
+    }
+    return true;
+  }
 
   @override
   void initState() {
@@ -220,6 +249,10 @@ class _AppHomePageState extends State<AppHomePage>
       setState(() {
         _isRefreshing = false;
       });
+      if (_initialDeepLink != null) {
+        handleDeepLink(_initialDeepLink);
+        _initialDeepLink = null;
+      }
     });
     _sendCompleteSub = EventTaxiImpl.singleton()
         .registerTo<SendCompleteEvent>()
@@ -453,43 +486,60 @@ class _AppHomePageState extends State<AppHomePage>
     });
   }
 
+  void handleDeepLink(link) {
+    Address address = Address(link);
+    if (!address.isValid()) {
+      return;
+    }
+    String amount;
+    String contactName;
+    if (address.amount != null) {
+      // Require minimum 1 BANOSHI to send
+      if (BigInt.parse(address.amount) >= BigInt.from(10).pow(27)) {
+        amount = address.amount;
+      }
+    }
+    // See if a contact
+    DBHelper().getContactWithAddress(address.address).then((contact) {
+      if (contact != null) {
+        contactName = contact.name;
+      }
+      // Remove any other screens from stack
+      Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
+      if (amount != null) {
+        // Go to send confirm with amount
+        AppSendConfirmSheet(
+                NumberUtil.getRawAsUsableString(amount).replaceAll(",", ""),
+                address.address,
+                contactName: contactName)
+            .mainBottomSheet(context);
+      } else {
+        // Go to send with address
+        AppSendSheet(contact: contact, address: address.address)
+            .mainBottomSheet(context);
+      }
+    });
+  }
+  String _initialDeepLink;
+
   @override
   Widget build(BuildContext context) {
-    if (_deepLinkSub == null && !StateContainer.of(context).wallet.loading) {
+    if (_deepLinkSub == null) {
+      // Get initial deep link
+      getInitialLink().then((deepLink) {
+        if (deepLink != null && !StateContainer.of(context).wallet.historyLoading) {
+          handleDeepLink(deepLink);
+        } else if (deepLink != null) {
+          _initialDeepLink = deepLink;
+        }
+      });
       // Listen for deep link changes
       _deepLinkSub = getLinksStream().listen((String link) {
-        Address address = Address(link);
-        if (!address.isValid()) {
-          return;
+        if (link != null && !StateContainer.of(context).wallet.historyLoading) {
+          handleDeepLink(link);
+        } else if (link != null && StateContainer.of(context).wallet.historyLoading) {
+          _initialDeepLink = link;
         }
-        String amount;
-        String contactName;
-        if (address.amount != null) {
-          // Require minimum 1 RAI to send
-          if (BigInt.parse(address.amount) >= BigInt.from(10).pow(24)) {
-            amount = address.amount;
-          }
-        }
-        // See if a contact
-        DBHelper().getContactWithAddress(address.address).then((contact) {
-          if (contact != null) {
-            contactName = contact.name;
-          }
-          // Remove any other screens from stack
-          Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-          if (amount != null) {
-            // Go to send confirm with amount
-            AppSendConfirmSheet(
-                    NumberUtil.getRawAsUsableString(amount).replaceAll(",", ""),
-                    address.address,
-                    contactName: contactName)
-                .mainBottomSheet(context);
-          } else {
-            // Go to send with address
-            AppSendSheet(contact: contact, address: address.address)
-                .mainBottomSheet(context);
-          }
-        });
       }, onError: (e) {
         log.severe(e.toString());
       });
@@ -504,12 +554,15 @@ class _AppHomePageState extends State<AppHomePage>
       );
       painter.toImageData(MediaQuery.of(context).size.width).then((byteData) {
         setState(() {
-          receive = AppReceiveSheet(Container(
-              width: MediaQuery.of(context).size.width / 2.675,
-              child: Image.memory(byteData.buffer.asUint8List())));
+          receive = AppReceiveSheet(
+            Container(
+                width: MediaQuery.of(context).size.width / 3.13,
+                child: Image.memory(byteData.buffer.asUint8List())),
+          );
         });
       });
     }
+
     return AppScaffold(
       resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
@@ -520,159 +573,184 @@ class _AppHomePageState extends State<AppHomePage>
           child: SettingsSheet(),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          //Main Card
-          _buildMainCard(context, _scaffoldKey),
-          //Main Card End
+      body: SafeArea(
+        minimum: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.045,
+            bottom: MediaQuery.of(context).size.height * 0.035),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            //Main Card
+            _buildMainCard(context, _scaffoldKey),
+            //Main Card End
 
-          //Transactions Text
-          Container(
-            margin: EdgeInsets.fromLTRB(30.0, 20.0, 26.0, 0.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  CaseChange.toUpperCase(
-                      AppLocalization.of(context).transactions, context),
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w100,
-                    color: StateContainer.of(context).curTheme.text,
+            //Transactions Text
+            Container(
+              margin: EdgeInsets.fromLTRB(30.0, 20.0, 26.0, 0.0),
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    CaseChange.toUpperCase(
+                        AppLocalization.of(context).transactions, context),
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w100,
+                      color: StateContainer.of(context).curTheme.text,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ), //Transactions Text End
+                ],
+              ),
+            ), //Transactions Text End
 
-          //Transactions List
-          Expanded(
-            child: Stack(
-              children: <Widget>[
-                _getListWidget(context),
-                //List Top Gradient End
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    height: 10.0,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [StateContainer.of(context).curTheme.background00, StateContainer.of(context).curTheme.background],
-                        begin: Alignment(0.5, 1.0),
-                        end: Alignment(0.5, -1.0),
+            //Transactions List
+            Expanded(
+              child: Stack(
+                children: <Widget>[
+                  _getListWidget(context),
+                  //List Top Gradient End
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      height: 10.0,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            StateContainer.of(context).curTheme.background00,
+                            StateContainer.of(context).curTheme.background
+                          ],
+                          begin: Alignment(0.5, 1.0),
+                          end: Alignment(0.5, -1.0),
+                        ),
+                      ),
+                    ),
+                  ), // List Top Gradient End
+
+                  //List Bottom Gradient
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 30.0,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            StateContainer.of(context).curTheme.background00,
+                            StateContainer.of(context).curTheme.background
+                          ],
+                          begin: Alignment(0.5, -1),
+                          end: Alignment(0.5, 0.5),
+                        ),
+                      ),
+                    ),
+                  ), //List Bottom Gradient End
+                ],
+              ),
+            ), //Transactions List End
+
+            //Buttons Area
+            Container(
+              color: StateContainer.of(context).curTheme.background,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        boxShadow: [
+                          StateContainer.of(context).curTheme.boxShadowButton
+                        ],
+                      ),
+                      height: 55,
+                      margin: EdgeInsets.only(left: 14, top: 0.0, right: 7.0),
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100.0)),
+                        color: receive != null
+                            ? StateContainer.of(context).curTheme.primary
+                            : StateContainer.of(context).curTheme.primary60,
+                        child: AutoSizeText(
+                          AppLocalization.of(context).receive,
+                          textAlign: TextAlign.center,
+                          style: AppStyles.textStyleButtonPrimary(context),
+                          maxLines: 1,
+                          stepGranularity: 0.5,
+                        ),
+                        onPressed: () {
+                          if (receive == null) {
+                            return;
+                          }
+                          receive.mainBottomSheet(context);
+                        },
+                        highlightColor: receive != null
+                            ? StateContainer.of(context).curTheme.background40
+                            : Colors.transparent,
+                        splashColor: receive != null
+                            ? StateContainer.of(context).curTheme.background40
+                            : Colors.transparent,
                       ),
                     ),
                   ),
-                ), // List Top Gradient End
-
-                //List Bottom Gradient
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 30.0,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [StateContainer.of(context).curTheme.background00, StateContainer.of(context).curTheme.background],
-                        begin: Alignment(0.5, -1),
-                        end: Alignment(0.5, 0.5),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        boxShadow: [
+                          StateContainer.of(context).curTheme.boxShadowButton
+                        ],
+                      ),
+                      height: 55,
+                      margin: EdgeInsets.only(left: 7, top: 0.0, right: 14.0),
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100.0)),
+                        color:
+                            StateContainer.of(context).wallet.accountBalance >
+                                    BigInt.zero
+                                ? StateContainer.of(context).curTheme.primary
+                                : StateContainer.of(context).curTheme.primary60,
+                        child: AutoSizeText(
+                          AppLocalization.of(context).send,
+                          textAlign: TextAlign.center,
+                          style: AppStyles.textStyleButtonPrimary(context),
+                          maxLines: 1,
+                          stepGranularity: 0.5,
+                        ),
+                        onPressed: () {
+                          if (StateContainer.of(context).wallet.accountBalance >
+                              BigInt.zero) {
+                            AppSendSheet().mainBottomSheet(context);
+                          }
+                        },
+                        highlightColor: StateContainer.of(context)
+                                    .wallet
+                                    .accountBalance >
+                                BigInt.zero
+                            ? StateContainer.of(context).curTheme.background40
+                            : Colors.transparent,
+                        splashColor: StateContainer.of(context)
+                                    .wallet
+                                    .accountBalance >
+                                BigInt.zero
+                            ? StateContainer.of(context).curTheme.background40
+                            : Colors.transparent,
                       ),
                     ),
                   ),
-                ), //List Bottom Gradient End
-              ],
-            ),
-          ), //Transactions List End
-
-          //Buttons Area
-          Container(
-            color: StateContainer.of(context).curTheme.background,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    height: 55,
-                    margin: EdgeInsets.fromLTRB(14.0, 0.0, 7.0,
-                        MediaQuery.of(context).size.height * 0.035),
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100.0)),
-                      color: receive != null
-                          ? StateContainer.of(context).curTheme.primary
-                          : StateContainer.of(context).curTheme.primary60,
-                      child: AutoSizeText(
-                        AppLocalization.of(context).receive,
-                        textAlign: TextAlign.center,
-                        style: AppStyles.textStyleButtonPrimary(context),
-                        maxLines: 1,
-                        stepGranularity: 0.5,
-                      ),
-                      onPressed: () {
-                        if (receive == null) {
-                          return;
-                        }
-                        receive.mainBottomSheet(context);
-                      },
-                      highlightColor: receive != null
-                          ? StateContainer.of(context).curTheme.background40
-                          : Colors.transparent,
-                      splashColor: receive != null
-                          ? StateContainer.of(context).curTheme.background40
-                          : Colors.transparent,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    height: 55,
-                    margin: EdgeInsets.fromLTRB(7.0, 0.0, 14.0,
-                        MediaQuery.of(context).size.height * 0.035),
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100.0)),
-                      color: StateContainer.of(context).wallet.accountBalance >
-                              BigInt.zero
-                          ? StateContainer.of(context).curTheme.primary
-                          : StateContainer.of(context).curTheme.primary60,
-                      child: AutoSizeText(
-                        AppLocalization.of(context).send,
-                        textAlign: TextAlign.center,
-                        style: AppStyles.textStyleButtonPrimary(context),
-                        maxLines: 1,
-                        stepGranularity: 0.5,
-                      ),
-                      onPressed: () {
-                        if (StateContainer.of(context).wallet.accountBalance >
-                            BigInt.zero) {
-                          AppSendSheet().mainBottomSheet(context);
-                        }
-                      },
-                      highlightColor:
-                          StateContainer.of(context).wallet.accountBalance >
-                                  BigInt.zero
-                              ? StateContainer.of(context).curTheme.background40
-                              : Colors.transparent,
-                      splashColor:
-                          StateContainer.of(context).wallet.accountBalance >
-                                  BigInt.zero
-                              ? StateContainer.of(context).curTheme.background40
-                              : Colors.transparent,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ), //Buttons Area End
-        ],
+                ],
+              ),
+            ), //Buttons Area End
+          ],
+        ),
       ),
     );
   }
-
+  
   // Transaction Card/List Item
   Widget _buildTransactionCard(AccountHistoryResponseItem item,
       Animation<double> animation, String displayName, BuildContext context) {
+        
     TransactionDetailsSheet transactionDetails =
         TransactionDetailsSheet(item.hash, item.account, displayName);
     String text;
@@ -687,76 +765,133 @@ class _AppHomePageState extends State<AppHomePage>
       icon = AppIcons.received;
       iconColor = StateContainer.of(context).curTheme.primary60;
     }
-    return _SizeTransitionNoClip(
-      sizeFactor: animation,
-      child: Container(
-        margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
-        decoration: BoxDecoration(
-          color: StateContainer.of(context).curTheme.backgroundDark,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [StateContainer.of(context).curTheme.boxShadow],
+    return Slidable(
+      delegate: SlidableScrollDelegate(),
+      actionExtentRatio: 0.35,
+      movementDuration: Duration(milliseconds: 300),
+      enabled: StateContainer.of(context).wallet.accountBalance > BigInt.zero,
+      onTriggered: (preempt) {
+        if (preempt) {
+          setState(() {
+            releaseAnimation = true;
+          });
+        } else {
+          // See if a contact
+          DBHelper().getContactWithAddress(item.account).then((contact) {
+            // Go to send with address
+            AppSendSheet(contact: contact, address: item.account, quickSendAmount: item.amount)
+                .mainBottomSheet(context);
+          });
+        }
+      },
+      onAnimationChanged: (animation) {
+        if (animation != null) {
+          _fanimationPosition = animation.value;
+          if (animation.value == 0.0 && releaseAnimation) {
+            setState(() {
+              releaseAnimation = false;
+            });
+          }
+        }
+      },
+      secondaryActions: <Widget>[
+        SlideAction(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+            ),
+            margin: EdgeInsets.only(
+                right: MediaQuery.of(context).size.width * 0.15,
+                top: 4,
+                bottom: 4),
+            child: Container(
+              alignment: Alignment(-0.5, 0),
+              constraints: BoxConstraints.expand(),
+              child: FlareActor(
+                "assets/pulltosend_animation.flr",
+                animation: "pull",
+                fit: BoxFit.contain,
+                controller: this,
+                color: StateContainer.of(context).curTheme.primary
+              ),
+            ),
+          ),
         ),
-        child: FlatButton(
-          highlightColor: StateContainer.of(context).curTheme.text15,
-          splashColor: StateContainer.of(context).curTheme.text15,
-          color: StateContainer.of(context).curTheme.backgroundDark,
-          padding: EdgeInsets.all(0.0),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-          onPressed: () => transactionDetails.mainBottomSheet(context),
-          child: Center(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Container(
-                          margin: EdgeInsets.only(right: 16.0),
-                          child: Icon(icon, color: iconColor, size: 20)),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              text,
-                              textAlign: TextAlign.left,
-                              style:
-                                  AppStyles.textStyleTransactionType(context),
-                            ),
-                            RichText(
-                              textAlign: TextAlign.left,
-                              text: TextSpan(
-                                text: '',
-                                children: [
-                                  TextSpan(
-                                    text: item.getFormattedAmount(),
-                                    style: AppStyles.textStyleTransactionAmount(context),
-                                  ),
-                                  TextSpan(
-                                    text: " NANO",
-                                    style: AppStyles.textStyleTransactionUnit(context),
-                                  ),
-                                ],
+      ],
+      child: _SizeTransitionNoClip(
+        sizeFactor: animation,
+        child: Container(
+          margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+          decoration: BoxDecoration(
+            color: StateContainer.of(context).curTheme.backgroundDark,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [StateContainer.of(context).curTheme.boxShadow],
+          ),
+          child: FlatButton(
+            highlightColor: StateContainer.of(context).curTheme.text15,
+            splashColor: StateContainer.of(context).curTheme.text15,
+            color: StateContainer.of(context).curTheme.backgroundDark,
+            padding: EdgeInsets.all(0.0),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            onPressed: () => transactionDetails.mainBottomSheet(context),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 14.0, horizontal: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Container(
+                            margin: EdgeInsets.only(right: 16.0),
+                            child: Icon(icon, color: iconColor, size: 20)),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                text,
+                                textAlign: TextAlign.left,
+                                style:
+                                    AppStyles.textStyleTransactionType(context),
                               ),
-                            ),
-                          ],
+                              RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(
+                                  text: '',
+                                  children: [
+                                    TextSpan(
+                                      text: item.getFormattedAmount(),
+                                      style:
+                                          AppStyles.textStyleTransactionAmount(
+                                              context),
+                                    ),
+                                    TextSpan(
+                                      text: " BAN",
+                                      style: AppStyles.textStyleTransactionUnit(
+                                          context),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 2.4,
-                    child: Text(
-                      displayName,
-                      textAlign: TextAlign.right,
-                      style: AppStyles.textStyleTransactionAddress(context),
+                      ],
                     ),
-                  ),
-                ],
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2.4,
+                      child: Text(
+                        displayName,
+                        textAlign: TextAlign.right,
+                        style: AppStyles.textStyleTransactionAddress(context),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -771,12 +906,12 @@ class _AppHomePageState extends State<AppHomePage>
     String text;
     IconData icon;
     Color iconColor;
-    if (type == "Sent") {
-      text = "Sent";
+    if (type == AppLocalization.of(context).sent) {
+      text = AppLocalization.of(context).sent;
       icon = AppIcons.sent;
       iconColor = StateContainer.of(context).curTheme.text60;
     } else {
-      text = "Received";
+      text = AppLocalization.of(context).received;
       icon = AppIcons.received;
       iconColor = StateContainer.of(context).curTheme.primary60;
     }
@@ -826,11 +961,13 @@ class _AppHomePageState extends State<AppHomePage>
                               children: [
                                 TextSpan(
                                   text: amount,
-                                  style: AppStyles.textStyleTransactionAmount(context),
+                                  style: AppStyles.textStyleTransactionAmount(
+                                      context),
                                 ),
                                 TextSpan(
-                                  text: " NANO",
-                                  style: AppStyles.textStyleTransactionUnit(context),
+                                  text: " BAN",
+                                  style: AppStyles.textStyleTransactionUnit(
+                                      context),
                                 ),
                               ],
                             ),
@@ -859,14 +996,14 @@ class _AppHomePageState extends State<AppHomePage>
   // Welcome Card
   TextSpan _getExampleHeaderSpan(BuildContext context) {
     String workingStr = AppLocalization.of(context).exampleCardIntro;
-    if (!workingStr.contains("NANO")) {
+    if (!workingStr.contains("BANANO")) {
       return TextSpan(
         text: workingStr,
         style: AppStyles.textStyleTransactionWelcome(context),
       );
     }
-    // Colorize NANO
-    List<String> splitStr = workingStr.split("NANO");
+    // Colorize BANANO
+    List<String> splitStr = workingStr.split("BANANO");
     if (splitStr.length != 2) {
       return TextSpan(
         text: workingStr,
@@ -881,7 +1018,7 @@ class _AppHomePageState extends State<AppHomePage>
           style: AppStyles.textStyleTransactionWelcome(context),
         ),
         TextSpan(
-          text: "NANO",
+          text: "BANANO",
           style: AppStyles.textStyleTransactionWelcomePrimary(context),
         ),
         TextSpan(
@@ -939,7 +1076,7 @@ class _AppHomePageState extends State<AppHomePage>
     );
   } // Welcome Card End
 
-  // Dummy Transaction Card
+  // Loading Transaction Card
   Widget _buildLoadingTransactionCard(
       String type, String amount, String address, BuildContext context) {
     String text;
@@ -1126,7 +1263,7 @@ class _AppHomePageState extends State<AppHomePage>
         ),
       ),
     );
-  } //Dummy Transaction Card End
+  } // Loading Transaction Card End
 
   //Main Card
   Widget _buildMainCard(BuildContext context, _scaffoldKey) {
@@ -1137,35 +1274,33 @@ class _AppHomePageState extends State<AppHomePage>
         boxShadow: [StateContainer.of(context).curTheme.boxShadow],
       ),
       margin: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height * 0.05,
           left: 14.0,
-          right: 14.0),
+          right: 14.0,
+          top: MediaQuery.of(context).size.height * 0.005),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
             width: 70.0,
-            height: 120.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 5, left: 5),
-                  height: 50,
-                  width: 50,
-                  child: FlatButton(
-                      onPressed: () {
-                        _scaffoldKey.currentState.openDrawer();
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0)),
-                      padding: EdgeInsets.all(0.0),
-                      child: Icon(AppIcons.settings,
-                          color: StateContainer.of(context).curTheme.text,
-                          size: 24)),
-                ),
-              ],
+            height: 120,
+            alignment: Alignment(-1, -1),
+            child: Container(
+              margin: EdgeInsets.only(top: 5, left: 5),
+              height: 50,
+              width: 50,
+              child: FlatButton(
+                  highlightColor: StateContainer.of(context).curTheme.text15,
+                  splashColor: StateContainer.of(context).curTheme.text15,
+                  onPressed: () {
+                    _scaffoldKey.currentState.openDrawer();
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.0)),
+                  padding: EdgeInsets.all(0.0),
+                  child: Icon(AppIcons.settings,
+                      color: StateContainer.of(context).curTheme.text,
+                      size: 24)),
             ),
           ),
           _getBalanceWidget(context),
@@ -1182,120 +1317,123 @@ class _AppHomePageState extends State<AppHomePage>
   Widget _getBalanceWidget(BuildContext context) {
     if (StateContainer.of(context).wallet.loading) {
       // Placeholder for balance text
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            child: Stack(
-              alignment: AlignmentDirectional(0, 0),
-              children: <Widget>[
-                Text(
-                  "1234567",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: "NunitoSans",
-                      fontSize: AppFontSizes.small,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.transparent),
-                ),
-                Opacity(
-                  opacity: _opacityAnimation.value,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: StateContainer.of(context).curTheme.text20,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: Text(
-                      "1234567",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: "NunitoSans",
-                          fontSize: AppFontSizes.small - 3,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.transparent),
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 14),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              child: Stack(
+                alignment: AlignmentDirectional(0, 0),
+                children: <Widget>[
+                  Text(
+                    "1234567",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: "NunitoSans",
+                        fontSize: AppFontSizes.small,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.transparent),
+                  ),
+                  Opacity(
+                    opacity: _opacityAnimation.value,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: StateContainer.of(context).curTheme.text20,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: Text(
+                        "1234567",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: "NunitoSans",
+                            fontSize: AppFontSizes.small - 3,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.transparent),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Container(
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width - 170),
-            child: Stack(
-              alignment: AlignmentDirectional(0, 0),
-              children: <Widget>[
-                AutoSizeText(
-                  "12345678",
-                  style: TextStyle(
-                      fontFamily: "NunitoSans",
-                      fontSize: AppFontSizes.largestc,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.transparent),
-                  maxLines: 1,
-                  stepGranularity: 0.1,
-                  minFontSize: 1,
-                ),
-                Opacity(
-                  opacity: _opacityAnimation.value,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: StateContainer.of(context).curTheme.primary60,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: AutoSizeText(
-                      "12345678",
-                      style: TextStyle(
-                          fontFamily: "NunitoSans",
-                          fontSize: AppFontSizes.largestc - 8,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.transparent),
-                      maxLines: 1,
-                      stepGranularity: 0.1,
-                      minFontSize: 1,
+            Container(
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width - 225),
+              child: Stack(
+                alignment: AlignmentDirectional(0, 0),
+                children: <Widget>[
+                  AutoSizeText(
+                    "1234567",
+                    style: TextStyle(
+                        fontFamily: "NunitoSans",
+                        fontSize: AppFontSizes.largestc,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.transparent),
+                    maxLines: 1,
+                    stepGranularity: 0.1,
+                    minFontSize: 1,
+                  ),
+                  Opacity(
+                    opacity: _opacityAnimation.value,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: StateContainer.of(context).curTheme.primary60,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: AutoSizeText(
+                        "1234567",
+                        style: TextStyle(
+                            fontFamily: "NunitoSans",
+                            fontSize: AppFontSizes.largestc - 8,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.transparent),
+                        maxLines: 1,
+                        stepGranularity: 0.1,
+                        minFontSize: 1,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Container(
-            child: Stack(
-              alignment: AlignmentDirectional(0, 0),
-              children: <Widget>[
-                Text(
-                  "1234567",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: "NunitoSans",
-                      fontSize: AppFontSizes.small,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.transparent),
-                ),
-                Opacity(
-                  opacity: _opacityAnimation.value,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: StateContainer.of(context).curTheme.text20,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: Text(
-                      "1234567",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: "NunitoSans",
-                          fontSize: AppFontSizes.small - 3,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.transparent),
+            Container(
+              child: Stack(
+                alignment: AlignmentDirectional(0, 0),
+                children: <Widget>[
+                  Text(
+                    "1234567",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: "NunitoSans",
+                        fontSize: AppFontSizes.small,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.transparent),
+                  ),
+                  Opacity(
+                    opacity: _opacityAnimation.value,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: StateContainer.of(context).curTheme.text20,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: Text(
+                        "1234567",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: "NunitoSans",
+                            fontSize: AppFontSizes.small - 3,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.transparent),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     }
     return GestureDetector(
@@ -1316,68 +1454,80 @@ class _AppHomePageState extends State<AppHomePage>
           SharedPrefsUtil.inst.setPriceConversion(PriceConversion.BTC);
         }
       },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-              StateContainer.of(context).wallet.getLocalCurrencyPrice(
-                  locale: StateContainer.of(context).currencyLocale),
-              textAlign: TextAlign.center,
-              style: _pricesHidden ? AppStyles.textStyleCurrencyAltHidden(context) : AppStyles.textStyleCurrencyAlt(context)),
-          Container(
-            margin: EdgeInsets.only(right: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width - 170),
-                  child: AutoSizeText.rich(
-                    TextSpan(
-                      children: [
-                        // Currency Icon
-                        TextSpan(
-                          text: "",
-                          style: TextStyle(
-                            fontFamily: 'AppIcons',
-                            color: StateContainer.of(context).curTheme.primary,
-                            fontSize: 25.0,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 14),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+                StateContainer.of(context).wallet.getLocalCurrencyPrice(
+                    locale: StateContainer.of(context).currencyLocale),
+                textAlign: TextAlign.center,
+                style: _pricesHidden
+                    ? AppStyles.textStyleCurrencyAltHidden(context)
+                    : AppStyles.textStyleCurrencyAlt(context)),
+            Container(
+              margin: EdgeInsets.only(right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width - 225),
+                    child: AutoSizeText.rich(
+                      TextSpan(
+                        children: [
+                          // Currency Icon
+                          TextSpan(
+                            text: "",
+                            style: TextStyle(
+                              fontFamily: 'AppIcons',
+                              color:
+                                  StateContainer.of(context).curTheme.primary,
+                              fontSize: 23.0,
+                            ),
                           ),
-                        ),
-                        // Main balance text
-                        TextSpan(
-                          text: StateContainer.of(context)
-                              .wallet
-                              .getAccountBalanceDisplay(),
-                          style: AppStyles.textStyleCurrency(context),
-                        ),
-                      ],
+                          // Main balance text
+                          TextSpan(
+                            text: StateContainer.of(context)
+                                .wallet
+                                .getAccountBalanceDisplay(),
+                            style: AppStyles.textStyleCurrency(context),
+                          ),
+                        ],
+                      ),
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 28.0),
+                      stepGranularity: 0.1,
+                      minFontSize: 1,
                     ),
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 28.0),
-                    stepGranularity: 0.1,
-                    minFontSize: 1,
                   ),
-                ),
+                ],
+              ),
+            ),
+            Row(
+              children: <Widget>[
+                Icon(
+                    _priceConversion == PriceConversion.BTC
+                        ? AppIcons.btc
+                        : AppIcons.nanocurrency,
+                    color: _priceConversion == PriceConversion.NONE
+                        ? Colors.transparent
+                        : StateContainer.of(context).curTheme.text60,
+                    size: 14),
+                Text(
+                    StateContainer.of(context).wallet.btcPrice,
+                    textAlign: TextAlign.center,
+                    style: _pricesHidden
+                        ? AppStyles.textStyleCurrencyAltHidden(context)
+                        : AppStyles.textStyleCurrencyAlt(context)),
               ],
             ),
-          ),
-          Row(
-            children: <Widget>[
-              Icon(AppIcons.btc,
-                  color: _priceConversion == PriceConversion.NONE
-                      ? Colors.transparent
-                      : StateContainer.of(context).curTheme.text60,
-                  size: 14),
-              Text(StateContainer.of(context).wallet.btcPrice,
-                  textAlign: TextAlign.center,
-                  style: _pricesHidden ? AppStyles.textStyleCurrencyAltHidden(context) : AppStyles.textStyleCurrencyAlt(context)),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -1398,112 +1548,126 @@ class TransactionDetailsSheet {
 
   mainBottomSheet(BuildContext context) {
     AppSheets.showAppHeightEightSheet(
+        animationDurationMs: 200,
         context: context,
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return Container(
-              width: double.infinity,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      // A stack for Copy Address and Add Contact buttons
-                      Stack(
-                        children: <Widget>[
-                          // A row for Copy Address Button
-                          Row(
-                            children: <Widget>[
-                              AppButton.buildAppButton(context,
-                                  // Share Address Button
-                                  _addressCopied
-                                      ? AppButtonType.SUCCESS
-                                      : AppButtonType.PRIMARY,
-                                  _addressCopied
-                                      ? AppLocalization.of(context)
-                                          .addressCopied
-                                      : AppLocalization.of(context).copyAddress,
-                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS,
-                                  onPressed: () {
-                                Clipboard.setData(
-                                    new ClipboardData(text: _address));
-                                setState(() {
-                                  // Set copied style
-                                  _addressCopied = true;
-                                });
-                                if (_addressCopiedTimer != null) {
-                                  _addressCopiedTimer.cancel();
-                                }
-                                _addressCopiedTimer = new Timer(
-                                    const Duration(milliseconds: 800), () {
+            return SafeArea(
+              minimum: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.035,
+              ),
+              child: Container(
+                width: double.infinity,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        // A stack for Copy Address and Add Contact buttons
+                        Stack(
+                          children: <Widget>[
+                            // A row for Copy Address Button
+                            Row(
+                              children: <Widget>[
+                                AppButton.buildAppButton(
+                                    context,
+                                    // Share Address Button
+                                    _addressCopied
+                                        ? AppButtonType.SUCCESS
+                                        : AppButtonType.PRIMARY,
+                                    _addressCopied
+                                        ? AppLocalization.of(context)
+                                            .addressCopied
+                                        : AppLocalization.of(context)
+                                            .copyAddress,
+                                    Dimens.BUTTON_TOP_EXCEPTION_DIMENS,
+                                    onPressed: () {
+                                  Clipboard.setData(
+                                      new ClipboardData(text: _address));
                                   setState(() {
-                                    _addressCopied = false;
+                                    // Set copied style
+                                    _addressCopied = true;
                                   });
-                                });
-                              }),
-                            ],
-                          ),
-                          // A row for Add Contact Button
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(
-                                    top: Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
-                                    right:
-                                        Dimens.BUTTON_TOP_EXCEPTION_DIMENS[2]),
-                                child: Container(
-                                  height: 55,
-                                  width: 55,
-                                  // Add Contact Button
-                                  child: !_displayName.startsWith("@")
-                                      ? FlatButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            AddContactSheet(address: _address)
-                                                .mainBottomSheet(context);
-                                          },
-                                          splashColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(100.0)),
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10.0, horizontal: 10),
-                                          child: Icon(AppIcons.addcontact,
-                                              size: 35,
-                                              color: _addressCopied
-                                                  ? StateContainer.of(context).curTheme.successDark
-                                                  : StateContainer.of(context).curTheme.backgroundDark),
-                                        )
-                                      : SizedBox(),
+                                  if (_addressCopiedTimer != null) {
+                                    _addressCopiedTimer.cancel();
+                                  }
+                                  _addressCopiedTimer = new Timer(
+                                      const Duration(milliseconds: 800), () {
+                                    setState(() {
+                                      _addressCopied = false;
+                                    });
+                                  });
+                                }),
+                              ],
+                            ),
+                            // A row for Add Contact Button
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top:
+                                          Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
+                                      right: Dimens
+                                          .BUTTON_TOP_EXCEPTION_DIMENS[2]),
+                                  child: Container(
+                                    height: 55,
+                                    width: 55,
+                                    // Add Contact Button
+                                    child: !_displayName.startsWith("@")
+                                        ? FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              AddContactSheet(address: _address)
+                                                  .mainBottomSheet(context);
+                                            },
+                                            splashColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0)),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10.0, horizontal: 10),
+                                            child: Icon(AppIcons.addcontact,
+                                                size: 35,
+                                                color: _addressCopied
+                                                    ? StateContainer.of(context)
+                                                        .curTheme
+                                                        .successDark
+                                                    : StateContainer.of(context)
+                                                        .curTheme
+                                                        .backgroundDark),
+                                          )
+                                        : SizedBox(),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      // A row for View Details button
-                      Row(
-                        children: <Widget>[
-                          AppButton.buildAppButton(
-                              context,
-                              AppButtonType.PRIMARY_OUTLINE,
-                              AppLocalization.of(context).viewDetails,
-                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) {
-                              return UIUtil.showBlockExplorerWebview(
-                                  context, _hash);
-                            }));
-                          }),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                              ],
+                            ),
+                          ],
+                        ),
+                        // A row for View Details button
+                        Row(
+                          children: <Widget>[
+                            AppButton.buildAppButton(
+                                context,
+                                AppButtonType.PRIMARY_OUTLINE,
+                                AppLocalization.of(context).viewDetails,
+                                Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return UIUtil.showBlockExplorerWebview(
+                                    context, _hash);
+                              }));
+                            }),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             );
           });
@@ -1517,10 +1681,9 @@ class TransactionDetailsSheet {
 class _SizeTransitionNoClip extends AnimatedWidget {
   final Widget child;
 
-  const _SizeTransitionNoClip({
-    @required Animation<double> sizeFactor,
-    this.child
-  }) : super(listenable: sizeFactor);
+  const _SizeTransitionNoClip(
+      {@required Animation<double> sizeFactor, this.child})
+      : super(listenable: sizeFactor);
 
   @override
   Widget build(BuildContext context) {

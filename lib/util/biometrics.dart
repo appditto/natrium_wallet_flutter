@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
 
 class BiometricUtil {
   ///
@@ -25,14 +27,14 @@ class BiometricUtil {
   /// 
   /// @param [message] Message shown to user in FaceID/TouchID popup
   /// @returns [true] if successfully authenticated, [false] otherwise
-  static Future<bool> authenticateWithBiometrics(String message) async {
+  static Future<bool> authenticateWithBiometrics(BuildContext context, String message) async {
     bool hasBiometricsEnrolled = await hasBiometrics();
     if (hasBiometricsEnrolled) {
       LocalAuthentication localAuth = new LocalAuthentication();
       return await localAuth.authenticateWithBiometrics(
         localizedReason: message,
         useErrorDialogs: false,
-        dialogTheme: FPDialogTheme.NATRIUM
+        dialogTheme: StateContainer.of(context).curTheme.fpTheme
       );
     }
     return false;

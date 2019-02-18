@@ -31,7 +31,8 @@ class AppSendConfirmSheet {
 
   bool animationOpen = false;
 
-  AppSendConfirmSheet(String amount, String destinaton, {bool maxSend = false, String contactName, String localCurrencyAmount}) {
+  AppSendConfirmSheet(String amount, String destinaton,
+      {bool maxSend = false, String contactName, String localCurrencyAmount}) {
     _amount = amount;
     _amountRaw = NumberUtil.getAmountAsRaw(amount);
     _destination = destinaton;
@@ -50,7 +51,8 @@ class AppSendConfirmSheet {
   }
 
   mainBottomSheet(BuildContext context) {
-    _sendEventFailedSub = EventTaxiImpl.singleton().registerTo<SendFailedEvent>().listen((event) {
+    _sendEventFailedSub =
+        EventTaxiImpl.singleton().registerTo<SendFailedEvent>().listen((event) {
       // Send failed
       if (animationOpen) {
         Navigator.of(context).pop();
@@ -69,7 +71,10 @@ class AppSendConfirmSheet {
             // The main column that holds everything
             return WillPopScope(
               onWillPop: _onWillPop,
-              child: Column(
+              child: SafeArea(
+                minimum: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.035),
+                child: Column(
                 children: <Widget>[
                   //The main widget that holds the text fields, "SENDING" and "TO" texts
                   Expanded(
@@ -178,7 +183,7 @@ class AppSendConfirmSheet {
                                 SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
                                   BiometricUtil.hasBiometrics().then((hasBiometrics) {
                                     if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
-                                      BiometricUtil.authenticateWithBiometrics(
+                                      BiometricUtil.authenticateWithBiometrics(context,
                                         AppLocalization.of(context).sendAmountConfirm.replaceAll("%1", _amount)).then((authenticated) {
                                         if (authenticated) {
                                           HapticUtil.fingerprintSucess();
@@ -232,7 +237,7 @@ class AppSendConfirmSheet {
                     ),
                   ),
                 ],
-              ),
+              )),
             );
           });
         });
