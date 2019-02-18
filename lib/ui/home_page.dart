@@ -1476,7 +1476,7 @@ class _AppHomePageState extends State<AppHomePage>
                 children: <Widget>[
                   Container(
                     constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width - 225),
+                        maxWidth: MediaQuery.of(context).size.width - 185),
                     child: AutoSizeText.rich(
                       TextSpan(
                         children: [
