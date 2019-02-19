@@ -67,7 +67,7 @@ class AppSeedBackupSheet {
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.only(left: 50, right: 50),
+                                  margin: EdgeInsets.only(left: smallScreen(context)?35:50, right: smallScreen(context)?35:50),
                                   child: AutoSizeText(
                                     AppLocalization.of(context).seedBackupInfo,
                                     style:

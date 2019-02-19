@@ -3,6 +3,8 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/model/setting_item.dart';
+import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 
 class AppSettings {
   //Settings item with a dropdown option
@@ -41,17 +43,29 @@ class AppSettings {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    heading,
-                    style: disabled
-                        ? AppStyles.textStyleSettingItemHeader45(context)
-                        : AppStyles.textStyleSettingItemHeader(context),
+                  Container(
+                    width: UIUtil.drawerWidth(context)-100,
+                    child: AutoSizeText(
+                      heading,
+                      style: disabled
+                          ? AppStyles.textStyleSettingItemHeader45(context)
+                          : AppStyles.textStyleSettingItemHeader(context),
+                      maxLines: 1,
+                      stepGranularity: 0.1,
+                      minFontSize: 8,
+                    ),
                   ),
-                  Text(
-                    defaultMethod.getDisplayName(context),
-                    style: disabled
-                        ? AppStyles.textStyleSettingItemSubheader30(context)
-                        : AppStyles.textStyleSettingItemSubheader(context),
+                  Container(
+                    width: UIUtil.drawerWidth(context)-100,
+                    child: AutoSizeText(
+                      defaultMethod.getDisplayName(context),
+                      style: disabled
+                          ? AppStyles.textStyleSettingItemSubheader30(context)
+                          : AppStyles.textStyleSettingItemSubheader(context),
+                      maxLines: 1,
+                      stepGranularity: 0.1,
+                      minFontSize: 8,
+                    ),
                   ),
                 ],
               ),
@@ -90,15 +104,18 @@ class AppSettings {
                 ),
                 margin: EdgeInsets.only(
                   top: 3,
-                  left: settingIcon == AppIcons.logout ? 6 : 3,
+                  left: settingIcon == AppIcons.logout ? 6 : settingIcon == AppIcons.changerepresentative? 0: settingIcon == AppIcons.backupseed ? 1: settingIcon == AppIcons.transferfunds ? 2:3,
                   bottom: 3,
-                  right: settingIcon == AppIcons.logout ? 0 : 3,
+                  right: settingIcon == AppIcons.logout ? 0 : settingIcon == AppIcons.changerepresentative? 6: settingIcon == AppIcons.backupseed ? 5: settingIcon == AppIcons.transferfunds ? 4:3,
                 ),
               ),
             ),
-            Text(
-              heading,
-              style: AppStyles.textStyleSettingItemHeader(context),
+            Container( 
+              width: UIUtil.drawerWidth(context)-100,
+              child: Text(
+                heading,
+                style: AppStyles.textStyleSettingItemHeader(context),
+              ),
             ),
           ],
         ),
