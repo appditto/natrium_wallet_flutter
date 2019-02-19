@@ -189,17 +189,12 @@ class AppReceiveSheet {
                         // Logo
                         Center(
                           child: Container(
-                            alignment: Alignment(0, 0),
-                            width: devicewidth / 10,
-                            height: devicewidth / 10,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
+                            height: devicewidth / 30,
                             child: AutoSizeText(
                               "",
-                              style: TextStyle(fontFamily: "AppIcons", color: StateContainer.of(context).curTheme.backgroundDark),
+                              style: TextStyle(fontFamily: "AppIcons", color: StateContainer.of(context).curTheme.backgroundDark, fontWeight: FontWeight.w500),
                               textAlign: TextAlign.center,
-                              minFontSize: 1,
+                              minFontSize: 0.1,
                               stepGranularity: 0.1,
                               maxLines: 1,
                             ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
@@ -13,8 +15,7 @@ class AppShareCard extends StatefulWidget {
   AppShareCard(this.key, this.qrSVG, this.logoSvg);
 
   @override
-  _AppShareCardState createState() =>
-      _AppShareCardState(key, qrSVG, logoSvg);
+  _AppShareCardState createState() => _AppShareCardState(key, qrSVG, logoSvg);
 }
 
 class _AppShareCardState extends State<AppShareCard> {
@@ -22,8 +23,7 @@ class _AppShareCardState extends State<AppShareCard> {
   Widget qrSVG;
   Widget logoSvg;
 
-  _AppShareCardState(
-      this.globalKey, this.qrSVG, this.logoSvg);
+  _AppShareCardState(this.globalKey, this.qrSVG, this.logoSvg);
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,7 @@ class _AppShareCardState extends State<AppShareCard> {
           borderRadius: BorderRadius.circular(12.5),
         ),
         child: Container(
-          margin:
-              EdgeInsets.only(left: 12.5, right: 12.5, top: 12.5, bottom: 12.5),
+          margin: EdgeInsets.only(left: 12.5, right: 12.5, top: 12.5),
           constraints: BoxConstraints.expand(),
           // The main row that holds QR, logo, the address, ticker and the website text
           child: Row(
@@ -47,15 +46,16 @@ class _AppShareCardState extends State<AppShareCard> {
             children: <Widget>[
               // A container for QR
               Container(
+                margin: EdgeInsets.only(bottom: 12.5),
                 width: 100,
                 height: 100.0,
                 child: Stack(
                   children: <Widget>[
-                    // Background/border part of QR
+                    // Background QR
                     Center(
                       child: Container(
-                        width: 100,
-                        height: 100.0,
+                        width: 91.954,
+                        height: 91.954,
                         child: qrSVG,
                       ),
                     ),
@@ -71,6 +71,62 @@ class _AppShareCardState extends State<AppShareCard> {
                         ),
                       ),
                     ),
+                    // Outer Ring
+                    Center(
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color:
+                                  StateContainer.of(context).curTheme.primary,
+                              width: 1.3913),
+                        ),
+                      ),
+                    ),
+                    // Logo Background White
+                    Center(
+                      child: Container(
+                        width: 23.88,
+                        height: 23.88,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    // Logo Background Primary
+                    Center(
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: StateContainer.of(context).curTheme.primary,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                    // Logo
+                    Center(
+                      child: Container(
+                        height: 5.333333,
+                        child: AutoSizeText(
+                          "",
+                          style: TextStyle(
+                            fontFamily: "AppIcons",
+                            color: StateContainer.of(context)
+                                .curTheme
+                                .backgroundDark,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
+                          minFontSize: 0.1,
+                          stepGranularity: 0.1,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -82,144 +138,182 @@ class _AppShareCardState extends State<AppShareCard> {
                   // Logo
                   Container(
                     width: 97,
-                    height: 12.75,
-                    child: logoSvg,
+                    child: AutoSizeText.rich(
+
+                      TextSpan(
+                        children: [
+                          // Currency Icon
+                          TextSpan(
+                            text: "  ",
+                            style: TextStyle(
+                              color:
+                                  StateContainer.of(context).curTheme.primary,
+                              fontFamily: "AppIcons",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 30,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "NANO",
+                            style: TextStyle(
+                              color:
+                                  StateContainer.of(context).curTheme.primary,
+                              fontFamily: "Comfortaa",
+                              fontWeight: FontWeight.w300,
+                              fontSize: 40,
+                              letterSpacing: 1.5,           
+                            ),
+                          ),
+                        ],
+                      ),
+                      maxLines: 1,
+                      stepGranularity: 0.1,
+                      minFontSize: 0.1,
+                    ),
                   ),
                   // Address
-                  Column(
-                    children: <Widget>[
-                      // First row of the address
-                      Row(
-                        children: <Widget>[
-                          // Primary part of the first row
-                          Container(
-                            width: 66.6875,
-                            height: 12.5,
-                            child: AutoSizeText(
-                              StateContainer.of(context)
-                                  .wallet
-                                  .address
-                                  .substring(0, 11),
-                              style: TextStyle(
-                                color: StateContainer.of(context).curTheme.primary,
-                                fontFamily: "OverpassMono",
-                                fontWeight: FontWeight.w100,
-                              ),
-                              minFontSize: 1.0,
-                              stepGranularity: 0.1,
-                            ),
-                          ),
-                          // White part of the first row
-                          Container(
-                            width: 30.3125,
-                            height: 12.5,
-                            child: AutoSizeText(
-                              StateContainer.of(context)
-                                  .wallet
-                                  .address
-                                  .substring(11, 16),
-                              minFontSize: 1.0,
-                              stepGranularity: 0.1,
-                              style: TextStyle(
-                                color: StateContainer.of(context).curTheme.text,
-                                fontFamily: "OverpassMono",
-                                fontWeight: FontWeight.w100,
+                  Container(
+                    padding: Platform.isIOS
+                        ? EdgeInsets.only(bottom: 7)
+                        : EdgeInsets.zero,
+                    child: Column(
+                      children: <Widget>[
+                        // First row of the address
+                        Row(
+                          children: <Widget>[
+                            // Primary part of the first row
+                            Container(
+                              width: 66.6875,
+                              height: 12.5,
+                              child: AutoSizeText(
+                                StateContainer.of(context)
+                                    .wallet
+                                    .address
+                                    .substring(0, 11),
+                                style: TextStyle(
+                                  color:
+                                      StateContainer.of(context).curTheme.primary,
+                                  fontFamily: "OverpassMono",
+                                  fontWeight: FontWeight.w100,
+                                ),
+                                minFontSize: 1.0,
+                                stepGranularity: 0.1,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      // Second row of the address
-                      Container(
-                        width: 97,
-                        height: 12.5,
-                        child: AutoSizeText(
-                          StateContainer.of(context)
-                              .wallet
-                              .address
-                              .substring(16, 32),
-                          minFontSize: 1.0,
-                          stepGranularity: 0.1,
-                          style: TextStyle(
-                            color: StateContainer.of(context).curTheme.text,
-                            fontFamily: "OverpassMono",
-                            fontWeight: FontWeight.w100,
+                            // White part of the first row
+                            Container(
+                              width: 30.3125,
+                              height: 12.5,
+                              child: AutoSizeText(
+                                StateContainer.of(context)
+                                    .wallet
+                                    .address
+                                    .substring(11, 16),
+                                minFontSize: 1.0,
+                                stepGranularity: 0.1,
+                                style: TextStyle(
+                                  color: StateContainer.of(context).curTheme.text,
+                                  fontFamily: "OverpassMono",
+                                  fontWeight: FontWeight.w100,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        // Second row of the address
+                        Container(
+                          width: 97,
+                          height: 12.5,
+                          child: AutoSizeText(
+                            StateContainer.of(context)
+                                .wallet
+                                .address
+                                .substring(16, 32),
+                            minFontSize: 1.0,
+                            stepGranularity: 0.1,
+                            style: TextStyle(
+                              color: StateContainer.of(context).curTheme.text,
+                              fontFamily: "OverpassMono",
+                              fontWeight: FontWeight.w100,
+                            ),
                           ),
                         ),
-                      ),
-                      // Third row of the address
-                      Container(
-                        width: 97,
-                        height: 12.5,
-                        child: AutoSizeText(
-                          StateContainer.of(context)
-                              .wallet
-                              .address
-                              .substring(32, 48),
-                          minFontSize: 1.0,
-                          stepGranularity: 0.1,
-                          style: TextStyle(
-                            color: StateContainer.of(context).curTheme.text,
-                            fontFamily: "OverpassMono",
-                            fontWeight: FontWeight.w100,
+                        // Third row of the address
+                        Container(
+                          width: 97,
+                          height: 12.5,
+                          child: AutoSizeText(
+                            StateContainer.of(context)
+                                .wallet
+                                .address
+                                .substring(32, 48),
+                            minFontSize: 1.0,
+                            stepGranularity: 0.1,
+                            style: TextStyle(
+                              color: StateContainer.of(context).curTheme.text,
+                              fontFamily: "OverpassMono",
+                              fontWeight: FontWeight.w100,
+                            ),
                           ),
                         ),
-                      ),
-                      // Fourth(last) row of the address
-                      Row(
-                        children: <Widget>[
-                          // White part of the first row
-                          Container(
-                            width: 60.625,
-                            height: 12.5,
-                            child: AutoSizeText(
-                              StateContainer.of(context)
-                                  .wallet
-                                  .address
-                                  .substring(48, 58),
-                              minFontSize: 1.0,
-                              stepGranularity: 0.1,
-                              style: TextStyle(
-                                color: StateContainer.of(context).curTheme.text,
-                                fontFamily: "OverpassMono",
-                                fontWeight: FontWeight.w100,
+                        // Fourth(last) row of the address
+                        Row(
+                          children: <Widget>[
+                            // White part of the first row
+                            Container(
+                              width: 60.625,
+                              height: 12.5,
+                              child: AutoSizeText(
+                                StateContainer.of(context)
+                                    .wallet
+                                    .address
+                                    .substring(48, 58),
+                                minFontSize: 1.0,
+                                stepGranularity: 0.1,
+                                style: TextStyle(
+                                  color: StateContainer.of(context).curTheme.text,
+                                  fontFamily: "OverpassMono",
+                                  fontWeight: FontWeight.w100,
+                                ),
                               ),
                             ),
-                          ),
-                          // Primary colored part of the first row
-                          Container(
-                            width: 36.375,
-                            height: 12.5,
-                            child: AutoSizeText(
-                              StateContainer.of(context)
-                                  .wallet
-                                  .address
-                                  .substring(58, 64),
-                              minFontSize: 1.0,
-                              stepGranularity: 0.1,
-                              style: TextStyle(
-                                color: StateContainer.of(context).curTheme.primary,
-                                fontFamily: "OverpassMono",
-                                fontWeight: FontWeight.w100,
+                            // Primary colored part of the first row
+                            Container(
+                              width: 36.375,
+                              height: 12.5,
+                              child: AutoSizeText(
+                                StateContainer.of(context)
+                                    .wallet
+                                    .address
+                                    .substring(58, 64),
+                                minFontSize: 1.0,
+                                stepGranularity: 0.1,
+                                style: TextStyle(
+                                  color:
+                                      StateContainer.of(context).curTheme.primary,
+                                  fontFamily: "OverpassMono",
+                                  fontWeight: FontWeight.w100,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   // Ticker & Website
                   Container(
                     width: 97,
                     height: 13,
+                    margin: EdgeInsets.only(bottom: 9.0),
                     child: AutoSizeText(
                       "\$NANO      NANO.ORG",
-                      minFontSize: 1.0,
+                      minFontSize: 0.1,
                       stepGranularity: 0.1,
                       style: TextStyle(
                         color: StateContainer.of(context).curTheme.primary,
-                        fontFamily: "NunitoSans",
-                        fontWeight: FontWeight.w600,
+                        fontFamily: "Comfortaa",
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
