@@ -37,7 +37,6 @@ class AppButton {
                   style: AppStyles.textStyleButtonPrimary(context),
                   maxLines: 1,
                   stepGranularity: 0.5),
-              padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
               onPressed: () {
                 if (onPressed != null && !disabled) {
                   onPressed();
