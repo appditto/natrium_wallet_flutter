@@ -137,38 +137,48 @@ class _AppShareCardState extends State<AppShareCard> {
                 children: <Widget>[
                   // Logo
                   Container(
-                    width: 97,
-                    child: AutoSizeText.rich(
-
-                      TextSpan(
-                        children: [
-                          // Currency Icon
-                          TextSpan(
-                            text: "  ",
+                    width: 96,
+                    height: 20,
+                    margin: EdgeInsets.only(left: 1),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Currency Icon
+                        Container(
+                          width: 29,
+                          child: AutoSizeText(
+                            "  ",
                             style: TextStyle(
                               color:
                                   StateContainer.of(context).curTheme.primary,
                               fontFamily: "AppIcons",
                               fontWeight: FontWeight.w500,
-                              fontSize: 30,
                             ),
+                            minFontSize: 0.1,
+                            stepGranularity: 0.1,
+                            maxLines: 1,
                           ),
-                          TextSpan(
-                            text: "NANO",
+                        ),
+                        Container(
+                          width: 60,
+                          margin: EdgeInsets.only(top: 1),
+                          child: AutoSizeText(
+                            "NANO",
                             style: TextStyle(
                               color:
                                   StateContainer.of(context).curTheme.primary,
                               fontFamily: "Comfortaa",
                               fontWeight: FontWeight.w300,
                               fontSize: 40,
-                              letterSpacing: 1.5,           
+                              letterSpacing: 1.5,
                             ),
+                            minFontSize: 0.1,
+                            stepGranularity: 0.1,
+                            maxLines: 1,
                           ),
-                        ],
-                      ),
-                      maxLines: 1,
-                      stepGranularity: 0.1,
-                      minFontSize: 0.1,
+                        ),
+                      ],
                     ),
                   ),
                   // Address
@@ -191,8 +201,9 @@ class _AppShareCardState extends State<AppShareCard> {
                                     .address
                                     .substring(0, 11),
                                 style: TextStyle(
-                                  color:
-                                      StateContainer.of(context).curTheme.primary,
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .primary,
                                   fontFamily: "OverpassMono",
                                   fontWeight: FontWeight.w100,
                                 ),
@@ -212,7 +223,8 @@ class _AppShareCardState extends State<AppShareCard> {
                                 minFontSize: 1.0,
                                 stepGranularity: 0.1,
                                 style: TextStyle(
-                                  color: StateContainer.of(context).curTheme.text,
+                                  color:
+                                      StateContainer.of(context).curTheme.text,
                                   fontFamily: "OverpassMono",
                                   fontWeight: FontWeight.w100,
                                 ),
@@ -271,7 +283,8 @@ class _AppShareCardState extends State<AppShareCard> {
                                 minFontSize: 1.0,
                                 stepGranularity: 0.1,
                                 style: TextStyle(
-                                  color: StateContainer.of(context).curTheme.text,
+                                  color:
+                                      StateContainer.of(context).curTheme.text,
                                   fontFamily: "OverpassMono",
                                   fontWeight: FontWeight.w100,
                                 ),
@@ -289,8 +302,9 @@ class _AppShareCardState extends State<AppShareCard> {
                                 minFontSize: 1.0,
                                 stepGranularity: 0.1,
                                 style: TextStyle(
-                                  color:
-                                      StateContainer.of(context).curTheme.primary,
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .primary,
                                   fontFamily: "OverpassMono",
                                   fontWeight: FontWeight.w100,
                                 ),
