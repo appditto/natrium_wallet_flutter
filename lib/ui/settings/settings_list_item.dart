@@ -44,7 +44,7 @@ class AppSettings {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    width: UIUtil.drawerWidth(context)-100,
+                    width: UIUtil.drawerWidth(context) - 100,
                     child: AutoSizeText(
                       heading,
                       style: disabled
@@ -56,7 +56,7 @@ class AppSettings {
                     ),
                   ),
                   Container(
-                    width: UIUtil.drawerWidth(context)-100,
+                    width: UIUtil.drawerWidth(context) - 100,
                     child: AutoSizeText(
                       defaultMethod.getDisplayName(context),
                       style: disabled
@@ -77,7 +77,7 @@ class AppSettings {
   }
 
   //Settings item without any dropdown option but rather a direct functionality
-  static Widget buildSettingsListItemSingleLine( 
+  static Widget buildSettingsListItemSingleLine(
       BuildContext context, String heading, IconData settingIcon,
       {Function onPressed}) {
     return FlatButton(
@@ -104,14 +104,26 @@ class AppSettings {
                 ),
                 margin: EdgeInsets.only(
                   top: 3,
-                  left: settingIcon == AppIcons.logout ? 6 : settingIcon == AppIcons.changerepresentative? 0: settingIcon == AppIcons.backupseed ? 1: settingIcon == AppIcons.transferfunds ? 2:3,
+                  left: settingIcon == AppIcons.logout
+                      ? 6
+                      : settingIcon == AppIcons.changerepresentative
+                          ? 0
+                          : settingIcon == AppIcons.backupseed
+                              ? 1
+                              : settingIcon == AppIcons.transferfunds ? 2 : 3,
                   bottom: 3,
-                  right: settingIcon == AppIcons.logout ? 0 : settingIcon == AppIcons.changerepresentative? 6: settingIcon == AppIcons.backupseed ? 5: settingIcon == AppIcons.transferfunds ? 4:3,
+                  right: settingIcon == AppIcons.logout
+                      ? 0
+                      : settingIcon == AppIcons.changerepresentative
+                          ? 6
+                          : settingIcon == AppIcons.backupseed
+                              ? 5
+                              : settingIcon == AppIcons.transferfunds ? 4 : 3,
                 ),
               ),
             ),
-            Container( 
-              width: UIUtil.drawerWidth(context)-100,
+            Container(
+              width: UIUtil.drawerWidth(context) - 100,
               child: Text(
                 heading,
                 style: AppStyles.textStyleSettingItemHeader(context),
