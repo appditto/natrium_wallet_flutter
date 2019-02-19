@@ -9,23 +9,21 @@ class AppShareCard extends StatefulWidget {
   final GlobalKey key;
   final Widget qrSVG;
   final Widget logoSvg;
-  final Widget qrLogoSVG;
 
-  AppShareCard(this.key, this.qrSVG, this.logoSvg, this.qrLogoSVG);
+  AppShareCard(this.key, this.qrSVG, this.logoSvg);
 
   @override
   _AppShareCardState createState() =>
-      _AppShareCardState(key, qrSVG, logoSvg, qrLogoSVG);
+      _AppShareCardState(key, qrSVG, logoSvg);
 }
 
 class _AppShareCardState extends State<AppShareCard> {
   GlobalKey globalKey;
   Widget qrSVG;
   Widget logoSvg;
-  Widget qrLogoSVG;
 
   _AppShareCardState(
-      this.globalKey, this.qrSVG, this.logoSvg, this.qrLogoSVG);
+      this.globalKey, this.qrSVG, this.logoSvg);
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +69,6 @@ class _AppShareCardState extends State<AppShareCard> {
                           version: 6,
                           errorCorrectionLevel: QrErrorCorrectLevel.Q,
                         ),
-                      ),
-                    ),
-                    Center(
-                      child: Container(
-                          width: 23.753,
-                          height: 23.753,
-                          child: qrLogoSVG,
                       ),
                     ),
                   ],

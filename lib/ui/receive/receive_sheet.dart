@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
@@ -26,7 +27,6 @@ class AppReceiveSheet {
   Widget appShareCard;
   ByteData shareImageData;
   Widget qrSVGBorder;
-  Widget qrSVGLogo;
   Widget shareCardLogoSvg;
   Widget shareCardTickerSvg;
 
@@ -62,12 +62,11 @@ class AppReceiveSheet {
     double devicewidth = MediaQuery.of(context).size.width;
     // Create our SVG-heavy things in the constructor because they are slower operations
     qrSVGBorder = SvgPicture.asset('assets/QR.svg');
-    qrSVGLogo = SvgPicture.asset('assets/QRlogo.svg');
     shareCardLogoSvg = SvgPicture.asset('assets/sharecard_logo.svg');
     // Share card initialization
     shareCardKey = GlobalKey();
     appShareCard = Container(
-      child: AppShareCard(shareCardKey, qrSVGBorder, shareCardLogoSvg, qrSVGLogo),
+      child: AppShareCard(shareCardKey, qrSVGBorder, shareCardLogoSvg),
       alignment: Alignment(0.0, 0.0),
     );
     qrCode = qrWidget;
@@ -144,7 +143,7 @@ class AppReceiveSheet {
                         // Background/border part the QR
                         Center(
                           child: Container(
-                            width: devicewidth / 1.6,
+                            width: devicewidth / 1.74,
                             child: qrSVGBorder,
                           ),
                         ),
@@ -154,11 +153,56 @@ class AppReceiveSheet {
                             child: qrCode,
                           ),
                         ),
-                        // Logo on top of the qr
+                        // Outer ring
                         Center(
                           child: Container(
-                            child: qrSVGLogo,
-                            width: devicewidth / 1.6 / 4.21,
+                            width: devicewidth / 1.6,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border:Border.all(color: StateContainer.of(context).curTheme.primary, width: devicewidth / 115),
+
+                            ),
+                          ),
+                        ),
+                        // Logo Background White
+                        Center(
+                          child: Container(
+                            width: devicewidth / 6.7,
+                            height: devicewidth / 6.7,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        // Logo Background Primary
+                        Center(
+                          child: Container(
+                            width: devicewidth / 8,
+                            height: devicewidth / 8,
+                            decoration: BoxDecoration(
+                              color: StateContainer.of(context).curTheme.primary,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                        // Logo
+                        Center(
+                          child: Container(
+                            alignment: Alignment(0, 0),
+                            width: devicewidth / 10,
+                            height: devicewidth / 10,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: AutoSizeText(
+                              "",
+                              style: TextStyle(fontFamily: "AppIcons", color: StateContainer.of(context).curTheme.backgroundDark),
+                              textAlign: TextAlign.center,
+                              minFontSize: 1,
+                              stepGranularity: 0.1,
+                              maxLines: 1,
+                            ),
                           ),
                         ),
                       ],

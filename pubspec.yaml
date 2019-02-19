@@ -161,7 +161,6 @@ flutter:
           weight: 300
   assets:
     - assets/QR.svg
-    - assets/QRlogo.svg
     - assets/welcome_animation.flr
     - assets/send_animation.flr
     - assets/transfer_animation_natriumwalletonly.flr
