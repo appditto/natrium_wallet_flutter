@@ -244,9 +244,7 @@ class AppReceiveSheet {
                             context,
                             // Share Address Button
                             AppButtonType.PRIMARY_OUTLINE,
-                            _showShareCard
-                                ? "Loading"
-                                : AppLocalization.of(context).addressShare,
+                            AppLocalization.of(context).addressShare,
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             disabled: _showShareCard, onPressed: () {
                           String receiveCardFileName =
@@ -258,7 +256,7 @@ class AppReceiveSheet {
                             setState(() {
                               _showShareCard = true;
                             });
-                            Future.delayed(new Duration(milliseconds: 300), () {
+                            Future.delayed(new Duration(milliseconds: 50), () {
                               if (_showShareCard) {
                                 _capturePng().then((byteData) {
                                   if (byteData != null) {
