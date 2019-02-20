@@ -42,7 +42,7 @@ class SubscribeResponse {
   @JsonKey(name:'btc', fromJson:_toDouble)
   double btcPrice;
 
-  @JsonKey(name:'pending_count', fromJson:_toInt)
+  @JsonKey(name:'pending_count')
   int pendingCount;
 
   SubscribeResponse();
