@@ -800,14 +800,13 @@ class _SettingsSheetState extends State<SettingsSheet>
                         _curNotificiationSetting,
                         AppIcons.notifications,
                         _notificationsDialog),
-                        /*
                     Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
                     AppSettings.buildSettingsListItemDoubleLine(
                         context,
                         AppLocalization.of(context).themeHeader,
                         _curThemeSetting,
                         AppIcons.theme,
-                        _themeDialog),*/
+                        _themeDialog),
                     Divider(height: 2, color: StateContainer.of(context).curTheme.text15,),
                     AppSettings.buildSettingsListItemSingleLine(context, 
                         AppLocalization.of(context).securityHeader,
