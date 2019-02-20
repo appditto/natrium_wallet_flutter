@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:qr/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -74,8 +75,8 @@ class _AppShareCardState extends State<AppShareCard> {
                     // Outer Ring
                     Center(
                       child: Container(
-                        width: 100,
-                        height: 100,
+                        width: (StateContainer.of(context).curTheme is IndiumTheme)?95:100,
+                        height: (StateContainer.of(context).curTheme is IndiumTheme)?95:100,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(

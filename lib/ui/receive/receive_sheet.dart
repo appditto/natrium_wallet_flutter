@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
@@ -158,7 +159,7 @@ class AppReceiveSheet {
                             // Outer ring
                             Center(
                               child: Container(
-                                width: devicewidth / 1.6,
+                                width: (StateContainer.of(context).curTheme is IndiumTheme) ? devicewidth / 1.68:devicewidth / 1.6,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
