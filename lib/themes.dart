@@ -223,8 +223,8 @@ class TitaniumTheme extends BaseTheme {
   BoxShadow boxShadow = BoxShadow(color: Colors.transparent);
   BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
 
-  OverlayTheme qrScanTheme = OverlayTheme.TITANIUM;
-  FPDialogTheme fpTheme = FPDialogTheme.TITANIUM;
+  OverlayTheme qrScanTheme = OverlayTheme.NATRIUM;
+  FPDialogTheme fpTheme = FPDialogTheme.NATRIUM;
   AppIconEnum appIcon = AppIconEnum.TITANIUM;
 }
 
@@ -299,8 +299,8 @@ class IndiumTheme extends BaseTheme {
       offset: Offset(0, 5),
       blurRadius: 15);
 
-  OverlayTheme qrScanTheme = OverlayTheme.INDIUM;
-  FPDialogTheme fpTheme = FPDialogTheme.INDIUM;
+  OverlayTheme qrScanTheme = OverlayTheme.NATRIUM;
+  FPDialogTheme fpTheme = FPDialogTheme.NATRIUM;
   AppIconEnum appIcon = AppIconEnum.INDIUM;
 }
 
