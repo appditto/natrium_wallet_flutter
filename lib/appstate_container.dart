@@ -84,7 +84,7 @@ class StateContainer extends StatefulWidget {
 class StateContainerState extends State<StateContainer> {
   final Logger log = Logger("StateContainerState");
   // Minimum receive = 0.000001 NANO
-  static String receiveThreshold = BigInt.from(10).pow(24).toString();
+  String receiveThreshold = BigInt.from(10).pow(24).toString();
 
   AppWallet wallet;
   String currencyLocale;
