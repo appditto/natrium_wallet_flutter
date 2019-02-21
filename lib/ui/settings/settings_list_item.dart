@@ -18,6 +18,8 @@ class AppSettings {
     return IgnorePointer(
       ignoring: disabled,
       child: FlatButton(
+        highlightColor: StateContainer.of(context).curTheme.text15,
+        splashColor: StateContainer.of(context).curTheme.text15,
         onPressed: () {
           onPressed();
         },
@@ -81,6 +83,8 @@ class AppSettings {
       BuildContext context, String heading, IconData settingIcon,
       {Function onPressed}) {
     return FlatButton(
+      highlightColor: StateContainer.of(context).curTheme.text15,
+      splashColor: StateContainer.of(context).curTheme.text15,
       onPressed: () {
         if (onPressed != null) {
           onPressed();
