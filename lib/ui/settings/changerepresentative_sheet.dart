@@ -41,6 +41,11 @@ class AppChangeRepresentativeSheet {
 
   bool _animationOpen = false;
 
+  // State variables
+  bool _addressCopied = false;
+  // Timer reference so we can cancel repeated events
+  Timer _addressCopiedTimer;
+
   AppChangeRepresentativeSheet() {
     _repFocusNode = new FocusNode();
     _repController = new TextEditingController();
@@ -240,6 +245,7 @@ class AppChangeRepresentativeSheet {
                                 ),
                                 Column(
                                   children: <Widget>[
+                                    // Currently represented by text
                                     Container(
                                         margin: EdgeInsets.only(
                                             left: MediaQuery.of(context)
@@ -256,32 +262,79 @@ class AppChangeRepresentativeSheet {
                                           style: AppStyles.textStyleParagraph(
                                               context),
                                         )),
-                                    Container(
-                                      width: double.infinity,
-                                      margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.105,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.105,
-                                          top: 10),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 25.0, vertical: 15.0),
-                                      decoration: BoxDecoration(
-                                        color: StateContainer.of(context)
-                                            .curTheme
-                                            .backgroundDarkest,
-                                        borderRadius: BorderRadius.circular(25),
+                                    // Current representative
+                                    GestureDetector(
+                                      onTap: () {
+                                        Clipboard.setData(new ClipboardData(
+                                            text: StateContainer.of(context)
+                                                .wallet
+                                                .representative));
+                                        setState(() {
+                                          _addressCopied = true;
+                                        });
+                                        if (_addressCopiedTimer != null) {
+                                          _addressCopiedTimer.cancel();
+                                        }
+                                        _addressCopiedTimer = new Timer(
+                                            const Duration(milliseconds: 800),
+                                            () {
+                                          setState(() {
+                                            _addressCopied = false;
+                                          });
+                                        });
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        margin: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.105,
+                                            right: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.105,
+                                            top: 10),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 25.0, vertical: 15.0),
+                                        decoration: BoxDecoration(
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .backgroundDarkest,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                        child: UIUtil.threeLineAddressText(
+                                            context,
+                                            StateContainer.of(context)
+                                                .wallet
+                                                .representative,
+                                            type: _addressCopied
+                                                ? ThreeLineAddressTextType
+                                                    .SUCCESS_FULL
+                                                : ThreeLineAddressTextType
+                                                    .PRIMARY),
                                       ),
-                                      child: UIUtil.threeLineAddressText(
-                                          context,
-                                          StateContainer.of(context)
-                                              .wallet
-                                              .representative),
                                     ),
+                                    // Address Copied text container
+                                    Container(
+                                      margin:
+                                          EdgeInsets.only(top: 5, bottom: 5),
+                                      child: Text(
+                                          _addressCopied
+                                              ? AppLocalization.of(context)
+                                                  .addressCopied
+                                              : "",
+                                          style: TextStyle(
+                                            fontSize: 14.0,
+                                            color: StateContainer.of(context)
+                                                .curTheme
+                                                .success,
+                                            fontFamily: 'NunitoSans',
+                                            fontWeight: FontWeight.w600,
+                                          )),
+                                    ),
+                                    // New representative
                                     Container(
                                       margin: EdgeInsets.only(
                                           left: MediaQuery.of(context)
@@ -291,8 +344,7 @@ class AppChangeRepresentativeSheet {
                                           right: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.105,
-                                          top: 20),
+                                              0.105),
                                       width: double.infinity,
                                       padding: _addressValidAndUnfocused
                                           ? EdgeInsets.symmetric(
