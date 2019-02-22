@@ -564,7 +564,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "systemDefault": "Systeemfout",
+    "systemDefault": "Systeem standaard",
     "@systemDefault": {
         "description": "settings_default_language_string",
         "type": "text",

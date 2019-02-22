@@ -47,7 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "contactNameHint" : MessageLookupByLibrary.simpleMessage("输入姓名@"),
     "contactNameMissing" : MessageLookupByLibrary.simpleMessage("没有要导出的联络人"),
     "contactRemoved" : MessageLookupByLibrary.simpleMessage("％S已从联络人名单中删除！"),
-    "contactsHeader" : MessageLookupByLibrary.simpleMessage("联络人名单"),
+    "contactsHeader" : MessageLookupByLibrary.simpleMessage("聯絡人名單"),
     "contactsImportErr" : MessageLookupByLibrary.simpleMessage("无法导入联络人"),
     "contactsImportSuccess" : MessageLookupByLibrary.simpleMessage("已成功导入％d个联络人"),
     "copyAddress" : MessageLookupByLibrary.simpleMessage("複製地址"),

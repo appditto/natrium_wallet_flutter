@@ -21,7 +21,8 @@ Natrium's backend server can be found [here](https://github.com/BananoCoin/natri
 
 ## Building
 
-Android: `flutter build apk`
+Android (armeabi-v7a): `flutter build apk`
+Android (arm64-v8a): `flutter build apk --target=android-arm64`
 iOS: `flutter build ios`
 
 If you have a connected device or emulator you can run and deploy the app with `flutter run`

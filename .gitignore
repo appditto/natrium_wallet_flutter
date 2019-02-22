@@ -1,5 +1,7 @@
 android/.project
 android/.settings
+android/key.properties
+android/app/release
 # Miscellaneous
 *.class
 *.lock
@@ -11,6 +13,8 @@ android/.settings
 .buildlog/
 .history
 .svn/
+.aab
+.apk
 
 # IntelliJ related
 *.iml

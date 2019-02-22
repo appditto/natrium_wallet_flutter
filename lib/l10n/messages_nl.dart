@@ -127,7 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "settingsTransfer" : MessageLookupByLibrary.simpleMessage("Van papieren wallet importeren"),
     "shareNatrium" : MessageLookupByLibrary.simpleMessage("Deel Natrium"),
     "shareNatriumText" : MessageLookupByLibrary.simpleMessage("Check Natrium! Nano Android Wallet!"),
-    "systemDefault" : MessageLookupByLibrary.simpleMessage("Systeemfout"),
+    "systemDefault" : MessageLookupByLibrary.simpleMessage("Systeem standaard"),
     "themeHeader" : MessageLookupByLibrary.simpleMessage("Thema"),
     "to" : MessageLookupByLibrary.simpleMessage("Naar"),
     "tooManyFailedAttempts" : MessageLookupByLibrary.simpleMessage("Te veel mislukte ontgrendelpogingen."),

@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:flutter_nano_core/flutter_nano_core.dart';
 
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
@@ -16,9 +19,13 @@ import 'package:natrium_wallet_flutter/ui/intro/intro_backup_seed.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_backup_confirm.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_import_seed.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
+import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
+import 'package:natrium_wallet_flutter/model/db/appdb.dart';
+import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:natrium_wallet_flutter/util/legacyutil.dart';
 
 void main() async {
   // Setup logger
@@ -214,11 +221,59 @@ class Splash extends StatefulWidget {
 }
 
 class SplashState extends State<Splash> with WidgetsBindingObserver {
+ Future<bool> _doAndroidMigration() async {
+    bool migrated = false;
+    // Migrate seed
+    String legacySeed = await LegacyMigration.getLegacySeed();
+    if (legacySeed != null && NanoSeeds.isValidSeed(legacySeed)) {
+      migrated = true;
+      await Vault.inst.setSeed(legacySeed);
+      await SharedPrefsUtil.inst.setSeedBackedUp(true);
+    }
+    if (migrated) {
+      // Migrate PIN
+      String legacyPin = await LegacyMigration.getLegacyPin();
+      if (legacyPin != null && legacyPin.length == 4) {
+        await Vault.inst.writePin(legacyPin);
+      }
+      // Migrate Contacts
+      String legacyContacts = await LegacyMigration.getLegacyContacts();
+      if (legacyContacts != null) {
+        Iterable contactsJson = json.decode(legacyContacts);
+        List<Contact> contacts = List();
+        List<Contact> contactsToAdd = List();
+        contactsJson.forEach((contact) {
+          contacts.add(Contact.fromJson(contact));
+        });
+        DBHelper dbHelper = DBHelper();
+        for (Contact contact in contacts) {
+          if (!await dbHelper.contactExistsWithName(contact.name) &&
+              !await dbHelper.contactExistsWithAddress(contact.address)) {
+            // Contact doesnt exist, make sure name and address are valid
+            if (Address(contact.address).isValid()) {
+              if (contact.name.startsWith("@") && contact.name.length <= 20) {
+                contactsToAdd.add(contact);
+              }
+            }
+          }
+        }
+        await dbHelper.saveContacts(contactsToAdd);
+      }
+    }
+    return migrated;
+  }
+
   Future checkLoggedIn() async {
     // iOS key store is persistent, so if this is first launch then we will clear the keystore
     bool firstLaunch = await SharedPrefsUtil.inst.getFirstLaunch();
     if (firstLaunch) {
-      await Vault.inst.deleteAll();
+      bool migrated = false;
+      if (Platform.isAndroid) {
+        migrated = await _doAndroidMigration();
+      }
+      if (!migrated) {
+        await Vault.inst.deleteAll();
+      }
     }
     await SharedPrefsUtil.inst.setFirstLaunch();
     // See if logged in already
@@ -247,6 +302,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
       Navigator.of(context).pushReplacementNamed('/intro_welcome');
     }
   }
+
 
   @override
   void initState() {

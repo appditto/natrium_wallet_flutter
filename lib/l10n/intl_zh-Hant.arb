@@ -162,7 +162,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "contactsHeader": "联络人名单",
+    "contactsHeader": "聯絡人名單",
     "@contactsHeader": {
         "description": "contact_header",
         "type": "text",
