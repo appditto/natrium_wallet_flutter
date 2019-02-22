@@ -268,7 +268,12 @@ class AppTransferConfirmSheet {
                                   Navigator.of(context).push(
                                       AnimationLoadingOverlay(
                                           AnimationType.TRANSFER_TRANSFERRING,
-                                          onPoppedCallback: () {
+                                          StateContainer.of(context)
+                                              .curTheme
+                                              .animationOverlayStrong,
+                                          StateContainer.of(context)
+                                              .curTheme
+                                              .animationOverlayMedium, onPoppedCallback: () {
                                     animationOpen = false;
                                   }));
                                   startProcessing(context);
@@ -395,7 +400,8 @@ class AppTransferConfirmSheet {
       finished = true;
       StateContainer.of(context)
           .requestPending(account: StateContainer.of(context).wallet.address);
-    }*/ else {
+    }*/
+    else {
       EventTaxiImpl.singleton()
           .fire(TransferCompleteEvent(amount: totalToTransfer));
       if (animationOpen) {

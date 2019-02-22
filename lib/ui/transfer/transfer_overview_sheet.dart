@@ -254,8 +254,10 @@ class AppTransferOverviewSheet {
     AnimationType animation = manualEntry
         ? AnimationType.TRANSFER_SEARCHING_MANUAL
         : AnimationType.TRANSFER_SEARCHING_QR;
-    Navigator.of(context)
-        .push(AnimationLoadingOverlay(animation, onPoppedCallback: () {
+    Navigator.of(context).push(AnimationLoadingOverlay(
+        animation,
+        StateContainer.of(context).curTheme.animationOverlayStrong,
+        StateContainer.of(context).curTheme.animationOverlayMedium, onPoppedCallback: () {
       _animationOpen = false;
     }));
     // Get accounts from seed

@@ -99,8 +99,10 @@ enum AnimationType {
 class AnimationLoadingOverlay extends ModalRoute<void> {
   AnimationType type;
   Function onPoppedCallback;
+  Color overlay85;
+  Color overlay70;
 
-  AnimationLoadingOverlay(this.type, {this.onPoppedCallback});
+  AnimationLoadingOverlay(this.type, this.overlay85, this.overlay70, {this.onPoppedCallback});
 
   @override
   Duration get transitionDuration => Duration(milliseconds: 0);
@@ -116,9 +118,9 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
     if (type == AnimationType.TRANSFER_TRANSFERRING ||
         type == AnimationType.TRANSFER_SEARCHING_QR ||
         type == AnimationType.TRANSFER_SEARCHING_MANUAL) {
-      return AppColors.overlay85;
+      return overlay85;
     }
-    return AppColors.overlay70;
+    return overlay70;
   }
 
   @override

@@ -71,172 +71,255 @@ class AppSendConfirmSheet {
             return WillPopScope(
               onWillPop: _onWillPop,
               child: SafeArea(
-                minimum: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.035),
-                child: Column(
-                children: <Widget>[
-                  //The main widget that holds the text fields, "SENDING" and "TO" texts
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        // "SENDING" TEXT
-                        Container(
-                          margin: EdgeInsets.only(bottom: 10.0),
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                CaseChange.toUpperCase(AppLocalization.of(context).sending, context),
-                                style: AppStyles.textStyleHeader(context),
+                  minimum: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.035),
+                  child: Column(
+                    children: <Widget>[
+                      //The main widget that holds the text fields, "SENDING" and "TO" texts
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            // "SENDING" TEXT
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    CaseChange.toUpperCase(
+                                        AppLocalization.of(context).sending,
+                                        context),
+                                    style: AppStyles.textStyleHeader(context),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                            // Container for the amount text
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.105,
+                                  right: MediaQuery.of(context).size.width *
+                                      0.105),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 15),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: StateContainer.of(context)
+                                    .curTheme
+                                    .backgroundDarkest,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              // Amount text
+                              child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  text: '',
+                                  children: [
+                                    TextSpan(
+                                      text: "$_amount",
+                                      style: TextStyle(
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .primary,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: 'NunitoSans',
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: " NANO",
+                                      style: TextStyle(
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .primary,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w100,
+                                        fontFamily: 'NunitoSans',
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: _localCurrency != null
+                                          ? " ($_localCurrency)"
+                                          : "",
+                                      style: TextStyle(
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .primary,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: 'NunitoSans',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            // "TO" text
+                            Container(
+                              margin: EdgeInsets.only(top: 30.0, bottom: 10),
+                              child: Column(
+                                children: <Widget>[
+                                  Text(
+                                    CaseChange.toUpperCase(
+                                        AppLocalization.of(context).to,
+                                        context),
+                                    style: AppStyles.textStyleHeader(context),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Address text
+                            Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 25.0, vertical: 15.0),
+                                margin: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width *
+                                        0.105,
+                                    right: MediaQuery.of(context).size.width *
+                                        0.105),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .backgroundDarkest,
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                child: UIUtil.threeLineAddressText(
+                                    context, _destination,
+                                    contactName: _contactName)),
+                          ],
                         ),
-                        // Container for the amount text
-                        Container(
-                          margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: StateContainer.of(context).curTheme.backgroundDarkest,
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          // Amount text
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: '',
-                              children: [
-                                TextSpan(
-                                  text: "$_amount",
-                                  style: TextStyle(
-                                    color: StateContainer.of(context).curTheme.primary,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: 'NunitoSans',
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: " NANO",
-                                  style: TextStyle(
-                                    color: StateContainer.of(context).curTheme.primary,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w100,
-                                    fontFamily: 'NunitoSans',
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: _localCurrency != null ? " ($_localCurrency)" : "",
-                                  style: TextStyle(
-                                    color: StateContainer.of(context).curTheme.primary,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: 'NunitoSans',
-                                  ),
-                                ),
+                      ),
+
+                      //A container for CONFIRM and CANCEL buttons
+                      Container(
+                        child: Column(
+                          children: <Widget>[
+                            // A row for CONFIRM Button
+                            Row(
+                              children: <Widget>[
+                                // CONFIRM Button
+                                AppButton.buildAppButton(
+                                    context,
+                                    AppButtonType.PRIMARY,
+                                    CaseChange.toUpperCase(
+                                        AppLocalization.of(context).confirm,
+                                        context),
+                                    Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                                  // Authenticate
+                                  SharedPrefsUtil.inst
+                                      .getAuthMethod()
+                                      .then((authMethod) {
+                                    BiometricUtil.hasBiometrics()
+                                        .then((hasBiometrics) {
+                                      if (authMethod.method ==
+                                              AuthMethod.BIOMETRICS &&
+                                          hasBiometrics) {
+                                        BiometricUtil
+                                                .authenticateWithBiometrics(
+                                                    context,
+                                                    AppLocalization.of(context)
+                                                        .sendAmountConfirm
+                                                        .replaceAll(
+                                                            "%1", _amount))
+                                            .then((authenticated) {
+                                          if (authenticated) {
+                                            HapticUtil.fingerprintSucess();
+                                            animationOpen = true;
+                                            Navigator.of(context).push(
+                                                AnimationLoadingOverlay(
+                                                    AnimationType.SEND,
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .animationOverlayStrong,
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .animationOverlayMedium,
+                                                    onPoppedCallback: () =>
+                                                        animationOpen = false));
+                                            StateContainer.of(context)
+                                                .requestSend(
+                                                    StateContainer.of(context)
+                                                        .wallet
+                                                        .frontier,
+                                                    _destination,
+                                                    _maxSend ? "0" : _amountRaw,
+                                                    localCurrencyAmount:
+                                                        _localCurrency);
+                                          }
+                                        });
+                                      } else {
+                                        // PIN Authentication
+                                        Vault.inst.getPin().then((expectedPin) {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(builder:
+                                                  (BuildContext context) {
+                                            return new PinScreen(
+                                              PinOverlayType.ENTER_PIN,
+                                              (pin) {
+                                                Navigator.of(context).pop();
+                                                animationOpen = true;
+                                                Navigator.of(context).push(
+                                                    AnimationLoadingOverlay(
+                                                        AnimationType.SEND,
+                                                        StateContainer.of(
+                                                                context)
+                                                            .curTheme
+                                                            .animationOverlayStrong,
+                                                        StateContainer.of(
+                                                                context)
+                                                            .curTheme
+                                                            .animationOverlayMedium,
+                                                        onPoppedCallback: () =>
+                                                            animationOpen =
+                                                                false));
+                                                StateContainer.of(context)
+                                                    .requestSend(
+                                                        StateContainer.of(
+                                                                context)
+                                                            .wallet
+                                                            .frontier,
+                                                        _destination,
+                                                        _maxSend
+                                                            ? "0"
+                                                            : _amountRaw);
+                                              },
+                                              expectedPin: expectedPin,
+                                              description:
+                                                  AppLocalization.of(context)
+                                                      .sendAmountConfirmPin
+                                                      .replaceAll(
+                                                          "%1", _amount),
+                                            );
+                                          }));
+                                        });
+                                      }
+                                    });
+                                  });
+                                }),
                               ],
                             ),
-                          ),
-                        ),
-                        // "TO" text
-                        Container(
-                          margin: EdgeInsets.only(top: 30.0, bottom: 10),
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                CaseChange.toUpperCase(AppLocalization.of(context).to, context),
-                                style: AppStyles.textStyleHeader(context),
-                              ),
-                            ],
-                          ),
-                        ),
-                        // Address text
-                        Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 25.0, vertical: 15.0),
-                            margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.105, right: MediaQuery.of(context).size.width*0.105),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: StateContainer.of(context).curTheme.backgroundDarkest,
-                              borderRadius: BorderRadius.circular(25),
+                            // A row for CANCEL Button
+                            Row(
+                              children: <Widget>[
+                                // CANCEL Button
+                                AppButton.buildAppButton(
+                                    context,
+                                    AppButtonType.PRIMARY_OUTLINE,
+                                    CaseChange.toUpperCase(
+                                        AppLocalization.of(context).cancel,
+                                        context),
+                                    Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                                  Navigator.of(context).pop();
+                                }),
+                              ],
                             ),
-                            child: UIUtil.threeLineAddressText(context, _destination, contactName: _contactName)),
-                      ],
-                    ),
-                  ),
-
-                  //A container for CONFIRM and CANCEL buttons
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        // A row for CONFIRM Button
-                        Row(
-                          children: <Widget>[
-                            // CONFIRM Button
-                            AppButton.buildAppButton(context, 
-                                AppButtonType.PRIMARY,
-                                CaseChange.toUpperCase(AppLocalization.of(context).confirm, context),
-                                Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                                // Authenticate
-                                SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
-                                  BiometricUtil.hasBiometrics().then((hasBiometrics) {
-                                    if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
-                                      BiometricUtil.authenticateWithBiometrics(context,
-                                        AppLocalization.of(context).sendAmountConfirm.replaceAll("%1", _amount)).then((authenticated) {
-                                        if (authenticated) {
-                                          HapticUtil.fingerprintSucess();
-                                          animationOpen = true;
-                                          Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.SEND, onPoppedCallback: () => animationOpen = false));
-                                          StateContainer.of(context).requestSend(
-                                              StateContainer.of(context).wallet.frontier,
-                                              _destination,
-                                              _maxSend ? "0" : _amountRaw,
-                                              localCurrencyAmount: _localCurrency);
-                                        }
-                                      });
-                                    } else {
-                                      // PIN Authentication
-                                      Vault.inst.getPin().then((expectedPin) {
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (BuildContext context) {
-                                          return new PinScreen(PinOverlayType.ENTER_PIN, 
-                                                              (pin) {
-                                                                Navigator.of(context).pop();
-                                                                animationOpen = true;
-                                                                Navigator.of(context).push(AnimationLoadingOverlay(AnimationType.SEND, onPoppedCallback: () => animationOpen = false));
-                                                                StateContainer.of(context).requestSend(
-                                                                    StateContainer.of(context).wallet.frontier,
-                                                                    _destination,
-                                                                    _maxSend ? "0" : _amountRaw);
-                                                              },
-                                                              expectedPin:expectedPin,
-                                                              description: AppLocalization.of(context).sendAmountConfirmPin.replaceAll("%1", _amount),);
-                                        }));
-                                      });
-                                    }
-                                  });
-                                });
-                            }),
                           ],
                         ),
-                        // A row for CANCEL Button
-                        Row(
-                          children: <Widget>[
-                            // CANCEL Button
-                            AppButton.buildAppButton(context, 
-                                AppButtonType.PRIMARY_OUTLINE,
-                                CaseChange.toUpperCase(AppLocalization.of(context).cancel, context),
-                                Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                              Navigator.of(context).pop();
-                            }),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )),
+                      ),
+                    ],
+                  )),
             );
           });
         });

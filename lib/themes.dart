@@ -4,12 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:local_auth/local_auth.dart';
 
-class AppColors {
-  // Some constants not themed
-  static const overlay70 = Color(0xB3000000);
-  static const overlay85 = Color(0xD9000000);
-}
-
 abstract class BaseTheme {
   Color primary;
   Color primary60;
@@ -50,6 +44,9 @@ abstract class BaseTheme {
   Color overlay80;
   Color overlay85;
   Color overlay90;
+  
+  Color animationOverlayMedium;
+  Color animationOverlayStrong;
 
   Brightness brightness;
   SystemUiOverlayStyle statusBar;
@@ -146,6 +143,9 @@ class NatriumTheme extends BaseTheme {
   Color overlay85 = black85;
   Color overlay90 = black90;
 
+  Color animationOverlayMedium = black70;
+  Color animationOverlayStrong = black85;
+
   Brightness brightness = Brightness.dark;
   SystemUiOverlayStyle statusBar =
       SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent);
@@ -216,6 +216,9 @@ class TitaniumTheme extends BaseTheme {
   Color overlay30 = black.withOpacity(0.3);
   Color overlay20 = black.withOpacity(0.2);
 
+  Color animationOverlayMedium = black.withOpacity(0.7);
+  Color animationOverlayStrong = black.withOpacity(0.85);
+
   Brightness brightness = Brightness.dark;
   SystemUiOverlayStyle statusBar =
       SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent);
@@ -281,10 +284,13 @@ class IndiumTheme extends BaseTheme {
   Color overlay90 = black.withOpacity(0.9);
   Color overlay85 = black.withOpacity(0.85);
   Color overlay80 = black.withOpacity(0.8);
-  Color overlay70 = black.withOpacity(0.7);
+  Color overlay70 = black.withOpacity(0.70);
   Color overlay50 = black.withOpacity(0.5);
   Color overlay30 = black.withOpacity(0.3);
   Color overlay20 = black.withOpacity(0.2);
+
+  Color animationOverlayMedium = white.withOpacity(0.7);
+  Color animationOverlayStrong = white.withOpacity(0.85);
 
   Brightness brightness = Brightness.light;
   SystemUiOverlayStyle statusBar =
@@ -361,6 +367,9 @@ class NeptuniumTheme extends BaseTheme {
   Color overlay50 = black.withOpacity(0.5);
   Color overlay30 = black.withOpacity(0.3);
   Color overlay20 = black.withOpacity(0.2);
+
+  Color animationOverlayMedium = black.withOpacity(0.7);
+  Color animationOverlayStrong = black.withOpacity(0.85);
 
   Brightness brightness = Brightness.dark;
   SystemUiOverlayStyle statusBar =
