@@ -212,7 +212,7 @@ class AvailableCurrency extends SettingSelectionItem {
       case "MYR":
           return Locale("ta", "MY");
       case "NOK":
-          return Locale("nn", "NO");
+          return Locale("no", "NO");
       case "NZD":
           return Locale("en", "NZ");
       case "PHP":
