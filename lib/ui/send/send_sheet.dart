@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -634,14 +636,14 @@ class AppSendSheet {
         balance = balance.replaceAll(",", ".");
         String sanitizedBalance = NumberUtil.sanitizeNumber(balance);
         textFieldInt =
-            (Decimal.parse(sanitizedTextField) * Decimal.fromInt(100)).toInt();
+            (Decimal.parse(sanitizedTextField) * Decimal.fromInt(pow(10, NumberUtil.maxDecimalDigits))).toInt();
         balanceInt =
-            (Decimal.parse(sanitizedBalance) * Decimal.fromInt(100)).toInt();
+            (Decimal.parse(sanitizedBalance) * Decimal.fromInt(pow(10, NumberUtil.maxDecimalDigits))).toInt();
       } else {
         textField = textField.replaceAll(",", "");
         textFieldInt =
-            (Decimal.parse(textField) * Decimal.fromInt(100)).toInt();
-        balanceInt = (Decimal.parse(balance) * Decimal.fromInt(100)).toInt();
+            (Decimal.parse(textField) * Decimal.fromInt(pow(10, NumberUtil.maxDecimalDigits))).toInt();
+        balanceInt = (Decimal.parse(balance) * Decimal.fromInt(pow(10, NumberUtil.maxDecimalDigits))).toInt();
       }
       return textFieldInt == balanceInt;
     } catch (e) {
