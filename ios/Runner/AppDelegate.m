@@ -44,6 +44,14 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
             }
             if ([@"natrium" isEqualToString:icon ]) {
                 [self lc_setAlternateIconName:nil];
+            } else if ([@"titanium" isEqualToString:icon]) {
+                [self lc_setAlternateIconName:@"titanium"];
+            } else if ([@"indium" isEqualToString:icon]) {
+                [self lc_setAlternateIconName:@"indium"];
+            } else if ([@"neptunium" isEqualToString:icon]) {
+                [self lc_setAlternateIconName:@"neptunium"];
+            } else if ([@"thorium" isEqualToString:icon]) {
+                [self lc_setAlternateIconName:@"thorium"];
             }
         } else {
             result(FlutterMethodNotImplemented);
