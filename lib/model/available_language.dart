@@ -75,7 +75,7 @@ class LanguageSetting extends SettingSelectionItem {
       case AvailableLanguage.VIETNAMESE:
         return "Tiếng Việt (vi)";
       case AvailableLanguage.CHINESE_SIMPLIFIED:
-        return "簡體字 (zh-Hans)";
+        return "简体字 (zh-Hans)";
       case AvailableLanguage.CHINESE_TRADITIONAL:
         return "繁體字 (zh-Hant)";
       case AvailableLanguage.MALAY:
