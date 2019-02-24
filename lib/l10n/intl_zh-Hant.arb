@@ -1,18 +1,18 @@
 {
     "@@last_modified": "2019-02-04T09:26:48.408903",
-    "contactsImportSuccess": "已成功导入％d个联络人",
+    "contactsImportSuccess": "已成功導入％d個聯絡人",
     "@contactsImportSuccess": {
         "description": "contact_import_success",
         "type": "text",
         "placeholders": {}
     },
-    "contactNameMissing": "选择此联络人的姓名",
+    "contactNameMissing": "请給此聯絡人一個名字",
     "@contactNameMissing": {
         "description": "contact_name_missing",
         "type": "text",
         "placeholders": {}
     },
-    "addressShare": "分享",
+    "addressShare": "分享地址",
     "@addressShare": {
         "description": "receive_share_cta",
         "type": "text",
@@ -132,7 +132,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "contactsImportErr": "无法导入联络人",
+    "contactsImportErr": "无法導入聯絡人",
     "@contactsImportErr": {
         "description": "contact_import_error",
         "type": "text",
@@ -144,19 +144,19 @@
         "type": "text",
         "placeholders": {}
     },
-    "removeContact": "删除联络人",
+    "removeContact": "刪除聯絡人",
     "@removeContact": {
         "description": "contact_remove_btn",
         "type": "text",
         "placeholders": {}
     },
-    "removeContactConfirmation": "您确定要删除％s吗？",
+    "removeContactConfirmation": "您確定要删除％s吗？",
     "@removeContactConfirmation": {
         "description": "contact_remove_sure",
         "type": "text",
         "placeholders": {}
     },
-    "contactHeader": "联络人",
+    "contactHeader": "聯絡人",
     "@contactHeader": {
         "description": "contact_view_header",
         "type": "text",
@@ -168,67 +168,67 @@
         "type": "text",
         "placeholders": {}
     },
-    "addContact": "添加联络人",
+    "addContact": "添加聯絡人",
     "@addContact": {
         "description": "contact_add_button",
         "type": "text",
         "placeholders": {}
     },
-    "contactNameHint": "输入姓名@",
+    "contactNameHint": "輸入姓名@",
     "@contactNameHint": {
         "description": "contact_name_hint",
         "type": "text",
         "placeholders": {}
     },
-    "contactInvalid": "联络人姓名无效",
+    "contactInvalid": "聯絡人姓名無效",
     "@contactInvalid": {
         "description": "contact_invalid_name",
         "type": "text",
         "placeholders": {}
     },
-    "noContactsExport": "没有要导出的联络人",
+    "noContactsExport": "沒有要導出的聯絡人",
     "@noContactsExport": {
         "description": "contact_export_none",
         "type": "text",
         "placeholders": {}
     },
-    "noContactsImport": "找不到要导入的联络人",
+    "noContactsImport": "找不到要導入的聯絡人",
     "@noContactsImport": {
         "description": "contact_import_none",
         "type": "text",
         "placeholders": {}
     },
-    "contactAdded": "%1 已被添加到联络人！",
+    "contactAdded": "%1 已被添加到聯絡人！",
     "@contactAdded": {
         "description": "contact_added",
         "type": "text",
         "placeholders": {}
     },
-    "contactRemoved": "％S已从联络人名单中删除！",
+    "contactRemoved": "％S已從聯絡人名單中刪除！",
     "@contactRemoved": {
         "description": "contact_removed",
         "type": "text",
         "placeholders": {}
     },
-    "contactNameMissing": "没有要导出的联络人",
+    "contactNameMissing": "沒有要導出的聯絡人",
     "@contactNameMissing": {
         "description": "contact_export_none",
         "type": "text",
         "placeholders": {}
     },
-    "contactExists": "联络人已存在",
+    "contactExists": "聯絡人已存在",
     "@contactExists": {
         "description": "contact_name_exists",
         "type": "text",
         "placeholders": {}
     },
-    "backupYourSeed": "備份你的種子代碼",
+    "backupYourSeed": "備份您的種子代碼",
     "@backupYourSeed": {
         "description": "intro_new_wallet_seed_backup_header",
         "type": "text",
         "placeholders": {}
     },
-    "backupSeedConfirm": "你確認你備份了您的錢包種子嗎？",
+    "backupSeedConfirm": "您確認您備份了您的錢包種子嗎？",
     "@backupSeedConfirm": {
         "description": "intro_new_wallet_backup",
         "type": "text",
@@ -246,7 +246,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "importSeedHint": "請在下面輸入您的種子",
+    "importSeedHint": "請在下面輸入您的種子代碼",
     "@importSeedHint": {
         "description": "intro_seed_info",
         "type": "text",
@@ -288,7 +288,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "sendAmountConfirm": "發送 %1 Nano?",
+    "sendAmountConfirm": "發送 %1 NANO?",
     "@sendAmountConfirm": {
         "description": "send_pin_description",
         "type": "text",
@@ -312,7 +312,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "addressMising": "請輸入目的地",
+    "addressMising": "請輸入目標地址",
     "@addressMising": {
         "description": "send_enter_address",
         "type": "text",
@@ -324,7 +324,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "insufficientBalance": "平衡不足",
+    "insufficientBalance": "餘額不足",
     "@insufficientBalance": {
         "description": "send_insufficient_balance",
         "type": "text",
@@ -342,7 +342,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "pinConfirmTitle": "確認你的識別碼",
+    "pinConfirmTitle": "確認您的識別碼",
     "@pinConfirmTitle": {
         "description": "pin_confirm_title",
         "type": "text",
@@ -378,19 +378,19 @@
         "type": "text",
         "placeholders": {}
     },
-    "changeRepAuthenticate": "變更代理人",
+    "changeRepAuthenticate": "更改指定代表",
     "@changeRepAuthenticate": {
         "description": "settings_change_rep",
         "type": "text",
         "placeholders": {}
     },
-    "currentlyRepresented": "目前指定代表",
+    "currentlyRepresented": "當前指定代表",
     "@currentlyRepresented": {
         "description": "change_representative_current_header",
         "type": "text",
         "placeholders": {}
     },
-    "changeRepSucces": "指定代表成功改變",
+    "changeRepSucces": "指定代表更改成功",
     "@changeRepSucces": {
         "description": "change_representative_success",
         "type": "text",
@@ -402,13 +402,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "repInfo": "指定代表是投票支持網絡共識的帳戶。投票權由余額加權，您可以委派餘額來增加您信任的代表的投票權重。您的代表對您的資金沒有消費能力。您應該選擇一個停機時間很少且值得信賴的代表。",
+    "repInfo": "指定代表是投票支持網絡共識的帳戶。投票權重由賬戶余額加權，您可以用餘額來增加您信任的代表的投票權重。您的代表對您的資金沒有控制權。您應該選擇一個下綫時間很少且值得信賴的代表。",
     "@repInfo": {
         "description": "change_representative_info",
         "type": "text",
         "placeholders": {}
     },
-    "pinRepChange": "輸入識別碼以變更代理人。",
+    "pinRepChange": "輸入識別碼以更改指定代表。",
     "@pinRepChange": {
         "description": "change_representative_pin",
         "type": "text",
@@ -431,6 +431,12 @@
         "description": "settings_pin_method",
         "type": "text",
         "placeholders": {}
+	},
+	"privacyPolicy": "隱私政策",
+    "@privacyPolicy": {
+		"description": "settings_privacy_policy",
+		"type": "text",
+		"placeholders": {}
     },
     "biometricsMethod": "生物識別技術",
     "@biometricsMethod": {
@@ -438,7 +444,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "changeCurrency": "改變貨幣",
+    "changeCurrency": "更改貨幣",
     "@changeCurrency": {
         "description": "settings_local_currency",
         "type": "text",
@@ -456,7 +462,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "shareNatriumText": "看看Natrium！ Nano的官方Android錢包！",
+    "shareNatriumText": "來試試Natrium！ NANO在蘋果和安卓上的錢包！",
     "@shareNatriumText": {
         "description": "share_extra",
         "type": "text",
@@ -474,25 +480,25 @@
         "type": "text",
         "placeholders": {}
     },
-    "logoutDetail": "註銷將從此設備中刪除您的種子和所有與Natrium相關的數據。如果您的種子沒有備份，您將永遠無法再次訪問您的帳戶",
+    "logoutDetail": "註銷將從此設備中刪除您的種子代碼和所有與Natrium相關的數據。如果您的種子代碼沒有備份，您將永遠無法再次訪問您的帳戶",
     "@logoutDetail": {
         "description": "settings_logout_alert_message",
         "type": "text",
         "placeholders": {}
     },
-    "logoutAction": "刪除種子並登出",
+    "logoutAction": "刪除種子代碼並登出",
     "@logoutAction": {
         "description": "settings_logout_alert_confirm_cta",
         "type": "text",
         "placeholders": {}
     },
-    "logoutAreYouSure": "你確定？",
+    "logoutAreYouSure": "您確定？",
     "@logoutAreYouSure": {
         "description": "settings_logout_warning_title",
         "type": "text",
         "placeholders": {}
     },
-    "logoutReassurance": "只要你有備份你的種子，就沒有什麼可擔心的了。",
+    "logoutReassurance": "只要您有備份您的種子代碼，就沒有什麼可擔心的了。",
     "@logoutReassurance": {
         "description": "settings_logout_warning_message",
         "type": "text",
@@ -516,7 +522,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "backupSeed": "備份種子",
+    "backupSeed": "備份種子代碼",
     "@backupSeed": {
         "description": "settings_backup_seed",
         "type": "text",
@@ -564,13 +570,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "settingsTransfer": "用紙錢包增值",
+    "settingsTransfer": "用紙錢包充值",
     "@settingsTransfer": {
         "description": "settings_transfer",
         "type": "text",
         "placeholders": {}
     },
-    "transferError": "傳遞出現了問題，請稍後再嘗試。",
+    "transferError": "傳送出現了問題，請稍後再嘗試。",
     "@transferError": {
         "description": "transfer_error",
         "type": "text",
@@ -584,7 +590,7 @@
     },
     "kaliumWallet": "Natrium 錢包",
     "@kaliumWallet": {
-        "description": "kalium_wallet",
+        "description": "Natrium_wallet",
         "type": "text",
         "placeholders": {}
     },
@@ -600,13 +606,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "rawSeed": "私鑰",
+    "rawSeed": "種子代碼",
     "@rawSeed": {
         "description": "raw_seed",
         "type": "text",
         "placeholders": {}
     },
-    "transferHeader": "輸送錢幣",
+    "transferHeader": "傳送錢幣",
     "@transferHeader": {
         "description": "transfer_header",
         "type": "text",
@@ -618,31 +624,31 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferManualHint": "請輸入私鑰。",
+    "transferManualHint": "請輸入種子代碼。",
     "@transferManualHint": {
         "description": "transfer_hint",
         "type": "text",
         "placeholders": {}
     },
-    "transferIntro": "這個過程會將紙錢包的錢幣轉移到你的 Natrium 錢包。\n\n請按 \"%1\" 鍵開始。",
+    "transferIntro": "這個過程會將紙錢包的錢幣轉移到您的 Natrium 錢包。\n\n請按 \"%1\" 鍵開始。",
     "@transferIntro": {
         "description": "transfer_intro",
         "type": "text",
         "placeholders": {}
     },
-    "transferQrScanHint": "請素描 Nano \n私鑰",
+    "transferQrScanHint": "請掃描 NANO \n種子代碼",
     "@transferQrScanHint": {
         "description": "transfer_qr_scan_hint",
         "type": "text",
         "placeholders": {}
     },
-    "transferQrScanError": "這個二維碼沒有包含任何有效的私鑰",
+    "transferQrScanError": "這個二維碼沒有包含任何有效的種子代碼",
     "@transferQrScanError": {
         "description": "transfer_qr_scan_error",
         "type": "text",
         "placeholders": {}
     },
-    "transferNoFunds": "這個私鑰沒有 NANO",
+    "transferNoFunds": "這個種子代碼沒有包含任何 NANO",
     "@transferNoFunds": {
         "description": "transfer_no_funds_toast",
         "type": "text",
@@ -660,19 +666,19 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferConfirmInfoThird": "輸送需要幾秒鐘完成，請稍等一下。",
+    "transferConfirmInfoThird": "傳送需要幾秒鐘完成，請稍等一下。",
     "@transferConfirmInfoThird": {
         "description": "transfer_confirm_info_third",
         "type": "text",
         "placeholders": {}
     },
-    "transferLoading": "輸送中",
+    "transferLoading": "傳送中",
     "@transferLoading": {
         "description": "transfer_loading_text",
         "type": "text",
         "placeholders": {}
     },
-    "transferComplete": "%1 NANO 成功輸送到你的 Natrium 錢包。\n",
+    "transferComplete": "%1 NANO 成功傳送到您的 Natrium 錢包。\n",
     "@transferComplete": {
         "description": "transfer_complete_text",
         "type": "text",
@@ -684,15 +690,15 @@
         "type": "text",
         "placeholders": {}
     },
-    "unlockPin": "請輸入 PIN 碼解鎖 Natrium",
+    "unlockPin": "請輸入識別碼解鎖 Natrium",
     "@unlockPin": {
-        "description": "unlock_kalium_pin",
+        "description": "unlock_natrium_pin",
         "type": "text",
         "placeholders": {}
     },
     "unlockBiometrics": "以生物特徵解鎖 Natrium",
     "@unlockBiometrics": {
-        "description": "unlock_kalium_bio",
+        "description": "unlock_natrium_bio",
         "type": "text",
         "placeholders": {}
     },
@@ -750,37 +756,37 @@
         "type": "text",
         "placeholders": {}
     },
-    "copySeed": "复制私钥",
+    "copySeed": "复制種子代碼",
     "@copySeed": {
         "description": "copy_seed_btn",
         "type": "text",
         "placeholders": {}
     },
-    "seedCopiedShort": "私钥已复制",
+    "seedCopiedShort": "種子代碼已复制",
     "@seedCopiedShort": {
         "description": "seed_copied_btn",
         "type": "text",
         "placeholders": {}
     },
-    "qrInvalidSeed": "二维码没有包含任何有效的私钥",
+    "qrInvalidSeed": "二維碼沒有包含任何有效的種子代碼",
     "@qrInvalidSeed": {
         "description": "qr_invalid_seed",
         "type": "text",
         "placeholders": {}
     },
-    "qrInvalidAddress": "二维码没有包含任何有效的地址",
+    "qrInvalidAddress": "二維碼没有包含任何有效的地址",
     "@qrInvalidAddress": {
         "description": "qr_invalid_address",
         "type": "text",
         "placeholders": {}
     },
-    "scanInstructions": "掃描Nano二維碼地址",
+    "scanInstructions": "掃描NANO二維碼地址",
     "@scanInstructions": {
         "description": "scan_send_instruction_label",
         "type": "text",
         "placeholders": {}
     },
-    "exampleCardIntro": "歡迎來到Natrium。當您收到或發送NANO時，它將如下所示.",
+    "exampleCardIntro": "歡迎來到Natrium。當您收到或發送NANO時，它將顯示在下面.",
     "@exampleCardIntro": {
         "description": "example_card_intro",
         "type": "text",
@@ -804,7 +810,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "exampleCardFrom": "從別人",
+    "exampleCardFrom": "來自某人",
     "@exampleCardFrom": {
         "description": "example_card_from",
         "type": "text",
