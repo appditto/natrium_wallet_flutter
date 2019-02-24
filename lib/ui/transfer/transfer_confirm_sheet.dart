@@ -306,8 +306,8 @@ class AppTransferConfirmSheet {
         });
   }
 
-  Future<String> _getPrivKey() async {
-    return NanoUtil.seedToPrivate(await Vault.inst.getSeed(), 0);
+  Future<String> _getPrivKey(int index) async {
+    return NanoUtil.seedToPrivate(await Vault.inst.getSeed(), index);
   }
 
   ///
@@ -360,7 +360,7 @@ class AppTransferConfirmSheet {
       PendingResponseItem pendingItem = pendingBlocks.remove(hash);
       if (StateContainer.of(context).wallet.openBlock != null) {
         // Receive block
-        _getPrivKey().then((result) {
+        _getPrivKey(StateContainer.of(context).selectedAccount.index).then((result) {
           StateContainer.of(context).requestReceive(
               StateContainer.of(context).wallet.frontier,
               hash,
@@ -370,7 +370,7 @@ class AppTransferConfirmSheet {
         });
       } else {
         // Open account
-        _getPrivKey().then((result) {
+        _getPrivKey(StateContainer.of(context).selectedAccount.index).then((result) {
           StateContainer.of(context).requestOpen("0", hash, pendingItem.amount,
               privKey: result,
               account: StateContainer.of(context).wallet.address);

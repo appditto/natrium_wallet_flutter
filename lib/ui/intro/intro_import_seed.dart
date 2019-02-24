@@ -300,16 +300,15 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                       Vault.inst
                                           .setSeed(_seedInputController.text)
                                           .then((result) {
-                                        StateContainer.of(context).updateWallet(
-                                            address:
-                                                NanoUtil.seedToAddress(result));
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(builder:
-                                                (BuildContext context) {
-                                          return new PinScreen(
-                                              PinOverlayType.NEW_PIN,
-                                              (_pinEnteredCallback));
-                                        }));
+                                        NanoUtil().loginAccount(context).then((_) {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(builder:
+                                                  (BuildContext context) {
+                                            return new PinScreen(
+                                                PinOverlayType.NEW_PIN,
+                                                (_pinEnteredCallback));
+                                          }));
+                                        });
                                       });
                                     });
                                   } else {

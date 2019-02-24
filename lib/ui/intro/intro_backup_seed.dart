@@ -192,12 +192,11 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 onPressed: () {
                                   Vault.inst.setSeed(_seed).then((result) {
                                     // Update wallet
-                                    StateContainer.of(context).updateWallet(
-                                        address:
-                                            NanoUtil.seedToAddress(result));
-                                    StateContainer.of(context).requestUpdate();
-                                    Navigator.of(context)
-                                        .pushNamed('/intro_backup_confirm');
+                                    NanoUtil().loginAccount(context).then((_) {
+                                      StateContainer.of(context).requestUpdate();
+                                      Navigator.of(context)
+                                          .pushNamed('/intro_backup_confirm');
+                                    });
                                   });
                                 },
                                 shape: RoundedRectangleBorder(

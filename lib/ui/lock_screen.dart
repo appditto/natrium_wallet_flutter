@@ -29,8 +29,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
     if (StateContainer.of(context).wallet != null) {
       StateContainer.of(context).reconnect();
     } else {
-      StateContainer.of(context).updateWallet(
-          address: NanoUtil.seedToAddress(await Vault.inst.getSeed()));
+      await NanoUtil().loginAccount(context);
     }
     Navigator.of(context).pushNamedAndRemoveUntil(
         '/home_transition', (Route<dynamic> route) => false);

@@ -156,7 +156,7 @@ class DBHelper{
     var dbClient = await db;
     await dbClient.transaction((txn) async {
       await dbClient.rawUpdate('UPDATE Account set selected = 0');
-      await dbClient.rawUpdate('UPDATE Accounts set selected = ? where id = ?', [1, account.id]);
+      await dbClient.rawUpdate('UPDATE Accounts set selected = ?, last_accessed = ? where id = ?', [1, await getNextAccessCount(), account.id]);
     });
   }
 
@@ -168,5 +168,10 @@ class DBHelper{
     }
     Account account = Account(id: list[0]["id"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"]);
     return account;
+  }
+
+  Future<void> dropAccounts() async {
+    var dbClient = await db;
+    return await dbClient.rawDelete('DELETE FROM ACCOUNTS');
   }
 }

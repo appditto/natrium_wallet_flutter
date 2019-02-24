@@ -15,6 +15,7 @@ import 'package:natrium_wallet_flutter/model/available_language.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
+import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 import 'package:natrium_wallet_flutter/network/model/request_item.dart';
@@ -113,7 +114,7 @@ class StateContainerState extends State<StateContainer> {
   void initState() {
     super.initState();
     // Setup initial account
-      
+
     // Register RxBus
     _registerBus();
     // Set currency locale here for the UI to access
@@ -266,7 +267,9 @@ class StateContainerState extends State<StateContainer> {
   }
 
   // Update the global wallet instance with a new address
-  void updateWallet({address}) {
+  Future<void> updateWallet({Account account}) async {
+    String address = NanoUtil.seedToAddress(await Vault.inst.getSeed(), account.index);
+    selectedAccount = account;
     setState(() {
       wallet = AppWallet(address: address, loading: true);
       requestUpdate();
@@ -731,11 +734,12 @@ class StateContainerState extends State<StateContainer> {
     setState(() {
       wallet = AppWallet();
     });
+    DBHelper().dropAccounts();
     AccountService.clearQueue();
   }
 
   Future<String> _getPrivKey() async {
-   return NanoUtil.seedToPrivate(await Vault.inst.getSeed(), 0);
+   return NanoUtil.seedToPrivate(await Vault.inst.getSeed(), selectedAccount.index);
   }
 
   // Simple build method that just passes this state through
