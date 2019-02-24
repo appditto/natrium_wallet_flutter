@@ -813,7 +813,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               height: 45,
                               alignment: Alignment(0, 0.3),
                               child: Text(
-                                mainAccountShortName,
+                                StateContainer.of(context).selectedAccount.getShortName(),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: StateContainer.of(context)
@@ -1009,7 +1009,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   Container(
                     margin: EdgeInsets.only(top: 10),
                     child: Text(
-                      mainAccountName,
+                      StateContainer.of(context).selectedAccount.name,
                       style: TextStyle(
                         fontFamily: "NunitoSans",
                         fontWeight: FontWeight.w600,
@@ -1021,7 +1021,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   // Main account address
                   Container(
                     child: Text(
-                      mainAccountAddress,
+                      StateContainer.of(context).wallet.address.substring(0, 11),
                       style: TextStyle(
                         fontFamily: "OverpassMono",
                         fontWeight: FontWeight.w100,
