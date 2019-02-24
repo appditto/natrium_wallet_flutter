@@ -59,6 +59,18 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   String documentsDirectory;
   String versionString = "";
+  String mainAccountName = "Main Account";
+  String mainAccountShortName = "MA";
+  String mainAccountAddress = "xrb_1yekta1";
+  String secondAccountName = "Shopping";
+  String secondAccountShortName = "SH";
+  String secondAccountAddress = "xrb_1bbedwa";
+  String thirdAccountName = "Reddit";
+  String thirdAccountShortName = "RE";
+  String thirdAccountAddress = "xrb_1reddit";
+  String spareAccountName = "";
+  String spareAccountShortName = "";
+  String spareAccountAddress = "";
 
   final log = Logger("SettingsSheet");
   bool _hasBiometrics = false;
@@ -801,7 +813,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               height: 45,
                               alignment: Alignment(0, 0.3),
                               child: Text(
-                                "MA",
+                                mainAccountShortName,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: StateContainer.of(context)
@@ -820,97 +832,153 @@ class _SettingsSheetState extends State<SettingsSheet>
                       Row(
                         children: <Widget>[
                           // Second Account
-                          Stack(
-                            children: <Widget>[
-                              Center(
-                                child: Container(
-                                  width: 40,
-                                  height: 30,
-                                  margin: EdgeInsets.symmetric(horizontal: 8),
-                                  child: FlatButton(
-                                    onPressed: () => null,
-                                    padding: EdgeInsets.all(0.0),
-                                    child: Container(
-                                        alignment: Alignment(-1, 0),
-                                        child: Icon(
-                                          AppIcons.accountwallet,
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Stack(
+                              children: <Widget>[
+                                Center(
+                                  child: Icon(
+                                    AppIcons.accountwallet,
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .primary,
+                                    size: 36,
+                                  ),
+                                ),
+                                Center(
+                                  child: Container(
+                                    width: 48,
+                                    height: 36,
+                                    alignment: Alignment(0, 0.3),
+                                    child: Text(secondAccountShortName,
+                                        style: TextStyle(
                                           color: StateContainer.of(context)
                                               .curTheme
-                                              .primary,
-                                          size: 30,
+                                              .backgroundDark,
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.w800,
                                         )),
                                   ),
                                 ),
-                              ),
-                              Center(
-                                child: Container(
-                                  width: 40,
-                                  height: 30,
-                                  alignment: Alignment(0.6, 0.4),
-                                  child: Text(
-                                    "A2",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .backgroundDark,
-                                      fontSize: 12,
-                                      fontFamily: "NunitoSans",
-                                      fontWeight: FontWeight.w800,
+                                Center(
+                                  child: Container(
+                                    width: 48,
+                                    height: 36,
+                                    color: Colors.transparent,
+                                    child: FlatButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          spareAccountName = secondAccountName;
+                                          spareAccountShortName =
+                                              secondAccountShortName;
+                                          spareAccountAddress =
+                                              secondAccountAddress;
+                                          secondAccountName = mainAccountName;
+                                          secondAccountShortName =
+                                              mainAccountShortName;
+                                          secondAccountAddress =
+                                              mainAccountAddress;
+                                          mainAccountName = spareAccountName;
+                                          mainAccountShortName =
+                                              spareAccountShortName;
+                                          mainAccountAddress =
+                                              spareAccountAddress;
+                                        });
+                                        Future.delayed(
+                                            Duration(milliseconds: 400), () {
+                                          Navigator.pop(context);
+                                        });
+                                      },
+                                      highlightColor: StateContainer.of(context).curTheme.backgroundDark.withOpacity(0.75),
+                                      splashColor: StateContainer.of(context).curTheme.backgroundDark.withOpacity(0.75),
+                                      padding: EdgeInsets.all(0.0),
+                                      child: Container(
+                                        width: 48,
+                                        height: 36,
+                                        color: Colors.transparent,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           // Third Account
-                          Stack(
-                            children: <Widget>[
-                              Center(
-                                child: Container(
-                                  width: 40,
-                                  height: 30,
-                                  margin: EdgeInsets.symmetric(horizontal: 8),
-                                  child: FlatButton(
-                                    onPressed: () => null,
-                                    padding: EdgeInsets.all(0.0),
-                                    child: Container(
-                                        alignment: Alignment(-1, 0),
-                                        child: Icon(
-                                          AppIcons.accountwallet,
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Stack(
+                              children: <Widget>[
+                                Center(
+                                  child: Icon(
+                                    AppIcons.accountwallet,
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .primary,
+                                    size: 36,
+                                  ),
+                                ),
+                                Center(
+                                  child: Container(
+                                    width: 48,
+                                    height: 36,
+                                    alignment: Alignment(0, 0.3),
+                                    child: Text(thirdAccountShortName,
+                                        style: TextStyle(
                                           color: StateContainer.of(context)
                                               .curTheme
-                                              .primary,
-                                          size: 30,
+                                              .backgroundDark,
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.w800,
                                         )),
                                   ),
                                 ),
-                              ),
-                              Center(
-                                child: Container(
-                                  width: 40,
-                                  height: 30,
-                                  alignment: Alignment(0.6, 0.4),
-                                  child: Text(
-                                    "A3",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .backgroundDark,
-                                      fontSize: 12,
-                                      fontFamily: "NunitoSans",
-                                      fontWeight: FontWeight.w800,
+                                Center(
+                                  child: Container(
+                                    width: 48,
+                                    height: 36,
+                                    color: Colors.transparent,
+                                    child: FlatButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          spareAccountName = thirdAccountName;
+                                          spareAccountShortName =
+                                              thirdAccountShortName;
+                                          spareAccountAddress =
+                                              thirdAccountAddress;
+                                          thirdAccountName = mainAccountName;
+                                          thirdAccountShortName =
+                                              mainAccountShortName;
+                                          thirdAccountAddress =
+                                              mainAccountAddress;
+                                          mainAccountName = spareAccountName;
+                                          mainAccountShortName =
+                                              spareAccountShortName;
+                                          mainAccountAddress =
+                                              spareAccountAddress;
+                                        });
+                                        Future.delayed(
+                                            Duration(milliseconds: 400), () {
+                                          Navigator.pop(context);
+                                        });
+                                      },
+                                      highlightColor: StateContainer.of(context).curTheme.backgroundDark.withOpacity(0.75),
+                                      splashColor: StateContainer.of(context).curTheme.backgroundDark.withOpacity(0.75),
+                                      padding: EdgeInsets.all(0.0),
+                                      child: Container(
+                                        width: 48,
+                                        height: 36,
+                                        color: Colors.transparent,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           // Account switcher
                           Container(
-                            height: 30,
-                            width: 30,
+                            height: 36,
+                            width: 36,
                             margin: EdgeInsets.symmetric(horizontal: 6.0),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -927,7 +995,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   StateContainer.of(context).curTheme.text15,
                               child: Icon(
                                 AppIcons.accountswitcher,
-                                size: 30,
+                                size: 36,
                                 color:
                                     StateContainer.of(context).curTheme.primary,
                               ),
@@ -941,7 +1009,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   Container(
                     margin: EdgeInsets.only(top: 10),
                     child: Text(
-                      "Main Account",
+                      mainAccountName,
                       style: TextStyle(
                         fontFamily: "NunitoSans",
                         fontWeight: FontWeight.w600,
@@ -953,7 +1021,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   // Main account address
                   Container(
                     child: Text(
-                      "xrb_1yekta1",
+                      mainAccountAddress,
                       style: TextStyle(
                         fontFamily: "OverpassMono",
                         fontWeight: FontWeight.w100,
@@ -970,7 +1038,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: Stack(
               children: <Widget>[
                 ListView(
-                  padding: EdgeInsets.only(top: 15.0),
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(left: 30.0, bottom: 10),
