@@ -15,6 +15,7 @@ import 'package:natrium_wallet_flutter/model/available_language.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
+import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 import 'package:natrium_wallet_flutter/network/model/request_item.dart';
 import 'package:natrium_wallet_flutter/network/model/request/accounts_balances_request.dart';
@@ -92,6 +93,8 @@ class StateContainerState extends State<StateContainer> {
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
   LanguageSetting curLanguage = LanguageSetting(AvailableLanguage.DEFAULT);
   BaseTheme curTheme = NatriumTheme();
+  // Currently selected account
+  Account selectedAccount;
 
   // If callback is locked
   bool _locked = false;
@@ -109,6 +112,8 @@ class StateContainerState extends State<StateContainer> {
   @override
   void initState() {
     super.initState();
+    // Setup initial account
+      
     // Register RxBus
     _registerBus();
     // Set currency locale here for the UI to access
