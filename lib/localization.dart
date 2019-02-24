@@ -754,6 +754,15 @@ class AppLocalization {
 
   /// -- END EXAMPLE HOME SCREEN CARDS
 
+  /// -- START MULTI-ACCOUNT
+
+  String get defaultAccountName {
+    return Intl.message("Main Account",
+      desc: "Default account name", name: 'defaultAccountName');
+  }
+
+  /// -- END MULTI-ACCOUNT
+
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash) {
     return 'https://nanocrawler.cc/explorer/block/$hash';
