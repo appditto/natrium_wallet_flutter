@@ -829,8 +829,6 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   margin: EdgeInsets.symmetric(horizontal: 8),
                                   child: FlatButton(
                                     onPressed: () => null,
-                                    splashColor: Colors.pink,
-                                    highlightColor: Colors.pink,
                                     padding: EdgeInsets.all(0.0),
                                     child: Container(
                                         alignment: Alignment(-1, 0),
@@ -875,8 +873,6 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   margin: EdgeInsets.symmetric(horizontal: 8),
                                   child: FlatButton(
                                     onPressed: () => null,
-                                    splashColor: Colors.pink,
-                                    highlightColor: Colors.pink,
                                     padding: EdgeInsets.all(0.0),
                                     child: Container(
                                         alignment: Alignment(-1, 0),
