@@ -181,7 +181,7 @@ Widget buildAccountListItem(BuildContext context, String accountName,
     padding: EdgeInsets.all(0.0),
     child: Container(
       height: 70.0,
-      margin: new EdgeInsets.symmetric(horizontal: 30),
+      margin: new EdgeInsets.symmetric(horizontal: 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -191,53 +191,37 @@ Widget buildAccountListItem(BuildContext context, String accountName,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               // Account Icon
-              Stack(
-                children: <Widget>[
-                  Center(
-                    child: Container(
-                      width: 40,
-                      height: 30,
-                      margin: EdgeInsets.symmetric(horizontal: 8),
-                      child: FlatButton(
-                        onPressed: () => null,
-                        splashColor: Colors.pink,
-                        highlightColor: Colors.pink,
-                        padding: EdgeInsets.all(0.0),
-                        child: Container(
-                            alignment: Alignment(-1, 0),
-                            child: Icon(
-                              AppIcons.accountwallet,
-                              color:
-                                  StateContainer.of(context).curTheme.primary,
-                              size: 30,
+              Container(
+                child: Stack(
+                  children: <Widget>[
+                    Center(
+                      child: Icon(
+                        AppIcons.accountwallet,
+                        color: StateContainer.of(context).curTheme.primary,
+                        size: 30,
+                      ),
+                    ),
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 30,
+                        alignment: Alignment(0, 0.3),
+                        child: Text(accountNameShort,
+                            style: TextStyle(
+                              color: StateContainer.of(context)
+                                  .curTheme
+                                  .backgroundDark,
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w800,
                             )),
                       ),
                     ),
-                  ),
-                  Center(
-                    child: Container(
-                      width: 40,
-                      height: 30,
-                      alignment: Alignment(0.6, 0.4),
-                      child: Text(
-                        accountNameShort,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: StateContainer.of(context)
-                              .curTheme
-                              .backgroundDark,
-                          fontSize: 12,
-                          fontFamily: "NunitoSans",
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               // Account name and address
               Container(
-                margin: EdgeInsets.only(left: 10),
+                margin: EdgeInsets.only(left: 16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,7 +259,7 @@ Widget buildAccountListItem(BuildContext context, String accountName,
               Text(
                 accountBalance,
                 style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                     fontFamily: "NunitoSans",
                     fontWeight: FontWeight.w900,
                     color: StateContainer.of(context).curTheme.text),
@@ -283,7 +267,7 @@ Widget buildAccountListItem(BuildContext context, String accountName,
               Text(
                 " NANO",
                 style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                     fontFamily: "NunitoSans",
                     fontWeight: FontWeight.w100,
                     color: StateContainer.of(context).curTheme.text),
