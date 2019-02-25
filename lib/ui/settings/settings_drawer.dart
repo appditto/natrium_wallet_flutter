@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:event_taxi/event_taxi.dart';
-import 'package:natrium_wallet_flutter/ui/settings/accounts_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/accounts/accounts_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 import 'package:logging/logging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
