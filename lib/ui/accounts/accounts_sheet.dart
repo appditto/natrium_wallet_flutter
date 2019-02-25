@@ -1,20 +1,17 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
-import 'package:natrium_wallet_flutter/model/vault.dart';
-import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
-import 'package:natrium_wallet_flutter/util/clipboardutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
+import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 
 class AppAccountsSheet {
   List<Account> _accounts;
@@ -162,6 +159,12 @@ class AppAccountsSheet {
       splashColor: StateContainer.of(context).curTheme.text15,
       onPressed: () {
         // Change account
+        if (!account.selected) {
+          DBHelper().changeAccount(account).then((_) {
+            NanoUtil().loginAccount(context);
+            Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
+          });
+        }
       },
       padding: EdgeInsets.all(0.0),
       child: Column(
@@ -251,7 +254,9 @@ class AppAccountsSheet {
                 Row(
                   children: <Widget>[
                     Text(
-                      "placeholder",
+                      account.selected
+                      ? StateContainer.of(context).wallet.getAccountBalanceDisplay()
+                      : "placeholder",
                       style: TextStyle(
                           fontSize: 14.0,
                           fontFamily: "NunitoSans",

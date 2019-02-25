@@ -143,20 +143,6 @@ class DBHelper{
     return accounts;
   }
 
-
-  Future<int> _getAccountsCount(var dbClient) async {
-    List<Map> list = await dbClient.rawQuery('SELECT count(*) as count FROM Accounts ORDER BY last_accessed');
-    return list[0]["count"];
-  }
-
-  Future<int> _getNextAccessCount(var dbClient) async {
-    if (await _getAccountsCount(dbClient) == 0) {
-      return 0;
-    }
-    List<Map> list = await dbClient.rawQuery('SELECT max(last_accessed) as last_access FROM Accounts');
-    return list[0]["last_accessed"] + 1;
-  }
-
   Future<void> addAccount({String nameBuilder}) async {
     var dbClient = await db;
     return await dbClient.transaction((Transaction txn) async {
@@ -173,16 +159,13 @@ class DBHelper{
     return await dbClient.rawInsert('INSERT INTO Accounts (name, acct_index, last_accessed, selected) values(?, ?, ?, ?)', [account.name, account.index, account.lastAccess, account.selected ? 1 : 0]);
   }
 
-  Future<void> updateLastAccess(Account account) async {
-    var dbClient = await db;
-    return await dbClient.rawUpdate('UPDATE Accounts set last_accessed = ? where id = ?', [await _getNextAccessCount(dbClient), account.id]);
-  }
-
   Future<void> changeAccount(Account account) async {
     var dbClient = await db;
     return await dbClient.transaction((Transaction txn) async {
-      await txn.rawUpdate('UPDATE Account set selected = 0');
-      await txn.rawUpdate('UPDATE Accounts set selected = ?, last_accessed = ? where id = ?', [1, await _getNextAccessCount(txn), account.id]);
+      await txn.rawUpdate('UPDATE Accounts set selected = 0');
+      // Get access increment count
+      List<Map> list = await txn.rawQuery('SELECT max(last_accessed) as last_access FROM Accounts');
+      await txn.rawUpdate('UPDATE Accounts set selected = ?, last_accessed = ? where id = ?', [1, list[0]["last_access"] + 1, account.id]);
     });
   }
 
