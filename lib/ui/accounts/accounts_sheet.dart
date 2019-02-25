@@ -156,17 +156,12 @@ class AppAccountsSheet {
         });
   }
 
-  Widget _buildAccountListItem(BuildContext context, Account account,
-      {Function onPressed}) {
+  Widget _buildAccountListItem(BuildContext context, Account account) {
     return FlatButton(
       highlightColor: StateContainer.of(context).curTheme.text15,
       splashColor: StateContainer.of(context).curTheme.text15,
       onPressed: () {
-        if (onPressed != null) {
-          onPressed();
-        } else {
-          return;
-        }
+        // Change account
       },
       padding: EdgeInsets.all(0.0),
       child: Column(
@@ -188,55 +183,39 @@ class AppAccountsSheet {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     // Account Icon
-                    Stack(
-                      children: <Widget>[
-                        Center(
-                          child: Container(
-                            width: 40,
-                            height: 30,
-                            margin: EdgeInsets.symmetric(horizontal: 8),
-                            child: FlatButton(
-                              onPressed: () => null,
-                              splashColor: Colors.pink,
-                              highlightColor: Colors.pink,
-                              padding: EdgeInsets.all(0.0),
-                              child: Container(
-                                  alignment: Alignment(-1, 0),
-                                  child: Icon(
-                                    AppIcons.accountwallet,
-                                    color:
-                                        account.selected
-                                        ? StateContainer.of(context).curTheme.success
-                                        : StateContainer.of(context).curTheme.primary,
-                                    size: 30,
-                                  )),
+                    Container(
+                      child: Stack(
+                        children: <Widget>[
+                          Center(
+                            child: Icon(
+                              AppIcons.accountwallet,
+                              color: account.selected
+                              ? StateContainer.of(context).curTheme.success
+                              : StateContainer.of(context).curTheme.primary,
+                              size: 30,
                             ),
                           ),
-                        ),
-                        Center(
-                          child: Container(
-                            width: 40,
-                            height: 30,
-                            alignment: Alignment(0.6, 0.4),
-                            child: Text(
-                              account.getShortName(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: StateContainer.of(context)
-                                    .curTheme
-                                    .backgroundDark,
-                                fontSize: 12,
-                                fontFamily: "NunitoSans",
-                                fontWeight: FontWeight.w800,
-                              ),
+                          Center(
+                            child: Container(
+                              width: 40,
+                              height: 30,
+                              alignment: Alignment(0, 0.3),
+                              child: Text(account.getShortName(),
+                                  style: TextStyle(
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .backgroundDark,
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w800,
+                                  )),                     
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     // Account name and address
                     Container(
-                      margin: EdgeInsets.only(left: 10),
+                      margin: EdgeInsets.only(left: 16),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -274,7 +253,7 @@ class AppAccountsSheet {
                     Text(
                       "placeholder",
                       style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 14.0,
                           fontFamily: "NunitoSans",
                           fontWeight: FontWeight.w900,
                           color: StateContainer.of(context).curTheme.text),
@@ -282,7 +261,7 @@ class AppAccountsSheet {
                     Text(
                       " NANO",
                       style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 14.0,
                           fontFamily: "NunitoSans",
                           fontWeight: FontWeight.w100,
                           color: StateContainer.of(context).curTheme.text),

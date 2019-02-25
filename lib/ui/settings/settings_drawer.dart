@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:event_taxi/event_taxi.dart';
+import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accounts_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 import 'package:logging/logging.dart';
@@ -774,7 +775,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           children: <Widget>[
             // A container for accounts area
             Container(
-              margin: EdgeInsets.only(left: 30.0, right: 20, bottom: 20),
+              margin: EdgeInsets.only(left: 26.0, right: 20, bottom: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -784,49 +785,71 @@ class _SettingsSheetState extends State<SettingsSheet>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       // Main Account
-                      Stack(
-                        children: <Widget>[
-                          Center(
-                            child: Container(
-                              width: 60,
-                              height: 45,
-                              child: FlatButton(
-                                onPressed: () => null,
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                padding: EdgeInsets.all(0.0),
-                                child: Container(
-                                    alignment: Alignment(-1, 0),
-                                    child: Icon(
-                                      AppIcons.accountwallet,
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .success,
-                                      size: 45,
-                                    )),
-                              ),
+                      Container(
+                        margin: EdgeInsets.only(left: 4.0),
+                        child: Stack(
+                          children: <Widget>[
+                            Center(
+                              child: Container(
+                                  width: 60,
+                                  height: 45,
+                                  alignment: Alignment(-1, 0),
+                                  child: Icon(
+                                    AppIcons.accountwallet,
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .success,
+                                    size: 45,
+                                  )),
                             ),
-                          ),
-                          Center(
-                            child: Container(
-                              width: 60,
-                              height: 45,
-                              alignment: Alignment(0, 0.3),
-                              child: Text(
-                                StateContainer.of(context).selectedAccount.getShortName(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .backgroundDark,
-                                  fontSize: 16,
-                                  fontFamily: "NunitoSans",
-                                  fontWeight: FontWeight.w900,
+                            Center(
+                              child: Container(
+                                width: 60,
+                                height: 45,
+                                alignment: Alignment(0, 0.3),
+                                child: Text(
+                                  StateContainer.of(context)
+                                      .selectedAccount
+                                      .getShortName(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .backgroundDark,
+                                    fontSize: 16,
+                                    fontFamily: "NunitoSans",
+                                    fontWeight: FontWeight.w900,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            Center(
+                              child: Container(
+                                width: 60,
+                                height: 45,
+                                child: FlatButton(
+                              
+                                  highlightColor: StateContainer.of(context)
+                                      .curTheme
+                                      .backgroundDark
+                                      .withOpacity(0.75),
+                                  splashColor: StateContainer.of(context)
+                                      .curTheme
+                                      .backgroundDark
+                                      .withOpacity(0.75),
+                                  padding: EdgeInsets.all(0.0),
+                                  child: SizedBox(
+                                    width: 60,
+                                    height: 45,
+                                  ),
+                                  onPressed: (){
+                                    AccountDetailsSheet().mainBottomSheet(context);
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       // A row for other accounts and account switcher
                       Row(
@@ -889,8 +912,14 @@ class _SettingsSheetState extends State<SettingsSheet>
                                           Navigator.pop(context);
                                         });
                                       },
-                                      highlightColor: StateContainer.of(context).curTheme.backgroundDark.withOpacity(0.75),
-                                      splashColor: StateContainer.of(context).curTheme.backgroundDark.withOpacity(0.75),
+                                      highlightColor: StateContainer.of(context)
+                                          .curTheme
+                                          .backgroundDark
+                                          .withOpacity(0.75),
+                                      splashColor: StateContainer.of(context)
+                                          .curTheme
+                                          .backgroundDark
+                                          .withOpacity(0.75),
                                       padding: EdgeInsets.all(0.0),
                                       child: Container(
                                         width: 48,
@@ -961,8 +990,14 @@ class _SettingsSheetState extends State<SettingsSheet>
                                           Navigator.pop(context);
                                         });
                                       },
-                                      highlightColor: StateContainer.of(context).curTheme.backgroundDark.withOpacity(0.75),
-                                      splashColor: StateContainer.of(context).curTheme.backgroundDark.withOpacity(0.75),
+                                      highlightColor: StateContainer.of(context)
+                                          .curTheme
+                                          .backgroundDark
+                                          .withOpacity(0.75),
+                                      splashColor: StateContainer.of(context)
+                                          .curTheme
+                                          .backgroundDark
+                                          .withOpacity(0.75),
                                       padding: EdgeInsets.all(0.0),
                                       child: Container(
                                         width: 48,
@@ -1007,28 +1042,48 @@ class _SettingsSheetState extends State<SettingsSheet>
                       ),
                     ],
                   ),
-                  // Main account name
                   Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: Text(
-                      StateContainer.of(context).selectedAccount.name,
-                      style: TextStyle(
-                        fontFamily: "NunitoSans",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.0,
-                        color: StateContainer.of(context).curTheme.text,
-                      ),
-                    ),
-                  ),
-                  // Main account address
-                  Container(
-                    child: Text(
-                      StateContainer.of(context).wallet.address.substring(0, 11),
-                      style: TextStyle(
-                        fontFamily: "OverpassMono",
-                        fontWeight: FontWeight.w100,
-                        fontSize: 14.0,
-                        color: StateContainer.of(context).curTheme.text60,
+                    margin: EdgeInsets.only(top:10),
+                    child: FlatButton(
+                      padding: EdgeInsets.all(4.0),
+                      highlightColor: StateContainer.of(context).curTheme.text15,
+                      splashColor: StateContainer.of(context).curTheme.text30,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
+                      onPressed: (){
+                        AccountDetailsSheet().mainBottomSheet(context);
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          // Main account name
+                          Container(
+                            child: Text(
+                              StateContainer.of(context).selectedAccount.name,
+                              style: TextStyle(
+                                fontFamily: "NunitoSans",
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16.0,
+                                color: StateContainer.of(context).curTheme.text,
+                              ),
+                            ),
+                          ),
+                          // Main account address
+                          Container(
+                            child: Text(
+                              StateContainer.of(context)
+                                  .wallet
+                                  .address
+                                  .substring(0, 11),
+                              style: TextStyle(
+                                fontFamily: "OverpassMono",
+                                fontWeight: FontWeight.w100,
+                                fontSize: 14.0,
+                                color: StateContainer.of(context).curTheme.text60,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
