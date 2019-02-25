@@ -985,7 +985,9 @@ class _SettingsSheetState extends State<SettingsSheet>
                             ),
                             child: FlatButton(
                               onPressed: () {
-                                AppAccountsSheet().mainBottomSheet(context);
+                                DBHelper().getAccounts().then((accounts) {
+                                  AppAccountsSheet(accounts).mainBottomSheet(context);
+                                });
                               },
                               padding: EdgeInsets.all(0.0),
                               shape: CircleBorder(),

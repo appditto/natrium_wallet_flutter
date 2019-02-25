@@ -3,8 +3,10 @@ import 'dart:io' as io;
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
+import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 
 class DBHelper{
   static const int DB_VERSION = 2;
@@ -117,9 +119,23 @@ class DBHelper{
   }
 
   // Accounts
-  Future<List<Account>> getAccounts() async {
+  Future<List<Account>> getAccounts({bool withAddress = true}) async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts ORDER BY last_accessed');
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts ORDER BY acct_index');
+    List<Account> accounts = new List();
+    for (int i = 0; i < list.length; i++) {
+      String address;
+      if (withAddress) {
+        address = NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[i]["acct_index"]);
+      }
+      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: address));
+    }
+    return accounts;
+  }
+
+  Future<List<Account>> getRecentlyUsedAccounts({int limit = 2}) async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts WHERE selected != 1 ORDER BY last_accessed LIMIT ?', [limit]);
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
       accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false));
@@ -127,19 +143,29 @@ class DBHelper{
     return accounts;
   }
 
-  Future<int> getAccountsCount() async {
-    var dbClient = await db;
+
+  Future<int> _getAccountsCount(var dbClient) async {
     List<Map> list = await dbClient.rawQuery('SELECT count(*) as count FROM Accounts ORDER BY last_accessed');
     return list[0]["count"];
   }
 
-  Future<int> getNextAccessCount() async {
-    if (await getAccountsCount() == 0) {
+  Future<int> _getNextAccessCount(var dbClient) async {
+    if (await _getAccountsCount(dbClient) == 0) {
       return 0;
     }
-    var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT max(last_accessed) as last_access FROM Accounts');
     return list[0]["last_accessed"] + 1;
+  }
+
+  Future<void> addAccount({String nameBuilder}) async {
+    var dbClient = await db;
+    return await dbClient.transaction((Transaction txn) async {
+      int nextIndex = (await txn.rawQuery('SELECT max(acct_index) as acct_index from accounts'))[0]['acct_index'] + 1;
+      int nextID = (await txn.rawQuery('SELECT count(*) as count from accounts'))[0]['count'] + 1;
+      String nextName = nameBuilder.replaceAll("%1", nextID.toString());
+      Account account = Account(index: nextIndex, name:nextName, lastAccess: 0, selected: false);
+      await txn.rawInsert('INSERT INTO Accounts (name, acct_index, last_accessed, selected) values(?, ?, ?, ?)', [account.name, account.index, account.lastAccess, account.selected ? 1 : 0]);
+    });
   }
 
   Future<void> saveAccount(Account account) async {
@@ -149,14 +175,14 @@ class DBHelper{
 
   Future<void> updateLastAccess(Account account) async {
     var dbClient = await db;
-    return await dbClient.rawUpdate('UPDATE Accounts set last_accessed = ? where id = ?', [await getNextAccessCount(), account.id]);
+    return await dbClient.rawUpdate('UPDATE Accounts set last_accessed = ? where id = ?', [await _getNextAccessCount(dbClient), account.id]);
   }
 
   Future<void> changeAccount(Account account) async {
     var dbClient = await db;
-    await dbClient.transaction((txn) async {
-      await dbClient.rawUpdate('UPDATE Account set selected = 0');
-      await dbClient.rawUpdate('UPDATE Accounts set selected = ?, last_accessed = ? where id = ?', [1, await getNextAccessCount(), account.id]);
+    return await dbClient.transaction((Transaction txn) async {
+      await txn.rawUpdate('UPDATE Account set selected = 0');
+      await txn.rawUpdate('UPDATE Accounts set selected = ?, last_accessed = ? where id = ?', [1, await _getNextAccessCount(txn), account.id]);
     });
   }
 

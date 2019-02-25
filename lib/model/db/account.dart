@@ -6,8 +6,9 @@ class Account {
   String name; // Account nickname
   int lastAccess; // Last Accessed incrementor
   bool selected; // Whether this is the currently selected account
+  String address;
 
-  Account({this.id, this.index, this.name, this.lastAccess, this.selected = false});
+  Account({this.id, this.index, this.name, this.lastAccess, this.selected = false, this.address});
 
   String getShortName() {
     List<String> splitName = name.split(" ");

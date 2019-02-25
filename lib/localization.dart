@@ -761,6 +761,11 @@ class AppLocalization {
       desc: "Default account name", name: 'defaultAccountName');
   }
 
+  String get defaultNewAccountName {
+    return Intl.message("Account %1",
+      desc: "Default new account name - e.g. Account 1", name: 'defaultNewAccountName');
+  }
+
   /// -- END MULTI-ACCOUNT
 
   /// -- NON-TRANSLATABLE ITEMS
