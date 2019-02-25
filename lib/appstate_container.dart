@@ -95,7 +95,7 @@ class StateContainerState extends State<StateContainer> {
   LanguageSetting curLanguage = LanguageSetting(AvailableLanguage.DEFAULT);
   BaseTheme curTheme = NatriumTheme();
   // Currently selected account
-  Account selectedAccount;
+  Account selectedAccount = Account(id:1, name: "AB", index: 0, lastAccess: 0, selected: true);
 
   // If callback is locked
   bool _locked = false;
@@ -113,8 +113,6 @@ class StateContainerState extends State<StateContainer> {
   @override
   void initState() {
     super.initState();
-    // Setup initial account
-
     // Register RxBus
     _registerBus();
     // Set currency locale here for the UI to access

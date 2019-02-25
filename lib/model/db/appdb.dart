@@ -166,7 +166,7 @@ class DBHelper{
     if (list.length == 0) {
       return null;
     }
-    Account account = Account(id: list[0]["id"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"]);
+    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"]);
     return account;
   }
 
