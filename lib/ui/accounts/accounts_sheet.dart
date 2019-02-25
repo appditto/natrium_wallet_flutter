@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:event_taxi/event_taxi.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
@@ -14,10 +16,11 @@ import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 
 class AppAccountsSheet {
+  static const int MAX_ACCOUNTS = 20;
   List<Account> _accounts;
 
   AppAccountsSheet(List<Account> accounts) {
-    this._accounts =accounts;
+    this._accounts = accounts;
   }
 
   mainBottomSheet(BuildContext context) {
@@ -120,12 +123,12 @@ class AppAccountsSheet {
                             AppButtonType.PRIMARY,
                             "Add Account",
                             Dimens.BUTTON_TOP_DIMENS,
+                            disabled: _accounts.length >= MAX_ACCOUNTS,
                             onPressed: () {
-                              DBHelper().addAccount(nameBuilder: AppLocalization.of(context).defaultNewAccountName).then((_) {
-                                DBHelper().getAccounts().then((accounts) {
-                                  setState(() {
-                                    _accounts = accounts;
-                                  });
+                              DBHelper().addAccount(nameBuilder: AppLocalization.of(context).defaultNewAccountName).then((newAccount) {
+                                EventTaxiImpl.singleton().fire(AccountAddedEvent(account: newAccount));
+                                setState(() {
+                                  _accounts.add(newAccount);
                                 });
                               });
                             },
@@ -162,6 +165,7 @@ class AppAccountsSheet {
         if (!account.selected) {
           DBHelper().changeAccount(account).then((_) {
             NanoUtil().loginAccount(context);
+            EventTaxiImpl.singleton().fire(AccountChangedEvent(account: account.address));
             Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
           });
         }

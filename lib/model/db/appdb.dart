@@ -143,15 +143,17 @@ class DBHelper{
     return accounts;
   }
 
-  Future<void> addAccount({String nameBuilder}) async {
+  Future<Account> addAccount({String nameBuilder}) async {
     var dbClient = await db;
+    Account account;
     return await dbClient.transaction((Transaction txn) async {
       int nextIndex = (await txn.rawQuery('SELECT max(acct_index) as acct_index from accounts'))[0]['acct_index'] + 1;
       int nextID = (await txn.rawQuery('SELECT count(*) as count from accounts'))[0]['count'] + 1;
       String nextName = nameBuilder.replaceAll("%1", nextID.toString());
-      Account account = Account(index: nextIndex, name:nextName, lastAccess: 0, selected: false);
+      account = Account(index: nextIndex, name:nextName, lastAccess: 0, selected: false);
       await txn.rawInsert('INSERT INTO Accounts (name, acct_index, last_accessed, selected) values(?, ?, ?, ?)', [account.name, account.index, account.lastAccess, account.selected ? 1 : 0]);
     });
+    return account;
   }
 
   Future<void> saveAccount(Account account) async {

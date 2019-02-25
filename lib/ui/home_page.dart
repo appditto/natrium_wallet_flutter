@@ -240,6 +240,7 @@ class _AppHomePageState extends State<AppHomePage>
   StreamSubscription<ContactModifiedEvent> _contactModifiedSub;
   StreamSubscription<SendCompleteEvent> _sendCompleteSub;
   StreamSubscription<DisableLockTimeoutEvent> _disableLockSub;
+  StreamSubscription<AccountChangedEvent> _switchAccountSub;
 
   void _registerBus() {
     _historySub = EventTaxiImpl.singleton()
@@ -285,6 +286,15 @@ class _AppHomePageState extends State<AppHomePage>
       }
       _lockDisabled = event.disable;
     });
+    // User changed account
+    _switchAccountSub = EventTaxiImpl.singleton()
+        .registerTo<AccountChangedEvent>()
+        .listen((event) {
+          /*
+      setState(() {
+        _historyList.clear();
+      });*/
+    });
   }
 
   @override
@@ -310,6 +320,9 @@ class _AppHomePageState extends State<AppHomePage>
     }
     if (_deepLinkSub != null) {
       _deepLinkSub.cancel();
+    }
+    if (_switchAccountSub != null) {
+      _switchAccountSub.cancel();
     }
   }
 

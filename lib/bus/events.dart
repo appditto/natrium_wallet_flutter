@@ -24,3 +24,5 @@ export 'transfer_error_event.dart';
 export 'transfer_pending_event.dart';
 export 'transfer_process_response_event.dart';
 export 'unlock_callback_event.dart';
+export 'account_changed_event.dart';
+export 'account_added_event.dart';

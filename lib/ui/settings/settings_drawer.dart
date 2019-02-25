@@ -28,6 +28,7 @@ import 'package:natrium_wallet_flutter/model/available_language.dart';
 import 'package:natrium_wallet_flutter/model/available_themes.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
+import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/ui/settings/backupseed_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/contacts/add_contact.dart';
@@ -88,6 +89,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   bool _securityOpen;
 
   List<Contact> _contacts;
+  List<Account> _accounts;
 
   bool notNull(Object o) => o != null;
 
@@ -242,12 +244,17 @@ class _SettingsSheetState extends State<SettingsSheet>
     _securityOffsetFloat =
         Tween<Offset>(begin: Offset(1.1, 0), end: Offset(0, 0))
             .animate(_securityController);
-
     // Version string
     PackageInfo.fromPlatform().then((packageInfo) {
       setState(() {
         versionString = "v${packageInfo.version}";
       });
+    });
+    // Initial accounts list
+    DBHelper().getAccounts().then((accounts) {
+        setState(() {
+          _accounts = accounts;
+        });
     });
   }
 
@@ -256,6 +263,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   StreamSubscription<TransferConfirmEvent> _transferConfirmSub;
   StreamSubscription<TransferCompleteEvent> _transferCompleteSub;
   StreamSubscription<UnlockCallbackEvent> _callbackUnlockSub;
+  StreamSubscription<AccountAddedEvent> _accountAddedSub;
 
   void _registerBus() {
     // Contact added bus event
@@ -301,6 +309,14 @@ class _SettingsSheetState extends State<SettingsSheet>
         .listen((event) {
       StateContainer.of(context).unlockCallback();
     });
+    // Account added
+    _accountAddedSub =EventTaxiImpl.singleton()
+        .registerTo<AccountAddedEvent>()
+        .listen((event) {
+          setState(() {
+            _accounts.add(event.account);
+          });
+    });
   }
 
   void _destroyBus() {
@@ -318,6 +334,9 @@ class _SettingsSheetState extends State<SettingsSheet>
     }
     if (_callbackUnlockSub != null) {
       _callbackUnlockSub.cancel();
+    }
+    if (_accountAddedSub != null) {
+      _accountAddedSub.cancel();
     }
   }
 
@@ -1020,9 +1039,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                             ),
                             child: FlatButton(
                               onPressed: () {
-                                DBHelper().getAccounts().then((accounts) {
-                                  AppAccountsSheet(accounts).mainBottomSheet(context);
-                                });
+                                AppAccountsSheet(_accounts).mainBottomSheet(context);
                               },
                               padding: EdgeInsets.all(0.0),
                               shape: CircleBorder(),
