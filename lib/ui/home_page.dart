@@ -1023,7 +1023,12 @@ class _AppHomePageState extends State<AppHomePage>
 
   // Welcome Card
   TextSpan _getExampleHeaderSpan(BuildContext context) {
-    String workingStr = AppLocalization.of(context).exampleCardIntro;
+    String workingStr;
+    if (StateContainer.of(context).selectedAccount == null || StateContainer.of(context).selectedAccount.index == 0) {
+      workingStr = AppLocalization.of(context).exampleCardIntro;
+    } else {
+      workingStr = AppLocalization.of(context).newAccountIntro;
+    }
     if (!workingStr.contains("NANO")) {
       return TextSpan(
         text: workingStr,

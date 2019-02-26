@@ -766,6 +766,11 @@ class AppLocalization {
       desc: "Default new account name - e.g. Account 1", name: 'defaultNewAccountName');
   }
 
+  String get newAccountIntro {
+    return Intl.message("This is your new account. Once you receive NANO, transactions will show up like this:",
+      desc: 'Alternate account intro card', name: 'newAccountIntro');
+  }
+
   /// -- END MULTI-ACCOUNT
 
   /// -- NON-TRANSLATABLE ITEMS
