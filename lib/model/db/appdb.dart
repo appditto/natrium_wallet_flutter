@@ -147,10 +147,19 @@ class DBHelper{
     var dbClient = await db;
     Account account;
     await dbClient.transaction((Transaction txn) async {
-      int nextIndex = (await txn.rawQuery('SELECT max(acct_index) as acct_index from accounts'))[0]['acct_index'] + 1;
-      int nextID = (await txn.rawQuery('SELECT count(*) as count from accounts'))[0]['count'] + 1;
+      int nextIndex = 1;
+      int curIndex;
+      List<Map> accounts = await txn.rawQuery('SELECT * from Accounts WHERE acct_index > 0 ORDER BY acct_index ASC');
+      for (int i = 0; i < accounts.length; i++) {
+        curIndex = accounts[i]["acct_index"];
+        if (curIndex != nextIndex) {
+          break;
+        }
+        nextIndex++;
+      }
+      int nextID = nextIndex + 1;
       String nextName = nameBuilder.replaceAll("%1", nextID.toString());
-      account = Account(index: nextIndex, name:nextName, lastAccess: 0, selected: false);
+      account = Account(index: nextIndex, name:nextName, lastAccess: 0, selected: false, address: NanoUtil.seedToAddress(await Vault.inst.getSeed(), nextIndex));
       await txn.rawInsert('INSERT INTO Accounts (name, acct_index, last_accessed, selected) values(?, ?, ?, ?)', [account.name, account.index, account.lastAccess, account.selected ? 1 : 0]);
     });
     return account;

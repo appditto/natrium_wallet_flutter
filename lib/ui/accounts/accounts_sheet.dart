@@ -7,13 +7,11 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
-import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
-import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 
 class AppAccountsSheet {
   static const int MAX_ACCOUNTS = 20;
@@ -137,6 +135,7 @@ class AppAccountsSheet {
                                   setState(() {
                                     _addingAccount = false;
                                     _accounts.add(newAccount);
+                                    _accounts.sort((a, b) => a.index.compareTo(b.index));
                                   });
                                 });
                               }

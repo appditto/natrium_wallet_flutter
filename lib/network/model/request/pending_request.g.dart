@@ -12,7 +12,8 @@ PendingRequest _$PendingRequestFromJson(Map<String, dynamic> json) {
       account: json['account'] as String,
       source: json['source'] as bool,
       count: json['count'] as int,
-      threshold: json['threshold'] as String);
+      threshold: json['threshold'] as String,
+      includeActive: json['include_active'] as bool);
 }
 
 Map<String, dynamic> _$PendingRequestToJson(PendingRequest instance) {
@@ -21,6 +22,7 @@ Map<String, dynamic> _$PendingRequestToJson(PendingRequest instance) {
     'account': instance.account,
     'source': instance.source,
     'count': instance.count,
+    'include_active': instance.includeActive,
   };
 
   void writeNotNull(String key, dynamic value) {
