@@ -18,9 +18,11 @@ import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 class AppAccountsSheet {
   static const int MAX_ACCOUNTS = 20;
   List<Account> _accounts;
+  bool _addingAccount;
 
   AppAccountsSheet(List<Account> accounts) {
     this._accounts = accounts;
+    this._addingAccount = false;
   }
 
   mainBottomSheet(BuildContext context) {
@@ -118,19 +120,26 @@ class AppAccountsSheet {
                       //A row with Add Account button
                       Row(
                         children: <Widget>[
-                          AppButton.buildAppButton(
+                          _accounts == null || _accounts.length >= MAX_ACCOUNTS
+                          ? SizedBox()
+                          : AppButton.buildAppButton(
                             context,
                             AppButtonType.PRIMARY,
                             "Add Account",
                             Dimens.BUTTON_TOP_DIMENS,
-                            disabled: _accounts.length >= MAX_ACCOUNTS,
+                            disabled: _addingAccount,
                             onPressed: () {
-                              DBHelper().addAccount(nameBuilder: AppLocalization.of(context).defaultNewAccountName).then((newAccount) {
-                                EventTaxiImpl.singleton().fire(AccountAddedEvent(account: newAccount));
+                              if (!_addingAccount) {
                                 setState(() {
-                                  _accounts.add(newAccount);
+                                  _addingAccount = true;
                                 });
-                              });
+                                DBHelper().addAccount(nameBuilder: AppLocalization.of(context).defaultNewAccountName).then((newAccount) {
+                                  setState(() {
+                                    _addingAccount = false;
+                                    _accounts.add(newAccount);
+                                  });
+                                });
+                              }
                             },
                           ),
                         ],
@@ -164,9 +173,7 @@ class AppAccountsSheet {
         // Change account
         if (!account.selected) {
           DBHelper().changeAccount(account).then((_) {
-            NanoUtil().loginAccount(context);
-            EventTaxiImpl.singleton().fire(AccountChangedEvent(account: account.address));
-            Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
+            EventTaxiImpl.singleton().fire(AccountChangedEvent(account: account));
           });
         }
       },

@@ -26,20 +26,6 @@ class ListModel<E> {
     _animatedList.insertItem(0);
   }
  
-  Widget _buildRemovedItem(BuildContext context, Animation<double> animation) {
-    return SizedBox();
-  }
-
-  void clear() {
-    int curLenght = _items.length;
-    _items.clear();
-    for (int i = 0; i < curLenght; i++) {
-      try {
-        _animatedList.removeItem(0, _buildRemovedItem);
-      } catch (e) {}
-    }
-  }
-
   int get length => _items.length;
 
   E operator [](int index) => _items[index];

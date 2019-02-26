@@ -87,9 +87,9 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   bool _contactsOpen;
   bool _securityOpen;
+  bool _loadingAccounts;
 
   List<Contact> _contacts;
-  List<Account> _accounts;
 
   bool notNull(Object o) => o != null;
 
@@ -178,6 +178,7 @@ class _SettingsSheetState extends State<SettingsSheet>
     super.initState();
     _contactsOpen = false;
     _securityOpen = false;
+    _loadingAccounts = false;
     // Determine if they have face or fingerprint enrolled, if not hide the setting
     BiometricUtil.hasBiometrics().then((bool hasBiometrics) {
       setState(() {
@@ -250,12 +251,6 @@ class _SettingsSheetState extends State<SettingsSheet>
         versionString = "v${packageInfo.version}";
       });
     });
-    // Initial accounts list
-    DBHelper().getAccounts().then((accounts) {
-        setState(() {
-          _accounts = accounts;
-        });
-    });
   }
 
   StreamSubscription<ContactAddedEvent> _contactAddedSub;
@@ -263,7 +258,6 @@ class _SettingsSheetState extends State<SettingsSheet>
   StreamSubscription<TransferConfirmEvent> _transferConfirmSub;
   StreamSubscription<TransferCompleteEvent> _transferCompleteSub;
   StreamSubscription<UnlockCallbackEvent> _callbackUnlockSub;
-  StreamSubscription<AccountAddedEvent> _accountAddedSub;
 
   void _registerBus() {
     // Contact added bus event
@@ -309,14 +303,6 @@ class _SettingsSheetState extends State<SettingsSheet>
         .listen((event) {
       StateContainer.of(context).unlockCallback();
     });
-    // Account added
-    _accountAddedSub =EventTaxiImpl.singleton()
-        .registerTo<AccountAddedEvent>()
-        .listen((event) {
-          setState(() {
-            _accounts.add(event.account);
-          });
-    });
   }
 
   void _destroyBus() {
@@ -334,9 +320,6 @@ class _SettingsSheetState extends State<SettingsSheet>
     }
     if (_callbackUnlockSub != null) {
       _callbackUnlockSub.cancel();
-    }
-    if (_accountAddedSub != null) {
-      _accountAddedSub.cancel();
     }
   }
 
@@ -1039,19 +1022,33 @@ class _SettingsSheetState extends State<SettingsSheet>
                             ),
                             child: FlatButton(
                               onPressed: () {
-                                AppAccountsSheet(_accounts).mainBottomSheet(context);
+                                if (!_loadingAccounts) {
+                                  setState(() {
+                                    _loadingAccounts = true;
+                                  });
+                                  DBHelper().getAccounts().then((accounts) {
+                                    setState(() {
+                                      _loadingAccounts = false;
+                                    });
+                                    AppAccountsSheet(accounts).mainBottomSheet(context);
+                                  });
+                                }
                               },
                               padding: EdgeInsets.all(0.0),
                               shape: CircleBorder(),
                               splashColor:
-                                  StateContainer.of(context).curTheme.text30,
+                                  _loadingAccounts ? Colors.transparent
+                                  : StateContainer.of(context).curTheme.text30,
                               highlightColor:
-                                  StateContainer.of(context).curTheme.text15,
+                                  _loadingAccounts ? Colors.transparent
+                                  : StateContainer.of(context).curTheme.text15,
                               child: Icon(
                                 AppIcons.accountswitcher,
                                 size: 36,
                                 color:
-                                    StateContainer.of(context).curTheme.primary,
+                                  _loadingAccounts
+                                    ? StateContainer.of(context).curTheme.primary60
+                                    : StateContainer.of(context).curTheme.primary
                               ),
                             ),
                           ),
