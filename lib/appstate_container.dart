@@ -235,8 +235,9 @@ class StateContainerState extends State<StateContainer> {
       DBHelper().getAccounts().then((accounts) {
         accounts.forEach((account) {
           event.response.balances.forEach((address, balance) {
-            if (address == account.address && balance.balance != account.balance) {
-              DBHelper().updateAccountBalance(account, balance.balance);
+            String combinedBalance = (BigInt.tryParse(balance.balance) + BigInt.tryParse(balance.pending)).toString();
+            if (address == account.address && combinedBalance != account.balance) {
+              DBHelper().updateAccountBalance(account, combinedBalance);
             }
           });
         });

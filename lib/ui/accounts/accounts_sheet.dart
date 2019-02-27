@@ -62,9 +62,10 @@ class AppAccountsSheet {
               // Handle balances event
               _accounts.forEach((account) {
                 event.response.balances.forEach((address, balance) {
-                  if (account.address == address && balance.balance != account.balance) {
+                  String combinedBalance = (BigInt.tryParse(balance.balance) + BigInt.tryParse(balance.pending)).toString();
+                  if (account.address == address && combinedBalance != account.balance) {
                     setState(() {
-                      account.balance = balance.balance;
+                      account.balance = combinedBalance;
                     });
                   }
                 });
