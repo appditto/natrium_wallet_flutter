@@ -49,7 +49,10 @@ class AppAccountsSheet {
   }
 
   mainBottomSheet(BuildContext context) {
-    _requestBalances(context, _accounts);
+    // Delay this to prevent lag during open transition
+    Future.delayed(Duration(milliseconds: 200), () {
+      _requestBalances(context, _accounts);
+    });
     AppSheets.showAppHeightNineSheet(
         context: context,
         onDisposed: _onWillPop,
