@@ -135,10 +135,10 @@ class DBHelper{
 
   Future<List<Account>> getRecentlyUsedAccounts({int limit = 2}) async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts WHERE selected != 1 ORDER BY last_accessed LIMIT ?', [limit]);
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts WHERE selected != 1 ORDER BY last_accessed DESC, acct_index ASC LIMIT ?', [limit]);
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
-      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false));
+      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[i]["acct_index"])));
     }
     return accounts;
   }

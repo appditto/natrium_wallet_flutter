@@ -61,18 +61,6 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   String documentsDirectory;
   String versionString = "";
-  String mainAccountName = "Main Account";
-  String mainAccountShortName = "MA";
-  String mainAccountAddress = "xrb_1yekta1";
-  String secondAccountName = "Shopping";
-  String secondAccountShortName = "SH";
-  String secondAccountAddress = "xrb_1bbedwa";
-  String thirdAccountName = "Reddit";
-  String thirdAccountShortName = "RE";
-  String thirdAccountAddress = "xrb_1reddit";
-  String spareAccountName = "";
-  String spareAccountShortName = "";
-  String spareAccountAddress = "";
 
   final log = Logger("SettingsSheet");
   bool _hasBiometrics = false;
@@ -857,7 +845,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                       Row(
                         children: <Widget>[
                           // Second Account
-                          Container(
+                          StateContainer.of(context).recentLast != null
+                          ? Container(
                             margin: EdgeInsets.symmetric(horizontal: 8.0),
                             child: Stack(
                               children: <Widget>[
@@ -875,7 +864,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     width: 48,
                                     height: 36,
                                     alignment: Alignment(0, 0.3),
-                                    child: Text(secondAccountShortName,
+                                    child: Text(StateContainer.of(context).recentLast.getShortName(),
                                         style: TextStyle(
                                           color: StateContainer.of(context)
                                               .curTheme
@@ -892,26 +881,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     color: Colors.transparent,
                                     child: FlatButton(
                                       onPressed: () {
-                                        setState(() {
-                                          spareAccountName = secondAccountName;
-                                          spareAccountShortName =
-                                              secondAccountShortName;
-                                          spareAccountAddress =
-                                              secondAccountAddress;
-                                          secondAccountName = mainAccountName;
-                                          secondAccountShortName =
-                                              mainAccountShortName;
-                                          secondAccountAddress =
-                                              mainAccountAddress;
-                                          mainAccountName = spareAccountName;
-                                          mainAccountShortName =
-                                              spareAccountShortName;
-                                          mainAccountAddress =
-                                              spareAccountAddress;
-                                        });
-                                        Future.delayed(
-                                            Duration(milliseconds: 400), () {
-                                          Navigator.pop(context);
+                                        DBHelper().changeAccount(StateContainer.of(context).recentLast).then((_) {
+                                          EventTaxiImpl.singleton().fire(AccountChangedEvent(account: StateContainer.of(context).recentLast));
                                         });
                                       },
                                       highlightColor: StateContainer.of(context)
@@ -933,9 +904,12 @@ class _SettingsSheetState extends State<SettingsSheet>
                                 ),
                               ],
                             ),
-                          ),
+                          )
+                          : SizedBox()
+                          ,
                           // Third Account
-                          Container(
+                          StateContainer.of(context).recentSecondLast != null
+                          ? Container(
                             margin: EdgeInsets.symmetric(horizontal: 8.0),
                             child: Stack(
                               children: <Widget>[
@@ -953,7 +927,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     width: 48,
                                     height: 36,
                                     alignment: Alignment(0, 0.3),
-                                    child: Text(thirdAccountShortName,
+                                    child: Text(StateContainer.of(context).recentSecondLast.getShortName(),
                                         style: TextStyle(
                                           color: StateContainer.of(context)
                                               .curTheme
@@ -970,26 +944,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     color: Colors.transparent,
                                     child: FlatButton(
                                       onPressed: () {
-                                        setState(() {
-                                          spareAccountName = thirdAccountName;
-                                          spareAccountShortName =
-                                              thirdAccountShortName;
-                                          spareAccountAddress =
-                                              thirdAccountAddress;
-                                          thirdAccountName = mainAccountName;
-                                          thirdAccountShortName =
-                                              mainAccountShortName;
-                                          thirdAccountAddress =
-                                              mainAccountAddress;
-                                          mainAccountName = spareAccountName;
-                                          mainAccountShortName =
-                                              spareAccountShortName;
-                                          mainAccountAddress =
-                                              spareAccountAddress;
-                                        });
-                                        Future.delayed(
-                                            Duration(milliseconds: 400), () {
-                                          Navigator.pop(context);
+                                        DBHelper().changeAccount(StateContainer.of(context).recentSecondLast).then((_) {
+                                          EventTaxiImpl.singleton().fire(AccountChangedEvent(account: StateContainer.of(context).recentSecondLast));
                                         });
                                       },
                                       highlightColor: StateContainer.of(context)
@@ -1011,7 +967,9 @@ class _SettingsSheetState extends State<SettingsSheet>
                                 ),
                               ],
                             ),
-                          ),
+                          )
+                          : SizedBox()
+                          ,
                           // Account switcher
                           Container(
                             height: 36,

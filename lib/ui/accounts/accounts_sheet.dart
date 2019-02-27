@@ -132,6 +132,7 @@ class AppAccountsSheet {
                                   _addingAccount = true;
                                 });
                                 DBHelper().addAccount(nameBuilder: AppLocalization.of(context).defaultNewAccountName).then((newAccount) {
+                                  StateContainer.of(context).updateRecentlyUsedAccounts();
                                   setState(() {
                                     _addingAccount = false;
                                     _accounts.add(newAccount);

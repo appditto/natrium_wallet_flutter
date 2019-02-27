@@ -96,6 +96,9 @@ class StateContainerState extends State<StateContainer> {
   BaseTheme curTheme = NatriumTheme();
   // Currently selected account
   Account selectedAccount = Account(id:1, name: "AB", index: 0, lastAccess: 0, selected: true);
+  // Two most recently used accounts
+  Account recentLast;
+  Account recentSecondLast;
 
   // If callback is locked
   bool _locked = false;
@@ -265,15 +268,36 @@ class StateContainerState extends State<StateContainer> {
   }
 
   // Update the global wallet instance with a new address
-  Future<void> updateWallet({Account account, bool doUpdate = true}) async {
+  Future<void> updateWallet({Account account}) async {
     String address = NanoUtil.seedToAddress(await Vault.inst.getSeed(), account.index);
     selectedAccount = account;
+    updateRecentlyUsedAccounts();
     setState(() {
       wallet = AppWallet(address: address, loading: true);
-      if (doUpdate) {
-        requestUpdate();
-      }
+      requestUpdate();
     });
+  }
+
+  Future<void> updateRecentlyUsedAccounts() async {
+    List<Account> otherAccounts = await DBHelper().getRecentlyUsedAccounts();
+    if (otherAccounts != null && otherAccounts.length > 0) {
+      if (otherAccounts.length > 1) {
+        setState(() {
+          recentLast = otherAccounts[0];
+          recentSecondLast = otherAccounts[1];
+        });
+      } else {
+        setState(() {
+          recentLast = otherAccounts[0];
+          recentSecondLast = null;
+        });
+      }
+    } else {
+      setState(() {
+        recentLast = null;
+        recentSecondLast = null;
+      });
+    }
   }
 
   // Change language

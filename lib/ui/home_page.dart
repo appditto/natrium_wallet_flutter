@@ -109,6 +109,29 @@ class _AppHomePageState extends State<AppHomePage>
     return true;
   }
 
+  /// Notification includes which account its for, automatically switch to it if they're entering app from notification
+  void _chooseCorrectAccountFromNotification(Map<String, dynamic> message) {
+    try {
+      if (message.containsKey("account")) {
+        print('MESSAGE ACCOUNT: ${message["account"]}');
+        if (message['account'] != StateContainer.of(context).wallet.address) {
+          DBHelper().getAccounts().then((accounts) {
+              for (int i = 0; i < accounts.length; i++) {
+                if (accounts[i].address == message['account']) {
+                  DBHelper().changeAccount(accounts[i]).then((_) {
+                    EventTaxiImpl.singleton().fire(AccountChangedEvent(account: accounts[i]));
+                  });
+                  break;
+                }
+              }
+          });
+        }
+      }
+    } catch (e) {
+      log.severe(e.toString());
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -142,10 +165,12 @@ class _AppHomePageState extends State<AppHomePage>
         print("onMessage: $message");
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
+        _chooseCorrectAccountFromNotification(message);
+        print("onResume $message");
       },
       onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
+        _chooseCorrectAccountFromNotification(message);
+        print("onResume $message");
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
