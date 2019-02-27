@@ -833,7 +833,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     height: 45,
                                   ),
                                   onPressed: (){
-                                    AccountDetailsSheet().mainBottomSheet(context);
+                                    AccountDetailsSheet(StateContainer.of(context).selectedAccount).mainBottomSheet(context);
                                   },
                                 ),
                               ),
@@ -1022,7 +1022,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                       splashColor: StateContainer.of(context).curTheme.text30,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0)),
                       onPressed: (){
-                        AccountDetailsSheet().mainBottomSheet(context);
+                        AccountDetailsSheet(StateContainer.of(context).selectedAccount).mainBottomSheet(context);
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,

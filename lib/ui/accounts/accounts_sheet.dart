@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+
 import 'package:event_taxi/event_taxi.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
@@ -8,6 +10,7 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
+import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
@@ -237,110 +240,144 @@ class AppAccountsSheet {
             color:
                 StateContainer.of(context).curTheme.text15,
           ),
-          Container(
-            height: 70.0,
-            margin: new EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    // Account Icon
-                    Container(
-                      child: Stack(
-                        children: <Widget>[
-                          Center(
-                            child: Icon(
-                              AppIcons.accountwallet,
-                              color: account.selected
-                              ? StateContainer.of(context).curTheme.success
-                              : StateContainer.of(context).curTheme.primary,
-                              size: 30,
-                            ),
-                          ),
-                          Center(
-                            child: Container(
-                              width: 40,
-                              height: 30,
-                              alignment: Alignment(0, 0.3),
-                              child: Text(account.getShortName(),
-                                  style: TextStyle(
-                                    color: StateContainer.of(context)
-                                        .curTheme
-                                        .backgroundDark,
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w800,
-                                  )),                     
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Account name and address
-                    Container(
-                      margin: EdgeInsets.only(left: 16),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            child: Text(
-                              account.name,
-                              style: TextStyle(
-                                fontFamily: "NunitoSans",
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16.0,
-                                color: StateContainer.of(context).curTheme.text,
+          Slidable(
+            delegate:SlidableScrollDelegate(),
+            actionExtentRatio: 0.2,
+            child: Container(
+              height: 70.0,
+              margin: new EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      // Account Icon
+                      Container(
+                        child: Stack(
+                          children: <Widget>[
+                            Center(
+                              child: Icon(
+                                AppIcons.accountwallet,
+                                color: account.selected
+                                ? StateContainer.of(context).curTheme.success
+                                : StateContainer.of(context).curTheme.primary,
+                                size: 30,
                               ),
                             ),
-                          ),
-                          // Main account address
-                          Container(
-                            child: Text(
-                              account.address.substring(0, 11) + "...",
-                              style: TextStyle(
-                                fontFamily: "OverpassMono",
-                                fontWeight: FontWeight.w100,
-                                fontSize: 14.0,
-                                color: StateContainer.of(context).curTheme.text60,
+                            Center(
+                              child: Container(
+                                width: 40,
+                                height: 30,
+                                alignment: Alignment(0, 0.3),
+                                child: Text(account.getShortName(),
+                                    style: TextStyle(
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .backgroundDark,
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w800,
+                                    )),                     
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      account.selected
-                      ? StateContainer.of(context).wallet.getAccountBalanceDisplay()
-                      : account.balance != null ? NumberUtil.getRawAsUsableString(account.balance) : "",
-                      style: TextStyle(
-                          fontSize: 14.0,
-                          fontFamily: "NunitoSans",
-                          fontWeight: FontWeight.w900,
-                          color: StateContainer.of(context).curTheme.text),
-                    ),
-                    Text(
-                      account.balance != null ? " NANO" : "",
-                      style: TextStyle(
-                          fontSize: 14.0,
-                          fontFamily: "NunitoSans",
-                          fontWeight: FontWeight.w100,
-                          color: StateContainer.of(context).curTheme.text),
-                    ),
-                  ],
-                ),
-              ],
+                      // Account name and address
+                      Container(
+                        margin: EdgeInsets.only(left: 16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                account.name,
+                                style: TextStyle(
+                                  fontFamily: "NunitoSans",
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.0,
+                                  color: StateContainer.of(context).curTheme.text,
+                                ),
+                              ),
+                            ),
+                            // Main account address
+                            Container(
+                              child: Text(
+                                account.address.substring(0, 11) + "...",
+                                style: TextStyle(
+                                  fontFamily: "OverpassMono",
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 14.0,
+                                  color: StateContainer.of(context).curTheme.text60,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        account.selected
+                        ? StateContainer.of(context).wallet.getAccountBalanceDisplay()
+                        : account.balance != null ? NumberUtil.getRawAsUsableString(account.balance) : "",
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontFamily: "NunitoSans",
+                            fontWeight: FontWeight.w900,
+                            color: StateContainer.of(context).curTheme.text),
+                      ),
+                      Text(
+                        account.balance != null ? " NANO" : "",
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontFamily: "NunitoSans",
+                            fontWeight: FontWeight.w100,
+                            color: StateContainer.of(context).curTheme.text),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          )
+            secondaryActions: _getSlideActionsForAccount(context, account)
+          ),
         ],
       )
     );
+  }
+
+  List<Widget> _getSlideActionsForAccount(BuildContext context, Account account) {
+    List<Widget> _actions = List();
+    _actions.add(SlideAction(
+      child: IconButton(
+        icon: Icon(
+          Icons.edit,
+          color: StateContainer.of(context).curTheme.primary,
+        ),
+        onPressed: () {
+          AccountDetailsSheet(account).mainBottomSheet(context);
+        },
+      )
+    ));
+    if (!account.selected && account.index > 0) {
+      _actions.add(SlideAction(
+        child: IconButton(
+          icon: Icon(
+            Icons.delete,
+            color: StateContainer.of(context).curTheme.primary,
+          ),
+          onPressed: () {
+
+          },
+        )
+      ));
+    }
+    return _actions;
   }
 }

@@ -10,6 +10,7 @@ import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
+import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
@@ -22,7 +23,15 @@ import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
 // Account Details Sheet
 class AccountDetailsSheet {
+  Account account;
+  TextEditingController _nameController;
+  FocusNode _nameFocusNode;
+
+  AccountDetailsSheet(this.account);
+
   mainBottomSheet(BuildContext context) {
+    _nameController = TextEditingController(text: account.name);
+    _nameFocusNode = FocusNode();
     AppSheets.showAppHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
@@ -42,7 +51,7 @@ class AccountDetailsSheet {
                       width: 50,
                       height: 50,
                       margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                      child: FlatButton(
+                      child: account.index > 0 && !account.selected ? FlatButton(
                         highlightColor:
                             StateContainer.of(context).curTheme.text15,
                         splashColor: StateContainer.of(context).curTheme.text15,
@@ -56,7 +65,7 @@ class AccountDetailsSheet {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
                         materialTapTargetSize: MaterialTapTargetSize.padded,
-                      ),
+                      ) : SizedBox(),
                     ),
                     // The header of the sheet
                     Container(
@@ -66,7 +75,7 @@ class AccountDetailsSheet {
                       child: Column(
                         children: <Widget>[
                           AutoSizeText(
-                            "ACCOUNT",
+                            CaseChange.toUpperCase("Account", context),
                             style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 1,
@@ -101,40 +110,76 @@ class AccountDetailsSheet {
 
                 // The main container that holds Contact Name and Contact Address
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Stack(
                     children: <Widget>[
-                      // Contact Name container
-                      Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.105,
-                          right: MediaQuery.of(context).size.width * 0.105,
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 25.0, vertical: 12.0),
-                        decoration: BoxDecoration(
-                          color: StateContainer.of(context)
-                              .curTheme
-                              .backgroundDarkest,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: Text(
-                          "Main Account",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16.0,
-                            color: StateContainer.of(context).curTheme.primary,
-                            fontFamily: 'NunitoSans',
-                          ),
+                      GestureDetector(
+                        onTap: () {
+                          // Clear focus of our fields when tapped in this empty space
+                          _nameFocusNode.unfocus();
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          child: SizedBox.expand(),
+                          constraints: BoxConstraints.expand(),
                         ),
                       ),
-                    ],
-                  ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          // Contact Name container
+                          Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.105,
+                              right: MediaQuery.of(context).size.width * 0.105,
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 30),
+                            decoration: BoxDecoration(
+                              color: StateContainer.of(context)
+                                  .curTheme
+                                  .backgroundDarkest,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: TextField(
+                              controller: _nameController,
+                              focusNode: _nameFocusNode,
+                              textAlign: TextAlign.center,
+                              cursorColor: StateContainer.of(context)
+                                  .curTheme
+                                  .primary,
+                              textInputAction: TextInputAction.done,
+                              autocorrect: false,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w100,
+                                  fontFamily: 'NunitoSans',
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .text60,
+                                ),
+                              ),
+                              keyboardType: TextInputType.text,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(15),
+                              ],
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16.0,
+                                color: StateContainer.of(context).curTheme.primary,
+                                fontFamily: 'NunitoSans',
+                              ),
+                              onChanged: (text) {
+                                // Will rset validation message here
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]
+                  )
                 ),
-
-                // A column with "Send" and "Close" buttons
                 Container(
                   child: Column(
                     children: <Widget>[
