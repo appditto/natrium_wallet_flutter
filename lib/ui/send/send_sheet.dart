@@ -591,7 +591,7 @@ class AppSendSheet {
   }
 
   String _convertCryptoToLocalCurrency(BuildContext context) {
-    String convertedAmt = NumberUtil.sanitizeNumber(_sendAmountController.text);
+    String convertedAmt = NumberUtil.sanitizeNumber(_sendAmountController.text, maxDecimalDigits: 2);
     if (convertedAmt.isEmpty) {
       return "";
     }
@@ -599,7 +599,7 @@ class AppSendSheet {
     Decimal conversion = Decimal.parse(
         StateContainer.of(context).wallet.localCurrencyConversion);
     convertedAmt =
-        NumberUtil.truncateDecimal(valueCrypto * conversion).toString();
+        NumberUtil.truncateDecimal(valueCrypto * conversion, maxDecimalDigits: 2).toString();
     convertedAmt =
         convertedAmt.replaceAll(".", _localCurrencyFormat.symbols.DECIMAL_SEP);
     convertedAmt = _localCurrencyFormat.currencySymbol + convertedAmt;
@@ -809,8 +809,9 @@ class AppSendSheet {
           _localCurrencyMode
               ? CurrencyFormatter(
                   decimalSeparator: _localCurrencyFormat.symbols.DECIMAL_SEP,
-                  commaSeparator: _localCurrencyFormat.symbols.GROUP_SEP)
-              : CurrencyFormatter(),
+                  commaSeparator: _localCurrencyFormat.symbols.GROUP_SEP,
+                  maxDecimalDigits: 2)
+              : CurrencyFormatter(maxDecimalDigits: NumberUtil.maxDecimalDigits),
           LocalCurrencyFormatter(
               active: _localCurrencyMode, currencyFormat: _localCurrencyFormat)
         ],
