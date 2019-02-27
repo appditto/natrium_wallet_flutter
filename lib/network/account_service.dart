@@ -198,9 +198,9 @@ class AccountService {
         Map<String, dynamic> balancesMap = msg['balances'];
         if (balancesMap != null && balancesMap.length > 0) {
           if (balancesMap[balancesMap.keys.first].containsKey('pending')) {
+            RequestItem<dynamic> lastRequest = pop();
             AccountsBalancesResponse resp = AccountsBalancesResponse.fromJson(msg);
-            EventTaxiImpl.singleton().fire(AccountsBalancesEvent(response: resp));
-            pop();
+            EventTaxiImpl.singleton().fire(AccountsBalancesEvent(response: resp, transfer: lastRequest.fromTransfer));
             processQueue();
           }
         }

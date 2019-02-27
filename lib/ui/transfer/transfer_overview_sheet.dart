@@ -41,34 +41,36 @@ class AppTransferOverviewSheet {
     _balancesSub = EventTaxiImpl.singleton()
         .registerTo<AccountsBalancesEvent>()
         .listen((event) {
-      if (_animationOpen) {
+      if (event.transfer) {
+        if (_animationOpen) {
+          Navigator.of(context).pop();
+        }
+        List<String> accountsToRemove = List();
+        event.response.balances
+            .forEach((String account, AccountBalanceItem balItem) {
+          BigInt balance = BigInt.parse(balItem.balance);
+          BigInt pending = BigInt.parse(balItem.pending);
+          if (balance + pending == BigInt.zero) {
+            accountsToRemove.add(account);
+          } else {
+            // Update balance of this item
+            privKeyBalanceMap[account].balance = balItem.balance;
+            privKeyBalanceMap[account].pending = balItem.pending;
+          }
+        });
+        accountsToRemove.forEach((String account) {
+          privKeyBalanceMap.remove(account);
+        });
+        if (privKeyBalanceMap.length == 0) {
+          UIUtil.showSnackbar(
+              AppLocalization.of(context).transferNoFunds, context);
+          return;
+        }
+        // Go to confirmation screen
+        EventTaxiImpl.singleton()
+            .fire(TransferConfirmEvent(balMap: privKeyBalanceMap));
         Navigator.of(context).pop();
       }
-      List<String> accountsToRemove = List();
-      event.response.balances
-          .forEach((String account, AccountBalanceItem balItem) {
-        BigInt balance = BigInt.parse(balItem.balance);
-        BigInt pending = BigInt.parse(balItem.pending);
-        if (balance + pending == BigInt.zero) {
-          accountsToRemove.add(account);
-        } else {
-          // Update balance of this item
-          privKeyBalanceMap[account].balance = balItem.balance;
-          privKeyBalanceMap[account].pending = balItem.pending;
-        }
-      });
-      accountsToRemove.forEach((String account) {
-        privKeyBalanceMap.remove(account);
-      });
-      if (privKeyBalanceMap.length == 0) {
-        UIUtil.showSnackbar(
-            AppLocalization.of(context).transferNoFunds, context);
-        return;
-      }
-      // Go to confirmation screen
-      EventTaxiImpl.singleton()
-          .fire(TransferConfirmEvent(balMap: privKeyBalanceMap));
-      Navigator.of(context).pop();
     });
 
     void manualEntryCallback(String seed) {
@@ -263,7 +265,7 @@ class AppTransferOverviewSheet {
     // Get accounts from seed
     List<String> accountsToRequest = getAccountsFromSeed(context, seed);
     // Make balances request
-    StateContainer.of(context).requestAccountsBalances(accountsToRequest);
+    StateContainer.of(context).requestAccountsBalances(accountsToRequest, fromTransfer: true);
   }
 
   /// Get NUM_SWEEP accounts from seed to request balances for

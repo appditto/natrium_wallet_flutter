@@ -10,6 +10,21 @@ import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 
 class DBHelper{
   static const int DB_VERSION = 2;
+  static const String CONTACTS_SQL =
+    """CREATE TABLE Contacts( 
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        name TEXT, 
+        address TEXT, 
+        monkey_path TEXT)""";
+  static const String ACCOUNTS_SQL =
+    """CREATE TABLE Accounts( 
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        name TEXT, 
+        acct_index INTEGER, 
+        selected INTEGER, 
+        last_accessed INTEGER,
+        private_key TEXT,
+        balance TEXT)""";
   static Database _db;
 
   Future<Database> get db async {
@@ -28,17 +43,14 @@ class DBHelper{
 
   void _onCreate(Database db, int version) async {
     // When creating the db, create the tables
-    await db.execute(
-    "CREATE TABLE Contacts(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, monkey_path TEXT)");
-    await db.execute(
-    "CREATE TABLE Accounts(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, acct_index INTEGER, selected INTEGER, last_accessed INTEGER)");
+    await db.execute(CONTACTS_SQL);
+    await db.execute(ACCOUNTS_SQL);
   }
 
   void _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2 && newVersion >= 2) {
       // Add accounts table
-      await db.execute(
-      "CREATE TABLE Accounts(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, acct_index INTEGER, selected INTEGER, last_accessed INTEGER)");
+      await db.execute(ACCOUNTS_SQL);
     }
   }
 
@@ -119,16 +131,14 @@ class DBHelper{
   }
 
   // Accounts
-  Future<List<Account>> getAccounts({bool withAddress = true}) async {
+  Future<List<Account>> getAccounts() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts ORDER BY acct_index');
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
       String address;
-      if (withAddress) {
-        address = NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[i]["acct_index"]);
-      }
-      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: address));
+      address = NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[i]["acct_index"]);
+      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: address, balance: list[i]["balance"]));
     }
     return accounts;
   }
@@ -138,7 +148,7 @@ class DBHelper{
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts WHERE selected != 1 ORDER BY last_accessed DESC, acct_index ASC LIMIT ?', [limit]);
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
-      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[i]["acct_index"])));
+      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[i]["acct_index"]), balance: list[i]["balance"]));
     }
     return accounts;
   }
@@ -180,13 +190,18 @@ class DBHelper{
     });
   }
 
+  Future<void> updateAccountBalance(Account account, String balance) async {
+    var dbClient = await db;
+    return await dbClient.rawUpdate('UPDATE Accounts set balance = ? where id = ?', [balance, account.id]);
+  }
+
   Future<Account> getSelectedAccount() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts where selected = 1');
     if (list.length == 0) {
       return null;
     }
-    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"]);
+    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"]);
     return account;
   }
 

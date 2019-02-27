@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
@@ -12,24 +13,66 @@ import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
+import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
 class AppAccountsSheet {
   static const int MAX_ACCOUNTS = 20;
   List<Account> _accounts;
   bool _addingAccount;
+  ScrollController _scrollController = new ScrollController();
+
+  StreamSubscription<AccountsBalancesEvent> _balancesSub;
+
+  Future<bool> _onWillPop() async {
+    if (_balancesSub != null) {
+      _balancesSub.cancel();
+    }
+    return true;
+  }
 
   AppAccountsSheet(List<Account> accounts) {
     this._accounts = accounts;
     this._addingAccount = false;
   }
 
+  void _requestBalances(BuildContext context, List<Account> accounts) {
+    List<String> addresses = List();
+    accounts.forEach((account) {
+      if (account.address != null) {
+        addresses.add(account.address);
+      }
+    });
+    StateContainer.of(context).requestAccountsBalances(addresses);
+  }
+
   mainBottomSheet(BuildContext context) {
+    _requestBalances(context, _accounts);
     AppSheets.showAppHeightNineSheet(
         context: context,
+        onDisposed: _onWillPop,
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return SafeArea(
+            _balancesSub = EventTaxiImpl.singleton()
+                .registerTo<AccountsBalancesEvent>()
+                .listen((event) {
+              if (event.transfer) {
+                return;
+              }
+              // Handle balances event
+              _accounts.forEach((account) {
+                event.response.balances.forEach((address, balance) {
+                  if (account.address == address && balance.balance != account.balance) {
+                    setState(() {
+                      account.balance = balance.balance;
+                    });
+                  }
+                });
+              });
+            });
+            return WillPopScope(
+              onWillPop: _onWillPop,
+              child: SafeArea(
                 minimum: EdgeInsets.only(
                   bottom: MediaQuery.of(context).size.height * 0.035,
                 ),
@@ -62,6 +105,7 @@ class AppAccountsSheet {
                           :
                           ListView.builder(
                             itemCount: _accounts.length,
+                            controller: _scrollController,
                             itemBuilder: (BuildContext context, int index) {
                               return _buildAccountListItem(context, _accounts[index]);
                             },
@@ -132,6 +176,7 @@ class AppAccountsSheet {
                                   _addingAccount = true;
                                 });
                                 DBHelper().addAccount(nameBuilder: AppLocalization.of(context).defaultNewAccountName).then((newAccount) {
+                                  _requestBalances(context, [newAccount]);
                                   StateContainer.of(context).updateRecentlyUsedAccounts();
                                   setState(() {
                                     _addingAccount = false;
@@ -139,6 +184,11 @@ class AppAccountsSheet {
                                     _accounts.sort((a, b) => a.index.compareTo(b.index));
                                   });
                                 });
+                                _scrollController.animateTo(
+                                  _scrollController.position.maxScrollExtent,
+                                  curve: Curves.easeOut,
+                                  duration: const Duration(milliseconds: 300),
+                                );
                               }
                             },
                           ),
@@ -160,7 +210,8 @@ class AppAccountsSheet {
                       ),
                     ],
                   ),
-                ));
+                )
+              ));
           });
         });
   }
@@ -267,7 +318,7 @@ class AppAccountsSheet {
                     Text(
                       account.selected
                       ? StateContainer.of(context).wallet.getAccountBalanceDisplay()
-                      : "placeholder",
+                      : account.balance != null ? NumberUtil.getRawAsUsableString(account.balance) : "",
                       style: TextStyle(
                           fontSize: 14.0,
                           fontFamily: "NunitoSans",
@@ -275,7 +326,7 @@ class AppAccountsSheet {
                           color: StateContainer.of(context).curTheme.text),
                     ),
                     Text(
-                      " NANO",
+                      account.balance != null ? " NANO" : "",
                       style: TextStyle(
                           fontSize: 14.0,
                           fontFamily: "NunitoSans",

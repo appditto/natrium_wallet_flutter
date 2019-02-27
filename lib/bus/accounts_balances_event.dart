@@ -3,6 +3,7 @@ import 'package:natrium_wallet_flutter/network/model/response/accounts_balances_
 
 class AccountsBalancesEvent implements Event {
   final AccountsBalancesResponse response;
+  final bool transfer;
 
-  AccountsBalancesEvent({this.response});
+  AccountsBalancesEvent({this.response, this.transfer});
 }

@@ -148,6 +148,7 @@ class StateContainerState extends State<StateContainer> {
   StreamSubscription<CallbackEvent> _callbackSub;
   StreamSubscription<ErrorEvent> _errorSub;
   StreamSubscription<FcmUpdateEvent> _fcmUpdateSub;
+  StreamSubscription<AccountsBalancesEvent> _balancesSub;
 
   // Register RX event listenerss
   void _registerBus() {
@@ -226,6 +227,21 @@ class StateContainerState extends State<StateContainer> {
         AccountService.sendRequest(FcmUpdateRequest(account: wallet.address, fcmToken: event.token, enabled: enabled));
       });
     });
+    // Balances for our accounts
+    _balancesSub = EventTaxiImpl.singleton().registerTo<AccountsBalancesEvent>().listen((event) {
+      if (event.transfer) {
+        return;
+      }
+      DBHelper().getAccounts().then((accounts) {
+        accounts.forEach((account) {
+          event.response.balances.forEach((address, balance) {
+            if (address == account.address && balance.balance != account.balance) {
+              DBHelper().updateAccountBalance(account, balance.balance);
+            }
+          });
+        });
+      });
+    });
   }
 
   @override
@@ -264,6 +280,9 @@ class StateContainerState extends State<StateContainer> {
     }
     if (_fcmUpdateSub != null) {
       _fcmUpdateSub.cancel();
+    }
+    if (_balancesSub != null) {
+      _balancesSub.cancel();
     }
   }
 
@@ -611,9 +630,9 @@ class StateContainerState extends State<StateContainer> {
   ///
   /// Request accounts_balances
   /// 
-  void requestAccountsBalances(List<String> accounts) {
+  void requestAccountsBalances(List<String> accounts, {bool fromTransfer = false}) {
     if (accounts != null && accounts.isNotEmpty) {
-      AccountService.queueRequest(AccountsBalancesRequest(accounts: accounts));
+      AccountService.queueRequest(AccountsBalancesRequest(accounts: accounts), fromTransfer: fromTransfer);
       AccountService.processQueue();
     }
   }
