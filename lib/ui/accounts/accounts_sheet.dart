@@ -25,6 +25,7 @@ class AppAccountsSheet {
   ScrollController _scrollController = new ScrollController();
 
   StreamSubscription<AccountsBalancesEvent> _balancesSub;
+  bool _accountIsChanging;
 
   Future<bool> _onWillPop() async {
     if (_balancesSub != null) {
@@ -36,9 +37,10 @@ class AppAccountsSheet {
   AppAccountsSheet(List<Account> accounts) {
     this._accounts = accounts;
     this._addingAccount = false;
+    this._accountIsChanging = false;
   }
 
-  void _requestBalances(BuildContext context, List<Account> accounts) {
+  Future<void> _requestBalances(BuildContext context, List<Account> accounts) async {
     List<String> addresses = List();
     accounts.forEach((account) {
       if (account.address != null) {
@@ -48,35 +50,55 @@ class AppAccountsSheet {
     StateContainer.of(context).requestAccountsBalances(addresses);
   }
 
-  mainBottomSheet(BuildContext context) {
-    // Delay this to prevent lag during open transition
-    Future.delayed(Duration(milliseconds: 200), () {
-      _requestBalances(context, _accounts);
+  Future<void> _handleAccountsBalancesResponse(AccountsBalancesEvent event, StateSetter setState) async {
+    if (event.transfer) {
+      return;
+    }
+    // Handle balances event
+    _accounts.forEach((account) {
+      event.response.balances.forEach((address, balance) {
+        String combinedBalance = (BigInt.tryParse(balance.balance) + BigInt.tryParse(balance.pending)).toString();
+        if (account.address == address && combinedBalance != account.balance) {
+          setState(() {
+            account.balance = combinedBalance;
+          });
+        }
+      });
+    });    
+  }
+
+  Future<void> _changeAccount(Account account, StateSetter setState) async {
+    // Change account
+    _accounts.forEach((a) {
+      if (a.selected) {
+        setState(() {
+          a.selected = false;
+        });
+      } else if (account.id == a.id) {
+        setState(() {
+          a.selected = true;
+        });
+      }
     });
+    await DBHelper().changeAccount(account);
+    EventTaxiImpl.singleton().fire(AccountChangedEvent(account: account, delayPop: true));      
+  }
+
+  mainBottomSheet(BuildContext context) {
+    _requestBalances(context, _accounts);
     AppSheets.showAppHeightNineSheet(
         context: context,
         onDisposed: _onWillPop,
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            _balancesSub = EventTaxiImpl.singleton()
-                .registerTo<AccountsBalancesEvent>()
-                .listen((event) {
-              if (event.transfer) {
-                return;
-              }
-              // Handle balances event
-              _accounts.forEach((account) {
-                event.response.balances.forEach((address, balance) {
-                  String combinedBalance = (BigInt.tryParse(balance.balance) + BigInt.tryParse(balance.pending)).toString();
-                  if (account.address == address && combinedBalance != account.balance) {
-                    setState(() {
-                      account.balance = combinedBalance;
-                    });
-                  }
-                });
+            if (_balancesSub == null) {
+              _balancesSub = EventTaxiImpl.singleton()
+                  .registerTo<AccountsBalancesEvent>()
+                  .listen((event) {
+                _handleAccountsBalancesResponse(event, setState);
               });
-            });
+            }
             return WillPopScope(
               onWillPop: _onWillPop,
               child: SafeArea(
@@ -114,7 +136,7 @@ class AppAccountsSheet {
                             itemCount: _accounts.length,
                             controller: _scrollController,
                             itemBuilder: (BuildContext context, int index) {
-                              return _buildAccountListItem(context, _accounts[index]);
+                              return _buildAccountListItem(context, _accounts[index], setState);
                             },
                           ),
                           //List Top Gradient
@@ -223,16 +245,19 @@ class AppAccountsSheet {
         });
   }
 
-  Widget _buildAccountListItem(BuildContext context, Account account) {
+  Widget _buildAccountListItem(BuildContext context, Account account, StateSetter setState) {
     return FlatButton(
       highlightColor: StateContainer.of(context).curTheme.text15,
       splashColor: StateContainer.of(context).curTheme.text15,
       onPressed: () {
-        // Change account
-        if (!account.selected) {
-          DBHelper().changeAccount(account).then((_) {
-            EventTaxiImpl.singleton().fire(AccountChangedEvent(account: account));
-          });
+        if (!_accountIsChanging) {
+          // Change account
+          if (!account.selected) {
+            setState(() {
+              _accountIsChanging = true;
+            });
+            _changeAccount(account, setState);
+          }          
         }
       },
       padding: EdgeInsets.all(0.0),
