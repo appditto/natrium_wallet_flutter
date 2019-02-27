@@ -11,11 +11,11 @@ import 'package:uni_links/uni_links.dart';
 import 'package:logging/logging.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
-import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/list_model.dart';
+import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
@@ -110,21 +110,20 @@ class _AppHomePageState extends State<AppHomePage>
   }
 
   /// Notification includes which account its for, automatically switch to it if they're entering app from notification
-  void _chooseCorrectAccountFromNotification(Map<String, dynamic> message) {
+  Future<void> _chooseCorrectAccountFromNotification(Map<String, dynamic> message) async {
     try {
       if (message.containsKey("account")) {
-        print('MESSAGE ACCOUNT: ${message["account"]}');
-        if (message['account'] != StateContainer.of(context).wallet.address) {
-          DBHelper().getAccounts().then((accounts) {
-              for (int i = 0; i < accounts.length; i++) {
-                if (accounts[i].address == message['account']) {
-                  DBHelper().changeAccount(accounts[i]).then((_) {
-                    EventTaxiImpl.singleton().fire(AccountChangedEvent(account: accounts[i]));
-                  });
-                  break;
-                }
-              }
-          });
+        DBHelper dbHelper = DBHelper();
+        Account selectedAccount = await dbHelper.getSelectedAccount();
+        if (message['account'] != selectedAccount.address) {
+          List<Account> accounts = await dbHelper.getAccounts();
+          for (int i = 0; i < accounts.length; i++) {
+            if (accounts[i].address == message['account']) {
+              await dbHelper.changeAccount(accounts[i]);
+              EventTaxiImpl.singleton().fire(AccountChangedEvent(account: accounts[i]));
+              break;
+            }
+          }
         }
       }
     } catch (e) {
@@ -166,11 +165,9 @@ class _AppHomePageState extends State<AppHomePage>
       },
       onLaunch: (Map<String, dynamic> message) async {
         _chooseCorrectAccountFromNotification(message);
-        print("onResume $message");
       },
       onResume: (Map<String, dynamic> message) async {
         _chooseCorrectAccountFromNotification(message);
-        print("onResume $message");
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
@@ -329,7 +326,13 @@ class _AppHomePageState extends State<AppHomePage>
       setState(() {
         StateContainer.of(context).updateWallet(account: event.account);
       });
-      Navigator.of(context).popUntil(RouteUtils.withNameLike("/home"));
+      if (event.delayPop) {
+        Future.delayed(Duration(milliseconds: 300), () {
+          Navigator.of(context).popUntil(RouteUtils.withNameLike("/home"));
+        });
+      } else {
+        Navigator.of(context).popUntil(RouteUtils.withNameLike("/home"));
+      }
     });
   }
 

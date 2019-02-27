@@ -187,7 +187,7 @@ class AppAccountsSheet {
                                 _scrollController.animateTo(
                                   _scrollController.position.maxScrollExtent,
                                   curve: Curves.easeOut,
-                                  duration: const Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 100),
                                 );
                               }
                             },

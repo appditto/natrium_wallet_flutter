@@ -882,7 +882,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     child: FlatButton(
                                       onPressed: () {
                                         DBHelper().changeAccount(StateContainer.of(context).recentLast).then((_) {
-                                          EventTaxiImpl.singleton().fire(AccountChangedEvent(account: StateContainer.of(context).recentLast));
+                                          EventTaxiImpl.singleton().fire(AccountChangedEvent(account: StateContainer.of(context).recentLast, delayPop: true));
                                         });
                                       },
                                       highlightColor: StateContainer.of(context)
@@ -945,7 +945,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     child: FlatButton(
                                       onPressed: () {
                                         DBHelper().changeAccount(StateContainer.of(context).recentSecondLast).then((_) {
-                                          EventTaxiImpl.singleton().fire(AccountChangedEvent(account: StateContainer.of(context).recentSecondLast));
+                                          EventTaxiImpl.singleton().fire(AccountChangedEvent(account: StateContainer.of(context).recentSecondLast, delayPop: true));
                                         });
                                       },
                                       highlightColor: StateContainer.of(context)

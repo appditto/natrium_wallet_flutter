@@ -201,7 +201,7 @@ class DBHelper{
     if (list.length == 0) {
       return null;
     }
-    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"]);
+    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[0]["acct_index"]));
     return account;
   }
 
