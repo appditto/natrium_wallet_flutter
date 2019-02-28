@@ -91,6 +91,7 @@ class _AppState extends State<App> {
           const Locale('pt'), // Portugese
           const Locale('ro'), // Romanian
           const Locale('ru'), // Russian
+          const Locale('sl'), // Slovenian
           const Locale('sv'), // Swedish
           const Locale('tl'), // Tagalog
           const Locale('tr'), // Turkish

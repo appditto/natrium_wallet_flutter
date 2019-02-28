@@ -636,7 +636,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferHeader": "Перечислить\nСредства",
+    "transferHeader": "Перевод\nСредств",
     "@transferHeader": {
         "description": "transfer_header",
         "type": "text",
@@ -654,7 +654,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferIntro": "Этот процесс переведёт средства с бумажного кошелька на ваш Natrium кошелёк.\n\nНажмите кнопку\"%1\"чтобы начать.",
+    "transferIntro": "Этот процесс переведёт средства с бумажного кошелька на ваш Natrium кошелёк.\n\nНажмите кнопку \"%s\" чтобы начать.",
     "@transferIntro": {
         "description": "transfer_intro",
         "type": "text",
@@ -702,7 +702,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferComplete": "%1 NANO успешно переведен на Natrium кошелёк.",
+    "transferComplete": "%1 NANO успешно переведены в Kalium кошелёк.",
     "@transferComplete": {
         "description": "transfer_complete_text",
         "type": "text",
