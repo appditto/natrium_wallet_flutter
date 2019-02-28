@@ -60,7 +60,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "send": "Trimise",
+    "send": "Trimite",
     "@send": {
         "description": "home_send_cta",
         "type": "text",
@@ -72,13 +72,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "sent": "Trimise",
+    "sent": "S-a trimis",
     "@sent": {
         "description": "history_sent",
         "type": "text",
         "placeholders": {}
     },
-    "received": "Primite",
+    "received": "S-a primit",
     "@received": {
         "description": "history_received",
         "type": "text",
@@ -810,7 +810,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "exampleCardFrom": "de la un om oarecare",
+    "exampleCardFrom": "de la oricine",
     "@exampleCardFrom": {
         "description": "example_card_from",
         "type": "text",
