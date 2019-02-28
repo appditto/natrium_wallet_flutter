@@ -75,7 +75,7 @@ class AccountDetailsSheet {
                       child: Column(
                         children: <Widget>[
                           AutoSizeText(
-                            CaseChange.toUpperCase("Account", context),
+                            CaseChange.toUpperCase(AppLocalization.of(context).account, context),
                             style: AppStyles.textStyleHeader(context),
                             textAlign: TextAlign.center,
                             maxLines: 1,

@@ -14,6 +14,7 @@ import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
@@ -116,7 +117,7 @@ class AppAccountsSheet {
                         constraints: BoxConstraints(
                             maxWidth: MediaQuery.of(context).size.width - 140),
                         child: AutoSizeText(
-                          CaseChange.toUpperCase("Accounts", context),
+                          CaseChange.toUpperCase(AppLocalization.of(context).accounts, context),
                           style: AppStyles.textStyleHeader(context),
                           maxLines: 1,
                           stepGranularity: 0.1,
@@ -196,7 +197,7 @@ class AppAccountsSheet {
                           : AppButton.buildAppButton(
                             context,
                             AppButtonType.PRIMARY,
-                            "Add Account",
+                            AppLocalization.of(context).addAccount,
                             Dimens.BUTTON_TOP_DIMENS,
                             disabled: _addingAccount,
                             onPressed: () {
@@ -401,7 +402,15 @@ class AppAccountsSheet {
             color: StateContainer.of(context).curTheme.primary,
           ),
           onPressed: () {
-
+            AppDialogs.showConfirmDialog(context,
+              AppLocalization.of(context).hideAccountHeader,
+              AppLocalization.of(context).removeAccountText.replaceAll("%1", AppLocalization.of(context).addAccount),
+               CaseChange.toUpperCase(AppLocalization.of(context).yes, context),
+              () {
+                // Hide account
+              },
+              cancelText: CaseChange.toUpperCase(AppLocalization.of(context).no, context)
+            );
           },
         )
       ));

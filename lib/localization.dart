@@ -771,6 +771,31 @@ class AppLocalization {
       desc: 'Alternate account intro card', name: 'newAccountIntro');
   }
 
+  String get account {
+    return Intl.message("Account",
+      desc: "Account text", name: 'account');
+  }
+
+  String get accounts {
+    return Intl.message("Accounts",
+      desc: "Accounts header", name: 'accounts');
+  }
+
+  String get addAccount {
+    return Intl.message("Add Account",
+      desc: "Default new account name - e.g. Account 1", name: 'addAccount');
+  }
+
+  String get hideAccountHeader {
+    return Intl.message("Hide Account?",
+      desc: "Confirmation dialog header", name: 'hideAccountHeader');
+  }
+
+  String get removeAccountText {
+    return Intl.message("Are you sure you want to hide this account? You can re-add it later by tapping the \"%1\" button.",
+      desc: "Remove account dialog body", name: 'removeAccountText');
+  }
+
   /// -- END MULTI-ACCOUNT
 
   /// -- NON-TRANSLATABLE ITEMS
