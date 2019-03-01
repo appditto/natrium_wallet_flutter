@@ -7,7 +7,7 @@ description: Natrium - Fast, Robust & Secure NANO Wallet.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 0.9.0+7
+version: 2.0.0+19
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -109,11 +109,7 @@ dependencies:
   oktoast: ^2.1.4
 
   # Push notifications - TODO update to newer androidX version
-  firebase_messaging:
-    git:
-      url: https://github.com/bbedward/plugins.git
-      path: packages/firebase_messaging
-      ref: master
+  firebase_messaging: ^2.1.0
 
   # Slidable list actions
   flutter_slidable: "^0.4.9"
