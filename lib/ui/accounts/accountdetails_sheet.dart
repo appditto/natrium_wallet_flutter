@@ -70,8 +70,9 @@ class AccountDetailsSheet {
                               width: 50,
                               height: 50,
                               margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                              child: account.index > 0 && !account.selected
-                                  ? FlatButton(
+                              child: account.index == 0 || account.selected
+                                  ? SizedBox()
+                                  : FlatButton(
                                       highlightColor: StateContainer.of(context)
                                           .curTheme
                                           .text15,
@@ -121,7 +122,6 @@ class AccountDetailsSheet {
                                       materialTapTargetSize:
                                           MaterialTapTargetSize.padded,
                                     )
-                                  : SizedBox(),
                             ),
                             // The header of the sheet
                             Container(

@@ -41,10 +41,13 @@ class AppAccountsSheet {
     return true;
   }
 
-  AppAccountsSheet(List<Account> accounts) {
+  AppAccountsSheet(List<Account> accounts, BigInt selectedBalance) {
     this._accounts = accounts;
     this._addingAccount = false;
     this._accountIsChanging = false;
+    this._accounts.where((a) => a.selected).forEach((acct) {
+      acct.balance = selectedBalance.toString();
+    });
     this.dbHelper = DBHelper();
   }
 
@@ -237,15 +240,12 @@ class AppAccountsSheet {
                                   setState(() {
                                     _addingAccount = false;
                                     _accounts.sort((a, b) => a.index.compareTo(b.index));
-                                  });
-                                  // If newest account scroll to button
-                                  if (_accounts.last.index == newAccount.index) {
                                     _scrollController.animateTo(
-                                      _scrollController.position.maxScrollExtent,
+                                      newAccount.index * 70.0,
                                       curve: Curves.easeOut,
                                       duration: const Duration(milliseconds: 100),
-                                    );                                    
-                                  }
+                                    );    
+                                  });
                                 });
                               }
                             },
@@ -380,9 +380,7 @@ class AppAccountsSheet {
                   Row(
                     children: <Widget>[
                       Text(
-                        account.selected
-                        ? StateContainer.of(context).wallet.getAccountBalanceDisplay()
-                        : account.balance != null ? NumberUtil.getRawAsUsableString(account.balance) : "",
+                        account.balance != null ? NumberUtil.getRawAsUsableString(account.balance) : "",
                         style: TextStyle(
                             fontSize: 14.0,
                             fontFamily: "NunitoSans",
