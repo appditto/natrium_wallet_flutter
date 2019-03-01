@@ -264,19 +264,29 @@ class StateContainerState extends State<StateContainer> {
         }
       } else {
         // Remove account
-        if (recentLast != null) {
-          dbHelper.changeAccount(recentLast);
-          setState(() {
-            selectedAccount = recentLast;
-          });
-          EventTaxiImpl.singleton().fire(AccountChangedEvent(account: recentLast, noPop: true));
-        } else if (recentSecondLast != null) {
-          dbHelper.changeAccount(recentSecondLast);
-          setState(() {
-            selectedAccount = recentSecondLast;
-          });
-          EventTaxiImpl.singleton().fire(AccountChangedEvent(account: recentSecondLast, noPop: true));
-        }
+        updateRecentlyUsedAccounts().then((_) {
+          if (event.account.index == selectedAccount.index && recentLast != null) {
+            dbHelper.changeAccount(recentLast);
+            setState(() {
+              selectedAccount = recentLast;
+            });
+            EventTaxiImpl.singleton().fire(AccountChangedEvent(account: recentLast, noPop: true));
+          } else if (event.account.index == selectedAccount.index && recentSecondLast != null) {
+            dbHelper.changeAccount(recentSecondLast);
+            setState(() {
+              selectedAccount = recentSecondLast;
+            });
+            EventTaxiImpl.singleton().fire(AccountChangedEvent(account: recentSecondLast, noPop: true));
+          } else if (event.account.index == selectedAccount.index) {
+            dbHelper.getMainAccount().then((mainAccount) {
+              dbHelper.changeAccount(mainAccount);
+              setState(() {
+                selectedAccount = mainAccount;
+              });
+              EventTaxiImpl.singleton().fire(AccountChangedEvent(account: mainAccount, noPop: true)); 
+            });         
+          }
+        });
         updateRecentlyUsedAccounts();
       }
     });
