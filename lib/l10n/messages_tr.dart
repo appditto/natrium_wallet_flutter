@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("Hesap"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("Hesaplar"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Hesap Ekle"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Kişi Ekle"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Kopyalandı"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Adres Gir"),
@@ -53,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Adresi Kopyala"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Seedi Kopyala"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Mevcut Temsilci:"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Ana Hesap"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Hesap %1"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Miktar Gir"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("birinden"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("Natrium’a hoşgeldin. Hesabına NANO geldiğinde işlemlerin şu şekilde görünecek"),
@@ -60,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("Bir sürü"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("birine"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Seed\'i yedeklemek için parmak izini onaylayın."),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Hesabı Gizle?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Seed\'i içe aktar"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Lütfen seed\'inizi girin."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("İçe Aktar"),
@@ -78,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Yönet"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Manuel Giriş"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Memonik Cümle"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Bu senin yeni hesabın. Hesabına NANO geldiğinde işlemlerin aşağıdaki gibi görünecek."),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Yeni Cüzdan"),
     "no" : MessageLookupByLibrary.simpleMessage("Hayır"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("Dışa aktarılabilecek bir kişi bulunamadı"),
@@ -104,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Seed"),
     "receive" : MessageLookupByLibrary.simpleMessage("İste"),
     "received" : MessageLookupByLibrary.simpleMessage("Alındı"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Hesabı gizlemek istediğine emin misin? Bu hesabı daha sonra \"%1\" butonuna basarak tekrar ekleyebilirsin."),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Kişiyi Sil"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("%1 kişisini silmek istediğine emin misin?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("Temsilci, ağda oybirliğini sağlamak için oylamaya katılan bir hesaptır. Oylama gücü, hesap bakiyesine göre ağırlıklandırılır. Güvendiğiniz bir temsilcinin oy ağırlığını artırmak için bakiyenizi delege edebilirsiniz. Temsilcinizin, paranızı harcama yetkisi yoktur. Güvenilir ve olabildiğince uzun süreli aktif olan bir temsilci seçmelisiniz."),

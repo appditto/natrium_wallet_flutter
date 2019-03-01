@@ -815,5 +815,13 @@
         "description": "after_minute",
         "type": "text",
         "placeholders": {}
-    }
+    },
+    "defaultAccountName": "Ana Hesap",
+    "defaultNewAccountName": "Hesap %1",
+    "newAccountIntro": "Bu senin yeni hesabın. Hesabına NANO geldiğinde işlemlerin aşağıdaki gibi görünecek.",
+    "account": "Hesap",
+    "accounts": "Hesaplar",
+    "addAccount": "Hesap Ekle",
+    "hideAccountHeader": "Hesabı Gizle?",
+    "removeAccountText": "Hesabı gizlemek istediğine emin misin? Bu hesabı daha sonra \"%1\" butonuna basarak tekrar ekleyebilirsin."
 }

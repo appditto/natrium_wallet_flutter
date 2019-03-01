@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
@@ -11,9 +10,7 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
-import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
-import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
@@ -28,16 +25,18 @@ class AccountDetailsSheet {
   TextEditingController _nameController;
   FocusNode _nameFocusNode;
   DBHelper dbHelper;
+  bool deleted;
 
   AccountDetailsSheet(this.account) {
     dbHelper = DBHelper();
     this.originalName = account.name;
+    this.deleted = false;
   }
 
   Future<bool> _onWillPop() async {
     // Update name if changed and valid
     if (originalName != _nameController.text &&
-        _nameController.text.trim().length > 0) {
+        _nameController.text.trim().length > 0 && !deleted) {
       dbHelper.changeAccountName(account, _nameController.text);
       account.name = _nameController.text;
       EventTaxiImpl.singleton().fire(AccountModifiedEvent(account: account));
@@ -70,7 +69,7 @@ class AccountDetailsSheet {
                               width: 50,
                               height: 50,
                               margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                              child: account.index == 0 || account.selected
+                              child: account.index == 0
                                   ? SizedBox()
                                   : FlatButton(
                                       highlightColor: StateContainer.of(context)
@@ -94,12 +93,13 @@ class AccountDetailsSheet {
                                                 AppLocalization.of(context).yes,
                                                 context), () {
                                           // Remove account
+                                          deleted = true;
                                           dbHelper
                                               .deleteAccount(account)
                                               .then((id) {
                                             StateContainer.of(context)
                                                 .updateRecentlyUsedAccounts();
-                                            EventTaxiImpl().fire(
+                                            EventTaxiImpl.singleton().fire(
                                                 AccountModifiedEvent(
                                                     account: account,
                                                     deleted: true));
