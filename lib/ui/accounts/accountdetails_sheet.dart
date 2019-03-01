@@ -26,6 +26,10 @@ class AccountDetailsSheet {
   FocusNode _nameFocusNode;
   DBHelper dbHelper;
   bool deleted;
+  // Address copied or not
+  bool _addressCopied;
+  // Timer reference so we can cancel repeated events
+  Timer _addressCopiedTimer;
 
   AccountDetailsSheet(this.account) {
     dbHelper = DBHelper();
@@ -36,7 +40,8 @@ class AccountDetailsSheet {
   Future<bool> _onWillPop() async {
     // Update name if changed and valid
     if (originalName != _nameController.text &&
-        _nameController.text.trim().length > 0 && !deleted) {
+        _nameController.text.trim().length > 0 &&
+        !deleted) {
       dbHelper.changeAccountName(account, _nameController.text);
       account.name = _nameController.text;
       EventTaxiImpl.singleton().fire(AccountModifiedEvent(account: account));
@@ -45,6 +50,7 @@ class AccountDetailsSheet {
   }
 
   mainBottomSheet(BuildContext context) {
+    _addressCopied = false;
     _nameController = TextEditingController(text: account.name);
     _nameFocusNode = FocusNode();
     AppSheets.showAppHeightNineSheet(
@@ -66,63 +72,68 @@ class AccountDetailsSheet {
                           children: <Widget>[
                             // Trashcan Button
                             Container(
-                              width: 50,
-                              height: 50,
-                              margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                              child: account.index == 0
-                                  ? SizedBox()
-                                  : FlatButton(
-                                      highlightColor: StateContainer.of(context)
-                                          .curTheme
-                                          .text15,
-                                      splashColor: StateContainer.of(context)
-                                          .curTheme
-                                          .text15,
-                                      onPressed: () {
-                                        AppDialogs.showConfirmDialog(
-                                            context,
-                                            AppLocalization.of(context)
-                                                .hideAccountHeader,
-                                            AppLocalization.of(context)
-                                                .removeAccountText
-                                                .replaceAll(
-                                                    "%1",
-                                                    AppLocalization.of(context)
-                                                        .addAccount),
-                                            CaseChange.toUpperCase(
-                                                AppLocalization.of(context).yes,
-                                                context), () {
-                                          // Remove account
-                                          deleted = true;
-                                          dbHelper
-                                              .deleteAccount(account)
-                                              .then((id) {
+                                width: 50,
+                                height: 50,
+                                margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                                child: account.index == 0
+                                    ? SizedBox()
+                                    : FlatButton(
+                                        highlightColor:
                                             StateContainer.of(context)
-                                                .updateRecentlyUsedAccounts();
-                                            EventTaxiImpl.singleton().fire(
-                                                AccountModifiedEvent(
-                                                    account: account,
-                                                    deleted: true));
-                                            Navigator.of(context).pop();
-                                          });
+                                                .curTheme
+                                                .text15,
+                                        splashColor: StateContainer.of(context)
+                                            .curTheme
+                                            .text15,
+                                        onPressed: () {
+                                          AppDialogs.showConfirmDialog(
+                                              context,
+                                              AppLocalization.of(context)
+                                                  .hideAccountHeader,
+                                              AppLocalization.of(context)
+                                                  .removeAccountText
+                                                  .replaceAll(
+                                                      "%1",
+                                                      AppLocalization.of(
+                                                              context)
+                                                          .addAccount),
+                                              CaseChange.toUpperCase(
+                                                  AppLocalization.of(context)
+                                                      .yes,
+                                                  context), () {
+                                            // Remove account
+                                            deleted = true;
+                                            dbHelper
+                                                .deleteAccount(account)
+                                                .then((id) {
+                                              StateContainer.of(context)
+                                                  .updateRecentlyUsedAccounts();
+                                              EventTaxiImpl.singleton().fire(
+                                                  AccountModifiedEvent(
+                                                      account: account,
+                                                      deleted: true));
+                                              Navigator.of(context).pop();
+                                            });
+                                          },
+                                              cancelText:
+                                                  CaseChange.toUpperCase(
+                                                      AppLocalization.of(
+                                                              context)
+                                                          .no,
+                                                      context));
                                         },
-                                            cancelText: CaseChange.toUpperCase(
-                                                AppLocalization.of(context).no,
-                                                context));
-                                      },
-                                      child: Icon(AppIcons.trashcan,
-                                          size: 24,
-                                          color: StateContainer.of(context)
-                                              .curTheme
-                                              .text),
-                                      padding: EdgeInsets.all(13.0),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(100.0)),
-                                      materialTapTargetSize:
-                                          MaterialTapTargetSize.padded,
-                                    )
-                            ),
+                                        child: Icon(AppIcons.trashcan,
+                                            size: 24,
+                                            color: StateContainer.of(context)
+                                                .curTheme
+                                                .text),
+                                        padding: EdgeInsets.all(13.0),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(100.0)),
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.padded,
+                                      )),
                             // The header of the sheet
                             Container(
                               margin: EdgeInsets.only(top: 25.0),
@@ -143,7 +154,7 @@ class AccountDetailsSheet {
                                   // Address Text
                                   Container(
                                     margin: EdgeInsets.only(top: 10.0),
-                                    child: _oneOrthreeLineAddressText(context),
+                                    child: _threeLineAddressText(context),
                                   ),
                                   // Balance Text
                                   Container(
@@ -218,10 +229,8 @@ class AccountDetailsSheet {
                             width: double.infinity,
                             margin: EdgeInsets.only(
                               top: MediaQuery.of(context).size.width * 0.1,
-                              left:
-                                  MediaQuery.of(context).size.width * 0.105,
-                              right:
-                                  MediaQuery.of(context).size.width * 0.105,
+                              left: MediaQuery.of(context).size.width * 0.105,
+                              right: MediaQuery.of(context).size.width * 0.105,
                             ),
                             padding: EdgeInsets.symmetric(horizontal: 30),
                             decoration: BoxDecoration(
@@ -234,9 +243,8 @@ class AccountDetailsSheet {
                               controller: _nameController,
                               focusNode: _nameFocusNode,
                               textAlign: TextAlign.center,
-                              cursorColor: StateContainer.of(context)
-                                  .curTheme
-                                  .primary,
+                              cursorColor:
+                                  StateContainer.of(context).curTheme.primary,
                               textInputAction: TextInputAction.done,
                               autocorrect: false,
                               decoration: InputDecoration(
@@ -257,9 +265,8 @@ class AccountDetailsSheet {
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16.0,
-                                color: StateContainer.of(context)
-                                    .curTheme
-                                    .primary,
+                                color:
+                                    StateContainer.of(context).curTheme.primary,
                                 fontFamily: 'NunitoSans',
                               ),
                               onChanged: (text) {
@@ -271,6 +278,38 @@ class AccountDetailsSheet {
                         Container(
                           child: Column(
                             children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  AppButton.buildAppButton(
+                                      context,
+                                      // Share Address Button
+                                      _addressCopied
+                                          ? AppButtonType.SUCCESS
+                                          : AppButtonType.PRIMARY,
+                                      _addressCopied
+                                          ? AppLocalization.of(context)
+                                              .addressCopied
+                                          : AppLocalization.of(context)
+                                              .copyAddress,
+                                      Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                                    Clipboard.setData(new ClipboardData(
+                                        text: account.address));
+                                    setState(() {
+                                      // Set copied style
+                                      _addressCopied = true;
+                                    });
+                                    if (_addressCopiedTimer != null) {
+                                      _addressCopiedTimer.cancel();
+                                    }
+                                    _addressCopiedTimer = new Timer(
+                                        const Duration(milliseconds: 800), () {
+                                      setState(() {
+                                        _addressCopied = false;
+                                      });
+                                    });
+                                  }),
+                                ],
+                              ),
                               Row(
                                 children: <Widget>[
                                   // Close Button
@@ -294,18 +333,11 @@ class AccountDetailsSheet {
   }
 }
 
-// A method for deciding if 1 or 3 line address text should be used
-_oneOrthreeLineAddressText(BuildContext context) {
-  if (MediaQuery.of(context).size.height < 667)
-    return UIUtil.oneLineAddressText(
-      context,
-      StateContainer.of(context).wallet.address,
-      type: OneLineAddressTextType.PRIMARY60,
-    );
-  else
-    return UIUtil.threeLineAddressText(
-      context,
-      StateContainer.of(context).wallet.address,
-      type: ThreeLineAddressTextType.PRIMARY60,
-    );
+// A method for getting 3 line address text
+_threeLineAddressText(BuildContext context) {
+  return UIUtil.threeLineAddressText(
+    context,
+    StateContainer.of(context).wallet.address,
+    type: ThreeLineAddressTextType.PRIMARY60,
+  );
 }
