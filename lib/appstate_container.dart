@@ -262,6 +262,22 @@ class StateContainerState extends State<StateContainer> {
         } else {
           updateRecentlyUsedAccounts();
         }
+      } else {
+        // Remove account
+        if (recentLast != null) {
+          dbHelper.changeAccount(recentLast);
+          setState(() {
+            selectedAccount = recentLast;
+          });
+          EventTaxiImpl.singleton().fire(AccountChangedEvent(account: recentLast, noPop: true));
+        } else if (recentSecondLast != null) {
+          dbHelper.changeAccount(recentSecondLast);
+          setState(() {
+            selectedAccount = recentSecondLast;
+          });
+          EventTaxiImpl.singleton().fire(AccountChangedEvent(account: recentSecondLast, noPop: true));
+        }
+        updateRecentlyUsedAccounts();
       }
     });
   }

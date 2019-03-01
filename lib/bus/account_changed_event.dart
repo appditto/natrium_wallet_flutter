@@ -4,6 +4,7 @@ import 'package:natrium_wallet_flutter/model/db/account.dart';
 class AccountChangedEvent implements Event {
   final Account account;
   final bool delayPop;
+  final bool noPop;
 
-  AccountChangedEvent({this.account, this.delayPop = false});
+  AccountChangedEvent({this.account, this.delayPop = false, this.noPop = false});
 }

@@ -115,6 +115,15 @@ class AppAccountsSheet {
                 .registerTo<AccountModifiedEvent>()
                 .listen((event) {
                   if (event.deleted) {
+                    if (event.account.selected) {
+                      Future.delayed(Duration(milliseconds: 50), () {
+                        setState(() {
+                          _accounts.where((a) => a.index == StateContainer.of(context).selectedAccount.index).forEach((account) {
+                            account.selected = true;
+                          });
+                        });
+                      });
+                    }
                     setState(() {
                       _accounts.removeWhere((a) => a.index == event.account.index);
                     });
@@ -421,7 +430,7 @@ class AppAccountsSheet {
         AccountDetailsSheet(account).mainBottomSheet(context);
       }
     ));
-    if (!account.selected && account.index > 0) {
+    if (account.index > 0) {
       _actions.add(SlideAction(
         child: Container(
           constraints: BoxConstraints.expand(),
@@ -438,7 +447,7 @@ class AppAccountsSheet {
             () {
               // Remove account
               dbHelper.deleteAccount(account).then((id) {
-                StateContainer.of(context).updateRecentlyUsedAccounts();
+                EventTaxiImpl.singleton().fire(AccountModifiedEvent(account: account, deleted: true));
                 setState(() {
                   _accounts.removeWhere((a) => a.index == account.index);
                 });

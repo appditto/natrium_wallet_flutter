@@ -336,7 +336,7 @@ class _AppHomePageState extends State<AppHomePage>
         Future.delayed(Duration(milliseconds: 300), () {
           Navigator.of(context).popUntil(RouteUtils.withNameLike("/home"));
         });
-      } else {
+      } else if (!event.noPop) {
         Navigator.of(context).popUntil(RouteUtils.withNameLike("/home"));
       }
     });
