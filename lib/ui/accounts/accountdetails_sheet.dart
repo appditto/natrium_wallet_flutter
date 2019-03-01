@@ -228,7 +228,7 @@ class AccountDetailsSheet {
                           Container(
                             width: double.infinity,
                             margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.width * 0.1,
+                              top: MediaQuery.of(context).size.width * 0.12,
                               left: MediaQuery.of(context).size.width * 0.105,
                               right: MediaQuery.of(context).size.width * 0.105,
                             ),
