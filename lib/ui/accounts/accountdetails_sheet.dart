@@ -17,6 +17,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
+import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
 // Account Details Sheet
 class AccountDetailsSheet {
@@ -159,9 +160,12 @@ class AccountDetailsSheet {
                         // Address Text
                         Container(
                           margin: EdgeInsets.only(top: 10.0),
-                          child: _threeLineAddressText(context),
+                          child: account.address != null
+                            ? UIUtil.threeLineAddressText(context, account.address, type: ThreeLineAddressTextType.PRIMARY60)
+                            : SizedBox(),
                         ),
                         // Balance Text
+                        account.balance != null ?
                         Container(
                           margin: EdgeInsets.only(top: 5.0),
                           child: RichText(
@@ -181,9 +185,7 @@ class AccountDetailsSheet {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: StateContainer.of(context)
-                                      .wallet
-                                      .getAccountBalanceDisplay(),
+                                  text: NumberUtil.getRawAsUsableString(account.balance),
                                   style: TextStyle(
                                     color: StateContainer.of(context)
                                         .curTheme
@@ -207,7 +209,7 @@ class AccountDetailsSheet {
                               ],
                             ),
                           ),
-                        ),
+                        ) : SizedBox(),
 
                         // The main container that holds Contact Name and Contact Address
                         Expanded(
@@ -329,13 +331,4 @@ class AccountDetailsSheet {
           });
         });
   }
-}
-
-// A method for getting 3 line address text
-_threeLineAddressText(BuildContext context) {
-  return UIUtil.threeLineAddressText(
-    context,
-    StateContainer.of(context).wallet.address,
-    type: ThreeLineAddressTextType.PRIMARY60,
-  );
 }
