@@ -159,57 +159,57 @@ class AccountDetailsSheet {
                           ],
                         ),
                         // Address Text
-                                  Container(
-                                    margin: EdgeInsets.only(top: 10.0),
-                                    child: _threeLineAddressText(context),
+                        Container(
+                          margin: EdgeInsets.only(top: 10.0),
+                          child: _threeLineAddressText(context),
+                        ),
+                        // Balance Text
+                        Container(
+                          margin: EdgeInsets.only(top: 5.0),
+                          child: RichText(
+                            textAlign: TextAlign.left,
+                            text: TextSpan(
+                              text: '',
+                              children: [
+                                TextSpan(
+                                  text: "(",
+                                  style: TextStyle(
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .primary60,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w100,
+                                    fontFamily: 'NunitoSans',
                                   ),
-                                  // Balance Text
-                                  Container(
-                                    margin: EdgeInsets.only(top: 5.0),
-                                    child: RichText(
-                                      textAlign: TextAlign.left,
-                                      text: TextSpan(
-                                        text: '',
-                                        children: [
-                                          TextSpan(
-                                            text: "(",
-                                            style: TextStyle(
-                                              color: StateContainer.of(context)
-                                                  .curTheme
-                                                  .primary60,
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.w100,
-                                              fontFamily: 'NunitoSans',
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: StateContainer.of(context)
-                                                .wallet
-                                                .getAccountBalanceDisplay(),
-                                            style: TextStyle(
-                                              color: StateContainer.of(context)
-                                                  .curTheme
-                                                  .primary60,
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.w700,
-                                              fontFamily: 'NunitoSans',
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: " NANO)",
-                                            style: TextStyle(
-                                              color: StateContainer.of(context)
-                                                  .curTheme
-                                                  .primary60,
-                                              fontSize: 14.0,
-                                              fontWeight: FontWeight.w100,
-                                              fontFamily: 'NunitoSans',
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                ),
+                                TextSpan(
+                                  text: StateContainer.of(context)
+                                      .wallet
+                                      .getAccountBalanceDisplay(),
+                                  style: TextStyle(
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .primary60,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'NunitoSans',
                                   ),
+                                ),
+                                TextSpan(
+                                  text: " NANO)",
+                                  style: TextStyle(
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .primary60,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w100,
+                                    fontFamily: 'NunitoSans',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
 
                         // The main container that holds Contact Name and Contact Address
                         Expanded(
