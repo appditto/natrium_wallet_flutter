@@ -993,7 +993,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     setState(() {
                                       _loadingAccounts = false;
                                     });
-                                    AppAccountsSheet(accounts).mainBottomSheet(context);
+                                    BigInt selectedBalance = StateContainer.of(context).wallet.accountBalance;
+                                    AppAccountsSheet(accounts, selectedBalance).mainBottomSheet(context);
                                   });
                                 }
                               },
