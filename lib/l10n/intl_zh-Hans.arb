@@ -36,7 +36,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "no": "没有",
+    "no": "否认",
     "@no": {
         "description": "intro_new_wallet_backup_no",
         "type": "text",
@@ -402,7 +402,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "repInfo": "指定代表是投票支持网络共识的帐户。投票权重由账户余额加权，您可以用余额投票来增加您信任的代表的投票权重。您的代表对您的资金没有控制权。您应该选择一个下线时间很少并且值得信赖的代表。",
+    "repInfo": "指定代表是投票支持网络共识的帐户。代表的投票权重由账户余额加权，您可以用余额投票来增加您信任的代表的投票权重。您的代表对您的资金没有控制权。您应该选择一个下线时间很少并且值得信赖的代表。",
     "@repInfo": {
         "description": "change_representative_info",
         "type": "text",
@@ -558,7 +558,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "notificationBody": "打开Natrium查看此交易.",
+    "notificationBody": "打开Natrium查看此交易。",
     "@notificationBody": {
         "description": "notification_body",
         "type": "text",
@@ -786,7 +786,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "exampleCardIntro": "欢迎来到Natrium。当您收到或发送NANO时，它将显示在下面.",
+    "exampleCardIntro": "欢迎来到Natrium。当您收到或发送NANO时，交易将如下出现。",
     "@exampleCardIntro": {
         "description": "example_card_intro",
         "type": "text",
@@ -815,13 +815,5 @@
         "description": "example_card_from",
         "type": "text",
         "placeholders": {}
-    },
-    "defaultAccountName": "主要账户",
-    "defaultNewAccountName": "账户 %1",
-    "newAccountIntro": "这是你的新账户。当你收到 NANO 时，交易会如下出现：",
-    "account": "账户",
-    "accounts": "账户",
-    "addAccount": "增加账户",
-    "hideAccountHeader": "隐藏账户？",
-    "removeAccountText": "请确定要隐藏这个账户，以后可以用\"%1\"键来从新增加这个账户。"
+    }
 }

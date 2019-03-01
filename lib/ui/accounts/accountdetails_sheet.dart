@@ -106,8 +106,6 @@ class AccountDetailsSheet {
                                             dbHelper
                                                 .deleteAccount(account)
                                                 .then((id) {
-                                              StateContainer.of(context)
-                                                  .updateRecentlyUsedAccounts();
                                               EventTaxiImpl.singleton().fire(
                                                   AccountModifiedEvent(
                                                       account: account,

@@ -215,6 +215,16 @@ class DBHelper{
     return account;
   }
 
+  Future<Account> getMainAccount() async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts where acct_index = 0');
+    if (list.length == 0) {
+      return null;
+    }
+    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[0]["acct_index"]));
+    return account;
+  }
+
   Future<void> dropAccounts() async {
     var dbClient = await db;
     return await dbClient.rawDelete('DELETE FROM ACCOUNTS');
