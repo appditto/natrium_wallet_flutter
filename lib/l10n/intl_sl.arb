@@ -817,5 +817,13 @@
     "description": "example_card_from",
     "type": "text",
     "placeholders": {}
-  }
+  },
+  "defaultAccountName": "Glavni račun",
+  "defaultNewAccountName": "Račun %1", 
+  "newAccountIntro": "To je vaš nov račun. Ko boste prejeli NANO, bodo transakcije prikazane takole:",
+  "account": "Račun",
+  "accounts": "Računi",
+  "addAccount": "Dodaj račun",
+  "hideAccountHeader": "Skrij račun?",
+  "removeAccountText": "Ste prepričani, da hočete skriti ta račun? Lahko ga ponovno dodate kasneje s pritiskom na gumb \"%1\""
 }

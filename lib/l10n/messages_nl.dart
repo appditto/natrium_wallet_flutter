@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("Account"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("Accounts"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Account toevoegen"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Contact toevoegen"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Adres gekopieerd"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Vul adres in"),
@@ -53,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Kopieer adres"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Kopieer Seed"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Jouw huidige vertegenwoordiger is"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Hoofd Account"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Account %1"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Vul bedrag in"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("van iemand"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("Welkom bij Natrium. Zodra je NANO ontvangt zullen jouw transacties op deze manier verschijnen"),
@@ -60,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("Heel veel"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("naar iemand"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Bevestig je vingerafdruk om een back-up te maken."),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Account verbergen?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Importeer seed"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Vul jouw seed in."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Importeer wallet"),
@@ -78,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Beheren"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Handmatige invoer"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Woordvolgorde"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Dit is jouw nieuwe account. Zodra je NANO ontvangt, zullen transacties op deze manier verschijnen:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Nieuwe wallet"),
     "no" : MessageLookupByLibrary.simpleMessage("Nee"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("Er zijn geen contacten aanwezig om te verwijderen"),
@@ -104,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Seed"),
     "receive" : MessageLookupByLibrary.simpleMessage("Ontvang"),
     "received" : MessageLookupByLibrary.simpleMessage("Ontvangen"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Weet je zeker dat je dit account wil verbergen? Je kan het later weer terughalen door op de \"%1\" knop te klikken."),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Verwijder contact"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("Weet je zeker dat je het contact %1 wil verwijderen?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("Een vertegenwoordiger stemt mee om consensus te bereiken in het netwerk. De waarde van de stem van een vertegenwoordiger wordt bepaald door de balans van dat account. Je kunt ervoor kiezen jouw balans toe te wijzen aan een vertegenwoordiger, zodat deze meer stemrecht krijgt. Geen zorgen, jouw balans blijft altijd volledig in eigen beheer. Kies bij voorkeur een betrouwbare vertegenwoordiger die altijd online is."),

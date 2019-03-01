@@ -815,5 +815,13 @@
         "description": "example_card_from",
         "type": "text",
         "placeholders": {}
-    }
+    },
+    "defaultAccountName": "Pangunahing Account",
+    "defaultNewAccountName": "Account %1",
+    "newAccountIntro": "Ito ang iyong bagong account. Pag nakareceive ka ng NANO, ganito ang makikita mo:",
+    "account": "Account",
+    "accounts": "Mga Account",
+    "addAccount": "Magdagdag ng Account",
+    "hideAccountHeader": "Itago ang Account?",
+    "removeAccountText": "Sigurado ka ba na gusto mo itong itago? Pwede mo itong i-add ulit sa pamamagitan ng \"%1\" button."
 }

@@ -815,5 +815,13 @@
         "description": "example_card_from",
         "type": "text",
         "placeholders": {}
-    }
+    },
+    "defaultAccountName": "Hoofd Account",
+    "defaultNewAccountName": "Account %1",
+    "newAccountIntro": "Dit is jouw nieuwe account. Zodra je NANO ontvangt, zullen transacties op deze manier verschijnen:",
+    "account": "Account",
+    "accounts": "Accounts",
+    "addAccount": "Account toevoegen",
+    "hideAccountHeader": "Account verbergen?",
+    "removeAccountText": "Weet je zeker dat je dit account wil verbergen? Je kan het later weer terughalen door op de \"%1\" knop te klikken."
 }

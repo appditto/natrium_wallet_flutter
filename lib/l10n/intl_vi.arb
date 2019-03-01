@@ -701,5 +701,13 @@
         "description": "insantly",
         "type": "text",
         "placeholders": {}
-    }
+    },
+	"defaultAccountName": "Tài khoản chính",
+	"defaultNewAccountName": "Account %1",
+	"newAccountIntro": "Đây là tài khoản mới của bạn. khi bạn nhận được Nano, giao dịch sẽ hiển thị như sau:",
+	"account": "Tài khoản",
+	"accounts": "Các tài khoản",
+	"addAccount": "Thêm tài khoản",
+	"hideAccountHeader": "Ẩn tài khoản?",
+	"removeAccountText": "Bạn có chắc muốn ẩn tài khoản này? Bạn có thể thêm lại sau bằng cách ấn vào \"%1\" nút."
 }

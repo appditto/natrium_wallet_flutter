@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("Account"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("Accounts"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Add Account"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Add Contact"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Address Copied"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Enter Address"),
@@ -53,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Copy Address"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Copy Seed"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Currently Represented By"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Main Account"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Account %1"),
     "enterAddress" : MessageLookupByLibrary.simpleMessage("Enter Address"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Enter Amount"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("from someone"),
@@ -61,6 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("A lot of"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("to someone"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Authenticate to backup seed."),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Hide Account?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Import seed"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Please enter your seed below."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Import Wallet"),
@@ -79,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Manage"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Manual Entry"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Mnemonic Phrase"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("This is your new account. Once you receive NANO, transactions will show up like this:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("New Wallet"),
     "no" : MessageLookupByLibrary.simpleMessage("No"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("There\'s no contacts to export."),
@@ -105,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Raw Seed"),
     "receive" : MessageLookupByLibrary.simpleMessage("Receive"),
     "received" : MessageLookupByLibrary.simpleMessage("Received"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Are you sure you want to hide this account? You can re-add it later by tapping the \"%1\" button."),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Remove Contact"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("Are you sure you want to delete %1?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("A representative is an account that votes for network consensus. Voting power is weighted by balance, you may delegate your balance to increase the voting weight of a representative you trust. Your representative does not have spending power over your funds. You should choose a representative that has little downtime and is trustworthy."),

@@ -85,6 +85,7 @@ class StateContainer extends StatefulWidget {
 /// Basically the central hub behind the entire app
 class StateContainerState extends State<StateContainer> {
   final Logger log = Logger("StateContainerState");
+
   // Minimum receive = 0.000001 NANO
   String receiveThreshold = BigInt.from(10).pow(24).toString();
 
@@ -103,6 +104,9 @@ class StateContainerState extends State<StateContainer> {
   // If callback is locked
   bool _locked = false;
 
+  // Database Helper
+  DBHelper dbHelper;
+
   // This map stashes pending process requests, this is because we need to update these requests
   // after a blocks_info with the balance after send, and sign the block
   Map<String, StateBlock> previousPendingMap = Map();
@@ -112,6 +116,10 @@ class StateContainerState extends State<StateContainer> {
 
   // Maps all pending receives to previous blocks
   Map<String, StateBlock> pendingBlockMap = Map();
+
+  StateContainerState() {
+    dbHelper = DBHelper();
+  }
 
   @override
   void initState() {
@@ -149,6 +157,7 @@ class StateContainerState extends State<StateContainer> {
   StreamSubscription<ErrorEvent> _errorSub;
   StreamSubscription<FcmUpdateEvent> _fcmUpdateSub;
   StreamSubscription<AccountsBalancesEvent> _balancesSub;
+  StreamSubscription<AccountModifiedEvent> _accountModifiedSub;
 
   // Register RX event listenerss
   void _registerBus() {
@@ -232,16 +241,28 @@ class StateContainerState extends State<StateContainer> {
       if (event.transfer) {
         return;
       }
-      DBHelper().getAccounts().then((accounts) {
+      dbHelper.getAccounts().then((accounts) {
         accounts.forEach((account) {
           event.response.balances.forEach((address, balance) {
             String combinedBalance = (BigInt.tryParse(balance.balance) + BigInt.tryParse(balance.pending)).toString();
             if (address == account.address && combinedBalance != account.balance) {
-              DBHelper().updateAccountBalance(account, combinedBalance);
+              dbHelper.updateAccountBalance(account, combinedBalance);
             }
           });
         });
       });
+    });
+    // Account has been deleted or name changed
+    _accountModifiedSub = EventTaxiImpl.singleton().registerTo<AccountModifiedEvent>().listen((event) {
+      if (!event.deleted) {
+        if (event.account.index == selectedAccount.index) {
+          setState(() {
+            selectedAccount.name = event.account.name;
+          });
+        } else {
+          updateRecentlyUsedAccounts();
+        }
+      }
     });
   }
 
@@ -285,6 +306,9 @@ class StateContainerState extends State<StateContainer> {
     if (_balancesSub != null) {
       _balancesSub.cancel();
     }
+    if (_accountModifiedSub != null) {
+      _accountModifiedSub.cancel();
+    }
   }
 
   // Update the global wallet instance with a new address
@@ -299,7 +323,7 @@ class StateContainerState extends State<StateContainer> {
   }
 
   Future<void> updateRecentlyUsedAccounts() async {
-    List<Account> otherAccounts = await DBHelper().getRecentlyUsedAccounts();
+    List<Account> otherAccounts = await dbHelper.getRecentlyUsedAccounts();
     if (otherAccounts != null && otherAccounts.length > 0) {
       if (otherAccounts.length > 1) {
         setState(() {
@@ -778,7 +802,7 @@ class StateContainerState extends State<StateContainer> {
     setState(() {
       wallet = AppWallet();
     });
-    DBHelper().dropAccounts();
+    dbHelper.dropAccounts();
     AccountService.clearQueue();
   }
 

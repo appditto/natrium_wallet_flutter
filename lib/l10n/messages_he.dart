@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("חשבון"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("חשבונות"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("הוסף חשבון"),
     "addContact" : MessageLookupByLibrary.simpleMessage("הוסף איש קשר"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("כתובת הועתקה"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("הכנס כתובת"),
@@ -53,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("העתק כתובת"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("העתק סיד"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("מיוצג על ידי"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("חשבון ראשי"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("חשבון %1"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("הכנס כמות"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("ממישהו"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("ברוך הבא לנאטריום. בכדי להמשיך, אתה רשאי לייצר ארנק חדש או לייבא אחד קיים"),
@@ -60,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("הרבה"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("למישהו"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("אשר טביעות אצבע בכדי לגבות סיד."),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("הסתר חשבון?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("ייבא סיד"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("בבקשה תכניס את הסיד שלך."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("ייבא ארנק"),
@@ -76,6 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("נהל"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("הכנסה ידנית"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("פתגם זכרון"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("זה החשבון החדש שלך. ברגע שתקבל נאנו, הטראנזקציות יראו כך:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("ארנק חדש"),
     "no" : MessageLookupByLibrary.simpleMessage("לא"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("לא קיימים אנשי קשר לייצא"),
@@ -102,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("סיד"),
     "receive" : MessageLookupByLibrary.simpleMessage("קבל"),
     "received" : MessageLookupByLibrary.simpleMessage("התקבל"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("אתה בטוח שאתה רוצה להחביא את החשבון? אתה יכול להוסיף אותו מחודש מאוחר יותר על ידי לחיצה על כפתור ה%1."),
     "removeContact" : MessageLookupByLibrary.simpleMessage("הסר איש קשר"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("האם אתה בטוח שאתה רוצה למחוק את %?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("נציג הוא חשבון המצביע עבור הסכמת הרשת. כוח ההצבעה נשקל על ידי כמות המטבעות שחשבון, אתה רשאי להעביר את הסמכות של חשבונך בכדי להגדיל את כוח ההצבעה של נציג שבו אתה בוטח."),

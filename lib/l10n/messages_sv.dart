@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("Konto"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("Konton"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Lägg till konto"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Lägg till kontakt"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Adress kopierad"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Ange adress"),
@@ -52,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Kopiera adress"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Kopiera seed"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Aktiv representant"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Huvudkonto"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Konto %1"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Ange belopp"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("från någon"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("Välkommen till Natrium. Så snart du tar emot NANO, visas transaktionerna på detta vis"),
@@ -59,6 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("Många"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("till någon"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Bekräfta fingeravtryck för att säkerhetskopiera plånboks-seed."),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Dölja konto?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Importera seed"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Ange din seed nedanför."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Importera plånbok"),
@@ -77,6 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Förvaltning"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Ange manuellt"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Minnesfras"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Det här är ditt nya konto. Så snart du tar emot NANO, kommer transaktioner att se ut så här:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Ny plånbok"),
     "no" : MessageLookupByLibrary.simpleMessage("Nej"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("Det finns inga kontakter att exportera"),
@@ -103,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Seed"),
     "receive" : MessageLookupByLibrary.simpleMessage("Ta emot"),
     "received" : MessageLookupByLibrary.simpleMessage("Mottagit"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Är du säker på att du vill dölja kontot? Du kan lägga till det igen genom att trycka på \"%1\" knappen."),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Ta bort kontakt"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("Är du säker på att du vill radera %1?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("En representant är ett konto som röstar för samsyn i nätverket. Rösträtten påverkas av saldot, och du kan delegera ditt saldo för att öka din rösträtt. Din representant har ingen befogenhet över dina resurser. Du bör välja en representant som har hög drifttid och är trovärdig."),

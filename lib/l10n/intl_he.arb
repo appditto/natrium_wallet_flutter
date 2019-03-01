@@ -797,5 +797,13 @@
         "description": "example_card_from",
         "type": "text",
         "placeholders": {}
-    }
+    },
+    "defaultAccountName": "חשבון ראשי",
+    "defaultNewAccountName": "חשבון %1",
+    "newAccountIntro": "זה החשבון החדש שלך. ברגע שתקבל נאנו, הטראנזקציות יראו כך:",
+    "account": "חשבון",
+    "accounts": "חשבונות",
+    "addAccount": "הוסף חשבון",
+    "hideAccountHeader": "הסתר חשבון?",
+    "removeAccountText": "אתה בטוח שאתה רוצה להחביא את החשבון? אתה יכול להוסיף אותו מחודש מאוחר יותר על ידי לחיצה על כפתור ה%1."
 }

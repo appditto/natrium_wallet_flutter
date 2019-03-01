@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("Akun"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("Semua Akun"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Tambah Akun"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Tambah Kontak"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Alamat berhasil disalin."),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Masukkan Alamat"),
@@ -53,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Salin Alamat"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Salin Benih"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Saat ini diwakilkan oleh"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Akun Utama"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Akun %1"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Masukkan Jumlah"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("dari seseorang"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("Hai, Saat anda mengirim dan menerima NANO, akan terlihat seperti ini"),
@@ -60,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage(" Banyak"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("untuk seseorang"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Konfirmasi sidik jari untuk menyimpan benih."),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Sembunyikan Akun?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Impor Benih"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Masukkan benih dompet anda dibawah ini."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Impor Dompet"),
@@ -78,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Mengelola"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Entri Manual"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Frase Mnemonic"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Ini adalah akun baru anda. Setelah menerima NANO, transaksi akan muncul seperti ini"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Buat Dompet"),
     "no" : MessageLookupByLibrary.simpleMessage("Tidak"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("Tidak ada kontak yg bisa di ekspor"),
@@ -104,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Benih Mentah"),
     "receive" : MessageLookupByLibrary.simpleMessage("Terima"),
     "received" : MessageLookupByLibrary.simpleMessage("Diterima"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Anda yakin akan menyembunyikan akun ini? Anda dapat menambahkan kembali dengan klik tombol \"%1\"."),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Hapus Kontak"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("Anda yakib akan menghapus %1?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("Perwakilan adalah akun yang memberikan suara untuk konsensus jaringan. Kekuatan voting ditimbang dengan keseimbangan, Anda dapat mendelegasikan saldo Anda untuk menambah berat suara dari perwakilan yang Anda percayai. Perwakilan Anda tidak memiliki kekuasaan atas dana Anda. Anda harus memilih perwakilan yang memiliki sedikit waktu henti dan dapat dipercaya."),

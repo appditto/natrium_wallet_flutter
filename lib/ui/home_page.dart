@@ -79,10 +79,17 @@ class _AppHomePageState extends State<AppHomePage>
 
   bool _lockDisabled = false; // whether we should avoid locking the app
 
+  // Database
+  DBHelper dbHelper;
+
   // FCM instance
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   StreamSubscription _deepLinkSub;
+
+  _AppHomePageState() {
+    this.dbHelper = DBHelper();
+  }
 
   // Animation for swiping to send
   ActorAnimation _sendSlideAnimation;
@@ -113,7 +120,6 @@ class _AppHomePageState extends State<AppHomePage>
   Future<void> _chooseCorrectAccountFromNotification(Map<String, dynamic> message) async {
     try {
       if (message.containsKey("account")) {
-        DBHelper dbHelper = DBHelper();
         Account selectedAccount = await dbHelper.getSelectedAccount();
         if (message['account'] != selectedAccount.address) {
           List<Account> accounts = await dbHelper.getAccounts();
@@ -241,7 +247,7 @@ class _AppHomePageState extends State<AppHomePage>
   Future<void> _addSampleContact() async {
     bool contactAdded = await SharedPrefsUtil.inst.getFirstContactAdded();
     if (!contactAdded) {
-      DBHelper db = DBHelper();
+      DBHelper db = dbHelper;
       bool addressExists = await db.contactExistsWithAddress(
           "xrb_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd");
       if (addressExists) {
@@ -261,7 +267,7 @@ class _AppHomePageState extends State<AppHomePage>
   }
 
   void _updateContacts() {
-    DBHelper().getContacts().then((contacts) {
+    dbHelper.getContacts().then((contacts) {
       setState(() {
         _contacts = contacts;
       });
@@ -295,7 +301,7 @@ class _AppHomePageState extends State<AppHomePage>
         // Route to send complete
         String displayAmount =
             NumberUtil.getRawAsUsableString(event.previous.sendAmount);
-        DBHelper().getContactWithAddress(event.previous.link).then((contact) {
+        dbHelper.getContactWithAddress(event.previous.link).then((contact) {
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
           AppSendCompleteSheet(displayAmount, event.previous.link, contactName,
@@ -556,7 +562,7 @@ class _AppHomePageState extends State<AppHomePage>
       }
     }
     // See if a contact
-    DBHelper().getContactWithAddress(address.address).then((contact) {
+    dbHelper.getContactWithAddress(address.address).then((contact) {
       if (contact != null) {
         contactName = contact.name;
       }
@@ -833,7 +839,7 @@ class _AppHomePageState extends State<AppHomePage>
           });
         } else {
           // See if a contact
-          DBHelper().getContactWithAddress(item.account).then((contact) {
+          dbHelper.getContactWithAddress(item.account).then((contact) {
             // Go to send with address
             AppSendSheet(contact: contact, address: item.account, quickSendAmount: item.amount)
                 .mainBottomSheet(context);

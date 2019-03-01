@@ -26,11 +26,17 @@ class AppAccountsSheet {
   ScrollController _scrollController = new ScrollController();
 
   StreamSubscription<AccountsBalancesEvent> _balancesSub;
+  StreamSubscription<AccountModifiedEvent> _accountModifiedSub;
   bool _accountIsChanging;
+
+  DBHelper dbHelper;
 
   Future<bool> _onWillPop() async {
     if (_balancesSub != null) {
       _balancesSub.cancel();
+    }
+    if (_accountModifiedSub != null) {
+      _accountModifiedSub.cancel();
     }
     return true;
   }
@@ -39,6 +45,7 @@ class AppAccountsSheet {
     this._accounts = accounts;
     this._addingAccount = false;
     this._accountIsChanging = false;
+    this.dbHelper = DBHelper();
   }
 
   Future<void> _requestBalances(BuildContext context, List<Account> accounts) async {
@@ -75,13 +82,13 @@ class AppAccountsSheet {
         setState(() {
           a.selected = false;
         });
-      } else if (account.id == a.id) {
+      } else if (account.index == a.index) {
         setState(() {
           a.selected = true;
         });
       }
     });
-    await DBHelper().changeAccount(account);
+    await dbHelper.changeAccount(account);
     EventTaxiImpl.singleton().fire(AccountChangedEvent(account: account, delayPop: true));      
   }
 
@@ -99,6 +106,24 @@ class AppAccountsSheet {
                   .listen((event) {
                 _handleAccountsBalancesResponse(event, setState);
               });
+            }
+            if (_accountModifiedSub == null) {
+              _accountModifiedSub =EventTaxiImpl.singleton()
+                .registerTo<AccountModifiedEvent>()
+                .listen((event) {
+                  if (event.deleted) {
+                    setState(() {
+                      _accounts.removeWhere((a) => a.index == event.account.index);
+                    });
+                  } else {
+                    // Name change
+                    setState(() {
+                      _accounts.removeWhere((a) => a.index == event.account.index);
+                      _accounts.add(event.account);
+                      _accounts.sort((a, b) => a.index.compareTo(b.index));
+                    });
+                  }
+                });
             }
             return WillPopScope(
               onWillPop: _onWillPop,
@@ -205,20 +230,23 @@ class AppAccountsSheet {
                                 setState(() {
                                   _addingAccount = true;
                                 });
-                                DBHelper().addAccount(nameBuilder: AppLocalization.of(context).defaultNewAccountName).then((newAccount) {
+                                dbHelper.addAccount(nameBuilder: AppLocalization.of(context).defaultNewAccountName).then((newAccount) {
                                   _requestBalances(context, [newAccount]);
                                   StateContainer.of(context).updateRecentlyUsedAccounts();
+                                  _accounts.add(newAccount);
                                   setState(() {
                                     _addingAccount = false;
-                                    _accounts.add(newAccount);
                                     _accounts.sort((a, b) => a.index.compareTo(b.index));
                                   });
+                                  // If newest account scroll to button
+                                  if (_accounts.last.index == newAccount.index) {
+                                    _scrollController.animateTo(
+                                      _scrollController.position.maxScrollExtent,
+                                      curve: Curves.easeOut,
+                                      duration: const Duration(milliseconds: 100),
+                                    );                                    
+                                  }
                                 });
-                                _scrollController.animateTo(
-                                  _scrollController.position.maxScrollExtent,
-                                  curve: Curves.easeOut,
-                                  duration: const Duration(milliseconds: 100),
-                                );
                               }
                             },
                           ),
@@ -374,45 +402,53 @@ class AppAccountsSheet {
                 ],
               ),
             ),
-            secondaryActions: _getSlideActionsForAccount(context, account)
+            secondaryActions: _getSlideActionsForAccount(context, account, setState)
           ),
         ],
       )
     );
   }
 
-  List<Widget> _getSlideActionsForAccount(BuildContext context, Account account) {
+  List<Widget> _getSlideActionsForAccount(BuildContext context, Account account, StateSetter setState) {
     List<Widget> _actions = List();
     _actions.add(SlideAction(
-      child: IconButton(
-        icon: Icon(
+      child: Container(
+        constraints: BoxConstraints.expand(),
+        child: Icon(
           Icons.edit,
           color: StateContainer.of(context).curTheme.primary,
         ),
-        onPressed: () {
-          AccountDetailsSheet(account).mainBottomSheet(context);
-        },
-      )
+      ),
+      onTap: () {
+        AccountDetailsSheet(account).mainBottomSheet(context);
+      }
     ));
     if (!account.selected && account.index > 0) {
       _actions.add(SlideAction(
-        child: IconButton(
-          icon: Icon(
+        child: Container(
+          constraints: BoxConstraints.expand(),
+          child: Icon(
             Icons.delete,
             color: StateContainer.of(context).curTheme.primary,
           ),
-          onPressed: () {
-            AppDialogs.showConfirmDialog(context,
-              AppLocalization.of(context).hideAccountHeader,
-              AppLocalization.of(context).removeAccountText.replaceAll("%1", AppLocalization.of(context).addAccount),
-               CaseChange.toUpperCase(AppLocalization.of(context).yes, context),
-              () {
-                // Hide account
-              },
-              cancelText: CaseChange.toUpperCase(AppLocalization.of(context).no, context)
-            );
-          },
-        )
+        ),
+        onTap: () {
+          AppDialogs.showConfirmDialog(context,
+            AppLocalization.of(context).hideAccountHeader,
+            AppLocalization.of(context).removeAccountText.replaceAll("%1", AppLocalization.of(context).addAccount),
+              CaseChange.toUpperCase(AppLocalization.of(context).yes, context),
+            () {
+              // Remove account
+              dbHelper.deleteAccount(account).then((id) {
+                StateContainer.of(context).updateRecentlyUsedAccounts();
+                setState(() {
+                  _accounts.removeWhere((a) => a.index == account.index);
+                });
+              });
+            },
+            cancelText: CaseChange.toUpperCase(AppLocalization.of(context).no, context)
+          );             
+        }
       ));
     }
     return _actions;

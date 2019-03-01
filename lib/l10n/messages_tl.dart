@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("Account"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("Mga Account"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Magdagdag ng Account"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Mag-add ng kontak"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Ang Address ay nakopya"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Ilagay ang Address"),
@@ -53,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Kopyahin ang Address"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Kopyahin ang seed"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Kasalukuyang nirerepresenta ng"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Pangunahing Account"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Account %1"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Ilagay ang Amount"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("galing sa iba"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("Maligayang pagdating sa Natrium. Ganito ang makikita mong transaksyon pag nakatanggap ka ng NANO"),
@@ -60,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("Maraming"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("para sa iba"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Kumpirmahin ang fingerprint para i-back up ang wallet seed."),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Itago ang Account?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("I-import ang iyong seed"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Ilagay ang iyong seed sa ibaba."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Dating Wallet"),
@@ -78,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Pamamahala"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Manual na ipasok"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Mnemonic Phrase"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Ito ang iyong bagong account. Pag nakareceive ka ng NANO, ganito ang makikita mo:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Bagong Wallet"),
     "no" : MessageLookupByLibrary.simpleMessage("Hindi"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("Walang kontak na ma-export"),
@@ -104,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Raw Seed"),
     "receive" : MessageLookupByLibrary.simpleMessage("Tumanggap"),
     "received" : MessageLookupByLibrary.simpleMessage("Natanggap"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Sigurado ka ba na gusto mo itong itago? Pwede mo itong i-add ulit sa pamamagitan ng \"%1\" button."),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Alisin ang kontak"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("Sigurado ka ba gusto mong tanggalin ang %1?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("Ang representative ay isang account na nagboboto para sa kasunduan ng network. Ang kapangyarihan ng pagboto ay tinitimbang sa pamamagitan ng balanse, pwede mong i-delegate ang iyong balanse para dagdagan ang timbang ng boto ng representative na pinagkakatiwalaan mo. Ang iyong representative ay walang kapangyarihan para gastusin ang iyong pondo. Dapat piliin mo ang representative na walang masyadong downtime at mapagkakatiwalaan."),

@@ -81,6 +81,12 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   bool notNull(Object o) => o != null;
 
+  DBHelper dbHelper;
+
+  _SettingsSheetState() {
+    this.dbHelper = DBHelper();
+  }
+
   // Called if transfer fails
   void transferError() {
     Navigator.of(context).pop();
@@ -88,7 +94,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   }
 
   Future<void> _exportContacts() async {
-    List<Contact> contacts = await DBHelper().getContacts();
+    List<Contact> contacts = await dbHelper.getContacts();
     if (contacts.length == 0) {
       UIUtil.showSnackbar(
           AppLocalization.of(context).noContactsExport, context);
@@ -126,7 +132,6 @@ class _SettingsSheetState extends State<SettingsSheet>
       contactsJson.forEach((contact) {
         contacts.add(Contact.fromJson(contact));
       });
-      DBHelper dbHelper = DBHelper();
       for (Contact contact in contacts) {
         if (!await dbHelper.contactExistsWithName(contact.name) &&
             !await dbHelper.contactExistsWithAddress(contact.address)) {
@@ -335,7 +340,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   }
 
   void _updateContacts() {
-    DBHelper().getContacts().then((contacts) {
+    dbHelper.getContacts().then((contacts) {
       for (Contact c in contacts) {
         if (!_contacts.contains(c)) {
           setState(() {
@@ -881,7 +886,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     color: Colors.transparent,
                                     child: FlatButton(
                                       onPressed: () {
-                                        DBHelper().changeAccount(StateContainer.of(context).recentLast).then((_) {
+                                        dbHelper.changeAccount(StateContainer.of(context).recentLast).then((_) {
                                           EventTaxiImpl.singleton().fire(AccountChangedEvent(account: StateContainer.of(context).recentLast, delayPop: true));
                                         });
                                       },
@@ -944,7 +949,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     color: Colors.transparent,
                                     child: FlatButton(
                                       onPressed: () {
-                                        DBHelper().changeAccount(StateContainer.of(context).recentSecondLast).then((_) {
+                                        dbHelper.changeAccount(StateContainer.of(context).recentSecondLast).then((_) {
                                           EventTaxiImpl.singleton().fire(AccountChangedEvent(account: StateContainer.of(context).recentSecondLast, delayPop: true));
                                         });
                                       },
@@ -984,7 +989,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   setState(() {
                                     _loadingAccounts = true;
                                   });
-                                  DBHelper().getAccounts().then((accounts) {
+                                  dbHelper.getAccounts().then((accounts) {
                                     setState(() {
                                       _loadingAccounts = false;
                                     });
@@ -1471,7 +1476,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               .exists()
                               .then((exists) {
                             if (!exists) {
-                              DBHelper()
+                              dbHelper
                                   .setMonkeyForContact(_contacts[index], null);
                             }
                           });

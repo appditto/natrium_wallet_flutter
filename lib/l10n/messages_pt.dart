@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("Conta"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("Contas"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Adicionar Conta"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Adicionar Contato"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Endereço Copiado"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Insira o endereço"),
@@ -53,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Copiar Endereço"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Copiar Seed"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Atualmente representado por"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Conta Principal"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Conta %1"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Digite o valor"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("de alguém"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("Bem-vindo a Natrium. Quando você receber NANO, as transações aparecerão assim"),
@@ -60,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("Várias"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("para alguém"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Confirme a impressão digital para fazer o backup da seed da carteira."),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Ocultar Conta?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Importar seed"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Por favor digite sua seed abaixo."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Importar Carteira"),
@@ -78,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Gerenciar"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Entrada Manual"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Frase Mnemônica"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Esta é sua nova conta. Depois de receber NANO, as transações serão exibidas assim:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Nova Carteira"),
     "no" : MessageLookupByLibrary.simpleMessage("Não"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("Não há contatos para exportar"),
@@ -104,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Seed"),
     "receive" : MessageLookupByLibrary.simpleMessage("Receber"),
     "received" : MessageLookupByLibrary.simpleMessage("Recebido"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Tem certeza de que deseja ocultar esta conta? Você pode adicioná-la novamente tocando no botão \"%1\""),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Remover Contato"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("Tem certeza de que deseja excluir %1?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("Um representante é uma conta que vota pelo consenso na rede. O poder de voto é considerado pelo saldo, você pode delegar seu saldo para aumentar o peso de voto de um representante de sua confiança. Seu representante não tem poder de gasto sobre seus fundos. Você deve escolher um representante que tenha pouco tempo de inatividade e seja confiável."),

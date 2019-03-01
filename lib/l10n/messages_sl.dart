@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("Račun"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("Računi"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Dodaj račun"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Dodaj stik"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Naslov skopiran"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Vnesi naslov"),
@@ -53,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Kopiraj naslov"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Kopiraj ključ"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Trenutni predstavnik"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Glavni račun"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Račun %1"),
     "enterAddress" : MessageLookupByLibrary.simpleMessage("Vnesite naslov"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Vnesite znesek"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("od nekoga"),
@@ -61,6 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("Veliko"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("nekomu"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Avtenticiraj za shranitev ključa."),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Skrij račun?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Uvozi ključ"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Spodaj vnesite ključ."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Uvozi denarnico"),
@@ -79,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Upravljaj"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Ročni vnos"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Besedna fraza"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("To je vaš nov račun. Ko boste prejeli NANO, bodo transakcije prikazane takole:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Nova denarnica"),
     "no" : MessageLookupByLibrary.simpleMessage("Ne"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("Ni stikov za izvoz."),
@@ -105,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Surov ključ"),
     "receive" : MessageLookupByLibrary.simpleMessage("Prejmi"),
     "received" : MessageLookupByLibrary.simpleMessage("Prejeto"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Ste prepričani, da hočete skriti ta račun? Lahko ga ponovno dodate kasneje s pritiskom na gumb \"%1\""),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Odstrani stik"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("Ste prepričani, da hočete izbrisati %1?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("Predstavnik je račun, ki glasuje za konsenz omrežja. Moč glasovanja je odvisna od zneska na računu, kateremu lahko prispevate svoj znesek za povečanje teže. Vaš predstavnik ne more upravljati z vašim zneskom. Izberite predstavnika, ki je prisoten večino časa in je zaupanja vreden."),

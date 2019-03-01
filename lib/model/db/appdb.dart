@@ -175,9 +175,19 @@ class DBHelper{
     return account;
   }
 
-  Future<void> saveAccount(Account account) async {
+  Future<int> deleteAccount(Account account) async {
+    var dbClient = await db;
+    return await dbClient.rawDelete('DELETE FROM Accounts WHERE acct_index = ?', [account.index]);
+  }
+
+  Future<int> saveAccount(Account account) async {
     var dbClient = await db;
     return await dbClient.rawInsert('INSERT INTO Accounts (name, acct_index, last_accessed, selected) values(?, ?, ?, ?)', [account.name, account.index, account.lastAccess, account.selected ? 1 : 0]);
+  }
+
+  Future<int> changeAccountName(Account account, String name) async {
+    var dbClient = await db;
+    return await dbClient.rawUpdate('UPDATE Accounts SET name = ? WHERE acct_index = ?', [name, account.index]);
   }
 
   Future<void> changeAccount(Account account) async {
@@ -186,13 +196,13 @@ class DBHelper{
       await txn.rawUpdate('UPDATE Accounts set selected = 0');
       // Get access increment count
       List<Map> list = await txn.rawQuery('SELECT max(last_accessed) as last_access FROM Accounts');
-      await txn.rawUpdate('UPDATE Accounts set selected = ?, last_accessed = ? where id = ?', [1, list[0]["last_access"] + 1, account.id]);
+      await txn.rawUpdate('UPDATE Accounts set selected = ?, last_accessed = ? where acct_index = ?', [1, list[0]["last_access"] + 1, account.index]);
     });
   }
 
   Future<void> updateAccountBalance(Account account, String balance) async {
     var dbClient = await db;
-    return await dbClient.rawUpdate('UPDATE Accounts set balance = ? where id = ?', [balance, account.id]);
+    return await dbClient.rawUpdate('UPDATE Accounts set balance = ? where acct_index = ?', [balance, account.index]);
   }
 
   Future<Account> getSelectedAccount() async {

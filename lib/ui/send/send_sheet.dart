@@ -54,7 +54,11 @@ class AppSendSheet {
   String address;
   String quickSendAmount;
 
-  AppSendSheet({this.contact, this.address, this.quickSendAmount});
+  DBHelper dbHelper;
+
+  AppSendSheet({this.contact, this.address, this.quickSendAmount}) {
+    this.dbHelper = DBHelper();
+  }
 
   // A method for deciding if 1 or 3 line address text should be used
   _oneOrthreeLineAddressText(BuildContext context) {
@@ -146,7 +150,7 @@ class AppSendSheet {
                 _sendAddressController.selection = TextSelection.fromPosition(
                     TextPosition(offset: _sendAddressController.text.length));
                 if (_sendAddressController.text.startsWith("@")) {
-                  DBHelper()
+                  dbHelper
                       .getContactsWithNameLike(_sendAddressController.text)
                       .then((contactList) {
                     setState(() {
@@ -454,7 +458,7 @@ class AppSendSheet {
                             if (_sendAddressController.text.startsWith("@") &&
                                 validRequest) {
                               // Need to make sure its a valid contact
-                              DBHelper()
+                              dbHelper
                                   .getContactWithName(
                                       _sendAddressController.text)
                                   .then((contact) {
@@ -515,7 +519,7 @@ class AppSendSheet {
                                           .qrInvalidAddress,
                                       context);
                                 } else {
-                                  DBHelper()
+                                  dbHelper
                                       .getContactWithAddress(address.address)
                                       .then((contact) {
                                     if (contact == null) {
@@ -988,7 +992,7 @@ class AppSendSheet {
                                     offset:
                                         _sendAddressController.text.length));
                           }
-                          DBHelper().getContacts().then((contactList) {
+                          dbHelper.getContacts().then((contactList) {
                             setState(() {
                               _contacts = contactList;
                             });
@@ -1030,7 +1034,7 @@ class AppSendSheet {
                           }
                           Address address = new Address(data.text);
                           if (address.isValid()) {
-                            DBHelper()
+                            dbHelper
                                 .getContactWithAddress(address.address)
                                 .then((contact) {
                               if (contact == null) {
@@ -1094,7 +1098,7 @@ class AppSendSheet {
                   setState(() {
                     _isContact = true;
                   });
-                  DBHelper().getContactsWithNameLike(text).then((matchedList) {
+                  dbHelper.getContactsWithNameLike(text).then((matchedList) {
                     setState(() {
                       _contacts = matchedList;
                     });
@@ -1124,7 +1128,7 @@ class AppSendSheet {
                     _pasteButtonVisible = true;
                   });
                 } else {
-                  DBHelper().getContactWithName(text).then((contact) {
+                  dbHelper.getContactWithName(text).then((contact) {
                     if (contact == null) {
                       setState(() {
                         _sendAddressStyle =

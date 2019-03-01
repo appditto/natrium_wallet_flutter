@@ -16,10 +16,11 @@ class NanoUtil {
   }
 
   Future<void> loginAccount(BuildContext context) async {
-    Account selectedAcct = await DBHelper().getSelectedAccount();
+    DBHelper dbHelper = DBHelper();
+    Account selectedAcct = await dbHelper.getSelectedAccount();
     if (selectedAcct == null) {
       selectedAcct = Account(index: 0, lastAccess: 0, name: AppLocalization.of(context).defaultAccountName, selected: true);
-      await DBHelper().saveAccount(selectedAcct);
+      await dbHelper.saveAccount(selectedAcct);
     }
     await StateContainer.of(context).updateWallet(account: selectedAcct);
   }

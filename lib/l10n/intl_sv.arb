@@ -809,5 +809,13 @@
         "description": "example_card_from",
         "type": "text",
         "placeholders": {}
-    }
+    },
+    "defaultAccountName": "Huvudkonto",
+    "defaultNewAccountName": "Konto %1",
+    "newAccountIntro": "Det här är ditt nya konto. Så snart du tar emot NANO, kommer transaktioner att se ut så här:",
+    "account": "Konto",
+    "accounts": "Konton",
+    "addAccount": "Lägg till konto",
+    "hideAccountHeader": "Dölja konto?",
+    "removeAccountText": "Är du säker på att du vill dölja kontot? Du kan lägga till det igen genom att trycka på \"%1\" knappen."
 }

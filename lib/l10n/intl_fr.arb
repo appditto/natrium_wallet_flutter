@@ -815,5 +815,13 @@
         "description": "example_card_from",
         "type": "text",
         "placeholders": {}
-    }
+    },
+    "defaultAccountName": "Compte principal",
+    "defaultNewAccountName": "Compte %1",
+    "newAccountIntro": "Ceci est votre nouveau compte. Lorsque vous recevrez des NANO, les transactions apparaîtront comme ci-dessous.:",
+    "account": "Compte",
+    "accounts": "Comptes",
+    "addAccount": "Ajouter un compte",
+    "hideAccountHeader": "Cacher le compte?",
+    "removeAccountText": "Êtes-vous sûr de vouloir cacher ce compte? Vous pouvez l'ajouter ultérieurement en appuyant sur le bouton \"%1\""
 }

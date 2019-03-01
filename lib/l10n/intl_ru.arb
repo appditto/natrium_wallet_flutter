@@ -815,5 +815,13 @@
         "description": "example_card_from",
         "type": "text",
         "placeholders": {}
-    }
+    },
+    "defaultAccountName": "Основной счёт",
+    "defaultNewAccountName": "Счёт %1",
+    "newAccountIntro": "Это ваш новый аккаунт. Как только вы получите NANO, транзакции будут выглядеть так:",
+    "account": "Счёт",
+    "accounts": "Счета",
+    "addAccount": "Добавить аккаунт",
+    "hideAccountHeader": "Скрыть аккаунт?",
+    "removeAccountText": "Вы уверены, что хотите скрыть аккаунт? Вы можете добавить его снова, нажав кнопку \"%1\"."
 }

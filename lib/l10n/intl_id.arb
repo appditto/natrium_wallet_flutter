@@ -815,5 +815,13 @@
         "description": "example_card_from",
         "type": "text",
         "placeholders": {}
-    }
+    },
+    "defaultAccountName": "Akun Utama",
+    "defaultNewAccountName": "Akun %1",
+    "newAccountIntro": "Ini adalah akun baru anda. Setelah menerima NANO, transaksi akan muncul seperti ini",
+    "account": "Akun",
+    "accounts": "Semua Akun",
+    "addAccount": "Tambah Akun",
+    "hideAccountHeader": "Sembunyikan Akun?",
+    "removeAccountText": "Anda yakin akan menyembunyikan akun ini? Anda dapat menambahkan kembali dengan klik tombol \"%1\"."
 }

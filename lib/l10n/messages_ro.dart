@@ -20,6 +20,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "accounts" : MessageLookupByLibrary.simpleMessage("Conturi"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Adăugare cont"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Adaugă un contact"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Adresă copiată"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Introdu adresa"),
@@ -53,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Copiază adresa"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Copiere seed"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Reprezentantul curent:"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Cont principal"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Contul nr. %1"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Introdu suma"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("de la oricine"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("Bun venit la Kalium. Odată ce primiți sau trimiteți BANANO, tranzacțiile vor arăta astfel"),
@@ -60,6 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("O mulțime de"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("unui om oarecare"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Confirmați amprenta pentru a face o copie de seed-ului"),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Ascundere cont?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Importă seed-ul"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Introdu seed-ul mai jos."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Importă portofelul\""),
@@ -78,6 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Administrare"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Introducere manuală"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Frază de memorat"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Acesta este noul tău cont! Odată ce primești NANO, tranzacțiile vor arată astfel:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Portofel nou"),
     "no" : MessageLookupByLibrary.simpleMessage("Nu"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("Nu există contacte pentru exportare"),
@@ -104,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Seed simplu"),
     "receive" : MessageLookupByLibrary.simpleMessage("Primește"),
     "received" : MessageLookupByLibrary.simpleMessage("S-a primit"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Sigur doriți să ascundeți acest cont? Îl puteți reafișa mai târziu apăsând butonul \"%1\" button."),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Șterge contactul"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("Dorești să elimini contactul %1?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("Un reprezentant este un cont care votează pentru buna funcționare a rețelei. Puterea de vot este determinată de sold. Puteți delega soldul dumneavoastră pentru a mări puterea de vot a unui reprezentant de încredere. Acesta nu poate cheltui fondurile dumneavoastră. Alegeți un reprezentant activ și de încredere."),

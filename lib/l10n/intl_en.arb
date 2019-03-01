@@ -815,5 +815,53 @@
     "description": "example_card_from",
     "type": "text",
     "placeholders": {}
+  },
+  "defaultAccountName": "Main Account",
+  "@defaultAccountName": {
+    "description": "Default account name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "defaultNewAccountName": "Account %1",
+  "@defaultNewAccountName": {
+    "description": "Default new account name - e.g. Account 1",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newAccountIntro": "This is your new account. Once you receive NANO, transactions will show up like this:",
+  "@newAccountIntro": {
+    "description": "Alternate account intro card",
+    "type": "text",
+    "placeholders": {}
+  },
+  "account": "Account",
+  "@account": {
+    "description": "Account text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "accounts": "Accounts",
+  "@accounts": {
+    "description": "Accounts header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addAccount": "Add Account",
+  "@addAccount": {
+    "description": "Default new account name - e.g. Account 1",
+    "type": "text",
+    "placeholders": {}
+  },
+  "hideAccountHeader": "Hide Account?",
+  "@hideAccountHeader": {
+    "description": "Confirmation dialog header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeAccountText": "Are you sure you want to hide this account? You can re-add it later by tapping the \"%1\" button.",
+  "@removeAccountText": {
+    "description": "Remove account dialog body",
+    "type": "text",
+    "placeholders": {}
   }
 }

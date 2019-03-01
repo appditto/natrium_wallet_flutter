@@ -24,20 +24,38 @@ import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 // Account Details Sheet
 class AccountDetailsSheet {
   Account account;
+  String originalName;
   TextEditingController _nameController;
   FocusNode _nameFocusNode;
+  DBHelper dbHelper;
 
-  AccountDetailsSheet(this.account);
+  AccountDetailsSheet(this.account) {
+    dbHelper = DBHelper();
+    this.originalName = account.name;
+  }
+
+  Future<bool> _onWillPop() async {
+    // Update name if changed and valid
+    if (originalName != _nameController.text && _nameController.text.trim().length > 0) {
+      dbHelper.changeAccountName(account, _nameController.text);
+      account.name = _nameController.text;
+      EventTaxiImpl.singleton().fire(AccountModifiedEvent(account: account));
+    }
+    return true;
+  }
 
   mainBottomSheet(BuildContext context) {
     _nameController = TextEditingController(text: account.name);
     _nameFocusNode = FocusNode();
     AppSheets.showAppHeightNineSheet(
         context: context,
+        onDisposed: _onWillPop,
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            return SafeArea(
+            return WillPopScope(
+            onWillPop: _onWillPop,
+            child: SafeArea(
               minimum: EdgeInsets.only(
                 bottom: MediaQuery.of(context).size.height * 0.035),
               child: Column(
@@ -56,7 +74,20 @@ class AccountDetailsSheet {
                             StateContainer.of(context).curTheme.text15,
                         splashColor: StateContainer.of(context).curTheme.text15,
                         onPressed: () {
-                          return null;
+                          AppDialogs.showConfirmDialog(context,
+                            AppLocalization.of(context).hideAccountHeader,
+                            AppLocalization.of(context).removeAccountText.replaceAll("%1", AppLocalization.of(context).addAccount),
+                              CaseChange.toUpperCase(AppLocalization.of(context).yes, context),
+                            () {
+                              // Remove account
+                              dbHelper.deleteAccount(account).then((id) {
+                                StateContainer.of(context).updateRecentlyUsedAccounts();
+                                EventTaxiImpl().fire(AccountModifiedEvent(account: account, deleted: true));
+                                Navigator.of(context).pop();
+                              });
+                            },
+                            cancelText: CaseChange.toUpperCase(AppLocalization.of(context).no, context)
+                          );   
                         },
                         child: Icon(AppIcons.trashcan,
                             size: 24,
@@ -199,7 +230,7 @@ class AccountDetailsSheet {
                   ),
                 ),
               ],
-            ));
+            )));
           });
         });
   }

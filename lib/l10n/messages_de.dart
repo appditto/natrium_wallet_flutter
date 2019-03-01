@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("Konto"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("Konten"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Konto hinzufügen"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Neuer Kontakt"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Adresse kopiert"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Adresse eingeben"),
@@ -53,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Adresse kopieren"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Seed kopieren"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Aktueller Representative"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Hauptkonto"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Name des neuen Kontos %1"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Betrag eingeben"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("Von jemandem"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage(" Willkommen bei Natrium. Wenn du Nano sendest oder empfängst, sieht es aus wie folgt: "),
@@ -60,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("Ein paar mehr"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("An jemanden"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Fingerabdruck scannen, um Seed zu sichern."),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Konto verbergen?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Seed importieren"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Bitte gib unten deinen Seed ein."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Wallet importieren"),
@@ -78,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Verwaltung"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Manueller Eintrag"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Wortfolge"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Dies ist dein neues Konto. Sobald du deine ersten NANO erhalten hast, werden die Transktionen wie folgt angezeigt:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Neue Wallet"),
     "no" : MessageLookupByLibrary.simpleMessage("Nein"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("Keine Kontakte zum Exportieren gefunden"),
@@ -104,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Seed"),
     "receive" : MessageLookupByLibrary.simpleMessage("Empfangen"),
     "received" : MessageLookupByLibrary.simpleMessage("Empfangen"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Bist du dir sicher, dass du dieses Konto verbergen willst? Du kannst es später durch Tippen auf den \"%1\"-Button wieder hinzufügen."),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Kontakt löschen"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("Willst du %1 wirklich löschen?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("Kommt es zu zwei widersprüchlichen Transaktionen, so stimmen Representative-Accounts darüber ab, welche der Transaktionen akzeptiert wird. Dabei entspricht ein Nano einem Stimmrecht. Du kannst einem Representative Stimmrechte in Höhe deines Guthabens übertragen. Deine Nanos gehören dabei natürlich weiterhin dir und der Representative kann diese nicht ausgeben. Wähle einen vertrauenswürdigen Representative mit einer hohen Erreichbarkeit."),

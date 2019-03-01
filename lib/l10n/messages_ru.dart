@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("Счёт"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("Счета"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Добавить аккаунт"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Добавить Контакт"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Адрес скопирован"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Введите Адрес"),
@@ -53,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Копировать адрес"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Копировать Seed"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("В настоящее время представлен"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Основной счёт"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Счёт %1"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Введите Сумму"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("от кого-то"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("Добро пожаловать в Natrium.Когда вы получите или отправите NANO,это будет отображено ниже."),
@@ -60,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("Много"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("кому-то"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Подтвердите отпечаток пальца для резервного копирования Seed"),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Скрыть аккаунт?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Импортировать  Seed"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Пожалуйста, введите ваш Seed ниже."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Импортировать"),
@@ -78,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Управление"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Ручной ввод"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Мнемоническая фраза"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Это ваш новый аккаунт. Как только вы получите NANO, транзакции будут выглядеть так:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Новый кошелёк"),
     "no" : MessageLookupByLibrary.simpleMessage("Нет"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("Нет контактов для экспорта"),
@@ -104,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Сырой Seed"),
     "receive" : MessageLookupByLibrary.simpleMessage("Получить"),
     "received" : MessageLookupByLibrary.simpleMessage("Получено"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Вы уверены, что хотите скрыть аккаунт? Вы можете добавить его снова, нажав кнопку \"%1\"."),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Удалить Контакт"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("Вы уверены,что хотите удалить %1?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("Представитель-это учетная запись, счёт, который голосует за консенсус сети. Право голоса взвешивается по балансу, вы можете делегировать свой баланс, чтобы увеличить вес голоса представителя, которому вы доверяете. Ваш представитель не имеет права распоряжаться вашими средствами. Вы должны выбрать представителя, который имеет мало времени простоя и заслуживает доверия."),

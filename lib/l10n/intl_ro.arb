@@ -815,5 +815,12 @@
         "description": "example_card_from",
         "type": "text",
         "placeholders": {}
-    }
+    },
+    "defaultAccountName": "Cont principal", 
+    "defaultNewAccountName": "Contul nr. %1", 
+    "newAccountIntro": "Acesta este noul tău cont! Odată ce primești NANO, tranzacțiile vor arată astfel:", 
+    "accounts": "Conturi", 
+    "addAccount": "Adăugare cont", 
+    "hideAccountHeader": "Ascundere cont?", 
+    "removeAccountText": "Sigur doriți să ascundeți acest cont? Îl puteți reafișa mai târziu apăsând butonul \"%1\" button."
 }

@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("Tài khoản"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("Các tài khoản"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("Thêm tài khoản"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Thêm liên hệ"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Đã sao chép địa chỉ"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("Nhập địa chỉ"),
@@ -49,9 +52,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "contactsImportSuccess" : MessageLookupByLibrary.simpleMessage("Sucessfully imported %1 contacts."),
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Sao chép địa chỉ"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Hiện đang được đại diện bởi"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Tài khoản chính"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Account %1"),
     "enterAddress" : MessageLookupByLibrary.simpleMessage("Enter Address"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Nhập số tiền"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Xác nhận vân tay để sao lưu ví."),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Ẩn tài khoản?"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Nhập hạt giống"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Vui lòng nhập hạt giống của bạn bên dưới."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Nhập ví hiện có"),
@@ -68,6 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("Quản lí"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Nhập thủ công"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Cụm từ ghi nhớ"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Đây là tài khoản mới của bạn. khi bạn nhận được Nano, giao dịch sẽ hiển thị như sau:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Tạo ví mới"),
     "no" : MessageLookupByLibrary.simpleMessage("Không"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("Không có liên hệ nào để xuất ra"),
@@ -92,6 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Hạt giống"),
     "receive" : MessageLookupByLibrary.simpleMessage("Nhận được"),
     "received" : MessageLookupByLibrary.simpleMessage("Đã nhận"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("Bạn có chắc muốn ẩn tài khoản này? Bạn có thể thêm lại sau bằng cách ấn vào \"%1\" nút."),
     "removeContact" : MessageLookupByLibrary.simpleMessage("Xóa liên hệ"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("Bạn có chắc là muốn xóa %1?"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("Đại diện là một tài khoản bỏ phiếu cho sự đồng thuận trên nền tảng Internet . Quyền biểu quyết được cân bằng theo số dư, bạn có thể ủy quyền số dư của mình để tăng số biểu quyết của đại diện mà bạn tin cậy.n    Người đại diện của bạn không có quyền sử dụng số tiền của bạn. Bạn nên chọn một đại diện có nhiều thời gian cho bạn và đáng tin cậy."),
