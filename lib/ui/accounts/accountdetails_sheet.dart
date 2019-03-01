@@ -151,7 +151,14 @@ class AccountDetailsSheet {
                                     maxLines: 1,
                                     stepGranularity: 0.1,
                                   ),
-                                  // Address Text
+                                ],
+                              ),
+                            ),
+                            // Search Button
+                            SizedBox(height: 50, width: 50),
+                          ],
+                        ),
+                        // Address Text
                                   Container(
                                     margin: EdgeInsets.only(top: 10.0),
                                     child: _threeLineAddressText(context),
@@ -203,13 +210,6 @@ class AccountDetailsSheet {
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            // Search Button
-                            SizedBox(height: 50, width: 50),
-                          ],
-                        ),
 
                         // The main container that holds Contact Name and Contact Address
                         Expanded(
