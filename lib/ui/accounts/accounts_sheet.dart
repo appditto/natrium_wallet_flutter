@@ -278,7 +278,9 @@ class AppAccountsSheet {
                                               _accounts.sort((a, b) =>
                                                   a.index.compareTo(b.index));
                                               _scrollController.animateTo(
-                                                newAccount.index * 70.0,
+                                                newAccount.index * 70.0 > _scrollController.position.maxScrollExtent
+                                                ? _scrollController.position.maxScrollExtent + 70.0
+                                                : newAccount.index * 70.0,
                                                 curve: Curves.easeOut,
                                                 duration: const Duration(
                                                     milliseconds: 100),
