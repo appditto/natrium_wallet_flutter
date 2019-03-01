@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -317,7 +316,7 @@ class AppAccountsSheet {
     return Slidable(
       secondaryActions: _getSlideActionsForAccount(context, account, setState),
       actionExtentRatio: 0.2,
-      delegate: Platform.isAndroid ? SlidableBehindDelegate() : SlidableStrechDelegate(),
+      delegate: SlidableStrechDelegate(),
       child: FlatButton(
           highlightColor: StateContainer.of(context).curTheme.text15,
           splashColor: StateContainer.of(context).curTheme.text15,
