@@ -186,6 +186,8 @@ class AppAccountsSheet {
                                       child: Text("Loading"),
                                     )
                                   : ListView.builder(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 20),
                                       itemCount: _accounts.length,
                                       controller: _scrollController,
                                       itemBuilder:
