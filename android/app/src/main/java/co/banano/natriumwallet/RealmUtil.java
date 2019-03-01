@@ -12,7 +12,7 @@ import io.realm.RealmSchema;
 import io.realm.exceptions.RealmFileException;
 
 public class RealmUtil {
-    private static final int SCHEMA_VERSION = 2;
+    private static final int SCHEMA_VERSION = 1;
     private static final String DB_NAME = "natrium.realm";
 
     public Realm getRealmInstance() {
@@ -71,15 +71,6 @@ class Migration implements RealmMigration {
     @Override
     public void migrate(@NonNull DynamicRealm realm, long oldVersion, long newVersion) {
         RealmSchema schema = realm.getSchema();
-
-        // Add Contact class
-        if (oldVersion == 1) {
-            schema.create("Contact")
-                    .addField("name", String.class, FieldAttribute.REQUIRED)
-                    .addField("address", String.class, new FieldAttribute[]{FieldAttribute.REQUIRED, FieldAttribute.PRIMARY_KEY})
-                    .addField("monkeyPath", String.class);
-            oldVersion++;
-        }
     }
 
     @Override
