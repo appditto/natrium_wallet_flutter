@@ -36,7 +36,8 @@ class AccountDetailsSheet {
 
   Future<bool> _onWillPop() async {
     // Update name if changed and valid
-    if (originalName != _nameController.text && _nameController.text.trim().length > 0) {
+    if (originalName != _nameController.text &&
+        _nameController.text.trim().length > 0) {
       dbHelper.changeAccountName(account, _nameController.text);
       account.name = _nameController.text;
       EventTaxiImpl.singleton().fire(AccountModifiedEvent(account: account));
@@ -54,115 +55,173 @@ class AccountDetailsSheet {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
             return WillPopScope(
-            onWillPop: _onWillPop,
-            child: SafeArea(
-              minimum: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.035),
-              child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    // Trashcan Button
-                    Container(
-                      width: 50,
-                      height: 50,
-                      margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                      child: account.index > 0 && !account.selected ? FlatButton(
-                        highlightColor:
-                            StateContainer.of(context).curTheme.text15,
-                        splashColor: StateContainer.of(context).curTheme.text15,
-                        onPressed: () {
-                          AppDialogs.showConfirmDialog(context,
-                            AppLocalization.of(context).hideAccountHeader,
-                            AppLocalization.of(context).removeAccountText.replaceAll("%1", AppLocalization.of(context).addAccount),
-                              CaseChange.toUpperCase(AppLocalization.of(context).yes, context),
-                            () {
-                              // Remove account
-                              dbHelper.deleteAccount(account).then((id) {
-                                StateContainer.of(context).updateRecentlyUsedAccounts();
-                                EventTaxiImpl().fire(AccountModifiedEvent(account: account, deleted: true));
-                                Navigator.of(context).pop();
-                              });
-                            },
-                            cancelText: CaseChange.toUpperCase(AppLocalization.of(context).no, context)
-                          );   
-                        },
-                        child: Icon(AppIcons.trashcan,
-                            size: 24,
-                            color: StateContainer.of(context).curTheme.text),
-                        padding: EdgeInsets.all(13.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100.0)),
-                        materialTapTargetSize: MaterialTapTargetSize.padded,
-                      ) : SizedBox(),
-                    ),
-                    // The header of the sheet
-                    Container(
-                      margin: EdgeInsets.only(top: 25.0),
-                      constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width - 140),
-                      child: Column(
-                        children: <Widget>[
-                          AutoSizeText(
-                            CaseChange.toUpperCase(AppLocalization.of(context).account, context),
-                            style: AppStyles.textStyleHeader(context),
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            stepGranularity: 0.1,
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Search Button
-                    Container(
-                      width: 50,
-                      height: 50,
-                      margin: EdgeInsets.only(top: 10.0, right: 10.0),
-                      child: FlatButton(
-                        highlightColor:
-                            StateContainer.of(context).curTheme.text15,
-                        splashColor: StateContainer.of(context).curTheme.text15,
-                        onPressed: () {
-                          return null;
-                        },
-                        child: Icon(AppIcons.search,
-                            size: 24,
-                            color: StateContainer.of(context).curTheme.text),
-                        padding: EdgeInsets.all(13.0),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100.0)),
-                        materialTapTargetSize: MaterialTapTargetSize.padded,
-                      ),
-                    ),
-                  ],
-                ),
-
-                // The main container that holds Contact Name and Contact Address
-                Expanded(
-                  child: Stack(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          // Clear focus of our fields when tapped in this empty space
-                          _nameFocusNode.unfocus();
-                        },
-                        child: Container(
-                          color: Colors.transparent,
-                          child: SizedBox.expand(),
-                          constraints: BoxConstraints.expand(),
+                onWillPop: _onWillPop,
+                child: SafeArea(
+                    minimum: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height * 0.035),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            // Trashcan Button
+                            Container(
+                              width: 50,
+                              height: 50,
+                              margin: EdgeInsets.only(top: 10.0, left: 10.0),
+                              child: account.index > 0 && !account.selected
+                                  ? FlatButton(
+                                      highlightColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
+                                      splashColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
+                                      onPressed: () {
+                                        AppDialogs.showConfirmDialog(
+                                            context,
+                                            AppLocalization.of(context)
+                                                .hideAccountHeader,
+                                            AppLocalization.of(context)
+                                                .removeAccountText
+                                                .replaceAll(
+                                                    "%1",
+                                                    AppLocalization.of(context)
+                                                        .addAccount),
+                                            CaseChange.toUpperCase(
+                                                AppLocalization.of(context).yes,
+                                                context), () {
+                                          // Remove account
+                                          dbHelper
+                                              .deleteAccount(account)
+                                              .then((id) {
+                                            StateContainer.of(context)
+                                                .updateRecentlyUsedAccounts();
+                                            EventTaxiImpl().fire(
+                                                AccountModifiedEvent(
+                                                    account: account,
+                                                    deleted: true));
+                                            Navigator.of(context).pop();
+                                          });
+                                        },
+                                            cancelText: CaseChange.toUpperCase(
+                                                AppLocalization.of(context).no,
+                                                context));
+                                      },
+                                      child: Icon(AppIcons.trashcan,
+                                          size: 24,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .text),
+                                      padding: EdgeInsets.all(13.0),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(100.0)),
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.padded,
+                                    )
+                                  : SizedBox(),
+                            ),
+                            // The header of the sheet
+                            Container(
+                              margin: EdgeInsets.only(top: 25.0),
+                              constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width - 140),
+                              child: Column(
+                                children: <Widget>[
+                                  AutoSizeText(
+                                    CaseChange.toUpperCase(
+                                        AppLocalization.of(context).account,
+                                        context),
+                                    style: AppStyles.textStyleHeader(context),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    stepGranularity: 0.1,
+                                  ),
+                                  // Address Text
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10.0),
+                                    child: _oneOrthreeLineAddressText(context),
+                                  ),
+                                  // Balance Text
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5.0),
+                                    child: RichText(
+                                      textAlign: TextAlign.left,
+                                      text: TextSpan(
+                                        text: '',
+                                        children: [
+                                          TextSpan(
+                                            text: "(",
+                                            style: TextStyle(
+                                              color: StateContainer.of(context)
+                                                  .curTheme
+                                                  .primary60,
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w100,
+                                              fontFamily: 'NunitoSans',
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: StateContainer.of(context)
+                                                .wallet
+                                                .getAccountBalanceDisplay(),
+                                            style: TextStyle(
+                                              color: StateContainer.of(context)
+                                                  .curTheme
+                                                  .primary60,
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'NunitoSans',
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: " NANO)",
+                                            style: TextStyle(
+                                              color: StateContainer.of(context)
+                                                  .curTheme
+                                                  .primary60,
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w100,
+                                              fontFamily: 'NunitoSans',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Search Button
+                            SizedBox(height: 50, width: 50),
+                          ],
                         ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          // Contact Name container
+
+                        // The main container that holds Contact Name and Contact Address
+                        Expanded(
+                            child: Stack(children: <Widget>[
+                          GestureDetector(
+                            onTap: () {
+                              // Clear focus of our fields when tapped in this empty space
+                              _nameFocusNode.unfocus();
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: SizedBox.expand(),
+                              constraints: BoxConstraints.expand(),
+                            ),
+                          ),
                           Container(
                             width: double.infinity,
                             margin: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.105,
-                              right: MediaQuery.of(context).size.width * 0.105,
+                              top: MediaQuery.of(context).size.width * 0.1,
+                              left:
+                                  MediaQuery.of(context).size.width * 0.105,
+                              right:
+                                  MediaQuery.of(context).size.width * 0.105,
                             ),
                             padding: EdgeInsets.symmetric(horizontal: 30),
                             decoration: BoxDecoration(
@@ -198,7 +257,9 @@ class AccountDetailsSheet {
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16.0,
-                                color: StateContainer.of(context).curTheme.primary,
+                                color: StateContainer.of(context)
+                                    .curTheme
+                                    .primary,
                                 fontFamily: 'NunitoSans',
                               ),
                               onChanged: (text) {
@@ -206,32 +267,45 @@ class AccountDetailsSheet {
                               },
                             ),
                           ),
-                        ],
-                      ),
-                    ]
-                  )
-                ),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          // Close Button
-                          AppButton.buildAppButton(
-                              context,
-                              AppButtonType.PRIMARY_OUTLINE,
-                              AppLocalization.of(context).close,
-                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            )));
+                        ])),
+                        Container(
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  // Close Button
+                                  AppButton.buildAppButton(
+                                      context,
+                                      AppButtonType.PRIMARY_OUTLINE,
+                                      AppLocalization.of(context).close,
+                                      Dimens.BUTTON_BOTTOM_DIMENS,
+                                      onPressed: () {
+                                    Navigator.pop(context);
+                                  }),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )));
           });
         });
   }
+}
+
+// A method for deciding if 1 or 3 line address text should be used
+_oneOrthreeLineAddressText(BuildContext context) {
+  if (MediaQuery.of(context).size.height < 667)
+    return UIUtil.oneLineAddressText(
+      context,
+      StateContainer.of(context).wallet.address,
+      type: OneLineAddressTextType.PRIMARY60,
+    );
+  else
+    return UIUtil.threeLineAddressText(
+      context,
+      StateContainer.of(context).wallet.address,
+      type: ThreeLineAddressTextType.PRIMARY60,
+    );
 }
