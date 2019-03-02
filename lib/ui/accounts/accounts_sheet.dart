@@ -290,7 +290,7 @@ class AppAccountsSheet {
                                                       : newAccount.index * 72.0,
                                                       curve: Curves.easeOut,
                                                       duration: const Duration(
-                                                          milliseconds: 100),
+                                                          milliseconds: 200),
                                                     );
                                                 }
                                               }
