@@ -21,6 +21,8 @@ import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
 class AppAccountsSheet {
   static const int MAX_ACCOUNTS = 20;
+  final GlobalKey expandedKey = GlobalKey();
+
   List<Account> _accounts;
   bool _addingAccount;
   ScrollController _scrollController = new ScrollController();
@@ -179,6 +181,7 @@ class AppAccountsSheet {
 
                           //A list containing accounts
                           Expanded(
+                            key: expandedKey,
                               child: Stack(
                             children: <Widget>[
                               _accounts == null
@@ -277,14 +280,20 @@ class AppAccountsSheet {
                                               _addingAccount = false;
                                               _accounts.sort((a, b) =>
                                                   a.index.compareTo(b.index));
-                                              _scrollController.animateTo(
-                                                newAccount.index * 70.0 > _scrollController.position.maxScrollExtent
-                                                ? _scrollController.position.maxScrollExtent + 70.0
-                                                : newAccount.index * 70.0,
-                                                curve: Curves.easeOut,
-                                                duration: const Duration(
-                                                    milliseconds: 100),
-                                              );
+                                              // Scroll if list is full
+                                              if (expandedKey.currentContext != null) {
+                                                RenderBox box = expandedKey.currentContext.findRenderObject();
+                                                if (_accounts.length * 70.0 >= box.size.height) {
+                                                  _scrollController.animateTo(
+                                                      newAccount.index * 70.0 > _scrollController.position.maxScrollExtent
+                                                      ? _scrollController.position.maxScrollExtent + 70.0
+                                                      : newAccount.index * 70.0,
+                                                      curve: Curves.easeOut,
+                                                      duration: const Duration(
+                                                          milliseconds: 100),
+                                                    );
+                                                }
+                                              }
                                             });
                                           });
                                         }
