@@ -283,11 +283,11 @@ class AppAccountsSheet {
                                               // Scroll if list is full
                                               if (expandedKey.currentContext != null) {
                                                 RenderBox box = expandedKey.currentContext.findRenderObject();
-                                                if (_accounts.length * 70.0 >= box.size.height) {
+                                                if (_accounts.length * 72.0 >= box.size.height) {
                                                   _scrollController.animateTo(
-                                                      newAccount.index * 70.0 > _scrollController.position.maxScrollExtent
-                                                      ? _scrollController.position.maxScrollExtent + 70.0
-                                                      : newAccount.index * 70.0,
+                                                      newAccount.index * 72.0 > _scrollController.position.maxScrollExtent
+                                                      ? _scrollController.position.maxScrollExtent + 72.0
+                                                      : newAccount.index * 72.0,
                                                       curve: Curves.easeOut,
                                                       duration: const Duration(
                                                           milliseconds: 100),
