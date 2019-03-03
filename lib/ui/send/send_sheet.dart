@@ -907,7 +907,7 @@ class AppSendSheet {
                 : CrossFadeState.showFirst,
           ),
         ),
-        keyboardType: TextInputType.numberWithOptions(),
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
         style: TextStyle(
           fontWeight: FontWeight.w700,
