@@ -246,7 +246,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "seedBackupInfo": "Unten siehst du deinen Seed.\nEs ist extrem wichtig, dass du ein Backup deines Seeds erstellst.\nSichere deinen Seed niemals als Klartext oder mit einem Screenshot.",
+    "seedBackupInfo": "Unten siehst du deinen Seed. Es ist extrem wichtig, dass du ein Backup deines Seeds erstellst. Sichere deinen Seed niemals als Klartext oder mit einem Screenshot.",
     "@seedBackupInfo": {
         "description": "intro_new_wallet_seed",
         "type": "text",

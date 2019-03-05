@@ -120,7 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "scanQrCode" : MessageLookupByLibrary.simpleMessage("QR-Code scannen"),
     "securityHeader" : MessageLookupByLibrary.simpleMessage("Sicherheit"),
     "seed" : MessageLookupByLibrary.simpleMessage("Seed"),
-    "seedBackupInfo" : MessageLookupByLibrary.simpleMessage("Unten siehst du deinen Seed.\nEs ist extrem wichtig, dass du ein Backup deines Seeds erstellst.\nSichere deinen Seed niemals als Klartext oder mit einem Screenshot."),
+    "seedBackupInfo" : MessageLookupByLibrary.simpleMessage("Unten siehst du deinen Seed. Es ist extrem wichtig, dass du ein Backup deines Seeds erstellst. Sichere deinen Seed niemals als Klartext oder mit einem Screenshot."),
     "seedCopied" : MessageLookupByLibrary.simpleMessage("Seed in Zwischenablage kopiert.\n Du kannst ihn jetzt 2 Minuten lang einfügen."),
     "seedCopiedShort" : MessageLookupByLibrary.simpleMessage("Seed kopiert"),
     "seedInvalid" : MessageLookupByLibrary.simpleMessage("Seed ist ungültig."),

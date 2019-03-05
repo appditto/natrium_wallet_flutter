@@ -585,6 +585,7 @@ class StateContainerState extends State<StateContainer> {
     }
 
     // Update data on our next pending request
+    nextBlock.previous = hash;
     nextBlock.representative = previousBlock.representative;
     nextBlock.setBalance(previousBlock.balance);
     if (nextBlock.subType == BlockTypes.SEND && nextBlock.balance == "0") {
