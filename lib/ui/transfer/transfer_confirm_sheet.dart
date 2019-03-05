@@ -396,12 +396,11 @@ class AppTransferConfirmSheet {
             balItem.frontier, StateContainer.of(context).wallet.address, "0",
             privKey: balItem.privKey, account: account);
       }
-    } /*else if (!finished) {
+    } else if (!finished) {
       finished = true;
       StateContainer.of(context)
           .requestPending(account: StateContainer.of(context).wallet.address);
-    }*/
-    else {
+    } else {
       EventTaxiImpl.singleton()
           .fire(TransferCompleteEvent(amount: totalToTransfer));
       if (animationOpen) {
