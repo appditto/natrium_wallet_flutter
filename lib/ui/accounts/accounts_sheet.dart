@@ -181,70 +181,72 @@ class AppAccountsSheet {
 
                           //A list containing accounts
                           Expanded(
-                            key: expandedKey,
+                              key: expandedKey,
                               child: Stack(
-                            children: <Widget>[
-                              _accounts == null
-                                  ? Center(
-                                      child: Text("Loading"),
-                                    )
-                                  : ListView.builder(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 20),
-                                      itemCount: _accounts.length,
-                                      controller: _scrollController,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return _buildAccountListItem(context,
-                                            _accounts[index], setState);
-                                      },
-                                    ),
-                              //List Top Gradient
-                              Align(
-                                alignment: Alignment.topCenter,
-                                child: Container(
-                                  height: 20.0,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .backgroundDark00,
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .backgroundDark,
-                                      ],
-                                      begin: Alignment(0.5, 1.0),
-                                      end: Alignment(0.5, -1.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              // List Bottom Gradient
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  height: 20.0,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .backgroundDark,
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .backgroundDark00
-                                      ],
-                                      begin: Alignment(0.5, 1.0),
-                                      end: Alignment(0.5, -1.0),
+                                children: <Widget>[
+                                  _accounts == null
+                                      ? Center(
+                                          child: Text("Loading"),
+                                        )
+                                      : ListView.builder(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 20),
+                                          itemCount: _accounts.length,
+                                          controller: _scrollController,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return _buildAccountListItem(
+                                                context,
+                                                _accounts[index],
+                                                setState);
+                                          },
+                                        ),
+                                  //List Top Gradient
+                                  Align(
+                                    alignment: Alignment.topCenter,
+                                    child: Container(
+                                      height: 20.0,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            StateContainer.of(context)
+                                                .curTheme
+                                                .backgroundDark00,
+                                            StateContainer.of(context)
+                                                .curTheme
+                                                .backgroundDark,
+                                          ],
+                                          begin: Alignment(0.5, 1.0),
+                                          end: Alignment(0.5, -1.0),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          )),
+                                  // List Bottom Gradient
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      height: 20.0,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            StateContainer.of(context)
+                                                .curTheme
+                                                .backgroundDark,
+                                            StateContainer.of(context)
+                                                .curTheme
+                                                .backgroundDark00
+                                          ],
+                                          begin: Alignment(0.5, 1.0),
+                                          end: Alignment(0.5, -1.0),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )),
                           SizedBox(
                             height: 15,
                           ),
@@ -281,17 +283,28 @@ class AppAccountsSheet {
                                               _accounts.sort((a, b) =>
                                                   a.index.compareTo(b.index));
                                               // Scroll if list is full
-                                              if (expandedKey.currentContext != null) {
-                                                RenderBox box = expandedKey.currentContext.findRenderObject();
-                                                if (_accounts.length * 72.0 >= box.size.height) {
+                                              if (expandedKey.currentContext !=
+                                                  null) {
+                                                RenderBox box = expandedKey
+                                                    .currentContext
+                                                    .findRenderObject();
+                                                if (_accounts.length * 72.0 >=
+                                                    box.size.height) {
                                                   _scrollController.animateTo(
-                                                      newAccount.index * 72.0 > _scrollController.position.maxScrollExtent
-                                                      ? _scrollController.position.maxScrollExtent + 72.0
-                                                      : newAccount.index * 72.0,
-                                                      curve: Curves.easeOut,
-                                                      duration: const Duration(
-                                                          milliseconds: 200),
-                                                    );
+                                                    newAccount.index * 72.0 >
+                                                            _scrollController
+                                                                .position
+                                                                .maxScrollExtent
+                                                        ? _scrollController
+                                                                .position
+                                                                .maxScrollExtent +
+                                                            72.0
+                                                        : newAccount.index *
+                                                            72.0,
+                                                    curve: Curves.easeOut,
+                                                    duration: const Duration(
+                                                        milliseconds: 200),
+                                                  );
                                                 }
                                               }
                                             });
@@ -397,64 +410,85 @@ class AppAccountsSheet {
                         ),
                         // Account name and address
                         Container(
+                          width:
+                              (MediaQuery.of(context).size.width - 116) * 0.5,
                           margin: EdgeInsets.only(left: 16),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                child: Text(
-                                  account.name,
-                                  style: TextStyle(
-                                    fontFamily: "NunitoSans",
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16.0,
-                                    color: StateContainer.of(context)
-                                        .curTheme
-                                        .text,
-                                  ),
+                              // Account name
+                              AutoSizeText(
+                                account.name,
+                                style: TextStyle(
+                                  fontFamily: "NunitoSans",
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.0,
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .text,
                                 ),
+                                minFontSize: 8.0,
+                                stepGranularity: 0.1,
+                                maxLines: 1,
+                                textAlign: TextAlign.left,
                               ),
-                              // Main account address
-                              Container(
-                                child: Text(
-                                  account.address.substring(0, 11) + "...",
-                                  style: TextStyle(
-                                    fontFamily: "OverpassMono",
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 14.0,
-                                    color: StateContainer.of(context)
-                                        .curTheme
-                                        .text60,
-                                  ),
+                              // Account address
+                              AutoSizeText(
+                                account.address.substring(0, 11) + "...",
+                                style: TextStyle(
+                                  fontFamily: "OverpassMono",
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 14.0,
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .text60,
                                 ),
+                                minFontSize: 8.0,
+                                stepGranularity: 0.1,
+                                maxLines: 1,
                               ),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          account.balance != null
-                              ? NumberUtil.getRawAsUsableString(account.balance)
-                              : "",
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: "NunitoSans",
-                              fontWeight: FontWeight.w900,
-                              color: StateContainer.of(context).curTheme.text),
+                    Container(
+                      width: (MediaQuery.of(context).size.width - 116) * 0.4,
+                      alignment: Alignment(1, 0),
+                      child: AutoSizeText.rich(
+                        TextSpan(
+                          children: [
+                            // Currency Icon
+                            TextSpan(
+                              text: account.balance != null ? "": "",
+                              style: TextStyle(
+                                fontFamily: 'AppIcons',
+                                color:
+                                    StateContainer.of(context).curTheme.text,
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            // Main balance text
+                            TextSpan(
+                              text: account.balance != null
+                                  ? NumberUtil.getRawAsUsableString(account.balance)
+                                  : "",
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: "NunitoSans",
+                                  fontWeight: FontWeight.w900,
+                                  color:
+                                      StateContainer.of(context).curTheme.text),
+                            ),
+                          ],
                         ),
-                        Text(
-                          account.balance != null ? " NANO" : "",
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: "NunitoSans",
-                              fontWeight: FontWeight.w100,
-                              color: StateContainer.of(context).curTheme.text),
-                        ),
-                      ],
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 16.0),
+                        stepGranularity: 0.1,
+                        minFontSize: 1,
+                        textAlign: TextAlign.right,
+                      ),
                     ),
                   ],
                 ),
