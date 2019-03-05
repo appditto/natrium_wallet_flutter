@@ -162,10 +162,11 @@ class AccountDetailsSheet {
                           margin: EdgeInsets.only(top: 10.0),
                           child: account.address != null
                             ? UIUtil.threeLineAddressText(context, account.address, type: ThreeLineAddressTextType.PRIMARY60)
-                            : SizedBox(),
+                            : account.selected ? UIUtil.threeLineAddressText(context, StateContainer.of(context).wallet.address, type: ThreeLineAddressTextType.PRIMARY60) : SizedBox()
+                            ,
                         ),
                         // Balance Text
-                        account.balance != null ?
+                        (account.balance != null || account.selected) ?
                         Container(
                           margin: EdgeInsets.only(top: 5.0),
                           child: RichText(
@@ -185,7 +186,7 @@ class AccountDetailsSheet {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: NumberUtil.getRawAsUsableString(account.balance),
+                                  text: NumberUtil.getRawAsUsableString(account.balance == null ? StateContainer.of(context).wallet.accountBalance : account.balance),
                                   style: TextStyle(
                                     color: StateContainer.of(context)
                                         .curTheme
