@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:event_taxi/event_taxi.dart';
-import 'package:uni_links/uni_links.dart';
 import 'package:logging/logging.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
@@ -84,8 +83,6 @@ class _AppHomePageState extends State<AppHomePage>
 
   // FCM instance
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-  StreamSubscription _deepLinkSub;
 
   _AppHomePageState() {
     this.dbHelper = DBHelper();
@@ -288,9 +285,9 @@ class _AppHomePageState extends State<AppHomePage>
       setState(() {
         _isRefreshing = false;
       });
-      if (_initialDeepLink != null) {
-        handleDeepLink(_initialDeepLink);
-        _initialDeepLink = null;
+      if (StateContainer.of(context).initialDeepLink != null) {
+        handleDeepLink(StateContainer.of(context).initialDeepLink);
+        StateContainer.of(context).initialDeepLink = null;
       }
     });
     _sendCompleteSub = EventTaxiImpl.singleton()
@@ -362,9 +359,6 @@ class _AppHomePageState extends State<AppHomePage>
     }
     if (_disableLockSub != null) {
       _disableLockSub.cancel();
-    }
-    if (_deepLinkSub != null) {
-      _deepLinkSub.cancel();
     }
     if (_switchAccountSub != null) {
       _switchAccountSub.cancel();
@@ -582,31 +576,9 @@ class _AppHomePageState extends State<AppHomePage>
       }
     });
   }
-  String _initialDeepLink;
 
   @override
   Widget build(BuildContext context) {
-    if (_deepLinkSub == null) {
-      // Get initial deep link
-      getInitialLink().then((deepLink) {
-        if (deepLink != null && !StateContainer.of(context).wallet.historyLoading) {
-          handleDeepLink(deepLink);
-        } else if (deepLink != null) {
-          _initialDeepLink = deepLink;
-        }
-      });
-      // Listen for deep link changes
-      _deepLinkSub = getLinksStream().listen((String link) {
-        if (link != null && !StateContainer.of(context).wallet.historyLoading) {
-          handleDeepLink(link);
-        } else if (link != null && StateContainer.of(context).wallet.historyLoading) {
-          _initialDeepLink = link;
-        }
-      }, onError: (e) {
-        log.severe(e.toString());
-      });
-    }
-
     // Create QR ahead of time because it improves performance this way
     if (receive == null) {
       QrPainter painter = QrPainter(
