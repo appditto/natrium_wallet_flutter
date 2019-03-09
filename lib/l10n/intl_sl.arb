@@ -90,7 +90,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "addressHint": "Vnesi naslov",
+  "addressHint": "Vnesite naslov",
   "@addressHint": {
     "description": "send_address_hint",
     "type": "text",
@@ -595,7 +595,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "settingsTransfer": "Naloži iz papirne",
+  "settingsTransfer": "Naloži iz papirnate denarnice",
   "@settingsTransfer": {
     "description": "settings_transfer",
     "type": "text",
