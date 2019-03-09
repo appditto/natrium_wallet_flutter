@@ -56,6 +56,8 @@ class AppSendSheet {
 
   DBHelper dbHelper;
 
+  String _rawAmount;
+
   AppSendSheet({this.contact, this.address, this.quickSendAmount}) {
     this.dbHelper = DBHelper();
   }
@@ -471,9 +473,9 @@ class AppSendSheet {
                                 } else {
                                   AppSendConfirmSheet(
                                           _localCurrencyMode
-                                              ? _convertLocalCurrencyToCrypto(
-                                                  context)
-                                              : _sendAmountController.text,
+                                              ? NumberUtil.getAmountAsRaw(_convertLocalCurrencyToCrypto(
+                                                  context))
+                                              : _rawAmount == null ? NumberUtil.getAmountAsRaw(_sendAmountController.text) :_rawAmount,
                                           contact.address,
                                           contactName: contact.name,
                                           maxSend: _isMaxSend(context),
@@ -487,9 +489,9 @@ class AppSendSheet {
                             } else if (validRequest) {
                               AppSendConfirmSheet(
                                       _localCurrencyMode
-                                          ? _convertLocalCurrencyToCrypto(
-                                              context)
-                                          : _sendAmountController.text,
+                                          ? NumberUtil.getAmountAsRaw(_convertLocalCurrencyToCrypto(
+                                              context))
+                                          : _rawAmount == null ? NumberUtil.getAmountAsRaw(_sendAmountController.text) :_rawAmount,
                                       _sendAddressController.text,
                                       maxSend: _isMaxSend(context),
                                       localCurrencyAmount: _localCurrencyMode
@@ -556,6 +558,10 @@ class AppSendSheet {
                                     if (address.amount != null) {
                                       if (_localCurrencyMode) {
                                         toggleLocalCurrency(context, setState);
+                                      } else {
+                                        setState(() {
+                                          _rawAmount = address.amount;
+                                        });
                                       }
                                       _sendAmountController.text = NumberUtil.getRawAsUsableString(address.amount);
                                     }
@@ -823,6 +829,8 @@ class AppSendSheet {
           // Always reset the error message to be less annoying
           setState(() {
             _amountValidationText = "";
+            // Reset the raw amount
+            _rawAmount = null;
           });
         },
         textInputAction: TextInputAction.next,

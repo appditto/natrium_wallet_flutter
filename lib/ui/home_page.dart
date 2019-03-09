@@ -550,8 +550,8 @@ class _AppHomePageState extends State<AppHomePage>
     String amount;
     String contactName;
     if (address.amount != null) {
-      // Require minimum 1 BANOSHI to send
-      if (BigInt.parse(address.amount) >= BigInt.from(10).pow(27)) {
+      // Require minimum 1 rai to send
+      if (BigInt.parse(address.amount) >= BigInt.from(10).pow(24)) {
         amount = address.amount;
       }
     }
@@ -565,7 +565,7 @@ class _AppHomePageState extends State<AppHomePage>
       if (amount != null) {
         // Go to send confirm with amount
         AppSendConfirmSheet(
-                NumberUtil.getRawAsUsableString(amount).replaceAll(",", ""),
+                amount,
                 address.address,
                 contactName: contactName)
             .mainBottomSheet(context);
