@@ -20,24 +20,9 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
 
   var _seedInputFocusNode = new FocusNode();
   var _seedInputController = new TextEditingController();
-  // State constants
-  TextStyle _initialSeedTextStyle;
-  TextStyle _validSeedTextStyle;
-  static const _initialErrorTextColor = Colors.transparent;
-  Color _hasErrorTextColor;
-  // State variables
-  var _seedTextStyle;
-  var _errorTextColor;
 
-  @override
-  void initState() {
-    super.initState();
-    _initialSeedTextStyle = AppStyles.textStyleSeedGray(context);
-    _validSeedTextStyle = AppStyles.textStyleSeed(context);
-    _hasErrorTextColor = StateContainer.of(context).curTheme.primary;
-    _seedTextStyle = _initialSeedTextStyle;
-    _errorTextColor = _initialErrorTextColor;
-  }
+  bool _seedIsValid = false;
+  bool _showSeedError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -209,8 +194,9 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                                       .isValidSeed(data.text)) {
                                                     _seedInputController.text =
                                                         data.text;
-                                                    _seedTextStyle =
-                                                        _validSeedTextStyle;
+                                                    setState(() {
+                                                      _seedIsValid = true;
+                                                    });
                                                   }
                                                 });
                                               },
@@ -233,24 +219,21 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                         ),
                                       ),
                                       keyboardType: TextInputType.text,
-                                      style: _seedTextStyle,
+                                      style: _seedIsValid ?AppStyles.textStyleSeed(context) : AppStyles.textStyleSeedGray(context),
                                       onChanged: (text) {
                                         // Always reset the error message to be less annoying
                                         setState(() {
-                                          _errorTextColor =
-                                              _initialErrorTextColor;
+                                          _showSeedError = false;
                                         });
                                         // If valid seed, clear focus/close keyboard
                                         if (NanoSeeds.isValidSeed(text)) {
                                           _seedInputFocusNode.unfocus();
                                           setState(() {
-                                            _seedTextStyle =
-                                                _validSeedTextStyle;
+                                            _seedIsValid = true;
                                           });
                                         } else {
                                           setState(() {
-                                            _seedTextStyle =
-                                                _initialSeedTextStyle;
+                                            _seedIsValid = false;
                                           });
                                         }
                                       },
@@ -264,7 +247,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                       AppLocalization.of(context).seedInvalid,
                                       style: TextStyle(
                                         fontSize: 14.0,
-                                        color: _errorTextColor,
+                                        color: _showSeedError ? StateContainer.of(context).curTheme.primary : Colors.transparent,
                                         fontFamily: 'NunitoSans',
                                         fontWeight: FontWeight.w600,
                                       )),
@@ -314,7 +297,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   } else {
                                     // Display error
                                     setState(() {
-                                      _errorTextColor = _hasErrorTextColor;
+                                      _showSeedError = true;
                                     });
                                   }
                                 },
