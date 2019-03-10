@@ -77,7 +77,7 @@ class DBHelper{
 
   Future<Contact> getContactWithAddress(String address) async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts WHERE address = ?', [address]);
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts WHERE address like %?', [address.replaceAll("nano_", "").replaceAll("xrb_", "")]);
     if (list.length > 0) {
       return Contact(id: list[0]["id"], name: list[0]["name"], address: list[0]["address"], monkeyPath: list[0]["monkey_path"]);
     }
@@ -101,7 +101,7 @@ class DBHelper{
 
   Future<bool> contactExistsWithAddress(String address) async {
     var dbClient = await db;
-    int count = Sqflite.firstIntValue(await dbClient.rawQuery('SELECT count(*) FROM Contacts WHERE lower(address) = ?', [address.toLowerCase()]));
+    int count = Sqflite.firstIntValue(await dbClient.rawQuery('SELECT count(*) FROM Contacts WHERE lower(address) like %?', [address.toLowerCase().replaceAll("nano_", "").replaceAll("xrb_", "")]));
     return count > 0;
   }
 
