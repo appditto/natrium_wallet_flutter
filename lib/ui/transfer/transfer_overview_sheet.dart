@@ -168,7 +168,6 @@ class AppTransferOverviewSheet {
                                       color: StateContainer.of(context)
                                           .curTheme
                                           .text45,
-                                      width: MediaQuery.of(context).size.width
                                     ),
                                   ),
                                   Center(
@@ -177,7 +176,6 @@ class AppTransferOverviewSheet {
                                       color: StateContainer.of(context)
                                           .curTheme
                                           .primary,
-                                      width: MediaQuery.of(context).size.width
                                     ),
                                   ),
                                 ],
