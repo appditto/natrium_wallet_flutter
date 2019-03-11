@@ -58,6 +58,7 @@ class AppTransferCompleteSheet {
                                     color: StateContainer.of(context)
                                         .curTheme
                                         .text45,
+                                    width: MediaQuery.of(context).size.width
                                   ),
                                 ),
                                 Center(
@@ -66,6 +67,7 @@ class AppTransferCompleteSheet {
                                     color: StateContainer.of(context)
                                         .curTheme
                                         .success,
+                                    width: MediaQuery.of(context).size.width
                                   ),
                                 ),
                               ],
