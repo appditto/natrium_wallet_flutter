@@ -88,13 +88,10 @@ dependencies:
       ref: master
 
   # File picker
-  file_picker: 1.2.0
+  file_picker: ^1.3.0
 
   # Deep link support
-  uni_links:
-    git:
-      url: https://github.com/bbedward/uni_links.git
-      ref: master
+  uni_links: ^0.2.0
 
   # HTTP client
   http: ^0.12.0+1
