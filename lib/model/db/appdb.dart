@@ -60,7 +60,7 @@ class DBHelper{
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts ORDER BY name');
     List<Contact> contacts = new List();
     for (int i = 0; i < list.length; i++) {
-      contacts.add(new Contact(id: list[i]["id"], name: list[i]["name"], address: list[i]["address"], monkeyPath: list[i]["monkey_path"]));
+      contacts.add(new Contact(id: list[i]["id"], name: list[i]["name"], address: list[i]["address"].replaceAll("nano_", "xrb_"), monkeyPath: list[i]["monkey_path"]));
     }
     return contacts;
   }
@@ -107,7 +107,7 @@ class DBHelper{
 
   Future<int> saveContact(Contact contact) async {
     var dbClient = await db;
-    return await dbClient.rawInsert('INSERT INTO Contacts (name, address) values(?, ?)', [contact.name, contact.address]);
+    return await dbClient.rawInsert('INSERT INTO Contacts (name, address) values(?, ?)', [contact.name, contact.address.replaceAll("nano_", "xrb_")]);
   }
 
   Future<int> saveContacts(List<Contact> contacts) async {

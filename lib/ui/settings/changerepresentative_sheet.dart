@@ -367,7 +367,7 @@ class AppChangeRepresentativeSheet {
                                                       .primary,
                                               inputFormatters: [
                                                 LengthLimitingTextInputFormatter(
-                                                    64),
+                                                    65),
                                               ],
                                               textInputAction:
                                                   TextInputAction.done,

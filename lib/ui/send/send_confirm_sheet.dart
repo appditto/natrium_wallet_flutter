@@ -35,7 +35,7 @@ class AppSendConfirmSheet {
       {bool maxSend = false, String contactName, String localCurrencyAmount}) {
     _amountRaw = amount;
     _amount = NumberUtil.getRawAsUsableString(amount).replaceAll(",", "");
-    _destination = destinaton;
+    _destination = destinaton.replaceAll("nano_", "xrb_");
     _contactName = contactName;
     _maxSend = maxSend;
     _localCurrency = localCurrencyAmount;

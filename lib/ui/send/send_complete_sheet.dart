@@ -18,7 +18,7 @@ class AppSendCompleteSheet {
   AppSendCompleteSheet(String amount, String destinaton, String contactName,
       {String localAmount}) {
     _amount = amount;
-    _destination = destinaton;
+    _destination = destinaton.replaceAll("nano_", "xrb_");
     _contactName = contactName;
     _localAmount = localAmount;
   }

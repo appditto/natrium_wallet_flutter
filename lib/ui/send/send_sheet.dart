@@ -962,7 +962,7 @@ class AppSendSheet {
               inputFormatters: [
                 _isContact
                     ? LengthLimitingTextInputFormatter(20)
-                    : LengthLimitingTextInputFormatter(64),
+                    : LengthLimitingTextInputFormatter(65),
               ],
               textInputAction: TextInputAction.done,
               maxLines: null,

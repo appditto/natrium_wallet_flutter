@@ -321,7 +321,7 @@ class AddContactSheet {
                                             .primary,
                                         keyboardAppearance: Brightness.dark,
                                         inputFormatters: [
-                                          LengthLimitingTextInputFormatter(64),
+                                          LengthLimitingTextInputFormatter(65),
                                         ],
                                         textInputAction: TextInputAction.done,
                                         maxLines: null,
@@ -496,6 +496,7 @@ class AddContactSheet {
                                         : address);
                                 dbHelper.saveContact(newContact).then((id) {
                                   if (address == null) {
+                                    newContact.address.replaceAll("nano_", "xrb_");
                                     EventTaxiImpl.singleton().fire(
                                         ContactAddedEvent(contact: newContact));
                                   }
