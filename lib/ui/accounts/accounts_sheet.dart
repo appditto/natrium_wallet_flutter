@@ -76,6 +76,7 @@ class AppAccountsSheet {
                 BigInt.tryParse(balance.pending))
             .toString();
         if (account.address == address && combinedBalance != account.balance) {
+          dbHelper.updateAccountBalance(account, combinedBalance);
           setState(() {
             account.balance = combinedBalance;
           });
