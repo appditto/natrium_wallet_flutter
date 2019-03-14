@@ -372,7 +372,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "pinEnterTitle": "Vnesi PIN",
+  "pinEnterTitle": "Vnesite PIN",
   "@pinEnterTitle": {
     "description": "pin_enter_title",
     "type": "text",
@@ -559,7 +559,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "pinSeedBackup": "Vnesi PIN za shranitev ključa",
+  "pinSeedBackup": "Vnesite PIN za shranitev ključa",
   "@pinSeedBackup": {
     "description": "settings_pin_title",
     "type": "text",
@@ -655,8 +655,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "transferIntro": "Postopek bo prenesel znesek iz papirne denarnice v vašo Natrium denarnico.\n\nPritisni \"%1\" gumb za začetek.",
-  
+  "transferIntro": "Postopek bo prenesel znesek iz papirnate denarnice v vašo Natrium denarnico.\n\nPritisnite \"%1\" gumb za začetek.",  
   "@transferIntro": {
     "description": "transfer_intro",
     "type": "text",
@@ -722,7 +721,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "unlockPin": "Vnesi PIN za odklep Natrium",
+  "unlockPin": "Vnesite PIN za odklep Natrium",
   "@unlockPin": {
     "description": "unlock_kalium_pin",
     "type": "text",
@@ -794,13 +793,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "exampleCardLittle": "Malo",
+  "exampleCardLittle": "nekaj",
   "@exampleCardLittle": {
     "description": "example_card_little",
     "type": "text",
     "placeholders": {}
   },
-  "exampleCardLot": "Veliko",
+  "exampleCardLot": "več",
   "@exampleCardLot": {
     "description": "example_card_lot",
     "type": "text",
