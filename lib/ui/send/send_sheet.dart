@@ -225,9 +225,45 @@ class AppSendSheet {
                             maxLines: 1,
                             stepGranularity: 0.1,
                           ),
-                          // Address Text
+                          
+                           Container(
+                             margin: EdgeInsets.only(top: 10.0),
+                                      child: Container(
+                                      child: RichText(
+                                        textAlign: TextAlign.left,
+                                        text: TextSpan(
+                                          text: '',
+                                          children: [
+                                            TextSpan(
+                                              text: "  ",
+                                              style: TextStyle(
+                                                color:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .text60,
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.w100,
+                                                fontFamily: 'AppIcons',
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: StateContainer.of(context).selectedAccount.name,
+                                              style: TextStyle(
+                                                color:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .text60,
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'NunitoSans',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),),
+                                    // Address Text
                           Container(
-                            margin: EdgeInsets.only(top: 10.0),
                             child: _oneOrthreeLineAddressText(context),
                           ),
                         ],
