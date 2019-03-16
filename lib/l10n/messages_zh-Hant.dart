@@ -20,6 +20,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "account" : MessageLookupByLibrary.simpleMessage("賬戶"),
+    "accounts" : MessageLookupByLibrary.simpleMessage("賬戶"),
+    "addAccount" : MessageLookupByLibrary.simpleMessage("添加賬戶"),
     "addContact" : MessageLookupByLibrary.simpleMessage("添加聯絡人"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("地址已復制"),
     "addressHint" : MessageLookupByLibrary.simpleMessage("輸入地址"),
@@ -53,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("複製地址"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("复制種子代碼"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("當前指定代表"),
+    "defaultAccountName" : MessageLookupByLibrary.simpleMessage("主要賬戶"),
+    "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("賬戶 %1"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("輸入金額"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("來自某人"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("歡迎來到Natrium。當您收到或發送NANO時，交易將如下出現。"),
@@ -60,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("很多"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("給某人"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("確認指紋，備份錢包種子。"),
+    "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("隱藏賬戶？"),
     "importSeed" : MessageLookupByLibrary.simpleMessage("導入種子代碼"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("請在下面輸入您的種子代碼"),
     "importWallet" : MessageLookupByLibrary.simpleMessage("導入現有錢包"),
@@ -78,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "manage" : MessageLookupByLibrary.simpleMessage("管理"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("手動輸入"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("密碼短語"),
+    "newAccountIntro" : MessageLookupByLibrary.simpleMessage("這是您的新賬戶。儅您收到 NANO 時, 交易會如下出現："),
     "newWallet" : MessageLookupByLibrary.simpleMessage("創建新錢包"),
     "no" : MessageLookupByLibrary.simpleMessage("否認"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("沒有要導出的聯絡人"),
@@ -104,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "rawSeed" : MessageLookupByLibrary.simpleMessage("種子代碼"),
     "receive" : MessageLookupByLibrary.simpleMessage("接收"),
     "received" : MessageLookupByLibrary.simpleMessage("收到"),
+    "removeAccountText" : MessageLookupByLibrary.simpleMessage("您確定要隱藏此賬戶？ 您之後可以點 \"%1\" 鍵來重新添加此賬戶。"),
     "removeContact" : MessageLookupByLibrary.simpleMessage("刪除聯絡人"),
     "removeContactConfirmation" : MessageLookupByLibrary.simpleMessage("您確定要删除％s吗？"),
     "repInfo" : MessageLookupByLibrary.simpleMessage("指定代表是投票支持網絡共識的帳戶。代表的投票權重由賬戶余額加權，您可以用餘額來增加您信任的代表的投票權重。您的代表對您的資金沒有控制權。您應該選擇一個下綫時間很少且值得信賴的代表。"),

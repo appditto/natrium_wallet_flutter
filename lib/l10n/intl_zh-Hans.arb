@@ -815,5 +815,13 @@
         "description": "example_card_from",
         "type": "text",
         "placeholders": {}
-    }
+    },
+    "defaultAccountName": "主要账户",
+    "defaultNewAccountName": "账户 %1",
+    "newAccountIntro": "这是您的新账户。当您收到 NANO 时, 交易会如下出现：",
+    "account": "账户",
+    "accounts": "账户",
+    "addAccount": "添加账户",
+    "hideAccountHeader": "隐藏账户？",
+    "removeAccountText": "您确定要隐藏此账户？ 您之后可以点 \"%1\" 键来重新添加此账户。"
 }
