@@ -770,7 +770,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           children: <Widget>[
             // A container for accounts area
             Container(
-              margin: EdgeInsets.only(left: 26.0, right: 20, bottom: 20),
+              margin: EdgeInsets.only(left: 26.0, right: 20, bottom: 15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1073,7 +1073,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: Stack(
               children: <Widget>[
                 ListView(
-                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  padding: EdgeInsets.only(top: 15.0),
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(left: 30.0, bottom: 10),
