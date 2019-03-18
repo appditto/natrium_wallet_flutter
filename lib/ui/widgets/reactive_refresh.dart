@@ -447,8 +447,8 @@ class ReactiveRefreshIndicatorState extends State<ReactiveRefreshIndicator> with
                   animation: _positionController,
                   builder: (BuildContext context, Widget child) {
                     return RefreshProgressIndicator(
-                      semanticsLabel: widget.semanticsLabel ?? MaterialLocalizations.of(context).refreshIndicatorSemanticLabel,
-                      semanticsValue: widget.semanticsValue,
+                      semanticsLabel: "refresh indicator",
+                      semanticsValue: "pull down to refresh the list",
                       value: showIndeterminateIndicator ? null : _value.value,
                       valueColor: _valueColor,
                       backgroundColor: widget.backgroundColor,
