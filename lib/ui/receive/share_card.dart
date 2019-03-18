@@ -32,7 +32,7 @@ class _AppShareCardState extends State<AppShareCard> {
       key: globalKey,
       child: Container(
         height: 125,
-        width: 241,
+        width: 235,
         decoration: BoxDecoration(
           color: StateContainer.of(context).curTheme.backgroundDark,
           borderRadius: BorderRadius.circular(12.5),
@@ -214,6 +214,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
+                                    height: 0.9,
                                   ),
                                 ),
                                 TextSpan(
@@ -228,6 +229,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
+                                    height: 0.9,
                                   ),
                                 ),
                               ],
@@ -239,6 +241,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontSize: 50.0,
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
+                              height: 0.9,
                             ),
                           ),
                         ),
@@ -259,6 +262,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
                               fontSize: 50,
+                              height: 0.9,
                             ),
                           ),
                         ),
@@ -279,6 +283,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
                               fontSize: 50,
+                              height: 0.9,
                             ),
                           ),
                         ),
@@ -301,6 +306,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
+                                    height: 0.9,
                                   ),
                                 ),
                                 // Primary colored part of the last row
@@ -316,6 +322,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
+                                    height: 0.9,
                                   ),
                                 ),
                               ],
@@ -327,6 +334,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontSize: 50,
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
+                              height: 0.9,
                             ),
                           ),
                         ),
@@ -336,12 +344,12 @@ class _AppShareCardState extends State<AppShareCard> {
                   // Ticker & Website
                   Container(
                     width: 97,
-                    height: 13,
-                    margin: EdgeInsets.only(bottom: 9.0),
+                    margin: EdgeInsets.only(bottom: 12.5),
                     child: AutoSizeText(
                       "\$NANO      NANO.ORG",
                       minFontSize: 0.1,
                       stepGranularity: 0.1,
+                      maxLines: 1,
                       style: TextStyle(
                         color: StateContainer.of(context).curTheme.primary,
                         fontFamily: "Comfortaa",
