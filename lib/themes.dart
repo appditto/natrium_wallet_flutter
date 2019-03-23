@@ -418,7 +418,7 @@ class ThoriumTheme extends BaseTheme {
   Color text30 = white.withOpacity(0.3);
   Color text20 = white.withOpacity(0.2);
   Color text15 = white.withOpacity(0.15);
-  Color text10 = white.withOpacity(0.05);
+  Color text10 = white.withOpacity(0.1);
   Color text05 = white.withOpacity(0.05);
   Color text03 = white.withOpacity(0.03);
 
