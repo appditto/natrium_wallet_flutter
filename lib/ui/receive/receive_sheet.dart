@@ -89,35 +89,30 @@ class AppReceiveSheet {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        //Close Button
-                        Container(
-                          width: 50,
-                          height: 50,
-                          margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                          child: FlatButton(
-                            highlightColor:
-                                StateContainer.of(context).curTheme.text15,
-                            splashColor:
-                                StateContainer.of(context).curTheme.text15,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(AppIcons.close,
-                                size: 16,
-                                color:
-                                    StateContainer.of(context).curTheme.text),
-                            padding: EdgeInsets.all(17.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100.0)),
-                            materialTapTargetSize: MaterialTapTargetSize.padded,
-                          ),
+                        //Empty SizedBox
+                        SizedBox(
+                          width: 60,
+                          height: 60,
                         ),
                         //Container for the address text
-                        Container(
-                          margin: EdgeInsets.only(top: 30.0),
-                          child: UIUtil.threeLineAddressText(
-                              context, _wallet.address,
-                              type: ThreeLineAddressTextType.PRIMARY60),
+                        Column(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(top:10),
+                              height: 5,
+                              width: MediaQuery.of(context).size.width*0.2,
+                              decoration: BoxDecoration(
+                                color: StateContainer.of(context).curTheme.text10,
+                                borderRadius: BorderRadius.circular(100.0),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 15.0),
+                              child: UIUtil.threeLineAddressText(
+                                  context, _wallet.address,
+                                  type: ThreeLineAddressTextType.PRIMARY60),
+                            ),
+                          ],
                         ),
                         //Empty SizedBox
                         SizedBox(
