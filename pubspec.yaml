@@ -176,7 +176,7 @@ flutter:
     - assets/transferfunds_illustration_end_natriumwalletonly.svg
     - assets/transferfunds_illustration_end_paperwalletonly.svg
     - assets/pulltosend_animation.flr
-
+    - assets/sheethandle_animation.flr
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
