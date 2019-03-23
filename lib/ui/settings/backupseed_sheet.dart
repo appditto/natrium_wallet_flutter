@@ -40,23 +40,38 @@ class AppSeedBackupSheet {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        //A container for the header
-                        Container(
-                          margin: EdgeInsets.only(top: 30.0),
-                          constraints: BoxConstraints(
-                              maxWidth:
-                                  MediaQuery.of(context).size.width - 140),
-                          child: Column(
-                            children: <Widget>[
-                              AutoSizeText(
-                                CaseChange.toUpperCase(
-                                    AppLocalization.of(context).seed, context),
-                                style: AppStyles.textStyleHeader(context),
-                                maxLines: 1,
-                                stepGranularity: 0.1,
+                        Column(
+                          children: <Widget>[
+                            // Sheet handle
+                            Container(
+                              margin: EdgeInsets.only(top: 10),
+                              height: 5,
+                              width: MediaQuery.of(context).size.width * 0.2,
+                              decoration: BoxDecoration(
+                                color:
+                                    StateContainer.of(context).curTheme.text10,
+                                borderRadius: BorderRadius.circular(100.0),
                               ),
-                            ],
-                          ),
+                            ),
+                            //A container for the header
+                            Container(
+                              margin: EdgeInsets.only(top: 15.0),
+                              constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width - 140),
+                              child: Column(
+                                children: <Widget>[
+                                  AutoSizeText(
+                                    CaseChange.toUpperCase(
+                                        AppLocalization.of(context).seed, context),
+                                    style: AppStyles.textStyleHeader(context),
+                                    maxLines: 1,
+                                    stepGranularity: 0.1,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
 
                         //A container for the paragraph and seed

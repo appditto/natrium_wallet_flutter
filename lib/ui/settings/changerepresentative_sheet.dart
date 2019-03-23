@@ -148,23 +148,21 @@ class AppChangeRepresentativeSheet {
                               ),
 
                               //Container for the header
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.only(top: 30),
-                                  constraints: BoxConstraints(
-                                      maxWidth:
-                                          MediaQuery.of(context).size.width -
-                                              140),
-                                  child: AutoSizeText(
-                                    CaseChange.toUpperCase(
-                                        AppLocalization.of(context)
-                                            .changeRepAuthenticate,
-                                        context),
-                                    style: AppStyles.textStyleHeader(context),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    stepGranularity: 0.1,
-                                  ),
+                              Container(
+                                margin: EdgeInsets.only(top: 30),
+                                constraints: BoxConstraints(
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width -
+                                            140),
+                                child: AutoSizeText(
+                                  CaseChange.toUpperCase(
+                                      AppLocalization.of(context)
+                                          .changeRepAuthenticate,
+                                      context),
+                                  style: AppStyles.textStyleHeader(context),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  stepGranularity: 0.1,
                                 ),
                               ),
 

@@ -94,15 +94,17 @@ class AppReceiveSheet {
                           width: 60,
                           height: 60,
                         ),
-                        //Container for the address text
+                        //Container for the address text and sheet handle
                         Column(
                           children: <Widget>[
+                            // Sheet handle
                             Container(
-                              margin: EdgeInsets.only(top:10),
+                              margin: EdgeInsets.only(top: 10),
                               height: 5,
-                              width: MediaQuery.of(context).size.width*0.2,
+                              width: MediaQuery.of(context).size.width * 0.2,
                               decoration: BoxDecoration(
-                                color: StateContainer.of(context).curTheme.text10,
+                                color:
+                                    StateContainer.of(context).curTheme.text10,
                                 borderRadius: BorderRadius.circular(100.0),
                               ),
                             ),
@@ -154,7 +156,10 @@ class AppReceiveSheet {
                             // Outer ring
                             Center(
                               child: Container(
-                                width: (StateContainer.of(context).curTheme is IndiumTheme) ? devicewidth / 1.68:devicewidth / 1.6,
+                                width: (StateContainer.of(context).curTheme
+                                        is IndiumTheme)
+                                    ? devicewidth / 1.68
+                                    : devicewidth / 1.6,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
