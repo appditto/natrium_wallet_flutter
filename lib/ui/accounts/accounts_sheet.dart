@@ -396,7 +396,7 @@ class AppAccountsSheet {
                                   width: 40,
                                   height: 30,
                                   alignment: Alignment(0, 0.3),
-                                  child: Text(account.getShortName(),
+                                  child: Text(account.getShortName().toUpperCase(),
                                       style: TextStyle(
                                         color: StateContainer.of(context)
                                             .curTheme
