@@ -805,7 +805,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                 child: Text(
                                   StateContainer.of(context)
                                       .selectedAccount
-                                      .getShortName(),
+                                      .getShortName().toUpperCase(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: StateContainer.of(context)
@@ -869,7 +869,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     width: 48,
                                     height: 36,
                                     alignment: Alignment(0, 0.3),
-                                    child: Text(StateContainer.of(context).recentLast.getShortName(),
+                                    child: Text(StateContainer.of(context).recentLast.getShortName().toUpperCase(),
                                         style: TextStyle(
                                           color: StateContainer.of(context)
                                               .curTheme
@@ -932,7 +932,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     width: 48,
                                     height: 36,
                                     alignment: Alignment(0, 0.3),
-                                    child: Text(StateContainer.of(context).recentSecondLast.getShortName(),
+                                    child: Text(StateContainer.of(context).recentSecondLast.getShortName().toUpperCase(),
                                         style: TextStyle(
                                           color: StateContainer.of(context)
                                               .curTheme
