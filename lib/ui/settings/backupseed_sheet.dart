@@ -46,7 +46,7 @@ class AppSeedBackupSheet {
                             Container(
                               margin: EdgeInsets.only(top: 10),
                               height: 5,
-                              width: MediaQuery.of(context).size.width * 0.2,
+                              width: MediaQuery.of(context).size.width * 0.15,
                               decoration: BoxDecoration(
                                 color:
                                     StateContainer.of(context).curTheme.text10,
