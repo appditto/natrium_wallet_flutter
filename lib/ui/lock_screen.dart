@@ -31,6 +31,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
     } else {
       await NanoUtil().loginAccount(context);
     }
+    StateContainer.of(context).requestUpdate();
     Navigator.of(context).pushNamedAndRemoveUntil(
         '/home_transition', (Route<dynamic> route) => false);
   }

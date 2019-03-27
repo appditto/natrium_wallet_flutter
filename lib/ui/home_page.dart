@@ -378,6 +378,10 @@ class _AppHomePageState extends State<AppHomePage>
       case AppLifecycleState.resumed:
         cancelLockEvent();
         StateContainer.of(context).reconnect();
+        if (!StateContainer.of(context).wallet.loading && StateContainer.of(context).initialDeepLink != null) {
+          handleDeepLink(StateContainer.of(context).initialDeepLink);
+          StateContainer.of(context).initialDeepLink = null;
+        }
         super.didChangeAppLifecycleState(state);
         break;
       default:
