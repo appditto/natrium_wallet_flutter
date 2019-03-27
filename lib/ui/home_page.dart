@@ -296,12 +296,10 @@ class _AppHomePageState extends State<AppHomePage>
       // Route to send complete if received process response for send block
       if (event.previous != null) {
         // Route to send complete
-        String displayAmount =
-            NumberUtil.getRawAsUsableString(event.previous.sendAmount);
         dbHelper.getContactWithAddress(event.previous.link).then((contact) {
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-          AppSendCompleteSheet(displayAmount, event.previous.link, contactName,
+          AppSendCompleteSheet(event.previous.sendAmount, event.previous.link, contactName,
                   localAmount: event.previous.localCurrencyValue)
               .mainBottomSheet(context);
         });

@@ -22,8 +22,8 @@ class NumberUtil {
   /// @param input 1.059
   /// @return double value 1.05
   ///
-  static double truncateDecimal(Decimal input, {int maxDecimalDigits = maxDecimalDigits}) {
-    return (input * Decimal.fromInt(pow(10, maxDecimalDigits))).truncateToDouble() / pow(10, maxDecimalDigits);
+  static double truncateDecimal(Decimal input, {int digits = maxDecimalDigits}) {
+    return (input * Decimal.fromInt(pow(10, digits))).truncateToDouble() / pow(10, digits);
   }
 
   /// Return raw as a normal amount.

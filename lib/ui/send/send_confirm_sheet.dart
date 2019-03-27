@@ -34,7 +34,12 @@ class AppSendConfirmSheet {
   AppSendConfirmSheet(String amount, String destinaton,
       {bool maxSend = false, String contactName, String localCurrencyAmount}) {
     _amountRaw = amount;
-    _amount = NumberUtil.getRawAsUsableString(amount).replaceAll(",", "");
+    // Indicate that this is a special amount if some digits are not displayed
+    if (NumberUtil.getRawAsUsableString(_amountRaw) == NumberUtil.getRawAsUsableDecimal(_amountRaw).toString()) {
+      _amount = NumberUtil.getRawAsUsableString(_amountRaw);
+    } else {
+      _amount = NumberUtil.truncateDecimal(NumberUtil.getRawAsUsableDecimal(_amountRaw), digits: 6).toStringAsFixed(6) + "~";
+    }
     _destination = destinaton.replaceAll("nano_", "xrb_");
     _contactName = contactName;
     _maxSend = maxSend;
