@@ -270,7 +270,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "importSeedHint": "Bitte gib unten deinen Seed ein.",
+    "importSeedHint": "Bitte füge deinen Seed ein.",
     "@importSeedHint": {
         "description": "intro_seed_info",
         "type": "text",
@@ -282,7 +282,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "newWallet": "Neue Wallet",
+    "newWallet": "Neues Wallet",
     "@newWallet": {
         "description": "intro_welcome_new_wallet",
         "type": "text",
