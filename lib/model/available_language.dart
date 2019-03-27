@@ -20,6 +20,7 @@ enum AvailableLanguage {
   POLISH,
   PORTUGUESE,
   ROMANIAN,
+  BULGARIAN,
   RUSSIAN,
   SLOVENIAN,
   SPANISH,
@@ -39,6 +40,8 @@ class LanguageSetting extends SettingSelectionItem {
     switch (language) {
       case AvailableLanguage.ENGLISH:
         return "English (en)";
+      case AvailableLanguage.BULGARIAN:
+        return "Български език (bg)";
       case AvailableLanguage.FRENCH:
         return "Français (fr)";
       case AvailableLanguage.GERMAN:
@@ -92,6 +95,8 @@ class LanguageSetting extends SettingSelectionItem {
     switch (language) {
       case AvailableLanguage.ENGLISH:
         return "en";
+      case AvailableLanguage.BULGARIAN:
+        return "bg";
       case AvailableLanguage.FRENCH:
         return "fr";
       case AvailableLanguage.GERMAN:
