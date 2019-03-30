@@ -52,6 +52,12 @@ android {
             if (project.hasProperty('target-platform') &&
                project.property('target-platform') == 'android-arm64') {
                 abiFilters 'arm64-v8a'
+            } else if (project.hasProperty('target-platform') &&
+               project.property('target-platform') == 'android-x86') {
+                abiFilters 'x86'
+            } else if (project.hasProperty('target-platform') &&
+               project.property('target-platform') == 'android-x64') {
+                abiFilters 'x86_64'
             } else {
                 abiFilters 'armeabi-v7a'
             }
