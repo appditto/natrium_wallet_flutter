@@ -35,7 +35,7 @@ class AppSendConfirmSheet {
       {bool maxSend = false, String contactName, String localCurrencyAmount}) {
     _amountRaw = amount;
     // Indicate that this is a special amount if some digits are not displayed
-    if (NumberUtil.getRawAsUsableString(_amountRaw) == NumberUtil.getRawAsUsableDecimal(_amountRaw).toString()) {
+    if (NumberUtil.getRawAsUsableString(_amountRaw).replaceAll(",", "") == NumberUtil.getRawAsUsableDecimal(_amountRaw).toString()) {
       _amount = NumberUtil.getRawAsUsableString(_amountRaw);
     } else {
       _amount = NumberUtil.truncateDecimal(NumberUtil.getRawAsUsableDecimal(_amountRaw), digits: 6).toStringAsFixed(6) + "~";
