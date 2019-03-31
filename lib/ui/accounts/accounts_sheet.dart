@@ -104,7 +104,6 @@ class AppAccountsSheet {
   }
 
   mainBottomSheet(BuildContext context) {
-    _requestBalances(context, _accounts);
     AppSheets.showAppHeightNineSheet(
         context: context,
         onDisposed: _onWillPop,
