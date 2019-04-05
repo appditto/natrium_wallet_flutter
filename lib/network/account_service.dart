@@ -4,6 +4,7 @@ import 'package:web_socket_channel/io.dart';
 import 'package:package_info/package_info.dart';
 import 'package:logging/logging.dart';
 import 'package:event_taxi/event_taxi.dart';
+import 'package:synchronized/synchronized.dart';
 
 import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/network/model/base_request.dart';
@@ -47,6 +48,9 @@ class AccountService {
   static bool _isConnected = false;
   static bool _isConnecting = false;
   static bool _suspended = false; // When the app explicity closes the connection
+
+  // Lock instnace for synchronization
+  static Lock _lock = Lock();
 
   // Singleton Constructor
   AccountService._internal() {
@@ -140,73 +144,77 @@ class AccountService {
     }
   }
 
-  static void _onMessageReceived(message) {
-    _isConnected = true;
-    _isConnecting = false;
-    log.fine("Received $message");
-    Map msg = json.decode(message);
-    // Determine response type
-    if (msg.containsKey("uuid") || (msg.containsKey("frontier") && msg.containsKey("representative_block")) ||
-        msg.containsKey("error") && msg.containsKey("currency")) {
-      // Subscribe response
-      SubscribeResponse resp = SubscribeResponse.fromJson(msg);
-      // Post to callbacks
-      EventTaxiImpl.singleton().fire(SubscribeEvent(response: resp));
-    } else if (msg.containsKey("currency") && msg.containsKey("price") && msg.containsKey("btc")) {
-      // Price info sent from server
-      PriceResponse resp = PriceResponse.fromJson(msg);
-      EventTaxiImpl.singleton().fire(PriceEvent(response: resp));
-    } else if (msg.containsKey("history")) {
-      // Account history response
-      if (msg['history'] == "") {
-        msg['history'] = new List<AccountHistoryResponseItem>();
-      }
-      AccountHistoryResponse resp = AccountHistoryResponse.fromJson(msg);
-      EventTaxiImpl.singleton().fire(HistoryEvent(response: resp));
-    } else if (msg.containsKey("blocks")) {
-      // This is either a 'blocks_info' response "or" a 'pending' response
-      if (msg['blocks'] is Map && msg['blocks'].length > 0) {
-        Map<String, dynamic> blockMap = msg['blocks'];
-        if (blockMap != null && blockMap.length > 0) {
-          if (blockMap[blockMap.keys.first].containsKey('block_account')) {
-            // Blocks Info Response
-            BlocksInfoResponse resp = BlocksInfoResponse.fromJson(msg);
-            EventTaxiImpl.singleton().fire(BlocksInfoEvent(response: resp));
-          } else if (blockMap[blockMap.keys.first].containsKey('source')) {
-            PendingResponse resp = PendingResponse.fromJson(msg);
-            EventTaxiImpl.singleton().fire(PendingEvent(response: resp));
+  static Future<void> _onMessageReceived(message) async {
+    await _lock.synchronized(() async {
+      _isConnected = true;
+      _isConnecting = false;
+      log.fine("Received $message");
+      Map msg = json.decode(message);
+      // Determine response type
+      if (msg.containsKey("uuid") || (msg.containsKey("frontier") && msg.containsKey("representative_block")) ||
+          msg.containsKey("error") && msg.containsKey("currency")) {
+        // Subscribe response
+        SubscribeResponse resp = SubscribeResponse.fromJson(msg);
+        // Post to callbacks
+        EventTaxiImpl.singleton().fire(SubscribeEvent(response: resp));
+      } else if (msg.containsKey("currency") && msg.containsKey("price") && msg.containsKey("btc")) {
+        // Price info sent from server
+        PriceResponse resp = PriceResponse.fromJson(msg);
+        EventTaxiImpl.singleton().fire(PriceEvent(response: resp));
+      } else if (msg.containsKey("history")) {
+        // Account history response
+        if (msg['history'] == "") {
+          msg['history'] = new List<AccountHistoryResponseItem>();
+        }
+        AccountHistoryResponse resp = AccountHistoryResponse.fromJson(msg);
+        EventTaxiImpl.singleton().fire(HistoryEvent(response: resp));
+      } else if (msg.containsKey("blocks")) {
+        // This is either a 'blocks_info' response "or" a 'pending' response
+        if (msg['blocks'] is Map && msg['blocks'].length > 0) {
+          print("RECEIVED BLOCKS");
+          Map<String, dynamic> blockMap = msg['blocks'];
+          if (blockMap != null && blockMap.length > 0) {
+            if (blockMap[blockMap.keys.first].containsKey('block_account')) {
+              // Blocks Info Response
+              print("BLOCKS INFO RESPONSE");
+              BlocksInfoResponse resp = BlocksInfoResponse.fromJson(msg);
+              EventTaxiImpl.singleton().fire(BlocksInfoEvent(response: resp));
+            } else if (blockMap[blockMap.keys.first].containsKey('source')) {
+              PendingResponse resp = PendingResponse.fromJson(msg);
+              EventTaxiImpl.singleton().fire(PendingEvent(response: resp));
+            }
+          }
+        } else {
+          // Possibly a response when there is no pendings
+          pop();
+          processQueue();
+        }
+      } else if (msg.containsKey("block") && msg.containsKey("hash") && msg.containsKey("account")) {
+        CallbackResponse resp = CallbackResponse.fromJson(msg);
+        EventTaxiImpl.singleton().fire(CallbackEvent(response: resp));
+      } else if (msg.containsKey("hash")) {
+        // process response
+        ProcessResponse resp = ProcessResponse.fromJson(msg);
+        EventTaxiImpl.singleton().fire(ProcessEvent(response: resp));
+      } else if (msg.containsKey("error")) {
+        ErrorResponse resp = ErrorResponse.fromJson(msg);
+        EventTaxiImpl.singleton().fire(ErrorEvent(response: resp));
+      } else if (msg.containsKey("balances")) {
+        // accounts_balances response
+        if (msg['balances'] is Map && msg['balances'].length > 0) {
+          Map<String, dynamic> balancesMap = msg['balances'];
+          if (balancesMap != null && balancesMap.length > 0) {
+            if (balancesMap[balancesMap.keys.first].containsKey('pending')) {
+              RequestItem<dynamic> lastRequest = pop();
+              AccountsBalancesResponse resp = AccountsBalancesResponse.fromJson(msg);
+              EventTaxiImpl.singleton().fire(AccountsBalancesEvent(response: resp, transfer: lastRequest.fromTransfer));
+              processQueue();
+            }
           }
         }
-      } else {
-        // Possibly a response when there is no pendings
-        pop();
-        processQueue();
       }
-    } else if (msg.containsKey("block") && msg.containsKey("hash") && msg.containsKey("account")) {
-      CallbackResponse resp = CallbackResponse.fromJson(msg);
-      EventTaxiImpl.singleton().fire(CallbackEvent(response: resp));
-    } else if (msg.containsKey("hash")) {
-      // process response
-      ProcessResponse resp = ProcessResponse.fromJson(msg);
-      EventTaxiImpl.singleton().fire(ProcessEvent(response: resp));
-    } else if (msg.containsKey("error")) {
-      ErrorResponse resp = ErrorResponse.fromJson(msg);
-      EventTaxiImpl.singleton().fire(ErrorEvent(response: resp));
-    } else if (msg.containsKey("balances")) {
-      // accounts_balances response
-      if (msg['balances'] is Map && msg['balances'].length > 0) {
-        Map<String, dynamic> balancesMap = msg['balances'];
-        if (balancesMap != null && balancesMap.length > 0) {
-          if (balancesMap[balancesMap.keys.first].containsKey('pending')) {
-            RequestItem<dynamic> lastRequest = pop();
-            AccountsBalancesResponse resp = AccountsBalancesResponse.fromJson(msg);
-            EventTaxiImpl.singleton().fire(AccountsBalancesEvent(response: resp, transfer: lastRequest.fromTransfer));
-            processQueue();
-          }
-        }
-      }
-    }
-    return;
+      return;
+    });
   }
 
   /* Send Request */
@@ -223,29 +231,31 @@ class AccountService {
   }
 
   /* Process Queue */
-  static void processQueue() {
-    log.fine("Request Queue length ${_requestQueue.length}");
-    if (_requestQueue != null && _requestQueue.length > 0) {
-      RequestItem requestItem = _requestQueue.first;
-      if (requestItem != null && !requestItem.isProcessing) {
-        if (!_isConnected) {
-          if (!_isConnecting) {
-            initCommunication();
+  static Future<void> processQueue() async {
+    await _lock.synchronized(() async {
+      log.fine("Request Queue length ${_requestQueue.length}");
+      if (_requestQueue != null && _requestQueue.length > 0) {
+        RequestItem requestItem = _requestQueue.first;
+        if (requestItem != null && !requestItem.isProcessing) {
+          if (!_isConnected) {
+            if (!_isConnecting) {
+              await initCommunication();
+            }
+            return;
           }
-          return;
+          requestItem.isProcessing = true;
+          String requestJson = json.encode(requestItem.request.toJson());
+          log.fine("Sending: $requestJson");
+          await _send(requestJson);
+        } else if (requestItem != null && (DateTime
+            .now()
+            .difference(requestItem.expireDt)
+            .inSeconds > RequestItem.EXPIRE_TIME_S)) {
+          pop();
+          processQueue();
         }
-        requestItem.isProcessing = true;
-        String requestJson = json.encode(requestItem.request.toJson());
-        log.fine("Sending: $requestJson");
-        _send(requestJson);
-      } else if (requestItem != null && (DateTime
-          .now()
-          .difference(requestItem.expireDt)
-          .inSeconds > RequestItem.EXPIRE_TIME_S)) {
-        pop();
-        processQueue();
       }
-    }
+    });
   }
 
   // Queue Utilities

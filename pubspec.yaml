@@ -111,6 +111,9 @@ dependencies:
   # Slidable list actions
   flutter_slidable: "^0.4.9"
 
+  # Lock helper
+  synchronized: ^2.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
