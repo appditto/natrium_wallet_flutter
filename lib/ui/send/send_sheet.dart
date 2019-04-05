@@ -243,17 +243,6 @@ class AppSendSheet {
                                           text: '',
                                           children: [
                                             TextSpan(
-                                              text: "  ",
-                                              style: TextStyle(
-                                                color: StateContainer.of(context)
-                                                    .curTheme
-                                                    .text60,
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.w100,
-                                                fontFamily: 'AppIcons',
-                                              ),
-                                            ),
-                                            TextSpan(
                                               text: StateContainer.of(context)
                                                   .selectedAccount
                                                   .name,
