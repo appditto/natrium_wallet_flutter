@@ -123,9 +123,11 @@ class AppChangeRepresentativeSheet {
             color: StateContainer.of(context).curTheme.text15,
           ),
           FlatButton(
-            onPressed: (){return null;},
+            onPressed: () {
+              return null;
+            },
             padding: EdgeInsets.all(0),
-                      child: Container(
+            child: Container(
               margin: EdgeInsets.symmetric(vertical: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -154,9 +156,11 @@ class AppChangeRepresentativeSheet {
                                 TextSpan(
                                   text: "Voting Weight: ",
                                   style: TextStyle(
-                                    color: StateContainer.of(context).curTheme.text,
-                                    fontWeight: FontWeight.w200,
-                                    fontSize: 12.0,
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .text,
+                                    fontWeight: FontWeight.w100,
+                                    fontSize: 14.0,
                                     fontFamily: 'Nunito Sans',
                                   ),
                                 ),
@@ -167,7 +171,7 @@ class AppChangeRepresentativeSheet {
                                           .curTheme
                                           .primary,
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 12.0,
+                                      fontSize: 14.0,
                                       fontFamily: 'Nunito Sans'),
                                 ),
                                 TextSpan(
@@ -177,7 +181,7 @@ class AppChangeRepresentativeSheet {
                                           .curTheme
                                           .primary,
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 12.0,
+                                      fontSize: 14.0,
                                       fontFamily: 'Nunito Sans'),
                                 ),
                                 TextSpan(
@@ -188,7 +192,7 @@ class AppChangeRepresentativeSheet {
                                           .curTheme
                                           .primary,
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 12.0,
+                                      fontSize: 14.0,
                                       fontFamily: 'Nunito Sans'),
                                 )
                               ],
@@ -204,10 +208,11 @@ class AppChangeRepresentativeSheet {
                                 TextSpan(
                                   text: "Uptime: ",
                                   style: TextStyle(
-                                      color:
-                                          StateContainer.of(context).curTheme.text,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12.0,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .text,
+                                      fontWeight: FontWeight.w100,
+                                      fontSize: 14.0,
                                       fontFamily: 'Nunito Sans'),
                                 ),
                                 TextSpan(
@@ -217,7 +222,7 @@ class AppChangeRepresentativeSheet {
                                           .curTheme
                                           .primary,
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 12.0,
+                                      fontSize: 14.0,
                                       fontFamily: 'Nunito Sans'),
                                 ),
                                 TextSpan(
@@ -227,7 +232,7 @@ class AppChangeRepresentativeSheet {
                                           .curTheme
                                           .primary,
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 12.0,
+                                      fontSize: 14.0,
                                       fontFamily: 'Nunito Sans'),
                                 )
                               ],
@@ -247,7 +252,8 @@ class AppChangeRepresentativeSheet {
                             height: 50,
                             child: Icon(
                               AppIcons.score,
-                              color: StateContainer.of(context).curTheme.primary,
+                              color:
+                                  StateContainer.of(context).curTheme.primary,
                               size: 50,
                             )),
                         Container(
@@ -346,12 +352,11 @@ class AppChangeRepresentativeSheet {
                                       .curTheme
                                       .text15,
                                   onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return _buildRepresenativeDialog(
-                                              context);
-                                        });
+                                    AppDialogs.showInfoDialog(
+                                        context,
+                                        AppLocalization.of(context)
+                                            .repInfoHeader,
+                                        AppLocalization.of(context).repInfo);
                                   },
                                   child: Icon(AppIcons.info,
                                       size: 24,
@@ -368,22 +373,40 @@ class AppChangeRepresentativeSheet {
                               ),
 
                               //Container for the header
-                              Container(
-                                margin: EdgeInsets.only(top: 30),
-                                constraints: BoxConstraints(
-                                    maxWidth:
-                                        MediaQuery.of(context).size.width -
-                                            140),
-                                child: AutoSizeText(
-                                  CaseChange.toUpperCase(
-                                      AppLocalization.of(context)
-                                          .changeRepAuthenticate,
-                                      context),
-                                  style: AppStyles.textStyleHeader(context),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  stepGranularity: 0.1,
-                                ),
+                              Column(
+                                children: <Widget>[
+                                  // Sheet handle
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10),
+                                    height: 5,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.15,
+                                    decoration: BoxDecoration(
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .text10,
+                                      borderRadius:
+                                          BorderRadius.circular(100.0),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 15),
+                                    constraints: BoxConstraints(
+                                        maxWidth:
+                                            MediaQuery.of(context).size.width -
+                                                140),
+                                    child: AutoSizeText(
+                                      CaseChange.toUpperCase(
+                                          AppLocalization.of(context)
+                                              .changeRepAuthenticate,
+                                          context),
+                                      style: AppStyles.textStyleHeader(context),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      stepGranularity: 0.1,
+                                    ),
+                                  ),
+                                ],
                               ),
 
                               // Scan QR Button
@@ -909,12 +932,15 @@ class AppChangeRepresentativeSheet {
                                   AppButton.buildAppButton(
                                     context,
                                     AppButtonType.PRIMARY_OUTLINE,
-                                    CaseChange.toUpperCase(
-                                        AppLocalization.of(context).close,
-                                        context),
+                                    "LIST",
                                     Dimens.BUTTON_BOTTOM_DIMENS,
                                     onPressed: () {
-                                      Navigator.pop(context);
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return _buildRepresenativeDialog(
+                                                context);
+                                          });
                                     },
                                   ),
                                 ],
