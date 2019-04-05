@@ -1,13 +1,11 @@
 package co.banano.natriumwallet;
 
 import android.os.Bundle;
-import android.util.Base64;
 
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
-import io.realm.Realm;
 
 public class MainActivity extends FlutterActivity {
   private static final String CHANNEL = "fappchannel";
@@ -16,15 +14,9 @@ public class MainActivity extends FlutterActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    Realm.init(this);
-    try {
-        Vault.initializeVault(this);
-    } catch (Exception e) {}
-    generateEncryptionKey();
-
     GeneratedPluginRegistrant.registerWith(this);
 
-      new MethodChannel(getFlutterView(), CHANNEL).setMethodCallHandler(
+    new MethodChannel(getFlutterView(), CHANNEL).setMethodCallHandler(
           new MethodChannel.MethodCallHandler() {
               @Override
               public void onMethodCall(MethodCall call, MethodChannel.Result result) {
@@ -42,18 +34,5 @@ public class MainActivity extends FlutterActivity {
               }
           }
      );
-  }
-
-  /**
-   * generate an encryption key and store in the vault
-   */
-  private void generateEncryptionKey() {
-    if (Vault.getVault().getString(Vault.ENCRYPTION_KEY_NAME, null) == null) {
-      Vault.getVault()
-              .edit()
-              .putString(Vault.ENCRYPTION_KEY_NAME,
-                      Base64.encodeToString(Vault.generateKey(), Base64.DEFAULT))
-              .apply();
-    }
   }
 }
