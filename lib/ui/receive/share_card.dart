@@ -314,7 +314,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                   text: StateContainer.of(context)
                                       .wallet
                                       .address
-                                      .substring(58, 64),
+                                      .substring(58),
                                   style: TextStyle(
                                     color: StateContainer.of(context)
                                         .curTheme

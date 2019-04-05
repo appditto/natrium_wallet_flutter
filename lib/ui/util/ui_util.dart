@@ -22,7 +22,7 @@ class UIUtil {
     String stringPartTwo = address.substring(11, 22);
     String stringPartThree = address.substring(22, 44);
     String stringPartFour = address.substring(44, 58);
-    String stringPartFive = address.substring(58, 64);
+    String stringPartFive = address.substring(58);
     switch (type) {
       case ThreeLineAddressTextType.PRIMARY60:
         return Column(
@@ -244,7 +244,7 @@ class UIUtil {
   static Widget oneLineAddressText(BuildContext context, String address,
       {OneLineAddressTextType type = OneLineAddressTextType.PRIMARY}) {
     String stringPartOne = address.substring(0, 11);
-    String stringPartFive = address.substring(58, 64);
+    String stringPartFive = address.substring(58);
     switch (type) {
       case OneLineAddressTextType.PRIMARY60:
         return Column(
