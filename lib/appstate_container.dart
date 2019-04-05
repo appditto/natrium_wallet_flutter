@@ -24,14 +24,14 @@ import 'package:natrium_wallet_flutter/network/model/request/accounts_balances_r
 import 'package:natrium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:natrium_wallet_flutter/network/model/request/fcm_update_request.dart';
 import 'package:natrium_wallet_flutter/network/model/request/subscribe_request.dart';
-import 'package:natrium_wallet_flutter/network/model/request/blocks_info_request.dart';
+import 'package:natrium_wallet_flutter/network/model/request/block_info_request.dart';
 import 'package:natrium_wallet_flutter/network/model/request/pending_request.dart';
 import 'package:natrium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:natrium_wallet_flutter/network/model/response/callback_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/error_response.dart';
-import 'package:natrium_wallet_flutter/network/model/response/blocks_info_response.dart';
+import 'package:natrium_wallet_flutter/network/model/response/block_info_item.dart';
 import 'package:natrium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/process_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/pending_response.dart';
@@ -224,7 +224,7 @@ class StateContainerState extends State<StateContainer> {
       });
     });
     _blocksInfoEventSub = EventTaxiImpl.singleton().registerTo<BlocksInfoEvent>().listen((event) {
-      handleBlocksInfoResponse(event.response);
+      handleBlockInfoResponse(event.response);
     });
     _connStatusSub = EventTaxiImpl.singleton().registerTo<ConnStatusEvent>().listen((event) {
       if (event.status == ConnectionStatus.CONNECTED) {
@@ -482,6 +482,10 @@ class StateContainerState extends State<StateContainer> {
           wallet.blockCount = wallet.blockCount + 1;
         });
         if (previous.subType == BlockTypes.SEND) {
+          // Prevent callback race condition when sending to yourself
+          if (previous.link == selectedAccount.address) {
+            doUpdate = false;
+          }
           // post send event to let UI know send was successful
           EventTaxiImpl.singleton().fire(SendCompleteEvent(previous: previous));
         } else if (previous.subType == BlockTypes.RECEIVE) {
@@ -598,11 +602,15 @@ class StateContainerState extends State<StateContainer> {
   /// Handle blocks_info response
   /// Typically, this preceeds a process request. And we want to update
   /// that request with data from the previous block (which is what we got from this request)
-  void handleBlocksInfoResponse(BlocksInfoResponse resp) {
-    String hash = resp.blocks.keys.first;
-    StateBlock previousBlock = StateBlock.fromJson(json.decode(resp.blocks[hash].contents));
-    StateBlock nextBlock = previousPendingMap.remove(hash);
+  void handleBlockInfoResponse(BlockInfoItem resp) {
     RequestItem lastRequest = AccountService.pop();
+    if (lastRequest == null || !(lastRequest.request is BlockInfoRequest)) {
+      AccountService.processQueue();
+      return;
+    }
+    String hash = lastRequest.request.hash;
+    StateBlock previousBlock = StateBlock.fromJson(json.decode(resp.contents));
+    StateBlock nextBlock = previousPendingMap.remove(hash);
     if (nextBlock == null) {
       return;
     }
@@ -768,7 +776,7 @@ class StateContainerState extends State<StateContainer> {
     );
     previousPendingMap.putIfAbsent(previous, () => sendBlock);
 
-    AccountService.queueRequest(BlocksInfoRequest(hashes: [previous]), fromTransfer: fromTransfer);
+    AccountService.queueRequest(BlockInfoRequest(hash: previous), fromTransfer: fromTransfer);
     AccountService.processQueue();
   }
 
@@ -798,7 +806,7 @@ class StateContainerState extends State<StateContainer> {
       pendingBlockMap.putIfAbsent(source, () => receiveBlock);
     }
 
-    AccountService.queueRequest(BlocksInfoRequest(hashes: [previous]), fromTransfer: fromTransfer);
+    AccountService.queueRequest(BlockInfoRequest(hash: previous), fromTransfer: fromTransfer);
     AccountService.processQueue();
   }
 

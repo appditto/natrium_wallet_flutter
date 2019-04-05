@@ -15,7 +15,7 @@ import 'package:natrium_wallet_flutter/network/model/request/accounts_balances_r
 import 'package:natrium_wallet_flutter/network/model/request/pending_request.dart';
 import 'package:natrium_wallet_flutter/network/model/request/process_request.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response.dart';
-import 'package:natrium_wallet_flutter/network/model/response/blocks_info_response.dart';
+import 'package:natrium_wallet_flutter/network/model/response/block_info_item.dart';
 import 'package:natrium_wallet_flutter/network/model/response/error_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:natrium_wallet_flutter/network/model/response/accounts_balances_response.dart';
@@ -169,26 +169,22 @@ class AccountService {
         AccountHistoryResponse resp = AccountHistoryResponse.fromJson(msg);
         EventTaxiImpl.singleton().fire(HistoryEvent(response: resp));
       } else if (msg.containsKey("blocks")) {
-        // This is either a 'blocks_info' response "or" a 'pending' response
+        // This is a 'pending' response
         if (msg['blocks'] is Map && msg['blocks'].length > 0) {
-          print("RECEIVED BLOCKS");
           Map<String, dynamic> blockMap = msg['blocks'];
           if (blockMap != null && blockMap.length > 0) {
-            if (blockMap[blockMap.keys.first].containsKey('block_account')) {
-              // Blocks Info Response
-              print("BLOCKS INFO RESPONSE");
-              BlocksInfoResponse resp = BlocksInfoResponse.fromJson(msg);
-              EventTaxiImpl.singleton().fire(BlocksInfoEvent(response: resp));
-            } else if (blockMap[blockMap.keys.first].containsKey('source')) {
-              PendingResponse resp = PendingResponse.fromJson(msg);
-              EventTaxiImpl.singleton().fire(PendingEvent(response: resp));
-            }
+            PendingResponse resp = PendingResponse.fromJson(msg);
+            EventTaxiImpl.singleton().fire(PendingEvent(response: resp));
           }
         } else {
           // Possibly a response when there is no pendings
           pop();
           processQueue();
         }
+      } else if (msg.containsKey("block_account") && msg.containsKey("contents") && msg.containsKey("amount") && msg.containsKey("balance")) {
+        // Block Info Response
+        BlockInfoItem resp = BlockInfoItem.fromJson(msg);
+        EventTaxiImpl.singleton().fire(BlocksInfoEvent(response: resp));
       } else if (msg.containsKey("block") && msg.containsKey("hash") && msg.containsKey("account")) {
         CallbackResponse resp = CallbackResponse.fromJson(msg);
         EventTaxiImpl.singleton().fire(CallbackEvent(response: resp));
