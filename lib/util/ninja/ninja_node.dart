@@ -20,7 +20,7 @@ class NinjaNode {
   @JsonKey(name:'alias')
   String alias;
 
-  NinjaNode({this.votingWeight, this.uptime, this.score, this.account, thisalias});
+  NinjaNode({this.votingWeight, this.uptime, this.score, this.account, this.alias});
 
   factory NinjaNode.fromJson(Map<String, dynamic> json) => _$NinjaNodeFromJson(json);
   Map<String, dynamic> toJson() => _$NinjaNodeToJson(this);
