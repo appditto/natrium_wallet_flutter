@@ -86,7 +86,7 @@ class AppStyles {
     return TextStyle(
       color: StateContainer.of(context).curTheme.primary60,
       fontSize: AppFontSizes.small,
-      height: 1.2,
+      height: 1.1,
       fontWeight: FontWeight.w100,
       fontFamily: 'OverpassMono',
     );
@@ -95,7 +95,7 @@ class AppStyles {
     return TextStyle(
       color: StateContainer.of(context).curTheme.primary,
       fontSize: AppFontSizes.small,
-      height: 1.2,
+      height: 1.1,
       fontWeight: FontWeight.w100,
       fontFamily: 'OverpassMono',
     );
@@ -105,7 +105,7 @@ class AppStyles {
     return TextStyle(
       color: StateContainer.of(context).curTheme.success,
       fontSize: AppFontSizes.small,
-      height: 1.2,
+      height: 1.1,
       fontWeight: FontWeight.w100,
       fontFamily: 'OverpassMono',
     );
@@ -114,7 +114,7 @@ class AppStyles {
     return TextStyle(
       color: StateContainer.of(context).curTheme.text60,
       fontSize: AppFontSizes.small,
-      height: 1.2,
+      height: 1.1,
       fontWeight: FontWeight.w100,
       fontFamily: 'OverpassMono',
     );
@@ -123,7 +123,7 @@ class AppStyles {
     return TextStyle(
       color: StateContainer.of(context).curTheme.text,
       fontSize: AppFontSizes.small,
-      height: 1.2,
+      height: 1.1,
       fontWeight: FontWeight.w100,
       fontFamily: 'OverpassMono',
     );

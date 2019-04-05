@@ -35,10 +35,15 @@ class AppSendConfirmSheet {
       {bool maxSend = false, String contactName, String localCurrencyAmount}) {
     _amountRaw = amount;
     // Indicate that this is a special amount if some digits are not displayed
-    if (NumberUtil.getRawAsUsableString(_amountRaw).replaceAll(",", "") == NumberUtil.getRawAsUsableDecimal(_amountRaw).toString()) {
+    if (NumberUtil.getRawAsUsableString(_amountRaw).replaceAll(",", "") ==
+        NumberUtil.getRawAsUsableDecimal(_amountRaw).toString()) {
       _amount = NumberUtil.getRawAsUsableString(_amountRaw);
     } else {
-      _amount = NumberUtil.truncateDecimal(NumberUtil.getRawAsUsableDecimal(_amountRaw), digits: 6).toStringAsFixed(6) + "~";
+      _amount = NumberUtil.truncateDecimal(
+                  NumberUtil.getRawAsUsableDecimal(_amountRaw),
+                  digits: 6)
+              .toStringAsFixed(6) +
+          "~";
     }
     _destination = destinaton.replaceAll("nano_", "xrb_");
     _contactName = contactName;
@@ -80,6 +85,16 @@ class AppSendConfirmSheet {
                       bottom: MediaQuery.of(context).size.height * 0.035),
                   child: Column(
                     children: <Widget>[
+                      // Sheet handle
+                      Container(
+                        margin: EdgeInsets.only(top: 10),
+                        height: 5,
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        decoration: BoxDecoration(
+                          color: StateContainer.of(context).curTheme.text10,
+                          borderRadius: BorderRadius.circular(100.0),
+                        ),
+                      ),
                       //The main widget that holds the text fields, "SENDING" and "TO" texts
                       Expanded(
                         child: Column(
