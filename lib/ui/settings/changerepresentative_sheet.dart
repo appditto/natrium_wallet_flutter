@@ -11,6 +11,7 @@ import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
@@ -19,6 +20,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
+import 'package:natrium_wallet_flutter/util/ninja/ninja_node.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/biometrics.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
@@ -58,6 +60,47 @@ class AppChangeRepresentativeSheet {
       _repChangeSub.cancel();
     }
     return true;
+  }
+
+  _buildRepresenativeDialog() {
+    return AppSimpleDialog(
+      title:Text("asdasd"),
+      children: <Widget>[
+        _buildSingleRepresentative(NinjaNode(
+            account: 'nano_111',
+            alias: 'yekta',
+            votingWeight: BigInt.parse('10000000000000000000000'),
+            score: 99,
+            uptime: 94.3)),
+        _buildSingleRepresentative(NinjaNode(
+            account: 'nano_111',
+            alias: 'yekta',
+            votingWeight: BigInt.parse('10000000000000000000000'),
+            score: 99,
+            uptime: 94.3)),
+        _buildSingleRepresentative(NinjaNode(
+            account: 'nano_111',
+            alias: 'yekta',
+            votingWeight: BigInt.parse('10000000000000000000000'),
+            score: 99,
+            uptime: 94.3)),
+      ],
+    );
+  }
+
+  _buildSingleRepresentative(NinjaNode rep) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        children: <Widget>[
+          Text(rep.account),
+          Text(rep.alias),
+          Text(rep.votingWeight.toString()),
+          Text(rep.score.toString()),
+          Text(rep.uptime.toString()),
+        ],
+      ),
+    );
   }
 
   mainBottomSheet(BuildContext context) {
@@ -127,11 +170,11 @@ class AppChangeRepresentativeSheet {
                                       .curTheme
                                       .text15,
                                   onPressed: () {
-                                    AppDialogs.showInfoDialog(
-                                        context,
-                                        AppLocalization.of(context)
-                                            .repInfoHeader,
-                                        AppLocalization.of(context).repInfo);
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          _buildRepresenativeDialog();
+                                        });
                                   },
                                   child: Icon(AppIcons.info,
                                       size: 24,
