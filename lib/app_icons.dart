@@ -67,4 +67,5 @@ class AppIcons {
   static const IconData natriumhorizontal = const IconData(0xe82c, fontFamily: _kFontFam);
   static const IconData accountswitcher = const IconData(0xe82d, fontFamily: _kFontFam);
   static const IconData accountwallet = const IconData(0xe82e, fontFamily: _kFontFam);
+  static const IconData score = const IconData(0xe82f, fontFamily: _kFontFam);
 }

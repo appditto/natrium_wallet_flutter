@@ -62,42 +62,218 @@ class AppChangeRepresentativeSheet {
     return true;
   }
 
-  _buildRepresenativeDialog() {
+  _buildRepresenativeDialog(BuildContext context) {
     return AppSimpleDialog(
-      title:Text("asdasd"),
+      title: Text(
+        "Representatives",
+        style: AppStyles.textStyleDialogHeader(context),
+      ),
       children: <Widget>[
-        _buildSingleRepresentative(NinjaNode(
-            account: 'nano_111',
-            alias: 'yekta',
-            votingWeight: BigInt.parse('10000000000000000000000'),
-            score: 99,
-            uptime: 94.3)),
-        _buildSingleRepresentative(NinjaNode(
-            account: 'nano_111',
-            alias: 'yekta',
-            votingWeight: BigInt.parse('10000000000000000000000'),
-            score: 99,
-            uptime: 94.3)),
-        _buildSingleRepresentative(NinjaNode(
-            account: 'nano_111',
-            alias: 'yekta',
-            votingWeight: BigInt.parse('10000000000000000000000'),
-            score: 99,
-            uptime: 94.3)),
+        _buildSingleRepresentative(
+          NinjaNode(
+              alias: 'Nananode21',
+              votingWeight: BigInt.parse('16000000'),
+              score: 99,
+              uptime: 99.84),
+          context,
+        ),
+        _buildSingleRepresentative(
+          NinjaNode(
+              alias: 'Nonna',
+              votingWeight: BigInt.parse('16000000'),
+              score: 98,
+              uptime: 99.51),
+          context,
+        ),
+        _buildSingleRepresentative(
+          NinjaNode(
+              alias: 'Warai',
+              votingWeight: BigInt.parse('13000000'),
+              score: 97,
+              uptime: 99.36),
+          context,
+        ),
+        _buildSingleRepresentative(
+          NinjaNode(
+              alias: 'Nanoisfast.com',
+              votingWeight: BigInt.parse('31000000'),
+              score: 96,
+              uptime: 98.96),
+          context,
+        ),
+        _buildSingleRepresentative(
+          NinjaNode(
+            alias: 'NanoLinks',
+            votingWeight: BigInt.parse('15000000'),
+            score: 95,
+            uptime: 98.64,
+          ),
+          context,
+        ),
       ],
     );
   }
 
-  _buildSingleRepresentative(NinjaNode rep) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+  _buildSingleRepresentative(NinjaNode rep, BuildContext context) {
+    return Container(
       child: Column(
         children: <Widget>[
-          Text(rep.account),
-          Text(rep.alias),
-          Text(rep.votingWeight.toString()),
-          Text(rep.score.toString()),
-          Text(rep.uptime.toString()),
+          Divider(
+            height: 2,
+            color: StateContainer.of(context).curTheme.text15,
+          ),
+          FlatButton(
+            onPressed: (){return null;},
+            padding: EdgeInsets.all(0),
+                      child: Container(
+              margin: EdgeInsets.symmetric(vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 24),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          rep.alias,
+                          style: TextStyle(
+                              color: StateContainer.of(context).curTheme.text,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18.0,
+                              fontFamily: 'Nunito Sans'),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 7),
+                          child: RichText(
+                            text: TextSpan(
+                              text: '',
+                              children: [
+                                TextSpan(
+                                  text: "Voting Weight: ",
+                                  style: TextStyle(
+                                    color: StateContainer.of(context).curTheme.text,
+                                    fontWeight: FontWeight.w200,
+                                    fontSize: 12.0,
+                                    fontFamily: 'Nunito Sans',
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "%",
+                                  style: TextStyle(
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12.0,
+                                      fontFamily: 'Nunito Sans'),
+                                ),
+                                TextSpan(
+                                  text: "0.",
+                                  style: TextStyle(
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12.0,
+                                      fontFamily: 'Nunito Sans'),
+                                ),
+                                TextSpan(
+                                  text: ((rep.votingWeight).toString())
+                                      .substring(0, 2),
+                                  style: TextStyle(
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12.0,
+                                      fontFamily: 'Nunito Sans'),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 4),
+                          child: RichText(
+                            text: TextSpan(
+                              text: '',
+                              children: [
+                                TextSpan(
+                                  text: "Uptime: ",
+                                  style: TextStyle(
+                                      color:
+                                          StateContainer.of(context).curTheme.text,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12.0,
+                                      fontFamily: 'Nunito Sans'),
+                                ),
+                                TextSpan(
+                                  text: "%",
+                                  style: TextStyle(
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12.0,
+                                      fontFamily: 'Nunito Sans'),
+                                ),
+                                TextSpan(
+                                  text: (rep.uptime).toString(),
+                                  style: TextStyle(
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12.0,
+                                      fontFamily: 'Nunito Sans'),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(right: 24),
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                            alignment: Alignment(0, 0),
+                            width: 50,
+                            height: 50,
+                            child: Icon(
+                              AppIcons.score,
+                              color: StateContainer.of(context).curTheme.primary,
+                              size: 50,
+                            )),
+                        Container(
+                          alignment: Alignment(0, 0),
+                          width: 50,
+                          height: 50,
+                          child: Text(
+                            (rep.score).toString(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: StateContainer.of(context)
+                                  .curTheme
+                                  .backgroundDark,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w800,
+                              fontFamily: 'Nunito Sans',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -173,7 +349,8 @@ class AppChangeRepresentativeSheet {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return _buildRepresenativeDialog();
+                                          return _buildRepresenativeDialog(
+                                              context);
                                         });
                                   },
                                   child: Icon(AppIcons.info,
