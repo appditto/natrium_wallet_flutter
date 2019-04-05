@@ -37,6 +37,8 @@ class SharedPrefsUtil {
   // For maximum pin attempts
   static const String pin_attempts = 'fkalium_pin_attempts';
   static const String pin_lock_until = 'fkalium_lock_duraton';
+  // For certain keystore incompatible androids
+  static const String use_legacy_storage = 'fkalium_legacy_storage';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -240,6 +242,14 @@ class SharedPrefsUtil {
       return null;
     }
     return DateFormat.yMd().add_jms().parseUtc(lockDateStr);
+  }
+
+  Future<bool> useLegacyStorage() async {
+    return await get(use_legacy_storage, defaultValue: false);
+  }
+
+  Future<void> setUseLegacyStorage() async {
+    await set(use_legacy_storage, true);
   }
 
   // For logging out

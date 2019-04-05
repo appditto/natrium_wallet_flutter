@@ -266,42 +266,58 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
   }
 
   Future checkLoggedIn() async {
-    // iOS key store is persistent, so if this is first launch then we will clear the keystore
-    bool firstLaunch = await SharedPrefsUtil.inst.getFirstLaunch();
-    if (firstLaunch) {
-      bool migrated = false;
-      if (Platform.isAndroid) {
-        migrated = await _doAndroidMigration();
+    try {
+      // iOS key store is persistent, so if this is first launch then we will clear the keystore
+      bool firstLaunch = await SharedPrefsUtil.inst.getFirstLaunch();
+      if (firstLaunch) {
+        bool migrated = false;
+        if (Platform.isAndroid) {
+          migrated = await _doAndroidMigration();
+        }
+        if (!migrated) {
+          await Vault.inst.deleteAll();
+        }
       }
-      if (!migrated) {
-        await Vault.inst.deleteAll();
+      await SharedPrefsUtil.inst.setFirstLaunch();
+      // See if logged in already
+      bool isLoggedIn = false;
+      var seed = await Vault.inst.getSeed();
+      var pin = await Vault.inst.getPin();
+      // If we have a seed set, but not a pin - or vice versa
+      // Then delete the seed and pin from device and start over.
+      // This would mean user did not complete the intro screen completely.
+      if (seed != null && pin != null) {
+        isLoggedIn = true;
+      } else if (seed != null && pin == null) {
+        await Vault.inst.deleteSeed();
+      } else if (pin != null && seed == null) {
+        await Vault.inst.deletePin();
       }
-    }
-    await SharedPrefsUtil.inst.setFirstLaunch();
-    // See if logged in already
-    bool isLoggedIn = false;
-    var seed = await Vault.inst.getSeed();
-    var pin = await Vault.inst.getPin();
-    // If we have a seed set, but not a pin - or vice versa
-    // Then delete the seed and pin from device and start over.
-    // This would mean user did not complete the intro screen completely.
-    if (seed != null && pin != null) {
-      isLoggedIn = true;
-    } else if (seed != null && pin == null) {
-      await Vault.inst.deleteSeed();
-    } else if (pin != null && seed == null) {
-      await Vault.inst.deletePin();
-    }
 
-    if (isLoggedIn) {
-      if (await SharedPrefsUtil.inst.getLock() || await SharedPrefsUtil.inst.shouldLock()) {
-        Navigator.of(context).pushReplacementNamed('/lock_screen');
+      if (isLoggedIn) {
+        if (await SharedPrefsUtil.inst.getLock() || await SharedPrefsUtil.inst.shouldLock()) {
+          Navigator.of(context).pushReplacementNamed('/lock_screen');
+        } else {
+          await NanoUtil().loginAccount(context);
+          Navigator.of(context).pushReplacementNamed('/home');
+        }
       } else {
-        await NanoUtil().loginAccount(context);
-        Navigator.of(context).pushReplacementNamed('/home');
+        Navigator.of(context).pushReplacementNamed('/intro_welcome');
       }
-    } else {
-      Navigator.of(context).pushReplacementNamed('/intro_welcome');
+    } catch (e) {
+      /// Fallback secure storage
+      /// A very small percentage of users are encountering issues writing to the
+      /// Android keyStore using the flutter_secure_storage plugin.
+      /// 
+      /// Instead of telling them they are out of luck, this is an automatic "fallback"
+      /// It will generate a 64-byte secret using the native android "bottlerocketstudios" Vault
+      /// This secret is used to encrypt sensitive data and save it in SharedPreferences
+      if (Platform.isAndroid && e.toString().contains("flutter_secure")) {
+        if (!(await SharedPrefsUtil.inst.useLegacyStorage())) {
+          await SharedPrefsUtil.inst.setUseLegacyStorage();
+          checkLoggedIn();
+        }
+      }
     }
   }
 

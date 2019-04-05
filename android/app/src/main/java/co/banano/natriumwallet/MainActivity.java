@@ -28,6 +28,8 @@ public class MainActivity extends FlutterActivity {
                       new MigrationStuff().clearLegacyData();
                   } else if (call.method.equals("getLegacyPin")) {
                       result.success(new MigrationStuff().getLegacyPin());
+                  } else if (call.method.equals("getSecret")) {
+                      result.success(new LegacyStorage().getSecret());                      
                   } else {
                       result.notImplemented();
                   }
