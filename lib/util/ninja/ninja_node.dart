@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'ninja_node.g.dart';
 
+/// Represent a node that is returned from the MyNanoNinja API
 @JsonSerializable()
 class NinjaNode {
   @JsonKey(name:'votingweight')
