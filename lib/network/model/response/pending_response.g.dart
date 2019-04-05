@@ -8,11 +8,13 @@ part of 'pending_response.dart';
 
 PendingResponse _$PendingResponseFromJson(Map<String, dynamic> json) {
   return PendingResponse(
-      blocks: (json['blocks'] as Map<String, dynamic>)?.map((k, e) => MapEntry(
-          k,
-          e == null
-              ? null
-              : PendingResponseItem.fromJson(e as Map<String, dynamic>))));
+      blocks: (json['blocks'] as Map<String, dynamic>)?.map(
+    (k, e) => MapEntry(
+        k,
+        e == null
+            ? null
+            : PendingResponseItem.fromJson(e as Map<String, dynamic>)),
+  ));
 }
 
 Map<String, dynamic> _$PendingResponseToJson(PendingResponse instance) =>
