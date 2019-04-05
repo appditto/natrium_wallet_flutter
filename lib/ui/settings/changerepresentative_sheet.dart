@@ -173,7 +173,7 @@ class AppChangeRepresentativeSheet {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          _buildRepresenativeDialog();
+                                          return _buildRepresenativeDialog();
                                         });
                                   },
                                   child: Icon(AppIcons.info,
