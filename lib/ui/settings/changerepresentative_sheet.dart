@@ -64,9 +64,12 @@ class AppChangeRepresentativeSheet {
 
   _buildRepresenativeDialog(BuildContext context) {
     return AppSimpleDialog(
-      title: Text(
-        "Representatives",
-        style: AppStyles.textStyleDialogHeader(context),
+      title: Container(
+        margin: EdgeInsets.only(bottom: 10),
+        child: Text(
+          "Representatives",
+          style: AppStyles.textStyleDialogHeader(context),
+        ),
       ),
       children: <Widget>[
         _buildSingleRepresentative(
@@ -165,16 +168,6 @@ class AppChangeRepresentativeSheet {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: "%",
-                                  style: TextStyle(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .primary,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14.0,
-                                      fontFamily: 'Nunito Sans'),
-                                ),
-                                TextSpan(
                                   text: "0.",
                                   style: TextStyle(
                                       color: StateContainer.of(context)
@@ -194,7 +187,17 @@ class AppChangeRepresentativeSheet {
                                       fontWeight: FontWeight.w700,
                                       fontSize: 14.0,
                                       fontFamily: 'Nunito Sans'),
-                                )
+                                ),
+                                TextSpan(
+                                  text: "%",
+                                  style: TextStyle(
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14.0,
+                                      fontFamily: 'Nunito Sans'),
+                                ),
                               ],
                             ),
                           ),
@@ -216,7 +219,7 @@ class AppChangeRepresentativeSheet {
                                       fontFamily: 'Nunito Sans'),
                                 ),
                                 TextSpan(
-                                  text: "%",
+                                  text: (rep.uptime).toString(),
                                   style: TextStyle(
                                       color: StateContainer.of(context)
                                           .curTheme
@@ -226,7 +229,7 @@ class AppChangeRepresentativeSheet {
                                       fontFamily: 'Nunito Sans'),
                                 ),
                                 TextSpan(
-                                  text: (rep.uptime).toString(),
+                                  text: "%",
                                   style: TextStyle(
                                       color: StateContainer.of(context)
                                           .curTheme
@@ -234,7 +237,7 @@ class AppChangeRepresentativeSheet {
                                       fontWeight: FontWeight.w700,
                                       fontSize: 14.0,
                                       fontFamily: 'Nunito Sans'),
-                                )
+                                ),
                               ],
                             ),
                           ),
