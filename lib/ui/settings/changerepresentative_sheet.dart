@@ -126,6 +126,8 @@ class AppChangeRepresentativeSheet {
             color: StateContainer.of(context).curTheme.text15,
           ),
           FlatButton(
+            highlightColor: StateContainer.of(context).curTheme.text15,
+            splashColor: StateContainer.of(context).curTheme.text15,
             onPressed: () {
               return null;
             },
