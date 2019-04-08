@@ -48,13 +48,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "onStr": "Ouvert",
+    "onStr": "Activé",
     "@onStr": {
         "description": "generic_on",
         "type": "text",
         "placeholders": {}
     },
-    "off": "Fermé",
+    "off": "Désactivé",
     "@off": {
         "description": "generic_off",
         "type": "text",
@@ -180,7 +180,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "addContact": "Ajouter contact",
+    "addContact": "Ajouter un contact",
     "@addContact": {
         "description": "contact_add_button",
         "type": "text",
@@ -246,7 +246,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "seedBackupInfo": "Ci-dessous se trouve la clé privée de votre portefeuille. Il est essentiel que vous le sauvegardiez, et que jamais vous ne le conserviez sous forme de capture d’écran ou de texte en clair.",
+    "seedBackupInfo": "Voici la clé privée de votre portefeuille. Il est essentiel de la sauvegarder et de ne jamais la conserver sous forme de capture d'écran ou en clair.",
     "@seedBackupInfo": {
         "description": "intro_new_wallet_seed",
         "type": "text",
@@ -654,7 +654,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferIntro": "Ce procédé transférera d’un portefeuille papier vers votre portefeuille Natrium.\n\nAppuyer sur le bouton \"%1\" pour commencer.",
+    "transferIntro": "Transférer le contenu d'un portefeuille papier vers votre portefeuille Natrium.",
     "@transferIntro": {
         "description": "transfer_intro",
         "type": "text",
