@@ -1,14 +1,19 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:decimal/decimal.dart';
 
 part 'ninja_node.g.dart';
+
+double _toDouble(v) {
+  return double.tryParse(v.toString());
+}
 
 /// Represent a node that is returned from the MyNanoNinja API
 @JsonSerializable()
 class NinjaNode {
   @JsonKey(name:'votingweight')
-  BigInt votingWeight;
+  double votingWeight;
 
-  @JsonKey(name:'uptime')
+  @JsonKey(name:'uptime', fromJson: _toDouble)
   double uptime;
   
   @JsonKey(name:'score')

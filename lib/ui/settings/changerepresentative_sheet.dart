@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -23,6 +24,7 @@ import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/util/ninja/ninja_node.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/biometrics.dart';
+import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
@@ -62,6 +64,20 @@ class AppChangeRepresentativeSheet {
     return true;
   }
 
+  _getRepresentativeWidgets(BuildContext context, List<NinjaNode> list) {
+    if (list == null) return [];
+    List<Widget> ret = [];
+    list.forEach((node) {
+      ret.add(
+        _buildSingleRepresentative(
+          node,
+          context,
+        )
+      );
+    });
+    return ret;
+  }
+
   _buildRepresenativeDialog(BuildContext context) {
     return AppSimpleDialog(
       title: Container(
@@ -71,50 +87,15 @@ class AppChangeRepresentativeSheet {
           style: AppStyles.textStyleDialogHeader(context),
         ),
       ),
-      children: <Widget>[
-        _buildSingleRepresentative(
-          NinjaNode(
-              alias: 'Nananode21',
-              votingWeight: BigInt.parse('16000000'),
-              score: 99,
-              uptime: 99.84),
-          context,
-        ),
-        _buildSingleRepresentative(
-          NinjaNode(
-              alias: 'Nonna',
-              votingWeight: BigInt.parse('16000000'),
-              score: 98,
-              uptime: 99.51),
-          context,
-        ),
-        _buildSingleRepresentative(
-          NinjaNode(
-              alias: 'Warai',
-              votingWeight: BigInt.parse('13000000'),
-              score: 97,
-              uptime: 99.36),
-          context,
-        ),
-        _buildSingleRepresentative(
-          NinjaNode(
-              alias: 'Nanoisfast.com',
-              votingWeight: BigInt.parse('31000000'),
-              score: 96,
-              uptime: 98.96),
-          context,
-        ),
-        _buildSingleRepresentative(
-          NinjaNode(
-            alias: 'NanoLinks',
-            votingWeight: BigInt.parse('15000000'),
-            score: 95,
-            uptime: 98.64,
-          ),
-          context,
-        ),
-      ],
+      children: _getRepresentativeWidgets(context, StateContainer.of(context).nanoNinjaNodes)
     );
+  }
+
+  String _sanitizeAlias(String alias) {
+    if (alias != null) {
+      return alias.replaceAll(RegExp(r'[^a-zA-Z_.!?_;:-]'), '');
+    }
+    return '';
   }
 
   _buildSingleRepresentative(NinjaNode rep, BuildContext context) {
@@ -145,7 +126,7 @@ class AppChangeRepresentativeSheet {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          rep.alias,
+                          _sanitizeAlias(rep.alias),
                           style: TextStyle(
                               color: StateContainer.of(context).curTheme.text,
                               fontWeight: FontWeight.w700,
@@ -170,18 +151,7 @@ class AppChangeRepresentativeSheet {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: "0.",
-                                  style: TextStyle(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .primary,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14.0,
-                                      fontFamily: 'Nunito Sans'),
-                                ),
-                                TextSpan(
-                                  text: ((rep.votingWeight).toString())
-                                      .substring(0, 2),
+                                  text: NumberUtil.getDoubleAsReadable(rep.votingWeight),
                                   style: TextStyle(
                                       color: StateContainer.of(context)
                                           .curTheme
@@ -221,7 +191,7 @@ class AppChangeRepresentativeSheet {
                                       fontFamily: 'Nunito Sans'),
                                 ),
                                 TextSpan(
-                                  text: (rep.uptime).toString(),
+                                  text: (rep.uptime).toStringAsFixed(2),
                                   style: TextStyle(
                                       color: StateContainer.of(context)
                                           .curTheme
@@ -939,6 +909,7 @@ class AppChangeRepresentativeSheet {
                                     AppButtonType.PRIMARY_OUTLINE,
                                     "LIST",
                                     Dimens.BUTTON_BOTTOM_DIMENS,
+                                    disabled: StateContainer.of(context).nanoNinjaNodes == null,
                                     onPressed: () {
                                       showDialog(
                                           context: context,

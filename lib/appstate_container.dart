@@ -18,6 +18,7 @@ import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
+import 'package:natrium_wallet_flutter/util/ninja/ninja_node.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 import 'package:natrium_wallet_flutter/network/model/request_item.dart';
 import 'package:natrium_wallet_flutter/network/model/request/accounts_balances_request.dart';
@@ -123,8 +124,17 @@ class StateContainerState extends State<StateContainer> {
   // Maps all pending receives to previous blocks
   Map<String, StateBlock> pendingBlockMap = Map();
 
+  // List of Verified Nano Ninja Nodes
+  List<NinjaNode> nanoNinjaNodes;
+
   StateContainerState() {
     dbHelper = DBHelper();
+  }
+
+  void updateNinjaNodes(List<NinjaNode> list) {
+    setState(() {
+      nanoNinjaNodes = list;
+    });
   }
 
   @override

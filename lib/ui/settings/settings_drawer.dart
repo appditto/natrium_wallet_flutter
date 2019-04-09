@@ -28,7 +28,6 @@ import 'package:natrium_wallet_flutter/model/available_language.dart';
 import 'package:natrium_wallet_flutter/model/available_themes.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
-import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/ui/settings/backupseed_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/contacts/add_contact.dart';
@@ -47,6 +46,7 @@ import 'package:natrium_wallet_flutter/util/biometrics.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
+import 'package:natrium_wallet_flutter/util/ninja/api.dart';
 
 class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
@@ -1230,6 +1230,13 @@ class _SettingsSheetState extends State<SettingsSheet>
                         AppIcons.changerepresentative, onPressed: () {
                       new AppChangeRepresentativeSheet()
                           .mainBottomSheet(context);
+                      if (StateContainer.of(context).nanoNinjaNodes == null) {
+                        NinjaAPI.getVerifiedNodes().then((result) {
+                          if (result != null) {
+                            StateContainer.of(context).updateNinjaNodes(result);
+                          }
+                        });
+                      }
                     }),
                     Divider(
                       height: 2,
