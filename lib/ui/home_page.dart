@@ -323,8 +323,10 @@ class _AppHomePageState extends State<AppHomePage>
     _switchAccountSub = EventTaxiImpl.singleton()
         .registerTo<AccountChangedEvent>()
         .listen((event) {
-      _startAnimation();
       setState(() {
+        StateContainer.of(context).wallet.loading = true;
+        StateContainer.of(context).wallet.historyLoading = true;
+        _startAnimation();
         StateContainer.of(context).updateWallet(account: event.account);
       });
       paintQrCode(address: event.account.address);
