@@ -68,19 +68,13 @@ class NumberUtil {
     return (asDecimal * rawDecimal).toString();
   }
 
-  /// Return readable string from a double amount
-  /// @param amount 1.0135451
-  /// @return "1.01"
-  static String getDoubleAsReadable(double amount) {
-    String amtStr = amount.toString();
-    List<String> splitAmt = amtStr.split('.');
-    String finalStr = "";
-    if (splitAmt.length > 0) {
-      finalStr = splitAmt[0] + "." + splitAmt[1].substring(0, 2);
-    } else {
-      finalStr = amtStr;
-    }
-    return finalStr;
+  /// Return percentage of total supploy
+  /// @param amount 10020243004141
+  /// @return 0.0000001%
+  static String getPercentOfTotalSupply(BigInt amount) {
+    Decimal totalSupply = Decimal.parse('133248290000000000000000000000000000000');
+    Decimal amountRaw = Decimal.parse(amount.toString());
+    return ((amountRaw / totalSupply) * Decimal.fromInt(100)).toStringAsFixed(4);
   }
 
   /// Sanitize a number as something that can actually

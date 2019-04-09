@@ -151,7 +151,7 @@ class AppChangeRepresentativeSheet {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: NumberUtil.getDoubleAsReadable(rep.votingWeight),
+                                  text: NumberUtil.getPercentOfTotalSupply(rep.votingWeight),
                                   style: TextStyle(
                                       color: StateContainer.of(context)
                                           .curTheme

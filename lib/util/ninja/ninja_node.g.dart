@@ -8,7 +8,8 @@ part of 'ninja_node.dart';
 
 NinjaNode _$NinjaNodeFromJson(Map<String, dynamic> json) {
   return NinjaNode(
-      votingWeight: (json['votingweight'] as num)?.toDouble(),
+      votingWeight:
+          json['votingweight'] == null ? null : _toBigInt(json['votingweight']),
       uptime: json['uptime'] == null ? null : _toDouble(json['uptime']),
       score: json['score'] as int,
       account: json['account'] as String,
@@ -16,7 +17,7 @@ NinjaNode _$NinjaNodeFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$NinjaNodeToJson(NinjaNode instance) => <String, dynamic>{
-      'votingweight': instance.votingWeight,
+      'votingweight': instance.votingWeight?.toString(),
       'uptime': instance.uptime,
       'score': instance.score,
       'account': instance.account,

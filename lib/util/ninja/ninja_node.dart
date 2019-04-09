@@ -7,11 +7,15 @@ double _toDouble(v) {
   return double.tryParse(v.toString());
 }
 
+BigInt _toBigInt(v) {
+  return BigInt.from(v);
+}
+
 /// Represent a node that is returned from the MyNanoNinja API
 @JsonSerializable()
 class NinjaNode {
-  @JsonKey(name:'votingweight')
-  double votingWeight;
+  @JsonKey(name:'votingweight', fromJson: _toBigInt)
+  BigInt votingWeight;
 
   @JsonKey(name:'uptime', fromJson: _toDouble)
   double uptime;
