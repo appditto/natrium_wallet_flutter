@@ -6,6 +6,7 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
@@ -29,9 +30,9 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
     // Back button pressed
     Future<bool> _onWillPop() async {
       // Delete seed
-      await Vault.inst.deleteAll();
+      await sl.get<Vault>().deleteAll();
       // Delete any shared prefs
-      await Vault.inst.deleteAll();
+      await sl.get<Vault>().deleteAll();
       return true;
     }
 
@@ -277,10 +278,10 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   // If seed valid, log them in
                                   if (NanoSeeds.isValidSeed(
                                       _seedInputController.text)) {
-                                    SharedPrefsUtil.inst
+                                    sl.get<SharedPrefsUtil>()
                                         .setSeedBackedUp(true)
                                         .then((result) {
-                                      Vault.inst
+                                      sl.get<Vault>()
                                           .setSeed(_seedInputController.text)
                                           .then((result) {
                                         NanoUtil().loginAccount(context).then((_) {
@@ -321,7 +322,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
 
   void _pinEnteredCallback(String pin) {
     Navigator.of(context).pop();
-    Vault.inst.writePin(pin).then((result) {
+    sl.get<Vault>().writePin(pin).then((result) {
       // Update wallet
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);

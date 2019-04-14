@@ -4,6 +4,7 @@ import 'package:event_taxi/event_taxi.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_balance_item.dart';
@@ -307,7 +308,7 @@ class AppTransferConfirmSheet {
   }
 
   Future<String> _getPrivKey(int index) async {
-    return NanoUtil.seedToPrivate(await Vault.inst.getSeed(), index);
+    return NanoUtil.seedToPrivate(await sl.get<Vault>().getSeed(), index);
   }
 
   ///

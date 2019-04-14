@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/util/encrypt.dart';
 import 'package:natrium_wallet_flutter/model/available_themes.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
@@ -16,10 +17,6 @@ enum PriceConversion { BTC, NONE }
 
 /// Singleton wrapper for shared preferences
 class SharedPrefsUtil {
-  SharedPrefsUtil._internal();
-  static final SharedPrefsUtil _singleton = new SharedPrefsUtil._internal();
-  static SharedPrefsUtil get inst => _singleton;
-
   // Keys
   static const String first_launch_key = 'fkalium_first_launch';
   static const String seed_backed_up_key = 'fkalium_seed_backup';
@@ -62,10 +59,10 @@ class SharedPrefsUtil {
   // For encrypted data
   Future<void> setEncrypted(String key, String value) async {
     // Retrieve/Generate encryption password
-    String secret = await Vault.inst.getEncryptionPhrase();
+    String secret = await sl.get<Vault>().getEncryptionPhrase();
     if (secret == null) {
       secret = Salsa20Encryptor.generateEncryptionSecret(16) + ":" + Salsa20Encryptor.generateEncryptionSecret(8);
-      await Vault.inst.writeEncryptionPhrase(secret);
+      await sl.get<Vault>().writeEncryptionPhrase(secret);
     }
     // Encrypt and save
     Salsa20Encryptor encrypter = new Salsa20Encryptor(secret.split(":")[0], secret.split(":")[1]);
@@ -74,7 +71,7 @@ class SharedPrefsUtil {
   }
 
   Future<String> getEncrypted(String key) async {
-    String secret = await Vault.inst.getEncryptionPhrase();
+    String secret = await sl.get<Vault>().getEncryptionPhrase();
     if (secret == null) return null;
     // Decrypt and return
     Salsa20Encryptor encrypter = new Salsa20Encryptor(secret.split(":")[0], secret.split(":")[1]);

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 
 const double _kActionsExtentRatio = 0.25;
@@ -1047,7 +1048,7 @@ class SlidableState extends State<Slidable>
         _callbackComplete = true;
         close();
       });
-      HapticUtil.success();
+      sl.get<HapticUtil>().success();
       var delayed = new Future.delayed(new Duration(milliseconds: 150));
       delayed.then((_) {
         Future.delayed(Duration(milliseconds: 100), () {

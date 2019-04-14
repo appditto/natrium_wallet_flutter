@@ -8,6 +8,7 @@ import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
@@ -31,8 +32,6 @@ class AppAccountsSheet {
   StreamSubscription<AccountModifiedEvent> _accountModifiedSub;
   bool _accountIsChanging;
 
-  DBHelper dbHelper;
-
   Future<bool> _onWillPop() async {
     if (_balancesSub != null) {
       _balancesSub.cancel();
@@ -50,7 +49,6 @@ class AppAccountsSheet {
     this._accounts.where((a) => a.selected).forEach((acct) {
       acct.balance = selectedBalance.toString();
     });
-    this.dbHelper = DBHelper();
   }
 
   Future<void> _requestBalances(
@@ -76,7 +74,7 @@ class AppAccountsSheet {
                 BigInt.tryParse(balance.pending))
             .toString();
         if (account.address == address && combinedBalance != account.balance) {
-          dbHelper.updateAccountBalance(account, combinedBalance);
+          sl.get<DBHelper>().updateAccountBalance(account, combinedBalance);
           setState(() {
             account.balance = combinedBalance;
           });
@@ -98,7 +96,7 @@ class AppAccountsSheet {
         });
       }
     });
-    await dbHelper.changeAccount(account);
+    await sl.get<DBHelper>().changeAccount(account);
     EventTaxiImpl.singleton()
         .fire(AccountChangedEvent(account: account, delayPop: true));
   }
@@ -267,7 +265,7 @@ class AppAccountsSheet {
                                           setState(() {
                                             _addingAccount = true;
                                           });
-                                          dbHelper
+                                          sl.get<DBHelper>()
                                               .addAccount(
                                                   nameBuilder: AppLocalization
                                                           .of(context)
@@ -539,7 +537,7 @@ class AppAccountsSheet {
                 CaseChange.toUpperCase(
                     AppLocalization.of(context).yes, context), () {
               // Remove account
-              dbHelper.deleteAccount(account).then((id) {
+              sl.get<DBHelper>().deleteAccount(account).then((id) {
                 EventTaxiImpl.singleton().fire(
                     AccountModifiedEvent(account: account, deleted: true));
                 setState(() {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,6 +9,7 @@ import 'package:event_taxi/event_taxi.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
@@ -757,15 +757,15 @@ class AppChangeRepresentativeSheet {
                                         return;
                                       }
                                       // Authenticate
-                                      SharedPrefsUtil.inst
+                                      sl.get<SharedPrefsUtil>()
                                           .getAuthMethod()
                                           .then((authMethod) {
-                                        BiometricUtil.hasBiometrics()
+                                        sl.get<BiometricUtil>().hasBiometrics()
                                             .then((hasBiometrics) {
                                           if (authMethod.method ==
                                                   AuthMethod.BIOMETRICS &&
                                               hasBiometrics) {
-                                            BiometricUtil
+                                            sl.get<BiometricUtil>()
                                                     .authenticateWithBiometrics(
                                                         context,
                                                         AppLocalization.of(
@@ -773,7 +773,7 @@ class AppChangeRepresentativeSheet {
                                                             .changeRepAuthenticate)
                                                 .then((authenticated) {
                                               if (authenticated) {
-                                                HapticUtil.fingerprintSucess();
+                                                sl.get<HapticUtil>().fingerprintSucess();
                                                 _animationOpen = true;
                                                 Navigator.of(context).push(
                                                     AnimationLoadingOverlay(
@@ -794,7 +794,7 @@ class AppChangeRepresentativeSheet {
                                                         .wallet
                                                         .openBlock ==
                                                     null) {
-                                                  SharedPrefsUtil.inst
+                                                  sl.get<SharedPrefsUtil>()
                                                       .setRepresentative(
                                                           _repController.text)
                                                       .then((result) {
@@ -827,7 +827,7 @@ class AppChangeRepresentativeSheet {
                                             });
                                           } else {
                                             // PIN Authentication
-                                            Vault.inst
+                                            sl.get<Vault>()
                                                 .getPin()
                                                 .then((expectedPin) {
                                               Navigator.of(context).push(
@@ -853,7 +853,7 @@ class AppChangeRepresentativeSheet {
                                                             .wallet
                                                             .openBlock ==
                                                         null) {
-                                                      SharedPrefsUtil.inst
+                                                      sl.get<SharedPrefsUtil>()
                                                           .setRepresentative(
                                                               _repController
                                                                   .text)

@@ -7,7 +7,7 @@ import 'package:device_info/device_info.dart';
 /// Utilities for haptic feedback
 class HapticUtil {
   /// Return true if this device supports taptic engine (iPhone 7+)
-  static Future<bool> hasTapicEngine() async {
+  Future<bool> hasTapicEngine() async {
     if (!Platform.isIOS) {
       return false;
     }
@@ -31,7 +31,7 @@ class HapticUtil {
   }
 
   /// Feedback for error
-  static Future<void> error() async {
+  Future<void> error() async {
     if (Platform.isIOS) {
       // If this is simulator or this device doesnt have tapic then we can't use this
       if (await hasTapicEngine() && await Vibrate.canVibrate) {
@@ -45,10 +45,10 @@ class HapticUtil {
   }
 
   /// Feedback for success
-  static Future<void> success() async {
+  Future<void> success() async {
     if (Platform.isIOS) {
       // If this is simulator or this device doesnt have tapic then we can't use this
-      if (await HapticUtil.hasTapicEngine() && await Vibrate.canVibrate) {
+      if (await hasTapicEngine() && await Vibrate.canVibrate) {
         Vibrate.feedback(FeedbackType.medium);
       } else {
         HapticFeedback.mediumImpact();
@@ -60,7 +60,7 @@ class HapticUtil {
 
   /// Feedback for fingerprint success
   /// iOS-only, since Android already gives us feedback on success
-  static Future<void> fingerprintSucess() async {
+  Future<void> fingerprintSucess() async {
     if (Platform.isIOS) {
       Future.delayed(Duration(milliseconds: 50), () => success());
     }

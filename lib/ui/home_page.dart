@@ -12,6 +12,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/list_model.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
@@ -78,15 +79,8 @@ class _AppHomePageState extends State<AppHomePage>
 
   bool _lockDisabled = false; // whether we should avoid locking the app
 
-  // Database
-  DBHelper dbHelper;
-
   // FCM instance
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-  _AppHomePageState() {
-    this.dbHelper = DBHelper();
-  }
 
   // Animation for swiping to send
   ActorAnimation _sendSlideAnimation;
@@ -117,12 +111,12 @@ class _AppHomePageState extends State<AppHomePage>
   Future<void> _chooseCorrectAccountFromNotification(Map<String, dynamic> message) async {
     try {
       if (message.containsKey("account")) {
-        Account selectedAccount = await dbHelper.getSelectedAccount();
+        Account selectedAccount = await sl.get<DBHelper>().getSelectedAccount();
         if (message['account'] != selectedAccount.address) {
-          List<Account> accounts = await dbHelper.getAccounts();
+          List<Account> accounts = await sl.get<DBHelper>().getAccounts();
           for (int i = 0; i < accounts.length; i++) {
             if (accounts[i].address == message['account']) {
-              await dbHelper.changeAccount(accounts[i]);
+              await sl.get<DBHelper>().changeAccount(accounts[i]);
               EventTaxiImpl.singleton().fire(AccountChangedEvent(account: accounts[i]));
               break;
             }
@@ -139,7 +133,7 @@ class _AppHomePageState extends State<AppHomePage>
     super.initState();
     _registerBus();
     WidgetsBinding.instance.addObserver(this);
-    SharedPrefsUtil.inst.getPriceConversion().then((result) {
+    sl.get<SharedPrefsUtil>().getPriceConversion().then((result) {
       _priceConversion = result;
     });
     _addSampleContact();
@@ -178,9 +172,9 @@ class _AppHomePageState extends State<AppHomePage>
     _firebaseMessaging.onIosSettingsRegistered
         .listen((IosNotificationSettings settings) {
       if (settings.alert || settings.badge || settings.sound) {
-        SharedPrefsUtil.inst.getNotificationsSet().then((beenSet) {
+        sl.get<SharedPrefsUtil>().getNotificationsSet().then((beenSet) {
           if (!beenSet) {
-            SharedPrefsUtil.inst.setNotificationsOn(true);
+            sl.get<SharedPrefsUtil>().setNotificationsOn(true);
           }
         });
         _firebaseMessaging.getToken().then((String token) {
@@ -189,7 +183,7 @@ class _AppHomePageState extends State<AppHomePage>
           }
         });
       } else {
-        SharedPrefsUtil.inst.setNotificationsOn(false).then((_) {
+        sl.get<SharedPrefsUtil>().setNotificationsOn(false).then((_) {
           _firebaseMessaging.getToken().then((String token) {
             EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
           });
@@ -242,29 +236,28 @@ class _AppHomePageState extends State<AppHomePage>
 
   /// Add donations contact if it hasnt already been added
   Future<void> _addSampleContact() async {
-    bool contactAdded = await SharedPrefsUtil.inst.getFirstContactAdded();
+    bool contactAdded = await sl.get<SharedPrefsUtil>().getFirstContactAdded();
     if (!contactAdded) {
-      DBHelper db = dbHelper;
-      bool addressExists = await db.contactExistsWithAddress(
+      bool addressExists = await sl.get<DBHelper>().contactExistsWithAddress(
           "xrb_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd");
       if (addressExists) {
         return;
       }
-      bool nameExists = await db.contactExistsWithName("@NatriumDonations");
+      bool nameExists = await sl.get<DBHelper>().contactExistsWithName("@NatriumDonations");
       if (nameExists) {
         return;
       }
-      await SharedPrefsUtil.inst.setFirstContactAdded(true);
+      await sl.get<SharedPrefsUtil>().setFirstContactAdded(true);
       Contact c = Contact(
           name: "@NatriumDonations",
           address:
               "xrb_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd");
-      await db.saveContact(c);
+      await sl.get<DBHelper>().saveContact(c);
     }
   }
 
   void _updateContacts() {
-    dbHelper.getContacts().then((contacts) {
+    sl.get<DBHelper>().getContacts().then((contacts) {
       setState(() {
         _contacts = contacts;
       });
@@ -296,7 +289,7 @@ class _AppHomePageState extends State<AppHomePage>
       // Route to send complete if received process response for send block
       if (event.previous != null) {
         // Route to send complete
-        dbHelper.getContactWithAddress(event.previous.link).then((contact) {
+        sl.get<DBHelper>().getContactWithAddress(event.previous.link).then((contact) {
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
           AppSendCompleteSheet(event.previous.sendAmount, event.previous.link, contactName,
@@ -395,12 +388,12 @@ class _AppHomePageState extends State<AppHomePage>
   StreamSubscription<dynamic> lockStreamListener;
 
   Future<void> setAppLockEvent() async {
-    if (await SharedPrefsUtil.inst.getLock() && !_lockDisabled) {
+    if (await sl.get<SharedPrefsUtil>().getLock() && !_lockDisabled) {
       if (lockStreamListener != null) {
         lockStreamListener.cancel();
       }
       Future<dynamic> delayed = new Future.delayed(
-          (await SharedPrefsUtil.inst.getLockTimeout()).getDuration());
+          (await sl.get<SharedPrefsUtil>().getLockTimeout()).getDuration());
       delayed.then((_) {
         return true;
       });
@@ -517,7 +510,7 @@ class _AppHomePageState extends State<AppHomePage>
     setState(() {
       _isRefreshing = true;
     });
-    HapticUtil.success();
+    sl.get<HapticUtil>().success();
     StateContainer.of(context).requestUpdate();
     // Hide refresh indicator after 3 seconds if no server response
     Future.delayed(new Duration(seconds: 3), () {
@@ -561,7 +554,7 @@ class _AppHomePageState extends State<AppHomePage>
       }
     }
     // See if a contact
-    dbHelper.getContactWithAddress(address.address).then((contact) {
+    sl.get<DBHelper>().getContactWithAddress(address.address).then((contact) {
       if (contact != null) {
         contactName = contact.name;
       }
@@ -820,7 +813,7 @@ class _AppHomePageState extends State<AppHomePage>
           });
         } else {
           // See if a contact
-          dbHelper.getContactWithAddress(item.account).then((contact) {
+          sl.get<DBHelper>().getContactWithAddress(item.account).then((contact) {
             // Go to send with address
             AppSendSheet(contact: contact, address: item.account, quickSendAmount: item.amount)
                 .mainBottomSheet(context);
@@ -1492,14 +1485,14 @@ class _AppHomePageState extends State<AppHomePage>
             _pricesHidden = true;
             _priceConversion = PriceConversion.NONE;
           });
-          SharedPrefsUtil.inst.setPriceConversion(PriceConversion.NONE);
+          sl.get<SharedPrefsUtil>().setPriceConversion(PriceConversion.NONE);
         } else {
           // Cycle to BTC price
           setState(() {
             _pricesHidden = false;
             _priceConversion = PriceConversion.BTC;
           });
-          SharedPrefsUtil.inst.setPriceConversion(PriceConversion.BTC);
+          sl.get<SharedPrefsUtil>().setPriceConversion(PriceConversion.BTC);
         }
       },
       child: Container(

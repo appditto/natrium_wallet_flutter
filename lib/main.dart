@@ -229,20 +229,20 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
  Future<bool> _doAndroidMigration() async {
     bool migrated = false;
     // Migrate seed
-    String legacySeed = await LegacyMigration.getLegacySeed();
+    String legacySeed = await sl.get<LegacyMigration>().getLegacySeed();
     if (legacySeed != null && NanoSeeds.isValidSeed(legacySeed)) {
       migrated = true;
-      await Vault.inst.setSeed(legacySeed);
-      await SharedPrefsUtil.inst.setSeedBackedUp(true);
+      await sl.get<Vault>().setSeed(legacySeed);
+      await sl.get<SharedPrefsUtil>().setSeedBackedUp(true);
     }
     if (migrated) {
       // Migrate PIN
-      String legacyPin = await LegacyMigration.getLegacyPin();
+      String legacyPin = await sl.get<LegacyMigration>().getLegacyPin();
       if (legacyPin != null && legacyPin.length == 4) {
-        await Vault.inst.writePin(legacyPin);
+        await sl.get<Vault>().writePin(legacyPin);
       }
       // Migrate Contacts
-      String legacyContacts = await LegacyMigration.getLegacyContacts();
+      String legacyContacts = await sl.get<LegacyMigration>().getLegacyContacts();
       if (legacyContacts != null) {
         Iterable contactsJson = json.decode(legacyContacts);
         List<Contact> contacts = List();
@@ -250,10 +250,9 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
         contactsJson.forEach((contact) {
           contacts.add(Contact.fromJson(contact));
         });
-        DBHelper dbHelper = DBHelper();
         for (Contact contact in contacts) {
-          if (!await dbHelper.contactExistsWithName(contact.name) &&
-              !await dbHelper.contactExistsWithAddress(contact.address)) {
+          if (!await sl.get<DBHelper>().contactExistsWithName(contact.name) &&
+              !await sl.get<DBHelper>().contactExistsWithAddress(contact.address)) {
             // Contact doesnt exist, make sure name and address are valid
             if (Address(contact.address).isValid()) {
               if (contact.name.startsWith("@") && contact.name.length <= 20) {
@@ -262,7 +261,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
             }
           }
         }
-        await dbHelper.saveContacts(contactsToAdd);
+        await sl.get<DBHelper>().saveContacts(contactsToAdd);
       }
     }
     return migrated;
@@ -271,34 +270,34 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
   Future checkLoggedIn() async {
     try {
       // iOS key store is persistent, so if this is first launch then we will clear the keystore
-      bool firstLaunch = await SharedPrefsUtil.inst.getFirstLaunch();
+      bool firstLaunch = await sl.get<SharedPrefsUtil>().getFirstLaunch();
       if (firstLaunch) {
         bool migrated = false;
         if (Platform.isAndroid) {
           migrated = await _doAndroidMigration();
         }
         if (!migrated) {
-          await Vault.inst.deleteAll();
+          await sl.get<Vault>().deleteAll();
         }
       }
-      await SharedPrefsUtil.inst.setFirstLaunch();
+      await sl.get<SharedPrefsUtil>().setFirstLaunch();
       // See if logged in already
       bool isLoggedIn = false;
-      var seed = await Vault.inst.getSeed();
-      var pin = await Vault.inst.getPin();
+      var seed = await sl.get<Vault>().getSeed();
+      var pin = await sl.get<Vault>().getPin();
       // If we have a seed set, but not a pin - or vice versa
       // Then delete the seed and pin from device and start over.
       // This would mean user did not complete the intro screen completely.
       if (seed != null && pin != null) {
         isLoggedIn = true;
       } else if (seed != null && pin == null) {
-        await Vault.inst.deleteSeed();
+        await sl.get<Vault>().deleteSeed();
       } else if (pin != null && seed == null) {
-        await Vault.inst.deletePin();
+        await sl.get<Vault>().deletePin();
       }
 
       if (isLoggedIn) {
-        if (await SharedPrefsUtil.inst.getLock() || await SharedPrefsUtil.inst.shouldLock()) {
+        if (await sl.get<SharedPrefsUtil>().getLock() || await sl.get<SharedPrefsUtil>().shouldLock()) {
           Navigator.of(context).pushReplacementNamed('/lock_screen');
         } else {
           await NanoUtil().loginAccount(context);
@@ -316,8 +315,8 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
       /// It will generate a 64-byte secret using the native android "bottlerocketstudios" Vault
       /// This secret is used to encrypt sensitive data and save it in SharedPreferences
       if (Platform.isAndroid && e.toString().contains("flutter_secure")) {
-        if (!(await SharedPrefsUtil.inst.useLegacyStorage())) {
-          await SharedPrefsUtil.inst.setUseLegacyStorage();
+        if (!(await sl.get<SharedPrefsUtil>().useLegacyStorage())) {
+          await sl.get<SharedPrefsUtil>().setUseLegacyStorage();
           checkLoggedIn();
         }
       }
@@ -359,7 +358,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
     setState(() {
       StateContainer.of(context).deviceLocale = Localizations.localeOf(context);
     });
-    SharedPrefsUtil.inst.getLanguage().then((setting) {
+    sl.get<SharedPrefsUtil>().getLanguage().then((setting) {
       setState(() {
         StateContainer.of(context).updateLanguage(setting);
       });
@@ -370,7 +369,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     // This seems to be the earliest place we can retrieve the device Locale
     setLanguage();
-    SharedPrefsUtil.inst.getCurrency(StateContainer.of(context).deviceLocale).then((currency) {
+    sl.get<SharedPrefsUtil>().getCurrency(StateContainer.of(context).deviceLocale).then((currency) {
       StateContainer.of(context).curCurrency = currency;
     });
     return new Scaffold(

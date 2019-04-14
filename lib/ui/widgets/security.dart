@@ -6,6 +6,7 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
@@ -82,7 +83,7 @@ class _PinScreenState extends State<PinScreen>
     _pin = "";
     _pinConfirmed = "";
     // Get adjusted failed attempts
-    SharedPrefsUtil.inst.getLockAttempts().then((attempts) {
+    sl.get<SharedPrefsUtil>().getLockAttempts().then((attempts) {
       setState(() {
         _failedAttempts = attempts % MAX_ATTEMPTS;
       });
@@ -96,13 +97,13 @@ class _PinScreenState extends State<PinScreen>
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           if (type == PinOverlayType.ENTER_PIN) {
-            SharedPrefsUtil.inst.incrementLockAttempts().then((_) {
+            sl.get<SharedPrefsUtil>().incrementLockAttempts().then((_) {
               _failedAttempts++;
               if (_failedAttempts >= MAX_ATTEMPTS) {
                 setState(() {
                   _controller.value = 0;
                 });
-                SharedPrefsUtil.inst.updateLockDate().then((_) {
+                sl.get<SharedPrefsUtil>().updateLockDate().then((_) {
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil('/lock_screen_transition', (Route<dynamic> route) => false);
                 });
@@ -209,10 +210,10 @@ class _PinScreenState extends State<PinScreen>
               if (type == PinOverlayType.ENTER_PIN) {
                 // Pin is not what was expected
                 if (_pin != expectedPin) {
-                  HapticUtil.error();
+                  sl.get<HapticUtil>().error();
                   _controller.forward();
                 } else {
-                  SharedPrefsUtil.inst.resetLockAttempts().then((_) {
+                  sl.get<SharedPrefsUtil>().resetLockAttempts().then((_) {
                     successCallback(_pin);
                   });
                 }
@@ -229,7 +230,7 @@ class _PinScreenState extends State<PinScreen>
                   if (_pin == _pinConfirmed) {
                     successCallback(_pin);
                   } else {
-                    HapticUtil.error();
+                    sl.get<HapticUtil>().error();
                     _controller.forward();
                   }
                 }

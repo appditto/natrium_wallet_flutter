@@ -9,6 +9,7 @@ import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
@@ -66,8 +67,7 @@ class ContactDetailsSheet {
                               CaseChange.toUpperCase(
                                   AppLocalization.of(context).yes, context),
                               () {
-                            DBHelper dbHelper = DBHelper();
-                            dbHelper.deleteContact(contact).then((deleted) {
+                            sl.get<DBHelper>().deleteContact(contact).then((deleted) {
                               if (deleted) {
                                 // Delete image if exists
                                 if (contact.monkeyPath != null) {

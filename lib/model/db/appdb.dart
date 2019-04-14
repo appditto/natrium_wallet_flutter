@@ -3,6 +3,7 @@ import 'dart:io' as io;
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
@@ -137,7 +138,7 @@ class DBHelper{
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
       String address;
-      address = NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[i]["acct_index"]);
+      address = NanoUtil.seedToAddress(await sl.get<Vault>().getSeed(), list[i]["acct_index"]);
       accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: address, balance: list[i]["balance"]));
     }
     return accounts;
@@ -148,7 +149,7 @@ class DBHelper{
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts WHERE selected != 1 ORDER BY last_accessed DESC, acct_index ASC LIMIT ?', [limit]);
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
-      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[i]["acct_index"]), balance: list[i]["balance"]));
+      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: NanoUtil.seedToAddress(await sl.get<Vault>().getSeed(), list[i]["acct_index"]), balance: list[i]["balance"]));
     }
     return accounts;
   }
@@ -169,7 +170,7 @@ class DBHelper{
       }
       int nextID = nextIndex + 1;
       String nextName = nameBuilder.replaceAll("%1", nextID.toString());
-      account = Account(index: nextIndex, name:nextName, lastAccess: 0, selected: false, address: NanoUtil.seedToAddress(await Vault.inst.getSeed(), nextIndex));
+      account = Account(index: nextIndex, name:nextName, lastAccess: 0, selected: false, address: NanoUtil.seedToAddress(await sl.get<Vault>().getSeed(), nextIndex));
       await txn.rawInsert('INSERT INTO Accounts (name, acct_index, last_accessed, selected) values(?, ?, ?, ?)', [account.name, account.index, account.lastAccess, account.selected ? 1 : 0]);
     });
     return account;
@@ -211,7 +212,7 @@ class DBHelper{
     if (list.length == 0) {
       return null;
     }
-    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[0]["acct_index"]));
+    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: NanoUtil.seedToAddress(await sl.get<Vault>().getSeed(), list[0]["acct_index"]));
     return account;
   }
 
@@ -221,7 +222,7 @@ class DBHelper{
     if (list.length == 0) {
       return null;
     }
-    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: NanoUtil.seedToAddress(await Vault.inst.getSeed(), list[0]["acct_index"]));
+    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: NanoUtil.seedToAddress(await sl.get<Vault>().getSeed(), list[0]["acct_index"]));
     return account;
   }
 

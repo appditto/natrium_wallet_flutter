@@ -6,14 +6,14 @@ import 'package:flutter/services.dart';
 class LegacyMigration {
   static const _channel = const MethodChannel('fappchannel');
 
-  static Future<String> getLegacySeed() async {
+  Future<String> getLegacySeed() async {
     if (!Platform.isAndroid) {
       return null;
     }
     return await _channel.invokeMethod('getLegacySeed');
   }
 
-  static Future<String> getLegacyPin() async {
+  Future<String> getLegacyPin() async {
     if (!Platform.isAndroid) {
       return null;
     }
@@ -21,14 +21,14 @@ class LegacyMigration {
   }
 
 
-  static Future<String> getLegacyContacts() async {
+  Future<String> getLegacyContacts() async {
     if (!Platform.isAndroid) {
       return null;
     }
     return await _channel.invokeMethod('getLegacyContacts');
   }
 
-  static Future<void> deleteLegacyData() async {
+  Future<void> deleteLegacyData() async {
     if (!Platform.isAndroid) {
       return null;
     }

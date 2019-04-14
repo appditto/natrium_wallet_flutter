@@ -112,9 +112,6 @@ class StateContainerState extends State<StateContainer> {
   // Deep link changes
   StreamSubscription _deepLinkSub;
 
-  // Database Helper
-  DBHelper dbHelper;
-
   // This map stashes pending process requests, this is because we need to update these requests
   // after a blocks_info with the balance after send, and sign the block
   Map<String, StateBlock> previousPendingMap = Map();
@@ -128,10 +125,6 @@ class StateContainerState extends State<StateContainer> {
   // List of Verified Nano Ninja Nodes
   List<NinjaNode> nanoNinjaNodes;
 
-  StateContainerState() {
-    dbHelper = DBHelper();
-  }
-
   void updateNinjaNodes(List<NinjaNode> list) {
     setState(() {
       nanoNinjaNodes = list;
@@ -144,20 +137,20 @@ class StateContainerState extends State<StateContainer> {
     // Register RxBus
     _registerBus();
     // Set currency locale here for the UI to access
-    SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
+    sl.get<SharedPrefsUtil>().getCurrency(deviceLocale).then((currency) {
       setState(() {
         currencyLocale = currency.getLocale().toString();
         curCurrency = currency;
       });
     });
     // Get default language setting
-    SharedPrefsUtil.inst.getLanguage().then((language) {
+    sl.get<SharedPrefsUtil>().getLanguage().then((language) {
       setState(() {
         curLanguage = language;
       });
     });
     // Get theme default
-    SharedPrefsUtil.inst.getTheme().then((theme) {
+    sl.get<SharedPrefsUtil>().getTheme().then((theme) {
       updateTheme(theme, setIcon: false);
     });
     // Get initial deep link
@@ -257,7 +250,7 @@ class StateContainerState extends State<StateContainer> {
       handleErrorResponse(event.response);
     });
     _fcmUpdateSub = EventTaxiImpl.singleton().registerTo<FcmUpdateEvent>().listen((event) {
-      SharedPrefsUtil.inst.getNotificationsOn().then((enabled) {
+      sl.get<SharedPrefsUtil>().getNotificationsOn().then((enabled) {
         sl.get<AccountService>().sendRequest(FcmUpdateRequest(account: wallet.address, fcmToken: event.token, enabled: enabled));
       });
     });
@@ -266,12 +259,12 @@ class StateContainerState extends State<StateContainer> {
       if (event.transfer) {
         return;
       }
-      dbHelper.getAccounts().then((accounts) {
+      sl.get<DBHelper>().getAccounts().then((accounts) {
         accounts.forEach((account) {
           event.response.balances.forEach((address, balance) {
             String combinedBalance = (BigInt.tryParse(balance.balance) + BigInt.tryParse(balance.pending)).toString();
             if (address == account.address && combinedBalance != account.balance) {
-              dbHelper.updateAccountBalance(account, combinedBalance);
+              sl.get<DBHelper>().updateAccountBalance(account, combinedBalance);
             }
           });
         });
@@ -291,20 +284,20 @@ class StateContainerState extends State<StateContainer> {
         // Remove account
         updateRecentlyUsedAccounts().then((_) {
           if (event.account.index == selectedAccount.index && recentLast != null) {
-            dbHelper.changeAccount(recentLast);
+            sl.get<DBHelper>().changeAccount(recentLast);
             setState(() {
               selectedAccount = recentLast;
             });
             EventTaxiImpl.singleton().fire(AccountChangedEvent(account: recentLast, noPop: true));
           } else if (event.account.index == selectedAccount.index && recentSecondLast != null) {
-            dbHelper.changeAccount(recentSecondLast);
+            sl.get<DBHelper>().changeAccount(recentSecondLast);
             setState(() {
               selectedAccount = recentSecondLast;
             });
             EventTaxiImpl.singleton().fire(AccountChangedEvent(account: recentSecondLast, noPop: true));
           } else if (event.account.index == selectedAccount.index) {
-            dbHelper.getMainAccount().then((mainAccount) {
-              dbHelper.changeAccount(mainAccount);
+            sl.get<DBHelper>().getMainAccount().then((mainAccount) {
+              sl.get<DBHelper>().changeAccount(mainAccount);
               setState(() {
                 selectedAccount = mainAccount;
               });
@@ -373,7 +366,7 @@ class StateContainerState extends State<StateContainer> {
 
   // Update the global wallet instance with a new address
   Future<void> updateWallet({Account account}) async {
-    String address = NanoUtil.seedToAddress(await Vault.inst.getSeed(), account.index);
+    String address = NanoUtil.seedToAddress(await sl.get<Vault>().getSeed(), account.index);
     selectedAccount = account;
     updateRecentlyUsedAccounts();
     setState(() {
@@ -383,7 +376,7 @@ class StateContainerState extends State<StateContainer> {
   }
 
   Future<void> updateRecentlyUsedAccounts() async {
-    List<Account> otherAccounts = await dbHelper.getRecentlyUsedAccounts();
+    List<Account> otherAccounts = await sl.get<DBHelper>().getRecentlyUsedAccounts();
     if (otherAccounts != null && otherAccounts.length > 0) {
       if (otherAccounts.length > 1) {
         setState(() {
@@ -581,7 +574,7 @@ class StateContainerState extends State<StateContainer> {
       });
     }
     // Set currency locale here for the UI to access
-    SharedPrefsUtil.inst.getCurrency(deviceLocale).then((currency) {
+    sl.get<SharedPrefsUtil>().getCurrency(deviceLocale).then((currency) {
       setState(() {
         currencyLocale = currency.getLocale().toString();
         curCurrency = currency;
@@ -589,7 +582,7 @@ class StateContainerState extends State<StateContainer> {
     });
     // Server gives us a UUID for future requests on subscribe
     if (response.uuid != null) {
-      SharedPrefsUtil.inst.setUuid(response.uuid);
+      sl.get<SharedPrefsUtil>().setUuid(response.uuid);
     }
     setState(() {
       wallet.loading = false;
@@ -697,7 +690,7 @@ class StateContainerState extends State<StateContainer> {
 
   /// Request balances for accounts in our database
   Future<void> _requestBalances() async {
-    List<Account> accounts = await dbHelper.getAccounts();
+    List<Account> accounts = await sl.get<DBHelper>().getAccounts();
     List<String> addressToRequest = List();
     accounts.forEach((account) {
       if (account.address != null) {
@@ -709,9 +702,9 @@ class StateContainerState extends State<StateContainer> {
 
   Future<void> requestUpdate() async {
     if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
-      String uuid = await SharedPrefsUtil.inst.getUuid();
+      String uuid = await sl.get<SharedPrefsUtil>().getUuid();
       String fcmToken = await FirebaseMessaging().getToken();
-      bool notificationsEnabled = await SharedPrefsUtil.inst.getNotificationsOn();
+      bool notificationsEnabled = await sl.get<SharedPrefsUtil>().getNotificationsOn();
       sl.get<AccountService>().clearQueue();
       pendingBlockMap.clear();
       pendingResponseBlockMap.clear();
@@ -724,9 +717,9 @@ class StateContainerState extends State<StateContainer> {
 
   Future<void> requestSubscribe() async {
     if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
-      String uuid = await SharedPrefsUtil.inst.getUuid();
+      String uuid = await sl.get<SharedPrefsUtil>().getUuid();
       String fcmToken = await FirebaseMessaging().getToken();
-      bool notificationsEnabled = await SharedPrefsUtil.inst.getNotificationsOn();
+      bool notificationsEnabled = await sl.get<SharedPrefsUtil>().getNotificationsOn();
       sl.get<AccountService>().removeSubscribeHistoryPendingFromQueue();
       sl.get<AccountService>().queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:uuid, fcmToken: fcmToken, notificationEnabled: notificationsEnabled));
       sl.get<AccountService>().processQueue();
@@ -883,12 +876,12 @@ class StateContainerState extends State<StateContainer> {
     setState(() {
       wallet = AppWallet();
     });
-    dbHelper.dropAccounts();
+    sl.get<DBHelper>().dropAccounts();
     sl.get<AccountService>().clearQueue();
   }
 
   Future<String> _getPrivKey() async {
-   return NanoUtil.seedToPrivate(await Vault.inst.getSeed(), selectedAccount.index);
+   return NanoUtil.seedToPrivate(await sl.get<Vault>().getSeed(), selectedAccount.index);
   }
 
   // Simple build method that just passes this state through

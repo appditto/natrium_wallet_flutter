@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
@@ -123,9 +124,9 @@ class _AppLockScreenState extends State<AppLockScreen> {
   Future<void> _authenticate({bool transitions = false}) async {
     // Test if user is locked out
     // Get duration of lockout
-    DateTime lockUntil = await SharedPrefsUtil.inst.getLockDate();
+    DateTime lockUntil = await sl.get<SharedPrefsUtil>().getLockDate();
     if (lockUntil == null) {
-      await SharedPrefsUtil.inst.resetLockAttempts();
+      await sl.get<SharedPrefsUtil>().resetLockAttempts();
     } else {
       int countDown = lockUntil.difference(DateTime.now().toUtc()).inSeconds;
       // They're not allowed to attempt
@@ -137,14 +138,14 @@ class _AppLockScreenState extends State<AppLockScreen> {
     setState(() {
       _lockedOut = false;
     });
-    SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
-      BiometricUtil.hasBiometrics().then((hasBiometrics) {
+    sl.get<SharedPrefsUtil>().getAuthMethod().then((authMethod) {
+      sl.get<BiometricUtil>().hasBiometrics().then((hasBiometrics) {
         if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
           setState(() {
             _showLock = true;
             _showUnlockButton = true;
           });
-          BiometricUtil.authenticateWithBiometrics(context,
+          sl.get<BiometricUtil>().authenticateWithBiometrics(context,
                   AppLocalization.of(context).unlockBiometrics)
               .then((authenticated) {
             if (authenticated) {
@@ -157,7 +158,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
           });
         } else {
           // PIN Authentication
-          Vault.inst.getPin().then((expectedPin) {
+          sl.get<Vault>().getPin().then((expectedPin) {
             if (transitions) {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (BuildContext context) {

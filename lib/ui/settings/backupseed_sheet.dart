@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
@@ -22,7 +23,7 @@ class AppSeedBackupSheet {
   bool _seedHidden = true;
 
   mainBottomSheet(BuildContext context) {
-    Vault.inst.getSeed().then((result) {
+    sl.get<Vault>().getSeed().then((result) {
       _seed = result;
       // Set initial seed copy state
       _seedCopied = false;

@@ -7,6 +7,7 @@ import 'package:event_taxi/event_taxi.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
@@ -488,13 +489,12 @@ class AddContactSheet {
                                 if (!isValid) {
                                   return;
                                 }
-                                DBHelper dbHelper = DBHelper();
                                 Contact newContact = Contact(
                                     name: _nameController.text,
                                     address: address == null
                                         ? _addressController.text
                                         : address);
-                                dbHelper.saveContact(newContact).then((id) {
+                                sl.get<DBHelper>().saveContact(newContact).then((id) {
                                   if (address == null) {
                                     newContact.address.replaceAll("nano_", "xrb_");
                                     EventTaxiImpl.singleton().fire(
@@ -553,9 +553,8 @@ class AddContactSheet {
         });
       } else {
         _addressFocusNode.unfocus();
-        DBHelper dbHelper = DBHelper();
         bool addressExists =
-            await dbHelper.contactExistsWithAddress(_addressController.text);
+            await sl.get<DBHelper>().contactExistsWithAddress(_addressController.text);
         if (addressExists) {
           setState(() {
             isValid = false;
@@ -571,9 +570,8 @@ class AddContactSheet {
         _nameValidationText = AppLocalization.of(context).contactNameMissing;
       });
     } else {
-      DBHelper dbHelper = DBHelper();
       bool nameExists =
-          await dbHelper.contactExistsWithName(_nameController.text);
+          await sl.get<DBHelper>().contactExistsWithName(_nameController.text);
       if (nameExists) {
         setState(() {
           isValid = false;

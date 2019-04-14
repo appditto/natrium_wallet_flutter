@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/util/encrypt.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 
@@ -10,17 +11,13 @@ import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
  * Singleton for keystore access methods in android/iOS
  */
 class Vault {
-  Vault._internal();
-  static final Vault _singleton = new Vault._internal();
-  static Vault get inst => _singleton;
-
   static const String seedKey = 'fkalium_seed';
   static const String encryptionKey = 'fkalium_secret_phrase';
   static const String pinKey = 'fkalium_pin';
   final FlutterSecureStorage secureStorage = new FlutterSecureStorage();
 
   Future<bool> legacy() async {
-    return await SharedPrefsUtil.inst.useLegacyStorage();
+    return await sl.get<SharedPrefsUtil>().useLegacyStorage();
   }
 
   // Re-usable
@@ -124,7 +121,7 @@ class Vault {
 
   static const _channel = const MethodChannel('fappchannel');
 
-  static Future<String> getSecret() async {
+  Future<String> getSecret() async {
     return await _channel.invokeMethod('getSecret');
   }
 }

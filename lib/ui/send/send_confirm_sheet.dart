@@ -7,6 +7,7 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
@@ -228,15 +229,15 @@ class AppSendConfirmSheet {
                                         context),
                                     Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                                   // Authenticate
-                                  SharedPrefsUtil.inst
+                                  sl.get<SharedPrefsUtil>()
                                       .getAuthMethod()
                                       .then((authMethod) {
-                                    BiometricUtil.hasBiometrics()
+                                    sl.get<BiometricUtil>().hasBiometrics()
                                         .then((hasBiometrics) {
                                       if (authMethod.method ==
                                               AuthMethod.BIOMETRICS &&
                                           hasBiometrics) {
-                                        BiometricUtil
+                                        sl.get<BiometricUtil>()
                                                 .authenticateWithBiometrics(
                                                     context,
                                                     AppLocalization.of(context)
@@ -245,7 +246,7 @@ class AppSendConfirmSheet {
                                                             "%1", _amount))
                                             .then((authenticated) {
                                           if (authenticated) {
-                                            HapticUtil.fingerprintSucess();
+                                            sl.get<HapticUtil>().fingerprintSucess();
                                             animationOpen = true;
                                             Navigator.of(context).push(
                                                 AnimationLoadingOverlay(
@@ -271,7 +272,7 @@ class AppSendConfirmSheet {
                                         });
                                       } else {
                                         // PIN Authentication
-                                        Vault.inst.getPin().then((expectedPin) {
+                                        sl.get<Vault>().getPin().then((expectedPin) {
                                           Navigator.of(context).push(
                                               MaterialPageRoute(builder:
                                                   (BuildContext context) {

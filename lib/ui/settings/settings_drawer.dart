@@ -17,6 +17,7 @@ import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
@@ -81,12 +82,6 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   bool notNull(Object o) => o != null;
 
-  DBHelper dbHelper;
-
-  _SettingsSheetState() {
-    this.dbHelper = DBHelper();
-  }
-
   // Called if transfer fails
   void transferError() {
     Navigator.of(context).pop();
@@ -94,7 +89,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   }
 
   Future<void> _exportContacts() async {
-    List<Contact> contacts = await dbHelper.getContacts();
+    List<Contact> contacts = await sl.get<DBHelper>().getContacts();
     if (contacts.length == 0) {
       UIUtil.showSnackbar(
           AppLocalization.of(context).noContactsExport, context);
@@ -133,8 +128,8 @@ class _SettingsSheetState extends State<SettingsSheet>
         contacts.add(Contact.fromJson(contact));
       });
       for (Contact contact in contacts) {
-        if (!await dbHelper.contactExistsWithName(contact.name) &&
-            !await dbHelper.contactExistsWithAddress(contact.address)) {
+        if (!await sl.get<DBHelper>().contactExistsWithName(contact.name) &&
+            !await sl.get<DBHelper>().contactExistsWithAddress(contact.address)) {
           // Contact doesnt exist, make sure name and address are valid
           if (Address(contact.address).isValid()) {
             if (contact.name.startsWith("@") && contact.name.length <= 20) {
@@ -144,7 +139,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         }
       }
       // Save all the new contacts and update states
-      int numSaved = await dbHelper.saveContacts(contactsToAdd);
+      int numSaved = await sl.get<DBHelper>().saveContacts(contactsToAdd);
       if (numSaved > 0) {
         _updateContacts();
         EventTaxiImpl.singleton().fire(
@@ -173,32 +168,32 @@ class _SettingsSheetState extends State<SettingsSheet>
     _securityOpen = false;
     _loadingAccounts = false;
     // Determine if they have face or fingerprint enrolled, if not hide the setting
-    BiometricUtil.hasBiometrics().then((bool hasBiometrics) {
+    sl.get<BiometricUtil>().hasBiometrics().then((bool hasBiometrics) {
       setState(() {
         _hasBiometrics = hasBiometrics;
       });
     });
     // Get default auth method setting
-    SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
+    sl.get<SharedPrefsUtil>().getAuthMethod().then((authMethod) {
       setState(() {
         _curAuthMethod = authMethod;
       });
     });
     // Get default unlock settings
-    SharedPrefsUtil.inst.getLock().then((lock) {
+    sl.get<SharedPrefsUtil>().getLock().then((lock) {
       setState(() {
         _curUnlockSetting = lock
             ? UnlockSetting(UnlockOption.YES)
             : UnlockSetting(UnlockOption.NO);
       });
     });
-    SharedPrefsUtil.inst.getLockTimeout().then((lockTimeout) {
+    sl.get<SharedPrefsUtil>().getLockTimeout().then((lockTimeout) {
       setState(() {
         _curTimeoutSetting = lockTimeout;
       });
     });
     // Get default notification setting
-    SharedPrefsUtil.inst.getNotificationsOn().then((notificationsOn) {
+    sl.get<SharedPrefsUtil>().getNotificationsOn().then((notificationsOn) {
       setState(() {
         _curNotificiationSetting = notificationsOn
             ? NotificationSetting(NotificationOptions.ON)
@@ -206,7 +201,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       });
     });
     // Get default theme settings
-    SharedPrefsUtil.inst.getTheme().then((theme) {
+    sl.get<SharedPrefsUtil>().getTheme().then((theme) {
       setState(() {
         _curThemeSetting = theme;
       });
@@ -340,7 +335,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   }
 
   void _updateContacts() {
-    dbHelper.getContacts().then((contacts) {
+    sl.get<DBHelper>().getContacts().then((contacts) {
       for (Contact c in contacts) {
         if (!_contacts.contains(c)) {
           setState(() {
@@ -394,7 +389,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           );
         })) {
       case AuthMethod.PIN:
-        SharedPrefsUtil.inst
+        sl.get<SharedPrefsUtil>()
             .setAuthMethod(AuthenticationMethod(AuthMethod.PIN))
             .then((result) {
           setState(() {
@@ -403,7 +398,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         });
         break;
       case AuthMethod.BIOMETRICS:
-        SharedPrefsUtil.inst
+        sl.get<SharedPrefsUtil>()
             .setAuthMethod(AuthenticationMethod(AuthMethod.BIOMETRICS))
             .then((result) {
           setState(() {
@@ -452,7 +447,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           );
         })) {
       case NotificationOptions.ON:
-        SharedPrefsUtil.inst.setNotificationsOn(true).then((result) {
+        sl.get<SharedPrefsUtil>().setNotificationsOn(true).then((result) {
           setState(() {
             _curNotificiationSetting =
                 NotificationSetting(NotificationOptions.ON);
@@ -464,7 +459,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         });
         break;
       case NotificationOptions.OFF:
-        SharedPrefsUtil.inst.setNotificationsOn(false).then((result) {
+        sl.get<SharedPrefsUtil>().setNotificationsOn(false).then((result) {
           setState(() {
             _curNotificiationSetting =
                 NotificationSetting(NotificationOptions.OFF);
@@ -515,14 +510,14 @@ class _SettingsSheetState extends State<SettingsSheet>
           );
         })) {
       case UnlockOption.YES:
-        SharedPrefsUtil.inst.setLock(true).then((result) {
+        sl.get<SharedPrefsUtil>().setLock(true).then((result) {
           setState(() {
             _curUnlockSetting = UnlockSetting(UnlockOption.YES);
           });
         });
         break;
       case UnlockOption.NO:
-        SharedPrefsUtil.inst.setLock(false).then((result) {
+        sl.get<SharedPrefsUtil>().setLock(false).then((result) {
           setState(() {
             _curUnlockSetting = UnlockSetting(UnlockOption.NO);
           });
@@ -566,7 +561,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 children: _buildCurrencyOptions(),
               );
             });
-    SharedPrefsUtil.inst
+    sl.get<SharedPrefsUtil>()
         .setCurrency(AvailableCurrency(selection))
         .then((result) {
       if (StateContainer.of(context).curCurrency.currency != selection) {
@@ -612,7 +607,7 @@ class _SettingsSheetState extends State<SettingsSheet>
             children: _buildLanguageOptions(),
           );
         });
-    SharedPrefsUtil.inst.setLanguage(LanguageSetting(selection)).then((result) {
+    sl.get<SharedPrefsUtil>().setLanguage(LanguageSetting(selection)).then((result) {
       if (StateContainer.of(context).curLanguage.language != selection) {
         setState(() {
           StateContainer.of(context).updateLanguage(LanguageSetting(selection));
@@ -655,11 +650,11 @@ class _SettingsSheetState extends State<SettingsSheet>
             children: _buildLockTimeoutOptions(),
           );
         });
-    SharedPrefsUtil.inst
+    sl.get<SharedPrefsUtil>()
         .setLockTimeout(LockTimeoutSetting(selection))
         .then((result) {
       if (_curTimeoutSetting.setting != selection) {
-        SharedPrefsUtil.inst
+        sl.get<SharedPrefsUtil>()
             .setLockTimeout(LockTimeoutSetting(selection))
             .then((_) {
           setState(() {
@@ -705,7 +700,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           );
         });
     if (_curThemeSetting != ThemeSetting(selection)) {
-      SharedPrefsUtil.inst.setTheme(ThemeSetting(selection)).then((result) {
+      sl.get<SharedPrefsUtil>().setTheme(ThemeSetting(selection)).then((result) {
         setState(() {
           StateContainer.of(context).updateTheme(ThemeSetting(selection));
           _curThemeSetting = ThemeSetting(selection);
@@ -886,7 +881,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     color: Colors.transparent,
                                     child: FlatButton(
                                       onPressed: () {
-                                        dbHelper.changeAccount(StateContainer.of(context).recentLast).then((_) {
+                                        sl.get<DBHelper>().changeAccount(StateContainer.of(context).recentLast).then((_) {
                                           EventTaxiImpl.singleton().fire(AccountChangedEvent(account: StateContainer.of(context).recentLast, delayPop: true));
                                         });
                                       },
@@ -949,7 +944,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     color: Colors.transparent,
                                     child: FlatButton(
                                       onPressed: () {
-                                        dbHelper.changeAccount(StateContainer.of(context).recentSecondLast).then((_) {
+                                        sl.get<DBHelper>().changeAccount(StateContainer.of(context).recentSecondLast).then((_) {
                                           EventTaxiImpl.singleton().fire(AccountChangedEvent(account: StateContainer.of(context).recentSecondLast, delayPop: true));
                                         });
                                       },
@@ -989,7 +984,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   setState(() {
                                     _loadingAccounts = true;
                                   });
-                                  dbHelper.getAccounts().then((accounts) {
+                                  sl.get<DBHelper>().getAccounts().then((accounts) {
                                     setState(() {
                                       _loadingAccounts = false;
                                     });
@@ -1173,24 +1168,24 @@ class _SettingsSheetState extends State<SettingsSheet>
                         AppLocalization.of(context).backupSeed,
                         AppIcons.backupseed, onPressed: () {
                       // Authenticate
-                      SharedPrefsUtil.inst.getAuthMethod().then((authMethod) {
-                        BiometricUtil.hasBiometrics().then((hasBiometrics) {
+                      sl.get<SharedPrefsUtil>().getAuthMethod().then((authMethod) {
+                        sl.get<BiometricUtil>().hasBiometrics().then((hasBiometrics) {
                           if (authMethod.method == AuthMethod.BIOMETRICS &&
                               hasBiometrics) {
-                            BiometricUtil.authenticateWithBiometrics(
+                            sl.get<BiometricUtil>().authenticateWithBiometrics(
                                     context,
                                     AppLocalization.of(context)
                                         .fingerprintSeedBackup)
                                 .then((authenticated) {
                               if (authenticated) {
-                                HapticUtil.fingerprintSucess();
+                                sl.get<HapticUtil>().fingerprintSucess();
                                 new AppSeedBackupSheet()
                                     .mainBottomSheet(context);
                               }
                             });
                           } else {
                             // PIN Authentication
-                            Vault.inst.getPin().then((expectedPin) {
+                            sl.get<Vault>().getPin().then((expectedPin) {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) {
                                 return new PinScreen(
@@ -1274,15 +1269,15 @@ class _SettingsSheetState extends State<SettingsSheet>
                             CaseChange.toUpperCase(
                                 AppLocalization.of(context).yes, context), () {
                           // Unsubscribe from notifications
-                          SharedPrefsUtil.inst
+                          sl.get<SharedPrefsUtil>()
                               .setNotificationsOn(false)
                               .then((_) {
                             FirebaseMessaging().getToken().then((fcmToken) {
                               EventTaxiImpl.singleton()
                                   .fire(FcmUpdateEvent(token: fcmToken));
                               // Delete all data
-                              Vault.inst.deleteAll().then((_) {
-                                SharedPrefsUtil.inst.deleteAll().then((result) {
+                              sl.get<Vault>().deleteAll().then((_) {
+                                sl.get<SharedPrefsUtil>().deleteAll().then((result) {
                                   StateContainer.of(context).logOut();
                                   Navigator.of(context).pushNamedAndRemoveUntil(
                                       '/', (Route<dynamic> route) => false);
@@ -1484,7 +1479,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               .exists()
                               .then((exists) {
                             if (!exists) {
-                              dbHelper
+                              sl.get<DBHelper>()
                                   .setMonkeyForContact(_contacts[index], null);
                             }
                           });

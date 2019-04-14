@@ -6,6 +6,7 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
@@ -37,9 +38,9 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
     // Back button pressed
     Future<bool> _onWillPop() async {
       // Delete seed
-      await Vault.inst.deleteAll();
+      await sl.get<Vault>().deleteAll();
       // Delete any shared prefs
-      await Vault.inst.deleteAll();
+      await sl.get<Vault>().deleteAll();
       return true;
     }
 
@@ -190,7 +191,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                     .curTheme
                                     .primary15,
                                 onPressed: () {
-                                  Vault.inst.setSeed(_seed).then((result) {
+                                  sl.get<Vault>().setSeed(_seed).then((result) {
                                     // Update wallet
                                     NanoUtil().loginAccount(context).then((_) {
                                       StateContainer.of(context).requestUpdate();

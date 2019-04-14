@@ -8,7 +8,7 @@ class BiometricUtil {
   /// hasBiometrics()
   /// 
   /// @returns [true] if device has fingerprint/faceID available and registered, [false] otherwise
-  static Future<bool> hasBiometrics() async {
+  Future<bool> hasBiometrics() async {
     LocalAuthentication localAuth = new LocalAuthentication();
     bool canCheck = await localAuth.canCheckBiometrics;
     if (canCheck) {
@@ -27,7 +27,7 @@ class BiometricUtil {
   /// 
   /// @param [message] Message shown to user in FaceID/TouchID popup
   /// @returns [true] if successfully authenticated, [false] otherwise
-  static Future<bool> authenticateWithBiometrics(BuildContext context, String message) async {
+  Future<bool> authenticateWithBiometrics(BuildContext context, String message) async {
     bool hasBiometricsEnrolled = await hasBiometrics();
     if (hasBiometricsEnrolled) {
       LocalAuthentication localAuth = new LocalAuthentication();
