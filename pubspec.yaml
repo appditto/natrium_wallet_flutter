@@ -114,6 +114,9 @@ dependencies:
   # Lock helper
   synchronized: ^2.1.0
 
+  # Service provider
+  get_it: ^1.0.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

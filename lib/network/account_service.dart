@@ -31,37 +31,37 @@ const String _SERVER_ADDRESS = "wss://natrium.banano.cc:4443";
 
 // AccountService singleton
 class AccountService {
-  static final AccountService _singleton = AccountService._internal();
   static final Logger log = new Logger("AccountService");
 
-  factory AccountService() {
-    return _singleton;
-  }
-
   // For all requests we place them on a queue with expiry to be processed sequentially
-  static final Queue<RequestItem> _requestQueue = Queue();
+  Queue<RequestItem> _requestQueue;
 
   // WS Client
-  static IOWebSocketChannel _channel;
+  IOWebSocketChannel _channel;
 
   // WS connection status
-  static bool _isConnected = false;
-  static bool _isConnecting = false;
-  static bool _suspended = false; // When the app explicity closes the connection
+  bool _isConnected;
+  bool _isConnecting;
+  bool suspended; // When the app explicity closes the connection
 
   // Lock instnace for synchronization
-  static Lock _lock = Lock();
+  Lock _lock;
 
-  // Singleton Constructor
-  AccountService._internal() {
+  // Constructor
+  AccountService() {
+    _requestQueue = Queue();
+    _isConnected = false;
+    _isConnecting = false;
+    suspended = false;
+    _lock = Lock();
     initCommunication();
   }
 
   // Connect to server
-  static Future<void> initCommunication({bool unsuspend = false}) async {
+  Future<void> initCommunication({bool unsuspend = false}) async {
     if (_isConnected || _isConnecting) {
       return;
-    } else if (_suspended && !unsuspend) {
+    } else if (suspended && !unsuspend) {
       return;
     }
 
@@ -69,7 +69,7 @@ class AccountService {
       var packageInfo = await PackageInfo.fromPlatform();
 
       _isConnecting = true;
-      _suspended = false;
+      suspended = false;
       _channel = new IOWebSocketChannel
                       .connect(_SERVER_ADDRESS,
                                headers: {
@@ -89,7 +89,7 @@ class AccountService {
   }
 
   // Connection closed (normally)
-  static void connectionClosed() {
+  void connectionClosed() {
     _isConnected = false;
     _isConnecting = false;
     log.fine("disconnected from service");
@@ -98,7 +98,7 @@ class AccountService {
   }
 
   // Connection closed (with error)
-  static void connectionClosedError(e) {
+  void connectionClosedError(e) {
     _isConnected = false;
     _isConnecting = false;
     log.fine("disconnected from service with error ${e.toString()}");
@@ -107,28 +107,24 @@ class AccountService {
   }
 
   // Close connection
-  static void reset({bool suspend = false}){
-    _suspended = suspend;
-    if (_channel != null){
-      if (_channel.sink != null){
-        _channel.sink.close();
-        _isConnected = false;
-        _isConnecting = false;
-      }
+  void reset({bool suspend = false}){
+    suspended = suspend;
+    if (_channel != null && _channel.sink != null) {
+      _channel.sink.close();
+      _isConnected = false;
+      _isConnecting = false;
     }
   }
 
   // Send message
-  static Future<void> _send(String message) async {
+  Future<void> _send(String message) async {
     bool reset = false;
     try {
-    if (_channel != null){
-      if (_channel.sink != null && _isConnected){
+      if (_channel != null && _channel.sink != null && _isConnected) {
         _channel.sink.add(message);
       } else {
         reset = true; // Re-establish connection
       }
-    }
     } catch (e) {
       reset = true;
     } finally {
@@ -137,14 +133,17 @@ class AccountService {
         _requestQueue.forEach((requestItem) {
           requestItem.isProcessing = false;
         });
-        if (!_isConnecting) {
+        if (!_isConnecting && !suspended) {
           initCommunication();
         }
       }
     }
   }
 
-  static Future<void> _onMessageReceived(message) async {
+  Future<void> _onMessageReceived(message) async {
+    if (suspended) {
+      return;
+    }
     await _lock.synchronized(() async {
       _isConnected = true;
       _isConnecting = false;
@@ -214,29 +213,29 @@ class AccountService {
   }
 
   /* Send Request */
-  static Future<void> sendRequest(BaseRequest request) async {
+  Future<void> sendRequest(BaseRequest request) async {
     // We don't care about order or server response in these requests
     log.fine("sending ${json.encode(request.toJson())}");
     _send(json.encode(request.toJson()));
   }
 
   /* Enqueue Request */
-  static void queueRequest(BaseRequest request, {bool fromTransfer = false}) {
+  void queueRequest(BaseRequest request, {bool fromTransfer = false}) {
     log.fine("requetest ${json.encode(request.toJson())}, q length: ${_requestQueue.length}");
     _requestQueue.add(new RequestItem(request, fromTransfer: fromTransfer));
   }
 
   /* Process Queue */
-  static Future<void> processQueue() async {
+  Future<void> processQueue() async {
     await _lock.synchronized(() async {
       log.fine("Request Queue length ${_requestQueue.length}");
       if (_requestQueue != null && _requestQueue.length > 0) {
         RequestItem requestItem = _requestQueue.first;
         if (requestItem != null && !requestItem.isProcessing) {
-          if (!_isConnected) {
-            if (!_isConnecting) {
-              await initCommunication();
-            }
+          if (!_isConnected && !_isConnecting && !suspended) {
+            initCommunication();
+            return;
+          } else if (suspended) {
             return;
           }
           requestItem.isProcessing = true;
@@ -255,7 +254,7 @@ class AccountService {
   }
 
   // Queue Utilities
-  static bool queueContainsRequestWithHash(String hash) {
+  bool queueContainsRequestWithHash(String hash) {
     if (_requestQueue != null || _requestQueue.length == 0) {
       return false;
     }
@@ -271,7 +270,7 @@ class AccountService {
     return false;
   }
 
-  static bool queueContainsOpenBlock() {
+  bool queueContainsOpenBlock() {
     if (_requestQueue != null || _requestQueue.length == 0) {
       return false;
     }
@@ -287,7 +286,7 @@ class AccountService {
     return false;
   }
 
-  static void removeSubscribeHistoryPendingFromQueue() {
+  void removeSubscribeHistoryPendingFromQueue() {
     if (_requestQueue != null && _requestQueue.length > 0) {
       List<RequestItem> toRemove = new List();
       _requestQueue.forEach((requestItem) {
@@ -302,16 +301,16 @@ class AccountService {
     }    
   }
 
-  static RequestItem pop() {
+  RequestItem pop() {
     return _requestQueue.length > 0 ? _requestQueue.removeFirst() : null;
   }
 
-  static RequestItem peek() {
+  RequestItem peek() {
     return _requestQueue.length > 0 ? _requestQueue.first : null;
   }
   
   /// Clear entire queue, except for AccountsBalancesRequest
-  static void clearQueue() {
+  void clearQueue() {
     List<RequestItem> reQueue = List();
     _requestQueue.forEach((requestItem) {
       if (requestItem.request is AccountsBalancesRequest) {
@@ -326,5 +325,5 @@ class AccountService {
     });
   }
 
-  static Queue<RequestItem> get requestQueue => _requestQueue;
+  Queue<RequestItem> get requestQueue => _requestQueue;
 }

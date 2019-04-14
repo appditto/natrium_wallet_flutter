@@ -12,6 +12,7 @@ import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/home_page.dart';
 import 'package:natrium_wallet_flutter/ui/lock_screen.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_welcome.dart';
@@ -28,6 +29,8 @@ import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/legacyutil.dart';
 
 void main() async {
+  // Setup Service Provide
+  setupServiceLocator();
   // Setup logger
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((LogRecord rec) {
