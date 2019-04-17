@@ -224,9 +224,6 @@ class AppChangeRepresentativeSheet {
                     child: Stack(
                       children: <Widget>[
                         Container(
-                            alignment: Alignment(0, 0),
-                            width: 50,
-                            height: 50,
                             child: Icon(
                               AppIcons.score,
                               color:
@@ -234,7 +231,7 @@ class AppChangeRepresentativeSheet {
                               size: 50,
                             )),
                         Container(
-                          alignment: Alignment(0, 0),
+                          alignment: Alignment(-0.03, 0.02),
                           width: 50,
                           height: 50,
                           child: Text(

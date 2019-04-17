@@ -206,7 +206,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                   text: StateContainer.of(context)
                                       .wallet
                                       .address
-                                      .substring(0, 11),
+                                      .substring(0, 12),
                                   style: TextStyle(
                                     color: StateContainer.of(context)
                                         .curTheme
@@ -214,14 +214,14 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
-                                    height: 0.9,
+                                    height: Platform.isIOS?0.9:1.2,
                                   ),
                                 ),
                                 TextSpan(
                                   text: StateContainer.of(context)
                                       .wallet
                                       .address
-                                      .substring(11, 16),
+                                      .substring(12, 16),
                                   style: TextStyle(
                                     color: StateContainer.of(context)
                                         .curTheme
@@ -229,7 +229,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
-                                    height: 0.9,
+                                    height: Platform.isIOS?0.9:1.2,
                                   ),
                                 ),
                               ],
@@ -241,7 +241,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontSize: 50.0,
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
-                              height: 0.9,
+                              height: Platform.isIOS?0.9:1.2,
                             ),
                           ),
                         ),
@@ -262,7 +262,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
                               fontSize: 50,
-                              height: 0.9,
+                              height: Platform.isIOS?0.9:1.2,
                             ),
                           ),
                         ),
@@ -283,7 +283,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
                               fontSize: 50,
-                              height: 0.9,
+                              height: Platform.isIOS?0.9:1.2,
                             ),
                           ),
                         ),
@@ -306,7 +306,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
-                                    height: 0.9,
+                                    height: Platform.isIOS?0.9:1.2,
                                   ),
                                 ),
                                 // Primary colored part of the last row
@@ -314,7 +314,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                   text: StateContainer.of(context)
                                       .wallet
                                       .address
-                                      .substring(58),
+                                      .substring(59),
                                   style: TextStyle(
                                     color: StateContainer.of(context)
                                         .curTheme
@@ -322,7 +322,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
-                                    height: 0.9,
+                                    height: Platform.isIOS?0.9:1.2,
                                   ),
                                 ),
                               ],
@@ -334,7 +334,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontSize: 50,
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
-                              height: 0.9,
+                              height: Platform.isIOS?0.9:1.2,
                             ),
                           ),
                         ),
