@@ -500,7 +500,7 @@ class AppChangeRepresentativeSheet {
                                   AppButton.buildAppButton(
                                     context,
                                     AppButtonType.PRIMARY_OUTLINE,
-                                    "Manual Entry",
+                                    AppLocalization.of(context).manualEntry,
                                     Dimens.BUTTON_BOTTOM_DIMENS,
                                     onPressed: () {
                                       AppChangeRepresentativeManualEntrySheet()

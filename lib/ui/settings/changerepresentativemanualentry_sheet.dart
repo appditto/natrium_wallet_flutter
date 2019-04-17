@@ -240,8 +240,8 @@ class AppChangeRepresentativeManualEntrySheet {
                           Expanded(
                             child: Container(
                               margin: EdgeInsets.only(
-                                  top: smallScreen(context) ? 40 : 55,
-                                  bottom: smallScreen(context) ? 40 : 55),
+                                  top: smallScreen(context) ? 20 : 35,
+                                  bottom: smallScreen(context) ? 20 : 55),
                               child: Stack(children: <Widget>[
                                 GestureDetector(
                                   onTap: () {
@@ -259,14 +259,16 @@ class AppChangeRepresentativeManualEntrySheet {
                                     // New representative
                                     Container(
                                       margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.105,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.105),
+                                        left:
+                                            MediaQuery.of(context).size.width *
+                                                0.105,
+                                        right:
+                                            MediaQuery.of(context).size.width *
+                                                0.105,
+                                        top:
+                                            MediaQuery.of(context).size.height *
+                                                0.05,
+                                      ),
                                       width: double.infinity,
                                       padding: _addressValidAndUnfocused
                                           ? EdgeInsets.symmetric(
@@ -622,11 +624,10 @@ class AppChangeRepresentativeManualEntrySheet {
                                   AppButton.buildAppButton(
                                     context,
                                     AppButtonType.PRIMARY_OUTLINE,
-                                    "CLOSE",
+                                    CaseChange.toUpperCase(
+                                        AppLocalization.of(context).close,
+                                        context),
                                     Dimens.BUTTON_BOTTOM_DIMENS,
-                                    disabled: StateContainer.of(context)
-                                            .nanoNinjaNodes ==
-                                        null,
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
