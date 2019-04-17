@@ -61,7 +61,7 @@ class DBHelper{
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts ORDER BY name');
     List<Contact> contacts = new List();
     for (int i = 0; i < list.length; i++) {
-      contacts.add(new Contact(id: list[i]["id"], name: list[i]["name"], address: list[i]["address"].replaceAll("nano_", "xrb_"), monkeyPath: list[i]["monkey_path"]));
+      contacts.add(new Contact(id: list[i]["id"], name: list[i]["name"], address: list[i]["address"].replaceAll("xrb_", "nano_"), monkeyPath: list[i]["monkey_path"]));
     }
     return contacts;
   }
@@ -78,7 +78,7 @@ class DBHelper{
 
   Future<Contact> getContactWithAddress(String address) async {
     var dbClient = await db;
-    List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts WHERE address like \'%${address.replaceAll("nano_", "").replaceAll("xrb_", "")}\'');
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM Contacts WHERE address like \'%${address.replaceAll("xrb_", "").replaceAll("nano_", "")}\'');
     if (list.length > 0) {
       return Contact(id: list[0]["id"], name: list[0]["name"], address: list[0]["address"], monkeyPath: list[0]["monkey_path"]);
     }
@@ -102,13 +102,13 @@ class DBHelper{
 
   Future<bool> contactExistsWithAddress(String address) async {
     var dbClient = await db;
-    int count = Sqflite.firstIntValue(await dbClient.rawQuery('SELECT count(*) FROM Contacts WHERE lower(address) like \'%${address.replaceAll("nano_", "").replaceAll("xrb_", "")}\''));
+    int count = Sqflite.firstIntValue(await dbClient.rawQuery('SELECT count(*) FROM Contacts WHERE lower(address) like \'%${address.replaceAll("xrb_", "").replaceAll("nano_", "")}\''));
     return count > 0;
   }
 
   Future<int> saveContact(Contact contact) async {
     var dbClient = await db;
-    return await dbClient.rawInsert('INSERT INTO Contacts (name, address) values(?, ?)', [contact.name, contact.address.replaceAll("nano_", "xrb_")]);
+    return await dbClient.rawInsert('INSERT INTO Contacts (name, address) values(?, ?)', [contact.name, contact.address.replaceAll("xrb_", "nano_")]);
   }
 
   Future<int> saveContacts(List<Contact> contacts) async {

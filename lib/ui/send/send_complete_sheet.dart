@@ -31,7 +31,7 @@ class AppSendCompleteSheet {
               .toStringAsFixed(6) +
           "~";
     }
-    _destination = destinaton.replaceAll("nano_", "xrb_");
+    _destination = destinaton.replaceAll("xrb_", "nano_");
     _contactName = contactName;
     _localAmount = localAmount;
   }

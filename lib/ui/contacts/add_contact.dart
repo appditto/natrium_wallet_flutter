@@ -496,7 +496,7 @@ class AddContactSheet {
                                         : address);
                                 sl.get<DBHelper>().saveContact(newContact).then((id) {
                                   if (address == null) {
-                                    newContact.address.replaceAll("nano_", "xrb_");
+                                    newContact.address.replaceAll("xrb_", "nano_");
                                     EventTaxiImpl.singleton().fire(
                                         ContactAddedEvent(contact: newContact));
                                   }
