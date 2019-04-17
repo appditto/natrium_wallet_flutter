@@ -18,11 +18,11 @@ class UIUtil {
   static Widget threeLineAddressText(BuildContext context, String address,
       {ThreeLineAddressTextType type = ThreeLineAddressTextType.PRIMARY,
       String contactName}) {
-    String stringPartOne = address.substring(0, 11);
-    String stringPartTwo = address.substring(11, 22);
+    String stringPartOne = address.substring(0, 12);
+    String stringPartTwo = address.substring(12, 22);
     String stringPartThree = address.substring(22, 44);
-    String stringPartFour = address.substring(44, 58);
-    String stringPartFive = address.substring(58);
+    String stringPartFour = address.substring(44, 59);
+    String stringPartFive = address.substring(59);
     switch (type) {
       case ThreeLineAddressTextType.PRIMARY60:
         return Column(
@@ -243,8 +243,8 @@ class UIUtil {
 
   static Widget oneLineAddressText(BuildContext context, String address,
       {OneLineAddressTextType type = OneLineAddressTextType.PRIMARY}) {
-    String stringPartOne = address.substring(0, 11);
-    String stringPartFive = address.substring(58);
+    String stringPartOne = address.substring(0, 12);
+    String stringPartFive = address.substring(59);
     switch (type) {
       case OneLineAddressTextType.PRIMARY60:
         return Column(
