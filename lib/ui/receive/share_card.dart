@@ -334,7 +334,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontSize: 50,
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
-                              height: 0.9,
+                              height: Platform.isIOS?0.9:1.2,
                             ),
                           ),
                         ),
