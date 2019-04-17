@@ -8,6 +8,11 @@ double _toDouble(v) {
   return double.tryParse(v.toString());
 }
 
+/// For running in an isolate, needs to be top-level function
+SubscribeResponse subscribeResponseFromJson(Map<dynamic, dynamic> json) {
+  return SubscribeResponse.fromJson(json);
+} 
+
 @JsonSerializable()
 class SubscribeResponse {
   @JsonKey(name:'frontier')
