@@ -220,7 +220,7 @@ class AppChangeRepresentativeSheet {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: 24),
+                    margin: EdgeInsets.only(right: 24, left:14),
                     child: Stack(
                       children: <Widget>[
                         Container(

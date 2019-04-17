@@ -433,7 +433,7 @@ class AppAccountsSheet {
                               ),
                               // Account address
                               AutoSizeText(
-                                account.address.substring(0, 11) + "...",
+                                account.address.substring(0, 12) + "...",
                                 style: TextStyle(
                                   fontFamily: "OverpassMono",
                                   fontWeight: FontWeight.w100,
