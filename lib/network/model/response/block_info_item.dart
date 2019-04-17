@@ -2,6 +2,11 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'block_info_item.g.dart';
 
+/// For running in an isolate, needs to be top-level function
+BlockInfoItem blockInfoItemFromJson(Map<dynamic, dynamic> json) {
+  return BlockInfoItem.fromJson(json);
+} 
+
 @JsonSerializable()
 class BlockInfoItem {
   @JsonKey(name:'block_account')

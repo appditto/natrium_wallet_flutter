@@ -4,6 +4,11 @@ import 'package:natrium_wallet_flutter/network/model/response/block_item.dart';
 
 part 'callback_response.g.dart';
 
+/// For running in an isolate, needs to be top-level function
+CallbackResponse callbackResponseFromJson(Map<dynamic, dynamic> json) {
+  return CallbackResponse.fromJson(json);
+} 
+
 /// Represents a callback from the node that belongs to logged in account
 @JsonSerializable()
 class CallbackResponse {

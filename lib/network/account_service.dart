@@ -1,5 +1,8 @@
 import 'dart:collection';
 import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+
 import 'package:web_socket_channel/io.dart';
 import 'package:package_info/package_info.dart';
 import 'package:logging/logging.dart';
@@ -28,6 +31,10 @@ import 'package:natrium_wallet_flutter/bus/events.dart';
 
 // Server Connection String
 const String _SERVER_ADDRESS = "wss://natrium.banano.cc:4443";
+
+Map decodeJson(dynamic src) {
+  return json.decode(src);
+}
 
 // AccountService singleton
 class AccountService {
@@ -140,20 +147,20 @@ class AccountService {
     }
   }
 
-  Future<void> _onMessageReceived(message) async {
+  Future<void> _onMessageReceived(dynamic message) async {
     if (suspended) {
       return;
     }
     await _lock.synchronized(() async {
       _isConnected = true;
       _isConnecting = false;
-      log.fine("Received $message");
-      Map msg = json.decode(message);
+      log.fine("Received ${message.length > 30 ? message.substring(0, 30) : message}");
+      Map msg = await compute(decodeJson, message);
       // Determine response type
       if (msg.containsKey("uuid") || (msg.containsKey("frontier") && msg.containsKey("representative_block")) ||
           msg.containsKey("error") && msg.containsKey("currency")) {
         // Subscribe response
-        SubscribeResponse resp = SubscribeResponse.fromJson(msg);
+        SubscribeResponse resp = await compute(subscribeResponseFromJson, msg);
         // Post to callbacks
         EventTaxiImpl.singleton().fire(SubscribeEvent(response: resp));
       } else if (msg.containsKey("currency") && msg.containsKey("price") && msg.containsKey("btc")) {
@@ -165,14 +172,14 @@ class AccountService {
         if (msg['history'] == "") {
           msg['history'] = new List<AccountHistoryResponseItem>();
         }
-        AccountHistoryResponse resp = AccountHistoryResponse.fromJson(msg);
+        AccountHistoryResponse resp = await compute(accountHistoryresponseFromJson, msg);
         EventTaxiImpl.singleton().fire(HistoryEvent(response: resp));
       } else if (msg.containsKey("blocks")) {
         // This is a 'pending' response
         if (msg['blocks'] is Map && msg['blocks'].length > 0) {
           Map<String, dynamic> blockMap = msg['blocks'];
           if (blockMap != null && blockMap.length > 0) {
-            PendingResponse resp = PendingResponse.fromJson(msg);
+            PendingResponse resp = await compute(pendingResponseFromJson, msg);
             EventTaxiImpl.singleton().fire(PendingEvent(response: resp));
           }
         } else {
@@ -182,10 +189,10 @@ class AccountService {
         }
       } else if (msg.containsKey("block_account") && msg.containsKey("contents") && msg.containsKey("amount") && msg.containsKey("balance")) {
         // Block Info Response
-        BlockInfoItem resp = BlockInfoItem.fromJson(msg);
+        BlockInfoItem resp = await compute(blockInfoItemFromJson, msg);
         EventTaxiImpl.singleton().fire(BlocksInfoEvent(response: resp));
       } else if (msg.containsKey("block") && msg.containsKey("hash") && msg.containsKey("account")) {
-        CallbackResponse resp = CallbackResponse.fromJson(msg);
+        CallbackResponse resp = await compute(callbackResponseFromJson, msg);
         EventTaxiImpl.singleton().fire(CallbackEvent(response: resp));
       } else if (msg.containsKey("hash")) {
         // process response
@@ -201,7 +208,7 @@ class AccountService {
           if (balancesMap != null && balancesMap.length > 0) {
             if (balancesMap[balancesMap.keys.first].containsKey('pending')) {
               RequestItem<dynamic> lastRequest = pop();
-              AccountsBalancesResponse resp = AccountsBalancesResponse.fromJson(msg);
+              AccountsBalancesResponse resp = await compute(accountsBalancesResponseFromJson, msg);
               EventTaxiImpl.singleton().fire(AccountsBalancesEvent(response: resp, transfer: lastRequest.fromTransfer));
               processQueue();
             }
