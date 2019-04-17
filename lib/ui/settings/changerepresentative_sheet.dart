@@ -121,7 +121,7 @@ class AppChangeRepresentativeSheet {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(left: 24),
-                    width: MediaQuery.of(context).size.width * 0.4,
+                    width: MediaQuery.of(context).size.width * 0.50,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,7 +231,7 @@ class AppChangeRepresentativeSheet {
                               size: 50,
                             )),
                         Container(
-                          alignment: Alignment(-0.03, 0.02),
+                          alignment: Alignment(-0.03, 0.03),
                           width: 50,
                           height: 50,
                           child: Text(
