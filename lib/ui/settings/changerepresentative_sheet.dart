@@ -32,6 +32,8 @@ import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 
+import 'changerepresentativemanualentry_sheet.dart';
+
 // TODO - add validations
 
 class AppChangeRepresentativeSheet {
@@ -68,27 +70,25 @@ class AppChangeRepresentativeSheet {
     if (list == null) return [];
     List<Widget> ret = [];
     list.forEach((node) {
-      ret.add(
-        _buildSingleRepresentative(
-          node,
-          context,
-        )
-      );
+      ret.add(_buildSingleRepresentative(
+        node,
+        context,
+      ));
     });
     return ret;
   }
 
   _buildRepresenativeDialog(BuildContext context) {
     return AppSimpleDialog(
-      title: Container(
-        margin: EdgeInsets.only(bottom: 10),
-        child: Text(
-          "Representatives",
-          style: AppStyles.textStyleDialogHeader(context),
+        title: Container(
+          margin: EdgeInsets.only(bottom: 10),
+          child: Text(
+            "Representatives",
+            style: AppStyles.textStyleDialogHeader(context),
+          ),
         ),
-      ),
-      children: _getRepresentativeWidgets(context, StateContainer.of(context).nanoNinjaNodes)
-    );
+        children: _getRepresentativeWidgets(
+            context, StateContainer.of(context).nanoNinjaNodes));
   }
 
   String _sanitizeAlias(String alias) {
@@ -121,7 +121,7 @@ class AppChangeRepresentativeSheet {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(left: 24),
-                    width: MediaQuery.of(context).size.width*0.4,
+                    width: MediaQuery.of(context).size.width * 0.4,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +152,8 @@ class AppChangeRepresentativeSheet {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: NumberUtil.getPercentOfTotalSupply(rep.votingWeight),
+                                  text: NumberUtil.getPercentOfTotalSupply(
+                                      rep.votingWeight),
                                   style: TextStyle(
                                       color: StateContainer.of(context)
                                           .curTheme
@@ -275,9 +276,8 @@ class AppChangeRepresentativeSheet {
       }
     });
 
-    AppSheets.showAppHeightNineSheet(
+    AppSheets.showAppHeightEightSheet(
         context: context,
-        onDisposed: _onWillPop,
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
@@ -315,39 +315,7 @@ class AppChangeRepresentativeSheet {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              //A container for the info button
-                              Container(
-                                width: 50,
-                                height: 50,
-                                margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                                child: FlatButton(
-                                  highlightColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
-                                  splashColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
-                                  onPressed: () {
-                                    AppDialogs.showInfoDialog(
-                                        context,
-                                        AppLocalization.of(context)
-                                            .repInfoHeader,
-                                        AppLocalization.of(context).repInfo);
-                                  },
-                                  child: Icon(AppIcons.info,
-                                      size: 24,
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text),
-                                  padding: EdgeInsets.all(13.0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(100.0)),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.padded,
-                                ),
-                              ),
-
+                              SizedBox(height: 60, width: 60),
                               //Container for the header
                               Column(
                                 children: <Widget>[
@@ -384,61 +352,7 @@ class AppChangeRepresentativeSheet {
                                   ),
                                 ],
                               ),
-
-                              // Scan QR Button
-                              Container(
-                                width: 50,
-                                height: 50,
-                                margin: EdgeInsets.only(top: 10.0, right: 10.0),
-                                child: FlatButton(
-                                  highlightColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
-                                  splashColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
-                                  onPressed: () {
-                                    UIUtil.cancelLockEvent();
-                                    BarcodeScanner.scan(
-                                            StateContainer.of(context)
-                                                .curTheme
-                                                .qrScanTheme)
-                                        .then((result) {
-                                      if (result == null) {
-                                        return;
-                                      }
-                                      Address address = new Address(result);
-                                      if (address.isValid()) {
-                                        setState(() {
-                                          _addressValidAndUnfocused = true;
-                                          _showPasteButton = false;
-                                          _repAddressStyle =
-                                              AppStyles.textStyleAddressText60(
-                                                  context);
-                                        });
-                                        _repController.text = address.address;
-                                        _repFocusNode.unfocus();
-                                      } else {
-                                        UIUtil.showSnackbar(
-                                            AppLocalization.of(context)
-                                                .qrInvalidAddress,
-                                            context);
-                                      }
-                                    });
-                                  },
-                                  child: Icon(AppIcons.scan,
-                                      size: 28,
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text),
-                                  padding: EdgeInsets.all(11.0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(100.0)),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.padded,
-                                ),
-                              ),
+                              SizedBox(height: 60, width: 60),
                             ],
                           ),
 
@@ -551,187 +465,6 @@ class AppChangeRepresentativeSheet {
                                             fontWeight: FontWeight.w600,
                                           )),
                                     ),
-                                    // New representative
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.105,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.105),
-                                      width: double.infinity,
-                                      padding: _addressValidAndUnfocused
-                                          ? EdgeInsets.symmetric(
-                                              horizontal: 25.0, vertical: 15.0)
-                                          : EdgeInsets.zero,
-                                      decoration: BoxDecoration(
-                                        color: StateContainer.of(context)
-                                            .curTheme
-                                            .backgroundDarkest,
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      child: !_addressValidAndUnfocused
-                                          ? TextField(
-                                              focusNode: _repFocusNode,
-                                              controller: _repController,
-                                              textAlign: TextAlign.center,
-                                              cursorColor:
-                                                  StateContainer.of(context)
-                                                      .curTheme
-                                                      .primary,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(
-                                                    65),
-                                              ],
-                                              textInputAction:
-                                                  TextInputAction.done,
-                                              maxLines: null,
-                                              autocorrect: false,
-                                              decoration: InputDecoration(
-                                                hintText: _changeRepHint,
-                                                // Empty Container
-                                                prefixIcon: Container(
-                                                  width: 48.0,
-                                                  height: 48.0,
-                                                ),
-                                                // Paste Button
-                                                suffixIcon: AnimatedCrossFade(
-                                                  duration: Duration(
-                                                      milliseconds: 100),
-                                                  firstChild: Container(
-                                                    width: 48.0,
-                                                    height: 48.0,
-                                                    child: FlatButton(
-                                                      highlightColor:
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .curTheme
-                                                              .primary15,
-                                                      splashColor:
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .curTheme
-                                                              .primary30,
-                                                      padding:
-                                                          EdgeInsets.all(15.0),
-                                                      onPressed: () {
-                                                        if (!_showPasteButton) {
-                                                          return;
-                                                        }
-                                                        Clipboard.getData(
-                                                                "text/plain")
-                                                            .then((ClipboardData
-                                                                data) {
-                                                          if (data == null ||
-                                                              data.text ==
-                                                                  null) {
-                                                            return;
-                                                          }
-                                                          Address address =
-                                                              new Address(
-                                                                  data.text);
-                                                          if (address
-                                                              .isValid()) {
-                                                            setState(() {
-                                                              _addressValidAndUnfocused =
-                                                                  true;
-                                                              _showPasteButton =
-                                                                  false;
-                                                              _repAddressStyle =
-                                                                  AppStyles
-                                                                      .textStyleAddressText90(
-                                                                          context);
-                                                            });
-                                                            _repController
-                                                                    .text =
-                                                                address.address;
-                                                            _repFocusNode
-                                                                .unfocus();
-                                                          }
-                                                        });
-                                                      },
-                                                      child: Icon(
-                                                          AppIcons.paste,
-                                                          size: 20.0,
-                                                          color:
-                                                              StateContainer.of(
-                                                                      context)
-                                                                  .curTheme
-                                                                  .primary),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          200.0)),
-                                                      materialTapTargetSize:
-                                                          MaterialTapTargetSize
-                                                              .padded,
-                                                    ),
-                                                  ),
-                                                  secondChild: SizedBox(),
-                                                  crossFadeState:
-                                                      _showPasteButton
-                                                          ? CrossFadeState
-                                                              .showFirst
-                                                          : CrossFadeState
-                                                              .showSecond,
-                                                ),
-                                                border: InputBorder.none,
-                                                hintStyle: TextStyle(
-                                                  fontFamily: 'NunitoSans',
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w100,
-                                                  color:
-                                                      StateContainer.of(context)
-                                                          .curTheme
-                                                          .text60,
-                                                ),
-                                              ),
-                                              keyboardType: TextInputType.text,
-                                              style: _repAddressStyle,
-                                              onChanged: (text) {
-                                                if (Address(text).isValid()) {
-                                                  _repFocusNode.unfocus();
-                                                  setState(() {
-                                                    _showPasteButton = false;
-                                                    _repAddressStyle = AppStyles
-                                                        .textStyleAddressText90(
-                                                            context);
-                                                  });
-                                                } else {
-                                                  setState(() {
-                                                    _showPasteButton = true;
-                                                    _repAddressStyle = AppStyles
-                                                        .textStyleAddressText60(
-                                                            context);
-                                                  });
-                                                }
-                                              },
-                                            )
-                                          : GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  _addressValidAndUnfocused =
-                                                      false;
-                                                });
-                                                Future.delayed(
-                                                    Duration(milliseconds: 50),
-                                                    () {
-                                                  FocusScope.of(context)
-                                                      .requestFocus(
-                                                          _repFocusNode);
-                                                });
-                                              },
-                                              child:
-                                                  UIUtil.threeLineAddressText(
-                                                      context,
-                                                      _repController.text),
-                                            ),
-                                    ),
                                   ],
                                 ),
                               ]),
@@ -746,159 +479,18 @@ class AppChangeRepresentativeSheet {
                                   AppButton.buildAppButton(
                                     context,
                                     AppButtonType.PRIMARY,
-                                    AppLocalization.of(context)
-                                        .changeRepButton
-                                        .toUpperCase(),
+                                    "Pick From a List",
                                     Dimens.BUTTON_TOP_DIMENS,
+                                    disabled: StateContainer.of(context)
+                                            .nanoNinjaNodes ==
+                                        null,
                                     onPressed: () {
-                                      if (!NanoAccounts.isValid(
-                                          NanoAccountType.NANO,
-                                          _repController.text)) {
-                                        return;
-                                      }
-                                      // Authenticate
-                                      sl.get<SharedPrefsUtil>()
-                                          .getAuthMethod()
-                                          .then((authMethod) {
-                                        sl.get<BiometricUtil>().hasBiometrics()
-                                            .then((hasBiometrics) {
-                                          if (authMethod.method ==
-                                                  AuthMethod.BIOMETRICS &&
-                                              hasBiometrics) {
-                                            sl.get<BiometricUtil>()
-                                                    .authenticateWithBiometrics(
-                                                        context,
-                                                        AppLocalization.of(
-                                                                context)
-                                                            .changeRepAuthenticate)
-                                                .then((authenticated) {
-                                              if (authenticated) {
-                                                sl.get<HapticUtil>().fingerprintSucess();
-                                                _animationOpen = true;
-                                                Navigator.of(context).push(
-                                                    AnimationLoadingOverlay(
-                                                        AnimationType.GENERIC,
-                                                        StateContainer.of(
-                                                                context)
-                                                            .curTheme
-                                                            .animationOverlayStrong,
-                                                        StateContainer.of(
-                                                                context)
-                                                            .curTheme
-                                                            .animationOverlayMedium,
-                                                        onPoppedCallback: () =>
-                                                            _animationOpen =
-                                                                false));
-                                                // If account isnt open, just store the account in sharedprefs
-                                                if (StateContainer.of(context)
-                                                        .wallet
-                                                        .openBlock ==
-                                                    null) {
-                                                  sl.get<SharedPrefsUtil>()
-                                                      .setRepresentative(
-                                                          _repController.text)
-                                                      .then((result) {
-                                                    EventTaxiImpl.singleton()
-                                                        .fire(RepChangedEvent(
-                                                            previous: StateBlock(
-                                                                representative:
-                                                                    _repController
-                                                                        .text,
-                                                                previous: "",
-                                                                link: "",
-                                                                balance: "",
-                                                                account: "")));
-                                                  });
-                                                } else {
-                                                  StateContainer.of(context)
-                                                      .requestChange(
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .wallet
-                                                              .frontier,
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .wallet
-                                                              .accountBalance
-                                                              .toString(),
-                                                          _repController.text);
-                                                }
-                                              }
-                                            });
-                                          } else {
-                                            // PIN Authentication
-                                            sl.get<Vault>()
-                                                .getPin()
-                                                .then((expectedPin) {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(builder:
-                                                      (BuildContext context) {
-                                                return new PinScreen(
-                                                  PinOverlayType.ENTER_PIN,
-                                                  (pin) {
-                                                    Navigator.of(context).pop();
-                                                    Navigator.of(context).push(
-                                                        AnimationLoadingOverlay(
-                                                      AnimationType.GENERIC,
-                                                      StateContainer.of(context)
-                                                          .curTheme
-                                                          .animationOverlayStrong,
-                                                      StateContainer.of(context)
-                                                          .curTheme
-                                                          .animationOverlayMedium,
-                                                    ));
-                                                    // If account isnt open, just store the account in sharedprefs
-                                                    if (StateContainer.of(
-                                                                context)
-                                                            .wallet
-                                                            .openBlock ==
-                                                        null) {
-                                                      sl.get<SharedPrefsUtil>()
-                                                          .setRepresentative(
-                                                              _repController
-                                                                  .text)
-                                                          .then((result) {
-                                                        EventTaxiImpl
-                                                                .singleton()
-                                                            .fire(RepChangedEvent(
-                                                                previous: StateBlock(
-                                                                    representative:
-                                                                        _repController
-                                                                            .text,
-                                                                    previous:
-                                                                        "",
-                                                                    link: "",
-                                                                    balance: "",
-                                                                    account:
-                                                                        "")));
-                                                      });
-                                                    } else {
-                                                      StateContainer.of(context)
-                                                          .requestChange(
-                                                              StateContainer.of(
-                                                                      context)
-                                                                  .wallet
-                                                                  .frontier,
-                                                              StateContainer.of(
-                                                                      context)
-                                                                  .wallet
-                                                                  .accountBalance
-                                                                  .toString(),
-                                                              _repController
-                                                                  .text);
-                                                    }
-                                                  },
-                                                  expectedPin: expectedPin,
-                                                  description:
-                                                      AppLocalization.of(
-                                                              context)
-                                                          .pinRepChange,
-                                                );
-                                              }));
-                                            });
-                                          }
-                                        });
-                                      });
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return _buildRepresenativeDialog(
+                                                context);
+                                          });
                                     },
                                   ),
                                 ],
@@ -908,16 +500,11 @@ class AppChangeRepresentativeSheet {
                                   AppButton.buildAppButton(
                                     context,
                                     AppButtonType.PRIMARY_OUTLINE,
-                                    "LIST",
+                                    "Manual Entry",
                                     Dimens.BUTTON_BOTTOM_DIMENS,
-                                    disabled: StateContainer.of(context).nanoNinjaNodes == null,
                                     onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return _buildRepresenativeDialog(
-                                                context);
-                                          });
+                                      AppChangeRepresentativeManualEntrySheet()
+                                          .mainBottomSheet(context);
                                     },
                                   ),
                                 ],
