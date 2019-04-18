@@ -2,14 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:flutter_nano_core/flutter_nano_core.dart';
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:event_taxi/event_taxi.dart';
+import 'package:flutter_nano_core/flutter_nano_core.dart';
 
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
-import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
@@ -34,28 +33,11 @@ import 'package:natrium_wallet_flutter/model/vault.dart';
 
 import 'changerepresentativemanualentry_sheet.dart';
 
-// TODO - add validations
-
 class AppChangeRepresentativeSheet {
-  FocusNode _repFocusNode;
-  TextEditingController _repController;
-
-  String _changeRepHint = "";
-  TextStyle _repAddressStyle;
-  bool _showPasteButton = true;
-  bool _addressValidAndUnfocused = false;
-
-  bool _animationOpen = false;
-
   // State variables
   bool _addressCopied = false;
   // Timer reference so we can cancel repeated events
   Timer _addressCopiedTimer;
-
-  AppChangeRepresentativeSheet() {
-    _repFocusNode = new FocusNode();
-    _repController = new TextEditingController();
-  }
 
   StreamSubscription<RepChangedEvent> _repChangeSub;
 
@@ -70,10 +52,12 @@ class AppChangeRepresentativeSheet {
     if (list == null) return [];
     List<Widget> ret = [];
     list.forEach((node) {
-      ret.add(_buildSingleRepresentative(
-        node,
-        context,
-      ));
+      if (node.alias != null && node.alias.trim().length > 0) {
+        ret.add(_buildSingleRepresentative(
+          node,
+          context,
+        ));
+      }
     });
     return ret;
   }
@@ -110,7 +94,153 @@ class AppChangeRepresentativeSheet {
             highlightColor: StateContainer.of(context).curTheme.text15,
             splashColor: StateContainer.of(context).curTheme.text15,
             onPressed: () {
-              return null;
+              if (!NanoAccounts.isValid(NanoAccountType.NANO, rep.account)) {
+                  return;
+              }
+                // Authenticate
+                sl
+                    .get<SharedPrefsUtil>()
+                    .getAuthMethod()
+                    .then((authMethod) {
+                  sl
+                      .get<BiometricUtil>()
+                      .hasBiometrics()
+                      .then((hasBiometrics) {
+                    if (authMethod.method ==
+                            AuthMethod.BIOMETRICS &&
+                        hasBiometrics) {
+                      sl
+                          .get<BiometricUtil>()
+                          .authenticateWithBiometrics(
+                              context,
+                              AppLocalization.of(context)
+                                  .changeRepAuthenticate)
+                          .then((authenticated) {
+                        if (authenticated) {
+                          sl
+                              .get<HapticUtil>()
+                              .fingerprintSucess();
+                          Navigator.of(context).push(
+                              AnimationLoadingOverlay(
+                                  AnimationType.GENERIC,
+                                  StateContainer.of(
+                                          context)
+                                      .curTheme
+                                      .animationOverlayStrong,
+                                  StateContainer.of(
+                                          context)
+                                      .curTheme
+                                      .animationOverlayMedium));
+                          // If account isnt open, just store the account in sharedprefs
+                          if (StateContainer.of(context)
+                                  .wallet
+                                  .openBlock ==
+                              null) {
+                            sl
+                                .get<SharedPrefsUtil>()
+                                .setRepresentative(
+                                    rep.account)
+                                .then((result) {
+                              EventTaxiImpl.singleton()
+                                  .fire(RepChangedEvent(
+                                      previous: StateBlock(
+                                          representative:
+                                              rep.account,
+                                          previous: "",
+                                          link: "",
+                                          balance: "",
+                                          account: "")));
+                            });
+                          } else {
+                            StateContainer.of(context)
+                                .requestChange(
+                                    StateContainer.of(
+                                            context)
+                                        .wallet
+                                        .frontier,
+                                    StateContainer.of(
+                                            context)
+                                        .wallet
+                                        .accountBalance
+                                        .toString(),
+                                    rep.account);
+                          }
+                        }
+                      });
+                    } else {
+                      // PIN Authentication
+                      sl
+                          .get<Vault>()
+                          .getPin()
+                          .then((expectedPin) {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder:
+                                (BuildContext context) {
+                          return new PinScreen(
+                            PinOverlayType.ENTER_PIN,
+                            (pin) {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).push(
+                                  AnimationLoadingOverlay(
+                                AnimationType.GENERIC,
+                                StateContainer.of(context)
+                                    .curTheme
+                                    .animationOverlayStrong,
+                                StateContainer.of(context)
+                                    .curTheme
+                                    .animationOverlayMedium,
+                              ));
+                              // If account isnt open, just store the account in sharedprefs
+                              if (StateContainer.of(
+                                          context)
+                                      .wallet
+                                      .openBlock ==
+                                  null) {
+                                sl
+                                    .get<
+                                        SharedPrefsUtil>()
+                                    .setRepresentative(
+                                        rep.account)
+                                    .then((result) {
+                                  EventTaxiImpl
+                                          .singleton()
+                                      .fire(RepChangedEvent(
+                                          previous: StateBlock(
+                                              representative:
+                                                  rep.account,
+                                              previous:
+                                                  "",
+                                              link: "",
+                                              balance: "",
+                                              account:
+                                                  "")));
+                                });
+                              } else {
+                                StateContainer.of(context)
+                                    .requestChange(
+                                        StateContainer.of(
+                                                context)
+                                            .wallet
+                                            .frontier,
+                                        StateContainer.of(
+                                                context)
+                                            .wallet
+                                            .accountBalance
+                                            .toString(),
+                                          rep.account);
+                              }
+                            },
+                            expectedPin: expectedPin,
+                            description:
+                                AppLocalization.of(
+                                        context)
+                                    .pinRepChange,
+                          );
+                        }));
+                      });
+                    }
+                 });
+                });
             },
             padding: EdgeInsets.all(0),
             child: Container(
@@ -260,8 +390,6 @@ class AppChangeRepresentativeSheet {
   }
 
   mainBottomSheet(BuildContext context) {
-    _changeRepHint = AppLocalization.of(context).changeRepHint;
-    _repAddressStyle = AppStyles.textStyleAddressText60(context);
     _repChangeSub =
         EventTaxiImpl.singleton().registerTo<RepChangedEvent>().listen((event) {
       if (event.previous != null) {
@@ -278,24 +406,6 @@ class AppChangeRepresentativeSheet {
         builder: (BuildContext context) {
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-            // On address focus change
-            _repFocusNode.addListener(() {
-              if (_repFocusNode.hasFocus) {
-                setState(() {
-                  _changeRepHint = "";
-                  _addressValidAndUnfocused = false;
-                });
-                _repController.selection = TextSelection.fromPosition(
-                    TextPosition(offset: _repController.text.length));
-              } else {
-                setState(() {
-                  _changeRepHint = AppLocalization.of(context).changeRepHint;
-                  if (Address(_repController.text).isValid()) {
-                    _addressValidAndUnfocused = true;
-                  }
-                });
-              }
-            });
             return WillPopScope(
                 onWillPop: _onWillPop,
                 child: SafeArea(
@@ -360,16 +470,10 @@ class AppChangeRepresentativeSheet {
                                   top: smallScreen(context) ? 20 : 35,
                                   bottom: smallScreen(context) ? 20 : 35),
                               child: Stack(children: <Widget>[
-                                GestureDetector(
-                                  onTap: () {
-                                    // Clear focus of our fields when tapped in this empty space
-                                    _repFocusNode.unfocus();
-                                  },
-                                  child: Container(
+                                Container(
                                     color: Colors.transparent,
                                     child: SizedBox.expand(),
                                     constraints: BoxConstraints.expand(),
-                                  ),
                                 ),
                                 Column(
                                   children: <Widget>[

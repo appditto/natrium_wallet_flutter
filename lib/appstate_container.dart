@@ -19,6 +19,7 @@ import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
+import 'package:natrium_wallet_flutter/util/ninja/api.dart';
 import 'package:natrium_wallet_flutter/util/ninja/ninja_node.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 import 'package:natrium_wallet_flutter/network/model/request_item.dart';
@@ -123,12 +124,30 @@ class StateContainerState extends State<StateContainer> {
   Map<String, StateBlock> pendingBlockMap = Map();
 
   // List of Verified Nano Ninja Nodes
+  bool nanoNinjaUpdated = false;
   List<NinjaNode> nanoNinjaNodes;
 
   void updateNinjaNodes(List<NinjaNode> list) {
     setState(() {
       nanoNinjaNodes = list;
     });
+  }
+
+  Future<void> checkAndCacheNinjaAPIResponse() async {
+    List<NinjaNode> nodes;
+    if ((await sl.get<SharedPrefsUtil>().getNinjaAPICache()) == null) {
+      nodes = await NinjaAPI.getVerifiedNodes();
+      setState(() {
+        nanoNinjaNodes = nodes;
+        nanoNinjaUpdated = true;
+      });
+    } else {
+      nodes = await NinjaAPI.getCachedVerifiedNodes();
+      setState(() {
+        nanoNinjaNodes = nodes;
+        nanoNinjaUpdated = false;
+      });
+    }
   }
 
   @override
@@ -159,6 +178,8 @@ class StateContainerState extends State<StateContainer> {
        initialDeepLink = initialLink;
       });
     });
+    // Cache ninja API if don't already have it
+    checkAndCacheNinjaAPIResponse();
   }
 
   // Subscriptions

@@ -36,6 +36,8 @@ class SharedPrefsUtil {
   static const String pin_lock_until = 'fkalium_lock_duraton';
   // For certain keystore incompatible androids
   static const String use_legacy_storage = 'fkalium_legacy_storage';
+  // Caching ninja API response
+  static const String ninja_api_cache = 'fkalium_ninja_api_cache';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -247,6 +249,14 @@ class SharedPrefsUtil {
 
   Future<void> setUseLegacyStorage() async {
     await set(use_legacy_storage, true);
+  }
+
+  Future<String> getNinjaAPICache() async {
+    return await get(ninja_api_cache, defaultValue: null);
+  }
+
+  Future<void> setNinjaAPICache(String data) async {
+    await set(ninja_api_cache, data);
   }
 
   // For logging out

@@ -1225,7 +1225,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                         AppIcons.changerepresentative, onPressed: () {
                       new AppChangeRepresentativeSheet()
                           .mainBottomSheet(context);
-                      if (StateContainer.of(context).nanoNinjaNodes == null) {
+                      if (!StateContainer.of(context).nanoNinjaUpdated) {
                         NinjaAPI.getVerifiedNodes().then((result) {
                           if (result != null) {
                             StateContainer.of(context).updateNinjaNodes(result);
