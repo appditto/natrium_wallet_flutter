@@ -254,7 +254,7 @@ class StateContainerState extends State<StateContainer> {
     _connStatusSub = EventTaxiImpl.singleton().registerTo<ConnStatusEvent>().listen((event) {
       if (event.status == ConnectionStatus.CONNECTED) {
         requestUpdate();
-      } else if (!sl.get<AccountService>().suspended) {
+      } else if (event.status == ConnectionStatus.DISCONNECTED && !sl.get<AccountService>().suspended) {
         sl.get<AccountService>().initCommunication();
       }
     });
