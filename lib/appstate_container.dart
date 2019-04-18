@@ -388,7 +388,7 @@ class StateContainerState extends State<StateContainer> {
 
   // Update the global wallet instance with a new address
   Future<void> updateWallet({Account account}) async {
-    String address = NanoUtil.seedToAddress(await sl.get<Vault>().getSeed(), account.index);
+    String address = await NanoUtil().seedToAddressInIsolate(await sl.get<Vault>().getSeed(), account.index);
     selectedAccount = account;
     updateRecentlyUsedAccounts();
     setState(() {
@@ -903,7 +903,7 @@ class StateContainerState extends State<StateContainer> {
   }
 
   Future<String> _getPrivKey() async {
-   return NanoUtil.seedToPrivate(await sl.get<Vault>().getSeed(), selectedAccount.index);
+   return await NanoUtil().seedToPrivateInIsolate(await sl.get<Vault>().getSeed(), selectedAccount.index);
   }
 
   // Simple build method that just passes this state through

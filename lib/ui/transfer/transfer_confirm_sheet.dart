@@ -39,12 +39,16 @@ class AppTransferConfirmSheet {
 
   Function errorCallback;
 
-  AppTransferConfirmSheet(this.privKeyBalanceMap, this.errorCallback);
+  AppTransferConfirmSheet(this.privKeyBalanceMap, this.errorCallback) {
+    _nanoUtil = NanoUtil();
+  }
 
   StreamSubscription<TransferAccountHistoryEvent> _historySub;
   StreamSubscription<TransferProcessEvent> _processSub;
   StreamSubscription<TransferPendingEvent> _pendingSub;
   StreamSubscription<TransferErrorEvent> _errorSub;
+
+  NanoUtil _nanoUtil;
 
   Future<bool> _onWillPop() async {
     if (_historySub != null) {
@@ -308,7 +312,7 @@ class AppTransferConfirmSheet {
   }
 
   Future<String> _getPrivKey(int index) async {
-    return NanoUtil.seedToPrivate(await sl.get<Vault>().getSeed(), index);
+    return await _nanoUtil.seedToPrivateInIsolate(await sl.get<Vault>().getSeed(), index);
   }
 
   ///
