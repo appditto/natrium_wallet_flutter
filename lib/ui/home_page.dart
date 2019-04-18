@@ -416,7 +416,7 @@ class _AppHomePageState extends State<AppHomePage>
         ? _historyListMap[StateContainer.of(context).wallet.address][index].getShorterString()
         : _historyListMap[StateContainer.of(context).wallet.address][index].getShortString();
     _contacts.forEach((contact) {
-      if (contact.address == _historyListMap[StateContainer.of(context).wallet.address][index].account) {
+      if (contact.address == _historyListMap[StateContainer.of(context).wallet.address][index].account.replaceAll("xrb_", "nano_")) {
         displayName = contact.name;
       }
     });
