@@ -30,7 +30,7 @@ import 'package:natrium_wallet_flutter/network/model/response/process_response.d
 import 'package:natrium_wallet_flutter/bus/events.dart';
 
 // Server Connection String
-const String _SERVER_ADDRESS = "wss://natrium.banano.cc:4443";
+const String _SERVER_ADDRESS = "wss://app.natrium.io";
 
 Map decodeJson(dynamic src) {
   return json.decode(src);

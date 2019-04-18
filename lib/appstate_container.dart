@@ -283,6 +283,7 @@ class StateContainerState extends State<StateContainer> {
       sl.get<DBHelper>().getAccounts().then((accounts) {
         accounts.forEach((account) {
           event.response.balances.forEach((address, balance) {
+            address = address.replaceAll("xrb_", "nano_");
             String combinedBalance = (BigInt.tryParse(balance.balance) + BigInt.tryParse(balance.pending)).toString();
             if (address == account.address && combinedBalance != account.balance) {
               sl.get<DBHelper>().updateAccountBalance(account, combinedBalance);

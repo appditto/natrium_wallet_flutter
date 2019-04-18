@@ -70,6 +70,7 @@ class AppAccountsSheet {
     // Handle balances event
     _accounts.forEach((account) {
       event.response.balances.forEach((address, balance) {
+        address = address.replaceAll("xrb_", "nano_");
         String combinedBalance = (BigInt.tryParse(balance.balance) +
                 BigInt.tryParse(balance.pending))
             .toString();
