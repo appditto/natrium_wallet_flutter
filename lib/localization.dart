@@ -416,6 +416,26 @@ class AppLocalization {
       desc: 'change_representative_hint', name: 'changeRepHint');
   }
 
+  String get representatives {
+    return Intl.message("Representatives",
+      desc: 'representatives', name: 'representatives');
+  }
+
+  String get pickFromList {
+    return Intl.message("Pick From a List",
+      desc: 'pick rep from list', name: 'pickFromList');
+  }
+
+  String get votingWeight {
+    return Intl.message("Voting Weight",
+      desc: 'Representative Voting Weight', name: 'votingWeight');
+  }
+
+  String get uptime {
+    return Intl.message("Uptime",
+      desc: 'Rep uptime', name: 'uptime');
+  }
+
   String get authMethod {
     return Intl.message("Authentication Method",
       desc: 'settings_disable_fingerprint', name: 'authMethod');

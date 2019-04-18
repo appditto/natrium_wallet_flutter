@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-02-28T09:30:53.234061",
+  "@@last_modified": "2019-04-18T17:27:54.302825",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -441,6 +441,30 @@
   "changeRepHint": "Enter New Representative",
   "@changeRepHint": {
     "description": "change_representative_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "representatives": "Representatives",
+  "@representatives": {
+    "description": "representatives",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pickFromList": "Pick From a List",
+  "@pickFromList": {
+    "description": "pick rep from list",
+    "type": "text",
+    "placeholders": {}
+  },
+  "votingWeight": "Voting Weight",
+  "@votingWeight": {
+    "description": "Representative Voting Weight",
+    "type": "text",
+    "placeholders": {}
+  },
+  "uptime": "Uptime",
+  "@uptime": {
+    "description": "Rep uptime",
     "type": "text",
     "placeholders": {}
   },
