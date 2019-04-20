@@ -123,7 +123,6 @@ class _AppState extends State<App> {
           const Locale("ko", "KR"),
           const Locale("es", "MX"),
           const Locale("ta", "MY"),
-          const Locale("no", "NO"),
           const Locale("en", "NZ"),
           const Locale("tl", "PH"),
           const Locale("ur", "PK"),
