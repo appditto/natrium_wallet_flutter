@@ -7,7 +7,7 @@ description: Natrium - Fast, Robust & Secure NANO Wallet.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 2.0.3+31
+version: 2.0.4+33
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -43,7 +43,7 @@ dependencies:
   json_annotation: ^2.2.0
 
   # Localization
-  intl: ^0.15.8
+  intl: ^0.15.7
 
   # BigDecimal alternative
   decimal: ^0.3.3
