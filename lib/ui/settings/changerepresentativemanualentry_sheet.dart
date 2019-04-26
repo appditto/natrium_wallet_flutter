@@ -108,38 +108,7 @@ class AppChangeRepresentativeManualEntrySheet {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              //A container for the info button
-                              Container(
-                                width: 50,
-                                height: 50,
-                                margin: EdgeInsets.only(top: 10.0, left: 10.0),
-                                child: FlatButton(
-                                  highlightColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
-                                  splashColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
-                                  onPressed: () {
-                                    AppDialogs.showInfoDialog(
-                                        context,
-                                        AppLocalization.of(context)
-                                            .repInfoHeader,
-                                        AppLocalization.of(context).repInfo);
-                                  },
-                                  child: Icon(AppIcons.info,
-                                      size: 24,
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text),
-                                  padding: EdgeInsets.all(13.0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(100.0)),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.padded,
-                                ),
-                              ),
+                              SizedBox(width: 60, height:60),
                               //Container for the header
                               Column(
                                 children: <Widget>[

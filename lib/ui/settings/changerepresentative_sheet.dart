@@ -459,7 +459,38 @@ class AppChangeRepresentativeSheet {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 60, width: 60),
+                              //A container for the info button
+                              Container(
+                                width: 50,
+                                height: 50,
+                                margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                                child: FlatButton(
+                                  highlightColor: StateContainer.of(context)
+                                      .curTheme
+                                      .text15,
+                                  splashColor: StateContainer.of(context)
+                                      .curTheme
+                                      .text15,
+                                  onPressed: () {
+                                    AppDialogs.showInfoDialog(
+                                        context,
+                                        AppLocalization.of(context)
+                                            .repInfoHeader,
+                                        AppLocalization.of(context).repInfo);
+                                  },
+                                  child: Icon(AppIcons.info,
+                                      size: 24,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .text),
+                                  padding: EdgeInsets.all(13.0),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(100.0)),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.padded,
+                                ),
+                              ),
                             ],
                           ),
 
