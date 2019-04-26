@@ -120,7 +120,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "seedCopied": "Seed-ul a fost copiat în clipboard. \n Opțiunea Copy-Paște este valabilă două minute.",
+    "seedCopied": "Seed-ul a fost copiat în clipboard. \n Opțiunea Copy-Paste este valabilă două minute.",
     "@seedCopied": {
         "description": "intro_new_wallet_seed_copied",
         "type": "text",
@@ -240,7 +240,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "backupSeedConfirm": "Sunteți sigur/ă că ați salvat seed-ul portofelului??",
+    "backupSeedConfirm": "Sunteți sigur/ă că ați salvat seed-ul portofelului?",
     "@backupSeedConfirm": {
         "description": "intro_new_wallet_backup",
         "type": "text",
@@ -390,7 +390,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "themeHeader": "Temă",
+    "themeHeader": "Aspect",
     "@themeHeader": {
         "description": "theme_header",
         "type": "text",
@@ -552,7 +552,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "fingerprintSeedBackup": "Confirmați amprenta pentru a face o copie de seed-ului",
+    "fingerprintSeedBackup": "Confirmați cu amprenta pentru a copia seed-ul",
     "@fingerprintSeedBackup": {
         "description": "settings_fingerprint_title",
         "type": "text",
@@ -732,7 +732,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "lockAppSetting": "Autentificați-vă la deschidere",
+    "lockAppSetting": "Autentificare la deschidere",
     "@lockAppSetting": {
         "description": "authenticate_on_launch",
         "type": "text",
