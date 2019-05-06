@@ -817,5 +817,9 @@
     "accounts": "Konton",
     "addAccount": "Lägg till konto",
     "hideAccountHeader": "Dölja konto?",
-    "removeAccountText": "Är du säker på att du vill dölja kontot? Du kan lägga till det igen genom att trycka på \"%1\" knappen."
+    "removeAccountText": "Är du säker på att du vill dölja kontot? Du kan lägga till det igen genom att trycka på \"%1\" knappen.",
+    "representatives": "Representant",
+    "pickFromList": "Välj från en lista",
+    "votingWeight": "Röstvikt",
+    "uptime": "Upptid"
 }

@@ -823,5 +823,9 @@
     "accounts": "Accounts",
     "addAccount": "Account toevoegen",
     "hideAccountHeader": "Account verbergen?",
-    "removeAccountText": "Weet je zeker dat je dit account wil verbergen? Je kan het later weer terughalen door op de \"%1\" knop te klikken."
+    "removeAccountText": "Weet je zeker dat je dit account wil verbergen? Je kan het later weer terughalen door op de \"%1\" knop te klikken.",
+    "representatives": "Vertegenwoordigers",
+    "pickFromList": "Kies uit lijst",
+    "votingWeight": "Stemgewicht",
+    "uptime": "Tijd online"
 }

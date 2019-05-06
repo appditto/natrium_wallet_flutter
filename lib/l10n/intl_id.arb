@@ -823,5 +823,9 @@
     "accounts": "Semua Akun",
     "addAccount": "Tambah Akun",
     "hideAccountHeader": "Sembunyikan Akun?",
-    "removeAccountText": "Anda yakin akan menyembunyikan akun ini? Anda dapat menambahkan kembali dengan klik tombol \"%1\"."
+    "removeAccountText": "Anda yakin akan menyembunyikan akun ini? Anda dapat menambahkan kembali dengan klik tombol \"%1\".",
+    "representatives": "Representatif",
+    "pickFromList": "Pilih Dari Daftar",
+    "votingWeight": "Bobot HakSuara",
+    "uptime": "Uptime"
 }

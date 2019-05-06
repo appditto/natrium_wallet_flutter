@@ -823,5 +823,9 @@
     "accounts": "Accounts",
     "addAccount": "Aggiungi",
     "hideAccountHeader": "Nascondere l'Account?",
-    "removeAccountText": "Sei sicuro di voler nascondere questo account? Potrai riaggiungerlo in futuro cliccando sul pulsante \"%1\"."
+    "removeAccountText": "Sei sicuro di voler nascondere questo account? Potrai riaggiungerlo in futuro cliccando sul pulsante \"%1\".",
+    "representatives": "Rappresentanti",
+    "pickFromList": "Scegli da una Lista",
+    "votingWeight": "Peso del Voto",
+    "uptime": "Operatività"
 }

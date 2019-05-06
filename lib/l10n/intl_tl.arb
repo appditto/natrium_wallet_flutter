@@ -823,5 +823,9 @@
     "accounts": "Mga Account",
     "addAccount": "Magdagdag ng Account",
     "hideAccountHeader": "Itago ang Account?",
-    "removeAccountText": "Sigurado ka ba na gusto mo itong itago? Pwede mo itong i-add ulit sa pamamagitan ng \"%1\" button."
+    "removeAccountText": "Sigurado ka ba na gusto mo itong itago? Pwede mo itong i-add ulit sa pamamagitan ng \"%1\" button.",
+    "representatives": "Kinatawan",
+    "pickFromList": "Pumili sa listahan",
+    "votingWeight": "Timbang ng boto",
+    "uptime": "Uptime"
 }

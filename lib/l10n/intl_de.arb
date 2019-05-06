@@ -823,5 +823,9 @@
     "accounts": "Konten",
     "addAccount": "Konto hinzufügen",
     "hideAccountHeader": "Konto verbergen?",
-    "removeAccountText": "Bist du dir sicher, dass du dieses Konto verbergen willst? Du kannst es später durch Tippen auf den \"%1\"-Button wieder hinzufügen."
+    "removeAccountText": "Bist du dir sicher, dass du dieses Konto verbergen willst? Du kannst es später durch Tippen auf den \"%1\"-Button wieder hinzufügen.",
+    "representatives": "Repräsentant",
+    "pickFromList": "Aus Liste wählen",
+    "votingWeight": "Stimmgewicht",
+    "uptime": "Verfügbarkeit"    
 }

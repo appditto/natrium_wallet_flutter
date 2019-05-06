@@ -709,5 +709,9 @@
 	"accounts": "Các tài khoản",
 	"addAccount": "Thêm tài khoản",
 	"hideAccountHeader": "Ẩn tài khoản?",
-	"removeAccountText": "Bạn có chắc muốn ẩn tài khoản này? Bạn có thể thêm lại sau bằng cách ấn vào \"%1\" nút."
+	"removeAccountText": "Bạn có chắc muốn ẩn tài khoản này? Bạn có thể thêm lại sau bằng cách ấn vào \"%1\" nút.",
+	"representatives": "Đại Diện",
+	"pickFromList": "Chọn từ danh sách",
+	"votingWeight": "Lượng bỏ phiếu",
+	"uptime": "Thời gian chạy"
 }

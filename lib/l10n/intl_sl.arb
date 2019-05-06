@@ -824,5 +824,9 @@
   "accounts": "Računi",
   "addAccount": "Dodaj račun",
   "hideAccountHeader": "Skrij račun?",
-  "removeAccountText": "Ste prepričani, da hočete skriti ta račun? Lahko ga ponovno dodate kasneje s pritiskom na gumb \"%1\""
+  "removeAccountText": "Ste prepričani, da hočete skriti ta račun? Lahko ga ponovno dodate kasneje s pritiskom na gumb \"%1\"",
+  "representatives": "Predstavniki",
+  "pickFromList": "Izberi iz seznama",
+  "votingWeight": "teža glasovanja",
+  "uptime": "prisotnost"
 }
