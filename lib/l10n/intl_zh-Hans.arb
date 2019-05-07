@@ -823,5 +823,9 @@
     "accounts": "账户",
     "addAccount": "添加账户",
     "hideAccountHeader": "隐藏账户？",
-    "removeAccountText": "您确定要隐藏此账户？ 您之后可以点 \"%1\" 键来重新添加此账户。"
+    "removeAccountText": "您确定要隐藏此账户？ 您之后可以点 \"%1\" 键来重新添加此账户。",
+    "representatives": "代表",
+    "pickFromList": "从代表名单选择",
+    "votingWeight": "投票比重",
+    "uptime": "上线时间"
 }

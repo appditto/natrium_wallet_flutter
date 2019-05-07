@@ -863,5 +863,9 @@
     "description": "Remove account dialog body",
     "type": "text",
     "placeholders": {}
-  }
+  },
+  "representatives": "Представители",
+  "pickFromList": "Избери от листа",
+  "votingWeight": "Гласова Тежест",
+  "uptime": "Ъптайм"  
 }

@@ -822,5 +822,9 @@
     "accounts": "Conturi", 
     "addAccount": "Adăugare cont", 
     "hideAccountHeader": "Ascundere cont?", 
-    "removeAccountText": "Sigur doriți să ascundeți acest cont? Îl puteți reafișa mai târziu apăsând butonul \"%1\""
+    "removeAccountText": "Sigur doriți să ascundeți acest cont? Îl puteți reafișa mai târziu apăsând butonul \"%1\"",
+    "representatives": "Reprezentanți",
+    "pickFromList": "Alege din listă",
+    "votingWeight": "Putere de vot ",
+    "uptime": "Timp de funcționare"
 }
