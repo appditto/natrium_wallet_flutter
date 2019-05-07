@@ -402,31 +402,31 @@
         "type": "text",
         "placeholders": {}
     },
-    "changeRepAuthenticate": "Representative ändern",
+    "changeRepAuthenticate": "Repräsentant ändern",
     "@changeRepAuthenticate": {
         "description": "settings_change_rep",
         "type": "text",
         "placeholders": {}
     },
-    "currentlyRepresented": "Aktueller Representative",
+    "currentlyRepresented": "Aktueller Repräsentant",
     "@currentlyRepresented": {
         "description": "change_representative_current_header",
         "type": "text",
         "placeholders": {}
     },
-    "changeRepSucces": "Representative erfolgreich geändert",
+    "changeRepSucces": "Repräsentant erfolgreich geändert",
     "@changeRepSucces": {
         "description": "change_representative_success",
         "type": "text",
         "placeholders": {}
     },
-    "repInfoHeader": "Was ist ein Representative?",
+    "repInfoHeader": "Was ist ein Repräsentant?",
     "@repInfoHeader": {
         "description": "change_representative_info_header",
         "type": "text",
         "placeholders": {}
     },
-    "repInfo": "Kommt es zu zwei widersprüchlichen Transaktionen, so stimmen Representative-Accounts darüber ab, welche der Transaktionen akzeptiert wird. Dabei entspricht ein Nano einem Stimmrecht. Du kannst einem Representative Stimmrechte in Höhe deines Guthabens übertragen. Deine Nanos gehören dabei natürlich weiterhin dir und der Representative kann diese nicht ausgeben. Wähle einen vertrauenswürdigen Representative mit einer hohen Erreichbarkeit.",
+    "repInfo": "Kommt es zu zwei widersprüchlichen Transaktionen, so stimmen Repräsentant-Accounts darüber ab, welche der Transaktionen akzeptiert wird. Dabei entspricht ein Nano einem Stimmrecht. Du kannst einem Repräsentant Stimmrechte in Höhe deines Guthabens übertragen. Deine Nanos gehören dabei natürlich weiterhin dir und der Repräsentant kann diese nicht ausgeben. Wähle einen vertrauenswürdigen Repräsentant mit einer hohen Erreichbarkeit.",
     "@repInfo": {
         "description": "change_representative_info",
         "type": "text",
@@ -438,7 +438,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "changeRepHint": "Neuer Representative",
+    "changeRepHint": "Neuer Repräsentant",
     "@changeRepHint": {
         "description": "change_representative_hint",
         "type": "text",
