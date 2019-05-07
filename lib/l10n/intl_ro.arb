@@ -120,7 +120,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "seedCopied": "Seed-ul a fost copiat în clipboard. \n Opțiunea Copy-Paște este valabilă două minute.",
+    "seedCopied": "Seed-ul a fost copiat în clipboard. \n Opțiunea Copy-Paste este valabilă două minute.",
     "@seedCopied": {
         "description": "intro_new_wallet_seed_copied",
         "type": "text",
@@ -180,7 +180,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "addContact": "Adaugă un contact",
+    "addContact": "Adaugă contact",
     "@addContact": {
         "description": "contact_add_button",
         "type": "text",
@@ -240,7 +240,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "backupSeedConfirm": "Sunteți sigur/ă că ați salvat seed-ul portofelului??",
+    "backupSeedConfirm": "Sunteți sigur/ă că ați salvat seed-ul portofelului?",
     "@backupSeedConfirm": {
         "description": "intro_new_wallet_backup",
         "type": "text",
@@ -276,7 +276,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "welcomeText": "Bun venit la Kalium. Pentru a continua, puteți crea un nou portofel sau puteți importa unul existent.",
+    "welcomeText": "Bun venit la Natrium. Pentru a continua, puteți crea un nou portofel sau puteți importa unul existent.",
     "@welcomeText": {
         "description": "intro_welcome_title",
         "type": "text",
@@ -312,7 +312,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "sendAmountConfirm": "Trimite %1 Banano",
+    "sendAmountConfirm": "Trimite %1 NANO",
     "@sendAmountConfirm": {
         "description": "send_pin_description",
         "type": "text",
@@ -390,7 +390,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "themeHeader": "Temă",
+    "themeHeader": "Aspect",
     "@themeHeader": {
         "description": "theme_header",
         "type": "text",
@@ -480,13 +480,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "shareKalium": "Share Kalium",
+    "shareKalium": "Share Natrium",
     "@shareKalium": {
         "description": "settings_share",
         "type": "text",
         "placeholders": {}
     },
-    "shareKaliumText": "Acesta este Kalium! Portofelul oficial pentru Banano pe Android!",
+    "shareKaliumText": "Acesta este Natrium! Portofelul oficial pentru NANO pe Android!",
     "@shareKaliumText": {
         "description": "share_extra",
         "type": "text",
@@ -504,7 +504,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "logoutDetail": "Prin deconectare vom elimina seed-ul și toate datele legate de Kalium de pe acest dispozitiv. Dacă seed-ul nu are o copie de rezervă/backup, fondurile for fi pierdute permanent.",
+    "logoutDetail": "Prin deconectare vom elimina seed-ul și toate datele legate de Natrium de pe acest dispozitiv. Dacă seed-ul nu are o copie de rezervă/backup, fondurile for fi pierdute permanent.",
     "@logoutDetail": {
         "description": "settings_logout_alert_message",
         "type": "text",
@@ -552,7 +552,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "fingerprintSeedBackup": "Confirmați amprenta pentru a face o copie de seed-ului",
+    "fingerprintSeedBackup": "Confirmați cu amprenta pentru a copia seed-ul",
     "@fingerprintSeedBackup": {
         "description": "settings_fingerprint_title",
         "type": "text",
@@ -576,13 +576,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "notificationTitle": "Ai primit %1 BANANO",
+    "notificationTitle": "Ai primit %1 NANO",
     "@notificationTitle": {
         "description": "notification_title",
         "type": "text",
         "placeholders": {}
     },
-    "notificationBody": "Deschide Kalium pentru a vizualiza tranzacția.",
+    "notificationBody": "Deschide Natrium pentru a vizualiza tranzacția.",
     "@notificationBody": {
         "description": "notification_body",
         "type": "text",
@@ -612,7 +612,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "kaliumWallet": "Portofel Kalium",
+    "kaliumWallet": "Portofel Natrium",
     "@kaliumWallet": {
         "description": "kalium_wallet",
         "type": "text",
@@ -654,13 +654,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferIntro": "Acest proces va transfera fondurile dintr-un Paper Wallet către contul dvs. Kalium.\n\nAtingeți butonul \"%1\" pentru a începe.",
+    "transferIntro": "Acest proces va transfera fondurile dintr-un Paper Wallet către contul dvs. Natrium.\n\nAtingeți butonul \"%1\" pentru a începe.",
     "@transferIntro": {
         "description": "transfer_intro",
         "type": "text",
         "placeholders": {}
     },
-    "transferQrScanHint": "Scanați un seed pentru Banano\n sau un private key",
+    "transferQrScanHint": "Scanați un seed pentru NANO\n sau un private key",
     "@transferQrScanHint": {
         "description": "transfer_qr_scan_hint",
         "type": "text",
@@ -672,13 +672,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferNoFunds": "Acest seed nu conține BANANO.",
+    "transferNoFunds": "Acest seed nu conține NANO.",
     "@transferNoFunds": {
         "description": "transfer_no_funds_toast",
         "type": "text",
         "placeholders": {}
     },
-    "transferConfirmInfo": "Un portofel cu un sold de %1 BANANO a fost detectat.\n",
+    "transferConfirmInfo": "Un portofel cu un sold de %1 NANO a fost detectat.\n",
     "@transferConfirmInfo": {
         "description": "transfer_confirm_info_first",
         "type": "text",
@@ -702,7 +702,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferComplete": "%1 BANANO au fost transferate cu succes în portofelul dvs. Kalium.",
+    "transferComplete": "%1 NANO au fost transferate cu succes în portofelul dvs. Natrium.",
     "@transferComplete": {
         "description": "transfer_complete_text",
         "type": "text",
@@ -714,25 +714,25 @@
         "type": "text",
         "placeholders": {}
     },
-    "scanInstructions": "Scanează o adresă de Banano de tip cod QR",
+    "scanInstructions": "Scanează o adresă NANO de tip cod QR",
     "@scanInstructions": {
         "description": "scan_send_instruction_label",
         "type": "text",
         "placeholders": {}
     },
-    "unlockPin": "Introduceți codul PIN pentru a debloca Kalium",
+    "unlockPin": "Introduceți codul PIN pentru a debloca Natrium",
     "@unlockPin": {
         "description": "unlock_kalium_pin",
         "type": "text",
         "placeholders": {}
     },
-    "unlockBiometrics": "Autentificaţi-vă pentru a debloca Kalium",
+    "unlockBiometrics": "Autentificaţi-vă pentru a debloca Natrium",
     "@unlockBiometrics": {
         "description": "unlock_kalium_bio",
         "type": "text",
         "placeholders": {}
     },
-    "lockAppSetting": "Autentificați-vă la deschidere",
+    "lockAppSetting": "Autentificare la deschidere",
     "@lockAppSetting": {
         "description": "authenticate_on_launch",
         "type": "text",
@@ -786,7 +786,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "exampleCardIntro": "Bun venit la Kalium. Odată ce primiți sau trimiteți BANANO, tranzacțiile vor arăta astfel",
+    "exampleCardIntro": "Bun venit la Natrium. Odată ce primiți sau trimiteți NANO, tranzacțiile vor arăta astfel",
     "@exampleCardIntro": {
         "description": "example_card_intro",
         "type": "text",
@@ -822,7 +822,7 @@
     "accounts": "Conturi", 
     "addAccount": "Adăugare cont", 
     "hideAccountHeader": "Ascundere cont?", 
-    "removeAccountText": "Sigur doriți să ascundeți acest cont? Îl puteți reafișa mai târziu apăsând butonul \"%1\" button.",
+    "removeAccountText": "Sigur doriți să ascundeți acest cont? Îl puteți reafișa mai târziu apăsând butonul \"%1\"",
     "representatives": "Reprezentanți",
     "pickFromList": "Alege din listă",
     "votingWeight": "Putere de vot ",
