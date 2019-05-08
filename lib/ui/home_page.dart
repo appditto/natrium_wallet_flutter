@@ -538,6 +538,10 @@ class _AppHomePageState extends State<AppHomePage>
         _historyListMap[StateContainer.of(context).wallet.address].insertAtTop(historyItem);
       });
     });
+    // Re-subscribe if missing data
+    if (StateContainer.of(context).wallet.loading) {
+      StateContainer.of(context).requestSubscribe();
+    }
   }
 
   void handleDeepLink(link) {

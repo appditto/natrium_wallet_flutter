@@ -823,5 +823,9 @@
     "accounts": "賬戶",
     "addAccount": "添加賬戶",
     "hideAccountHeader": "隱藏賬戶？",
-    "removeAccountText": "您確定要隱藏此賬戶？ 您之後可以點 \"%1\" 鍵來重新添加此賬戶。"
+    "removeAccountText": "您確定要隱藏此賬戶？ 您之後可以點 \"%1\" 鍵來重新添加此賬戶。",
+    "representatives": "代表",
+    "pickFromList": "從代表名單選擇",
+    "votingWeight": "投票比重",
+    "uptime": "上線時間"    
 }

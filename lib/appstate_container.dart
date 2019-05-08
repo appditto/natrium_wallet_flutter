@@ -196,6 +196,9 @@ class StateContainerState extends State<StateContainer> {
   StreamSubscription<AccountsBalancesEvent> _balancesSub;
   StreamSubscription<AccountModifiedEvent> _accountModifiedSub;
 
+  // Retry State
+  bool _isInRetryState = false;
+
   // Register RX event listenerss
   void _registerBus() {
     _subscribeEventSub = EventTaxiImpl.singleton().registerTo<SubscribeEvent>().listen((event) {
@@ -255,7 +258,14 @@ class StateContainerState extends State<StateContainer> {
       if (event.status == ConnectionStatus.CONNECTED) {
         requestUpdate();
       } else if (event.status == ConnectionStatus.DISCONNECTED && !sl.get<AccountService>().suspended) {
-        sl.get<AccountService>().initCommunication();
+        if (!_isInRetryState) {
+          // Avoid excessive retries
+          _isInRetryState = true;
+          Future.delayed(Duration(seconds: 5), () {
+            _isInRetryState = false;
+          });
+          sl.get<AccountService>().initCommunication();
+        }
       }
     });
     _callbackSub = EventTaxiImpl.singleton().registerTo<CallbackEvent>().listen((event) {

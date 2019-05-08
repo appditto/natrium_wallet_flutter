@@ -67,7 +67,7 @@ class AppChangeRepresentativeSheet {
         title: Container(
           margin: EdgeInsets.only(bottom: 10),
           child: Text(
-            "Representatives",
+            AppLocalization.of(context).representatives,
             style: AppStyles.textStyleDialogHeader(context),
           ),
         ),
@@ -271,7 +271,7 @@ class AppChangeRepresentativeSheet {
                               text: '',
                               children: [
                                 TextSpan(
-                                  text: "Voting Weight: ",
+                                  text: "${AppLocalization.of(context).votingWeight}: ",
                                   style: TextStyle(
                                     color: StateContainer.of(context)
                                         .curTheme
@@ -313,7 +313,7 @@ class AppChangeRepresentativeSheet {
                               text: '',
                               children: [
                                 TextSpan(
-                                  text: "Uptime: ",
+                                  text: "${AppLocalization.of(context).uptime}: ",
                                   style: TextStyle(
                                       color: StateContainer.of(context)
                                           .curTheme
@@ -611,7 +611,7 @@ class AppChangeRepresentativeSheet {
                                   AppButton.buildAppButton(
                                     context,
                                     AppButtonType.PRIMARY,
-                                    "Pick From a List",
+                                    AppLocalization.of(context).pickFromList,
                                     Dimens.BUTTON_TOP_DIMENS,
                                     disabled: StateContainer.of(context)
                                             .nanoNinjaNodes ==
