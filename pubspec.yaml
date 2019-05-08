@@ -22,7 +22,7 @@ dependencies:
   flutter_secure_storage: ^3.2.1+1
 
   # Nano core functions
-  flutter_nano_core: ^1.1.0
+  flutter_nano_core: ^1.1.2
 
   # Shared prefs
   shared_preferences: ^0.5.2
@@ -52,7 +52,7 @@ dependencies:
   logging: ^0.11.3+2
 
   # Native webview plugin
-  flutter_webview_plugin: ^0.3.3
+  flutter_webview_plugin: 0.3.3
 
   # SQLite
   sqflite: ^1.1.3
