@@ -10,7 +10,7 @@ import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 
 class DBHelper{
-  static const int DB_VERSION = 2;
+  static const int DB_VERSION = 3;
   static const String CONTACTS_SQL =
     """CREATE TABLE Contacts( 
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -26,6 +26,10 @@ class DBHelper{
         last_accessed INTEGER,
         private_key TEXT,
         balance TEXT)""";
+  static const String ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL =
+    """
+    ALTER TABLE Accounts ADD address TEXT
+    """;
   static Database _db;
 
   NanoUtil _nanoUtil;
@@ -44,7 +48,7 @@ class DBHelper{
   initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "kalium.db");
-    var theDb = await openDatabase(path, version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
+    var theDb = await openDatabase(path, version: DB_VERSION, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return theDb;
   }
 
@@ -52,12 +56,16 @@ class DBHelper{
     // When creating the db, create the tables
     await db.execute(CONTACTS_SQL);
     await db.execute(ACCOUNTS_SQL);
+    await db.execute(ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL);
   }
 
   void _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 2 && newVersion >= 2) {
+    if (oldVersion == 1) {
       // Add accounts table
       await db.execute(ACCOUNTS_SQL);
+      await db.execute(ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL);
+    } else if (oldVersion == 2) {
+      await db.execute(ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL);
     }
   }
 
@@ -144,7 +152,12 @@ class DBHelper{
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
       String address;
-      address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[i]["acct_index"]);
+      if (list[i]['address'] == null) {
+        address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[i]["acct_index"]);
+        await dbClient.rawUpdate('UPDATE Accounts SET address = ? where id = ?', [address, list[i]["id"]]);
+      } else {
+        address = list[i]['address'];
+      }
       accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: address, balance: list[i]["balance"]));
     }
     return accounts;
@@ -155,7 +168,14 @@ class DBHelper{
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts WHERE selected != 1 ORDER BY last_accessed DESC, acct_index ASC LIMIT ?', [limit]);
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
-      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[i]["acct_index"]), balance: list[i]["balance"]));
+      String address;
+      if (list[i]['address'] == null) {
+        address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[i]["acct_index"]);
+        await dbClient.rawUpdate('UPDATE Accounts SET address = ? where id = ?', [address, list[i]["id"]]);
+      } else {
+        address = list[i]['address'];
+      }
+      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: address, balance: list[i]["balance"]));
     }
     return accounts;
   }
@@ -177,7 +197,7 @@ class DBHelper{
       int nextID = nextIndex + 1;
       String nextName = nameBuilder.replaceAll("%1", nextID.toString());
       account = Account(index: nextIndex, name:nextName, lastAccess: 0, selected: false, address: await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), nextIndex));
-      await txn.rawInsert('INSERT INTO Accounts (name, acct_index, last_accessed, selected) values(?, ?, ?, ?)', [account.name, account.index, account.lastAccess, account.selected ? 1 : 0]);
+      await txn.rawInsert('INSERT INTO Accounts (name, acct_index, last_accessed, selected, address) values(?, ?, ?, ?, ?)', [account.name, account.index, account.lastAccess, account.selected ? 1 : 0, account.address]);
     });
     return account;
   }
@@ -218,7 +238,14 @@ class DBHelper{
     if (list.length == 0) {
       return null;
     }
-    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[0]["acct_index"]));
+    String address;
+    if (list[0]['address'] == null) {
+      address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[0]["acct_index"]);
+      await dbClient.rawUpdate('UPDATE Accounts SET address = ? where id = ?', [address, list[0]["id"]]);
+    } else {
+      address = list[0]['address'];
+    }
+    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: address);
     return account;
   }
 
@@ -228,7 +255,14 @@ class DBHelper{
     if (list.length == 0) {
       return null;
     }
-    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[0]["acct_index"]));
+    String address;
+    if (list[0]['address'] == null) {
+      address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[0]["acct_index"]);
+      await dbClient.rawUpdate('UPDATE Accounts SET address = ? where id = ?', [address, list[0]["id"]]);
+    } else {
+      address = list[0]['address'];
+    }
+    Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: address);
     return account;
   }
 
