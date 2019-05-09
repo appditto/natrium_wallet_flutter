@@ -124,62 +124,9 @@ class AddContactSheet {
                       ),
 
                       // Scan QR Button
-                      Container(
-                        width: 50,
-                        height: 50,
-                        margin: EdgeInsets.only(top: 10.0, right: 10.0),
-                        child: address == null
-                            ? FlatButton(
-                                highlightColor:
-                                    StateContainer.of(context).curTheme.text15,
-                                splashColor:
-                                    StateContainer.of(context).curTheme.text15,
-                                onPressed: () {
-                                  try {
-                                    UIUtil.cancelLockEvent();
-                                    BarcodeScanner.scan(
-                                            StateContainer.of(context)
-                                                .curTheme
-                                                .qrScanTheme)
-                                        .then((value) {
-                                      Address address = Address(value);
-                                      if (!address.isValid()) {
-                                        UIUtil.showSnackbar(
-                                            AppLocalization.of(context)
-                                                .qrInvalidAddress,
-                                            context);
-                                      } else {
-                                        setState(() {
-                                          _addressController.text =
-                                              address.address;
-                                          _addressValidationText = "";
-                                          _addressValid = true;
-                                          _addressValidAndUnfocused = true;
-                                        });
-                                        _addressFocusNode.unfocus();
-                                      }
-                                    });
-                                  } catch (e) {
-                                    if (e.code ==
-                                        BarcodeScanner.CameraAccessDenied) {
-                                      // TODO - Permission Denied to use camera
-                                    } else {
-                                      // UNKNOWN ERROR
-                                    }
-                                  }
-                                },
-                                child: Icon(AppIcons.scan,
-                                    size: 28,
-                                    color: StateContainer.of(context)
-                                        .curTheme
-                                        .text),
-                                padding: EdgeInsets.all(11.0),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100.0)),
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.padded,
-                              )
-                            : SizedBox(),
+                      SizedBox(
+                        width: 60,
+                        height: 60
                       ),
                     ],
                   ),
@@ -341,10 +288,65 @@ class AddContactSheet {
                                                 .curTheme
                                                 .text60,
                                           ),
-                                          // Empty SizedBox
-                                          prefixIcon: SizedBox(
-                                            width: 48,
-                                            height: 48,
+                                          // QR Scan BUtton
+                                          prefixIcon: AnimatedCrossFade(
+                                            duration: const Duration(milliseconds: 100),
+                                            firstChild: Container(
+                                              width: 48,
+                                              child: FlatButton(
+                                                highlightColor: StateContainer.of(context).curTheme.primary15,
+                                                splashColor: StateContainer.of(context).curTheme.primary30,
+                                                padding: EdgeInsets.all(14.0),
+                                                onPressed: () {
+                                                  try {
+                                                    UIUtil.cancelLockEvent();
+                                                    BarcodeScanner.scan(
+                                                            StateContainer.of(context)
+                                                                .curTheme
+                                                                .qrScanTheme)
+                                                        .then((value) {
+                                                      Address address = Address(value);
+                                                      if (!address.isValid()) {
+                                                        UIUtil.showSnackbar(
+                                                            AppLocalization.of(context)
+                                                                .qrInvalidAddress,
+                                                            context);
+                                                      } else {
+                                                        setState(() {
+                                                          _addressController.text =
+                                                              address.address;
+                                                          _addressValidationText = "";
+                                                          _addressValid = true;
+                                                          _addressValidAndUnfocused = true;
+                                                        });
+                                                        _addressFocusNode.unfocus();
+                                                      }
+                                                    });
+                                                  } catch (e) {
+                                                    if (e.code ==
+                                                        BarcodeScanner.CameraAccessDenied) {
+                                                      // TODO - Permission Denied to use camera
+                                                    } else {
+                                                      // UNKNOWN ERROR
+                                                    }
+                                                  }                                                  
+                                                },
+                                                child: Icon(AppIcons.scan,
+                                                    size: 20,
+                                                    color: StateContainer.of(
+                                                            context)
+                                                        .curTheme
+                                                        .primary),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            200.0)),
+                                              ),
+                                            ),
+                                            secondChild: SizedBox(),
+                                            crossFadeState: _showPasteButton
+                                                ? CrossFadeState.showFirst
+                                                : CrossFadeState.showSecond,
                                           ),
                                           // Paste Button
                                           suffixIcon: AnimatedCrossFade(

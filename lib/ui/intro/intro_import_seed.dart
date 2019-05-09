@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
@@ -7,6 +8,7 @@ import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
+import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
@@ -150,9 +152,58 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                       autocorrect: false,
                                       decoration: InputDecoration(
                                         // Emtpy SizedBox
-                                        prefixIcon: SizedBox(
-                                          width: 48,
-                                          height: 48,
+                                        prefixIcon: AnimatedCrossFade(
+                                          duration: Duration(milliseconds: 100),
+                                          firstChild: Container(
+                                            width: 48,
+                                            height: 48,
+                                            child: FlatButton(
+                                              highlightColor:
+                                                  StateContainer.of(context)
+                                                      .curTheme
+                                                      .primary15,
+                                              splashColor:
+                                                  StateContainer.of(context)
+                                                      .curTheme
+                                                      .primary30,
+                                              child: Icon(AppIcons.scan,
+                                                  size: 20,
+                                                  color:
+                                                      StateContainer.of(context)
+                                                          .curTheme
+                                                          .primary),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100.0)),
+                                              padding: EdgeInsets.all(14.0),
+                                              onPressed: () {
+                                                if (NanoSeeds.isValidSeed(
+                                                    _seedInputController
+                                                        .text)) {
+                                                  return;
+                                                }
+                                                // Scan QR for seed
+                                                UIUtil.cancelLockEvent();
+                                                BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
+                                                  if (result != null && NanoSeeds.isValidSeed(result)) {
+                                                    _seedInputController.text = result;
+                                                    setState(() {
+                                                      _seedIsValid = true;
+                                                    });
+                                                  } else {
+                                                    UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidSeed, context);
+                                                  }
+                                                });
+
+                                              },
+                                            ),
+                                          ),
+                                          secondChild: SizedBox(),
+                                          crossFadeState: NanoSeeds.isValidSeed(
+                                                  _seedInputController.text)
+                                              ? CrossFadeState.showSecond
+                                              : CrossFadeState.showFirst,
                                         ),
                                         // Paste Button
                                         suffixIcon: AnimatedCrossFade(

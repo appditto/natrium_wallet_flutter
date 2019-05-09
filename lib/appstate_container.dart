@@ -196,9 +196,6 @@ class StateContainerState extends State<StateContainer> {
   StreamSubscription<AccountsBalancesEvent> _balancesSub;
   StreamSubscription<AccountModifiedEvent> _accountModifiedSub;
 
-  // Retry State
-  bool _isInRetryState = false;
-
   // Register RX event listenerss
   void _registerBus() {
     _subscribeEventSub = EventTaxiImpl.singleton().registerTo<SubscribeEvent>().listen((event) {
@@ -258,14 +255,7 @@ class StateContainerState extends State<StateContainer> {
       if (event.status == ConnectionStatus.CONNECTED) {
         requestUpdate();
       } else if (event.status == ConnectionStatus.DISCONNECTED && !sl.get<AccountService>().suspended) {
-        if (!_isInRetryState) {
-          // Avoid excessive retries
-          _isInRetryState = true;
-          Future.delayed(Duration(seconds: 5), () {
-            _isInRetryState = false;
-          });
-          sl.get<AccountService>().initCommunication();
-        }
+        sl.get<AccountService>().initCommunication();
       }
     });
     _callbackSub = EventTaxiImpl.singleton().registerTo<CallbackEvent>().listen((event) {
@@ -281,9 +271,11 @@ class StateContainerState extends State<StateContainer> {
       handleErrorResponse(event.response);
     });
     _fcmUpdateSub = EventTaxiImpl.singleton().registerTo<FcmUpdateEvent>().listen((event) {
-      sl.get<SharedPrefsUtil>().getNotificationsOn().then((enabled) {
-        sl.get<AccountService>().sendRequest(FcmUpdateRequest(account: wallet.address, fcmToken: event.token, enabled: enabled));
-      });
+      if (wallet != null) {
+        sl.get<SharedPrefsUtil>().getNotificationsOn().then((enabled) {
+          sl.get<AccountService>().sendRequest(FcmUpdateRequest(account: wallet.address, fcmToken: event.token, enabled: enabled));
+        });
+      }
     });
     // Balances for our accounts
     _balancesSub = EventTaxiImpl.singleton().registerTo<AccountsBalancesEvent>().listen((event) {
@@ -465,7 +457,7 @@ class StateContainerState extends State<StateContainer> {
   ///
   /// When an error is returned from server
   /// 
-  void handleErrorResponse(ErrorResponse errorResponse) {
+  Future<void> handleErrorResponse(ErrorResponse errorResponse) async {
     RequestItem prevRequest = sl.get<AccountService>().pop();
     sl.get<AccountService>().processQueue();
     if (errorResponse.error == null) { return; }
@@ -497,7 +489,7 @@ class StateContainerState extends State<StateContainer> {
   ///
   /// @param processResponse Process Response
   ///
-  void handleProcessResponse(ProcessResponse processResponse) {
+  Future<void> handleProcessResponse(ProcessResponse processResponse) async {
     // see what type of request sent this response
     bool doUpdate = true;
     RequestItem lastRequest = sl.get<AccountService>().pop();
@@ -534,13 +526,11 @@ class StateContainerState extends State<StateContainer> {
             nextBlock.representative = frontier.representative;
             nextBlock.setBalance(frontier.balance);
             doUpdate = false;
-            _getPrivKey().then((result) {
-              nextBlock.sign(result);
-              pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
-              pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
-              sl.get<AccountService>().queueRequest(ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType));
-              sl.get<AccountService>().processQueue();
-            });
+            nextBlock.sign(await _getPrivKey());
+            pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+            pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+            sl.get<AccountService>().queueRequest(ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType));
+            sl.get<AccountService>().processQueue();
           }
         } else if (previous.subType == BlockTypes.CHANGE) {
           // Tell UI change rep was successful
@@ -560,7 +550,7 @@ class StateContainerState extends State<StateContainer> {
   }
 
   // Handle pending response
-  void handlePendingResponse(PendingResponse response) {
+  Future<void> handlePendingResponse(PendingResponse response) async {
     RequestItem prevRequest = sl.get<AccountService>().pop();
     if (prevRequest != null && prevRequest.fromTransfer) {
       // Transfer/sweep pending requests get different handling
@@ -581,7 +571,7 @@ class StateContainerState extends State<StateContainer> {
   }
 
   /// Handle account_subscribe response
-  void handleSubscribeResponse(SubscribeResponse response) {
+  Future<void> handleSubscribeResponse(SubscribeResponse response) async {
     // Check next request to update block count
     if (response.blockCount != null && !wallet.historyLoading) {
       // Combat spam by raising minimum receive if pending block count is large enough
@@ -606,11 +596,10 @@ class StateContainerState extends State<StateContainer> {
       });
     }
     // Set currency locale here for the UI to access
-    sl.get<SharedPrefsUtil>().getCurrency(deviceLocale).then((currency) {
-      setState(() {
-        currencyLocale = currency.getLocale().toString();
-        curCurrency = currency;
-      });
+    AvailableCurrency currency = await sl.get<SharedPrefsUtil>().getCurrency(deviceLocale);
+    setState(() {
+      currencyLocale = currency.getLocale().toString();
+      curCurrency = currency;
     });
     // Server gives us a UUID for future requests on subscribe
     if (response.uuid != null) {
@@ -638,14 +627,14 @@ class StateContainerState extends State<StateContainer> {
   /// Handle blocks_info response
   /// Typically, this preceeds a process request. And we want to update
   /// that request with data from the previous block (which is what we got from this request)
-  void handleBlockInfoResponse(BlockInfoItem resp) {
+  Future<void> handleBlockInfoResponse(BlockInfoItem resp) async {
     RequestItem lastRequest = sl.get<AccountService>().pop();
     if (lastRequest == null || !(lastRequest.request is BlockInfoRequest)) {
       sl.get<AccountService>().processQueue();
       return;
     }
     String hash = lastRequest.request.hash;
-    StateBlock previousBlock = StateBlock.fromJson(json.decode(resp.contents));
+    StateBlock previousBlock =  await compute(stateBlockFromJson, resp.contents);
     StateBlock nextBlock = previousPendingMap.remove(hash);
     if (nextBlock == null) {
       return;
@@ -659,29 +648,27 @@ class StateContainerState extends State<StateContainer> {
       // In case of a max send, go back and update sendAmount with the balance
       nextBlock.sendAmount = wallet.accountBalance.toString();      
     }
-    _getPrivKey().then((result) {
-      if (lastRequest.fromTransfer) {
-        nextBlock.sign(nextBlock.privKey);
-      } else {
-        nextBlock.sign(result);
+    if (lastRequest.fromTransfer) {
+      nextBlock.sign(nextBlock.privKey);
+    } else {
+      nextBlock.sign(await _getPrivKey());
+    }
+    pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
+    // If this is of type RECEIVE, update its data in our pending map
+    if (nextBlock.subType == BlockTypes.RECEIVE && !lastRequest.fromTransfer) {
+      StateBlock prevReceive = pendingBlockMap.remove(nextBlock.link);
+      if (prevReceive != null) {
+        print("put ${nextBlock.hash}");
+        pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
       }
-      pendingResponseBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
-      // If this is of type RECEIVE, update its data in our pending map
-      if (nextBlock.subType == BlockTypes.RECEIVE && !lastRequest.fromTransfer) {
-        StateBlock prevReceive = pendingBlockMap.remove(nextBlock.link);
-        if (prevReceive != null) {
-          print("put ${nextBlock.hash}");
-          pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
-        }
-      }
-      sl.get<AccountService>().queueRequest(ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType), fromTransfer: lastRequest.fromTransfer);
-      sl.get<AccountService>().processQueue();
-    });
+    }
+    sl.get<AccountService>().queueRequest(ProcessRequest(block: json.encode(nextBlock.toJson()), subType: nextBlock.subType), fromTransfer: lastRequest.fromTransfer);
+    sl.get<AccountService>().processQueue();
   }
 
   /// Handle callback response
   /// Typically this means we need to pocket transactions
-  void handleCallbackResponse(CallbackResponse resp) {
+  Future<void> handleCallbackResponse(CallbackResponse resp) async {
     if (_locked) { return; }
     log.fine("Received callback ${json.encode(resp.toJson())}");
     if (resp.isSend != "true") {
@@ -693,7 +680,7 @@ class StateContainerState extends State<StateContainer> {
     handlePendingItem(pendingItem);
   }
 
-  void handlePendingItem(PendingResponseItem item) {
+  Future<void> handlePendingItem(PendingResponseItem item) async {
     BigInt amountBigInt = BigInt.tryParse(item.amount);
     if (amountBigInt != null) {
       if (amountBigInt < BigInt.parse(receiveThreshold)) {
@@ -702,9 +689,9 @@ class StateContainerState extends State<StateContainer> {
     }
     if (!sl.get<AccountService>().queueContainsRequestWithHash(item.hash) && !pendingBlockMap.containsKey(item.hash)) {
       if (wallet.openBlock == null && !sl.get<AccountService>().queueContainsOpenBlock()) {
-        requestOpen("0", item.hash, item.amount);
+        await requestOpen("0", item.hash, item.amount);
       } else if (pendingBlockMap.length == 0) {
-          requestReceive(wallet.frontier, item.hash, item.amount);
+        await requestReceive(wallet.frontier, item.hash, item.amount);
       } else {
         pendingBlockMap.putIfAbsent(item.hash, () {
           return StateBlock(
@@ -796,7 +783,7 @@ class StateContainerState extends State<StateContainer> {
   /// @param destination - Destination address
   /// @param amount - Amount to send in RAW
   /// 
-  void requestSend(String previous, String destination, String amount, {String privKey,String account,String localCurrencyAmount}) {
+  Future<void> requestSend(String previous, String destination, String amount, {String privKey,String account,String localCurrencyAmount}) async {
     String representative = wallet.representative;
     bool fromTransfer = privKey == null && account == null ? false: true;
 
@@ -824,7 +811,7 @@ class StateContainerState extends State<StateContainer> {
   /// @param balance - balance in RAW
   /// @param privKey - private key (optional, used for transfer)
   /// 
-  void requestReceive(String previous, String source, String balance, {String privKey, String account}) {
+  Future<void> requestReceive(String previous, String source, String balance, {String privKey, String account}) async {
     String representative = wallet.representative;
     bool fromTransfer = privKey == null && account == null ? false : true;
 
@@ -854,7 +841,7 @@ class StateContainerState extends State<StateContainer> {
   /// @param balance - balance in RAW
   /// @param privKey - optional private key to use to sign block wen from transfer
   /// 
-  void requestOpen(String previous, String source, String balance, {String privKey, String account}) {
+  Future<void> requestOpen(String previous, String source, String balance, {String privKey, String account}) async {
     String representative = wallet.representative;
     bool fromTransfer = privKey == null && account == null ? false : true;
 
@@ -866,17 +853,15 @@ class StateContainerState extends State<StateContainer> {
       link:source,
       account: !fromTransfer ? wallet.address : account
     );
-    _getPrivKey().then((result) {
-      if (!fromTransfer) {
-        openBlock.sign(result);
-      } else {
-        openBlock.sign(privKey);
-      }
-      pendingResponseBlockMap.putIfAbsent(openBlock.hash, () => openBlock);
+    if (!fromTransfer) {
+      openBlock.sign(await _getPrivKey());
+    } else {
+      openBlock.sign(privKey);
+    }
+    pendingResponseBlockMap.putIfAbsent(openBlock.hash, () => openBlock);
 
-      sl.get<AccountService>().queueRequest(ProcessRequest(block: json.encode(openBlock.toJson()), subType: BlockTypes.OPEN), fromTransfer: fromTransfer);
-      sl.get<AccountService>().processQueue();
-    });
+    sl.get<AccountService>().queueRequest(ProcessRequest(block: json.encode(openBlock.toJson()), subType: BlockTypes.OPEN), fromTransfer: fromTransfer);
+    sl.get<AccountService>().processQueue();
   }
 
   ///
@@ -886,7 +871,7 @@ class StateContainerState extends State<StateContainer> {
   /// @param balance - Current balance
   /// @param representative - representative
   /// 
-  void requestChange(String previous, String balance, String representative) {
+  Future<void> requestChange(String previous, String balance, String representative) async {
     StateBlock changeBlock = StateBlock(
       subtype:BlockTypes.CHANGE,
       previous: previous,
@@ -895,13 +880,11 @@ class StateContainerState extends State<StateContainer> {
       link:"0000000000000000000000000000000000000000000000000000000000000000",
       account:wallet.address
     );
-    _getPrivKey().then((result) {
-      changeBlock.sign(result);
-      pendingResponseBlockMap.putIfAbsent(changeBlock.hash, () => changeBlock);
+    changeBlock.sign(await _getPrivKey());
+    pendingResponseBlockMap.putIfAbsent(changeBlock.hash, () => changeBlock);
 
-      sl.get<AccountService>().queueRequest(ProcessRequest(block: json.encode(changeBlock.toJson()), subType: BlockTypes.CHANGE));
-      sl.get<AccountService>().processQueue();
-    });
+    sl.get<AccountService>().queueRequest(ProcessRequest(block: json.encode(changeBlock.toJson()), subType: BlockTypes.CHANGE));
+    sl.get<AccountService>().processQueue();
   }
 
   void logOut() {

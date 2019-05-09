@@ -31,6 +31,6 @@ class NanoUtil {
       selectedAcct = Account(index: 0, lastAccess: 0, name: AppLocalization.of(context).defaultAccountName, selected: true);
       await sl.get<DBHelper>().saveAccount(selectedAcct);
     }
-    await StateContainer.of(context).updateWallet(account: selectedAcct);
+    StateContainer.of(context).updateWallet(account: selectedAcct);
   }
 }

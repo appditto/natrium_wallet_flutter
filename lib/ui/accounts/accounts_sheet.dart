@@ -22,24 +22,22 @@ import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
 class AppAccountsSheet {
   List<Account> accounts;
-  BigInt selectedBalance;
 
-  AppAccountsSheet(this.accounts, this.selectedBalance);
+  AppAccountsSheet(this.accounts);
 
   mainBottomSheet(BuildContext context) {
     AppSheets.showAppHeightNineSheet(
         context: context,
         builder: (BuildContext context) {
-          return AppAccountsWidget(accounts: accounts, selectedBalance: selectedBalance);
+          return AppAccountsWidget(accounts: accounts);
         });
   }
 }
 
 class AppAccountsWidget extends StatefulWidget {
   final List<Account> accounts;
-  final BigInt selectedBalance;
 
-  AppAccountsWidget({Key key, @required this.accounts, @required this.selectedBalance}) : super(key: key);
+  AppAccountsWidget({Key key, @required this.accounts}) : super(key: key);
 
   @override
   _AppAccountsWidgetState createState() => _AppAccountsWidgetState();
@@ -71,9 +69,6 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
     _registerBus();
     this._addingAccount = false;
     this._accountIsChanging = false;
-    widget.accounts.where((a) => a.selected).forEach((acct) {
-      acct.balance = widget.selectedBalance.toString();
-    });    
   }
 
   @override void dispose() {
@@ -500,8 +495,9 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                             ),
                             // Main balance text
                             TextSpan(
-                              text: account.balance != null
+                              text: account.balance != null && !account.selected
                                   ? NumberUtil.getRawAsUsableString(account.balance)
+                                  : account.selected ? StateContainer.of(context).wallet.getAccountBalanceDisplay()
                                   : "",
                               style: TextStyle(
                                   fontSize: 16.0,

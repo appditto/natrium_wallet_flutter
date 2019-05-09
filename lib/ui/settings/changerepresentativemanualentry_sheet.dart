@@ -145,60 +145,8 @@ class AppChangeRepresentativeManualEntrySheet {
                                   ),
                                 ],
                               ),
-                              // Scan QR Button
-                              Container(
-                                width: 50,
-                                height: 50,
-                                margin: EdgeInsets.only(top: 10.0, right: 10.0),
-                                child: FlatButton(
-                                  highlightColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
-                                  splashColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
-                                  onPressed: () {
-                                    UIUtil.cancelLockEvent();
-                                    BarcodeScanner.scan(
-                                            StateContainer.of(context)
-                                                .curTheme
-                                                .qrScanTheme)
-                                        .then((result) {
-                                      if (result == null) {
-                                        return;
-                                      }
-                                      Address address = new Address(result);
-                                      if (address.isValid()) {
-                                        setState(() {
-                                          _addressValidAndUnfocused = true;
-                                          _showPasteButton = false;
-                                          _repAddressStyle =
-                                              AppStyles.textStyleAddressText60(
-                                                  context);
-                                        });
-                                        _repController.text = address.address;
-                                        _repFocusNode.unfocus();
-                                      } else {
-                                        UIUtil.showSnackbar(
-                                            AppLocalization.of(context)
-                                                .qrInvalidAddress,
-                                            context);
-                                      }
-                                    });
-                                  },
-                                  child: Icon(AppIcons.scan,
-                                      size: 28,
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text),
-                                  padding: EdgeInsets.all(11.0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(100.0)),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.padded,
-                                ),
-                              ),
+                              // Empty sized box
+                              SizedBox(width: 60, height:60),
                             ],
                           ),
 
@@ -265,10 +213,81 @@ class AppChangeRepresentativeManualEntrySheet {
                                               autocorrect: false,
                                               decoration: InputDecoration(
                                                 hintText: _changeRepHint,
-                                                // Empty Container
-                                                prefixIcon: Container(
-                                                  width: 48.0,
-                                                  height: 48.0,
+                                                // QR Code Scan Button
+                                                prefixIcon: AnimatedCrossFade(
+                                                  duration: Duration(
+                                                      milliseconds: 100),
+                                                  firstChild: Container(
+                                                    width: 48.0,
+                                                    height: 48.0,
+                                                    child: FlatButton(
+                                                      highlightColor:
+                                                          StateContainer.of(
+                                                                  context)
+                                                              .curTheme
+                                                              .primary15,
+                                                      splashColor:
+                                                          StateContainer.of(
+                                                                  context)
+                                                              .curTheme
+                                                              .primary30,
+                                                      padding:
+                                                          EdgeInsets.all(15.0),
+                                                      onPressed: () {
+                                                        UIUtil.cancelLockEvent();
+                                                          BarcodeScanner.scan(
+                                                                  StateContainer.of(context)
+                                                                      .curTheme
+                                                                      .qrScanTheme)
+                                                              .then((result) {
+                                                            if (result == null) {
+                                                              return;
+                                                            }
+                                                            Address address = new Address(result);
+                                                            if (address.isValid()) {
+                                                              setState(() {
+                                                                _addressValidAndUnfocused = true;
+                                                                _showPasteButton = false;
+                                                                _repAddressStyle =
+                                                                    AppStyles.textStyleAddressText60(
+                                                                        context);
+                                                              });
+                                                              _repController.text = address.address;
+                                                              _repFocusNode.unfocus();
+                                                            } else {
+                                                              UIUtil.showSnackbar(
+                                                                  AppLocalization.of(context)
+                                                                      .qrInvalidAddress,
+                                                                  context);
+                                                            }
+                                                          });  
+                                                      },
+                                                      child: Icon(
+                                                          AppIcons.scan,
+                                                          size: 20.0,
+                                                          color:
+                                                              StateContainer.of(
+                                                                      context)
+                                                                  .curTheme
+                                                                  .primary),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          200.0)),
+                                                      materialTapTargetSize:
+                                                          MaterialTapTargetSize
+                                                              .padded,
+                                                    ),
+                                                  ),
+                                                  secondChild: SizedBox(),
+                                                  crossFadeState:
+                                                      _showPasteButton
+                                                          ? CrossFadeState
+                                                              .showFirst
+                                                          : CrossFadeState
+                                                              .showSecond,
                                                 ),
                                                 // Paste Button
                                                 suffixIcon: AnimatedCrossFade(

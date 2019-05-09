@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
@@ -5,6 +7,11 @@ import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 
 part 'state_block.g.dart';
+
+/// For running in an isolate, needs to be top-level function
+StateBlock stateBlockFromJson(String contents) {
+  return StateBlock.fromJson(json.decode(contents));
+} 
 
 @JsonSerializable()
 class StateBlock {
