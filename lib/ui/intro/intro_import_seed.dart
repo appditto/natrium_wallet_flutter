@@ -184,6 +184,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                                   return;
                                                 }
                                                 // Scan QR for seed
+                                                UIUtil.cancelLockEvent();
                                                 BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
                                                   if (result != null && NanoSeeds.isValidSeed(result)) {
                                                     _seedInputController.text = result;
