@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
@@ -94,9 +96,14 @@ class StateBlock {
     }
   }
 
+  /// Helper function that can be used with flutter's compute function
+  static String signBlock(Map<String, String> params) {
+    return NanoSignatures.signBlock(params['hash'], params['privKey']);
+  }
+
   /// Sign block with private key
   /// Returns signature if signed, null if this block is invalid and can't be signed
-  String sign(String privateKey) {
+  Future<String> sign(String privateKey) async {
     if (this.balance == null) { return null; }
     this.hash = NanoBlocks.computeStateHash(
                       NanoAccountType.NANO,
@@ -106,7 +113,7 @@ class StateBlock {
                       BigInt.parse(this.balance),
                       this.link
                   );
-    this.signature = NanoSignatures.signBlock(this.hash, privateKey);
+    this.signature = await compute(signBlock, {'hash':this.hash, 'privKey':privateKey});
     return this.signature;
   }
 
