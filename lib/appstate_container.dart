@@ -571,7 +571,7 @@ class StateContainerState extends State<StateContainer> {
   }
 
   /// Handle account_subscribe response
-  Future<void> handleSubscribeResponse(SubscribeResponse response) async {
+  void handleSubscribeResponse(SubscribeResponse response) {
     // Check next request to update block count
     if (response.blockCount != null && !wallet.historyLoading) {
       // Combat spam by raising minimum receive if pending block count is large enough
@@ -596,10 +596,11 @@ class StateContainerState extends State<StateContainer> {
       });
     }
     // Set currency locale here for the UI to access
-    AvailableCurrency currency = await sl.get<SharedPrefsUtil>().getCurrency(deviceLocale);
-    setState(() {
-      currencyLocale = currency.getLocale().toString();
-      curCurrency = currency;
+    sl.get<SharedPrefsUtil>().getCurrency(deviceLocale).then((currency) {
+      setState(() {
+        currencyLocale = currency.getLocale().toString();
+        curCurrency = currency;
+      });
     });
     // Server gives us a UUID for future requests on subscribe
     if (response.uuid != null) {
