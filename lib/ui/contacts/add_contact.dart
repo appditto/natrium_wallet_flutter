@@ -497,11 +497,9 @@ class AddContactSheet {
                                         ? _addressController.text
                                         : address);
                                 sl.get<DBHelper>().saveContact(newContact).then((id) {
-                                  if (address == null) {
-                                    newContact.address.replaceAll("xrb_", "nano_");
-                                    EventTaxiImpl.singleton().fire(
-                                        ContactAddedEvent(contact: newContact));
-                                  }
+                                  newContact.address = newContact.address.replaceAll("xrb_", "nano_");
+                                  EventTaxiImpl.singleton().fire(
+                                      ContactAddedEvent(contact: newContact));
                                   UIUtil.showSnackbar(
                                       AppLocalization.of(context)
                                           .contactAdded
