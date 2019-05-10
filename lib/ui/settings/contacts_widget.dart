@@ -42,6 +42,7 @@ class _ContactsListState extends State<ContactsList> {
 
   @override void initState() {
     super.initState();
+    _registerBus();
     // Initial contacts list
     _contacts = List();
     getApplicationDocumentsDirectory().then((directory) {
