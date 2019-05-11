@@ -9,6 +9,7 @@ import 'package:intl/message_lookup_by_library.dart';
 // ignore: implementation_imports
 import 'package:intl/src/intl_helpers.dart';
 
+import 'messages_ar.dart' as messages_ar;
 import 'messages_bg.dart' as messages_bg;
 import 'messages_de.dart' as messages_de;
 import 'messages_en.dart' as messages_en;
@@ -20,6 +21,7 @@ import 'messages_hu.dart' as messages_hu;
 import 'messages_id.dart' as messages_id;
 import 'messages_it.dart' as messages_it;
 import 'messages_ko.dart' as messages_ko;
+import 'messages_lv.dart' as messages_lv;
 import 'messages_messages.dart' as messages_messages;
 import 'messages_ms.dart' as messages_ms;
 import 'messages_nl.dart' as messages_nl;
@@ -32,11 +34,13 @@ import 'messages_sv.dart' as messages_sv;
 import 'messages_tl.dart' as messages_tl;
 import 'messages_tr.dart' as messages_tr;
 import 'messages_vi.dart' as messages_vi;
-import 'messages_zh-Hans.dart' as messages_zh_Hans;
-import 'messages_zh-Hant.dart' as messages_zh_Hant;
+import 'messages_zh-Hans.dart' as messages_zh_hans;
+import 'messages_zh-Hant.dart' as messages_zh_hant;
 
 typedef Future<dynamic> LibraryLoader();
 Map<String, LibraryLoader> _deferredLibraries = {
+// ignore: unnecessary_new
+  'ar': () => new Future.value(null),
 // ignore: unnecessary_new
   'bg': () => new Future.value(null),
 // ignore: unnecessary_new
@@ -59,6 +63,8 @@ Map<String, LibraryLoader> _deferredLibraries = {
   'it': () => new Future.value(null),
 // ignore: unnecessary_new
   'ko': () => new Future.value(null),
+// ignore: unnecessary_new
+  'lv': () => new Future.value(null),
 // ignore: unnecessary_new
   'messages': () => new Future.value(null),
 // ignore: unnecessary_new
@@ -91,6 +97,8 @@ Map<String, LibraryLoader> _deferredLibraries = {
 
 MessageLookupByLibrary _findExact(localeName) {
   switch (localeName) {
+    case 'ar':
+      return messages_ar.messages;
     case 'bg':
       return messages_bg.messages;
     case 'de':
@@ -113,6 +121,8 @@ MessageLookupByLibrary _findExact(localeName) {
       return messages_it.messages;
     case 'ko':
       return messages_ko.messages;
+    case 'lv':
+      return messages_lv.messages;
     case 'messages':
       return messages_messages.messages;
     case 'ms':
@@ -138,9 +148,9 @@ MessageLookupByLibrary _findExact(localeName) {
     case 'vi':
       return messages_vi.messages;
     case 'zh_Hans':
-      return messages_zh_Hans.messages;
+      return messages_zh_hans.messages;
     case 'zh_Hant':
-      return messages_zh_Hant.messages;
+      return messages_zh_hant.messages;
     default:
       return null;
   }
