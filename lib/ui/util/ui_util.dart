@@ -410,7 +410,7 @@ class UIUtil {
           child: Text(
             content,
             style: AppStyles.textStyleSnackbar(context),
-            textAlign: TextAlign.left,
+            textAlign: TextAlign.start,
           ),
         ),
       ),

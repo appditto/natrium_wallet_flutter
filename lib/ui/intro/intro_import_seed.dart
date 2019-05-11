@@ -118,7 +118,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                     AppLocalization.of(context).importSeedHint,
                                     style:
                                         AppStyles.textStyleParagraph(context),
-                                    textAlign: TextAlign.left,
+                                    textAlign: TextAlign.start,
                                   ),
                                 ),
                                 // The container for the seed

@@ -103,6 +103,8 @@ class _AppState extends State<App> {
           const Locale('vi'), // Vietnamese
           const Locale('zh-Hans'), // Chinese Simplified
           const Locale('zh-Hant'), // Chinese Traditional
+          const Locale('ar'), // Arabic
+          const Locale('lv'), // Latvian
           // Currency-default requires country included
           const Locale("es", "AR"),
           const Locale("en", "AU"),

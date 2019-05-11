@@ -83,7 +83,7 @@ class AppTransferCompleteSheet {
                                     .replaceAll("%1", transferAmount),
                                 style: AppStyles.textStyleParagraphSuccess(
                                     context),
-                                textAlign: TextAlign.left,
+                                textAlign: TextAlign.start,
                               )),
                           Container(
                               alignment: AlignmentDirectional(-1, 0),
@@ -92,7 +92,7 @@ class AppTransferCompleteSheet {
                               child: Text(
                                 AppLocalization.of(context).transferClose,
                                 style: AppStyles.textStyleParagraph(context),
-                                textAlign: TextAlign.left,
+                                textAlign: TextAlign.start,
                               )),
                         ],
                       ),

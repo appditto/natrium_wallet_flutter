@@ -258,7 +258,7 @@ class AutoSizeText extends StatelessWidget {
 
     var tp = TextPainter(
       text: span,
-      textAlign: textAlign ?? TextAlign.left,
+      textAlign: textAlign ?? TextAlign.start,
       textDirection: textDirection ?? TextDirection.ltr,
       textScaleFactor: scale,
       maxLines: maxLines,

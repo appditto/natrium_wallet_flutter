@@ -228,7 +228,7 @@ class AppTransferConfirmSheet {
                                             "%1", totalAsReadableAmount),
                                     style: AppStyles.textStyleParagraphPrimary(
                                         context),
-                                    textAlign: TextAlign.left,
+                                    textAlign: TextAlign.start,
                                   )),
                               Container(
                                   margin: EdgeInsets.symmetric(
@@ -239,7 +239,7 @@ class AppTransferConfirmSheet {
                                         .transferConfirmInfoSecond,
                                     style:
                                         AppStyles.textStyleParagraph(context),
-                                    textAlign: TextAlign.left,
+                                    textAlign: TextAlign.start,
                                   )),
                               Container(
                                   margin: EdgeInsets.symmetric(
@@ -250,7 +250,7 @@ class AppTransferConfirmSheet {
                                         .transferConfirmInfoThird,
                                     style:
                                         AppStyles.textStyleParagraph(context),
-                                    textAlign: TextAlign.left,
+                                    textAlign: TextAlign.start,
                                   )),
                             ],
                           ),

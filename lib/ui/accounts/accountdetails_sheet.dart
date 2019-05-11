@@ -169,7 +169,7 @@ class AccountDetailsSheet {
                         Container(
                           margin: EdgeInsets.only(top: 5.0),
                           child: RichText(
-                            textAlign: TextAlign.left,
+                            textAlign: TextAlign.start,
                             text: TextSpan(
                               text: '',
                               children: [

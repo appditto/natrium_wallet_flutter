@@ -1,0 +1,867 @@
+{
+  "@@last_modified": "2019-02-11T10:10:36.898989",
+  "cancel": "Atcelt",
+  "@cancel": {
+    "description": "dialog_cancel",
+    "type": "text",
+    "placeholders": {}
+  },
+  "close": "Aizvērt",
+  "@close": {
+    "description": "dialog_close",
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirm": "Apstiprināt",
+  "@confirm": {
+    "description": "dialog_confirm",
+    "type": "text",
+    "placeholders": {}
+  },
+  "no": "Nē",
+  "@no": {
+    "description": "intro_new_wallet_backup_no",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yes": "Jā",
+  "@yes": {
+    "description": "intro_new_wallet_backup_yes",
+    "type": "text",
+    "placeholders": {}
+  },
+  "onStr": "Ieslēgts",
+  "@onStr": {
+    "description": "generic_on",
+    "type": "text",
+    "placeholders": {}
+  },
+  "off": "Izslēgts",
+  "@off": {
+    "description": "generic_off",
+    "type": "text",
+    "placeholders": {}
+  },
+  "send": "Sūtīt",
+  "@send": {
+    "description": "home_send_cta",
+    "type": "text",
+    "placeholders": {}
+  },
+  "receive": "Saņemt",
+  "@receive": {
+    "description": "home_receive_cta",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sent": "Nosūtītie",
+  "@sent": {
+    "description": "history_sent",
+    "type": "text",
+    "placeholders": {}
+  },
+  "received": "Saņemtie",
+  "@received": {
+    "description": "history_received",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transactions": "Darījumi",
+  "@transactions": {
+    "description": "transaction_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addressCopied": "Adrese nokopēta",
+  "@addressCopied": {
+    "description": "receive_copied",
+    "type": "text",
+    "placeholders": {}
+  },
+  "copyAddress": "Kopēt adresi",
+  "@copyAddress": {
+    "description": "receive_copy_cta",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addressShare": "Kopīgot adresi",
+  "@addressShare": {
+    "description": "receive_share_cta",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addressHint": "Ievadīt adresi",
+  "@addressHint": {
+    "description": "send_address_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "seed": "Sēkla",
+  "@seed": {
+    "description": "intro_new_wallet_seed_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "seedInvalid": "Sēkla nav derīga",
+  "@seedInvalid": {
+    "description": "intro_seed_invalid",
+    "type": "text",
+    "placeholders": {}
+  },
+  "seedCopied": "Sēkla nokopēta starpliktuvē\nTo iespējams ielīmēt 2 minūšu laikā.",
+  "@seedCopied": {
+    "description": "intro_new_wallet_seed_copied",
+    "type": "text",
+    "placeholders": {}
+  },
+  "scanQrCode": "Skenēt QR kodu",
+  "@scanQrCode": {
+    "description": "send_scan_qr",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactsImportErr": "Neizdevās importēt kontaktus",
+  "@contactsImportErr": {
+    "description": "contact_import_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "viewDetails": "Apskatīt detaļas",
+  "@viewDetails": {
+    "description": "transaction_details",
+    "type": "text",
+    "placeholders": {}
+  },
+  "qrInvalidSeed": "QR kods nesatur derīgu sēklu vai privāto atslēgu",
+  "@qrInvalidSeed": {
+    "description": "qr_invalid_seed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "qrInvalidAddress": "QR kods nesatur derīgu adresi",
+  "@qrInvalidAddress": {
+    "description": "qr_invalid_address",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeContact": "Dzēst kontaktu",
+  "@removeContact": {
+    "description": "contact_remove_btn",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeContactConfirmation": "Vai esat drošs, ka vēlaties dzēst kontaktu %1?",
+  "@removeContactConfirmation": {
+    "description": "contact_remove_sure",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactHeader": "Kontakts",
+  "@contactHeader": {
+    "description": "contact_view_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactsHeader": "Kontakti",
+  "@contactsHeader": {
+    "description": "contact_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addContact": "Pievienot kontaktu",
+  "@addContact": {
+    "description": "contact_add_button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactNameHint": "Ievadiet nosaukumu @",
+  "@contactNameHint": {
+    "description": "contact_name_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactInvalid": "Nederīgs kontakta nosaukums",
+  "@contactInvalid": {
+    "description": "contact_invalid_name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noContactsExport": "Nav kontaktu ko eksportēt.",
+  "@noContactsExport": {
+    "description": "contact_export_none",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noContactsImport": "Nav jauni kontakti, ko importēt.",
+  "@noContactsImport": {
+    "description": "contact_import_none",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactsImportSuccess": "Sekmīgi importēti %1 kontakti.",
+  "@contactsImportSuccess": {
+    "description": "contact_import_success",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactAdded": "%1 pievienots kontaktiem.",
+  "@contactAdded": {
+    "description": "contact_added",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactRemoved": "%1 dzēsts no kontaktiem!",
+  "@contactRemoved": {
+    "description": "contact_removed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactNameMissing": "Izvēlieties kontakta nosaukumu",
+  "@contactNameMissing": {
+    "description": "contact_name_missing",
+    "type": "text",
+    "placeholders": {}
+  },
+  "contactExists": "Kontakts jau eksistē",
+  "@contactExists": {
+    "description": "contact_name_exists",
+    "type": "text",
+    "placeholders": {}
+  },
+  "backupYourSeed": "Izveidojiet sēklas rezerves kopiju",
+  "@backupYourSeed": {
+    "description": "intro_new_wallet_seed_backup_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "backupSeedConfirm": "Vai esat drošs, ka saglabājāt sēklas rezerves kopiju?",
+  "@backupSeedConfirm": {
+    "description": "intro_new_wallet_backup",
+    "type": "text",
+    "placeholders": {}
+  },
+  "seedBackupInfo": "Zemāk atrodas jūsu maka sēkla. Ārkārtīgi svarīgi sēklai izveidot rezerves kopiju, kā arī to neglabāt vienkārša teksta formātā vai kā ekrānšāviņu.",
+  "@seedBackupInfo": {
+    "description": "intro_new_wallet_seed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "copySeed": "Kopēt sēklu",
+  "@copySeed": {
+    "description": "copy_seed_btn",
+    "type": "text",
+    "placeholders": {}
+  },
+  "seedCopiedShort": "Sēkla nokopēta",
+  "@seedCopiedShort": {
+    "description": "seed_copied_btn",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importSeed": "Importēt sēklu",
+  "@importSeed": {
+    "description": "intro_seed_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importSeedHint": "Zemāk norādiet sēklu.",
+  "@importSeedHint": {
+    "description": "intro_seed_info",
+    "type": "text",
+    "placeholders": {}
+  },
+  "welcomeText": "Sveicināti Natrium. Izveidojiet jaunu maku vai importējiet eksistējošu",
+  "@welcomeText": {
+    "description": "intro_welcome_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newWallet": "Jauns maks",
+  "@newWallet": {
+    "description": "intro_welcome_new_wallet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importWallet": "Importēt maku",
+  "@importWallet": {
+    "description": "intro_welcome_have_wallet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sentTo": "Nosūtīts",
+  "@sentTo": {
+    "description": "sent_to",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sending": "Sūta",
+  "@sending": {
+    "description": "send_sending",
+    "type": "text",
+    "placeholders": {}
+  },
+  "to": "Adresāts",
+  "@to": {
+    "description": "send_to",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sendAmountConfirm": "Sūtīt %1 NANO",
+  "@sendAmountConfirm": {
+    "description": "send_pin_description",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sendError": "Notika kļūda. Pēc laika mēģiniet atkal.",
+  "@sendError": {
+    "description": "send_generic_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "enterAmount": "Ievadiet daudzumu",
+  "@enterAmount": {
+    "description": "send_amount_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "enterAddress": "Ievadiet adresi",
+  "@enterAddress": {
+    "description": "enter_address",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidAddress": "Ievadītā adrese nav derīga",
+  "@invalidAddress": {
+    "description": "send_invalid_address",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addressMising": "Lūdzu ievadiet adresi",
+  "@addressMising": {
+    "description": "send_enter_address",
+    "type": "text",
+    "placeholders": {}
+  },
+  "amountMissing": "Lūdzu ievadiet daudzumu",
+  "@amountMissing": {
+    "description": "send_enter_amount",
+    "type": "text",
+    "placeholders": {}
+  },
+  "insufficientBalance": "Nepietiek līdzekļu",
+  "@insufficientBalance": {
+    "description": "send_insufficient_balance",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sendFrom": "Sūtīt no",
+  "@sendFrom": {
+    "description": "send_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinCreateTitle": "Izveidojiet sešu ciparu PIN",
+  "@pinCreateTitle": {
+    "description": "pin_create_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinConfirmTitle": "Apstipriniet savu PIN",
+  "@pinConfirmTitle": {
+    "description": "pin_confirm_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinEnterTitle": "Ievadiet PIN",
+  "@pinEnterTitle": {
+    "description": "pin_enter_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinConfirmError": "PIN nesakrīt",
+  "@pinConfirmError": {
+    "description": "pin_confirm_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinInvalid": "Nepareizs PIN",
+  "@pinInvalid": {
+    "description": "pin_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "themeHeader": "Motīvs",
+  "@themeHeader": {
+    "description": "theme_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changeRepButton": "Mainīt",
+  "@changeRepButton": {
+    "description": "change_representative_change",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changeRepAuthenticate": "Mainīt pārstāvi",
+  "@changeRepAuthenticate": {
+    "description": "settings_change_rep",
+    "type": "text",
+    "placeholders": {}
+  },
+  "currentlyRepresented": "Pašreizējais pārstāvis ir",
+  "@currentlyRepresented": {
+    "description": "change_representative_current_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changeRepSucces": "Pārstāvis nomainīts sekmīgi",
+  "@changeRepSucces": {
+    "description": "change_representative_success",
+    "type": "text",
+    "placeholders": {}
+  },
+  "repInfoHeader": "Kas ir pārstāvis?",
+  "@repInfoHeader": {
+    "description": "change_representative_info_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "repInfo": "Pārstāvis ir konts, kas balso tīmekļa vienprātībai. Balss svaru nosaka kopējā līdzekļu bilance. Jūs varat deleģēt savu bilanci kādam uzticamam pārstāvim, lai palielinātu tā balss svaru. Jūsu pārstāvis nav spējīgs tērēt jūsu līdzekļus. Ieteicams izvēlēties pārstāvi, kas ir uzticams un ir ar zemu zaudlaiku jeb dīkstāvi.",
+  "@repInfo": {
+    "description": "change_representative_info",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinRepChange": "Ievadiet PIN, lai nomainītu pārstāvi.",
+  "@pinRepChange": {
+    "description": "change_representative_pin",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changeRepHint": "Ievadiet jaunu pārstāvi",
+  "@changeRepHint": {
+    "description": "change_representative_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "authMethod": "Autentificēšanās metode",
+  "@authMethod": {
+    "description": "settings_disable_fingerprint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinMethod": "PIN",
+  "@pinMethod": {
+    "description": "settings_pin_method",
+    "type": "text",
+    "placeholders": {}
+  },
+  "privacyPolicy": "Privātuma politika",
+  "@privacyPolicy": {
+    "description": "settings_privacy_policy",
+    "type": "text",
+    "placeholders": {}
+  },
+  "biometricsMethod": "Biometriskā atpazīšana",
+  "@biometricsMethod": {
+    "description": "settings_fingerprint_method",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changeCurrency": "Mainīt valūtu",
+  "@changeCurrency": {
+    "description": "settings_local_currency",
+    "type": "text",
+    "placeholders": {}
+  },
+  "language": "Valoda",
+  "@language": {
+    "description": "settings_change_language",
+    "type": "text",
+    "placeholders": {}
+  },
+  "shareNatrium": "Dalīties ar Natrium",
+  "@shareNatrium": {
+    "description": "settings_share",
+    "type": "text",
+    "placeholders": {}
+  },
+  "shareNatriumText": "Uzmet aci Natrium! Izcils NANO viedais maks!",
+  "@shareNatriumText": {
+    "description": "share_extra",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logout": "Iziet",
+  "@logout": {
+    "description": "settings_logout",
+    "type": "text",
+    "placeholders": {}
+  },
+  "warning": "Brīdinājums",
+  "@warning": {
+    "description": "settings_logout_alert_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutDetail": "Izejot tiks aizmirsta jūsu sēkla un visi Natrium saistītie dati šajā ierīcē. Ja neesat izveidojis maka sēklas rezerves kopiju, maks un tā līdzekļi tiks neatgriezeniski zaudēti",
+  "@logoutDetail": {
+    "description": "settings_logout_alert_message",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutAction": "Dzēst sēklu un iziet",
+  "@logoutAction": {
+    "description": "settings_logout_alert_confirm_cta",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutAreYouSure": "Vai esat drošs?",
+  "@logoutAreYouSure": {
+    "description": "settings_logout_warning_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logoutReassurance": "Ja vien esat saglabājis maka sēklu, jums ne par ko nav jāuztraucas.",
+  "@logoutReassurance": {
+    "description": "settings_logout_warning_message",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsHeader": "Iestatījumi",
+  "@settingsHeader": {
+    "description": "settings_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "preferences": "Preferences",
+  "@preferences": {
+    "description": "settings_preferences_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "manage": "Pārvaldīt",
+  "@manage": {
+    "description": "settings_manage_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "backupSeed": "Kopēt sēklu",
+  "@backupSeed": {
+    "description": "settings_backup_seed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "fingerprintSeedBackup": "Autorizējieties, lai kopētu sēklu.",
+  "@fingerprintSeedBackup": {
+    "description": "settings_fingerprint_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pinSeedBackup": "Ievadiet PIN, lai kopētu sēklu",
+  "@pinSeedBackup": {
+    "description": "settings_pin_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "systemDefault": "Noklusētie iestatījumi",
+  "@systemDefault": {
+    "description": "settings_default_language_string",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notifications": "Paziņojumi",
+  "@notifications": {
+    "description": "notifications_settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notificationTitle": "Saņemts %1 NANO",
+  "@notificationTitle": {
+    "description": "notification_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notificationBody": "Atveriet Natrium, lai apskatītu šo transakciju",
+  "@notificationBody": {
+    "description": "notification_body",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notificationHeaderSupplement": "Pieskaries, lai atvērtu",
+  "@notificationHeaderSupplement": {
+    "description": "notificaiton_header_suplement",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsTransfer": "Ielādēt no papīra maka",
+  "@settingsTransfer": {
+    "description": "settings_transfer",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferError": "Pārsūtīšanas laikā notika kļūda. Lūdzu vēlāk mēģiniet vēlreiz.",
+  "@transferError": {
+    "description": "transfer_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "paperWallet": "Papīra maks",
+  "@paperWallet": {
+    "description": "paper_wallet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "kaliumWallet": "Natrium maks",
+  "@kaliumWallet": {
+    "description": "kalium_wallet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "manualEntry": "Manuālā ievade",
+  "@manualEntry": {
+    "description": "transfer_manual_entry",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mnemonicPhrase": "Mnemoniskā frāze",
+  "@mnemonicPhrase": {
+    "description": "mnemonic_phrase",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rawSeed": "Plikā sēkla",
+  "@rawSeed": {
+    "description": "raw_seed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferHeader": "Pārsūtīt līdzekļus",
+  "@transferHeader": {
+    "description": "transfer_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transfer": "Pārsūtīt",
+  "@transfer": {
+    "description": "transfer_btn",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferManualHint": "Lūdzu, zemāk ievadiet sēklu",
+  "@transferManualHint": {
+    "description": "transfer_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferIntro": "Šis process pārskaitīs jūsu papīra maka līdzekļus uz jūsu Natrium maku.\n\nPieskaries \"%1\" pogai, lai sāktu.",
+  "@transferIntro": {
+    "description": "transfer_intro",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferQrScanHint": "Skenē Nano \nsēklu vai privāto atslēgu",
+  "@transferQrScanHint": {
+    "description": "transfer_qr_scan_hint",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferQrScanError": "Šis QR kods nesatur derīgu sēklu",
+  "@transferQrScanError": {
+    "description": "transfer_qr_scan_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferNoFunds": "Šai sēklai nav piesaistīti līdzekļi",
+  "@transferNoFunds": {
+    "description": "transfer_no_funds_toast",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferConfirmInfo": "Maks ar %1 NANO bilanci ir atrasts.\n",
+  "@transferConfirmInfo": {
+    "description": "transfer_confirm_info_first",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferConfirmInfoSecond": "Pieskarieties, lai apstiprinātu līdzekļu pārskaitīšanu.\n",
+  "@transferConfirmInfoSecond": {
+    "description": "transfer_confirm_info_second",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferConfirmInfoThird": "Pārskaitīšana var prasīt vairākas sekundes.",
+  "@transferConfirmInfoThird": {
+    "description": "transfer_confirm_info_third",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferLoading": "Pārsūta",
+  "@transferLoading": {
+    "description": "transfer_loading_text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferComplete": "%1 NANO sekmīgi pārskaitīti uz jūsu Natrium maku.\n",
+  "@transferComplete": {
+    "description": "transfer_complete_text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "transferClose": "Pieskarieties jebkur, lai aizvērtu.",
+  "@transferClose": {
+    "description": "transfer_close_text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "scanInstructions": "Noskenējiet Nano \nadreses QR kodu",
+  "@scanInstructions": {
+    "description": "scan_send_instruction_label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "unlockPin": "Ievadiet PIN, lai piekļūtu Natrium",
+  "@unlockPin": {
+    "description": "unlock_kalium_pin",
+    "type": "text",
+    "placeholders": {}
+  },
+  "unlockBiometrics": "Autorizējieties, lai piekļūtu Natrium",
+  "@unlockBiometrics": {
+    "description": "unlock_kalium_bio",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lockAppSetting": "Autentificēties palaižot",
+  "@lockAppSetting": {
+    "description": "authenticate_on_launch",
+    "type": "text",
+    "placeholders": {}
+  },
+  "locked": "Aizslēgts",
+  "@locked": {
+    "description": "lockedtxt",
+    "type": "text",
+    "placeholders": {}
+  },
+  "unlock": "Atslēgt",
+  "@unlock": {
+    "description": "unlocktxt",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tooManyFailedAttempts": "Pārāk daudz atslēgšanas mēģinājumi.",
+  "@tooManyFailedAttempts": {
+    "description": "fail_toomany_attempts",
+    "type": "text",
+    "placeholders": {}
+  },
+  "securityHeader": "Drošība",
+  "@securityHeader": {
+    "description": "security_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "autoLockHeader": "Automātiski aizslēgt",
+  "@autoLockHeader": {
+    "description": "auto_lock_header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "xMinutes": "Pēc %1 minūtēm",
+  "@xMinutes": {
+    "description": "after_minutes",
+    "type": "text",
+    "placeholders": {}
+  },
+  "xMinute": "Pēc %1 minūtes",
+  "@xMinute": {
+    "description": "after_minute",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instantly": "Uzreiz",
+  "@instantly": {
+    "description": "insantly",
+    "type": "text",
+    "placeholders": {}
+  },
+  "exampleCardIntro": "Sveicināti Natrium. Tiklīdz saņemsiet NANO, transakcijas būs redzamas šādi:",
+  "@exampleCardIntro": {
+    "description": "example_card_intro",
+    "type": "text",
+    "placeholders": {}
+  },
+  "exampleCardLittle": "Nedaudz",
+  "@exampleCardLittle": {
+    "description": "example_card_little",
+    "type": "text",
+    "placeholders": {}
+  },
+  "exampleCardLot": "Daudz",
+  "@exampleCardLot": {
+    "description": "example_card_lot",
+    "type": "text",
+    "placeholders": {}
+  },
+  "exampleCardTo": "kādam",
+  "@exampleCardTo": {
+    "description": "example_card_to",
+    "type": "text",
+    "placeholders": {}
+  },
+  "exampleCardFrom": "no kāda",
+  "@exampleCardFrom": {
+    "description": "example_card_from",
+    "type": "text",
+    "placeholders": {}
+  },
+  "defaultAccountName": "Pamata konts",
+  "@defaultAccountName": {
+    "description": "Default account name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "defaultNewAccountName": "Konts %1",
+  "@defaultNewAccountName": {
+    "description": "Default new account name - e.g. Account 1",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newAccountIntro": "Šis ir jūsu jaunais konts. Tiklīdz saņemsiet NANO, transakcijas būs redzamas šādi:",
+  "@newAccountIntro": {
+    "description": "Alternate account intro card",
+    "type": "text",
+    "placeholders": {}
+  },
+  "account": "Konts",
+  "@account": {
+    "description": "Account text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "accounts": "Konti",
+  "@accounts": {
+    "description": "Accounts header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addAccount": "Pievienot kontu",
+  "@addAccount": {
+    "description": "Default new account name - e.g. Account 1",
+    "type": "text",
+    "placeholders": {}
+  },
+  "hideAccountHeader": "Paslēpt kontu?",
+  "@hideAccountHeader": {
+    "description": "Confirmation dialog header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "removeAccountText": "Tiešām paslēpt šo kontu? Vēlāk varēsiet to pievienot atkal, pieskaroties \"%1\" pogai.",
+  "@removeAccountText": {
+    "description": "Remove account dialog body",
+    "type": "text",
+    "placeholders": {}
+  }
+}

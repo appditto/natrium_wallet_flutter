@@ -200,7 +200,7 @@ class AppTransferOverviewSheet {
                                     .replaceAll("%1",
                                         AppLocalization.of(context).scanQrCode),
                                 style: AppStyles.textStyleParagraph(context),
-                                textAlign: TextAlign.left,
+                                textAlign: TextAlign.start,
                                 maxLines: 6,
                                 stepGranularity: 0.5,
                               ),

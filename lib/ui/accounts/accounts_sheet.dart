@@ -455,7 +455,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                                 minFontSize: 8.0,
                                 stepGranularity: 0.1,
                                 maxLines: 1,
-                                textAlign: TextAlign.left,
+                                textAlign: TextAlign.start,
                               ),
                               // Account address
                               AutoSizeText(
@@ -512,7 +512,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                         style: TextStyle(fontSize: 16.0),
                         stepGranularity: 0.1,
                         minFontSize: 1,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                       ),
                     ),
                   ],

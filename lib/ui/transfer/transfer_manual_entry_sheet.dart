@@ -92,7 +92,7 @@ class AppTransferManualEntrySheet {
                                         .transferManualHint,
                                     style:
                                         AppStyles.textStyleParagraph(context),
-                                    textAlign: TextAlign.left,
+                                    textAlign: TextAlign.start,
                                   ),
                                 ),
                                 // The container for the seed

@@ -632,7 +632,7 @@ class _AppHomePageState extends State<AppHomePage>
                   Text(
                     CaseChange.toUpperCase(
                         AppLocalization.of(context).transactions, context),
-                    textAlign: TextAlign.left,
+                    textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w100,
@@ -894,12 +894,12 @@ class _AppHomePageState extends State<AppHomePage>
                             children: <Widget>[
                               Text(
                                 text,
-                                textAlign: TextAlign.left,
+                                textAlign: TextAlign.start,
                                 style:
                                     AppStyles.textStyleTransactionType(context),
                               ),
                               RichText(
-                                textAlign: TextAlign.left,
+                                textAlign: TextAlign.start,
                                 text: TextSpan(
                                   text: '',
                                   children: [
@@ -926,7 +926,7 @@ class _AppHomePageState extends State<AppHomePage>
                       width: MediaQuery.of(context).size.width / 2.4,
                       child: Text(
                         displayName,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.end,
                         style: AppStyles.textStyleTransactionAddress(context),
                       ),
                     ),
@@ -991,11 +991,11 @@ class _AppHomePageState extends State<AppHomePage>
                         children: <Widget>[
                           Text(
                             text,
-                            textAlign: TextAlign.left,
+                            textAlign: TextAlign.start,
                             style: AppStyles.textStyleTransactionType(context),
                           ),
                           RichText(
-                            textAlign: TextAlign.left,
+                            textAlign: TextAlign.start,
                             text: TextSpan(
                               text: '',
                               children: [
@@ -1021,7 +1021,7 @@ class _AppHomePageState extends State<AppHomePage>
                   width: MediaQuery.of(context).size.width / 2.4,
                   child: Text(
                     address,
-                    textAlign: TextAlign.right,
+                    textAlign: TextAlign.end,
                     style: AppStyles.textStyleTransactionAddress(context),
                   ),
                 ),
@@ -1181,7 +1181,7 @@ class _AppHomePageState extends State<AppHomePage>
                               children: <Widget>[
                                 Text(
                                   text,
-                                  textAlign: TextAlign.left,
+                                  textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontFamily: "NunitoSans",
                                     fontSize: AppFontSizes.small,
@@ -1200,7 +1200,7 @@ class _AppHomePageState extends State<AppHomePage>
                                     ),
                                     child: Text(
                                       text,
-                                      textAlign: TextAlign.left,
+                                      textAlign: TextAlign.start,
                                       style: TextStyle(
                                         fontFamily: "NunitoSans",
                                         fontSize: AppFontSizes.small - 4,
@@ -1220,7 +1220,7 @@ class _AppHomePageState extends State<AppHomePage>
                               children: <Widget>[
                                 Text(
                                   amount,
-                                  textAlign: TextAlign.left,
+                                  textAlign: TextAlign.start,
                                   style: TextStyle(
                                       fontFamily: "NunitoSans",
                                       color: Colors.transparent,
@@ -1238,7 +1238,7 @@ class _AppHomePageState extends State<AppHomePage>
                                     ),
                                     child: Text(
                                       amount,
-                                      textAlign: TextAlign.left,
+                                      textAlign: TextAlign.start,
                                       style: TextStyle(
                                           fontFamily: "NunitoSans",
                                           color: Colors.transparent,
@@ -1267,7 +1267,7 @@ class _AppHomePageState extends State<AppHomePage>
                           children: <Widget>[
                             Text(
                               address,
-                              textAlign: TextAlign.right,
+                              textAlign: TextAlign.end,
                               style: TextStyle(
                                 fontSize: AppFontSizes.smallest,
                                 fontFamily: 'OverpassMono',
@@ -1286,7 +1286,7 @@ class _AppHomePageState extends State<AppHomePage>
                                 ),
                                 child: Text(
                                   address,
-                                  textAlign: TextAlign.right,
+                                  textAlign: TextAlign.end,
                                   style: TextStyle(
                                     fontSize: AppFontSizes.smallest - 3,
                                     fontFamily: 'OverpassMono',
