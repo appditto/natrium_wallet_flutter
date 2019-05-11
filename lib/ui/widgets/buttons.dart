@@ -27,7 +27,7 @@ class AppButton {
             ),
             height: 55,
             margin:
-                EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
+                EdgeInsetsDirectional.fromSTEB(dimens[0], dimens[1], dimens[2], dimens[3]),
             child: FlatButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),
@@ -60,7 +60,7 @@ class AppButton {
             ),
             height: 55,
             margin:
-                EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
+                EdgeInsetsDirectional.fromSTEB(dimens[0], dimens[1], dimens[2], dimens[3]),
             child: OutlineButton(
               color: StateContainer.of(context).curTheme.backgroundDark,
               textColor: disabled
@@ -105,7 +105,7 @@ class AppButton {
             ),
             height: 55,
             margin:
-                EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
+                EdgeInsetsDirectional.fromSTEB(dimens[0], dimens[1], dimens[2], dimens[3]),
             child: FlatButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),
@@ -138,7 +138,7 @@ class AppButton {
             ),
             height: 55,
             margin:
-                EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
+                EdgeInsetsDirectional.fromSTEB(dimens[0], dimens[1], dimens[2], dimens[3]),
             child: OutlineButton(
               color: StateContainer.of(context).curTheme.backgroundDark,
               textColor: StateContainer.of(context).curTheme.success,
@@ -177,7 +177,7 @@ class AppButton {
             ),
             height: 55,
             margin:
-                EdgeInsets.fromLTRB(dimens[0], dimens[1], dimens[2], dimens[3]),
+                EdgeInsetsDirectional.fromSTEB(dimens[0], dimens[1], dimens[2], dimens[3]),
             child: OutlineButton(
               color: StateContainer.of(context).curTheme.backgroundDark,
               textColor: StateContainer.of(context).curTheme.text,

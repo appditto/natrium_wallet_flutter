@@ -182,7 +182,7 @@ class AppAlertDialog extends StatelessWidget {
     this.title,
     this.titlePadding,
     this.content,
-    this.contentPadding = const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+    this.contentPadding = const EdgeInsetsDirectional.fromSTEB(24.0, 20.0, 24.0, 24.0),
     this.actions,
     this.semanticLabel,
     this.shape,
@@ -260,7 +260,7 @@ class AppAlertDialog extends StatelessWidget {
 
     if (title != null) {
       children.add(Padding(
-        padding: titlePadding ?? EdgeInsets.fromLTRB(24.0, 24.0, 24.0, content == null ? 20.0 : 0.0),
+        padding: titlePadding ?? EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, content == null ? 20.0 : 0.0),
         child: DefaultTextStyle(
           style: Theme.of(context).textTheme.title,
           child: Semantics(child: title, namesRoute: true),
@@ -455,9 +455,9 @@ class AppSimpleDialog extends StatelessWidget {
   const AppSimpleDialog({
     Key key,
     this.title,
-    this.titlePadding = const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
+    this.titlePadding = const EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 0.0),
     this.children,
-    this.contentPadding = const EdgeInsets.fromLTRB(0.0, 12.0, 0.0, 16.0),
+    this.contentPadding = const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 16.0),
     this.semanticLabel,
     this.shape,
   }) : assert(titlePadding != null),

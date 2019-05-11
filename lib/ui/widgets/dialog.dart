@@ -269,7 +269,7 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                alignment: Alignment(0, -0.5),
+                alignment: AlignmentDirectional(0, -0.5),
                 width: MediaQuery.of(context).size.width / 1.4,
                 height: MediaQuery.of(context).size.width / 1.4 / 2,
                 child: _getAnimation(context),

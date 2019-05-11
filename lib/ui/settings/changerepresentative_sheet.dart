@@ -250,7 +250,7 @@ class AppChangeRepresentativeSheet {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(left: 24),
+                    margin: EdgeInsetsDirectional.only(start: 24),
                     width: MediaQuery.of(context).size.width * 0.50,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -350,7 +350,7 @@ class AppChangeRepresentativeSheet {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: 24, left:14),
+                    margin: EdgeInsetsDirectional.only(end: 24, start:14),
                     child: Stack(
                       children: <Widget>[
                         Container(
@@ -361,7 +361,7 @@ class AppChangeRepresentativeSheet {
                               size: 50,
                             )),
                         Container(
-                          alignment: Alignment(-0.03, 0.03),
+                          alignment: AlignmentDirectional(-0.03, 0.03),
                           width: 50,
                           height: 50,
                           child: Text(
@@ -463,7 +463,7 @@ class AppChangeRepresentativeSheet {
                               Container(
                                 width: 50,
                                 height: 50,
-                                margin: EdgeInsets.only(top: 10.0, right: 10.0),
+                                margin: EdgeInsetsDirectional.only(top: 10.0, end: 10.0),
                                 child: FlatButton(
                                   highlightColor: StateContainer.of(context)
                                       .curTheme

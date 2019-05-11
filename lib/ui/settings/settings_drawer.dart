@@ -626,7 +626,7 @@ class _SettingsSheetState extends State<SettingsSheet>
           children: <Widget>[
             // A container for accounts area
             Container(
-              margin: EdgeInsets.only(left: 26.0, right: 20, bottom: 15),
+              margin: EdgeInsetsDirectional.only(start: 26.0, end: 20, bottom: 15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -637,14 +637,14 @@ class _SettingsSheetState extends State<SettingsSheet>
                     children: <Widget>[
                       // Main Account
                       Container(
-                        margin: EdgeInsets.only(left: 4.0),
+                        margin: EdgeInsetsDirectional.only(start: 4.0),
                         child: Stack(
                           children: <Widget>[
                             Center(
                               child: Container(
                                   width: 60,
                                   height: 45,
-                                  alignment: Alignment(-1, 0),
+                                  alignment: AlignmentDirectional(-1, 0),
                                   child: Icon(
                                     AppIcons.accountwallet,
                                     color: StateContainer.of(context)
@@ -657,7 +657,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               child: Container(
                                 width: 60,
                                 height: 45,
-                                alignment: Alignment(0, 0.3),
+                                alignment: AlignmentDirectional(0, 0.3),
                                 child: Text(
                                   StateContainer.of(context)
                                       .selectedAccount
@@ -724,7 +724,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   child: Container(
                                     width: 48,
                                     height: 36,
-                                    alignment: Alignment(0, 0.3),
+                                    alignment: AlignmentDirectional(0, 0.3),
                                     child: Text(StateContainer.of(context).recentLast.getShortName().toUpperCase(),
                                         style: TextStyle(
                                           color: StateContainer.of(context)
@@ -787,7 +787,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   child: Container(
                                     width: 48,
                                     height: 36,
-                                    alignment: Alignment(0, 0.3),
+                                    alignment: AlignmentDirectional(0, 0.3),
                                     child: Text(StateContainer.of(context).recentSecondLast.getShortName().toUpperCase(),
                                         style: TextStyle(
                                           color: StateContainer.of(context)
@@ -931,7 +931,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: EdgeInsets.only(top: 15.0),
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(left: 30.0, bottom: 10),
+                      margin: EdgeInsetsDirectional.only(start: 30.0, bottom: 10),
                       child: Text(AppLocalization.of(context).preferences,
                           style: TextStyle(
                               fontSize: 16.0,
@@ -998,7 +998,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     ),
                     Container(
                       margin:
-                          EdgeInsets.only(left: 30.0, top: 20.0, bottom: 10.0),
+                          EdgeInsetsDirectional.only(start: 30.0, top: 20.0, bottom: 10.0),
                       child: Text(AppLocalization.of(context).manage,
                           style: TextStyle(
                               fontSize: 16.0,
@@ -1203,8 +1203,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                           StateContainer.of(context).curTheme.backgroundDark,
                           StateContainer.of(context).curTheme.backgroundDark00
                         ],
-                        begin: Alignment(0.5, -1.0),
-                        end: Alignment(0.5, 1.0),
+                        begin: AlignmentDirectional(0.5, -1.0),
+                        end: AlignmentDirectional(0.5, 1.0),
                       ),
                     ),
                   ),
@@ -1282,7 +1282,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                   padding: EdgeInsets.only(top: 15.0),
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(left: 30.0, bottom: 10),
+                      margin: EdgeInsetsDirectional.only(start: 30.0, bottom: 10),
                       child: Text(AppLocalization.of(context).preferences,
                           style: TextStyle(
                               fontSize: 16.0,
@@ -1347,8 +1347,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                           StateContainer.of(context).curTheme.backgroundDark,
                           StateContainer.of(context).curTheme.backgroundDark00
                         ],
-                        begin: Alignment(0.5, -1.0),
-                        end: Alignment(0.5, 1.0),
+                        begin: AlignmentDirectional(0.5, -1.0),
+                        end: AlignmentDirectional(0.5, 1.0),
                       ),
                     ),
                   ),

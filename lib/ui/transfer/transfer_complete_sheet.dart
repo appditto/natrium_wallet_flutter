@@ -74,7 +74,7 @@ class AppTransferCompleteSheet {
                             ),
                           ),
                           Container(
-                              alignment: Alignment(-1, 0),
+                              alignment: AlignmentDirectional(-1, 0),
                               margin: EdgeInsets.symmetric(
                                   horizontal: smallScreen(context) ? 35 : 60),
                               child: Text(
@@ -86,7 +86,7 @@ class AppTransferCompleteSheet {
                                 textAlign: TextAlign.left,
                               )),
                           Container(
-                              alignment: Alignment(-1, 0),
+                              alignment: AlignmentDirectional(-1, 0),
                               margin: EdgeInsets.symmetric(
                                   horizontal: smallScreen(context) ? 35 : 60),
                               child: Text(

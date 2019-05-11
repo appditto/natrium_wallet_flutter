@@ -67,7 +67,7 @@ class AppSendCompleteSheet {
                         children: <Widget>[
                           // Success tick (icon)
                           Container(
-                            alignment: Alignment(0, 0),
+                            alignment: AlignmentDirectional(0, 0),
                             margin: EdgeInsets.only(bottom: 25),
                             child: Icon(AppIcons.success,
                                 size: 100,

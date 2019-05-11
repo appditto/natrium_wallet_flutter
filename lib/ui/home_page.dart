@@ -433,7 +433,7 @@ class _AppHomePageState extends State<AppHomePage>
           onRefresh: _refresh,
           isRefreshing: _isRefreshing,
           child: ListView(
-            padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
+            padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
             children: <Widget>[
               _buildLoadingTransactionCard(
                   "Sent", "10244000", "123456789121234", context),
@@ -458,7 +458,7 @@ class _AppHomePageState extends State<AppHomePage>
       return ReactiveRefreshIndicator(
         backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
         child: ListView(
-          padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
+          padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
           children: <Widget>[
             _buildWelcomeTransactionCard(context),
             _buildDummyTransactionCard(
@@ -496,7 +496,7 @@ class _AppHomePageState extends State<AppHomePage>
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       child: AnimatedList(
         key: _listKeyMap[StateContainer.of(context).wallet.address],
-        padding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
+        padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
         initialItemCount: _historyListMap[StateContainer.of(context).wallet.address].length,
         itemBuilder: _buildItem,
       ),
@@ -626,7 +626,7 @@ class _AppHomePageState extends State<AppHomePage>
 
             //Transactions Text
             Container(
-              margin: EdgeInsets.fromLTRB(30.0, 20.0, 26.0, 0.0),
+              margin: EdgeInsetsDirectional.fromSTEB(30.0, 20.0, 26.0, 0.0),
               child: Row(
                 children: <Widget>[
                   Text(
@@ -660,8 +660,8 @@ class _AppHomePageState extends State<AppHomePage>
                             StateContainer.of(context).curTheme.background00,
                             StateContainer.of(context).curTheme.background
                           ],
-                          begin: Alignment(0.5, 1.0),
-                          end: Alignment(0.5, -1.0),
+                          begin: AlignmentDirectional(0.5, 1.0),
+                          end: AlignmentDirectional(0.5, -1.0),
                         ),
                       ),
                     ),
@@ -679,8 +679,8 @@ class _AppHomePageState extends State<AppHomePage>
                             StateContainer.of(context).curTheme.background00,
                             StateContainer.of(context).curTheme.background
                           ],
-                          begin: Alignment(0.5, -1),
-                          end: Alignment(0.5, 0.5),
+                          begin: AlignmentDirectional(0.5, -1),
+                          end: AlignmentDirectional(0.5, 0.5),
                         ),
                       ),
                     ),
@@ -703,7 +703,7 @@ class _AppHomePageState extends State<AppHomePage>
                         ],
                       ),
                       height: 55,
-                      margin: EdgeInsets.only(left: 14, top: 0.0, right: 7.0),
+                      margin: EdgeInsetsDirectional.only(start: 14, top: 0.0, end: 7.0),
                       child: FlatButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -741,7 +741,7 @@ class _AppHomePageState extends State<AppHomePage>
                         ],
                       ),
                       height: 55,
-                      margin: EdgeInsets.only(left: 7, top: 0.0, right: 14.0),
+                      margin: EdgeInsetsDirectional.only(start: 7, top: 0.0, end: 14.0),
                       child: FlatButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -840,12 +840,12 @@ class _AppHomePageState extends State<AppHomePage>
             decoration: BoxDecoration(
               color: Colors.transparent,
             ),
-            margin: EdgeInsets.only(
-                right: MediaQuery.of(context).size.width * 0.15,
+            margin: EdgeInsetsDirectional.only(
+                end: MediaQuery.of(context).size.width * 0.15,
                 top: 4,
                 bottom: 4),
             child: Container(
-              alignment: Alignment(-0.5, 0),
+              alignment: AlignmentDirectional(-0.5, 0),
               constraints: BoxConstraints.expand(),
               child: FlareActor(
                 "assets/pulltosend_animation.flr",
@@ -861,7 +861,7 @@ class _AppHomePageState extends State<AppHomePage>
       child: _SizeTransitionNoClip(
         sizeFactor: animation,
         child: Container(
-          margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+          margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 14.0, 4.0),
           decoration: BoxDecoration(
             color: StateContainer.of(context).curTheme.backgroundDark,
             borderRadius: BorderRadius.circular(10.0),
@@ -885,7 +885,7 @@ class _AppHomePageState extends State<AppHomePage>
                     Row(
                       children: <Widget>[
                         Container(
-                            margin: EdgeInsets.only(right: 16.0),
+                            margin: EdgeInsetsDirectional.only(end: 16.0),
                             child: Icon(icon, color: iconColor, size: 20)),
                         Container(
                           width: MediaQuery.of(context).size.width / 4,
@@ -956,7 +956,7 @@ class _AppHomePageState extends State<AppHomePage>
       iconColor = StateContainer.of(context).curTheme.primary60;
     }
     return Container(
-      margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+      margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 14.0, 4.0),
       decoration: BoxDecoration(
         color: StateContainer.of(context).curTheme.backgroundDark,
         borderRadius: BorderRadius.circular(10.0),
@@ -982,7 +982,7 @@ class _AppHomePageState extends State<AppHomePage>
                 Row(
                   children: <Widget>[
                     Container(
-                        margin: EdgeInsets.only(right: 16.0),
+                        margin: EdgeInsetsDirectional.only(end: 16.0),
                         child: Icon(icon, color: iconColor, size: 20)),
                     Container(
                       width: MediaQuery.of(context).size.width / 4,
@@ -1076,7 +1076,7 @@ class _AppHomePageState extends State<AppHomePage>
 
   Widget _buildWelcomeTransactionCard(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+      margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 14.0, 4.0),
       decoration: BoxDecoration(
         color: StateContainer.of(context).curTheme.backgroundDark,
         borderRadius: BorderRadius.circular(10.0),
@@ -1137,7 +1137,7 @@ class _AppHomePageState extends State<AppHomePage>
       iconColor = StateContainer.of(context).curTheme.primary20;
     }
     return Container(
-      margin: EdgeInsets.fromLTRB(14.0, 4.0, 14.0, 4.0),
+      margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 14.0, 4.0),
       decoration: BoxDecoration(
         color: StateContainer.of(context).curTheme.backgroundDark,
         borderRadius: BorderRadius.circular(10.0),
@@ -1166,7 +1166,7 @@ class _AppHomePageState extends State<AppHomePage>
                     Opacity(
                       opacity: _opacityAnimation.value,
                       child: Container(
-                          margin: EdgeInsets.only(right: 16.0),
+                          margin: EdgeInsetsDirectional.only(end: 16.0),
                           child: Icon(icon, color: iconColor, size: 20)),
                     ),
                     Container(
@@ -1329,9 +1329,9 @@ class _AppHomePageState extends State<AppHomePage>
           Container(
             width: 70.0,
             height: 120,
-            alignment: Alignment(-1, -1),
+            alignment: AlignmentDirectional(-1, -1),
             child: Container(
-              margin: EdgeInsets.only(top: 5, left: 5),
+              margin: EdgeInsetsDirectional.only(top: 5, start: 5),
               height: 50,
               width: 50,
               child: FlatButton(
@@ -1514,7 +1514,7 @@ class _AppHomePageState extends State<AppHomePage>
                     ? AppStyles.textStyleCurrencyAltHidden(context)
                     : AppStyles.textStyleCurrencyAlt(context)),
             Container(
-              margin: EdgeInsets.only(right: 15),
+              margin: EdgeInsetsDirectional.only(end: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -1652,10 +1652,10 @@ class TransactionDetailsSheet {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.only(
+                                  margin: EdgeInsetsDirectional.only(
                                       top:
                                           Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
-                                      right: Dimens
+                                      end: Dimens
                                           .BUTTON_TOP_EXCEPTION_DIMENS[2]),
                                   child: Container(
                                     height: 55,

@@ -26,12 +26,12 @@ class AppSettings {
         padding: EdgeInsets.all(0.0),
         child: Container(
           height: 60.0,
-          margin: EdgeInsets.only(left: 30.0),
+          margin: EdgeInsetsDirectional.only(start: 30.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(right: 13.0),
+                margin: EdgeInsetsDirectional.only(end: 13.0),
                 child: Container(
                   child: Icon(icon,
                       color: disabled
@@ -95,20 +95,20 @@ class AppSettings {
       padding: EdgeInsets.all(0.0),
       child: Container(
         height: 60.0,
-        margin: new EdgeInsets.only(left: 30.0),
+        margin: EdgeInsetsDirectional.only(start: 30.0),
         child: Row(
           children: <Widget>[
             Container(
-              margin: new EdgeInsets.only(right: 13.0),
+              margin: EdgeInsetsDirectional.only(end: 13.0),
               child: Container(
-                child: new Icon(
+                child: Icon(
                   settingIcon,
                   color: StateContainer.of(context).curTheme.primary,
                   size: 24,
                 ),
-                margin: EdgeInsets.only(
+                margin: EdgeInsetsDirectional.only(
                   top: 3,
-                  left: settingIcon == AppIcons.logout
+                  start: settingIcon == AppIcons.logout
                       ? 6
                       : settingIcon == AppIcons.changerepresentative
                           ? 0
@@ -116,7 +116,7 @@ class AppSettings {
                               ? 1
                               : settingIcon == AppIcons.transferfunds ? 2 : 3,
                   bottom: 3,
-                  right: settingIcon == AppIcons.logout
+                  end: settingIcon == AppIcons.logout
                       ? 0
                       : settingIcon == AppIcons.changerepresentative
                           ? 6

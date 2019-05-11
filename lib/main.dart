@@ -77,6 +77,7 @@ class _AppState extends State<App> {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate
         ],
+        locale: Locale(StateContainer.of(context).curLanguage == null ? 'en' : StateContainer.of(context).curLanguage.getLocaleString()),
         supportedLocales: [
           const Locale('en', 'US'), // English
           const Locale('he', 'IL'), // Hebrew

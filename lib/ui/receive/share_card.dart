@@ -146,7 +146,7 @@ class _AppShareCardState extends State<AppShareCard> {
                   Container(
                     width: 96,
                     height: 20,
-                    margin: EdgeInsets.only(left: 1),
+                    margin: EdgeInsetsDirectional.only(start: 1),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,

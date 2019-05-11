@@ -244,7 +244,7 @@ class _ContactsListState extends State<ContactsList> {
                         Container(
                           height: 40,
                           width: 40,
-                          margin: EdgeInsets.only(right: 5),
+                          margin: EdgeInsetsDirectional.only(end: 5),
                           child: FlatButton(
                               highlightColor:
                                   StateContainer.of(context).curTheme.text15,
@@ -265,7 +265,7 @@ class _ContactsListState extends State<ContactsList> {
                         Container(
                           height: 40,
                           width: 40,
-                          margin: EdgeInsets.only(right: 20),
+                          margin: EdgeInsetsDirectional.only(end: 20),
                           child: FlatButton(
                               highlightColor:
                                   StateContainer.of(context).curTheme.text15,
@@ -328,8 +328,8 @@ class _ContactsListState extends State<ContactsList> {
                                   .curTheme
                                   .backgroundDark00
                             ],
-                            begin: Alignment(0.5, -1.0),
-                            end: Alignment(0.5, 1.0),
+                            begin: AlignmentDirectional(0.5, -1.0),
+                            end: AlignmentDirectional(0.5, 1.0),
                           ),
                         ),
                       ),
@@ -350,8 +350,8 @@ class _ContactsListState extends State<ContactsList> {
                                   .curTheme
                                   .backgroundDark,
                             ],
-                            begin: Alignment(0.5, -1.0),
-                            end: Alignment(0.5, 1.0),
+                            begin: AlignmentDirectional(0.5, -1.0),
+                            end: AlignmentDirectional(0.5, 1.0),
                           ),
                         ),
                       ),
@@ -394,7 +394,7 @@ class _ContactsListState extends State<ContactsList> {
         // Main Container
         Container(
           padding: EdgeInsets.symmetric(vertical: 16.0),
-          margin: new EdgeInsets.only(left: 36.0),
+          margin: new EdgeInsetsDirectional.only(start: 36.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[

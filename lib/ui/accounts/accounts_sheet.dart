@@ -243,8 +243,8 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                                     .curTheme
                                     .backgroundDark,
                               ],
-                              begin: Alignment(0.5, 1.0),
-                              end: Alignment(0.5, -1.0),
+                              begin: AlignmentDirectional(0.5, 1.0),
+                              end: AlignmentDirectional(0.5, -1.0),
                             ),
                           ),
                         ),
@@ -265,8 +265,8 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                                     .curTheme
                                     .backgroundDark00
                               ],
-                              begin: Alignment(0.5, 1.0),
-                              end: Alignment(0.5, -1.0),
+                              begin: AlignmentDirectional(0.5, 1.0),
+                              end: AlignmentDirectional(0.5, -1.0),
                             ),
                           ),
                         ),
@@ -418,7 +418,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                                 child: Container(
                                   width: 40,
                                   height: 30,
-                                  alignment: Alignment(0, 0.3),
+                                  alignment: AlignmentDirectional(0, 0.3),
                                   child: Text(account.getShortName().toUpperCase(),
                                       style: TextStyle(
                                         color: StateContainer.of(context)
@@ -436,7 +436,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                         Container(
                           width:
                               (MediaQuery.of(context).size.width - 116) * 0.5,
-                          margin: EdgeInsets.only(left: 16),
+                          margin: EdgeInsetsDirectional.only(start: 16),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -479,7 +479,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                     ),
                     Container(
                       width: (MediaQuery.of(context).size.width - 116) * 0.4,
-                      alignment: Alignment(1, 0),
+                      alignment: AlignmentDirectional(1, 0),
                       child: AutoSizeText.rich(
                         TextSpan(
                           children: [
@@ -528,7 +528,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
     List<Widget> _actions = List();
     _actions.add(SlideAction(
         child: Container(
-          margin: EdgeInsets.only(left: 2, top: 1, bottom: 1),
+          margin: EdgeInsetsDirectional.only(start: 2, top: 1, bottom: 1),
           constraints: BoxConstraints.expand(),
           decoration: BoxDecoration(
             color: StateContainer.of(context).curTheme.primary,
@@ -544,7 +544,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
     if (account.index > 0) {
       _actions.add(SlideAction(
           child: Container(
-            margin: EdgeInsets.only(left: 2, top: 1, bottom: 1),
+            margin: EdgeInsetsDirectional.only(start: 2, top: 1, bottom: 1),
             constraints: BoxConstraints.expand(),
             decoration: BoxDecoration(
               color: StateContainer.of(context).curTheme.primary,

@@ -190,7 +190,7 @@ class AppTransferOverviewSheet {
                               ),
                             ),
                             Container(
-                              alignment: Alignment(-1, 0),
+                              alignment: AlignmentDirectional(-1, 0),
                               margin: EdgeInsets.symmetric(
                                   horizontal: smallScreen(context) ? 35 : 50,
                                   vertical: 20),

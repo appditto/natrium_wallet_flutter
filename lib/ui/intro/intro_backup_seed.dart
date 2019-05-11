@@ -66,7 +66,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               children: <Widget>[
                                 // Back Button
                                 Container(
-                                  margin: EdgeInsets.only(left: 20),
+                                  margin: EdgeInsetsDirectional.only(start: 20),
                                   height: 50,
                                   width: 50,
                                   child: FlatButton(
@@ -95,7 +95,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             Container(
                               margin: EdgeInsets.only(
                                   top: 15.0, left: 50, right: 50),
-                              alignment: Alignment(-1, 0),
+                              alignment: AlignmentDirectional(-1, 0),
                               child: Text(
                                 AppLocalization.of(context).seed,
                                 style:
@@ -180,7 +180,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(right: 30),
+                            margin: EdgeInsetsDirectional.only(end: 30),
                             height: 50,
                             width: 50,
                             child: FlatButton(
