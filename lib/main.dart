@@ -162,6 +162,9 @@ class _AppState extends State<App> {
           const Locale("sk", "SK"),
           const Locale("sl", "SI"),
           const Locale("es", "ES"),
+          const Locale("ar", "AE"), // UAE
+          const Locale("ar", "SA"), // Saudi Arabia
+          const Locale("ar", "KW"), // Kuwait
         ],
         initialRoute: '/',
         onGenerateRoute: (RouteSettings settings) {

@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:natrium_wallet_flutter/model/setting_item.dart';
 
 enum AvailableCurrencyEnum { USD, ARS, AUD, BRL, CAD, CHF, CLP, CNY, CZK, DKK,
-                  EUR, GBP, HKD, HUF, IDR, ILS, INR, JPY, KRW,
-                  MXN, MYR, NOK, NZD, PHP, PKR, PLN, RUB, SEK,
-                  SGD, THB, TRY, TWD, VES, ZAR }
+                  EUR, GBP, HKD, HUF, IDR, ILS, INR, JPY, KRW, KWD,
+                  MXN, MYR, NOK, NZD, PHP, PKR, PLN, RUB, SAR, SEK,
+                  SGD, THB, TRY, TWD, AED, VES, ZAR }
 
 /// Represent the available authentication methods our app supports
 class AvailableCurrency extends SettingSelectionItem {
@@ -59,6 +59,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return "Japanese Yen";
       case "KRW":
           return "South Korean Won";
+      case "KWD":
+          return "Kuwaiti Dinar";
       case "MXN":
           return "Mexican Peso";
       case "MYR":
@@ -75,6 +77,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return "Polish Zloty";
       case "RUB":
           return "Russian Ruble";
+      case "SAR":
+          return "Saudi Riyal";
       case "SEK":
           return "Swedish Krona";
       case "SGD":
@@ -85,6 +89,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return "Turkish Lira";
       case "TWD":
           return "Taiwan Dollar";
+      case "AED":
+          return "UAE Dirham";
       case "VES":
           return "Venezuelan Bolivar";
       case "ZAR":
@@ -133,6 +139,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return "¥";
       case "KRW":
           return "₩";
+      case "KWD":
+          return "KD";
       case "MXN":
           return "\$";
       case "MYR":
@@ -149,6 +157,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return "zł";
       case "RUB":
           return "\u20BD";
+      case "SAR":
+          return "SR";
       case "SEK":
           return "kr";
       case "SGD":
@@ -159,6 +169,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return "₺";
       case "TWD":
           return "NT\$";
+      case "AED":
+          return "د.إ";
       case "VES":
           return "VES";
       case "ZAR":
@@ -207,6 +219,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return Locale("ja", "JP");
       case "KRW":
           return Locale("ko", "KR");
+      case "KWD":
+          return Locale("ar", "KW");
       case "MXN":
           return Locale("es", "MX");
       case "MYR":
@@ -223,6 +237,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return Locale("pl", "PL");
       case "RUB":
           return Locale("ru", "RU");
+      case "SAR":
+          return Locale("ar", "SA");
       case "SEK":
           return Locale("sv", "SE");
       case "SGD":
@@ -233,6 +249,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return Locale("tr", "TR");
       case "TWD":
           return Locale("en", "TW");
+      case "AED":
+          return Locale("ar", "AE");
       case "VES":
           return Locale("es", "VE");
       case "ZAR":
