@@ -68,7 +68,7 @@ class AvailableCurrency extends SettingSelectionItem {
       case "NOK":
           return "Norwegian Krone";
       case "NZD":
-          return "Zealand Dollar";
+          return "New Zealand Dollar";
       case "PHP":
           return "Philippine Peso";
       case "PKR":
