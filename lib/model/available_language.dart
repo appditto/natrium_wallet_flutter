@@ -155,6 +155,17 @@ class LanguageSetting extends SettingSelectionItem {
         return "DEFAULT";
     }
   }
+
+  Locale getLocale() {
+    String localeStr = getLocaleString();
+    if (localeStr == 'DEFAULT') {
+      return Locale('en');
+    } else if (localeStr == 'zh-Hans' || localeStr == 'zh-Hant') {
+      return Locale.fromSubtags(languageCode: 'zh', scriptCode: localeStr.split('-')[1]);
+    }
+    return Locale(localeStr);
+  }
+
   // For saving to shared prefs
   int getIndex() {
     return language.index;
