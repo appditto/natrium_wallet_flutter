@@ -8,8 +8,11 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/mnemonic_display.dart';
+
+import '../../dimens.dart';
 
 class IntroBackupSafetyPage extends StatefulWidget {
   @override
@@ -124,7 +127,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                                   Container(
                                     margin: EdgeInsetsDirectional.only(top: 15),
                                     child: AutoSizeText(
-                                      "Without your secret phrase, you won't be able to access your funds!",
+                                      "If you lose your device or uninstall the application you'll need your secret phrase to recover your funds!",
                                       style:
                                           AppStyles.textStyleParagraphPrimary(
                                               context),
@@ -141,32 +144,15 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
 
                       // Next Screen Button
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Container(
-                            margin: EdgeInsetsDirectional.only(end: 20),
-                            height: 50,
-                            width: 50,
-                            child: FlatButton(
-                                splashColor: StateContainer.of(context)
-                                    .curTheme
-                                    .primary30,
-                                highlightColor: StateContainer.of(context)
-                                    .curTheme
-                                    .primary15,
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pushNamed('/intro_backup');
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0)),
-                                padding: EdgeInsets.all(0.0),
-                                child: Icon(AppIcons.forward,
-                                    color: StateContainer.of(context)
-                                        .curTheme
-                                        .primary,
-                                    size: 50)),
-                          ),
+                          AppButton.buildAppButton(
+                              context,
+                              AppButtonType.PRIMARY,
+                              "Got It!",
+                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                            Navigator.of(context).pushNamed('/intro_backup');
+                          }),
                         ],
                       ),
                     ],

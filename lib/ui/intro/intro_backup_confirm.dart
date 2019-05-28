@@ -76,7 +76,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                           ),
                           alignment: AlignmentDirectional(-1, 0),
                           child: Text(
-                            "Did you back up your secret phrase?",
+                            "Are you sure that you've backed up your secret phrase?",
                             style: AppStyles.textStyleHeaderColored(context),
                           ),
                         ),
@@ -87,7 +87,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                                   end: smallScreen(context) ? 30 : 40,
                                   top: 15.0),
                           child: AutoSizeText(
-                            "It is crucial that you back it up, without it, you won't be able to access your funds!",
+                            "If you lose your device or uninstall the application you'll need your secret phrase to recover your funds!",
                             style: AppStyles.textStyleParagraph(context),
                             maxLines: 5,
                             stepGranularity: 0.5,

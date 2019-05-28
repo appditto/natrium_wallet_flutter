@@ -8,8 +8,11 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/mnemonic_display.dart';
+
+import '../../dimens.dart';
 
 class IntroBackupSeedPage extends StatefulWidget {
   @override
@@ -106,41 +109,25 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                           ],
                         ),
                       ),
-
                       // Next Screen Button
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Container(
-                            margin: EdgeInsetsDirectional.only(end: 20),
-                            height: 50,
-                            width: 50,
-                            child: FlatButton(
-                                splashColor: StateContainer.of(context)
-                                    .curTheme
-                                    .primary30,
-                                highlightColor: StateContainer.of(context)
-                                    .curTheme
-                                    .primary15,
-                                onPressed: () {
-                                  sl.get<Vault>().setSeed(_seed).then((result) {
-                                    // Update wallet
-                                    NanoUtil().loginAccount(context).then((_) {
-                                      StateContainer.of(context)
-                                          .requestUpdate();
-                                      Navigator.of(context)
-                                          .pushNamed('/intro_backup_confirm');
-                                    });
-                                  });
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0)),
-                                padding: EdgeInsets.all(0.0),
-                                child: Icon(AppIcons.forward,
-                                    color: StateContainer.of(context)
-                                        .curTheme
-                                        .primary,
-                                    size: 50)),
+                          AppButton.buildAppButton(
+                            context,
+                            AppButtonType.PRIMARY,
+                            "I've Backed It Up",
+                            Dimens.BUTTON_BOTTOM_DIMENS,
+                            onPressed: () {
+                              sl.get<Vault>().setSeed(_seed).then((result) {
+                                // Update wallet
+                                NanoUtil().loginAccount(context).then((_) {
+                                  StateContainer.of(context).requestUpdate();
+                                  Navigator.of(context)
+                                      .pushNamed('/intro_backup_confirm');
+                                });
+                              });
+                            },
                           ),
                         ],
                       ),
