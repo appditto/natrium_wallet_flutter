@@ -58,6 +58,22 @@ class AppStyles {
       fontWeight: FontWeight.w700,
       color: StateContainer.of(context).curTheme.primary);
   }
+  // Text style for small outline button
+  static TextStyle textStyleButtonPrimarySmallOutline(BuildContext context) {
+    return TextStyle(
+      fontFamily: "NunitoSans",
+      fontSize: AppFontSizes.small,
+      fontWeight: FontWeight.w700,
+      color: StateContainer.of(context).curTheme.primary);
+  }
+  // Text style for small success outline button
+  static TextStyle textStyleButtonSuccessSmallOutline(BuildContext context) {
+    return TextStyle(
+      fontFamily: "NunitoSans",
+      fontSize: AppFontSizes.small,
+      fontWeight: FontWeight.w700,
+      color: StateContainer.of(context).curTheme.success);
+  }
   static TextStyle textStyleButtonPrimaryOutlineDisabled(BuildContext context) {
     return TextStyle(
       fontFamily: "NunitoSans",
@@ -380,6 +396,15 @@ class AppStyles {
     return TextStyle(
       fontSize: AppFontSizes.smallest,
       color: StateContainer.of(context).curTheme.primary,
+      fontFamily: 'OverpassMono',
+      fontWeight: FontWeight.w100,
+    );
+  }
+  // Text style for mnemonic success
+  static TextStyle textStyleMnemonicSuccess(BuildContext context) {
+    return TextStyle(
+      fontSize: AppFontSizes.smallest,
+      color: StateContainer.of(context).curTheme.success,
       fontFamily: 'OverpassMono',
       fontWeight: FontWeight.w100,
     );

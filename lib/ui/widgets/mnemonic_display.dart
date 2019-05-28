@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 
 import 'package:natrium_wallet_flutter/util/clipboardutil.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
@@ -60,7 +61,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
                 ),
                 TextSpan(
                   text: widget.wordList[curWord],
-                  style: AppStyles.textStyleMnemonic(context),
+                  style: _seedCopied?AppStyles.textStyleMnemonicSuccess(context):AppStyles.textStyleMnemonic(context),
                 )
               ]),
             ),
@@ -70,7 +71,8 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
       }
       ret.add(
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
+            padding: EdgeInsets.symmetric(
+                vertical: smallScreen(context) ? 6.0 : 10.0),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center, children: items)),
       );
@@ -90,9 +92,16 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       Container(
-        // A gesture detector to decide if the is tapped or not
-        child: new GestureDetector(
-          onTap: () {
+        margin: EdgeInsets.only(top: 15),
+        child: Column(
+          children: _buildMnemonicRows(),
+        ),
+      ),
+      Container(
+        margin: EdgeInsetsDirectional.only(top: 10),
+        padding: EdgeInsets.all(0.0),
+        child: OutlineButton(
+          onPressed: () {
             Clipboard.setData(
                 new ClipboardData(text: widget.wordList.join(' ')));
             ClipboardUtil.setClipboardClearEvent();
@@ -103,34 +112,38 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
               _seedCopiedTimer.cancel();
             }
             _seedCopiedTimer =
-                new Timer(const Duration(milliseconds: 1200), () {
+                new Timer(const Duration(milliseconds: 1500), () {
               setState(() {
                 _seedCopied = false;
               });
             });
           },
-          // The seed
-          child: Container(
-            margin: EdgeInsets.only(top: 15),
-            child: Column(
-              children: _buildMnemonicRows(),
-            ),
-          ),
-        ),
-      ),
-      // "Seed copied to Clipboard" text that appaears when seed is tapped
-      Container(
-        margin: EdgeInsets.only(top: 5),
-        child: Text(AppLocalization.of(context).seedCopied,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14.0,
+          splashColor: _seedCopied
+              ? Colors.transparent
+              : StateContainer.of(context).curTheme.primary30,
+          highlightColor: _seedCopied
+              ? Colors.transparent
+              : StateContainer.of(context).curTheme.primary15,
+          highlightedBorderColor: _seedCopied
+              ? StateContainer.of(context).curTheme.success
+              : StateContainer.of(context).curTheme.primary,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100.0)),
+          borderSide: BorderSide(
               color: _seedCopied
                   ? StateContainer.of(context).curTheme.success
-                  : Colors.transparent,
-              fontFamily: 'NunitoSans',
-              fontWeight: FontWeight.w600,
-            )),
+                  : StateContainer.of(context).curTheme.primary,
+              width: 1.0),
+          child: AutoSizeText(
+            _seedCopied ? "Copied to Clipboard" : "Copy to Clipboard",
+            textAlign: TextAlign.center,
+            style: _seedCopied
+                ? AppStyles.textStyleButtonSuccessSmallOutline(context)
+                : AppStyles.textStyleButtonPrimarySmallOutline(context),
+            maxLines: 1,
+            stepGranularity: 0.5,
+          ),
+        ),
       ),
     ]);
   }
