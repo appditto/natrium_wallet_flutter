@@ -118,7 +118,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                               child: Column(
                                 children: <Widget>[
                                   AutoSizeText(
-                                    "In the next screen, you will see your secret phrase. It is like a complex master password to access your funds. It is crucial that you back it up and never share it with anyone.",
+                                    "In the next screen, you will see your secret phrase. It is a complex and secure master password to access your funds. It is crucial that you back it up and never share it with anyone.",
                                     style:
                                         AppStyles.textStyleParagraph(context),
                                     maxLines: 7,
