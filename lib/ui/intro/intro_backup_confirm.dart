@@ -41,7 +41,8 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                           children: <Widget>[
                             // Back Button
                             Container(
-                              margin: EdgeInsetsDirectional.only(start: 20),
+                              margin: EdgeInsetsDirectional.only(
+                                  start: smallScreen(context) ? 15 : 20),
                               height: 50,
                               width: 50,
                               child: FlatButton(
@@ -68,20 +69,25 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                         ),
                         // The header
                         Container(
-                          margin:
-                              EdgeInsets.only(top: 15.0, left: 50, right: 50),
+                          margin: EdgeInsetsDirectional.only(
+                            start: smallScreen(context) ? 30 : 40,
+                            end: smallScreen(context) ? 30 : 40,
+                            top: 10,
+                          ),
                           alignment: AlignmentDirectional(-1, 0),
                           child: Text(
-                            AppLocalization.of(context).backupYourSeed,
+                            "Did you back up your secret phrase?",
                             style: AppStyles.textStyleHeaderColored(context),
                           ),
                         ),
                         // The paragraph
                         Container(
-                          margin:
-                              EdgeInsets.only(left: 50, right: 50, top: 15.0),
+                          margin: EdgeInsetsDirectional.only(
+                                  start: smallScreen(context) ? 30 : 40,
+                                  end: smallScreen(context) ? 30 : 40,
+                                  top: 15.0),
                           child: AutoSizeText(
-                            AppLocalization.of(context).backupSeedConfirm,
+                            "It is crucial that you back it up, without it, you won't be able to access your funds!",
                             style: AppStyles.textStyleParagraph(context),
                             maxLines: 5,
                             stepGranularity: 0.5,

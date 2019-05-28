@@ -61,7 +61,8 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               children: <Widget>[
                                 // Back Button
                                 Container(
-                                  margin: EdgeInsetsDirectional.only(start: 10),
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: smallScreen(context) ? 15 : 20),
                                   height: 50,
                                   width: 50,
                                   child: FlatButton(
@@ -89,7 +90,10 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             // The header
                             Container(
                               margin: EdgeInsetsDirectional.only(
-                                  start: 40, end: 40),
+                                start: smallScreen(context) ? 30 : 40,
+                                end: smallScreen(context) ? 30 : 40,
+                                top: 10,
+                              ),
                               alignment: AlignmentDirectional(-1, 0),
                               child: Text(
                                 "Secret Phrase",
@@ -108,7 +112,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsetsDirectional.only(end: 30),
+                            margin: EdgeInsetsDirectional.only(end: 20),
                             height: 50,
                             width: 50,
                             child: FlatButton(

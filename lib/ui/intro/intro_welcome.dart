@@ -53,7 +53,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                         //Container for the paragraph
                         Container(
                           margin: EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 20),
+                              horizontal: smallScreen(context)?30:40, vertical: 20),
                           child: AutoSizeText(
                             AppLocalization.of(context).welcomeText,
                             style: AppStyles.textStyleParagraph(context),

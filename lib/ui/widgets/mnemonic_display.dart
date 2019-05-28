@@ -34,15 +34,19 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
     List<Widget> ret = [];
     for (int i = 0; i < nRows; i++) {
       ret.add(Container(
-        width: (MediaQuery.of(context).size.width - (smallScreen(context)?0:60)),
+        width: (MediaQuery.of(context).size.width -
+            (smallScreen(context) ? 0 : 60)),
         height: 1,
         color: StateContainer.of(context).curTheme.text05,
       ));
       // Build individual items
       List<Widget> items = [];
       for (int j = 0; j < itemsPerRow; j++) {
-        items.add(Container(
-            width: (MediaQuery.of(context).size.width - (smallScreen(context)?15:60)) / itemsPerRow,
+        items.add(
+          Container(
+            width: (MediaQuery.of(context).size.width -
+                    (smallScreen(context) ? 15 : 60)) /
+                itemsPerRow,
             child: RichText(
               textAlign: TextAlign.start,
               text: TextSpan(children: [
@@ -59,14 +63,25 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
                   style: AppStyles.textStyleMnemonic(context),
                 )
               ]),
-            )));
+            ),
+          ),
+        );
         curWord++;
       }
-      ret.add(Padding(
-          padding: EdgeInsets.symmetric(vertical: 6.0),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: items)));
+      ret.add(
+        Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center, children: items)),
+      );
+      if (curWord == itemsPerRow * nRows) {
+        ret.add(Container(
+          width: (MediaQuery.of(context).size.width -
+              (smallScreen(context) ? 0 : 60)),
+          height: 1,
+          color: StateContainer.of(context).curTheme.text05,
+        ));
+      }
     }
     return ret;
   }
@@ -96,7 +111,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
           },
           // The seed
           child: Container(
-            margin: EdgeInsets.only(top: 25),
+            margin: EdgeInsets.only(top: 15),
             child: Column(
               children: _buildMnemonicRows(),
             ),

@@ -46,13 +46,14 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                       //A widget that holds the header, the paragraph, the seed, "seed copied" text and the back button
                       Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Row(
                               children: <Widget>[
                                 // Back Button
                                 Container(
-                                  margin: EdgeInsetsDirectional.only(start: smallScreen(context)?15:20),
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: smallScreen(context) ? 15 : 20),
                                   height: 50,
                                   width: 50,
                                   child: FlatButton(
@@ -77,11 +78,25 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                                 ),
                               ],
                             ),
+                            // Safety icon
+                            Container(
+                              margin: EdgeInsetsDirectional.only(
+                                start: smallScreen(context) ? 30 : 40,
+                                top: 15,
+                              ),
+                              child: Icon(
+                                AppIcons.security,
+                                size: 60,
+                                color:
+                                    StateContainer.of(context).curTheme.primary,
+                              ),
+                            ),
                             // The header
                             Container(
                               margin: EdgeInsetsDirectional.only(
-                                start: smallScreen(context) ? 30 : 50,
-                                end: smallScreen(context) ? 30 : 50,
+                                start: smallScreen(context) ? 30 : 40,
+                                end: smallScreen(context) ? 30 : 40,
+                                top: 10,
                               ),
                               alignment: AlignmentDirectional(-1, 0),
                               child: Text(
@@ -93,8 +108,8 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                             // The paragraph
                             Container(
                               margin: EdgeInsetsDirectional.only(
-                                  start: smallScreen(context) ? 30 : 50,
-                                  end: smallScreen(context) ? 30 : 50,
+                                  start: smallScreen(context) ? 30 : 40,
+                                  end: smallScreen(context) ? 30 : 40,
                                   top: 15.0),
                               alignment: Alignment.centerLeft,
                               child: Column(
@@ -107,11 +122,12 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                                     stepGranularity: 0.5,
                                   ),
                                   Container(
-                                    margin: EdgeInsetsDirectional.only(top: 10),
+                                    margin: EdgeInsetsDirectional.only(top: 15),
                                     child: AutoSizeText(
                                       "Without your secret phrase, you won't be able to access your funds!",
                                       style:
-                                          AppStyles.textStyleParagraphPrimary(context),
+                                          AppStyles.textStyleParagraphPrimary(
+                                              context),
                                       maxLines: 7,
                                       stepGranularity: 0.5,
                                     ),
@@ -128,7 +144,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsetsDirectional.only(end: 30),
+                            margin: EdgeInsetsDirectional.only(end: 20),
                             height: 50,
                             width: 50,
                             child: FlatButton(
