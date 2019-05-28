@@ -76,7 +76,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                               AppButtonType.PRIMARY,
                               AppLocalization.of(context).newWallet,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                            Navigator.of(context).pushNamed('/intro_backup');
+                            Navigator.of(context).pushNamed('/intro_backup_safety');
                           }),
                         ],
                       ),

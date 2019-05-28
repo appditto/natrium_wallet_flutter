@@ -11,22 +11,13 @@ import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/mnemonic_display.dart';
 
-class IntroBackupSeedPage extends StatefulWidget {
+class IntroBackupSafetyPage extends StatefulWidget {
   @override
-  _IntroBackupSeedState createState() => _IntroBackupSeedState();
+  _IntroBackupSafetyState createState() => _IntroBackupSafetyState();
 }
 
-class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
+class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String _seed;
-  List<String> _mnemonic;
-
-  @override
-  void initState() {
-    super.initState();
-    _seed = NanoSeeds.generateSeed();
-    _mnemonic = NanoMnemomics.seedToMnemonic(_seed);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +52,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               children: <Widget>[
                                 // Back Button
                                 Container(
-                                  margin: EdgeInsetsDirectional.only(start: 10),
+                                  margin: EdgeInsetsDirectional.only(start: smallScreen(context)?15:20),
                                   height: 50,
                                   width: 50,
                                   child: FlatButton(
@@ -89,16 +80,45 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             // The header
                             Container(
                               margin: EdgeInsetsDirectional.only(
-                                  start: 40, end: 40),
+                                start: smallScreen(context) ? 30 : 50,
+                                end: smallScreen(context) ? 30 : 50,
+                              ),
                               alignment: AlignmentDirectional(-1, 0),
                               child: Text(
-                                "Secret Phrase",
+                                "Safety First!",
                                 style:
                                     AppStyles.textStyleHeaderColored(context),
                               ),
                             ),
-                            // Mnemonic word list
-                            MnemonicDisplay(_mnemonic),
+                            // The paragraph
+                            Container(
+                              margin: EdgeInsetsDirectional.only(
+                                  start: smallScreen(context) ? 30 : 50,
+                                  end: smallScreen(context) ? 30 : 50,
+                                  top: 15.0),
+                              alignment: Alignment.centerLeft,
+                              child: Column(
+                                children: <Widget>[
+                                  AutoSizeText(
+                                    "In the next screen, you will see your secret phrase. It is like a complex master password to access your funds. It is crucial that you back it up and never share it with anyone.",
+                                    style:
+                                        AppStyles.textStyleParagraph(context),
+                                    maxLines: 7,
+                                    stepGranularity: 0.5,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsetsDirectional.only(top: 10),
+                                    child: AutoSizeText(
+                                      "Without your secret phrase, you won't be able to access your funds!",
+                                      style:
+                                          AppStyles.textStyleParagraphPrimary(context),
+                                      maxLines: 7,
+                                      stepGranularity: 0.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -119,15 +139,8 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                     .curTheme
                                     .primary15,
                                 onPressed: () {
-                                  sl.get<Vault>().setSeed(_seed).then((result) {
-                                    // Update wallet
-                                    NanoUtil().loginAccount(context).then((_) {
-                                      StateContainer.of(context)
-                                          .requestUpdate();
-                                      Navigator.of(context)
-                                          .pushNamed('/intro_backup_confirm');
-                                    });
-                                  });
+                                  Navigator.of(context)
+                                      .pushNamed('/intro_backup');
                                 },
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(50.0)),

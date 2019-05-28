@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
+import 'package:natrium_wallet_flutter/ui/intro/intro_backup_safety.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 
@@ -192,6 +193,11 @@ class _AppState extends State<App> {
             case '/intro_backup':
               return MaterialPageRoute(
                 builder: (_) => IntroBackupSeedPage(),
+                settings: settings,
+              );
+            case '/intro_backup_safety':
+              return MaterialPageRoute(
+                builder: (_) => IntroBackupSafetyPage(),
                 settings: settings,
               );
             case '/intro_backup_confirm':
