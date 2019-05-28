@@ -110,7 +110,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               ),
                             ),   
                             // Mnemonic word list
-                            MnemonicDisplay(_mnemonic)
+                            MnemonicDisplay(_mnemonic),
                           ],
                         ),
                       ),

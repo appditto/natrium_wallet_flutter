@@ -33,43 +33,40 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
     int curWord = 0;
     List<Widget> ret = [];
     for (int i = 0; i < nRows; i++) {
+      ret.add(Container(
+        width: (MediaQuery.of(context).size.width - 60),
+        height: 1,
+        color: StateContainer.of(context).curTheme.text05,
+      ));
       // Build individual items
       List<Widget> items = [];
       for (int j = 0; j < itemsPerRow; j++) {
-        items.add(
-          Container(
-            width: (MediaQuery.of(context).size.width-60) / itemsPerRow,
+        items.add(Container(
+            width: (MediaQuery.of(context).size.width - 60) / itemsPerRow,
             child: RichText(
               textAlign: TextAlign.start,
               text: TextSpan(children: [
                 TextSpan(
+                  text: curWord < 9 ? " " : "",
+                  style: AppStyles.textStyleNumbersOfMnemonic(context),
+                ),
+                TextSpan(
                   text: " ${curWord + 1}) ",
-                  style: AppStyles
-                      .textStyleNumbersOfMnemonic(
-                          context),
+                  style: AppStyles.textStyleNumbersOfMnemonic(context),
                 ),
                 TextSpan(
                   text: widget.wordList[curWord],
-                  style: AppStyles
-                      .textStyleMnemonic(
-                          context),
+                  style: AppStyles.textStyleMnemonic(context),
                 )
               ]),
-            )
-          )
-        );
+            )));
         curWord++;
       }
-      ret.add(
-        Padding(
-          padding: EdgeInsets.symmetric(vertical:3.0),
+      ret.add(Padding(
+          padding: EdgeInsets.symmetric(vertical: 6.0),
           child: Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
-            children: items
-          )
-        )
-      );
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: items)));
     }
     return ret;
   }
@@ -78,52 +75,48 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       Container(
-          // A gesture detector to decide if the is tapped or not
-          child: new GestureDetector(
-            onTap: () {
-              Clipboard.setData(
-                  new ClipboardData(text: widget.wordList.join(' ')));
-              ClipboardUtil.setClipboardClearEvent();
+        // A gesture detector to decide if the is tapped or not
+        child: new GestureDetector(
+          onTap: () {
+            Clipboard.setData(
+                new ClipboardData(text: widget.wordList.join(' ')));
+            ClipboardUtil.setClipboardClearEvent();
+            setState(() {
+              _seedCopied = true;
+            });
+            if (_seedCopiedTimer != null) {
+              _seedCopiedTimer.cancel();
+            }
+            _seedCopiedTimer =
+                new Timer(const Duration(milliseconds: 1200), () {
               setState(() {
-                _seedCopied = true;
+                _seedCopied = false;
               });
-              if (_seedCopiedTimer != null) {
-                _seedCopiedTimer.cancel();
-              }
-              _seedCopiedTimer = new Timer(
-                  const Duration(milliseconds: 1200), () {
-                setState(() {
-                  _seedCopied = false;
-                });
-              });
-            },
-            // The seed
-            child: Container(
-              padding: EdgeInsets.only(
-                  left: 30.0, right: 10),
-              margin: EdgeInsets.only(top: 25),
-              child: Column(
-                children: _buildMnemonicRows(),
-              ),
+            });
+          },
+          // The seed
+          child: Container(
+            margin: EdgeInsets.only(top: 25),
+            child: Column(
+              children: _buildMnemonicRows(),
             ),
           ),
         ),
-        // "Seed copied to Clipboard" text that appaears when seed is tapped
-        Container(
-          margin: EdgeInsets.only(top: 5),
-          child:
-              Text(AppLocalization.of(context).seedCopied,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: _seedCopied ? StateContainer.of(context)
-                        .curTheme
-                        .success :
-                        Colors.transparent,
-                    fontFamily: 'NunitoSans',
-                    fontWeight: FontWeight.w600,
-                  )),
-        ),
+      ),
+      // "Seed copied to Clipboard" text that appaears when seed is tapped
+      Container(
+        margin: EdgeInsets.only(top: 5),
+        child: Text(AppLocalization.of(context).seedCopied,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14.0,
+              color: _seedCopied
+                  ? StateContainer.of(context).curTheme.success
+                  : Colors.transparent,
+              fontFamily: 'NunitoSans',
+              fontWeight: FontWeight.w600,
+            )),
+      ),
     ]);
   }
 }
