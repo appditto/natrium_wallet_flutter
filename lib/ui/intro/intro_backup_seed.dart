@@ -21,6 +21,7 @@ class IntroBackupSeedPage extends StatefulWidget {
 class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _seed;
+  List<String> _mnemonic;
   TextStyle _seedTapStyle;
   var _seedCopiedColor = Colors.transparent;
   Timer _seedCopiedTimer;
@@ -31,6 +32,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   void initState() {
     super.initState();
     _seed = NanoSeeds.generateSeed();
+    _mnemonic = NanoMnemomics.seedToMnemonic(_seed);
   }
 
   @override
@@ -117,46 +119,679 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                             Container(
                               // A gesture detector to decide if the is tapped or not
                               child: new GestureDetector(
-                                  onTap: () {
-                                    Clipboard.setData(
-                                        new ClipboardData(text: _seed));
-                                    ClipboardUtil.setClipboardClearEvent();
+                                onTap: () {
+                                  Clipboard.setData(
+                                      new ClipboardData(text: _seed));
+                                  ClipboardUtil.setClipboardClearEvent();
+                                  setState(() {
+                                    _seedCopied = true;
+                                    _seedCopiedColor =
+                                        StateContainer.of(context)
+                                            .curTheme
+                                            .success;
+                                  });
+                                  if (_seedCopiedTimer != null) {
+                                    _seedCopiedTimer.cancel();
+                                  }
+                                  _seedCopiedTimer = new Timer(
+                                      const Duration(milliseconds: 1200), () {
                                     setState(() {
-                                      _seedCopied = true;
-                                      _seedCopiedColor =
-                                          StateContainer.of(context)
-                                              .curTheme
-                                              .success;
+                                      _seedCopied = false;
+                                      _seedCopiedColor = Colors.transparent;
                                     });
-                                    if (_seedCopiedTimer != null) {
-                                      _seedCopiedTimer.cancel();
-                                    }
-                                    _seedCopiedTimer = new Timer(
-                                        const Duration(milliseconds: 1200), () {
-                                      setState(() {
-                                        _seedCopied = false;
-                                        _seedCopiedColor = Colors.transparent;
-                                      });
-                                    });
-                                  },
-                                  // The seed
-                                  child: new Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 25.0, vertical: 15),
-                                    margin: EdgeInsets.only(top: 25),
-                                    decoration: BoxDecoration(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .backgroundDarkest,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    child: UIUtil.threeLineSeedText(
-                                        context, _seed,
-                                        textStyle: _seedCopied
-                                            ? AppStyles.textStyleSeedGreen(
-                                                context)
-                                            : AppStyles.textStyleSeed(context)),
-                                  )),
+                                  });
+                                },
+                                // The seed
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                      left: 30.0, right: 10),
+                                  margin: EdgeInsets.only(top: 25),
+                                  child: Column(
+                                    children: <Widget>[
+                                      // Mnemonic Row 1
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical:3.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: " 1) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[0],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  
+                                                  TextSpan(
+                                                    text: " 2) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[1],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: " 3) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[2],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      // Mnemonic Row 2
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical:3.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: " 4) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[3],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  
+                                                  TextSpan(
+                                                    text: " 5) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[4],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: " 6) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[5],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      // Mnemonic Row 3
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical:3.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: " 7) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[6],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  
+                                                  TextSpan(
+                                                    text: " 8) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[7],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: " 9) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[8],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      // Mnemonic Row 4
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical:3.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "10) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[9],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  
+                                                  TextSpan(
+                                                    text: "11) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[10],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "12) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[11],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      // Mnemonic Row 5
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical:3.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "13) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[12],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  
+                                                  TextSpan(
+                                                    text: "14) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[13],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "15) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[14],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      // Mnemonic Row 6
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical:3.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "16) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[15],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  
+                                                  TextSpan(
+                                                    text: "17) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[16],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "18) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[17],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      // Mnemonic Row 7
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical:3.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "19) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[18],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  
+                                                  TextSpan(
+                                                    text: "20) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[19],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "21) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[20],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      // Mnemonic Row 8
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical:3.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "22) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[21],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  
+                                                  TextSpan(
+                                                    text: "23) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[22],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: (MediaQuery.of(context)
+                                                          .size
+                                                          .width-60) /
+                                                  3,
+                                              child: RichText(
+                                                textAlign: TextAlign.start,
+                                                text: TextSpan(children: [
+                                                  TextSpan(
+                                                    text: "24) ",
+                                                    style: AppStyles
+                                                        .textStyleNumbersOfMnemonic(
+                                                            context),
+                                                  ),
+                                                  TextSpan(
+                                                    text: _mnemonic[23],
+                                                    style: AppStyles
+                                                        .textStyleMnemonic(
+                                                            context),
+                                                  )
+                                                ]),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
                             // "Seed copied to Clipboard" text that appaears when seed is tapped
                             Container(
@@ -194,7 +829,8 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                   sl.get<Vault>().setSeed(_seed).then((result) {
                                     // Update wallet
                                     NanoUtil().loginAccount(context).then((_) {
-                                      StateContainer.of(context).requestUpdate();
+                                      StateContainer.of(context)
+                                          .requestUpdate();
                                       Navigator.of(context)
                                           .pushNamed('/intro_backup_confirm');
                                     });

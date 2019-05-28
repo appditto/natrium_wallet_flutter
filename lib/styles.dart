@@ -375,6 +375,24 @@ class AppStyles {
       fontWeight: FontWeight.w600,
     );
   }
+  // Text style for mnemonic
+  static TextStyle textStyleMnemonic(BuildContext context) {
+    return TextStyle(
+      fontSize: AppFontSizes.smallest,
+      color: StateContainer.of(context).curTheme.primary,
+      fontFamily: 'OverpassMono',
+      fontWeight: FontWeight.w100,
+    );
+  }
+  // Text style for numbers of mnemonic
+  static TextStyle textStyleNumbersOfMnemonic(BuildContext context) {
+    return TextStyle(
+      fontSize: AppFontSizes.smallest,
+      color: StateContainer.of(context).curTheme.text30,
+      fontFamily: 'OverpassMono',
+      fontWeight: FontWeight.w100,
+    );
+  }
 }
 
 class AppFontSizes {
