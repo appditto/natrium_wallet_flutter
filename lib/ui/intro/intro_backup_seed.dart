@@ -121,7 +121,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               child: new GestureDetector(
                                 onTap: () {
                                   Clipboard.setData(
-                                      new ClipboardData(text: _seed));
+                                      new ClipboardData(text: _mnemonic.toString()));
                                   ClipboardUtil.setClipboardClearEvent();
                                   setState(() {
                                     _seedCopied = true;
