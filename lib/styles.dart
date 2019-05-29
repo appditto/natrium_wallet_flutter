@@ -394,7 +394,7 @@ class AppStyles {
   // Text style for mnemonic
   static TextStyle textStyleMnemonic(BuildContext context) {
     return TextStyle(
-      fontSize: AppFontSizes.smallest,
+      fontSize: AppFontSizes.smallText(context),
       color: StateContainer.of(context).curTheme.primary,
       fontFamily: 'OverpassMono',
       fontWeight: FontWeight.w100,
@@ -403,7 +403,7 @@ class AppStyles {
   // Text style for mnemonic success
   static TextStyle textStyleMnemonicSuccess(BuildContext context) {
     return TextStyle(
-      fontSize: AppFontSizes.smallest,
+      fontSize: AppFontSizes.smallText(context),
       color: StateContainer.of(context).curTheme.success,
       fontFamily: 'OverpassMono',
       fontWeight: FontWeight.w100,
@@ -412,7 +412,7 @@ class AppStyles {
   // Text style for numbers of mnemonic
   static TextStyle textStyleNumbersOfMnemonic(BuildContext context) {
     return TextStyle(
-      fontSize: AppFontSizes.smallest,
+      fontSize: AppFontSizes.smallText(context),
       color: StateContainer.of(context).curTheme.text30,
       fontFamily: 'OverpassMono',
       fontWeight: FontWeight.w100,
@@ -436,12 +436,17 @@ class AppFontSizes {
     }
     return _largest;
   }
-
   static double large(context) {
     if (smallScreen(context)) {
       return _sslarge;
     }
     return _large;
+  }
+  static double smallText(context) {
+    if (smallScreen(context)) {
+      return smallest;
+    }
+    return small;
   }
 }
 

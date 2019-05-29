@@ -35,8 +35,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
     List<Widget> ret = [];
     for (int i = 0; i < nRows; i++) {
       ret.add(Container(
-        width: (MediaQuery.of(context).size.width -
-            (smallScreen(context) ? 0 : 60)),
+        width: (MediaQuery.of(context).size.width),
         height: 1,
         color: StateContainer.of(context).curTheme.text05,
       ));
@@ -46,7 +45,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
         items.add(
           Container(
             width: (MediaQuery.of(context).size.width -
-                    (smallScreen(context) ? 15 : 60)) /
+                    (smallScreen(context) ? 15: 30)) /
                 itemsPerRow,
             child: RichText(
               textAlign: TextAlign.start,
@@ -78,8 +77,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
       );
       if (curWord == itemsPerRow * nRows) {
         ret.add(Container(
-          width: (MediaQuery.of(context).size.width -
-              (smallScreen(context) ? 0 : 60)),
+          width: (MediaQuery.of(context).size.width),
           height: 1,
           color: StateContainer.of(context).curTheme.text05,
         ));

@@ -61,6 +61,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 // Back Button
                                 Container(
@@ -88,6 +89,32 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                               .text,
                                           size: 24)),
                                 ),
+                                // 3 dots
+                                Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      end: smallScreen(context) ? 15 : 20),
+                                  height: 50,
+                                  width: 50,
+                                  child: FlatButton(
+                                      highlightColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
+                                      splashColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50.0)),
+                                      padding: EdgeInsets.all(0.0),
+                                      child: Icon(Icons.swap_horiz,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .text,
+                                          size: 36)),
+                                ),
                               ],
                             ),
                             // The header
@@ -98,10 +125,31 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                 top: 10,
                               ),
                               alignment: AlignmentDirectional(-1, 0),
-                              child: Text(
-                                "Secret Phrase",
-                                style:
-                                    AppStyles.textStyleHeaderColored(context),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width-(smallScreen(context)?120:140)),
+                                    child: AutoSizeText(
+                                      "Secret Phrase",
+                                      style: AppStyles.textStyleHeaderColored(
+                                          context),
+                                      stepGranularity: 0.1,
+                                      minFontSize: 12.0,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsetsDirectional.only(
+                                        start: 10, end: 10),
+                                    child: Icon(
+                                      Icons.vpn_key,
+                                      size: 36,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             // Mnemonic word list
