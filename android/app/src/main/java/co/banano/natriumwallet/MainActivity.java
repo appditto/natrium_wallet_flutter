@@ -2,13 +2,13 @@ package co.banano.natriumwallet;
 
 import android.os.Bundle;
 
-import io.flutter.app.FlutterActivity;
+import io.flutter.app.FlutterFragmentActivity;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 import io.flutter.view.FlutterMain;
 
-public class MainActivity extends FlutterActivity {
+public class MainActivity extends FlutterFragmentActivity {
   private static final String CHANNEL = "fappchannel";
 
   @Override
