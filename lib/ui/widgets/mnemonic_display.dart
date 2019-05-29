@@ -45,7 +45,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
         items.add(
           Container(
             width: (MediaQuery.of(context).size.width -
-                    (smallScreen(context) ? 15: 30)) /
+                    (smallScreen(context) ? 15 : 30)) /
                 itemsPerRow,
             child: RichText(
               textAlign: TextAlign.start,
@@ -60,7 +60,9 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
                 ),
                 TextSpan(
                   text: widget.wordList[curWord],
-                  style: _seedCopied?AppStyles.textStyleMnemonicSuccess(context):AppStyles.textStyleMnemonic(context),
+                  style: _seedCopied
+                      ? AppStyles.textStyleMnemonicSuccess(context)
+                      : AppStyles.textStyleMnemonic(context),
                 )
               ]),
             ),
@@ -72,8 +74,11 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
         Padding(
             padding: EdgeInsets.symmetric(
                 vertical: smallScreen(context) ? 6.0 : 10.0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center, children: items)),
+            child: Container(
+              margin: EdgeInsetsDirectional.only(start: 5),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center, children: items),
+            )),
       );
       if (curWord == itemsPerRow * nRows) {
         ret.add(Container(
