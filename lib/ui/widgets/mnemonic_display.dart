@@ -20,7 +20,7 @@ class MnemonicDisplay extends StatefulWidget {
 }
 
 class _MnemonicDisplayState extends State<MnemonicDisplay> {
-  static final List<String> _obscuredSeed = List.filled(24, '●' * 8);
+  static final List<String> _obscuredSeed = List.filled(24, '●' * 6);
   bool _seedCopied;
   bool _seedObscured;
   Timer _seedCopiedTimer;
