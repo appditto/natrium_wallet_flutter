@@ -15,13 +15,13 @@ class PlainSeedDisplay extends StatefulWidget {
   final String seed;
   final bool obscureSeed;
 
-  PlainSeedDisplay({@required this.seed, this.obscureSeed});
+  PlainSeedDisplay({@required this.seed, this.obscureSeed = false});
 
   _PlainSeedDisplayState createState() => _PlainSeedDisplayState();
 }
 
 class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
-  static final String OBSCURED_SEED = '●' * 64;
+  static final String _obscuredSeed = '●' * 64;
 
   bool _seedCopied;
   bool _seedObscured;
@@ -78,7 +78,7 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
               ),
               child: UIUtil.threeLineSeedText(
                   context,
-                  widget.obscureSeed && _seedObscured ? OBSCURED_SEED : widget.seed,
+                  widget.obscureSeed && _seedObscured ? _obscuredSeed : widget.seed,
                   textStyle: _seedCopied
                       ? AppStyles.textStyleSeedGreen(
                           context)

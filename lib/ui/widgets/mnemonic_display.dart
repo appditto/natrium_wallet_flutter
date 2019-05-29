@@ -12,20 +12,24 @@ import 'package:natrium_wallet_flutter/styles.dart';
 /// A widget for displaying a mnemonic phrase
 class MnemonicDisplay extends StatefulWidget {
   final List<String> wordList;
+  final bool obscureSeed;
 
-  MnemonicDisplay({@required this.wordList});
+  MnemonicDisplay({@required this.wordList, this.obscureSeed = false});
 
   _MnemonicDisplayState createState() => _MnemonicDisplayState();
 }
 
 class _MnemonicDisplayState extends State<MnemonicDisplay> {
+  static final List<String> _obscuredSeed = List.filled(24, '●' * 8);
   bool _seedCopied;
+  bool _seedObscured;
   Timer _seedCopiedTimer;
 
   @override
   void initState() {
     super.initState();
     _seedCopied = false;
+    _seedObscured = true;
   }
 
   List<Widget> _buildMnemonicRows() {
@@ -59,7 +63,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
                   style: AppStyles.textStyleNumbersOfMnemonic(context),
                 ),
                 TextSpan(
-                  text: widget.wordList[curWord],
+                  text: _seedObscured && widget.obscureSeed ? _obscuredSeed[curWord] : widget.wordList[curWord],
                   style: _seedCopied
                       ? AppStyles.textStyleMnemonicSuccess(context)
                       : AppStyles.textStyleMnemonic(context),
@@ -94,10 +98,19 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      Container(
-        margin: EdgeInsets.only(top: 15),
-        child: Column(
-          children: _buildMnemonicRows(),
+      GestureDetector(
+        onTap: () {
+          if (widget.obscureSeed) {
+            setState(() {
+              _seedObscured = !_seedObscured;
+            });
+          }
+        },
+        child: Container(
+          margin: EdgeInsets.only(top: 15),
+          child: Column(
+            children: _buildMnemonicRows(),
+          ),
         ),
       ),
       Container(
