@@ -16,13 +16,14 @@ class PlainSeedDisplay extends StatefulWidget {
   final bool obscureSeed;
   final bool showButton;
 
-  PlainSeedDisplay({@required this.seed, this.obscureSeed = false, this.showButton = true});
+  PlainSeedDisplay(
+      {@required this.seed, this.obscureSeed = false, this.showButton = true});
 
   _PlainSeedDisplayState createState() => _PlainSeedDisplayState();
 }
 
 class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
-  static final String _obscuredSeed = '●' * 64;
+  static final String _obscuredSeed = '•' * 64;
 
   bool _seedCopied;
   bool _seedObscured;
@@ -35,127 +36,122 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
     _seedObscured = true;
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         // The paragraph
         Container(
           margin: EdgeInsets.only(
-              left:
-                  smallScreen(context) ? 30 : 40,
-              right:
-                  smallScreen(context) ? 30 : 40,
+              left: smallScreen(context) ? 30 : 40,
+              right: smallScreen(context) ? 30 : 40,
               top: 15.0),
           alignment: Alignment.centerLeft,
           child: AutoSizeText(
-            "A seed is just a different way your secret phrase can be represented. As long as you have one of them backed up, you'll have access to your funds.",
-            style: AppStyles.textStyleParagraph(
-                context),
+            "A seed bears the same information as a secret phase, but in a machine-readable way. As long as you have one of them backed up, you'll have access to your funds.",
+            style: AppStyles.textStyleParagraph(context),
             maxLines: 5,
             stepGranularity: 0.5,
           ),
         ),
         // Container for the seed
         GestureDetector(
-          onTap: () {
-            if (widget.obscureSeed) {
-              setState(() {
-                _seedObscured = !_seedObscured;
-              });
-            }
-          },
-          child: 
-            Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 25.0, vertical: 15),
-              margin: EdgeInsets.only(top: 25),
-              decoration: BoxDecoration(
-                color: StateContainer.of(context)
-                    .curTheme
-                    .backgroundDarkest,
-                borderRadius:
-                    BorderRadius.circular(25),
-              ),
-              child: UIUtil.threeLineSeedText(
-                  context,
-                  widget.obscureSeed && _seedObscured ? _obscuredSeed : widget.seed,
-                  textStyle: _seedCopied
-                      ? AppStyles.textStyleSeedGreen(
-                          context)
-                      : AppStyles.textStyleSeed(
-                          context)),
-            )
-        ),
-        // Container for the copy button
-        widget.showButton?Container(
-          margin:
-              EdgeInsetsDirectional.only(top: 5),
-          padding: EdgeInsets.all(0.0),
-          child: OutlineButton(
-            onPressed: () {
-              Clipboard.setData(
-                  new ClipboardData(text: widget.seed));
-              ClipboardUtil
-                  .setClipboardClearEvent();
-              setState(() {
-                _seedCopied = true;
-              });
-              if (_seedCopiedTimer != null) {
-                _seedCopiedTimer.cancel();
-              }
-              _seedCopiedTimer = new Timer(
-                  const Duration(
-                      milliseconds: 1500), () {
+            onTap: () {
+              if (widget.obscureSeed) {
                 setState(() {
-                  _seedCopied = false;
+                  _seedObscured = !_seedObscured;
                 });
-              });
+              }
             },
-            splashColor: _seedCopied
-                ? Colors.transparent
-                : StateContainer.of(context)
-                    .curTheme
-                    .primary30,
-            highlightColor: _seedCopied
-                ? Colors.transparent
-                : StateContainer.of(context)
-                    .curTheme
-                    .primary15,
-            highlightedBorderColor: _seedCopied
-                ? StateContainer.of(context)
-                    .curTheme
-                    .success
-                : StateContainer.of(context)
-                    .curTheme
-                    .primary,
-            shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(100.0)),
-            borderSide: BorderSide(
-                color: _seedCopied
-                    ? StateContainer.of(context)
-                        .curTheme
-                        .success
-                    : StateContainer.of(context)
-                        .curTheme
-                        .primary,
-                width: 1.0),
-            child: AutoSizeText(
-              _seedCopied ? "Copied" : "Copy",
-              textAlign: TextAlign.center,
-              style: _seedCopied
-                  ? AppStyles
-                      .textStyleButtonSuccessSmallOutline(
-                          context)
-                  : AppStyles
-                      .textStyleButtonPrimarySmallOutline(
-                          context),
-              maxLines: 1,
-              stepGranularity: 0.5,
-            ),
-          ),
-        ):SizedBox(),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
+                  margin: EdgeInsets.only(top: 25),
+                  decoration: BoxDecoration(
+                    color:
+                        StateContainer.of(context).curTheme.backgroundDarkest,
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: UIUtil.threeLineSeedText(
+                      context,
+                      widget.obscureSeed && _seedObscured
+                          ? _obscuredSeed
+                          : widget.seed,
+                      textStyle: _seedCopied
+                          ? AppStyles.textStyleSeedGreen(context)
+                          : AppStyles.textStyleSeed(context)),
+                ),
+                // Tap to reveal or hide
+                widget.obscureSeed
+                    ?
+                    Container(
+                        margin: EdgeInsetsDirectional.only(top:8),
+                        child: _seedObscured
+                            ? AutoSizeText(
+                                "Tap to reveal",
+                                style: AppStyles.textStyleParagraphThinPrimary(
+                                    context),
+                              )
+                            : Text(
+                                "Tap to hide",
+                                style: AppStyles.textStyleParagraphThinPrimary(
+                                    context),
+                              ),
+                      )
+                    : SizedBox(),
+              ],
+            )),
+        // Container for the copy button
+        widget.showButton
+            ? Container(
+                margin: EdgeInsetsDirectional.only(top: 5),
+                padding: EdgeInsets.all(0.0),
+                child: OutlineButton(
+                  onPressed: () {
+                    Clipboard.setData(new ClipboardData(text: widget.seed));
+                    ClipboardUtil.setClipboardClearEvent();
+                    setState(() {
+                      _seedCopied = true;
+                    });
+                    if (_seedCopiedTimer != null) {
+                      _seedCopiedTimer.cancel();
+                    }
+                    _seedCopiedTimer =
+                        new Timer(const Duration(milliseconds: 1500), () {
+                      setState(() {
+                        _seedCopied = false;
+                      });
+                    });
+                  },
+                  splashColor: _seedCopied
+                      ? Colors.transparent
+                      : StateContainer.of(context).curTheme.primary30,
+                  highlightColor: _seedCopied
+                      ? Colors.transparent
+                      : StateContainer.of(context).curTheme.primary15,
+                  highlightedBorderColor: _seedCopied
+                      ? StateContainer.of(context).curTheme.success
+                      : StateContainer.of(context).curTheme.primary,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100.0)),
+                  borderSide: BorderSide(
+                      color: _seedCopied
+                          ? StateContainer.of(context).curTheme.success
+                          : StateContainer.of(context).curTheme.primary,
+                      width: 1.0),
+                  child: AutoSizeText(
+                    _seedCopied ? "Copied" : "Copy",
+                    textAlign: TextAlign.center,
+                    style: _seedCopied
+                        ? AppStyles.textStyleButtonSuccessSmallOutline(context)
+                        : AppStyles.textStyleButtonPrimarySmallOutline(context),
+                    maxLines: 1,
+                    stepGranularity: 0.5,
+                  ),
+                ),
+              )
+            : SizedBox(),
       ],
     );
   }

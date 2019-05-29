@@ -8,6 +8,7 @@ import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
 class IntroBackupSafetyPage extends StatefulWidget {
   @override
@@ -102,7 +103,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                           child: Column(
                             children: <Widget>[
                               AutoSizeText(
-                                "In the next screen, you will see your secret phrase. It is a complex and secure master password to access your funds. It is crucial that you back it up and never share it with anyone.",
+                                "In the next screen, you will see your secret phrase. It is a password to access your funds. It is crucial that you back it up and never share it with anyone.",
                                 style:
                                     AppStyles.textStyleParagraph(context),
                                 maxLines: 7,

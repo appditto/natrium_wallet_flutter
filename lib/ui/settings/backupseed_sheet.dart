@@ -108,7 +108,7 @@ class AppSeedBackupSheet {
                                         showMnemonic = !showMnemonic;
                                       });
                                     },
-                                    child: Icon(AppIcons.seed,
+                                    child: Icon(showMnemonic?AppIcons.seed:Icons.vpn_key,
                                         size: 24,
                                         color: StateContainer.of(context)
                                             .curTheme

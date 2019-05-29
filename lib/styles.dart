@@ -18,11 +18,19 @@ class AppStyles {
       fontWeight: FontWeight.w700,
       color: StateContainer.of(context).curTheme.primary);
   }
+  // Text style for thin paragraph text with primary color.
+  static TextStyle textStyleParagraphThinPrimary(BuildContext context) {
+    return TextStyle(
+      fontFamily: "NunitoSans",
+      fontSize: AppFontSizes.small,
+      fontWeight: FontWeight.w600,
+      color: StateContainer.of(context).curTheme.primary);
+  }
   // Text style for paragraph text with primary color.
   static TextStyle textStyleParagraphSuccess(BuildContext context) {
     return TextStyle(
       fontFamily: "NunitoSans",
-      fontSize: AppFontSizes.medium,
+      fontSize: AppFontSizes.small,
       fontWeight: FontWeight.w700,
       color: StateContainer.of(context).curTheme.success);
   }

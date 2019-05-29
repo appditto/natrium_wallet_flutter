@@ -15,13 +15,16 @@ class MnemonicDisplay extends StatefulWidget {
   final bool obscureSeed;
   final bool showButton;
 
-  MnemonicDisplay({@required this.wordList, this.obscureSeed = false, this.showButton = true});
+  MnemonicDisplay(
+      {@required this.wordList,
+      this.obscureSeed = false,
+      this.showButton = true});
 
   _MnemonicDisplayState createState() => _MnemonicDisplayState();
 }
 
 class _MnemonicDisplayState extends State<MnemonicDisplay> {
-  static final List<String> _obscuredSeed = List.filled(24, '●' * 6);
+  static final List<String> _obscuredSeed = List.filled(24, '•' * 6);
   bool _seedCopied;
   bool _seedObscured;
   Timer _seedCopiedTimer;
@@ -64,7 +67,9 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
                   style: AppStyles.textStyleNumbersOfMnemonic(context),
                 ),
                 TextSpan(
-                  text: _seedObscured && widget.obscureSeed ? _obscuredSeed[curWord] : widget.wordList[curWord],
+                  text: _seedObscured && widget.obscureSeed
+                      ? _obscuredSeed[curWord]
+                      : widget.wordList[curWord],
                   style: _seedCopied
                       ? AppStyles.textStyleMnemonicSuccess(context)
                       : AppStyles.textStyleMnemonic(context),
@@ -78,7 +83,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
       ret.add(
         Padding(
             padding: EdgeInsets.symmetric(
-                vertical: smallScreen(context) ? 6.0 : 10.0),
+                vertical: smallScreen(context) ? 6.0 : 9.0),
             child: Container(
               margin: EdgeInsetsDirectional.only(start: 5),
               child: Row(
@@ -107,61 +112,85 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
             });
           }
         },
-        child: Container(
-          margin: EdgeInsets.only(top: 15),
-          child: Column(
-            children: _buildMnemonicRows(),
-          ),
+        child: Column(
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(top: 15),
+              child: Column(
+                children: _buildMnemonicRows(),
+              ),
+            ),
+            // Tap to reveal or hide
+            widget.obscureSeed
+                ?
+                Container(
+                    margin: EdgeInsetsDirectional.only(top: 8),
+                    child: _seedObscured
+                        ? AutoSizeText(
+                            "Tap to reveal",
+                            style: AppStyles.textStyleParagraphThinPrimary(
+                                context),
+                          )
+                        : Text(
+                            "Tap to hide",
+                            style: AppStyles.textStyleParagraphThinPrimary(
+                                context),
+                          ),
+                  )
+                : SizedBox(),
+          ],
         ),
       ),
-      widget.showButton?Container(
-        margin: EdgeInsetsDirectional.only(top: 5),
-        padding: EdgeInsets.all(0.0),
-        child: OutlineButton(
-          onPressed: () {
-            Clipboard.setData(
-                new ClipboardData(text: widget.wordList.join(' ')));
-            ClipboardUtil.setClipboardClearEvent();
-            setState(() {
-              _seedCopied = true;
-            });
-            if (_seedCopiedTimer != null) {
-              _seedCopiedTimer.cancel();
-            }
-            _seedCopiedTimer =
-                new Timer(const Duration(milliseconds: 1500), () {
-              setState(() {
-                _seedCopied = false;
-              });
-            });
-          },
-          splashColor: _seedCopied
-              ? Colors.transparent
-              : StateContainer.of(context).curTheme.primary30,
-          highlightColor: _seedCopied
-              ? Colors.transparent
-              : StateContainer.of(context).curTheme.primary15,
-          highlightedBorderColor: _seedCopied
-              ? StateContainer.of(context).curTheme.success
-              : StateContainer.of(context).curTheme.primary,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100.0)),
-          borderSide: BorderSide(
-              color: _seedCopied
-                  ? StateContainer.of(context).curTheme.success
-                  : StateContainer.of(context).curTheme.primary,
-              width: 1.0),
-          child: AutoSizeText(
-            _seedCopied ? "Copied" : "Copy",
-            textAlign: TextAlign.center,
-            style: _seedCopied
-                ? AppStyles.textStyleButtonSuccessSmallOutline(context)
-                : AppStyles.textStyleButtonPrimarySmallOutline(context),
-            maxLines: 1,
-            stepGranularity: 0.5,
-          ),
-        ),
-      ):SizedBox(),
+      widget.showButton
+          ? Container(
+              margin: EdgeInsetsDirectional.only(top: 5),
+              padding: EdgeInsets.all(0.0),
+              child: OutlineButton(
+                onPressed: () {
+                  Clipboard.setData(
+                      new ClipboardData(text: widget.wordList.join(' ')));
+                  ClipboardUtil.setClipboardClearEvent();
+                  setState(() {
+                    _seedCopied = true;
+                  });
+                  if (_seedCopiedTimer != null) {
+                    _seedCopiedTimer.cancel();
+                  }
+                  _seedCopiedTimer =
+                      new Timer(const Duration(milliseconds: 1500), () {
+                    setState(() {
+                      _seedCopied = false;
+                    });
+                  });
+                },
+                splashColor: _seedCopied
+                    ? Colors.transparent
+                    : StateContainer.of(context).curTheme.primary30,
+                highlightColor: _seedCopied
+                    ? Colors.transparent
+                    : StateContainer.of(context).curTheme.primary15,
+                highlightedBorderColor: _seedCopied
+                    ? StateContainer.of(context).curTheme.success
+                    : StateContainer.of(context).curTheme.primary,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0)),
+                borderSide: BorderSide(
+                    color: _seedCopied
+                        ? StateContainer.of(context).curTheme.success
+                        : StateContainer.of(context).curTheme.primary,
+                    width: 1.0),
+                child: AutoSizeText(
+                  _seedCopied ? "Copied" : "Copy",
+                  textAlign: TextAlign.center,
+                  style: _seedCopied
+                      ? AppStyles.textStyleButtonSuccessSmallOutline(context)
+                      : AppStyles.textStyleButtonPrimarySmallOutline(context),
+                  maxLines: 1,
+                  stepGranularity: 0.5,
+                ),
+              ),
+            )
+          : SizedBox(),
     ]);
   }
 }
