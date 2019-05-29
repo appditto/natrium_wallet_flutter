@@ -186,7 +186,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                             top: 15.0),
                                         alignment: Alignment.centerLeft,
                                         child: AutoSizeText(
-                                          "Seed is the raw version of your secret phrase. You can use both your secret phrase and seed to access your funds. We recommend you to back up both of them.",
+                                          "A seed is just a different way your secret phrase can be represented. As long as you have one backed up, you'll always have access to your funds.",
                                           style: AppStyles.textStyleParagraph(
                                               context),
                                           maxLines: 5,
