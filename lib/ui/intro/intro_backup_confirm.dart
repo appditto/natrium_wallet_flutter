@@ -89,7 +89,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                                   end: smallScreen(context) ? 30 : 40,
                                   top: 15.0),
                           child: AutoSizeText(
-                            "If you lose your device or uninstall the application you'll need your secret phrase or seed to recover your funds!",
+                            "If you lose your device or uninstall the application, you'll need your secret phrase or seed to recover your funds!",
                             style: AppStyles.textStyleParagraph(context),
                             maxLines: 5,
                             stepGranularity: 0.5,

@@ -23,8 +23,14 @@ class AppSeedBackupSheet {
   List<String> _mnemonic;
   List<String> mnemonic;
   bool showMnemonic;
+  bool _seedCopied;
+  Timer _seedCopiedTimer;
+  bool _mnemonicCopied;
+  Timer _mnemonicCopiedTimer;
 
   mainBottomSheet(BuildContext context) {
+    _seedCopied = false;
+    _mnemonicCopied = false;
     sl.get<Vault>().getSeed().then((result) {
       _seed = result;
       _mnemonic = NanoMnemomics.seedToMnemonic(_seed);
@@ -79,7 +85,10 @@ class AppSeedBackupSheet {
                                         children: <Widget>[
                                           AutoSizeText(
                                             CaseChange.toUpperCase(
-                                                showMnemonic?"Secret Phrase":"Seed", context),
+                                                showMnemonic
+                                                    ? "Secret Phrase"
+                                                    : "Seed",
+                                                context),
                                             style: AppStyles.textStyleHeader(
                                                 context),
                                             maxLines: 1,
@@ -108,7 +117,10 @@ class AppSeedBackupSheet {
                                         showMnemonic = !showMnemonic;
                                       });
                                     },
-                                    child: Icon(showMnemonic?AppIcons.seed:Icons.vpn_key,
+                                    child: Icon(
+                                        showMnemonic
+                                            ? AppIcons.seed
+                                            : Icons.vpn_key,
                                         size: 24,
                                         color: StateContainer.of(context)
                                             .curTheme
@@ -133,26 +145,80 @@ class AppSeedBackupSheet {
                             children: <Widget>[
                               showMnemonic
                                   ? MnemonicDisplay(
-                                      wordList: _mnemonic, obscureSeed: true, showButton: false,)
+                                      wordList: _mnemonic,
+                                      obscureSeed: true,
+                                      showButton: false,
+                                    )
                                   : PlainSeedDisplay(
-                                      seed: _seed, obscureSeed: true, showButton: false,),
+                                      seed: _seed,
+                                      obscureSeed: true,
+                                      showButton: false,
+                                    ),
                             ],
                           )),
                         ),
-                        //A row with close button
-                        Row(
-                          children: <Widget>[
-                            AppButton.buildAppButton(
-                              context,
-                              AppButtonType.PRIMARY_OUTLINE,
-                              AppLocalization.of(context).close,
-                              Dimens.BUTTON_BOTTOM_DIMENS,
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        ),
+                        //A row with copy button
+                        showMnemonic
+                            ? Row(
+                                children: <Widget>[
+                                  AppButton.buildAppButton(
+                                      context,
+                                      // Copy Mnemonic Button
+                                      _mnemonicCopied
+                                          ? AppButtonType.SUCCESS
+                                          : AppButtonType.PRIMARY,
+                                      _mnemonicCopied
+                                          ? "Secret Phrase Copied"
+                                          : "Copy Secret Phrase",
+                                      Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                                    Clipboard.setData(new ClipboardData(
+                                        text: _mnemonic.join(" ")));
+                                    ClipboardUtil.setClipboardClearEvent();
+                                    setState(() {
+                                      // Set copied style
+                                      _mnemonicCopied = true;
+                                    });
+                                    if (_mnemonicCopiedTimer != null) {
+                                      _mnemonicCopiedTimer.cancel();
+                                    }
+                                    _mnemonicCopiedTimer = new Timer(
+                                        const Duration(milliseconds: 1000), () {
+                                      setState(() {
+                                        _mnemonicCopied = false;
+                                      });
+                                    });
+                                  }),
+                                ],
+                              )
+                            : Row(
+                                children: <Widget>[
+                                  AppButton.buildAppButton(
+                                      context,
+                                      // Copy Seed Button
+                                      _seedCopied
+                                          ? AppButtonType.SUCCESS
+                                          : AppButtonType.PRIMARY,
+                                      _seedCopied ? "Seed Copied" : "Copy Seed",
+                                      Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                                    Clipboard.setData(
+                                        new ClipboardData(text: _seed));
+                                    ClipboardUtil.setClipboardClearEvent();
+                                    setState(() {
+                                      // Set copied style
+                                      _seedCopied = true;
+                                    });
+                                    if (_seedCopiedTimer != null) {
+                                      _seedCopiedTimer.cancel();
+                                    }
+                                    _seedCopiedTimer = new Timer(
+                                        const Duration(milliseconds: 1000), () {
+                                      setState(() {
+                                        _seedCopied = false;
+                                      });
+                                    });
+                                  }),
+                                ],
+                              ),
                       ],
                     ),
                   ));
