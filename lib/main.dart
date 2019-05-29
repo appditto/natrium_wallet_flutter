@@ -63,6 +63,7 @@ class _AppState extends State<App> {
       textStyle: AppStyles.textStyleSnackbar(context),
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       child: MaterialApp(
+        navigatorObservers: [routeObserver],
         debugShowCheckedModeBanner: false,
         title: 'Natrium',
         theme: ThemeData(

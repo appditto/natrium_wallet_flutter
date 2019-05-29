@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/model/vault.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -12,8 +15,29 @@ class IntroWelcomePage extends StatefulWidget {
   _IntroWelcomePageState createState() => _IntroWelcomePageState();
 }
 
-class _IntroWelcomePageState extends State<IntroWelcomePage> {
+class _IntroWelcomePageState extends State<IntroWelcomePage> with RouteAware {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    // The route covering this route, was popped making this route visible
+    // Delete seed
+    sl.get<Vault>().deleteAll();
+    // Delete any shared prefs
+    sl.get<Vault>().deleteAll();
+  }
 
   @override
   Widget build(BuildContext context) {
