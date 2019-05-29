@@ -170,7 +170,7 @@ class AppSeedBackupSheet {
                                       _mnemonicCopied
                                           ? "Secret Phrase Copied"
                                           : "Copy Secret Phrase",
-                                      Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                                      Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                                     Clipboard.setData(new ClipboardData(
                                         text: _mnemonic.join(" ")));
                                     ClipboardUtil.setClipboardClearEvent();
@@ -199,7 +199,7 @@ class AppSeedBackupSheet {
                                           ? AppButtonType.SUCCESS
                                           : AppButtonType.PRIMARY,
                                       _seedCopied ? "Seed Copied" : "Copy Seed",
-                                      Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                                      Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                                     Clipboard.setData(
                                         new ClipboardData(text: _seed));
                                     ClipboardUtil.setClipboardClearEvent();
