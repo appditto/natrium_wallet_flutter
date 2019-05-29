@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
@@ -7,8 +8,10 @@ import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
+import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/util/clipboardutil.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/mnemonic_display.dart';
 
@@ -23,12 +26,17 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _seed;
   List<String> _mnemonic;
+  bool _showMnemonic;
+  bool _seedCopied;
+  Timer _seedCopiedTimer;
 
   @override
   void initState() {
     super.initState();
     _seed = NanoSeeds.generateSeed();
     _mnemonic = NanoMnemomics.seedToMnemonic(_seed);
+    _showMnemonic = true;
+    _seedCopied = false;
   }
 
   @override
@@ -89,7 +97,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                               .text,
                                           size: 24)),
                                 ),
-                                // 3 dots
+                                // Switch between Secret Phrase and Seed
                                 Container(
                                   margin: EdgeInsetsDirectional.only(
                                       end: smallScreen(context) ? 15 : 20),
@@ -103,17 +111,22 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                           .curTheme
                                           .text15,
                                       onPressed: () {
-                                        Navigator.pop(context);
+                                        setState(() {
+                                          _showMnemonic = !_showMnemonic;
+                                        });
                                       },
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(50.0)),
                                       padding: EdgeInsets.all(0.0),
-                                      child: Icon(Icons.swap_horiz,
+                                      child: Icon(
+                                          _showMnemonic
+                                              ? AppIcons.seed
+                                              : Icons.vpn_key,
                                           color: StateContainer.of(context)
                                               .curTheme
                                               .text,
-                                          size: 36)),
+                                          size: 24)),
                                 ),
                               ],
                             ),
@@ -128,9 +141,13 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               child: Row(
                                 children: <Widget>[
                                   Container(
-                                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width-(smallScreen(context)?120:140)),
+                                    constraints: BoxConstraints(
+                                        maxWidth: MediaQuery.of(context)
+                                                .size
+                                                .width -
+                                            (smallScreen(context) ? 120 : 140)),
                                     child: AutoSizeText(
-                                      "Secret Phrase",
+                                      _showMnemonic ? "Secret Phrase" : "Seed",
                                       style: AppStyles.textStyleHeaderColored(
                                           context),
                                       stepGranularity: 0.1,
@@ -142,8 +159,10 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                     margin: EdgeInsetsDirectional.only(
                                         start: 10, end: 10),
                                     child: Icon(
-                                      Icons.vpn_key,
-                                      size: 36,
+                                      _showMnemonic
+                                          ? Icons.vpn_key
+                                          : AppIcons.seed,
+                                      size: _showMnemonic ? 36 : 24,
                                       color: StateContainer.of(context)
                                           .curTheme
                                           .primary,
@@ -153,7 +172,118 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               ),
                             ),
                             // Mnemonic word list
-                            MnemonicDisplay(_mnemonic),
+                            _showMnemonic
+                                ? MnemonicDisplay(_mnemonic)
+                                : Column(
+                                    children: <Widget>[
+                                      // The paragraph
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left:
+                                                smallScreen(context) ? 30 : 40,
+                                            right:
+                                                smallScreen(context) ? 30 : 40,
+                                            top: 15.0),
+                                        alignment: Alignment.centerLeft,
+                                        child: AutoSizeText(
+                                          "Seed is the raw version of your secret phrase. You can use both your secret phrase and seed to access your funds. We recommend you to back up both of them.",
+                                          style: AppStyles.textStyleParagraph(
+                                              context),
+                                          maxLines: 5,
+                                          stepGranularity: 0.5,
+                                        ),
+                                      ),
+                                      // Container for the seed
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 25.0, vertical: 15),
+                                        margin: EdgeInsets.only(top: 25),
+                                        decoration: BoxDecoration(
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .backgroundDarkest,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                        child: UIUtil.threeLineSeedText(
+                                            context, _seed,
+                                            textStyle: _seedCopied
+                                                ? AppStyles.textStyleSeedGreen(
+                                                    context)
+                                                : AppStyles.textStyleSeed(
+                                                    context)),
+                                      ),
+                                      // Container for the copy button
+                                      Container(
+                                        margin:
+                                            EdgeInsetsDirectional.only(top: 5),
+                                        padding: EdgeInsets.all(0.0),
+                                        child: OutlineButton(
+                                          onPressed: () {
+                                            Clipboard.setData(
+                                                new ClipboardData(text: _seed));
+                                            ClipboardUtil
+                                                .setClipboardClearEvent();
+                                            setState(() {
+                                              _seedCopied = true;
+                                            });
+                                            if (_seedCopiedTimer != null) {
+                                              _seedCopiedTimer.cancel();
+                                            }
+                                            _seedCopiedTimer = new Timer(
+                                                const Duration(
+                                                    milliseconds: 1500), () {
+                                              setState(() {
+                                                _seedCopied = false;
+                                              });
+                                            });
+                                          },
+                                          splashColor: _seedCopied
+                                              ? Colors.transparent
+                                              : StateContainer.of(context)
+                                                  .curTheme
+                                                  .primary30,
+                                          highlightColor: _seedCopied
+                                              ? Colors.transparent
+                                              : StateContainer.of(context)
+                                                  .curTheme
+                                                  .primary15,
+                                          highlightedBorderColor: _seedCopied
+                                              ? StateContainer.of(context)
+                                                  .curTheme
+                                                  .success
+                                              : StateContainer.of(context)
+                                                  .curTheme
+                                                  .primary,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(100.0)),
+                                          borderSide: BorderSide(
+                                              color: _seedCopied
+                                                  ? StateContainer.of(context)
+                                                      .curTheme
+                                                      .success
+                                                  : StateContainer.of(context)
+                                                      .curTheme
+                                                      .primary,
+                                              width: 1.0),
+                                          child: AutoSizeText(
+                                            _seedCopied ? "Copied" : "Copy",
+                                            textAlign: TextAlign.center,
+                                            style: _seedCopied
+                                                ? AppStyles
+                                                    .textStyleButtonSuccessSmallOutline(
+                                                        context)
+                                                : AppStyles
+                                                    .textStyleButtonPrimarySmallOutline(
+                                                        context),
+                                            maxLines: 1,
+                                            stepGranularity: 0.5,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                           ],
                         ),
                       ),

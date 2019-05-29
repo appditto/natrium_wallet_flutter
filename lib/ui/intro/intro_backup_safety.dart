@@ -127,7 +127,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                                   Container(
                                     margin: EdgeInsetsDirectional.only(top: 15),
                                     child: AutoSizeText(
-                                      "If you lose your device or uninstall the application you'll need your secret phrase to recover your funds!",
+                                      "If you lose your device or uninstall the application, you'll need your secret phrase or seed to recover your funds!",
                                       style:
                                           AppStyles.textStyleParagraphPrimary(
                                               context),

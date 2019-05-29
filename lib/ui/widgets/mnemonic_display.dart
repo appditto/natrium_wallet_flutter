@@ -101,7 +101,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
         ),
       ),
       Container(
-        margin: EdgeInsetsDirectional.only(top: 10),
+        margin: EdgeInsetsDirectional.only(top: 5),
         padding: EdgeInsets.all(0.0),
         child: OutlineButton(
           onPressed: () {
@@ -138,7 +138,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
                   : StateContainer.of(context).curTheme.primary,
               width: 1.0),
           child: AutoSizeText(
-            _seedCopied ? "Copied to Clipboard" : "Copy to Clipboard",
+            _seedCopied ? "Copied" : "Copy",
             textAlign: TextAlign.center,
             style: _seedCopied
                 ? AppStyles.textStyleButtonSuccessSmallOutline(context)
