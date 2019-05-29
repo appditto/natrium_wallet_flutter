@@ -13,7 +13,7 @@ import 'package:natrium_wallet_flutter/styles.dart';
 class MnemonicDisplay extends StatefulWidget {
   final List<String> wordList;
 
-  MnemonicDisplay(this.wordList);
+  MnemonicDisplay({@required this.wordList});
 
   _MnemonicDisplayState createState() => _MnemonicDisplayState();
 }

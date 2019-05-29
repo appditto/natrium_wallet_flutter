@@ -13,20 +13,25 @@ import 'package:natrium_wallet_flutter/styles.dart';
 /// A widget for displaying a mnemonic phrase
 class PlainSeedDisplay extends StatefulWidget {
   final String seed;
+  final bool obscureSeed;
 
-  PlainSeedDisplay(this.seed);
+  PlainSeedDisplay({@required this.seed, this.obscureSeed});
 
   _PlainSeedDisplayState createState() => _PlainSeedDisplayState();
 }
 
 class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
+  static final String OBSCURED_SEED = '●' * 64;
+
   bool _seedCopied;
+  bool _seedObscured;
   Timer _seedCopiedTimer;
 
   @override
   void initState() {
     super.initState();
     _seedCopied = false;
+    _seedObscured = true;
   }
 
    @override
@@ -51,24 +56,35 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
           ),
         ),
         // Container for the seed
-        Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: 25.0, vertical: 15),
-          margin: EdgeInsets.only(top: 25),
-          decoration: BoxDecoration(
-            color: StateContainer.of(context)
-                .curTheme
-                .backgroundDarkest,
-            borderRadius:
-                BorderRadius.circular(25),
-          ),
-          child: UIUtil.threeLineSeedText(
-              context, widget.seed,
-              textStyle: _seedCopied
-                  ? AppStyles.textStyleSeedGreen(
-                      context)
-                  : AppStyles.textStyleSeed(
-                      context)),
+        GestureDetector(
+          onTap: () {
+            if (widget.obscureSeed) {
+              setState(() {
+                _seedObscured = !_seedObscured;
+              });
+            }
+          },
+          child: 
+            Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: 25.0, vertical: 15),
+              margin: EdgeInsets.only(top: 25),
+              decoration: BoxDecoration(
+                color: StateContainer.of(context)
+                    .curTheme
+                    .backgroundDarkest,
+                borderRadius:
+                    BorderRadius.circular(25),
+              ),
+              child: UIUtil.threeLineSeedText(
+                  context,
+                  widget.obscureSeed && _seedObscured ? OBSCURED_SEED : widget.seed,
+                  textStyle: _seedCopied
+                      ? AppStyles.textStyleSeedGreen(
+                          context)
+                      : AppStyles.textStyleSeed(
+                          context)),
+            )
         ),
         // Container for the copy button
         Container(
