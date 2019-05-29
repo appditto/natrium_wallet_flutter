@@ -158,7 +158,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                         ),
                         // Mnemonic word list
                         _showMnemonic
-                            ? MnemonicDisplay(wordList: _mnemonic, obscureSeed: true,)
+                            ? MnemonicDisplay(wordList: _mnemonic)
                             : PlainSeedDisplay(seed: _seed)
                       ],
                     ),
