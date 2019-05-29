@@ -48,7 +48,7 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
               top: 15.0),
           alignment: Alignment.centerLeft,
           child: AutoSizeText(
-            "A seed bears the same information as a secret phase, but in a machine-readable way. As long as you have one of them backed up, you'll have access to your funds.",
+            "A seed bears the same information as a secret phrase, but in a machine-readable way. As long as you have one of them backed up, you'll have access to your funds.",
             style: AppStyles.textStyleParagraph(context),
             maxLines: 5,
             stepGranularity: 0.5,
@@ -56,6 +56,7 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
         ),
         // Container for the seed
         GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTap: () {
               if (widget.obscureSeed) {
                 setState(() {
@@ -84,9 +85,8 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
                 ),
                 // Tap to reveal or hide
                 widget.obscureSeed
-                    ?
-                    Container(
-                        margin: EdgeInsetsDirectional.only(top:8),
+                    ? Container(
+                        margin: EdgeInsetsDirectional.only(top: 8),
                         child: _seedObscured
                             ? AutoSizeText(
                                 "Tap to reveal",

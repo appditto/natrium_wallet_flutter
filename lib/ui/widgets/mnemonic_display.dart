@@ -105,6 +105,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () {
           if (widget.obscureSeed) {
             setState(() {
