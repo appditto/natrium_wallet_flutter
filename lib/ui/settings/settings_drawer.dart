@@ -1025,7 +1025,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     ),
                     AppSettings.buildSettingsListItemSingleLine(
                         context,
-                        AppLocalization.of(context).backupSeed,
+                        "Backup Secret Phrase",
                         AppIcons.backupseed, onPressed: () {
                       // Authenticate
                       sl.get<SharedPrefsUtil>().getAuthMethod().then((authMethod) {
