@@ -572,14 +572,13 @@ class StateContainerState extends State<StateContainer> {
 
   /// Handle account_subscribe response
   void handleSubscribeResponse(SubscribeResponse response) {
+    // Combat spam by raising minimum receive if pending block count is large enough
+    if (response.pendingCount != null && response.pendingCount > 50) {
+      // Bump min receive to 0.05 NANO
+      receiveThreshold = BigInt.from(5).pow(28).toString();
+    }
     // Check next request to update block count
     if (response.blockCount != null && !wallet.historyLoading) {
-      // Combat spam by raising minimum receive if pending block count is large enough
-      if (response.pendingCount != null && response.pendingCount > 50) {
-        // Bump min receive to 0.05 NANO
-        receiveThreshold = BigInt.from(5).pow(28).toString();
-      }
-
       // Choose correct blockCount to minimize bandwidth
       // This is can still be improved because history excludes change/open, blockCount doesn't
 
@@ -659,7 +658,6 @@ class StateContainerState extends State<StateContainer> {
     if (nextBlock.subType == BlockTypes.RECEIVE && !lastRequest.fromTransfer) {
       StateBlock prevReceive = pendingBlockMap.remove(nextBlock.link);
       if (prevReceive != null) {
-        print("put ${nextBlock.hash}");
         pendingBlockMap.putIfAbsent(nextBlock.hash, () => nextBlock);
       }
     }
