@@ -619,9 +619,9 @@ class StateContainerState extends State<StateContainer> {
       }
       wallet.localCurrencyPrice = response.price.toString();
       wallet.btcPrice = response.btcPrice.toString();
+      sl.get<AccountService>().pop();
+      sl.get<AccountService>().processQueue();
     });
-    sl.get<AccountService>().pop();
-    sl.get<AccountService>().processQueue();
   }
  
   /// Handle blocks_info response
