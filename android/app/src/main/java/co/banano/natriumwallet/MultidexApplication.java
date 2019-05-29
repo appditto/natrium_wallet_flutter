@@ -20,6 +20,8 @@ import io.flutter.view.FlutterMain;
  * application-level global initializations.
  */
 public class MultidexApplication extends Application {
+    static final String REALM_KEY = "NATTY_HAS_INITIALIZED_REALM";
+
     @Override
     protected void attachBaseContext(Context base) {
        super.attachBaseContext(base);
@@ -30,6 +32,7 @@ public class MultidexApplication extends Application {
     @CallSuper
     public void onCreate() {
         super.onCreate();
+
         Realm.init(this);
 
         try {

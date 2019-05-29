@@ -904,7 +904,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                           // Main account address
                           Container(
                             child: Text(
-                              StateContainer.of(context)
+                               StateContainer.of(context)
                                   .wallet
                                   .address
                                   .substring(0, 12),

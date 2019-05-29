@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Route observer, allows widgets to observe route changes
-final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
-
 /// NoTransitionRoute
 /// Custom route which has no transitions
 class NoTransitionRoute<T> extends MaterialPageRoute<T> {

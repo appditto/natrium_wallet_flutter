@@ -4,8 +4,8 @@ import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
-import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
+import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
@@ -23,16 +23,18 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   String _seed;
   List<String> _mnemonic;
   bool _showMnemonic;
-  bool _seedCopied;
-  Timer _seedCopiedTimer;
 
   @override
   void initState() {
     super.initState();
-    _seed = NanoSeeds.generateSeed();
-    _mnemonic = NanoMnemomics.seedToMnemonic(_seed);
+    sl.get<Vault>().getSeed().then((seed) {
+      print(seed);
+      setState(() {
+        _seed = seed;
+        _mnemonic = NanoMnemomics.seedToMnemonic(seed);
+      });
+    });
     _showMnemonic = true;
-    _seedCopied = false;
   }
 
   @override
@@ -157,9 +159,11 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                           ),
                         ),
                         // Mnemonic word list
-                        _showMnemonic
-                            ? MnemonicDisplay(wordList: _mnemonic)
-                            : PlainSeedDisplay(seed: _seed)
+                         _seed != null && _mnemonic != null ?
+                          _showMnemonic
+                              ? MnemonicDisplay(wordList: _mnemonic)
+                              : PlainSeedDisplay(seed: _seed)
+                        : Text('')
                       ],
                     ),
                   ),
@@ -173,13 +177,11 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                         "I've Backed It Up",
                         Dimens.BUTTON_BOTTOM_DIMENS,
                         onPressed: () {
-                          sl.get<Vault>().setSeed(_seed).then((result) {
-                            // Update wallet
-                            NanoUtil().loginAccount(context).then((_) {
-                              StateContainer.of(context).requestUpdate();
-                              Navigator.of(context)
-                                  .pushNamed('/intro_backup_confirm');
-                            });
+                          // Update wallet
+                          NanoUtil().loginAccount(context).then((_) {
+                            StateContainer.of(context).requestUpdate();
+                            Navigator.of(context)
+                                .pushNamed('/intro_backup_confirm');
                           });
                         },
                       ),

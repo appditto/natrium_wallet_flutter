@@ -63,7 +63,6 @@ class _AppState extends State<App> {
       textStyle: AppStyles.textStyleSnackbar(context),
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       child: MaterialApp(
-        navigatorObservers: [routeObserver],
         debugShowCheckedModeBanner: false,
         title: 'Natrium',
         theme: ThemeData(
@@ -286,7 +285,11 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
       if (firstLaunch) {
         bool migrated = false;
         if (Platform.isAndroid) {
-          migrated = await _doAndroidMigration();
+          try {
+            migrated = await _doAndroidMigration();
+          } catch (e) {
+            migrated = false;
+          }
         }
         if (!migrated) {
           await sl.get<Vault>().deleteAll();
@@ -331,6 +334,9 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
           await sl.get<SharedPrefsUtil>().setUseLegacyStorage();
           checkLoggedIn();
         }
+      } else {
+        await sl.get<Vault>().deleteAll();
+        await sl.get<SharedPrefsUtil>().deleteAll();
       }
     }
   }
