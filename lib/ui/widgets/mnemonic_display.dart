@@ -13,8 +13,9 @@ import 'package:natrium_wallet_flutter/styles.dart';
 class MnemonicDisplay extends StatefulWidget {
   final List<String> wordList;
   final bool obscureSeed;
+  final bool showButton;
 
-  MnemonicDisplay({@required this.wordList, this.obscureSeed = false});
+  MnemonicDisplay({@required this.wordList, this.obscureSeed = false, this.showButton = true});
 
   _MnemonicDisplayState createState() => _MnemonicDisplayState();
 }
@@ -113,7 +114,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
           ),
         ),
       ),
-      Container(
+      widget.showButton?Container(
         margin: EdgeInsetsDirectional.only(top: 5),
         padding: EdgeInsets.all(0.0),
         child: OutlineButton(
@@ -160,7 +161,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
             stepGranularity: 0.5,
           ),
         ),
-      ),
+      ):SizedBox(),
     ]);
   }
 }

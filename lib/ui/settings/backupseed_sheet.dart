@@ -133,9 +133,9 @@ class AppSeedBackupSheet {
                             children: <Widget>[
                               showMnemonic
                                   ? MnemonicDisplay(
-                                      wordList: _mnemonic, obscureSeed: true)
+                                      wordList: _mnemonic, obscureSeed: true, showButton: false,)
                                   : PlainSeedDisplay(
-                                      seed: _seed, obscureSeed: true),
+                                      seed: _seed, obscureSeed: true, showButton: false,),
                             ],
                           )),
                         ),

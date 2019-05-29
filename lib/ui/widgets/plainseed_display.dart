@@ -14,8 +14,9 @@ import 'package:natrium_wallet_flutter/styles.dart';
 class PlainSeedDisplay extends StatefulWidget {
   final String seed;
   final bool obscureSeed;
+  final bool showButton;
 
-  PlainSeedDisplay({@required this.seed, this.obscureSeed = false});
+  PlainSeedDisplay({@required this.seed, this.obscureSeed = false, this.showButton = true});
 
   _PlainSeedDisplayState createState() => _PlainSeedDisplayState();
 }
@@ -48,7 +49,7 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
               top: 15.0),
           alignment: Alignment.centerLeft,
           child: AutoSizeText(
-            "A seed is just a different way your secret phrase can be represented. As long as you have one backed up, you'll always have access to your funds.",
+            "A seed is just a different way your secret phrase can be represented. As long as you have one of them backed up, you'll have access to your funds.",
             style: AppStyles.textStyleParagraph(
                 context),
             maxLines: 5,
@@ -87,7 +88,7 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
             )
         ),
         // Container for the copy button
-        Container(
+        widget.showButton?Container(
           margin:
               EdgeInsetsDirectional.only(top: 5),
           padding: EdgeInsets.all(0.0),
@@ -154,7 +155,7 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
               stepGranularity: 0.5,
             ),
           ),
-        ),
+        ):SizedBox(),
       ],
     );
   }

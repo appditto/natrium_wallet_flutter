@@ -260,7 +260,7 @@ class AppLocalization {
   }
 
   String get welcomeText {
-    return Intl.message("Welcome to Natrium. To begin you may create a new wallet or import an existing one.",
+    return Intl.message("Welcome to Natrium. To begin, you may create a new wallet or import an existing one.",
         desc: 'intro_welcome_title', name: 'welcomeText');
   }
 

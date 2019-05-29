@@ -160,7 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "unlockPin" : MessageLookupByLibrary.simpleMessage("Enter PIN to Unlock Natrium"),
     "viewDetails" : MessageLookupByLibrary.simpleMessage("View Details"),
     "warning" : MessageLookupByLibrary.simpleMessage("Warning"),
-    "welcomeText" : MessageLookupByLibrary.simpleMessage("Welcome to Natrium. To begin you may create a new wallet or import an existing one."),
+    "welcomeText" : MessageLookupByLibrary.simpleMessage("Welcome to Natrium. To begin, you may create a new wallet or import an existing one."),
     "xMinute" : MessageLookupByLibrary.simpleMessage("After %1 minute"),
     "xMinutes" : MessageLookupByLibrary.simpleMessage("After %1 minutes"),
     "yes" : MessageLookupByLibrary.simpleMessage("Yes")
