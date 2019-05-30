@@ -100,7 +100,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 // Switch between Secret Phrase and Seed
                                 Container(
                                   margin: EdgeInsetsDirectional.only(
-                                      end: smallScreen(context) ? 10 : 15),
+                                      end: smallScreen(context) ? 5 : 15),
                                   height: 50,
                                   width: 50,
                                   child: FlatButton(
