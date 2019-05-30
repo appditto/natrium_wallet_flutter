@@ -10,6 +10,7 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
@@ -64,25 +65,25 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                             constraints: BoxConstraints.expand(),
                           ),
                         ),
-                        Column(
+                       Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
+                                // Back Button
                                 Container(
-                                  margin: EdgeInsetsDirectional.only(start: 20),
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: smallScreen(context) ? 5 : 15),
                                   height: 50,
                                   width: 50,
                                   child: FlatButton(
-                                      highlightColor:
-                                          StateContainer.of(context)
-                                              .curTheme
-                                              .text15,
-                                      splashColor:
-                                          StateContainer.of(context)
-                                              .curTheme
-                                              .text15,
+                                      highlightColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
+                                      splashColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
@@ -99,7 +100,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 // Switch between Secret Phrase and Seed
                                 Container(
                                   margin: EdgeInsetsDirectional.only(
-                                      end: smallScreen(context) ? 15 : 20),
+                                      end: smallScreen(context) ? 5 : 15),
                                   height: 50,
                                   width: 50,
                                   child: FlatButton(
@@ -118,10 +119,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                           borderRadius:
                                               BorderRadius.circular(50.0)),
                                       padding: EdgeInsets.all(0.0),
-                                      child: Icon(
-                                          !_seedMode
-                                              ? AppIcons.seed
-                                              : Icons.vpn_key,
+                                      child: Icon(_seedMode ? Icons.vpn_key : AppIcons.seed,
                                           color: StateContainer.of(context)
                                               .curTheme
                                               .text,
@@ -131,15 +129,21 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                             ),
                             // The header
                             Container(
-                              margin: EdgeInsets.only(
-                                  top: 15.0, left: 50, right: 50),
+                              margin: EdgeInsetsDirectional.only(
+                                start: smallScreen(context) ? 20 : 30,
+                                end: smallScreen(context) ? 20 : 30,
+                                top: 10,
+                              ),
                               alignment: AlignmentDirectional(-1, 0),
-                              child: Text(
-                                _seedMode ?
-                                AppLocalization.of(context).importSeed
-                                : "Import secret phrase",
-                                style: AppStyles.textStyleHeaderColored(
-                                    context),
+                              child: AutoSizeText(
+                                _seedMode
+                                    ? AppLocalization.of(context).importSeed
+                                    : "Import Secret Phrase",
+                                style:
+                                    AppStyles.textStyleHeaderColored(context),
+                                maxLines: 1,
+                                minFontSize: 12,
+                                stepGranularity: 0.1,
                               ),
                             ),
                             // The paragraph
