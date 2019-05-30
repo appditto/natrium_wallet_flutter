@@ -133,12 +133,15 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 top: 10,
                               ),
                               alignment: AlignmentDirectional(-1, 0),
-                              child: Text(
+                              child: AutoSizeText(
                                 _seedMode
                                     ? AppLocalization.of(context).importSeed
                                     : "Import Secret Phrase",
                                 style:
                                     AppStyles.textStyleHeaderColored(context),
+                                maxLines: 1,
+                                minFontSize: 12,
+                                stepGranularity: 0.1,
                               ),
                             ),
                             // The paragraph

@@ -295,7 +295,7 @@ class AppStyles {
   // Text style for mnemonic text
   static TextStyle textStyleMnemonicText(BuildContext context) {
     return TextStyle(
-      fontSize: AppFontSizes.smallest,
+      fontSize: AppFontSizes.smallText(context),
       fontWeight: FontWeight.w100,
       fontFamily: 'OverpassMono',
       color: StateContainer.of(context).curTheme.primary,
@@ -305,7 +305,7 @@ class AppStyles {
   }
   static TextStyle textStyleMnemonicTextGray(BuildContext context) {
     return TextStyle(
-      fontSize: AppFontSizes.smallest,
+      fontSize: AppFontSizes.smallText(context),
       fontWeight: FontWeight.w100,
       fontFamily: 'OverpassMono',
       color: StateContainer.of(context).curTheme.text60,

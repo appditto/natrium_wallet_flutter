@@ -87,10 +87,13 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                             top: 10,
                           ),
                           alignment: AlignmentDirectional(-1, 0),
-                          child: Text(
+                          child: AutoSizeText(
                             "Safety First!",
                             style:
                                 AppStyles.textStyleHeaderColored(context),
+                            stepGranularity: 0.1,
+                            maxLines: 1,
+                            minFontSize: 12,
                           ),
                         ),
                         // The paragraph
@@ -106,7 +109,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                                 "In the next screen, you will see your secret phrase. It is a password to access your funds. It is crucial that you back it up and never share it with anyone.",
                                 style:
                                     AppStyles.textStyleParagraph(context),
-                                maxLines: 7,
+                                maxLines: 5,
                                 stepGranularity: 0.5,
                               ),
                               Container(
@@ -116,7 +119,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                                   style:
                                       AppStyles.textStyleParagraphPrimary(
                                           context),
-                                  maxLines: 7,
+                                  maxLines: 4,
                                   stepGranularity: 0.5,
                                 ),
                               ),
