@@ -183,9 +183,11 @@ class AppSeedBackupSheet {
                                     }
                                     _mnemonicCopiedTimer = new Timer(
                                         const Duration(milliseconds: 1000), () {
-                                      setState(() {
-                                        _mnemonicCopied = false;
-                                      });
+                                      try {
+                                        setState(() {
+                                          _mnemonicCopied = false;
+                                        });
+                                      } catch (e) {}
                                     });
                                   }),
                                 ],

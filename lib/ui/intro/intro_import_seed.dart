@@ -68,6 +68,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Container(
                                   margin: EdgeInsetsDirectional.only(start: 20),
@@ -90,6 +91,37 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                               BorderRadius.circular(50.0)),
                                       padding: EdgeInsets.all(0.0),
                                       child: Icon(AppIcons.back,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .text,
+                                          size: 24)),
+                                ),
+                                // Switch between Secret Phrase and Seed
+                                Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      end: smallScreen(context) ? 15 : 20),
+                                  height: 50,
+                                  width: 50,
+                                  child: FlatButton(
+                                      highlightColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
+                                      splashColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
+                                      onPressed: () {
+                                        setState(() {
+                                          _seedMode = !_seedMode;
+                                        });
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50.0)),
+                                      padding: EdgeInsets.all(0.0),
+                                      child: Icon(
+                                          !_seedMode
+                                              ? AppIcons.seed
+                                              : Icons.vpn_key,
                                           color: StateContainer.of(context)
                                               .curTheme
                                               .text,
@@ -253,6 +285,15 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                                 setState(() {
                                                   _seedIsValid = true;
                                                 });
+                                              } else if (NanoMnemomics.validateMnemonic(data.text.split(' '))) {
+                                                _mnemonicController.text = data.text;
+                                                _mnemonicFocusNode.unfocus();
+                                                _seedInputFocusNode.unfocus();
+                                                setState(() {
+                                                  _seedMode = false;
+                                                  _mnemonicError = null;
+                                                  _mnemonicIsValid = true;
+                                                });
                                               }
                                             });
                                           },
@@ -405,6 +446,15 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                                 setState(() {
                                                   _mnemonicIsValid = true;
                                                 });
+                                              } else if (NanoSeeds.isValidSeed(data.text)) {
+                                                _seedInputController.text = data.text;
+                                                _mnemonicFocusNode.unfocus();
+                                                _seedInputFocusNode.unfocus();
+                                                setState(() {
+                                                  _seedMode = true;
+                                                  _seedIsValid = true;
+                                                  _showSeedError = false;
+                                                });
                                               }
                                             });
                                           },
@@ -556,6 +606,23 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                       });
                                     });
                                   });                                  
+                                } else {
+                                  // Show mnemonic error
+                                  if (_mnemonicController.text.split(' ').length != 24) {
+                                    setState(() {
+                                      _mnemonicIsValid = false;
+                                      _mnemonicError = "Secret phrase may only contain 24 words";
+                                    });
+                                  } else {
+                                    _mnemonicController.text.split(' ').forEach((word) {
+                                      if (!NanoMnemomics.isValidWord(word)) {
+                                        setState(() {
+                                          _mnemonicIsValid = false;
+                                          _mnemonicError = "$word is not a valid word";
+                                        });
+                                      }
+                                    });
+                                  }
                                 }
                               }
                             },

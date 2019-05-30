@@ -137,7 +137,7 @@ class DBHelper{
 
   Future<bool> deleteContact(Contact contact) async {
     var dbClient = await db;
-    return await dbClient.rawDelete("DELETE FROM Contacts WHERE name = ? AND address = ?", [contact.name, contact.address]) > 0;
+    return await dbClient.rawDelete("DELETE FROM Contacts WHERE lower(address) like \'%${contact.address.toLowerCase().replaceAll("xrb_", "").replaceAll("nano_", "")}\'") > 0;
   }
 
   Future<bool> setMonkeyForContact(Contact contact, String monkeyPath) async {

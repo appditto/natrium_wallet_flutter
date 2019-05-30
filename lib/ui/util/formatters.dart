@@ -136,7 +136,9 @@ class SingleSpaceInputFormatter extends TextInputFormatter {
     }
 
     // Don't allow first character to be a space
-    if (oldValue.text.length == 0 && newValue.text == " ") {
+    if (newValue.text.length < oldValue.text.length) {
+      return newValue;
+    } else if (oldValue.text.length == 0 && newValue.text == " ") {
       return oldValue;
     } else if (oldValue.text.endsWith(" ") && newValue.text.endsWith("  ")) {
       return oldValue;

@@ -906,8 +906,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                             child: Text(
                                StateContainer.of(context)
                                   .wallet
-                                  .address
-                                  .substring(0, 12),
+                                  ?.address
+                                  ?.substring(0, 12),
                               style: TextStyle(
                                 fontFamily: "OverpassMono",
                                 fontWeight: FontWeight.w100,
