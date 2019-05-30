@@ -292,6 +292,27 @@ class AppStyles {
       letterSpacing: 1,
     );
   }
+  // Text style for mnemonic text
+  static TextStyle textStyleMnemonicText(BuildContext context) {
+    return TextStyle(
+      fontSize: AppFontSizes.smallest,
+      fontWeight: FontWeight.w100,
+      fontFamily: 'OverpassMono',
+      color: StateContainer.of(context).curTheme.primary,
+      height: 1,
+      letterSpacing: 1,
+    );
+  }
+  static TextStyle textStyleMnemonicTextGray(BuildContext context) {
+    return TextStyle(
+      fontSize: AppFontSizes.smallest,
+      fontWeight: FontWeight.w100,
+      fontFamily: 'OverpassMono',
+      color: StateContainer.of(context).curTheme.text60,
+      height: 1,
+      letterSpacing: 1,
+    );
+  }
   static TextStyle textStyleSeedGreen(BuildContext context) {
     return TextStyle(
       fontSize: AppFontSizes.small,

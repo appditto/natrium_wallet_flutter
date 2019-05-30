@@ -10,6 +10,7 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
@@ -68,20 +69,21 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
+                                // Back Button
                                 Container(
-                                  margin: EdgeInsetsDirectional.only(start: 20),
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: smallScreen(context) ? 5 : 15),
                                   height: 50,
                                   width: 50,
                                   child: FlatButton(
-                                      highlightColor:
-                                          StateContainer.of(context)
-                                              .curTheme
-                                              .text15,
-                                      splashColor:
-                                          StateContainer.of(context)
-                                              .curTheme
-                                              .text15,
+                                      highlightColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
+                                      splashColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
@@ -95,39 +97,76 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                               .text,
                                           size: 24)),
                                 ),
+                                // Switch between Secret Phrase and Seed
+                                Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      end: smallScreen(context) ? 10 : 15),
+                                  height: 50,
+                                  width: 50,
+                                  child: FlatButton(
+                                      highlightColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
+                                      splashColor: StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
+                                      onPressed: () {
+                                        return null;
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(50.0)),
+                                      padding: EdgeInsets.all(0.0),
+                                      child: Icon(AppIcons.seed,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .text,
+                                          size: 24)),
+                                ),
                               ],
                             ),
                             // The header
                             Container(
-                              margin: EdgeInsets.only(
-                                  top: 15.0, left: 50, right: 50),
+                              margin: EdgeInsetsDirectional.only(
+                                start: smallScreen(context) ? 20 : 30,
+                                end: smallScreen(context) ? 20 : 30,
+                                top: 10,
+                              ),
                               alignment: AlignmentDirectional(-1, 0),
                               child: Text(
-                                _seedMode ?
-                                AppLocalization.of(context).importSeed
-                                : "Import secret phrase",
-                                style: AppStyles.textStyleHeaderColored(
-                                    context),
+                                _seedMode
+                                    ? AppLocalization.of(context).importSeed
+                                    : "Import Secret Phrase",
+                                style:
+                                    AppStyles.textStyleHeaderColored(context),
                               ),
                             ),
                             // The paragraph
                             Container(
-                              margin: EdgeInsets.only(
-                                  left: 50, right: 50, top: 15.0),
+                              margin: EdgeInsetsDirectional.only(
+                                start: smallScreen(context) ? 20 : 30,
+                                end: smallScreen(context) ? 20 : 30,
+                                top: 15,
+                              ),
                               alignment: Alignment.centerLeft,
-                              child: Text(
-                                _seedMode ?
-                                AppLocalization.of(context).importSeedHint
-                                : "Please enter your 24-word secret phrase below. Each word should be separated by a space.",
-                                style:
-                                    AppStyles.textStyleParagraph(context),
+                              child: AutoSizeText(
+                                _seedMode
+                                    ? AppLocalization.of(context).importSeedHint
+                                    : "Please enter your 24-word secret phrase below. Each word should be separated by a space.",
+                                style: AppStyles.textStyleParagraph(context),
                                 textAlign: TextAlign.start,
+                                maxLines: 3,
+                                minFontSize: 8,
+                                stepGranularity: 0.1,
                               ),
                             ),
                             // The container for the seed
                             Container(
-                              margin: EdgeInsets.only(
-                                  left: 50, right: 50, top: 20),
+                              margin: EdgeInsetsDirectional.only(
+                                start: smallScreen(context) ? 20 : 30,
+                                end: smallScreen(context) ? 20 : 30,
+                                top: 20,
+                              ),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: StateContainer.of(context)
@@ -140,338 +179,406 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 data: Theme.of(context).copyWith(
                                     splashColor: Colors.transparent,
                                     highlightColor: Colors.transparent),
-                                child: _seedMode ? TextField(
-                                  focusNode: _seedInputFocusNode,
-                                  controller: _seedInputController,
-                                  textAlign: TextAlign.center,
-                                  cursorColor: StateContainer.of(context)
-                                      .curTheme
-                                      .primary,
-                                  inputFormatters: [
-                                    LengthLimitingTextInputFormatter(64),
-                                    UpperCaseTextFormatter()
-                                  ],
-                                  textInputAction: TextInputAction.done,
-                                  maxLines: null,
-                                  autocorrect: false,
-                                  decoration: InputDecoration(
-                                    // Emtpy SizedBox
-                                    prefixIcon: AnimatedCrossFade(
-                                      duration: Duration(milliseconds: 100),
-                                      firstChild: Container(
-                                        width: 48,
-                                        height: 48,
-                                        child: FlatButton(
-                                          highlightColor:
-                                              StateContainer.of(context)
-                                                  .curTheme
-                                                  .primary15,
-                                          splashColor:
-                                              StateContainer.of(context)
-                                                  .curTheme
-                                                  .primary30,
-                                          child: Icon(AppIcons.scan,
-                                              size: 20,
-                                              color:
-                                                  StateContainer.of(context)
-                                                      .curTheme
-                                                      .primary),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      100.0)),
-                                          padding: EdgeInsets.all(14.0),
-                                          onPressed: () {
-                                            if (NanoSeeds.isValidSeed(
-                                                _seedInputController
-                                                    .text)) {
-                                              return;
-                                            }
-                                            // Scan QR for seed
-                                            UIUtil.cancelLockEvent();
-                                            BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
-                                              if (result != null && NanoSeeds.isValidSeed(result)) {
-                                                _seedInputController.text = result;
-                                                setState(() {
-                                                  _seedIsValid = true;
-                                                });
-                                              } else {
-                                                UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidSeed, context);
-                                              }
-                                            });
-
-                                          },
+                                child: _seedMode
+                                    ? TextField(
+                                        focusNode: _seedInputFocusNode,
+                                        controller: _seedInputController,
+                                        textAlign: TextAlign.center,
+                                        cursorColor: StateContainer.of(context)
+                                            .curTheme
+                                            .primary,
+                                        inputFormatters: [
+                                          LengthLimitingTextInputFormatter(64),
+                                          UpperCaseTextFormatter()
+                                        ],
+                                        textInputAction: TextInputAction.done,
+                                        maxLines: null,
+                                        autocorrect: false,
+                                        decoration: InputDecoration(
+                                          // Emtpy SizedBox
+                                          prefixIcon: AnimatedCrossFade(
+                                            duration:
+                                                Duration(milliseconds: 100),
+                                            firstChild: Container(
+                                              width: 48,
+                                              height: 48,
+                                              child: FlatButton(
+                                                highlightColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .primary15,
+                                                splashColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .primary30,
+                                                child: Icon(AppIcons.scan,
+                                                    size: 20,
+                                                    color: StateContainer.of(
+                                                            context)
+                                                        .curTheme
+                                                        .primary),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100.0)),
+                                                padding: EdgeInsets.all(14.0),
+                                                onPressed: () {
+                                                  if (NanoSeeds.isValidSeed(
+                                                      _seedInputController
+                                                          .text)) {
+                                                    return;
+                                                  }
+                                                  // Scan QR for seed
+                                                  UIUtil.cancelLockEvent();
+                                                  BarcodeScanner.scan(
+                                                          StateContainer.of(
+                                                                  context)
+                                                              .curTheme
+                                                              .qrScanTheme)
+                                                      .then((result) {
+                                                    if (result != null &&
+                                                        NanoSeeds.isValidSeed(
+                                                            result)) {
+                                                      _seedInputController
+                                                          .text = result;
+                                                      setState(() {
+                                                        _seedIsValid = true;
+                                                      });
+                                                    } else {
+                                                      UIUtil.showSnackbar(
+                                                          AppLocalization.of(
+                                                                  context)
+                                                              .qrInvalidSeed,
+                                                          context);
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            secondChild: SizedBox(),
+                                            crossFadeState:
+                                                NanoSeeds.isValidSeed(
+                                                        _seedInputController
+                                                            .text)
+                                                    ? CrossFadeState.showSecond
+                                                    : CrossFadeState.showFirst,
+                                          ),
+                                          // Paste Button
+                                          suffixIcon: AnimatedCrossFade(
+                                            duration:
+                                                Duration(milliseconds: 100),
+                                            firstChild: Container(
+                                              width: 48,
+                                              height: 48,
+                                              child: FlatButton(
+                                                highlightColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .primary15,
+                                                splashColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .primary30,
+                                                child: Icon(AppIcons.paste,
+                                                    size: 20,
+                                                    color: StateContainer.of(
+                                                            context)
+                                                        .curTheme
+                                                        .primary),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100.0)),
+                                                padding: EdgeInsets.all(14.0),
+                                                onPressed: () {
+                                                  if (NanoSeeds.isValidSeed(
+                                                      _seedInputController
+                                                          .text)) {
+                                                    return;
+                                                  }
+                                                  Clipboard.getData(
+                                                          "text/plain")
+                                                      .then(
+                                                          (ClipboardData data) {
+                                                    if (data == null ||
+                                                        data.text == null) {
+                                                      return;
+                                                    } else if (NanoSeeds
+                                                        .isValidSeed(
+                                                            data.text)) {
+                                                      _seedInputController
+                                                          .text = data.text;
+                                                      setState(() {
+                                                        _seedIsValid = true;
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            secondChild: SizedBox(),
+                                            crossFadeState:
+                                                NanoSeeds.isValidSeed(
+                                                        _seedInputController
+                                                            .text)
+                                                    ? CrossFadeState.showSecond
+                                                    : CrossFadeState.showFirst,
+                                          ),
+                                          border: InputBorder.none,
+                                          hintStyle: TextStyle(
+                                            fontFamily: 'NunitoSans',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w100,
+                                            color: StateContainer.of(context)
+                                                .curTheme
+                                                .text60,
+                                          ),
                                         ),
-                                      ),
-                                      secondChild: SizedBox(),
-                                      crossFadeState: NanoSeeds.isValidSeed(
-                                              _seedInputController.text)
-                                          ? CrossFadeState.showSecond
-                                          : CrossFadeState.showFirst,
-                                    ),
-                                    // Paste Button
-                                    suffixIcon: AnimatedCrossFade(
-                                      duration: Duration(milliseconds: 100),
-                                      firstChild: Container(
-                                        width: 48,
-                                        height: 48,
-                                        child: FlatButton(
-                                          highlightColor:
-                                              StateContainer.of(context)
-                                                  .curTheme
-                                                  .primary15,
-                                          splashColor:
-                                              StateContainer.of(context)
-                                                  .curTheme
-                                                  .primary30,
-                                          child: Icon(AppIcons.paste,
-                                              size: 20,
-                                              color:
-                                                  StateContainer.of(context)
-                                                      .curTheme
-                                                      .primary),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      100.0)),
-                                          padding: EdgeInsets.all(14.0),
-                                          onPressed: () {
-                                            if (NanoSeeds.isValidSeed(
-                                                _seedInputController
-                                                    .text)) {
-                                              return;
-                                            }
-                                            Clipboard.getData("text/plain")
-                                                .then((ClipboardData data) {
-                                              if (data == null ||
-                                                  data.text == null) {
-                                                return;
-                                              } else if (NanoSeeds
-                                                  .isValidSeed(data.text)) {
-                                                _seedInputController.text =
-                                                    data.text;
-                                                setState(() {
-                                                  _seedIsValid = true;
-                                                });
-                                              }
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      secondChild: SizedBox(),
-                                      crossFadeState: NanoSeeds.isValidSeed(
-                                              _seedInputController.text)
-                                          ? CrossFadeState.showSecond
-                                          : CrossFadeState.showFirst,
-                                    ),
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                      fontFamily: 'NunitoSans',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w100,
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text60,
-                                    ),
-                                  ),
-                                  keyboardType: TextInputType.text,
-                                  style: _seedIsValid ?AppStyles.textStyleSeed(context) : AppStyles.textStyleSeedGray(context),
-                                  onChanged: (text) {
-                                    // Always reset the error message to be less annoying
-                                    setState(() {
-                                      _showSeedError = false;
-                                    });
-                                    // If valid seed, clear focus/close keyboard
-                                    if (NanoSeeds.isValidSeed(text)) {
-                                      _seedInputFocusNode.unfocus();
-                                      setState(() {
-                                        _seedIsValid = true;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        _seedIsValid = false;
-                                      });
-                                    }
-                                  },
-                                ) :
-                                // MNEMONIC TextField
-                                TextField(
-                                  focusNode: _mnemonicFocusNode,
-                                  controller: _mnemonicController,
-                                  textAlign: TextAlign.center,
-                                  cursorColor: StateContainer.of(context)
-                                      .curTheme
-                                      .primary,
-                                  inputFormatters: [
-                                    SingleSpaceInputFormatter(),
-                                    LowerCaseTextFormatter(),
-                                    WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
-                                  ],
-                                  textInputAction: TextInputAction.done,
-                                  maxLines: null,
-                                  autocorrect: false,
-                                  decoration: InputDecoration(
-                                    // Emtpy SizedBox
-                                    prefixIcon: AnimatedCrossFade(
-                                      duration: Duration(milliseconds: 100),
-                                      firstChild: Container(
-                                        width: 48,
-                                        height: 48,
-                                        child: FlatButton(
-                                          highlightColor:
-                                              StateContainer.of(context)
-                                                  .curTheme
-                                                  .primary15,
-                                          splashColor:
-                                              StateContainer.of(context)
-                                                  .curTheme
-                                                  .primary30,
-                                          child: Icon(AppIcons.scan,
-                                              size: 20,
-                                              color:
-                                                  StateContainer.of(context)
-                                                      .curTheme
-                                                      .primary),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      100.0)),
-                                          padding: EdgeInsets.all(14.0),
-                                          onPressed: () {
-                                            if (NanoMnemomics.validateMnemonic(
-                                                _mnemonicController.text.split(' '))) {
-                                              return;
-                                            }
-                                            // Scan QR for seed
-                                            UIUtil.cancelLockEvent();
-                                            BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
-                                              if (result != null && NanoMnemomics.validateMnemonic(result.split(' '))) {
-                                                _mnemonicController.text = result;
-                                                setState(() {
-                                                  _mnemonicIsValid = true;
-                                                });
-                                              } else {
-                                                UIUtil.showSnackbar("QR does not contain a valid mnemonic phrase", context);
-                                              }
-                                            });
-
-                                          },
-                                        ),
-                                      ),
-                                      secondChild: SizedBox(),
-                                      crossFadeState: NanoMnemomics.validateMnemonic(_mnemonicController.text.split(' '))
-                                          ? CrossFadeState.showSecond
-                                          : CrossFadeState.showFirst,
-                                    ),
-                                    // Paste Button
-                                    suffixIcon: AnimatedCrossFade(
-                                      duration: Duration(milliseconds: 100),
-                                      firstChild: Container(
-                                        width: 48,
-                                        height: 48,
-                                        child: FlatButton(
-                                          highlightColor:
-                                              StateContainer.of(context)
-                                                  .curTheme
-                                                  .primary15,
-                                          splashColor:
-                                              StateContainer.of(context)
-                                                  .curTheme
-                                                  .primary30,
-                                          child: Icon(AppIcons.paste,
-                                              size: 20,
-                                              color:
-                                                  StateContainer.of(context)
-                                                      .curTheme
-                                                      .primary),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      100.0)),
-                                          padding: EdgeInsets.all(14.0),
-                                          onPressed: () {
-                                            if (NanoMnemomics.validateMnemonic(
-                                                _mnemonicController.text.split(' '))) {
-                                              return;
-                                            }
-                                            Clipboard.getData("text/plain")
-                                                .then((ClipboardData data) {
-                                              if (data == null ||
-                                                  data.text == null) {
-                                                return;
-                                              } else if (NanoMnemomics.validateMnemonic(data.text.split(' '))) {
-                                                _mnemonicController.text =
-                                                    data.text;
-                                                setState(() {
-                                                  _mnemonicIsValid = true;
-                                                });
-                                              }
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      secondChild: SizedBox(),
-                                      crossFadeState: NanoMnemomics.validateMnemonic(
-                                              _mnemonicController.text.split(' '))
-                                          ? CrossFadeState.showSecond
-                                          : CrossFadeState.showFirst,
-                                    ),
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                      fontFamily: 'NunitoSans',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w100,
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text60,
-                                    ),
-                                  ),
-                                  keyboardType: TextInputType.text,
-                                  style: _mnemonicIsValid ? AppStyles.textStyleParagraphPrimary(context) : AppStyles.textStyleParagraph(context),
-                                  onChanged: (text) {
-                                    if (text.length < 3) {
-                                      setState(() {
-                                        _mnemonicError = null;
-                                      });
-                                    } else if (_mnemonicError != null) {
-                                      if (!text.contains(_mnemonicError.split(' ')[0])) {
-                                        setState(() {
-                                          _mnemonicError = null;
-                                        });
-                                      }
-                                    }
-                                    // If valid mnemonic, clear focus/close keyboard
-                                    if (NanoMnemomics.validateMnemonic(text.split(' '))) {
-                                      _mnemonicFocusNode.unfocus();
-                                      setState(() {
-                                        _mnemonicIsValid = true;
-                                        _mnemonicError = null;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        _mnemonicIsValid = false;
-                                      });
-                                      // Validate each mnemonic word
-                                      if (text.endsWith(" ") && text.length > 1) {
-                                        int lastSpaceIndex = text.substring(0, text.length - 1).lastIndexOf(" ");
-                                        if (lastSpaceIndex == -1) {
-                                          lastSpaceIndex = 0;
-                                        } else {
-                                          lastSpaceIndex++;
-                                        }
-                                        String lastWord = text.substring(lastSpaceIndex, text.length - 1);
-                                        if (!NanoMnemomics.isValidWord(lastWord)) {
+                                        keyboardType: TextInputType.text,
+                                        style: _seedIsValid
+                                            ? AppStyles.textStyleSeed(context)
+                                            : AppStyles.textStyleSeedGray(
+                                                context),
+                                        onChanged: (text) {
+                                          // Always reset the error message to be less annoying
                                           setState(() {
-                                            _mnemonicIsValid = false;
-                                            setState(() {
-                                              _mnemonicError = "$lastWord is not a valid word";
-                                            });
+                                            _showSeedError = false;
                                           });
-                                        }
-                                      }
-                                    }
-                                  },
-                                ),
+                                          // If valid seed, clear focus/close keyboard
+                                          if (NanoSeeds.isValidSeed(text)) {
+                                            _seedInputFocusNode.unfocus();
+                                            setState(() {
+                                              _seedIsValid = true;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              _seedIsValid = false;
+                                            });
+                                          }
+                                        },
+                                      )
+                                    :
+                                    // MNEMONIC TextField
+                                    TextField(
+                                        focusNode: _mnemonicFocusNode,
+                                        controller: _mnemonicController,
+                                        textAlign: TextAlign.center,
+                                        cursorColor: StateContainer.of(context)
+                                            .curTheme
+                                            .primary,
+                                        inputFormatters: [
+                                          SingleSpaceInputFormatter(),
+                                          LowerCaseTextFormatter(),
+                                          WhitelistingTextInputFormatter(
+                                              RegExp("[a-zA-Z ]")),
+                                        ],
+                                        textInputAction: TextInputAction.done,
+                                        minLines: smallScreen(context)?1:null,
+                                        maxLines: smallScreen(context)?3:null,
+                                        autocorrect: false,
+                                        decoration: InputDecoration(
+                                          // Emtpy SizedBox
+                                          prefixIcon: AnimatedCrossFade(
+                                            duration:
+                                                Duration(milliseconds: 100),
+                                            firstChild: Container(
+                                              width: 48,
+                                              height: 48,
+                                              child: FlatButton(
+                                                highlightColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .primary15,
+                                                splashColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .primary30,
+                                                child: Icon(AppIcons.scan,
+                                                    size: 20,
+                                                    color: StateContainer.of(
+                                                            context)
+                                                        .curTheme
+                                                        .primary),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100.0)),
+                                                padding: EdgeInsets.all(14.0),
+                                                onPressed: () {
+                                                  if (NanoMnemomics
+                                                      .validateMnemonic(
+                                                          _mnemonicController
+                                                              .text
+                                                              .split(' '))) {
+                                                    return;
+                                                  }
+                                                  // Scan QR for seed
+                                                  UIUtil.cancelLockEvent();
+                                                  BarcodeScanner.scan(
+                                                          StateContainer.of(
+                                                                  context)
+                                                              .curTheme
+                                                              .qrScanTheme)
+                                                      .then((result) {
+                                                    if (result != null &&
+                                                        NanoMnemomics
+                                                            .validateMnemonic(
+                                                                result.split(
+                                                                    ' '))) {
+                                                      _mnemonicController.text =
+                                                          result;
+                                                      setState(() {
+                                                        _mnemonicIsValid = true;
+                                                      });
+                                                    } else {
+                                                      UIUtil.showSnackbar(
+                                                          "QR does not contain a valid mnemonic phrase",
+                                                          context);
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            secondChild: SizedBox(),
+                                            crossFadeState:
+                                                NanoMnemomics.validateMnemonic(
+                                                        _mnemonicController.text
+                                                            .split(' '))
+                                                    ? CrossFadeState.showSecond
+                                                    : CrossFadeState.showFirst,
+                                          ),
+                                          // Paste Button
+                                          suffixIcon: AnimatedCrossFade(
+                                            duration:
+                                                Duration(milliseconds: 100),
+                                            firstChild: Container(
+                                              width: 48,
+                                              height: 48,
+                                              child: FlatButton(
+                                                highlightColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .primary15,
+                                                splashColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .primary30,
+                                                child: Icon(AppIcons.paste,
+                                                    size: 20,
+                                                    color: StateContainer.of(
+                                                            context)
+                                                        .curTheme
+                                                        .primary),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100.0)),
+                                                padding: EdgeInsets.all(14.0),
+                                                onPressed: () {
+                                                  if (NanoMnemomics
+                                                      .validateMnemonic(
+                                                          _mnemonicController
+                                                              .text
+                                                              .split(' '))) {
+                                                    return;
+                                                  }
+                                                  Clipboard.getData(
+                                                          "text/plain")
+                                                      .then(
+                                                          (ClipboardData data) {
+                                                    if (data == null ||
+                                                        data.text == null) {
+                                                      return;
+                                                    } else if (NanoMnemomics
+                                                        .validateMnemonic(data
+                                                            .text
+                                                            .split(' '))) {
+                                                      _mnemonicController.text =
+                                                          data.text;
+                                                      setState(() {
+                                                        _mnemonicIsValid = true;
+                                                      });
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                            secondChild: SizedBox(),
+                                            crossFadeState:
+                                                NanoMnemomics.validateMnemonic(
+                                                        _mnemonicController.text
+                                                            .split(' '))
+                                                    ? CrossFadeState.showSecond
+                                                    : CrossFadeState.showFirst,
+                                          ),
+                                          border: InputBorder.none,
+                                          hintStyle: TextStyle(
+                                            fontFamily: 'OverpassMono',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w100,
+                                            color: StateContainer.of(context)
+                                                .curTheme
+                                                .text60,
+                                          ),
+                                        ),
+                                        keyboardType: TextInputType.text,
+                                        style: _mnemonicIsValid
+                                            ? AppStyles.textStyleMnemonicText(context)
+                                            : AppStyles.textStyleMnemonicTextGray(
+                                                context),
+                                        onChanged: (text) {
+                                          if (text.length < 3) {
+                                            setState(() {
+                                              _mnemonicError = null;
+                                            });
+                                          } else if (_mnemonicError != null) {
+                                            if (!text.contains(
+                                                _mnemonicError.split(' ')[0])) {
+                                              setState(() {
+                                                _mnemonicError = null;
+                                              });
+                                            }
+                                          }
+                                          // If valid mnemonic, clear focus/close keyboard
+                                          if (NanoMnemomics.validateMnemonic(
+                                              text.split(' '))) {
+                                            _mnemonicFocusNode.unfocus();
+                                            setState(() {
+                                              _mnemonicIsValid = true;
+                                              _mnemonicError = null;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              _mnemonicIsValid = false;
+                                            });
+                                            // Validate each mnemonic word
+                                            if (text.endsWith(" ") &&
+                                                text.length > 1) {
+                                              int lastSpaceIndex = text
+                                                  .substring(0, text.length - 1)
+                                                  .lastIndexOf(" ");
+                                              if (lastSpaceIndex == -1) {
+                                                lastSpaceIndex = 0;
+                                              } else {
+                                                lastSpaceIndex++;
+                                              }
+                                              String lastWord = text.substring(
+                                                  lastSpaceIndex,
+                                                  text.length - 1);
+                                              if (!NanoMnemomics.isValidWord(
+                                                  lastWord)) {
+                                                setState(() {
+                                                  _mnemonicIsValid = false;
+                                                  setState(() {
+                                                    _mnemonicError =
+                                                        "$lastWord is not a valid word";
+                                                  });
+                                                });
+                                              }
+                                            }
+                                          }
+                                        },
+                                      ),
                               ),
                             ),
                             // "Invalid Seed" text that appears if the input is invalid
@@ -481,7 +588,11 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   _mnemonicError == null ? "" : _mnemonicError,
                                   style: TextStyle(
                                     fontSize: 14.0,
-                                    color: _mnemonicError != null ? StateContainer.of(context).curTheme.primary : Colors.transparent,
+                                    color: _mnemonicError != null
+                                        ? StateContainer.of(context)
+                                            .curTheme
+                                            .primary
+                                        : Colors.transparent,
                                     fontFamily: 'NunitoSans',
                                     fontWeight: FontWeight.w600,
                                   )),
@@ -500,25 +611,27 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                         height: 50,
                         width: 50,
                         child: FlatButton(
-                            highlightColor: StateContainer.of(context)
-                                .curTheme
-                                .primary15,
-                            splashColor: StateContainer.of(context)
-                                .curTheme
-                                .primary30,
+                            highlightColor:
+                                StateContainer.of(context).curTheme.primary15,
+                            splashColor:
+                                StateContainer.of(context).curTheme.primary30,
                             onPressed: () {
                               if (_seedMode) {
                                 _seedInputFocusNode.unfocus();
                                 // If seed valid, log them in
                                 if (NanoSeeds.isValidSeed(
                                     _seedInputController.text)) {
-                                  sl.get<SharedPrefsUtil>()
+                                  sl
+                                      .get<SharedPrefsUtil>()
                                       .setSeedBackedUp(true)
                                       .then((result) {
-                                    sl.get<Vault>()
+                                    sl
+                                        .get<Vault>()
                                         .setSeed(_seedInputController.text)
                                         .then((result) {
-                                      NanoUtil().loginAccount(context).then((_) {
+                                      NanoUtil()
+                                          .loginAccount(context)
+                                          .then((_) {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(builder:
                                                 (BuildContext context) {
@@ -538,14 +651,22 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                               } else {
                                 // mnemonic mode
                                 _mnemonicFocusNode.unfocus();
-                                if (NanoMnemomics.validateMnemonic(_mnemonicController.text.split(' '))) {
-                                  sl.get<SharedPrefsUtil>()
+                                if (NanoMnemomics.validateMnemonic(
+                                    _mnemonicController.text.split(' '))) {
+                                  sl
+                                      .get<SharedPrefsUtil>()
                                       .setSeedBackedUp(true)
                                       .then((result) {
-                                    sl.get<Vault>()
-                                        .setSeed(NanoMnemomics.mnemonicListToSeed(_mnemonicController.text.split(' ')))
+                                    sl
+                                        .get<Vault>()
+                                        .setSeed(
+                                            NanoMnemomics.mnemonicListToSeed(
+                                                _mnemonicController.text
+                                                    .split(' ')))
                                         .then((result) {
-                                      NanoUtil().loginAccount(context).then((_) {
+                                      NanoUtil()
+                                          .loginAccount(context)
+                                          .then((_) {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(builder:
                                                 (BuildContext context) {
@@ -555,7 +676,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                         }));
                                       });
                                     });
-                                  });                                  
+                                  });
                                 }
                               }
                             },
@@ -563,9 +684,8 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 borderRadius: BorderRadius.circular(50.0)),
                             padding: EdgeInsets.all(0.0),
                             child: Icon(AppIcons.forward,
-                                color: StateContainer.of(context)
-                                    .curTheme
-                                    .primary,
+                                color:
+                                    StateContainer.of(context).curTheme.primary,
                                 size: 50)),
                       ),
                     ],
