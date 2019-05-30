@@ -126,3 +126,44 @@ class ContactInputFormatter extends TextInputFormatter {
       selection: new TextSelection.collapsed(offset: workingText.length));
   }
 }
+
+/// Input formatter that ensures only one space between words
+class SingleSpaceInputFormatter extends TextInputFormatter {
+
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    if(newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    // Don't allow first character to be a space
+    if (oldValue.text.length == 0 && newValue.text == " ") {
+      return oldValue;
+    } else if (oldValue.text.endsWith(" ") && newValue.text.endsWith("  ")) {
+      return oldValue;
+    }
+
+    return newValue;
+  }
+}
+
+/// Ensures input is always uppercase
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text?.toUpperCase(),
+      selection: newValue.selection,
+    );
+  }
+}
+
+/// Ensures input is always lowercase
+class LowerCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text?.toLowerCase(),
+      selection: newValue.selection,
+    );
+  }
+}
