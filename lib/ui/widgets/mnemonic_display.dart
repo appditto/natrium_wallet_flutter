@@ -128,12 +128,12 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
                     margin: EdgeInsetsDirectional.only(top: 8),
                     child: _seedObscured
                         ? AutoSizeText(
-                            "Tap to reveal",
+                            AppLocalization.of(context).tapToReveal,
                             style: AppStyles.textStyleParagraphThinPrimary(
                                 context),
                           )
                         : Text(
-                            "Tap to hide",
+                            AppLocalization.of(context).tapToHide,
                             style: AppStyles.textStyleParagraphThinPrimary(
                                 context),
                           ),
@@ -181,7 +181,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
                         : StateContainer.of(context).curTheme.primary,
                     width: 1.0),
                 child: AutoSizeText(
-                  _seedCopied ? "Copied" : "Copy",
+                  _seedCopied ? AppLocalization.of(context).copied : AppLocalization.of(context).copy,
                   textAlign: TextAlign.center,
                   style: _seedCopied
                       ? AppStyles.textStyleButtonSuccessSmallOutline(context)

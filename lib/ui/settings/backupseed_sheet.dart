@@ -8,7 +8,6 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
-import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/mnemonic_display.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/plainseed_display.dart';
@@ -86,8 +85,8 @@ class AppSeedBackupSheet {
                                           AutoSizeText(
                                             CaseChange.toUpperCase(
                                                 showMnemonic
-                                                    ? "Secret Phrase"
-                                                    : "Seed",
+                                                    ? AppLocalization.of(context).secretPhrase
+                                                    : AppLocalization.of(context).seed,
                                                 context),
                                             style: AppStyles.textStyleHeader(
                                                 context),
@@ -168,8 +167,8 @@ class AppSeedBackupSheet {
                                           ? AppButtonType.SUCCESS
                                           : AppButtonType.PRIMARY,
                                       _mnemonicCopied
-                                          ? "Secret Phrase Copied"
-                                          : "Copy Secret Phrase",
+                                          ? AppLocalization.of(context).secretPhraseCopied
+                                          : AppLocalization.of(context).secretPhraseCopy,
                                       Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                                     Clipboard.setData(new ClipboardData(
                                         text: _mnemonic.join(" ")));
@@ -200,7 +199,7 @@ class AppSeedBackupSheet {
                                       _seedCopied
                                           ? AppButtonType.SUCCESS
                                           : AppButtonType.PRIMARY,
-                                      _seedCopied ? "Seed Copied" : "Copy Seed",
+                                      _seedCopied ? AppLocalization.of(context).seedCopied : AppLocalization.of(context).copySeed,
                                       Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                                     Clipboard.setData(
                                         new ClipboardData(text: _seed));

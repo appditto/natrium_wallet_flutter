@@ -1,14 +1,11 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
-import 'package:natrium_wallet_flutter/service_locator.dart';
-import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
 class IntroBackupSafetyPage extends StatefulWidget {
   @override
@@ -88,7 +85,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                           ),
                           alignment: AlignmentDirectional(-1, 0),
                           child: AutoSizeText(
-                            "Safety First!",
+                            AppLocalization.of(context).secretInfoHeader,
                             style:
                                 AppStyles.textStyleHeaderColored(context),
                             stepGranularity: 0.1,
@@ -106,7 +103,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                           child: Column(
                             children: <Widget>[
                               AutoSizeText(
-                                "In the next screen, you will see your secret phrase. It is a password to access your funds. It is crucial that you back it up and never share it with anyone.",
+                                AppLocalization.of(context).secretInfo,
                                 style:
                                     AppStyles.textStyleParagraph(context),
                                 maxLines: 5,
@@ -115,7 +112,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                               Container(
                                 margin: EdgeInsetsDirectional.only(top: 15),
                                 child: AutoSizeText(
-                                  "If you lose your device or uninstall the application, you'll need your secret phrase or seed to recover your funds!",
+                                  AppLocalization.of(context).secretWarning,
                                   style:
                                       AppStyles.textStyleParagraphPrimary(
                                           context),
@@ -137,7 +134,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                       AppButton.buildAppButton(
                           context,
                           AppButtonType.PRIMARY,
-                          "Got It!",
+                          AppLocalization.of(context).gotItButton,
                           Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                         Navigator.of(context).pushNamed('/intro_backup');
                       }),

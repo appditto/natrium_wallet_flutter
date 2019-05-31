@@ -1,9 +1,9 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
@@ -134,7 +134,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                                             .width -
                                         (smallScreen(context) ? 120 : 140)),
                                 child: AutoSizeText(
-                                  _showMnemonic ? "Secret Phrase" : "Seed",
+                                  _showMnemonic ? AppLocalization.of(context).secretPhrase : AppLocalization.of(context).seed,
                                   style: AppStyles.textStyleHeaderColored(
                                       context),
                                   stepGranularity: 0.1,
@@ -174,7 +174,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                       AppButton.buildAppButton(
                         context,
                         AppButtonType.PRIMARY,
-                        "I've Backed It Up",
+                        AppLocalization.of(context).backupConfirmButton,
                         Dimens.BUTTON_BOTTOM_DIMENS,
                         onPressed: () {
                           // Update wallet

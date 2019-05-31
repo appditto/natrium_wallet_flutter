@@ -138,7 +138,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                               child: AutoSizeText(
                                 _seedMode
                                     ? AppLocalization.of(context).importSeed
-                                    : "Import Secret Phrase",
+                                    : AppLocalization.of(context).importSecretPhrase,
                                 style:
                                     AppStyles.textStyleHeaderColored(context),
                                 maxLines: 1,
@@ -154,7 +154,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                               child: Text(
                                 _seedMode ?
                                 AppLocalization.of(context).importSeedHint
-                                : "Please enter your 24-word secret phrase below. Each word should be separated by a space.",
+                                : AppLocalization.of(context).importSecretPhraseHint,
                                 style:
                                     AppStyles.textStyleParagraph(context),
                                 textAlign: TextAlign.start,
@@ -230,6 +230,15 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                                 _seedInputController.text = result;
                                                 setState(() {
                                                   _seedIsValid = true;
+                                                });
+                                              } else if (result != null && NanoMnemomics.validateMnemonic(result.split(' '))) {
+                                                _mnemonicController.text = result;
+                                                _mnemonicFocusNode.unfocus();
+                                                _seedInputFocusNode.unfocus();
+                                                setState(() {
+                                                  _seedMode = false;
+                                                  _mnemonicError = null;
+                                                  _mnemonicIsValid = true;
                                                 });
                                               } else {
                                                 UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidSeed, context);
@@ -387,7 +396,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                                 _mnemonicController.text.split(' '))) {
                                               return;
                                             }
-                                            // Scan QR for seed
+                                            // Scan QR for mnemonic
                                             UIUtil.cancelLockEvent();
                                             BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
                                               if (result != null && NanoMnemomics.validateMnemonic(result.split(' '))) {
@@ -395,8 +404,17 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                                 setState(() {
                                                   _mnemonicIsValid = true;
                                                 });
+                                              } else if (result != null && NanoSeeds.isValidSeed(result)) {
+                                                _seedInputController.text = result;
+                                                _mnemonicFocusNode.unfocus();
+                                                _seedInputFocusNode.unfocus();
+                                                setState(() {
+                                                  _seedMode = true;
+                                                  _seedIsValid = true;
+                                                  _showSeedError = false;
+                                                });
                                               } else {
-                                                UIUtil.showSnackbar("QR does not contain a valid mnemonic phrase", context);
+                                                UIUtil.showSnackbar(AppLocalization.of(context).qrMnemonicError, context);
                                               }
                                             });
 
@@ -518,7 +536,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                           setState(() {
                                             _mnemonicIsValid = false;
                                             setState(() {
-                                              _mnemonicError = "$lastWord is not a valid word";
+                                              _mnemonicError = AppLocalization.of(context).mnemonicInvalidWord.replaceAll("%1", lastWord);
                                             });
                                           });
                                         }
@@ -532,10 +550,11 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                             Container(
                               margin: EdgeInsets.only(top: 5),
                               child: Text(
-                                  _mnemonicError == null ? "" : _mnemonicError,
+                                  !_seedMode ? _mnemonicError == null ? "" : _mnemonicError
+                                  : _showSeedError ? AppLocalization.of(context).seedInvalid : "",
                                   style: TextStyle(
                                     fontSize: 14.0,
-                                    color: _mnemonicError != null ? StateContainer.of(context).curTheme.primary : Colors.transparent,
+                                    color: _seedMode ? _showSeedError ? StateContainer.of(context).curTheme.primary : Colors.transparent : _mnemonicError != null ? StateContainer.of(context).curTheme.primary : Colors.transparent,
                                     fontFamily: 'NunitoSans',
                                     fontWeight: FontWeight.w600,
                                   )),
@@ -615,14 +634,14 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   if (_mnemonicController.text.split(' ').length != 24) {
                                     setState(() {
                                       _mnemonicIsValid = false;
-                                      _mnemonicError = "Secret phrase may only contain 24 words";
+                                      _mnemonicError = AppLocalization.of(context).mnemonicSizeError;
                                     });
                                   } else {
                                     _mnemonicController.text.split(' ').forEach((word) {
                                       if (!NanoMnemomics.isValidWord(word)) {
                                         setState(() {
                                           _mnemonicIsValid = false;
-                                          _mnemonicError = "$word is not a valid word";
+                                          _mnemonicError = AppLocalization.of(context).mnemonicInvalidWord.replaceAll("%1", word);
                                         });
                                       }
                                     });

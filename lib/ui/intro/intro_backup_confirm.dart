@@ -76,7 +76,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                           ),
                           alignment: AlignmentDirectional(-1, 0),
                           child: AutoSizeText(
-                            "Are you sure that you've backed up your secret phrase or seed?",
+                            AppLocalization.of(context).ackBackedUp,
                             maxLines: 4,
                             stepGranularity: 0.5,
                             style: AppStyles.textStyleHeaderColored(context),
@@ -89,7 +89,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                                   end: smallScreen(context) ? 30 : 40,
                                   top: 15.0),
                           child: AutoSizeText(
-                            "If you lose your device or uninstall the application, you'll need your secret phrase or seed to recover your funds!",
+                            AppLocalization.of(context).secretWarning,
                             style: AppStyles.textStyleParagraph(context),
                             maxLines: 5,
                             stepGranularity: 0.5,

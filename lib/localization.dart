@@ -818,6 +818,120 @@ class AppLocalization {
 
   /// -- END MULTI-ACCOUNT
 
+  String get tapToReveal {
+    return Intl.message("Tap to reveal",
+      desc: "Tap to reveal hidden content", name: 'tapToReveal');
+  }
+
+  String get tapToHide {
+    return Intl.message("Tap to hide",
+      desc: "Tap to hide content", name: 'tapToHide');
+  }
+
+  String get copied {
+    return Intl.message("Copied",
+      desc: "Copied (to clipboard)", name: 'copied');
+  }
+
+  String get copy {
+    return Intl.message("Copy",
+      desc: "Copy (to clipboard)", name: 'copy');
+  }
+
+  String get seedDescription {
+    return Intl.message("A seed bears the same information as a secret phrase, but in a machine-readable way. As long as you have one of them backed up, you'll have access to your funds.",
+      desc: "Describing what a seed is", name: 'seedDescription');
+  }
+
+  String get importSecretPhrase {
+    return Intl.message("Import Secret Phrase",
+      desc: "Header for restoring using mnemonic", name: 'importSecretPhrase');
+  }
+
+  String get importSecretPhraseHint {
+      return Intl.message("Please enter your 24-word secret phrase below. Each word should be separated by a space.",
+        desc: 'helper message for importing mnemnic', name: 'importSecretPhraseHint');
+  }
+
+  String get qrMnemonicError {
+    return Intl.message("QR does not contain a valid mnemonic phrase",
+      desc: 'When QR does not contain a valid mnemonic phrase', name: 'qrMnemonicError');
+  }
+
+  String get mnemonicInvalidWord {
+    return Intl.message("%1 is not a valid word",
+      desc: 'A word that is not part of bip39', name: 'mnemonicInvalidWord');
+  }
+
+  String get mnemonicSizeError {
+    return Intl.message("Secret phrase may only contain 24 words",
+      desc: 'err', name: 'mnemonicSizeError');    
+  }
+
+  String get secretPhrase {
+    return Intl.message("Secret Phrase",
+      desc: 'Secret (mnemonic) phrase', name: 'secretPhrase');
+  }
+
+  String get backupConfirmButton {
+    return Intl.message("I've Backed It Up",
+      desc: 'Has backed up seed confirmation button', name: 'backupConfirmButton');    
+  }
+
+  String get secretInfoHeader {
+    return Intl.message("Safety First!",
+      desc: 'secret info header', name: 'secretInfoHeader');
+  }
+
+  String get secretInfo {
+    return Intl.message("In the next screen, you will see your secret phrase. It is a password to access your funds. It is crucial that you back it up and never share it with anyone.",
+      desc: 'Description for seed', name: 'secretInfo');    
+  }
+
+  String get secretWarning {
+    return Intl.message("If you lose your device or uninstall the application, you'll need your secret phrase or seed to recover your funds!",
+      desc: 'Secret warning', name: 'secretWarning');
+  }
+
+  String get gotItButton {
+    return Intl.message("Got It!",
+      desc: 'Got It! Acknowledgement button', name: 'gotItButton');
+  }
+
+  String get ackBackedUp {
+    return Intl.message("Are you sure that you've backed up your secret phrase or seed?",
+      desc: 'Ack backed up', name: 'ackBackedUp');
+  }
+
+  String get secretPhraseCopy {
+    return Intl.message("Copy Secret Phrase",
+      desc: 'Copy secret phrase to clipboard', name: 'secretPhraseCopy');
+  }
+
+  String get secretPhraseCopied {
+    return Intl.message("Secret Phrase Copied",
+      desc: 'Copied secret phrase to clipboard', name: 'secretPhraseCopied');
+  }
+
+  String get import {
+    return Intl.message("Import",
+      desc: "Generic import", name: 'import');
+  }
+
+  String get importSeedInstead {
+    return Intl.message("Import Seed Instead",
+      desc: "importSeedInstead", name: 'importSeedInstead');
+  }
+
+  String get switchToSeed {
+    return Intl.message("Switch to Seed",
+      desc: "switchToSeed", name: 'switchToSeed');
+  }
+
+  /// -- SEED PROCESS
+
+  /// -- END SEED PROCESS
+
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash) {
     return 'https://nanocrawler.cc/explorer/block/$hash';

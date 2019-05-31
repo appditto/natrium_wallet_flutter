@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-05-06T10:02:35.878512",
+  "@@last_modified": "2019-05-31T10:23:26.075598",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -885,6 +885,138 @@
   "removeAccountText": "Are you sure you want to hide this account? You can re-add it later by tapping the \"%1\" button.",
   "@removeAccountText": {
     "description": "Remove account dialog body",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tapToReveal": "Tap to reveal",
+  "@tapToReveal": {
+    "description": "Tap to reveal hidden content",
+    "type": "text",
+    "placeholders": {}
+  },
+  "tapToHide": "Tap to hide",
+  "@tapToHide": {
+    "description": "Tap to hide content",
+    "type": "text",
+    "placeholders": {}
+  },
+  "copied": "Copied",
+  "@copied": {
+    "description": "Copied (to clipboard)",
+    "type": "text",
+    "placeholders": {}
+  },
+  "copy": "Copy",
+  "@copy": {
+    "description": "Copy (to clipboard)",
+    "type": "text",
+    "placeholders": {}
+  },
+  "seedDescription": "A seed bears the same information as a secret phrase, but in a machine-readable way. As long as you have one of them backed up, you'll have access to your funds.",
+  "@seedDescription": {
+    "description": "Describing what a seed is",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importSecretPhrase": "Import Secret Phrase",
+  "@importSecretPhrase": {
+    "description": "Header for restoring using mnemonic",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importSecretPhraseHint": "Please enter your 24-word secret phrase below. Each word should be separated by a space.",
+  "@importSecretPhraseHint": {
+    "description": "helper message for importing mnemnic",
+    "type": "text",
+    "placeholders": {}
+  },
+  "qrMnemonicError": "QR does not contain a valid mnemonic phrase",
+  "@qrMnemonicError": {
+    "description": "When QR does not contain a valid mnemonic phrase",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mnemonicInvalidWord": "%1 is not a valid word",
+  "@mnemonicInvalidWord": {
+    "description": "A word that is not part of bip39",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mnemonicSizeError": "Secret phrase may only contain 24 words",
+  "@mnemonicSizeError": {
+    "description": "err",
+    "type": "text",
+    "placeholders": {}
+  },
+  "secretPhrase": "Secret Phrase",
+  "@secretPhrase": {
+    "description": "Secret (mnemonic) phrase",
+    "type": "text",
+    "placeholders": {}
+  },
+  "backupConfirmButton": "I've Backed It Up",
+  "@backupConfirmButton": {
+    "description": "Has backed up seed confirmation button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "secretInfoHeader": "Safety First!",
+  "@secretInfoHeader": {
+    "description": "secret info header",
+    "type": "text",
+    "placeholders": {}
+  },
+  "secretInfo": "In the next screen, you will see your secret phrase. It is a password to access your funds. It is crucial that you back it up and never share it with anyone.",
+  "@secretInfo": {
+    "description": "Description for seed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "secretWarning": "If you lose your device or uninstall the application, you'll need your secret phrase or seed to recover your funds!",
+  "@secretWarning": {
+    "description": "Secret warning",
+    "type": "text",
+    "placeholders": {}
+  },
+  "gotItButton": "Got It!",
+  "@gotItButton": {
+    "description": "Got It! Acknowledgement button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "ackBackedUp": "Are you sure that you've backed up your secret phrase or seed?",
+  "@ackBackedUp": {
+    "description": "Ack backed up",
+    "type": "text",
+    "placeholders": {}
+  },
+  "secretPhraseCopy": "Copy Secret Phrase",
+  "@secretPhraseCopy": {
+    "description": "Copy secret phrase to clipboard",
+    "type": "text",
+    "placeholders": {}
+  },
+  "secretPhraseCopied": "Secret Phrase Copied",
+  "@secretPhraseCopied": {
+    "description": "Copied secret phrase to clipboard",
+    "type": "text",
+    "placeholders": {}
+  },
+  "import": "Import",
+  "@import": {
+    "description": "Generic import",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importSeedInstead": "Import Seed Instead",
+  "@importSeedInstead": {
+    "description": "importSeedInstead",
+    "type": "text",
+    "placeholders": {}
+  },
+  "switchToSeed": "Switch to Seed",
+  "@switchToSeed": {
+    "description": "switchToSeed",
     "type": "text",
     "placeholders": {}
   }

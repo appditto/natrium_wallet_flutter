@@ -48,7 +48,7 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
               top: 15.0),
           alignment: Alignment.centerLeft,
           child: AutoSizeText(
-            "A seed bears the same information as a secret phrase, but in a machine-readable way. As long as you have one of them backed up, you'll have access to your funds.",
+            AppLocalization.of(context).seedDescription,
             style: AppStyles.textStyleParagraph(context),
             maxLines: 5,
             stepGranularity: 0.5,
@@ -89,12 +89,12 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
                         margin: EdgeInsetsDirectional.only(top: 8),
                         child: _seedObscured
                             ? AutoSizeText(
-                                "Tap to reveal",
+                                AppLocalization.of(context).tapToReveal,
                                 style: AppStyles.textStyleParagraphThinPrimary(
                                     context),
                               )
                             : Text(
-                                "Tap to hide",
+                                AppLocalization.of(context).tapToHide,
                                 style: AppStyles.textStyleParagraphThinPrimary(
                                     context),
                               ),
@@ -141,7 +141,7 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
                           : StateContainer.of(context).curTheme.primary,
                       width: 1.0),
                   child: AutoSizeText(
-                    _seedCopied ? "Copied" : "Copy",
+                    _seedCopied ? AppLocalization.of(context).copied : AppLocalization.of(context).copy,
                     textAlign: TextAlign.center,
                     style: _seedCopied
                         ? AppStyles.textStyleButtonSuccessSmallOutline(context)
