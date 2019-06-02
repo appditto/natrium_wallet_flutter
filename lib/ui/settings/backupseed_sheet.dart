@@ -199,7 +199,7 @@ class AppSeedBackupSheet {
                                       _seedCopied
                                           ? AppButtonType.SUCCESS
                                           : AppButtonType.PRIMARY,
-                                      _seedCopied ? AppLocalization.of(context).seedCopied : AppLocalization.of(context).copySeed,
+                                      _seedCopied ? AppLocalization.of(context).seedCopiedShort : AppLocalization.of(context).copySeed,
                                       Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                                     Clipboard.setData(
                                         new ClipboardData(text: _seed));
