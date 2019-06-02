@@ -258,7 +258,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "importSeed": "Import seed",
+  "importSeed": "Import Seed",
   "@importSeed": {
     "description": "intro_seed_header",
     "type": "text",

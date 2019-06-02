@@ -67,7 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("to someone"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Authenticate to backup seed."),
     "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Hide Account?"),
-    "importSeed" : MessageLookupByLibrary.simpleMessage("Import seed"),
+    "importSeed" : MessageLookupByLibrary.simpleMessage("Import Seed"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Please enter your seed below."),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Import Wallet"),
     "instantly" : MessageLookupByLibrary.simpleMessage("Instantly"),

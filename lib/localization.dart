@@ -250,7 +250,7 @@ class AppLocalization {
   }
 
   String get importSeed {
-    return Intl.message("Import seed",
+    return Intl.message("Import Seed",
         desc: 'intro_seed_header', name: 'importSeed');
   }
 

@@ -74,7 +74,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 // Back Button
                                 Container(
                                   margin: EdgeInsetsDirectional.only(
-                                      start: smallScreen(context) ? 5 : 15),
+                                      start: smallScreen(context) ? 15 : 20),
                                   height: 50,
                                   width: 50,
                                   child: FlatButton(
@@ -100,7 +100,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 // Switch between Secret Phrase and Seed
                                 Container(
                                   margin: EdgeInsetsDirectional.only(
-                                      end: smallScreen(context) ? 5 : 15),
+                                      end: smallScreen(context) ? 15 : 20),
                                   height: 50,
                                   width: 50,
                                   child: FlatButton(
@@ -130,8 +130,8 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                             // The header
                             Container(
                               margin: EdgeInsetsDirectional.only(
-                                start: smallScreen(context) ? 20 : 30,
-                                end: smallScreen(context) ? 20 : 30,
+                                start: smallScreen(context) ? 30 : 40,
+                                end: smallScreen(context) ? 30 : 40,
                                 top: 10,
                               ),
                               alignment: AlignmentDirectional(-1, 0),
@@ -149,7 +149,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                             // The paragraph
                             Container(
                               margin: EdgeInsets.only(
-                                  left: 50, right: 50, top: 15.0),
+                                  left: smallScreen(context) ? 30 : 40, right: smallScreen(context) ? 30 : 40, top: 15.0),
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 _seedMode ?
@@ -163,7 +163,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                             // The container for the seed
                             Container(
                               margin: EdgeInsets.only(
-                                  left: 50, right: 50, top: 20),
+                                  left: smallScreen(context) ? 30 : 40, right: smallScreen(context) ? 30 : 40, top: 20),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: StateContainer.of(context)
