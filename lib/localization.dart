@@ -854,7 +854,7 @@ class AppLocalization {
   }
 
   String get qrMnemonicError {
-    return Intl.message("QR does not contain a valid mnemonic phrase",
+    return Intl.message("QR does not contain a valid secret phrase",
       desc: 'When QR does not contain a valid mnemonic phrase', name: 'qrMnemonicError');
   }
 

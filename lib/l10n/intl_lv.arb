@@ -863,5 +863,27 @@
     "description": "Remove account dialog body",
     "type": "text",
     "placeholders": {}
-  }
+  },
+  "tapToReveal": "Pieskaries, lai parādītu",
+  "tapToHide": "Pieskaries, lai paslēptu",
+  "copied": "Nokopēts",
+  "copy": "Kopēt",
+  "seedDescription": "Privātā atslēga satur to pašu informāciju, ko slepenā frāze, tikai mašīnām saprotamā formā. Ja vismaz vienu no tām saglabājāt kā rezerves kopiju, jums būs piekļuve jūsu līdzekļiem.",
+  "importSecretPhrase": "Importēt slepeno frāzi",
+  "importSecretPhraseHint": "Lūdzu ievadiet jūsu 24 vārdu slepeno frāzi. Katram vārdam jābūt atdalītam ar atstarpi.",
+  "qrMnemonicError": "QR kods nesatur derīgu slepeno frāzi",
+  "mnemonicInvalidWord": "%1 nav derīgs vārds",
+  "mnemonicSizeError": "Slepenā frāze var saturēt tikai 24 vārdus",
+  "secretPhrase": "Slepenā frāze",
+  "backupConfirmButton": "Esmu izveidojis rezerves kopiju",
+  "secretInfoHeader": "Drošība pirmajā vietā!",
+  "secretInfo": "Nākamajā sadaļā redzēsiet jūsu slepeno frāzi. Tā ir parole ar kuru varat piekļūt jūsu līdzekļiem. Ir ārkārtīgi svarīgi izveidot rezerves kopiju un turēt to noslēpumā.",
+  "secretWarning": "Gadījumā, ja nozaudējat telefonu, vai atinstalējat šo aplikāciju, jums būs nepieciešama slepenā frāze, vai privātā atslēga, lai piekļūtu jūsu līdzekļiem!",
+  "gotItButton": "Sapratu!",
+  "ackBackedUp": "Vai esat drošs ka izveidojāt rezerves kopiju slepenajai frāzei vai privātajai atslēgai?",
+  "secretPhraseCopy": "Kopēt slepeno frāzi",
+  "secretPhraseCopied": "Slepenā frāze nokopēta",
+  "import": "Importēt",
+  "importSeedInstead": "Importēt privāto atslēgu",
+  "switchToSeed": "Pārslēgties uz privāto atslēgu"
 }

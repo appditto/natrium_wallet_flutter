@@ -863,7 +863,7 @@
     "description": "Remove account dialog body",
     "type": "text",
     "placeholders": {}
-  }
+  },
   "tapToReveal": "Tap to reveal",
   "tapToHide": "Tap to hide",
   "copied": "Copied",
@@ -871,7 +871,7 @@
   "seedDescription": "A seed bears the same information as a secret phrase, but in a machine-readable way. As long as you have one of them backed up, you'll have access to your funds.",
   "importSecretPhrase": "Import Secret Phrase",
   "importSecretPhraseHint": "Please enter your 24-word secret phrase below. Each word should be separated by a space.",
-  "qrMnemonicError": "QR does not contain a valid mnemonic phrase",
+  "qrMnemonicError": "QR does not contain a valid secret phrase",
   "mnemonicInvalidWord": "%1 is not a valid word",
   "mnemonicSizeError": "Secret phrase may only contain 24 words",
   "secretPhrase": "Secret Phrase",
@@ -885,5 +885,5 @@
   "secretPhraseCopied": "Secret Phrase Copied",
   "import": "Import",
   "importSeedInstead": "Import Seed Instead",
-  "switchToSeed": "Switch to Seed",
+  "switchToSeed": "Switch to Seed"
 }

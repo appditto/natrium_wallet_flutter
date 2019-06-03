@@ -3,6 +3,8 @@
 // messages from the main program should be duplicated here with the same
 // function name.
 
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
 
@@ -21,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "accounts" : MessageLookupByLibrary.simpleMessage("Conturi"),
+    "ackBackedUp" : MessageLookupByLibrary.simpleMessage("Sunteți sigur/ă că ați salvat formula secretă ori seed-ul portofelului?"),
     "addAccount" : MessageLookupByLibrary.simpleMessage("Adăugare cont"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Adaugă contact"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Adresă copiată"),
@@ -30,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "amountMissing" : MessageLookupByLibrary.simpleMessage("Introduceți o sumă"),
     "authMethod" : MessageLookupByLibrary.simpleMessage("Metoda de Autentificare"),
     "autoLockHeader" : MessageLookupByLibrary.simpleMessage("Blocare automată"),
+    "backupConfirmButton" : MessageLookupByLibrary.simpleMessage("Am pus-o într-un loc sigur"),
     "backupSeed" : MessageLookupByLibrary.simpleMessage("Copie de rezervă pentru seed"),
     "backupSeedConfirm" : MessageLookupByLibrary.simpleMessage("Sunteți sigur/ă că ați salvat seed-ul portofelului?"),
     "backupYourSeed" : MessageLookupByLibrary.simpleMessage("Salvați-vă seed-ul (backup)"),
@@ -52,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "contactsHeader" : MessageLookupByLibrary.simpleMessage("Contacte"),
     "contactsImportErr" : MessageLookupByLibrary.simpleMessage("Importarea contactelor a eșuat"),
     "contactsImportSuccess" : MessageLookupByLibrary.simpleMessage("Am importat %1 contacte"),
+    "copied" : MessageLookupByLibrary.simpleMessage("Copiat"),
+    "copy" : MessageLookupByLibrary.simpleMessage("Copiere"),
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Copiază adresa"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Copiere seed"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Reprezentantul curent:"),
@@ -64,9 +70,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("O mulțime de"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("unui om oarecare"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Confirmați cu amprenta pentru a copia seed-ul"),
+    "gotItButton" : MessageLookupByLibrary.simpleMessage("Am înțeles!"),
     "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Ascundere cont?"),
+    "import" : MessageLookupByLibrary.simpleMessage("Import"),
+    "importSecretPhrase" : MessageLookupByLibrary.simpleMessage("Importare formulă secretă"),
+    "importSecretPhraseHint" : MessageLookupByLibrary.simpleMessage("Introduceți fraza de 24 de cuvinte mai jos. Fiecare cuvânt trebuie să fie separat printr-un spațiu."),
     "importSeed" : MessageLookupByLibrary.simpleMessage("Importă seed-ul"),
     "importSeedHint" : MessageLookupByLibrary.simpleMessage("Introdu seed-ul mai jos."),
+    "importSeedInstead" : MessageLookupByLibrary.simpleMessage("Introducere seed-ul în loc"),
     "importWallet" : MessageLookupByLibrary.simpleMessage("Importă portofelul\""),
     "instantly" : MessageLookupByLibrary.simpleMessage("Imediat"),
     "insufficientBalance" : MessageLookupByLibrary.simpleMessage("Fonduri insuficiente"),
@@ -82,7 +93,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "logoutReassurance" : MessageLookupByLibrary.simpleMessage("Dacă aveți seed-ul salvat nu există motive de îngrijorare."),
     "manage" : MessageLookupByLibrary.simpleMessage("Administrare"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Introducere manuală"),
+    "mnemonicInvalidWord" : MessageLookupByLibrary.simpleMessage("%1 nu este un cuvânt valabil"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Frază de memorat"),
+    "mnemonicSizeError" : MessageLookupByLibrary.simpleMessage("Formula secretă conține doar 24 de cuvinte"),
     "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Acesta este noul tău cont! Odată ce primești NANO, tranzacțiile vor arată astfel:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Portofel nou"),
     "no" : MessageLookupByLibrary.simpleMessage("Nu"),
@@ -108,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "privacyPolicy" : MessageLookupByLibrary.simpleMessage("Politica de confidențialitate"),
     "qrInvalidAddress" : MessageLookupByLibrary.simpleMessage("Codul QR nu conține o adresă validă"),
     "qrInvalidSeed" : MessageLookupByLibrary.simpleMessage("Codul QR nu conține un seed sau private key valid"),
+    "qrMnemonicError" : MessageLookupByLibrary.simpleMessage("Codul QR nu conține o formulă secretă corectă"),
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Seed simplu"),
     "receive" : MessageLookupByLibrary.simpleMessage("Primește"),
     "received" : MessageLookupByLibrary.simpleMessage("S-a primit"),
@@ -119,11 +133,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "representatives" : MessageLookupByLibrary.simpleMessage("Reprezentanți"),
     "scanInstructions" : MessageLookupByLibrary.simpleMessage("Scanează o adresă NANO de tip cod QR"),
     "scanQrCode" : MessageLookupByLibrary.simpleMessage("Scanare cod QR"),
+    "secretInfo" : MessageLookupByLibrary.simpleMessage("În continuare, veți vedea formula secretă a portofelului. Aceasta este o parolă care permite accesul la fonduri. Este vital să fie notată într-un caiet și să nu fie arătată vreodată nimănui."),
+    "secretInfoHeader" : MessageLookupByLibrary.simpleMessage("Siguranța înainte de toate!"),
+    "secretPhrase" : MessageLookupByLibrary.simpleMessage("Formula secretă"),
+    "secretPhraseCopied" : MessageLookupByLibrary.simpleMessage("Formula secretă a fost copiată"),
+    "secretPhraseCopy" : MessageLookupByLibrary.simpleMessage("Copiază formula secretă"),
+    "secretWarning" : MessageLookupByLibrary.simpleMessage("Dacă vă pierdeți dispozitivul sau dezinstalați aplicația, aveți nevoie de seed sau de formula secretă pentru a recupera fondurile!"),
     "securityHeader" : MessageLookupByLibrary.simpleMessage("Securitate"),
     "seed" : MessageLookupByLibrary.simpleMessage("Seed"),
     "seedBackupInfo" : MessageLookupByLibrary.simpleMessage("Mai jos se află seed-ul dumneavoastră. Este foarte important să îi faceți o copie de rezervă (backup). Nu fotografiați niciodată seed-ul și nu îl stocați pe un dispozitiv."),
     "seedCopied" : MessageLookupByLibrary.simpleMessage("Seed-ul a fost copiat în clipboard. \n Opțiunea Copy-Paste este valabilă două minute."),
     "seedCopiedShort" : MessageLookupByLibrary.simpleMessage("Seed-ul a fost copiat"),
+    "seedDescription" : MessageLookupByLibrary.simpleMessage("Un seed conține aceeași informație precum o formulă secretă, dar în limbajul calculatoarelor. Va puteți accesa fondurile atâta timp cât păstrați în siguranță o copie a acestora."),
     "seedInvalid" : MessageLookupByLibrary.simpleMessage("Seed invalid"),
     "send" : MessageLookupByLibrary.simpleMessage("Trimite"),
     "sendAmountConfirm" : MessageLookupByLibrary.simpleMessage("Trimite %1 NANO"),
@@ -134,7 +155,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "sentTo" : MessageLookupByLibrary.simpleMessage("Trmite către"),
     "settingsHeader" : MessageLookupByLibrary.simpleMessage("Setări"),
     "settingsTransfer" : MessageLookupByLibrary.simpleMessage("Încarcă din Paper Wallet"),
+    "switchToSeed" : MessageLookupByLibrary.simpleMessage("Folosește seed-ul"),
     "systemDefault" : MessageLookupByLibrary.simpleMessage("Limba implicită"),
+    "tapToHide" : MessageLookupByLibrary.simpleMessage("Apăsați pentru a ascunde"),
+    "tapToReveal" : MessageLookupByLibrary.simpleMessage("Apăsați pentru a afișa"),
     "themeHeader" : MessageLookupByLibrary.simpleMessage("Aspect"),
     "to" : MessageLookupByLibrary.simpleMessage("Către"),
     "tooManyFailedAttempts" : MessageLookupByLibrary.simpleMessage("Prea multe încercări de deblocare eșuate."),

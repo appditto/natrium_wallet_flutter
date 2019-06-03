@@ -108,19 +108,19 @@
         "type": "text",
         "placeholders": {}
     },
-    "seed": "Seme",
+    "seed": "Seed",
     "@seed": {
         "description": "intro_new_wallet_seed_header",
         "type": "text",
         "placeholders": {}
     },
-    "seedInvalid": "Seme non valido",
+    "seedInvalid": "Seed non valido",
     "@seedInvalid": {
         "description": "intro_seed_invalid",
         "type": "text",
         "placeholders": {}
     },
-    "seedCopied": "Seme copiato negli appunti.\n Potrai incollarlo per 2 minuti.",
+    "seedCopied": "Seed copiato negli appunti.\n Potrai incollarlo per 2 minuti.",
     "@seedCopied": {
         "description": "intro_new_wallet_seed_copied",
         "type": "text",
@@ -144,7 +144,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "qrInvalidSeed": "Il codice QR non contiene un seme o una chiave privata validi",
+    "qrInvalidSeed": "Il codice QR non contiene un seed o una chiave privata validi",
     "@qrInvalidSeed": {
         "description": "qr_invalid_seed",
         "type": "text",
@@ -234,43 +234,43 @@
         "type": "text",
         "placeholders": {}
     },
-    "backupYourSeed": "Salva il seme",
+    "backupYourSeed": "Salva il seed",
     "@backupYourSeed": {
         "description": "intro_new_wallet_seed_backup_header",
         "type": "text",
         "placeholders": {}
     },
-    "backupSeedConfirm": "Sei sicuro di aver fatto un backup del tuo seme?",
+    "backupSeedConfirm": "Sei sicuro di aver fatto un backup del tuo seed?",
     "@backupSeedConfirm": {
         "description": "intro_new_wallet_backup",
         "type": "text",
         "placeholders": {}
     },
-    "seedBackupInfo": "Qui sotto c'è il seme del tuo portafoglio. È fondamentale che tu faccia un backup del seme evitando di conservarlo in chiaro o con uno screenshot.",
+    "seedBackupInfo": "Qui sotto c'è il seed del tuo portafoglio. È fondamentale che tu faccia un backup del seed evitando di conservarlo in chiaro o con uno screenshot.",
     "@seedBackupInfo": {
         "description": "intro_new_wallet_seed",
         "type": "text",
         "placeholders": {}
     },
-    "copySeed": "Copia Seme",
+    "copySeed": "Copia Seed",
     "@copySeed": {
         "description": "copy_seed_btn",
         "type": "text",
         "placeholders": {}
     },
-    "seedCopiedShort": "Seme Copiato",
+    "seedCopiedShort": "Seed Copiato",
     "@seedCopiedShort": {
         "description": "seed_copied_btn",
         "type": "text",
         "placeholders": {}
     },
-    "importSeed": "Importa seme",
+    "importSeed": "Importa seed",
     "@importSeed": {
         "description": "intro_seed_header",
         "type": "text",
         "placeholders": {}
     },
-    "importSeedHint": "Inserisci il seme qui in basso.",
+    "importSeedHint": "Inserisci il seed qui in basso.",
     "@importSeedHint": {
         "description": "intro_seed_info",
         "type": "text",
@@ -504,13 +504,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "logoutDetail": "Facendo il logout il tuo seme e tutti i dati relativi a Natrium verranno rimossi dal dispositivo. Se non hai salvato il tuo seme, non sarai più in grado di accedere ai tuoi fondi.",
+    "logoutDetail": "Facendo il logout il tuo seed e tutti i dati relativi a Natrium verranno rimossi dal dispositivo. Se non hai salvato il tuo seed, non sarai più in grado di accedere ai tuoi fondi.",
     "@logoutDetail": {
         "description": "settings_logout_alert_message",
         "type": "text",
         "placeholders": {}
     },
-    "logoutAction": "Elimina seme e fai il logout",
+    "logoutAction": "Elimina seed e fai il logout",
     "@logoutAction": {
         "description": "settings_logout_alert_confirm_cta",
         "type": "text",
@@ -522,7 +522,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "logoutReassurance": "Finché avrai un backup del seme non avrai nulla di cui preoccuparti.",
+    "logoutReassurance": "Finché avrai un backup del seed non avrai nulla di cui preoccuparti.",
     "@logoutReassurance": {
         "description": "settings_logout_warning_message",
         "type": "text",
@@ -546,19 +546,19 @@
         "type": "text",
         "placeholders": {}
     },
-    "backupSeed": "Salva Seme",
+    "backupSeed": "Salva Seed",
     "@backupSeed": {
         "description": "settings_backup_seed",
         "type": "text",
         "placeholders": {}
     },
-    "fingerprintSeedBackup": "Conferma l'impronta per salvare il seme.",
+    "fingerprintSeedBackup": "Conferma l'impronta per salvare il seed.",
     "@fingerprintSeedBackup": {
         "description": "settings_fingerprint_title",
         "type": "text",
         "placeholders": {}
     },
-    "pinSeedBackup": "Inserisci il pin per vedere il seme.",
+    "pinSeedBackup": "Inserisci il pin per vedere il seed.",
     "@pinSeedBackup": {
         "description": "settings_pin_title",
         "type": "text",
@@ -630,7 +630,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "rawSeed": "Seme",
+    "rawSeed": "Seed",
     "@rawSeed": {
         "description": "raw_seed",
         "type": "text",
@@ -648,7 +648,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferManualHint": "Inserisci il tuo seme.",
+    "transferManualHint": "Inserisci il tuo seed.",
     "@transferManualHint": {
         "description": "transfer_hint",
         "type": "text",
@@ -660,19 +660,19 @@
         "type": "text",
         "placeholders": {}
     },
-    "transferQrScanHint": "Scansiona un seme \no una chiave privata",
+    "transferQrScanHint": "Scansiona un seed \no una chiave privata",
     "@transferQrScanHint": {
         "description": "transfer_qr_scan_hint",
         "type": "text",
         "placeholders": {}
     },
-    "transferQrScanError": "Questo codice QR non contiene un seme valido.",
+    "transferQrScanError": "Questo codice QR non contiene un seed valido.",
     "@transferQrScanError": {
         "description": "transfer_qr_scan_error",
         "type": "text",
         "placeholders": {}
     },
-    "transferNoFunds": "Questo seme non contiene alcun NANO al suo interno.",
+    "transferNoFunds": "Questo seed non contiene alcun NANO al suo interno.",
     "@transferNoFunds": {
         "description": "transfer_no_funds_toast",
         "type": "text",
@@ -827,5 +827,27 @@
     "representatives": "Rappresentanti",
     "pickFromList": "Scegli da una Lista",
     "votingWeight": "Peso del Voto",
-    "uptime": "Operatività"
+    "uptime": "Operatività",
+    "tapToReveal": "Tocca per visualizzare",
+    "tapToHide": "Tocca per nascondere",
+    "copied": "Copiato",
+    "copy": "Copia",
+    "seedDescription": "Un seed contiene le stesse informazioni di una frase segreta, ma può essere letto da una macchina. Finché ne avrai una copia, avrai accesso ai tuoi fondi. ",
+    "importSecretPhrase": "Importa Frase Segreta",
+    "importSecretPhraseHint": "Inserisci la tua frase segreta da 24 parole qui sotto. Ogni parola deve essere separata da uno spazio.",
+    "qrMnemonicError": "Il QR non contiene una frase segreta valida",
+    "mnemonicInvalidWord": "%1 non è una parola valida",
+    "mnemonicSizeError": "La frase segreta può contenere solo 24 parole",
+    "secretPhrase": "Frase Segreta",
+    "backupConfirmButton": "L'ho Conservata",
+    "secretInfoHeader": "Sicurezza al primo posto!",
+    "secretInfo": "Nella prossima schermata, vedrai la tua frase segreta. È la password per accedere ai tuoi fondi. È fondamentale che tu ne faccia una copia e che tu non la condivida con nessuno.",
+    "secretWarning": "Se perdi il tuo device o disinstalli l'applicazione, avrai bisogno della tua frase segreta o del seed per recuperare i tuoi fondi!",
+    "gotItButton": "Capito!",
+    "ackBackedUp": "Sei sicuro di aver fatto una copia della tua frase segreta o seed?",
+    "secretPhraseCopy": "Copia Frase Segreta",
+    "secretPhraseCopied": "Frase Segreta Copiata",
+    "import": "Importa",
+    "importSeedInstead": "Oppure Importa Seed",
+    "switchToSeed": "Passa al Seed"
 }

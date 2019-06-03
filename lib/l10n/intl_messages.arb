@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-05-31T10:23:26.075598",
+  "@@last_modified": "2019-06-03T14:18:22.133660",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -930,7 +930,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "qrMnemonicError": "QR does not contain a valid mnemonic phrase",
+  "qrMnemonicError": "QR does not contain a valid secret phrase",
   "@qrMnemonicError": {
     "description": "When QR does not contain a valid mnemonic phrase",
     "type": "text",
