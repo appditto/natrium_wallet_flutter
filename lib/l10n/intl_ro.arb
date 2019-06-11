@@ -72,13 +72,13 @@
         "type": "text",
         "placeholders": {}
     },
-    "sent": "S-a trimis",
+    "sent": "Ai trimis",
     "@sent": {
         "description": "history_sent",
         "type": "text",
         "placeholders": {}
     },
-    "received": "S-a primit",
+    "received": "Ai primit",
     "@received": {
         "description": "history_received",
         "type": "text",
