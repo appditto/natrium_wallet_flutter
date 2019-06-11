@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-06-03T14:18:22.133660",
+  "@@last_modified": "2019-06-11T16:04:50.119290",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -1017,6 +1017,12 @@
   "switchToSeed": "Switch to Seed",
   "@switchToSeed": {
     "description": "switchToSeed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "backupSecretPhrase": "Backup Secret Phrase",
+  "@backupSecretPhrase": {
+    "description": "backup seed",
     "type": "text",
     "placeholders": {}
   }
