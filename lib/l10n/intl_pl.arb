@@ -719,5 +719,27 @@
         "description": "example_card_from",
         "type": "text",
         "placeholders": {}
-    }
+    },
+    "tapToReveal": "Dotknij aby odsłonić",
+    "tapToHide": "Naciśnij aby schować",
+    "copied": "Skopiowane",
+    "copy": "Skopiuj",
+    "seedDescription": "Nasiono nosi taką samą informacje jak sekretna fraza, ale w sposobie czytanym przez maszyny. Tak długo jak posiadasz jedno z nich, masz dostęp do funduszy.",
+    "importSecretPhrase": "Importuj Sekretną Frazę",
+    "importSecretPhraseHint": "Wpisz swoją frazę która ma 24 słowa. Każde słowo powinno być oddzielone spacjami.",
+    "qrMnemonicError": "Kod QR nie zawiera ważnej sekretnej frazy",
+    "mnemonicInvalidWord": "%1 nie jest ważnym słowem",
+    "mnemonicSizeError": "Sekretne frazy mogą zawierać tylko 24 słowa",
+    "secretPhrase": "Sekretna fraza",
+    "backupConfirmButton": "Zapisałem frazę",
+    "secretInfoHeader": "Bezpieczeństwo na pierwszym miejscu!",
+    "secretInfo": "Na następnym ekranie zobaczysz swoją sekretną frazę. Jest ona hasłem do twoich funduszy. Jest istotne abyś zapisał ją i nigdy nie podawał nikomu.",
+    "secretWarning": "Jeżeli zgubisz urządzenie lub odinstalujesz aplikacje, będziesz potrzebował sekretnej frazy albo nasiona aby odzyskać fundusze!",
+    "gotItButton": "Rozumiem!",
+    "ackBackedUp": "Czy jesteś pewny że zapisałeś sekretną frazę albo nasiono?",
+    "secretPhraseCopy": "Kopiuj Sekretną Frazę",
+    "secretPhraseCopied": "Sekretna Fraza Skopiowania",
+    "import": "Importuj",
+    "importSeedInstead": "Importuj Nasiono Zamiast Sekretnej Frazy",
+    "switchToSeed": "Zamień na nasiono"
 }

@@ -928,6 +928,11 @@ class AppLocalization {
       desc: "switchToSeed", name: 'switchToSeed');
   }
 
+  String get backupSecretPhrase {
+    return Intl.message("Backup Secret Phrase",
+      desc: 'backup seed', name: 'backupSecretPhrase');
+  }
+
   /// -- SEED PROCESS
 
   /// -- END SEED PROCESS
