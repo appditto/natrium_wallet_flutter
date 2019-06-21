@@ -28,7 +28,6 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   void initState() {
     super.initState();
     sl.get<Vault>().getSeed().then((seed) {
-      print(seed);
       setState(() {
         _seed = seed;
         _mnemonic = NanoMnemomics.seedToMnemonic(seed);
