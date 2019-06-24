@@ -391,6 +391,7 @@ class StateContainerState extends State<StateContainer> {
   // Update the global wallet instance with a new address
   Future<void> updateWallet({Account account}) async {
     String address = await NanoUtil().seedToAddressInIsolate(await sl.get<Vault>().getSeed(), account.index);
+    account.address = address;
     selectedAccount = account;
     updateRecentlyUsedAccounts();
     setState(() {

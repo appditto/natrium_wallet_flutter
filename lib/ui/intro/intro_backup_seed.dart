@@ -4,6 +4,7 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
@@ -177,10 +178,12 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                         Dimens.BUTTON_BOTTOM_DIMENS,
                         onPressed: () {
                           // Update wallet
-                          NanoUtil().loginAccount(context).then((_) {
-                            StateContainer.of(context).requestUpdate();
-                            Navigator.of(context)
-                                .pushNamed('/intro_backup_confirm');
+                          sl.get<DBHelper>().dropAccounts().then((_) {
+                            NanoUtil().loginAccount(context).then((_) {
+                              StateContainer.of(context).requestUpdate();
+                              Navigator.of(context)
+                                  .pushNamed('/intro_backup_confirm');
+                            });
                           });
                         },
                       ),

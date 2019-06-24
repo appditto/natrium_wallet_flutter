@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
+import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
@@ -591,14 +592,16 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                     sl.get<Vault>()
                                         .setSeed(_seedInputController.text)
                                         .then((result) {
-                                      NanoUtil().loginAccount(context).then((_) {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(builder:
-                                                (BuildContext context) {
-                                          return PinScreen(
-                                              PinOverlayType.NEW_PIN,
-                                              (_pinEnteredCallback));
-                                        }));
+                                      sl.get<DBHelper>().dropAccounts().then((_) {
+                                        NanoUtil().loginAccount(context).then((_) {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(builder:
+                                                  (BuildContext context) {
+                                            return PinScreen(
+                                                PinOverlayType.NEW_PIN,
+                                                (_pinEnteredCallback));
+                                          }));
+                                        });
                                       });
                                     });
                                   });
@@ -618,14 +621,16 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                     sl.get<Vault>()
                                         .setSeed(NanoMnemomics.mnemonicListToSeed(_mnemonicController.text.split(' ')))
                                         .then((result) {
-                                      NanoUtil().loginAccount(context).then((_) {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(builder:
-                                                (BuildContext context) {
-                                          return PinScreen(
-                                              PinOverlayType.NEW_PIN,
-                                              (_pinEnteredCallback));
-                                        }));
+                                      sl.get<DBHelper>().dropAccounts().then((_) {
+                                        NanoUtil().loginAccount(context).then((_) {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(builder:
+                                                  (BuildContext context) {
+                                            return PinScreen(
+                                                PinOverlayType.NEW_PIN,
+                                                (_pinEnteredCallback));
+                                          }));
+                                        });
                                       });
                                     });
                                   });                                  
