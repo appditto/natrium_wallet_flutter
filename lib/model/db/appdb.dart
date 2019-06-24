@@ -157,6 +157,13 @@ class DBHelper{
         await dbClient.rawUpdate('UPDATE Accounts SET address = ? where id = ?', [address, list[i]["id"]]);
       } else {
         address = list[i]['address'];
+        if (list[i]['acct_index'] == 0) {
+          String address2 = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[i]["acct_index"]);
+          if (address2 != address) {
+            address = address2;
+            await dbClient.rawUpdate('UPDATE Accounts SET address = ? where id = ?', [address, list[i]["id"]]);
+          }
+        }
       }
       accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: address, balance: list[i]["balance"]));
     }
