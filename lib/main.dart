@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -237,7 +238,10 @@ class Splash extends StatefulWidget {
 }
 
 class SplashState extends State<Splash> with WidgetsBindingObserver {
- Future<bool> _doAndroidMigration() async {
+  bool _hasCheckedLoggedIn;
+  bool _retried;
+
+  Future<bool> _doAndroidMigration() async {
     bool migrated = false;
     // Migrate seed
     String legacySeed = await sl.get<LegacyMigration>().getLegacySeed();
@@ -279,6 +283,11 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
   }
 
   Future checkLoggedIn() async {
+    if (!_hasCheckedLoggedIn) {
+      _hasCheckedLoggedIn = true;
+    } else {
+      return;
+    }
     try {
       // iOS key store is persistent, so if this is first launch then we will clear the keystore
       bool firstLaunch = await sl.get<SharedPrefsUtil>().getFirstLaunch();
@@ -337,6 +346,11 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
       } else {
         await sl.get<Vault>().deleteAll();
         await sl.get<SharedPrefsUtil>().deleteAll();
+        if (!_retried) {
+          _retried = true;
+          _hasCheckedLoggedIn = false;
+          checkLoggedIn();
+        }
       }
     }
   }
@@ -345,8 +359,13 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    checkLoggedIn();
     WidgetsBinding.instance.addObserver(this);
+    _hasCheckedLoggedIn = false;
+    _retried = false;
+    if (SchedulerBinding.instance.schedulerPhase ==
+        SchedulerPhase.persistentCallbacks) {
+      SchedulerBinding.instance.addPostFrameCallback((_) => checkLoggedIn());
+    }
   }
 
   @override
