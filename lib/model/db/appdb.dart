@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io' as io;
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -145,28 +146,27 @@ class DBHelper{
     return await dbClient.rawUpdate("UPDATE contacts SET monkey_path = ? WHERE address = ?", [monkeyPath, contact.address]) > 0;
   }
 
+  static Future<List<Account>> setAddressForAccounts(Map<String,dynamic> params) async {
+    List<Account> accounts = params['accounts'];
+    String seed = params['seed'];
+    accounts.forEach((a) {
+      a.address = NanoUtil.seedToAddress({
+        'seed':seed,
+        'index':a.index
+      });
+    });
+    return accounts;
+  }
+
   // Accounts
   Future<List<Account>> getAccounts() async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts ORDER BY acct_index');
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
-      String address;
-      if (list[i]['address'] == null) {
-        address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[i]["acct_index"]);
-        await dbClient.rawUpdate('UPDATE Accounts SET address = ? where id = ?', [address, list[i]["id"]]);
-      } else {
-        address = list[i]['address'];
-        if (list[i]['acct_index'] == 0) {
-          String address2 = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[i]["acct_index"]);
-          if (address2 != address) {
-            address = address2;
-            await dbClient.rawUpdate('UPDATE Accounts SET address = ? where id = ?', [address, list[i]["id"]]);
-          }
-        }
-      }
-      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: address, balance: list[i]["balance"]));
+      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, balance: list[i]["balance"]));
     }
+    accounts = await compute(setAddressForAccounts, {'seed': await sl.get<Vault>().getSeed(), 'accounts':accounts});
     return accounts;
   }
 
@@ -175,15 +175,9 @@ class DBHelper{
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts WHERE selected != 1 ORDER BY last_accessed DESC, acct_index ASC LIMIT ?', [limit]);
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
-      String address;
-      if (list[i]['address'] == null) {
-        address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[i]["acct_index"]);
-        await dbClient.rawUpdate('UPDATE Accounts SET address = ? where id = ?', [address, list[i]["id"]]);
-      } else {
-        address = list[i]['address'];
-      }
-      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, address: address, balance: list[i]["balance"]));
+      accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, balance: list[i]["balance"]));
     }
+    accounts = await compute(setAddressForAccounts, {'seed': await sl.get<Vault>().getSeed(), 'accounts':accounts});
     return accounts;
   }
 
@@ -245,13 +239,7 @@ class DBHelper{
     if (list.length == 0) {
       return null;
     }
-    String address;
-    if (list[0]['address'] == null) {
-      address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[0]["acct_index"]);
-      await dbClient.rawUpdate('UPDATE Accounts SET address = ? where id = ?', [address, list[0]["id"]]);
-    } else {
-      address = list[0]['address'];
-    }
+    String address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[0]["acct_index"]);
     Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: address);
     return account;
   }
@@ -262,13 +250,7 @@ class DBHelper{
     if (list.length == 0) {
       return null;
     }
-    String address;
-    if (list[0]['address'] == null) {
-      address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[0]["acct_index"]);
-      await dbClient.rawUpdate('UPDATE Accounts SET address = ? where id = ?', [address, list[0]["id"]]);
-    } else {
-      address = list[0]['address'];
-    }
+    String address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[0]["acct_index"]);
     Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: address);
     return account;
   }
