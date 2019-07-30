@@ -77,6 +77,7 @@ class _AppState extends State<App> {
         localizationsDelegates: [
           AppLocalizationsDelegate(StateContainer.of(context).curLanguage),
           GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate
         ],
         locale: StateContainer.of(context).curLanguage == null ? Locale('en') : StateContainer.of(context).curLanguage.getLocale(),
