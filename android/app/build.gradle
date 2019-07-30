@@ -80,6 +80,12 @@ android {
         release {
             if (keystorePropertiesFile.exists()) {
                 signingConfig signingConfigs.release
+                minifyEnabled true
+                useProguard true
+
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            } else {
+                signingConfig signingConfigs.debug
             }
         }
     }
