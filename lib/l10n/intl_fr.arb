@@ -120,7 +120,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "seedCopied": "La clé privée est copié dans le presse-papiers. Vous pouvez le copier-coller pendant les 2 prochaines minutes.",
+    "seedCopied": "La clé privée est copiée dans le presse-papiers. Vous pouvez la copier-coller pendant les 2 prochaines minutes.",
     "@seedCopied": {
         "description": "intro_new_wallet_seed_copied",
         "type": "text",
@@ -252,7 +252,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "copySeed": "Copier clé privée",
+    "copySeed": "Copier la clé privée",
     "@copySeed": {
         "description": "copy_seed_btn",
         "type": "text",
@@ -426,7 +426,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "repInfo": "Un représentant est un compte votant en faveur du consensus de réseau. Le pouvoir de vote est dépendant du solde, vous avez la possibilité de déléguer votre solde afin d’augmenter le pouvoir de vote d’un représentant digne de confiance. Votre représentant n’a pas la possibilité de dépenser vos fonds. Vous devriez choisir un représentant avec fiable et ayant peu d’indisponibilité.",
+    "repInfo": "Un représentant est un compte votant en faveur du consensus de réseau. Le pouvoir de vote est dépendant du solde, vous avez la possibilité de déléguer votre solde afin d’augmenter le pouvoir de vote d’un représentant digne de confiance. Votre représentant n’a pas la possibilité de dépenser vos fonds. Vous devriez choisir un représentant fiable et ayant peu d’indisponibilité.",
     "@repInfo": {
         "description": "change_representative_info",
         "type": "text",
@@ -624,7 +624,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "mnemonicPhrase": "Phrase mnemonique",
+    "mnemonicPhrase": "Phrase mnémonique",
     "@mnemonicPhrase": {
         "description": "mnemonic_phrase",
         "type": "text",
@@ -786,7 +786,7 @@
         "type": "text",
         "placeholders": {}
     },
-    "exampleCardIntro": "Bienvenue sur Natrium. Lorsque vous recevrez des NANO, les transactions apparaîtront içi.",
+    "exampleCardIntro": "Bienvenue sur Natrium. Lorsque vous recevrez des NANO, les transactions apparaîtront ici.",
     "@exampleCardIntro": {
         "description": "example_card_intro",
         "type": "text",
