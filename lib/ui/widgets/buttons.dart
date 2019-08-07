@@ -208,4 +208,105 @@ class AppButton {
         throw new UIException("Invalid Button Type $type");
     }
   } //
+
+  static Widget buildAppButtonSplit(BuildContext context, AppButtonType type,
+      String leftText, String rightText, List<double> dimens,
+      {Function onLeftPressed, Function onRightPressed, bool disabled = false}) {
+    switch (type) {
+      case AppButtonType.PRIMARY_OUTLINE:
+        return Row( children:<Widget>[
+              Expanded(
+                  child: Container(
+                  decoration: BoxDecoration(
+                    color: StateContainer.of(context).curTheme.backgroundDark,
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(100), bottomLeft: Radius.circular(100)),
+                    boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
+                  ),
+                  height: 55,
+                  margin: EdgeInsetsDirectional.fromSTEB(dimens[0], dimens[1], 0, dimens[3]),
+                  child: OutlineButton(
+                    color: StateContainer.of(context).curTheme.backgroundDark,
+                    textColor: disabled
+                        ? StateContainer.of(context).curTheme.primary60
+                        : StateContainer.of(context).curTheme.primary,
+                    borderSide: BorderSide(
+                        color: disabled
+                            ? StateContainer.of(context).curTheme.primary60
+                            : StateContainer.of(context).curTheme.primary,
+                        width: 2.0),
+                    highlightedBorderColor: disabled
+                        ? StateContainer.of(context).curTheme.primary60
+                        : StateContainer.of(context).curTheme.primary,
+                    splashColor: StateContainer.of(context).curTheme.text30,
+                    highlightColor: StateContainer.of(context).curTheme.text15,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(100), bottomLeft: Radius.circular(100))),
+                    child: AutoSizeText(
+                      leftText,
+                      textAlign: TextAlign.center,
+                      style: disabled
+                          ? AppStyles.textStyleButtonPrimaryOutlineDisabled(context)
+                          : AppStyles.textStyleButtonPrimaryOutline(context),
+                      maxLines: 1,
+                      stepGranularity: 0.5,
+                    ),
+                    onPressed: () {
+                      if (onLeftPressed != null) {
+                        onLeftPressed();
+                      }
+                      return;
+                    },
+                  ),
+                )
+              ),
+              Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: StateContainer.of(context).curTheme.backgroundDark,
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(100), bottomRight: Radius.circular(100)),
+                      boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
+                    ),
+                    height: 55,
+                    margin: EdgeInsetsDirectional.fromSTEB(0, dimens[1], dimens[2], dimens[3]),
+                    child: OutlineButton(
+                      color: StateContainer.of(context).curTheme.backgroundDark,
+                      textColor: disabled
+                          ? StateContainer.of(context).curTheme.primary60
+                          : StateContainer.of(context).curTheme.primary,
+                      borderSide: BorderSide(
+                          color: disabled
+                              ? StateContainer.of(context).curTheme.primary60
+                              : StateContainer.of(context).curTheme.primary,
+                          width: 2.0),
+                      highlightedBorderColor: disabled
+                          ? StateContainer.of(context).curTheme.primary60
+                          : StateContainer.of(context).curTheme.primary,
+                      splashColor: StateContainer.of(context).curTheme.text30,
+                      highlightColor: StateContainer.of(context).curTheme.text15,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(100), bottomRight: Radius.circular(100))),
+                      child: AutoSizeText(
+                        rightText,
+                        textAlign: TextAlign.center,
+                        style: disabled
+                            ? AppStyles.textStyleButtonPrimaryOutlineDisabled(context)
+                            : AppStyles.textStyleButtonPrimaryOutline(context),
+                        maxLines: 1,
+                        stepGranularity: 0.5,
+                      ),
+                      onPressed: () {
+                        if (onRightPressed != null) {
+                          onRightPressed();
+                        }
+                        return;
+                      },
+                    ),
+                )
+              )
+            ]
+        );
+      default:
+        throw new UIException("Invalid Button Type $type");
+    }
+  } //
 }

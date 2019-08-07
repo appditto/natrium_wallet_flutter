@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:decimal/decimal.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:intl/intl.dart';
+import 'package:uni_links/uni_links.dart';
 
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -24,6 +26,7 @@ import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
+import 'package:natrium_wallet_flutter/util/deviceutil.dart';
 
 class AppSendSheet {
   FocusNode _sendAddressFocusNode;
@@ -73,6 +76,237 @@ class AppSendSheet {
         StateContainer.of(context).wallet.address,
         type: ThreeLineAddressTextType.PRIMARY60,
       );
+  }
+
+  _scanQR(BuildContext context, StateSetter setState){
+    try {
+      UIUtil.cancelLockEvent();
+      BarcodeScanner.scan(StateContainer.of(context)
+          .curTheme
+          .qrScanTheme)
+          .then((value) {
+        Address address = Address(value);
+        if (!address.isValid()) {
+          UIUtil.showSnackbar(
+              AppLocalization.of(context)
+                  .qrInvalidAddress,
+              context);
+        } else {
+          sl.get<DBHelper>()
+              .getContactWithAddress(
+              address.address)
+              .then((contact) {
+            if (contact == null) {
+              setState(() {
+                _isContact = false;
+                _addressValidationText = "";
+                _sendAddressStyle = AppStyles
+                    .textStyleAddressText90(
+                    context);
+                _pasteButtonVisible = false;
+                _showContactButton = false;
+              });
+              _sendAddressController.text =
+                  address.address;
+              _sendAddressFocusNode.unfocus();
+              setState(() {
+                _addressValidAndUnfocused = true;
+              });
+            } else {
+              // Is a contact
+              setState(() {
+                _isContact = true;
+                _addressValidationText = "";
+                _sendAddressStyle = AppStyles
+                    .textStyleAddressPrimary(
+                    context);
+                _pasteButtonVisible = false;
+                _showContactButton = false;
+              });
+              _sendAddressController.text =
+                  contact.name;
+            }
+            // Fill amount
+            if (address.amount != null) {
+              if (_localCurrencyMode) {
+                toggleLocalCurrency(
+                    context, setState);
+                _sendAmountController.text =
+                    NumberUtil.getRawAsUsableString(
+                        address.amount);
+              } else {
+                setState(() {
+                  _rawAmount = address.amount;
+                  // Indicate that this is a special amount if some digits are not displayed
+                  if (NumberUtil
+                      .getRawAsUsableString(
+                      _rawAmount)
+                      .replaceAll(",", "") ==
+                      NumberUtil
+                          .getRawAsUsableDecimal(
+                          _rawAmount)
+                          .toString()) {
+                    _sendAmountController
+                        .text = NumberUtil
+                        .getRawAsUsableString(
+                        _rawAmount)
+                        .replaceAll(",", "");
+                  } else {
+                    _sendAmountController
+                        .text = NumberUtil.truncateDecimal(
+                        NumberUtil
+                            .getRawAsUsableDecimal(
+                            address
+                                .amount),
+                        digits: 6)
+                        .toStringAsFixed(6) +
+                        "~";
+                  }
+                });
+              }
+            }
+          });
+          _sendAddressFocusNode.unfocus();
+        }
+      });
+    } catch (e) {
+      if (e.code ==
+          BarcodeScanner.CameraAccessDenied) {
+        // TODO - Permission Denied to use camera
+      } else {
+        // UNKNOWN ERROR
+      }
+    }
+  }
+
+  Widget _sendButtonRow(BuildContext context, StateSetter setState) {
+   return Row(
+      children: <Widget>[
+        // Send Button
+        AppButton.buildAppButton(
+            context,
+            AppButtonType.PRIMARY,
+            AppLocalization.of(context).send,
+            Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+          bool validRequest =
+          _validateRequest(context, setState);
+          if (_sendAddressController.text
+              .startsWith("@") &&
+              validRequest) {
+            // Need to make sure its a valid contact
+            sl.get<DBHelper>()
+                .getContactWithName(
+                _sendAddressController.text)
+                .then((contact) {
+              if (contact == null) {
+                setState(() {
+                  _addressValidationText =
+                      AppLocalization.of(context)
+                          .contactInvalid;
+                });
+              } else {
+                AppSendConfirmSheet(
+                    _localCurrencyMode
+                        ? NumberUtil.getAmountAsRaw(
+                        _convertLocalCurrencyToCrypto(
+                            context))
+                        : _rawAmount == null
+                        ? NumberUtil.getAmountAsRaw(
+                        _sendAmountController
+                            .text)
+                        : _rawAmount,
+                    contact.address,
+                    contactName: contact.name,
+                    maxSend: _isMaxSend(context),
+                    localCurrencyAmount:
+                    _localCurrencyMode
+                        ? _sendAmountController
+                        .text
+                        : null)
+                    .mainBottomSheet(context);
+              }
+            });
+          } else if (validRequest) {
+            AppSendConfirmSheet(
+                _localCurrencyMode
+                    ? NumberUtil.getAmountAsRaw(
+                    _convertLocalCurrencyToCrypto(
+                        context))
+                    : _rawAmount == null
+                    ? NumberUtil.getAmountAsRaw(
+                    _sendAmountController
+                        .text)
+                    : _rawAmount,
+                _sendAddressController.text,
+                maxSend: _isMaxSend(context),
+                localCurrencyAmount:
+                _localCurrencyMode
+                    ? _sendAmountController.text
+                    : null)
+                .mainBottomSheet(context);
+          }
+        }),
+      ],
+    );
+  }
+
+  Widget _scanQRCodeButtonRow(BuildContext context, StateSetter setState) {
+    return Row(
+      children: <Widget>[
+        // Scan QR Code Button
+        AppButton.buildAppButton(
+            context,
+            AppButtonType.PRIMARY_OUTLINE,
+            AppLocalization.of(context).scanQrCode,
+            Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+            _scanQR(context, setState);
+        }),
+      ],
+    );
+  }
+
+  Widget _sendOptionsWithoutNFC(BuildContext context, StateSetter setState) {
+    return Column(children:<Widget>[
+      _sendButtonRow(context, setState),
+      _scanQRCodeButtonRow(context, setState),
+    ]
+    );
+  }
+
+  Widget _sendOptionsWithNFC(BuildContext context, StateSetter setState) {
+    return Column(children:<Widget>[
+        _sendButtonRow(context, setState),
+        AppButton.buildAppButtonSplit(
+          context,
+          AppButtonType.PRIMARY_OUTLINE,
+          AppLocalization.of(context).scanQrCode,
+          AppLocalization.of(context).contactless,
+          Dimens.BUTTON_BOTTOM_DIMENS,
+          onLeftPressed: () {
+            _scanQR(context, setState);
+          },
+          onRightPressed: () {
+            try {
+              UIUtil.cancelLockEvent();
+              startNFCSession("");
+            } catch (e) {
+              stopNFCSession();
+            }
+          }
+        )
+    ],
+   );
+  }
+
+  _withOrWithoutNFCSendOptions(BuildContext context, StateSetter setState){
+    return FutureBuilder(
+      future: DeviceUtil.supportsNFCReader(),
+      builder: (BuildContext context, AsyncSnapshot<bool> nfcReaderAvailable) {
+        if(nfcReaderAvailable.hasData && nfcReaderAvailable.data){
+          return _sendOptionsWithNFC(context, setState);
+        }
+        return _sendOptionsWithoutNFC(context, setState);
+  });
   }
 
   mainBottomSheet(BuildContext context) {
@@ -492,189 +726,9 @@ class AppSendSheet {
                       ),
                     ),
 
-                    //A column with "Scan QR Code" and "Send" buttons
+                    //A column with "Scan QR Code" and "Send" buttons and "Scan NFC Tag" on iOS
                     Container(
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              // Send Button
-                              AppButton.buildAppButton(
-                                  context,
-                                  AppButtonType.PRIMARY,
-                                  AppLocalization.of(context).send,
-                                  Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                                bool validRequest =
-                                    _validateRequest(context, setState);
-                                if (_sendAddressController.text
-                                        .startsWith("@") &&
-                                    validRequest) {
-                                  // Need to make sure its a valid contact
-                                  sl.get<DBHelper>()
-                                      .getContactWithName(
-                                          _sendAddressController.text)
-                                      .then((contact) {
-                                    if (contact == null) {
-                                      setState(() {
-                                        _addressValidationText =
-                                            AppLocalization.of(context)
-                                                .contactInvalid;
-                                      });
-                                    } else {
-                                      AppSendConfirmSheet(
-                                              _localCurrencyMode
-                                                  ? NumberUtil.getAmountAsRaw(
-                                                      _convertLocalCurrencyToCrypto(
-                                                          context))
-                                                  : _rawAmount == null
-                                                      ? NumberUtil.getAmountAsRaw(
-                                                          _sendAmountController
-                                                              .text)
-                                                      : _rawAmount,
-                                              contact.address,
-                                              contactName: contact.name,
-                                              maxSend: _isMaxSend(context),
-                                              localCurrencyAmount:
-                                                  _localCurrencyMode
-                                                      ? _sendAmountController
-                                                          .text
-                                                      : null)
-                                          .mainBottomSheet(context);
-                                    }
-                                  });
-                                } else if (validRequest) {
-                                  AppSendConfirmSheet(
-                                          _localCurrencyMode
-                                              ? NumberUtil.getAmountAsRaw(
-                                                  _convertLocalCurrencyToCrypto(
-                                                      context))
-                                              : _rawAmount == null
-                                                  ? NumberUtil.getAmountAsRaw(
-                                                      _sendAmountController
-                                                          .text)
-                                                  : _rawAmount,
-                                          _sendAddressController.text,
-                                          maxSend: _isMaxSend(context),
-                                          localCurrencyAmount:
-                                              _localCurrencyMode
-                                                  ? _sendAmountController.text
-                                                  : null)
-                                      .mainBottomSheet(context);
-                                }
-                              }),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              // Scan QR Code Button
-                              AppButton.buildAppButton(
-                                  context,
-                                  AppButtonType.PRIMARY_OUTLINE,
-                                  AppLocalization.of(context).scanQrCode,
-                                  Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                                try {
-                                  UIUtil.cancelLockEvent();
-                                  BarcodeScanner.scan(StateContainer.of(context)
-                                          .curTheme
-                                          .qrScanTheme)
-                                      .then((value) {
-                                    Address address = Address(value);
-                                    if (!address.isValid()) {
-                                      UIUtil.showSnackbar(
-                                          AppLocalization.of(context)
-                                              .qrInvalidAddress,
-                                          context);
-                                    } else {
-                                      sl.get<DBHelper>()
-                                          .getContactWithAddress(
-                                              address.address)
-                                          .then((contact) {
-                                        if (contact == null) {
-                                          setState(() {
-                                            _isContact = false;
-                                            _addressValidationText = "";
-                                            _sendAddressStyle = AppStyles
-                                                .textStyleAddressText90(
-                                                    context);
-                                            _pasteButtonVisible = false;
-                                            _showContactButton = false;
-                                          });
-                                          _sendAddressController.text =
-                                              address.address;
-                                          _sendAddressFocusNode.unfocus();
-                                          setState(() {
-                                            _addressValidAndUnfocused = true;
-                                          });
-                                        } else {
-                                          // Is a contact
-                                          setState(() {
-                                            _isContact = true;
-                                            _addressValidationText = "";
-                                            _sendAddressStyle = AppStyles
-                                                .textStyleAddressPrimary(
-                                                    context);
-                                            _pasteButtonVisible = false;
-                                            _showContactButton = false;
-                                          });
-                                          _sendAddressController.text =
-                                              contact.name;
-                                        }
-                                        // Fill amount
-                                        if (address.amount != null) {
-                                          if (_localCurrencyMode) {
-                                            toggleLocalCurrency(
-                                                context, setState);
-                                            _sendAmountController.text =
-                                                NumberUtil.getRawAsUsableString(
-                                                    address.amount);
-                                          } else {
-                                            setState(() {
-                                              _rawAmount = address.amount;
-                                              // Indicate that this is a special amount if some digits are not displayed
-                                              if (NumberUtil
-                                                          .getRawAsUsableString(
-                                                              _rawAmount)
-                                                      .replaceAll(",", "") ==
-                                                  NumberUtil
-                                                          .getRawAsUsableDecimal(
-                                                              _rawAmount)
-                                                      .toString()) {
-                                                _sendAmountController
-                                                    .text = NumberUtil
-                                                        .getRawAsUsableString(
-                                                            _rawAmount)
-                                                    .replaceAll(",", "");
-                                              } else {
-                                                _sendAmountController
-                                                    .text = NumberUtil.truncateDecimal(
-                                                            NumberUtil
-                                                                .getRawAsUsableDecimal(
-                                                                    address
-                                                                        .amount),
-                                                            digits: 6)
-                                                        .toStringAsFixed(6) +
-                                                    "~";
-                                              }
-                                            });
-                                          }
-                                        }
-                                      });
-                                      _sendAddressFocusNode.unfocus();
-                                    }
-                                  });
-                                } catch (e) {
-                                  if (e.code ==
-                                      BarcodeScanner.CameraAccessDenied) {
-                                    // TODO - Permission Denied to use camera
-                                  } else {
-                                    // UNKNOWN ERROR
-                                  }
-                                }
-                              }),
-                            ],
-                          ),
-                        ],
-                      ),
+                      child: _withOrWithoutNFCSendOptions(context, setState),
                     ),
                   ],
                 ));
