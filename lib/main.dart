@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_backup_safety.dart';
+import 'package:natrium_wallet_flutter/ui/intro/intro_password.dart';
+import 'package:natrium_wallet_flutter/ui/intro/intro_password_on_launch.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 
@@ -190,6 +192,26 @@ class _AppState extends State<App> {
             case '/intro_welcome':
               return NoTransitionRoute(
                 builder: (_) => IntroWelcomePage(),
+                settings: settings,
+              );
+            case '/intro_password_on_launch':
+              return MaterialPageRoute(
+                builder: (_) => IntroPasswordOnLaunch(),
+                settings: settings,
+              );
+            case '/intro_password_on_launch_fromimport':
+              return MaterialPageRoute(
+                builder: (_) => IntroPasswordOnLaunch(comingFromImport: true),
+                settings: settings,
+              );
+            case '/intro_password':
+              return MaterialPageRoute(
+                builder: (_) => IntroPassword(),
+                settings: settings,
+              );
+            case '/intro_password_fromimport':
+              return MaterialPageRoute(
+                builder: (_) => IntroPassword(comingFromImport:true),
                 settings: settings,
               );
             case '/intro_backup':
