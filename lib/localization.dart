@@ -962,6 +962,11 @@ class AppLocalization {
     return Intl.message("Confirm the password",
       desc: 'A text field hint that tells the user to confirm the password', name: 'confirmPasswordHint');
   }
+
+  String get enterPasswordHint {
+    return Intl.message("Enter your password",
+      desc: 'A text field hint that tells the users to enter their password', name: 'enterPasswordHint');
+  }
   /// HINTS END
   
 

@@ -105,6 +105,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                         right: MediaQuery.of(context).size.width * 0.105,
                         top: 30,
                       ),
+                      padding: EdgeInsetsDirectional.only(start: 16, end: 16),
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: StateContainer.of(context)
@@ -122,7 +123,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                             cursorColor:
                                 StateContainer.of(context).curTheme.primary,
                             textInputAction: TextInputAction.done,
-                            maxLines: null,
+                            maxLines: 1,
                             autocorrect: false,
                             decoration: InputDecoration(
                               hintText: AppLocalization.of(context).createPasswordHint,
@@ -156,6 +157,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                         right: MediaQuery.of(context).size.width * 0.105,
                         top: 20,
                       ),
+                      padding: EdgeInsetsDirectional.only(start: 16, end: 16),
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: StateContainer.of(context)
@@ -173,7 +175,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                             cursorColor:
                                 StateContainer.of(context).curTheme.primary,
                             textInputAction: TextInputAction.done,
-                            maxLines: null,
+                            maxLines: 1,
                             autocorrect: false,
                             decoration: InputDecoration(
                               hintText: AppLocalization.of(context).confirmPasswordHint,
