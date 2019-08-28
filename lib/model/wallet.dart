@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:intl/intl.dart';
+import 'package:natrium_wallet_flutter/model/available_currency.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
@@ -59,16 +60,9 @@ class AppWallet {
   }
 
 
-  String getLocalCurrencyPrice({String locale = "en_US"}) {
+  String getLocalCurrencyPrice(AvailableCurrency currency, {String locale = "en_US"}) {
     Decimal converted = Decimal.parse(_localCurrencyPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
-    switch (locale) {
-      case "es_VE":
-        return NumberFormat.currency(locale:locale, symbol: "Bs.S").format(converted.toDouble());
-      case "tr_TR":
-        return NumberFormat.currency(locale:locale, symbol: "₺").format(converted.toDouble());
-      default:
-        return NumberFormat.simpleCurrency(locale:locale).format(converted.toDouble());
-    }
+    return NumberFormat.currency(locale:locale, symbol: currency.getCurrencySymbol()).format(converted.toDouble());
   }
 
   set localCurrencyPrice(String value) {

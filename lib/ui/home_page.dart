@@ -1507,6 +1507,7 @@ class _AppHomePageState extends State<AppHomePage>
           children: <Widget>[
             Text(
                 StateContainer.of(context).wallet.getLocalCurrencyPrice(
+                  StateContainer.of(context).curCurrency,
                     locale: StateContainer.of(context).currencyLocale),
                 textAlign: TextAlign.center,
                 style: _pricesHidden
