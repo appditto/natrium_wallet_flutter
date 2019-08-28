@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:natrium_wallet_flutter/util/security/random_util.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
@@ -14,6 +15,7 @@ class Vault {
   static const String seedKey = 'fkalium_seed';
   static const String encryptionKey = 'fkalium_secret_phrase';
   static const String pinKey = 'fkalium_pin';
+  static const String sessionKey = 'fencsess_key';
   final FlutterSecureStorage secureStorage = new FlutterSecureStorage();
 
   Future<bool> legacy() async {
@@ -43,6 +45,7 @@ class Vault {
       await prefs.remove(encryptionKey);
       await prefs.remove(seedKey);
       await prefs.remove(pinKey);
+      await prefs.remove(sessionKey);
       return;
     }
     return await secureStorage.deleteAll();
@@ -71,6 +74,20 @@ class Vault {
 
   Future<String> writeEncryptionPhrase(String secret) async {
     return await _write(encryptionKey, secret);
+  }
+
+  /// Used to keep the seed in-memory in the session without being plaintext
+  Future<String> getSessionKey() async {
+    String key = await _read(sessionKey);
+    if (key == null) {
+      key = RandomUtil.generateEncryptionSecret(25);
+      await writeSessionKey(key);
+    }
+    return key;
+  }
+
+  Future<String> writeSessionKey(String key) async {
+    return await _write(sessionKey, key);
   }
 
   Future<void> deleteEncryptionPhrase() async {

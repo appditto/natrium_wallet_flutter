@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'dart:io';
 import 'package:intl/intl.dart';
+import 'package:natrium_wallet_flutter/util/security/random_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/util/encrypt.dart';
@@ -63,7 +64,7 @@ class SharedPrefsUtil {
     // Retrieve/Generate encryption password
     String secret = await sl.get<Vault>().getEncryptionPhrase();
     if (secret == null) {
-      secret = Salsa20Encryptor.generateEncryptionSecret(16) + ":" + Salsa20Encryptor.generateEncryptionSecret(8);
+      secret = RandomUtil.generateEncryptionSecret(16) + ":" + RandomUtil.generateEncryptionSecret(8);
       await sl.get<Vault>().writeEncryptionPhrase(secret);
     }
     // Encrypt and save
