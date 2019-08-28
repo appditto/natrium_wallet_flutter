@@ -52,4 +52,13 @@ class NanoCrypt {
 
     return NanoHelpers.concat([NanoHelpers.stringToBytesUtf8("Salted__"), salt, seedEncrypted]);
   }
+
+  /// Return true if this is an encrypted seed
+  static bool isEncrypted(String seed) {
+    String encryptedPrefix = NanoHelpers.byteToHex(NanoHelpers.stringToBytesUtf8("Salted__")).toUpperCase();
+    if (seed.substring(0, 8).toUpperCase() == encryptedPrefix) {
+      return true;
+    }
+    return false;
+  }
 }
