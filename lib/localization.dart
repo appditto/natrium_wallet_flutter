@@ -949,6 +949,57 @@ class AppLocalization {
   }
   /// HINTS END
   
+
+  /// PARAGRAPS
+  String get passwordWillBeRequiredToOpenParagraph {
+    return Intl.message("This password will be required to open Natrium.",
+      desc: 'A paragraph that tells the users that the created password will be required to open Natrium.', name: 'passwordWillBeRequiredToOpenParagraph');
+  }
+
+  String get createPasswordFirstParagraph {
+    return Intl.message("You can create a password to add additional security to your wallet.",
+      desc: 'A paragraph that tells the users that they can create a password for additional security.', name: 'createPasswordFirstParagraph');
+  }
+
+  String get createPasswordSecondParagraph {
+    return Intl.message("Password is optional, and your wallet will be protected with your PIN or biometrics regardless.",
+      desc: 'A paragraph that tells the users that the password creation is optional and the wallet will be still protected with biometrics or PIN regardless.', name: 'createPasswordSecondParagraph');
+  }
+  /// PARAGRAPS END
+  
+  /// HEADERS
+  String get createAPasswordHeader {
+    return Intl.message("Create a password.",
+      desc: 'A paragraph that tells the users to create a password.', name: 'createAPasswordHeader');
+  }
+  String get requireAPasswordToOpenHeader {
+    return Intl.message("Require a password to open Natrium?",
+      desc: 'A paragraph that asks the users if they would like a password to be required to open Natrium.', name: 'requireAPasswordToOpenHeader');
+  }
+  /// HEADERS END
+  
+  /// BUTTONS
+  String get noSkipButton {
+    return Intl.message("No, Skip",
+      desc: 'A button that declines and skips the mentioned process.', name: 'noSkipButton');
+  }
+
+  String get yesButton {
+    return Intl.message("Yes",
+      desc: 'A button that accepts the mentioned process.', name: 'yesButton');
+  }
+
+  String get nextButton {
+    return Intl.message("Next",
+      desc: 'A button that goes to the next screen.', name: 'nextButton');
+  }
+
+  String get goBackButton {
+    return Intl.message("Go Back",
+      desc: 'A button that goes to the previous screen.', name: 'goBackButton');
+  }
+  /// BUTTONS END
+  
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash) {
     return 'https://nanocrawler.cc/explorer/block/$hash';

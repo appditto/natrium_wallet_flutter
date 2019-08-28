@@ -79,7 +79,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                       ),
                       alignment: AlignmentDirectional(-1, 0),
                       child: AutoSizeText(
-                        "Create a password.",
+                        AppLocalization.of(context).createAPasswordHeader,
                         maxLines: 3,
                         stepGranularity: 0.5,
                         style: AppStyles.textStyleHeaderColored(context),
@@ -92,7 +92,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                           end: smallScreen(context) ? 30 : 40,
                           top: 16.0),
                       child: AutoSizeText(
-                        "This password will be required to open Natrium.",
+                        AppLocalization.of(context).passwordWillBeRequiredToOpenParagraph,
                         style: AppStyles.textStyleParagraph(context),
                         maxLines: 5,
                         stepGranularity: 0.5,
@@ -211,7 +211,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                     children: <Widget>[
                       // Next Button
                       AppButton.buildAppButton(context, AppButtonType.PRIMARY,
-                          "Next", Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                          AppLocalization.of(context).nextButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                         widget.comingFromImport
                             ? Navigator.of(context)
                                 .pushNamed('/intro_import')
@@ -226,7 +226,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                       AppButton.buildAppButton(
                           context,
                           AppButtonType.PRIMARY_OUTLINE,
-                          "Go Back",
+                          AppLocalization.of(context).goBackButton,
                           Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                         Navigator.of(context).pop();
                       }),

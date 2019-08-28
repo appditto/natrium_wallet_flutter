@@ -73,7 +73,7 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                       ),
                       alignment: AlignmentDirectional(-1, 0),
                       child: AutoSizeText(
-                        "Ask for a password on launch?",
+                        AppLocalization.of(context).requireAPasswordToOpenHeader,
                         maxLines: 3,
                         stepGranularity: 0.5,
                         style: AppStyles.textStyleHeaderColored(context),
@@ -86,7 +86,7 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                           end: smallScreen(context) ? 30 : 40,
                           top: 16.0),
                       child: AutoSizeText(
-                        "You can create a password to add additional security to your wallet.",
+                        AppLocalization.of(context).createPasswordFirstParagraph,
                         style: AppStyles.textStyleParagraph(context),
                         maxLines: 5,
                         stepGranularity: 0.5,
@@ -98,7 +98,7 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                           end: smallScreen(context) ? 30 : 40,
                           top: 8),
                       child: AutoSizeText(
-                        "Password is optional, and your wallet will be protected with your PIN or biometrics regardless.",
+                        AppLocalization.of(context).createPasswordSecondParagraph,
                         style: AppStyles.textStyleParagraphPrimary(context),
                         maxLines: 4,
                         stepGranularity: 0.5,
@@ -108,14 +108,14 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                 ),
               ),
 
-              //A column with "No, Skip" and "Yes" buttons
+              //A column with "Skip" and "Yes" buttons
               Column(
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      // No, Skip Button
+                      // Skip Button
                       AppButton.buildAppButton(context, AppButtonType.PRIMARY,
-                          "No, Skip", Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                          AppLocalization.of(context).noSkipButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                         widget.comingFromImport
                             ? Navigator.of(context).pushNamed('/intro_import')
                             : Navigator.of(context)
@@ -129,7 +129,7 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                       AppButton.buildAppButton(
                           context,
                           AppButtonType.PRIMARY_OUTLINE,
-                          "Yes",
+                          AppLocalization.of(context).yesButton,
                           Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                         widget.comingFromImport
                             ? Navigator.of(context)
