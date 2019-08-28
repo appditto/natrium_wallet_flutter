@@ -936,7 +936,19 @@ class AppLocalization {
   /// -- SEED PROCESS
 
   /// -- END SEED PROCESS
+  
+  /// HINTS
+  String get createPasswordHint {
+    return Intl.message("Create a password",
+      desc: 'A text field hint that tells the user to create a password', name: 'createPasswordHint');
+  }
 
+  String get confirmPasswordHint {
+    return Intl.message("Confirm the password",
+      desc: 'A text field hint that tells the user to confirm the password', name: 'confirmPasswordHint');
+  }
+  /// HINTS END
+  
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash) {
     return 'https://nanocrawler.cc/explorer/block/$hash';

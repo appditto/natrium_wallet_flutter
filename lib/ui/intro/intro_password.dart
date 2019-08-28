@@ -19,7 +19,13 @@ class IntroPassword extends StatefulWidget {
 }
 
 class _IntroPasswordState extends State<IntroPassword> {
+  FocusNode createPasswordFocusNode;
+  TextEditingController createPasswordController;
+  FocusNode confirmPasswordFocusNode;
+  TextEditingController confirmPasswordController;
+
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,13 +117,15 @@ class _IntroPasswordState extends State<IntroPassword> {
                         child: Material(
                           color: Colors.transparent,
                           child: TextField(
+                            focusNode: createPasswordFocusNode,
+                            controller: createPasswordController,
                             cursorColor:
                                 StateContainer.of(context).curTheme.primary,
                             textInputAction: TextInputAction.done,
                             maxLines: null,
                             autocorrect: false,
                             decoration: InputDecoration(
-                              hintText: "Create a password",
+                              hintText: AppLocalization.of(context).createPasswordHint,
                               border: InputBorder.none,
                               hintStyle: TextStyle(
                                 fontSize: 16.0,
@@ -160,13 +168,15 @@ class _IntroPasswordState extends State<IntroPassword> {
                         child: Material(
                           color: Colors.transparent,
                           child: TextField(
+                            focusNode: confirmPasswordFocusNode,
+                            controller: confirmPasswordController,
                             cursorColor:
                                 StateContainer.of(context).curTheme.primary,
                             textInputAction: TextInputAction.done,
                             maxLines: null,
                             autocorrect: false,
                             decoration: InputDecoration(
-                              hintText: "Confirm the password",
+                              hintText: AppLocalization.of(context).confirmPasswordHint,
                               border: InputBorder.none,
                               hintStyle: TextStyle(
                                 fontSize: 16.0,
