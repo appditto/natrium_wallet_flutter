@@ -481,6 +481,21 @@ class AppLocalization {
       desc: 'settings_logout', name: 'logout');
   }
 
+  String get rootWarning {
+    return Intl.message('It appears your device is "rooted", "jailbroken", or modified in a way that compromises security. It is recommended that you reset your device to its original state before proceeding.',
+    desc: "Shown to users if they have a rooted Android device or jailbroken iOS device", name: 'rootWarning');
+  }
+
+  String get iUnderstandTheRisks {
+    return Intl.message("I Understand the Risks",
+    desc: "Shown to users if they have a rooted Android device or jailbroken iOS device", name: 'iUnderstandTheRisks');
+  }
+
+  String get exit {
+    return Intl.message("Exit",
+    desc: "Exit action, like a button", name: 'exit');
+  }
+
   String get warning {
     return Intl.message("Warning",
       desc: 'settings_logout_alert_title', name: 'warning');

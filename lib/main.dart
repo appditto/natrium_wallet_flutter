@@ -10,6 +10,8 @@ import 'package:logging/logging.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_backup_safety.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_password.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_password_on_launch.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter_nano_core/flutter_nano_core.dart';
 
@@ -31,6 +33,7 @@ import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/legacyutil.dart';
+import 'package:root_checker/root_checker.dart';
 
 void main() async {
   // Setup Service Provide
@@ -306,6 +309,31 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
   }
 
   Future checkLoggedIn() async {
+    // Check if device is rooted or jailbroken, show user a warning informing them of the risks if so
+    if (!(await sl.get<SharedPrefsUtil>().getHasSeenRootWarning()) && (await RootChecker.isDeviceRooted)) {
+      AppDialogs.showConfirmDialog(
+          context,
+          CaseChange.toUpperCase(
+              AppLocalization.of(context).warning, context),
+          AppLocalization.of(context).rootWarning,
+          AppLocalization.of(context)
+              .iUnderstandTheRisks
+              .toUpperCase(),
+          () async {
+            await sl.get<SharedPrefsUtil>().setHasSeenRootWarning();
+            checkLoggedIn();
+          },
+          cancelText: AppLocalization.of(context).exit,
+          cancelAction: () {
+            if (Platform.isIOS) {
+              exit(0);
+            } else {
+              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            }
+          }
+      );
+      return;
+    }
     if (!_hasCheckedLoggedIn) {
       _hasCheckedLoggedIn = true;
     } else {

@@ -32,6 +32,7 @@ class SharedPrefsUtil {
   static const String notification_enabled = 'fkalium_notification_on';
   static const String lock_kalium = 'fkalium_lock_dev';
   static const String kalium_lock_timeout = 'fkalium_lock_timeout';
+  static const String has_shown_root_warning = 'fkalium_root_warn'; // If user has seen the root/jailbreak warning yet
   // For maximum pin attempts
   static const String pin_attempts = 'fkalium_pin_attempts';
   static const String pin_lock_until = 'fkalium_lock_duraton';
@@ -92,6 +93,15 @@ class SharedPrefsUtil {
   Future<bool> getSeedBackedUp() async {
     return await get(seed_backed_up_key, defaultValue: false);
   }
+
+  Future<void> setHasSeenRootWarning() async {
+    return await set(has_shown_root_warning, true);
+  }
+
+  Future<bool> getHasSeenRootWarning() async {
+    return await get(has_shown_root_warning, defaultValue: false);
+  }
+
 
   Future<void> setFirstLaunch() async {
     return await set(first_launch_key, false);
@@ -274,5 +284,6 @@ class SharedPrefsUtil {
     await prefs.remove(pin_attempts);
     await prefs.remove(pin_lock_until);
     await prefs.remove(kalium_lock_timeout);
+    await prefs.remove(has_shown_root_warning);
   }
 }

@@ -10,7 +10,7 @@ import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 class AppDialogs {
   static void showConfirmDialog(
       var context, var title, var content, var buttonText, Function onPressed,
-      {String cancelText}) {
+      {String cancelText, Function cancelAction}) {
     if (cancelText == null) {
       cancelText = AppLocalization.of(context).cancel.toUpperCase();
     }
@@ -37,6 +37,9 @@ class AppDialogs {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
+                if (cancelAction != null) {
+                  cancelAction();
+                }
               },
             ),
             FlatButton(
