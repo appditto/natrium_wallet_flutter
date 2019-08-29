@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:event_taxi/event_taxi.dart';
-import 'package:flutter_nano_core/flutter_nano_core.dart';
+import 'package:nanodart/nanodart.dart';
 
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';

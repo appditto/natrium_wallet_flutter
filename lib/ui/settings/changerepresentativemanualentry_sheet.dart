@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:flutter_nano_core/flutter_nano_core.dart';
+import 'package:nanodart/nanodart.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:event_taxi/event_taxi.dart';
 

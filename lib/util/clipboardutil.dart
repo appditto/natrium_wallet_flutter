@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:flutter_nano_core/flutter_nano_core.dart';
+import 'package:nanodart/nanodart.dart';
 
 class ClipboardUtil {
   static const MethodChannel _channel = const MethodChannel('fappchannel');

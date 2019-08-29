@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_nano_core/flutter_nano_core.dart';
+import 'package:nanodart/nanodart.dart';
 
 void main() {
   test('test seed to private key', () {

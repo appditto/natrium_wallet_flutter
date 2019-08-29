@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:flutter_nano_core/flutter_nano_core.dart';
+import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';

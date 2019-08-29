@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'dart:io';
 import 'package:intl/intl.dart';
-import 'package:natrium_wallet_flutter/util/security/random_util.dart';
+import 'package:natrium_wallet_flutter/util/random_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/util/encrypt.dart';

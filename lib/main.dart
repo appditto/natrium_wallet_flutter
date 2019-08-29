@@ -14,7 +14,7 @@ import 'package:natrium_wallet_flutter/ui/password_lock_screen.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:flutter_nano_core/flutter_nano_core.dart';
+import 'package:nanodart/nanodart.dart';
 
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';

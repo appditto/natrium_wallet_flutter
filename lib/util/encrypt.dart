@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:pointycastle/api.dart' show ParametersWithIV, KeyParameter;
 import 'package:pointycastle/stream/salsa20.dart';
-import 'package:flutter_nano_core/flutter_nano_core.dart';
+import 'package:nanodart/nanodart.dart';
 
 /**
  * Encryption using Salsa20 from pointycastle

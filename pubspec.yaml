@@ -22,7 +22,7 @@ dependencies:
   flutter_secure_storage: ^3.2.1+1
 
   # Nano core functions
-  flutter_nano_core: ^1.1.4
+  nanodart: ^1.0.0
 
   # Shared prefs
   shared_preferences: ^0.5.3+4

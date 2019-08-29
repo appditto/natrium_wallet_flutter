@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_nano_core/flutter_nano_core.dart';
+import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
