@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 
-import 'package:natrium_wallet_flutter/util/clipboardutil.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/util/user_data_util.dart';
 
 /// A widget for displaying a mnemonic phrase
 class PlainSeedDisplay extends StatefulWidget {
@@ -109,8 +108,7 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
                 padding: EdgeInsets.all(0.0),
                 child: OutlineButton(
                   onPressed: () {
-                    Clipboard.setData(new ClipboardData(text: widget.seed));
-                    ClipboardUtil.setClipboardClearEvent();
+                    UserDataUtil.setSecureClipboardItem(widget.seed);
                     setState(() {
                       _seedCopied = true;
                     });

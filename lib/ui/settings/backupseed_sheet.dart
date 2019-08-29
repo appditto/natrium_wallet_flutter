@@ -14,8 +14,8 @@ import 'package:natrium_wallet_flutter/ui/widgets/plainseed_display.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
-import 'package:natrium_wallet_flutter/util/clipboardutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
+import 'package:natrium_wallet_flutter/util/user_data_util.dart';
 
 class AppSeedBackupSheet {
   String _seed;
@@ -170,9 +170,7 @@ class AppSeedBackupSheet {
                                           ? AppLocalization.of(context).secretPhraseCopied
                                           : AppLocalization.of(context).secretPhraseCopy,
                                       Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                                    Clipboard.setData(new ClipboardData(
-                                        text: _mnemonic.join(" ")));
-                                    ClipboardUtil.setClipboardClearEvent();
+                                    UserDataUtil.setSecureClipboardItem(_mnemonic.join(" "));
                                     setState(() {
                                       // Set copied style
                                       _mnemonicCopied = true;
@@ -201,9 +199,7 @@ class AppSeedBackupSheet {
                                           : AppButtonType.PRIMARY,
                                       _seedCopied ? AppLocalization.of(context).seedCopiedShort : AppLocalization.of(context).copySeed,
                                       Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                                    Clipboard.setData(
-                                        new ClipboardData(text: _seed));
-                                    ClipboardUtil.setClipboardClearEvent();
+                                    UserDataUtil.setSecureClipboardItem(_seed);
                                     setState(() {
                                       // Set copied style
                                       _seedCopied = true;

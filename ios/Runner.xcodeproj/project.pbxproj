@@ -27,6 +27,7 @@
 		766B58B8221AFEB4009C8264 /* Icon-App@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 766B58A8221AFEB4009C8264 /* Icon-App@3x.png */; };
 		766B58B9221AFEB4009C8264 /* Icon-App@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 766B58A9221AFEB4009C8264 /* Icon-App@2x.png */; };
 		766B58BA221AFEB4009C8264 /* Icon-App@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 766B58AA221AFEB4009C8264 /* Icon-App@1x.png */; };
+		76E59BAA23185D0F00C75A94 /* clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E59BA923185D0F00C75A94 /* clipboard.swift */; };
 		76E821F821FB9FE700B97509 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76E821F721FB9FE700B97509 /* GoogleService-Info.plist */; };
 		9705A1C61CF904A100538489 /* Flutter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9740EEBA1CF902C7004384FC /* Flutter.framework */; };
 		9705A1C71CF904A300538489 /* Flutter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9740EEBA1CF902C7004384FC /* Flutter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -76,6 +77,7 @@
 		766B58A8221AFEB4009C8264 /* Icon-App@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App@3x.png"; sourceTree = "<group>"; };
 		766B58A9221AFEB4009C8264 /* Icon-App@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App@2x.png"; sourceTree = "<group>"; };
 		766B58AA221AFEB4009C8264 /* Icon-App@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-App@1x.png"; sourceTree = "<group>"; };
+		76E59BA923185D0F00C75A94 /* clipboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clipboard.swift; sourceTree = "<group>"; };
 		76E821F121F6556B00B97509 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		76E821F421FB9FDD00B97509 /* Runner.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Runner.xcodeproj; sourceTree = SOURCE_ROOT; };
 		76E821F721FB9FE700B97509 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -199,6 +201,7 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				766334D622C3E7DC008DDB1D /* empty.swift */,
 				766334D522C3E7DC008DDB1D /* Runner-Bridging-Header.h */,
+				76E59BA923185D0F00C75A94 /* clipboard.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				978B8F6F1D3862AE00F588F7 /* AppDelegate.m in Sources */,
+				76E59BAA23185D0F00C75A94 /* clipboard.swift in Sources */,
 				766334D722C3E7DC008DDB1D /* empty.swift in Sources */,
 				97C146F31CF9000F007C117D /* main.m in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
@@ -468,6 +472,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Runner-Swift.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -557,6 +562,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Runner-Swift.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -606,6 +612,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Runner-Swift.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

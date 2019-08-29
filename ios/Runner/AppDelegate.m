@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
 #include "GeneratedPluginRegistrant.h"
+#import "Runner-Swift.h"
 
 @implementation AppDelegate
 
@@ -21,10 +22,6 @@
             func([UIApplication sharedApplication], selector, iconName, ^(NSError * _Nullable error) {});
         }
     }
-}
-
--(void)clearClipboard {
-    [UIPasteboard generalPasteboard].string = @"";
 }
 
 - (BOOL)application:(UIApplication *)application
@@ -56,9 +53,10 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
             } else if ([@"thorium" isEqualToString:icon]) {
                 [self lc_setAlternateIconName:@"thorium"];
             }
-        } else if ([@"clearClipboardAlarm" isEqualToString:call.method]) {
-            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(clearClipboard) object:nil];
-            [self performSelector:@selector(clearClipboard) withObject:nil afterDelay:120.0];
+        } else if ([@"setSecureClipboardItem" isEqualToString:call.method]) {
+            NSDictionary *arguments = [call arguments];
+            NSString *value = arguments[@"value"];
+            [SecureClipboard setClipboardItem:value];
         } else {
             result(FlutterMethodNotImplemented);
         }
