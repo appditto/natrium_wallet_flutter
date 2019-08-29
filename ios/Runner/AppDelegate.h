@@ -3,4 +3,5 @@
 
 @interface AppDelegate : FlutterAppDelegate
 - (void)lc_setAlternateIconName:(NSString*)iconName;
+- (void)clearClipboard;
 @end
