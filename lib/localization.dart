@@ -122,6 +122,11 @@ class AppLocalization {
       desc: 'intro_new_wallet_seed_copied', name: 'seedCopied');
   }
 
+  String get contactless {
+    return Intl.message('Contactless',
+        desc: 'send_contactless', name: 'contactless');
+  }
+
   String get scanQrCode {
     return Intl.message('Scan QR Code',
       desc: 'send_scan_qr', name: 'scanQrCode');
