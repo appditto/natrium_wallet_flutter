@@ -257,7 +257,7 @@ class ContactDetailsSheet {
                             disabled: StateContainer.of(context).wallet.accountBalance == BigInt.zero,
                             onPressed: () {
                             Navigator.of(context).pop();
-                            Sheets.showAppHeightEightSheet(
+                            Sheets.showAppHeightNineSheet(
                               context: context,
                               widget: SendSheet(localCurrency: StateContainer.of(context).curCurrency, contact: contact)
                             );

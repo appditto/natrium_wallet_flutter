@@ -573,7 +573,7 @@ class _AppHomePageState extends State<AppHomePage>
             .mainBottomSheet(context);
       } else {
         // Go to send with address
-        Sheets.showAppHeightEightSheet(
+        Sheets.showAppHeightNineSheet(
           context: context,
           widget: SendSheet(
             localCurrency: StateContainer.of(context).curCurrency,
@@ -766,7 +766,7 @@ class _AppHomePageState extends State<AppHomePage>
                         onPressed: () {
                           if (StateContainer.of(context).wallet != null && StateContainer.of(context).wallet.accountBalance >
                               BigInt.zero) {
-                            Sheets.showAppHeightEightSheet(
+                            Sheets.showAppHeightNineSheet(
                               context: context,
                               widget: SendSheet(
                                 localCurrency: StateContainer.of(context).curCurrency
@@ -830,7 +830,7 @@ class _AppHomePageState extends State<AppHomePage>
           // See if a contact
           sl.get<DBHelper>().getContactWithAddress(item.account).then((contact) {
             // Go to send with address
-            Sheets.showAppHeightEightSheet(
+            Sheets.showAppHeightNineSheet(
               context: context,
               widget: SendSheet(
                 localCurrency: StateContainer.of(context).curCurrency,

@@ -154,18 +154,15 @@ class _SendSheetState extends State<SendSheet> {
     // Set initial currency format
     _localCurrencyFormat =
         NumberFormat.currency(locale: widget.localCurrency.getLocale().toString(), symbol: widget.localCurrency.getCurrencySymbol());
+    // Set quick send amount
+    if (quickSendAmount != null) {
+      _sendAmountController.text =
+          NumberUtil.getRawAsUsableString(quickSendAmount).replaceAll(",", "");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Set quick send amount
-    if (quickSendAmount != null &&
-        StateContainer.of(context).wallet.accountBalance >=
-            BigInt.parse(quickSendAmount)) {
-      _sendAmountController.text =
-          NumberUtil.getRawAsUsableString(widget.quickSendAmount).replaceAll(",", "");
-      quickSendAmount = null;
-    }
     // The main column that holds everything
     return SafeArea(
         minimum: EdgeInsets.only(
