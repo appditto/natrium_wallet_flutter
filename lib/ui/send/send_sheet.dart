@@ -113,7 +113,7 @@ class _SendSheetState extends State<SendSheet> {
         });
       } else {
         setState(() {
-          _amountHint = AppLocalization.of(context).enterAmount;
+          _amountHint = "";
         });
       }
     });
@@ -137,7 +137,7 @@ class _SendSheetState extends State<SendSheet> {
         }
       } else {
         setState(() {
-          _addressHint = AppLocalization.of(context).addressHint;
+          _addressHint = "";
           _contacts = [];
           if (Address(_sendAddressController.text).isValid()) {
             _addressValidAndUnfocused = true;
