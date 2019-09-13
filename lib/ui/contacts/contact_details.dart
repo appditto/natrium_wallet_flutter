@@ -18,6 +18,7 @@ import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
@@ -256,8 +257,10 @@ class ContactDetailsSheet {
                             disabled: StateContainer.of(context).wallet.accountBalance == BigInt.zero,
                             onPressed: () {
                             Navigator.of(context).pop();
-                            AppSendSheet(contact: contact)
-                                .mainBottomSheet(context);
+                            Sheets.showAppHeightEightSheet(
+                              context: context,
+                              widget: SendSheet(localCurrency: StateContainer.of(context).curCurrency, contact: contact)
+                            );
                           }),
                         ],
                       ),

@@ -31,6 +31,7 @@ import 'package:natrium_wallet_flutter/ui/settings/settings_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_scaffold.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/list_slidable.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
@@ -572,8 +573,14 @@ class _AppHomePageState extends State<AppHomePage>
             .mainBottomSheet(context);
       } else {
         // Go to send with address
-        AppSendSheet(contact: contact, address: address.address)
-            .mainBottomSheet(context);
+        Sheets.showAppHeightEightSheet(
+          context: context,
+          widget: SendSheet(
+            localCurrency: StateContainer.of(context).curCurrency,
+            contact: contact,
+            address: address.address
+          )
+        );
       }
     });
   }
@@ -759,7 +766,12 @@ class _AppHomePageState extends State<AppHomePage>
                         onPressed: () {
                           if (StateContainer.of(context).wallet != null && StateContainer.of(context).wallet.accountBalance >
                               BigInt.zero) {
-                            AppSendSheet().mainBottomSheet(context);
+                            Sheets.showAppHeightEightSheet(
+                              context: context,
+                              widget: SendSheet(
+                                localCurrency: StateContainer.of(context).curCurrency
+                              )
+                            );
                           }
                         },
                         highlightColor: StateContainer.of(context).wallet != null && StateContainer.of(context)
@@ -818,8 +830,15 @@ class _AppHomePageState extends State<AppHomePage>
           // See if a contact
           sl.get<DBHelper>().getContactWithAddress(item.account).then((contact) {
             // Go to send with address
-            AppSendSheet(contact: contact, address: item.account, quickSendAmount: item.amount)
-                .mainBottomSheet(context);
+            Sheets.showAppHeightEightSheet(
+              context: context,
+              widget: SendSheet(
+                localCurrency: StateContainer.of(context).curCurrency,
+                contact: contact,
+                address: item.account,
+                quickSendAmount: item.amount,
+              )
+            );
           });
         }
       },

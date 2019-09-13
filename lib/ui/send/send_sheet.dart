@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/model/available_currency.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
@@ -19,13 +20,24 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/one_or_three_address_text.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
-class AppSendSheet {
+class SendSheet extends StatefulWidget {
+  final AvailableCurrency localCurrency;
+  final Contact contact;
+  final String address;
+  final String quickSendAmount;
+
+  SendSheet({@required this.localCurrency,this.contact, this.address, this.quickSendAmount}) : super();
+
+  _SendSheetState createState() => _SendSheetState();
+}
+
+class _SendSheetState extends State<SendSheet> {
   FocusNode _sendAddressFocusNode;
   TextEditingController _sendAddressController;
   FocusNode _sendAmountFocusNode;
@@ -33,10 +45,11 @@ class AppSendSheet {
 
   // States
   var _sendAddressStyle;
-  var _amountHint;
-  var _addressHint;
-  var _amountValidationText = "";
-  var _addressValidationText = "";
+  String _amountHint = "";
+  String _addressHint = "";
+  String _amountValidationText = "";
+  String _addressValidationText = "";
+  String quickSendAmount;
   List<Contact> _contacts;
   // Used to replace address textfield with colorized TextSpan
   bool _addressValidAndUnfocused = false;
@@ -51,636 +64,602 @@ class AppSendSheet {
   String _lastCryptoAmount = "";
   NumberFormat _localCurrencyFormat;
 
-  Contact contact;
-  String address;
-  String quickSendAmount;
-
   String _rawAmount;
 
-  AppSendSheet({this.contact, this.address, this.quickSendAmount});
-
-  // A method for deciding if 1 or 3 line address text should be used
-  _oneOrthreeLineAddressText(BuildContext context) {
-    if (MediaQuery.of(context).size.height < 667)
-      return UIUtil.oneLineAddressText(
-        context,
-        StateContainer.of(context).wallet.address,
-        type: OneLineAddressTextType.PRIMARY60,
-      );
-    else
-      return UIUtil.threeLineAddressText(
-        context,
-        StateContainer.of(context).wallet.address,
-        type: ThreeLineAddressTextType.PRIMARY60,
-      );
-  }
-
-  mainBottomSheet(BuildContext context) {
+  @override
+  void initState() {
+    super.initState();
     _sendAmountFocusNode = new FocusNode();
     _sendAddressFocusNode = new FocusNode();
     _sendAmountController = new TextEditingController();
     _sendAddressController = new TextEditingController();
     _sendAddressStyle = AppStyles.textStyleAddressText60(context);
-    if (quickSendAmount != null &&
-        StateContainer.of(context).wallet.accountBalance >=
-            BigInt.parse(quickSendAmount)) {
-      _sendAmountController.text =
-          NumberUtil.getRawAsUsableString(quickSendAmount).replaceAll(",", "");
-    }
     _contacts = List();
-    if (contact != null) {
+    quickSendAmount = widget.quickSendAmount;
+    if (widget.contact != null) {
       // Setup initial state for contact pre-filled
-      _sendAddressController.text = contact.name;
+      _sendAddressController.text = widget.contact.name;
       _isContact = true;
       _showContactButton = false;
       _pasteButtonVisible = false;
       _sendAddressStyle = AppStyles.textStyleAddressPrimary(context);
-    } else if (address != null) {
+    } else if (widget.address != null) {
       // Setup initial state with prefilled address
-      _sendAddressController.text = address;
+      _sendAddressController.text = widget.address;
       _showContactButton = false;
       _pasteButtonVisible = false;
       _sendAddressStyle = AppStyles.textStyleAddressText90(context);
       _addressValidAndUnfocused = true;
     }
-    _amountHint = AppLocalization.of(context).enterAmount;
-    _addressHint = AppLocalization.of(context).addressHint;
-    String locale = StateContainer.of(context).currencyLocale;
-    switch (locale) {
-      case "es_VE":
-        _localCurrencyFormat =
-            NumberFormat.currency(locale: locale, symbol: "Bs.S");
-        break;
-      case "tr_TR":
-        _localCurrencyFormat =
-            NumberFormat.currency(locale: locale, symbol: "₺");
-        break;
-      default:
-        _localCurrencyFormat = NumberFormat.simpleCurrency(locale: locale);
-        break;
+    // On amount focus change
+    _sendAmountFocusNode.addListener(() {
+      if (_sendAmountFocusNode.hasFocus) {
+        if (_rawAmount != null) {
+          setState(() {
+            _sendAmountController.text =
+                NumberUtil.getRawAsUsableString(_rawAmount)
+                    .replaceAll(",", "");
+            _rawAmount = null;
+          });
+        }
+        if (quickSendAmount != null) {
+          _sendAmountController.text = "";
+          setState(() {
+            quickSendAmount = null;
+          });
+        }
+        setState(() {
+          _amountHint = null;
+        });
+      } else {
+        setState(() {
+          _amountHint = AppLocalization.of(context).enterAmount;
+        });
+      }
+    });
+    // On address focus change
+    _sendAddressFocusNode.addListener(() {
+      if (_sendAddressFocusNode.hasFocus) {
+        setState(() {
+          _addressHint = null;
+          _addressValidAndUnfocused = false;
+        });
+        _sendAddressController.selection = TextSelection.fromPosition(
+            TextPosition(offset: _sendAddressController.text.length));
+        if (_sendAddressController.text.startsWith("@")) {
+          sl.get<DBHelper>()
+              .getContactsWithNameLike(_sendAddressController.text)
+              .then((contactList) {
+            setState(() {
+              _contacts = contactList;
+            });
+          });
+        }
+      } else {
+        setState(() {
+          _addressHint = AppLocalization.of(context).addressHint;
+          _contacts = [];
+          if (Address(_sendAddressController.text).isValid()) {
+            _addressValidAndUnfocused = true;
+          }
+        });
+        if (_sendAddressController.text.trim() == "@") {
+          _sendAddressController.text = "";
+          setState(() {
+            _showContactButton = true;
+          });
+        }
+      }
+    });
+    // Set initial currency format
+    _localCurrencyFormat =
+        NumberFormat.currency(locale: widget.localCurrency.getLocale().toString(), symbol: widget.localCurrency.getCurrencySymbol());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Set quick send amount
+    if (quickSendAmount != null &&
+        StateContainer.of(context).wallet.accountBalance >=
+            BigInt.parse(quickSendAmount)) {
+      _sendAmountController.text =
+          NumberUtil.getRawAsUsableString(widget.quickSendAmount).replaceAll(",", "");
+      quickSendAmount = null;
     }
-    AppSheets.showAppHeightNineSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-            // On amount focus change
-            _sendAmountFocusNode.addListener(() {
-              if (_sendAmountFocusNode.hasFocus) {
-                if (_rawAmount != null) {
-                  setState(() {
-                    _sendAmountController.text =
-                        NumberUtil.getRawAsUsableString(_rawAmount)
-                            .replaceAll(",", "");
-                    _rawAmount = null;
-                  });
-                }
-                if (quickSendAmount != null) {
-                  _sendAmountController.text = "";
-                  setState(() {
-                    quickSendAmount = null;
-                  });
-                }
-                setState(() {
-                  _amountHint = "";
-                });
-              } else {
-                setState(() {
-                  _amountHint = AppLocalization.of(context).enterAmount;
-                });
-              }
-            });
-            // On address focus change
-            _sendAddressFocusNode.addListener(() {
-              if (_sendAddressFocusNode.hasFocus) {
-                setState(() {
-                  _addressHint = "";
-                  _addressValidAndUnfocused = false;
-                });
-                _sendAddressController.selection = TextSelection.fromPosition(
-                    TextPosition(offset: _sendAddressController.text.length));
-                if (_sendAddressController.text.startsWith("@")) {
-                  sl.get<DBHelper>()
-                      .getContactsWithNameLike(_sendAddressController.text)
-                      .then((contactList) {
-                    setState(() {
-                      _contacts = contactList;
-                    });
-                  });
-                }
-              } else {
-                setState(() {
-                  _addressHint = AppLocalization.of(context).addressHint;
-                  _contacts = [];
-                  if (Address(_sendAddressController.text).isValid()) {
-                    _addressValidAndUnfocused = true;
-                  }
-                });
-                if (_sendAddressController.text.trim() == "@") {
-                  _sendAddressController.text = "";
-                  setState(() {
-                    _showContactButton = true;
-                  });
-                }
-              }
-            });
-            // The main column that holds everything
-            return SafeArea(
-                minimum: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).size.height * 0.035),
-                child: Column(
+    // The main column that holds everything
+    return SafeArea(
+        minimum: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height * 0.035),
+        child: Column(
+          children: <Widget>[
+            // A row for the header of the sheet, balance text and close button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                //Empty SizedBox
+                SizedBox(
+                  width: 60,
+                  height: 60,
+                ),
+
+                // Container for the header, address and balance text
+                Column(
                   children: <Widget>[
-                    // A row for the header of the sheet, balance text and close button
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        //Empty SizedBox
-                        SizedBox(
-                          width: 60,
-                          height: 60,
-                        ),
-
-                        // Container for the header, address and balance text
-                        Column(
-                          children: <Widget>[
-                            // Sheet handle
-                            Container(
-                              margin: EdgeInsets.only(top: 10),
-                              height: 5,
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              decoration: BoxDecoration(
-                                color:
-                                    StateContainer.of(context).curTheme.text10,
-                                borderRadius: BorderRadius.circular(100.0),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 15.0),
-                              constraints: BoxConstraints(
-                                  maxWidth:
-                                      MediaQuery.of(context).size.width - 140),
-                              child: Column(
-                                children: <Widget>[
-                                  // Header
-                                  AutoSizeText(
-                                    CaseChange.toUpperCase(
-                                        AppLocalization.of(context).sendFrom,
-                                        context),
-                                    style: AppStyles.textStyleHeader(context),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    stepGranularity: 0.1,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        //Empty SizedBox
-                        SizedBox(
-                          width: 60,
-                          height: 60,
-                        ),
-                      ],
-                    ),
-
+                    // Sheet handle
                     Container(
-                      margin: EdgeInsets.only(top: 10.0, left: 30, right: 30),
-                      child: Container(
-                        child: RichText(
-                          textAlign: TextAlign.start,
-                          text: TextSpan(
-                            text: '',
-                            children: [
-                              TextSpan(
-                                text: StateContainer.of(context)
-                                    .selectedAccount
-                                    .name,
-                                style: TextStyle(
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .text60,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: 'NunitoSans',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      margin: EdgeInsets.only(top: 10),
+                      height: 5,
+                      width: MediaQuery.of(context).size.width * 0.15,
+                      decoration: BoxDecoration(
+                        color:
+                            StateContainer.of(context).curTheme.text10,
+                        borderRadius: BorderRadius.circular(100.0),
                       ),
                     ),
-                    // Address Text
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 30),
-                      child: _oneOrthreeLineAddressText(context),
-                    ),
-
-                    // A main container that holds everything
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.only(top: 5, bottom: 5),
-                        child: Stack(
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () {
-                                // Clear focus of our fields when tapped in this empty space
-                                _sendAddressFocusNode.unfocus();
-                                _sendAmountFocusNode.unfocus();
-                              },
-                              child: Container(
-                                color: Colors.transparent,
-                                child: SizedBox.expand(),
-                                constraints: BoxConstraints.expand(),
-                              ),
-                            ),
-                            // A column for Enter Amount, Enter Address, Error containers and the pop up list
-                            Column(
-                              children: <Widget>[
-                                Stack(
-                                  children: <Widget>[
-                                    // Column for Balance Text, Enter Amount container + Enter Amount Error container
-                                    Column(
-                                      children: <Widget>[
-                                        // Balance Text
-                                        Container(
-                                          child: RichText(
-                                            textAlign: TextAlign.start,
-                                            text: TextSpan(
-                                              text: '',
-                                              children: [
-                                                TextSpan(
-                                                  text: "(",
-                                                  style: TextStyle(
-                                                    color: StateContainer.of(
-                                                            context)
-                                                        .curTheme
-                                                        .primary60,
-                                                    fontSize: 14.0,
-                                                    fontWeight: FontWeight.w100,
-                                                    fontFamily: 'NunitoSans',
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: _localCurrencyMode
-                                                      ? StateContainer.of(
-                                                              context)
-                                                          .wallet
-                                                          .getLocalCurrencyPrice(
-                                                            StateContainer.of(context).curCurrency,
-                                                              locale: StateContainer
-                                                                      .of(
-                                                                          context)
-                                                                  .currencyLocale)
-                                                      : StateContainer.of(
-                                                              context)
-                                                          .wallet
-                                                          .getAccountBalanceDisplay(),
-                                                  style: TextStyle(
-                                                    color: StateContainer.of(
-                                                            context)
-                                                        .curTheme
-                                                        .primary60,
-                                                    fontSize: 14.0,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontFamily: 'NunitoSans',
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text: _localCurrencyMode
-                                                      ? ")"
-                                                      : " NANO)",
-                                                  style: TextStyle(
-                                                    color: StateContainer.of(
-                                                            context)
-                                                        .curTheme
-                                                        .primary60,
-                                                    fontSize: 14.0,
-                                                    fontWeight: FontWeight.w100,
-                                                    fontFamily: 'NunitoSans',
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        // ******* Enter Amount Container ******* //
-                                        getEnterAmountContainer(
-                                            context, setState),
-                                        // ******* Enter Amount Container End ******* //
-
-                                        // ******* Enter Amount Error Container ******* //
-                                        Container(
-                                          alignment: AlignmentDirectional(0, 0),
-                                          margin: EdgeInsets.only(top: 3),
-                                          child: Text(_amountValidationText,
-                                              style: TextStyle(
-                                                fontSize: 14.0,
-                                                color:
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .primary,
-                                                fontFamily: 'NunitoSans',
-                                                fontWeight: FontWeight.w600,
-                                              )),
-                                        ),
-                                        // ******* Enter Amount Error Container End ******* //
-                                      ],
-                                    ),
-
-                                    // Column for Enter Address container + Enter Address Error container
-                                    Column(
-                                      children: <Widget>[
-                                        Container(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Stack(
-                                            alignment: Alignment.bottomCenter,
-                                            children: <Widget>[
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.105,
-                                                    right:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.105),
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                constraints: BoxConstraints(
-                                                    maxHeight: 174,
-                                                    minHeight: 0),
-                                                // ********************************************* //
-                                                // ********* The pop-up Contacts List ********* //
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              25),
-                                                      color: StateContainer.of(
-                                                              context)
-                                                          .curTheme
-                                                          .backgroundDarkest,
-                                                    ),
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(25),
-                                                      ),
-                                                      margin: EdgeInsets.only(
-                                                          bottom: 50),
-                                                      child: ListView.builder(
-                                                        shrinkWrap: true,
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                bottom: 0,
-                                                                top: 0),
-                                                        itemCount:
-                                                            _contacts.length,
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          return _buildContactItem(
-                                                              context,
-                                                              setState,
-                                                              _contacts[index]);
-                                                        },
-                                                      ), // ********* The pop-up Contacts List End ********* //
-                                                      // ************************************************** //
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-
-                                              // ******* Enter Address Container ******* //
-                                              getEnterAddressContainer(
-                                                  context, setState),
-                                              // ******* Enter Address Container End ******* //
-                                            ],
-                                          ),
-                                        ),
-
-                                        // ******* Enter Address Error Container ******* //
-                                        Container(
-                                          alignment: AlignmentDirectional(0, 0),
-                                          margin: EdgeInsets.only(top: 3),
-                                          child: Text(_addressValidationText,
-                                              style: TextStyle(
-                                                fontSize: 14.0,
-                                                color:
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .primary,
-                                                fontFamily: 'NunitoSans',
-                                                fontWeight: FontWeight.w600,
-                                              )),
-                                        ),
-                                        // ******* Enter Address Error Container End ******* //
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    //A column with "Scan QR Code" and "Send" buttons
-                    Container(
+                      margin: EdgeInsets.only(top: 15.0),
+                      constraints: BoxConstraints(
+                          maxWidth:
+                              MediaQuery.of(context).size.width - 140),
                       child: Column(
                         children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              // Send Button
-                              AppButton.buildAppButton(
-                                  context,
-                                  AppButtonType.PRIMARY,
-                                  AppLocalization.of(context).send,
-                                  Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                                bool validRequest =
-                                    _validateRequest(context, setState);
-                                if (_sendAddressController.text
-                                        .startsWith("@") &&
-                                    validRequest) {
-                                  // Need to make sure its a valid contact
-                                  sl.get<DBHelper>()
-                                      .getContactWithName(
-                                          _sendAddressController.text)
-                                      .then((contact) {
-                                    if (contact == null) {
-                                      setState(() {
-                                        _addressValidationText =
-                                            AppLocalization.of(context)
-                                                .contactInvalid;
-                                      });
-                                    } else {
-                                      AppSendConfirmSheet(
-                                              _localCurrencyMode
-                                                  ? NumberUtil.getAmountAsRaw(
-                                                      _convertLocalCurrencyToCrypto(
-                                                          context))
-                                                  : _rawAmount == null
-                                                      ? NumberUtil.getAmountAsRaw(
-                                                          _sendAmountController
-                                                              .text)
-                                                      : _rawAmount,
-                                              contact.address,
-                                              contactName: contact.name,
-                                              maxSend: _isMaxSend(context),
-                                              localCurrencyAmount:
-                                                  _localCurrencyMode
-                                                      ? _sendAmountController
-                                                          .text
-                                                      : null)
-                                          .mainBottomSheet(context);
-                                    }
-                                  });
-                                } else if (validRequest) {
-                                  AppSendConfirmSheet(
-                                          _localCurrencyMode
-                                              ? NumberUtil.getAmountAsRaw(
-                                                  _convertLocalCurrencyToCrypto(
-                                                      context))
-                                              : _rawAmount == null
-                                                  ? NumberUtil.getAmountAsRaw(
-                                                      _sendAmountController
-                                                          .text)
-                                                  : _rawAmount,
-                                          _sendAddressController.text,
-                                          maxSend: _isMaxSend(context),
-                                          localCurrencyAmount:
-                                              _localCurrencyMode
-                                                  ? _sendAmountController.text
-                                                  : null)
-                                      .mainBottomSheet(context);
-                                }
-                              }),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              // Scan QR Code Button
-                              AppButton.buildAppButton(
-                                  context,
-                                  AppButtonType.PRIMARY_OUTLINE,
-                                  AppLocalization.of(context).scanQrCode,
-                                  Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                                try {
-                                  UIUtil.cancelLockEvent();
-                                  BarcodeScanner.scan(StateContainer.of(context)
-                                          .curTheme
-                                          .qrScanTheme)
-                                      .then((value) {
-                                    Address address = Address(value);
-                                    if (!address.isValid()) {
-                                      UIUtil.showSnackbar(
-                                          AppLocalization.of(context)
-                                              .qrInvalidAddress,
-                                          context);
-                                    } else {
-                                      sl.get<DBHelper>()
-                                          .getContactWithAddress(
-                                              address.address)
-                                          .then((contact) {
-                                        if (contact == null) {
-                                          setState(() {
-                                            _isContact = false;
-                                            _addressValidationText = "";
-                                            _sendAddressStyle = AppStyles
-                                                .textStyleAddressText90(
-                                                    context);
-                                            _pasteButtonVisible = false;
-                                            _showContactButton = false;
-                                          });
-                                          _sendAddressController.text =
-                                              address.address;
-                                          _sendAddressFocusNode.unfocus();
-                                          setState(() {
-                                            _addressValidAndUnfocused = true;
-                                          });
-                                        } else {
-                                          // Is a contact
-                                          setState(() {
-                                            _isContact = true;
-                                            _addressValidationText = "";
-                                            _sendAddressStyle = AppStyles
-                                                .textStyleAddressPrimary(
-                                                    context);
-                                            _pasteButtonVisible = false;
-                                            _showContactButton = false;
-                                          });
-                                          _sendAddressController.text =
-                                              contact.name;
-                                        }
-                                        // Fill amount
-                                        if (address.amount != null) {
-                                          if (_localCurrencyMode) {
-                                            toggleLocalCurrency(
-                                                context, setState);
-                                            _sendAmountController.text =
-                                                NumberUtil.getRawAsUsableString(
-                                                    address.amount);
-                                          } else {
-                                            setState(() {
-                                              _rawAmount = address.amount;
-                                              // Indicate that this is a special amount if some digits are not displayed
-                                              if (NumberUtil
-                                                          .getRawAsUsableString(
-                                                              _rawAmount)
-                                                      .replaceAll(",", "") ==
-                                                  NumberUtil
-                                                          .getRawAsUsableDecimal(
-                                                              _rawAmount)
-                                                      .toString()) {
-                                                _sendAmountController
-                                                    .text = NumberUtil
-                                                        .getRawAsUsableString(
-                                                            _rawAmount)
-                                                    .replaceAll(",", "");
-                                              } else {
-                                                _sendAmountController
-                                                    .text = NumberUtil.truncateDecimal(
-                                                            NumberUtil
-                                                                .getRawAsUsableDecimal(
-                                                                    address
-                                                                        .amount),
-                                                            digits: 6)
-                                                        .toStringAsFixed(6) +
-                                                    "~";
-                                              }
-                                            });
-                                          }
-                                        }
-                                      });
-                                      _sendAddressFocusNode.unfocus();
-                                    }
-                                  });
-                                } catch (e) {
-                                  if (e.code ==
-                                      BarcodeScanner.CameraAccessDenied) {
-                                    // TODO - Permission Denied to use camera
-                                  } else {
-                                    // UNKNOWN ERROR
-                                  }
-                                }
-                              }),
-                            ],
+                          // Header
+                          AutoSizeText(
+                            CaseChange.toUpperCase(
+                                AppLocalization.of(context).sendFrom,
+                                context),
+                            style: AppStyles.textStyleHeader(context),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            stepGranularity: 0.1,
                           ),
                         ],
                       ),
                     ),
                   ],
-                ));
-          });
-        });
+                ),
+                //Empty SizedBox
+                SizedBox(
+                  width: 60,
+                  height: 60,
+                ),
+              ],
+            ),
+
+            Container(
+              margin: EdgeInsets.only(top: 10.0, left: 30, right: 30),
+              child: Container(
+                child: RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                    text: '',
+                    children: [
+                      TextSpan(
+                        text: StateContainer.of(context)
+                            .selectedAccount
+                            .name,
+                        style: TextStyle(
+                          color: StateContainer.of(context)
+                              .curTheme
+                              .text60,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'NunitoSans',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // Address Text
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: OneOrThreeLineAddressText(address: StateContainer.of(context).wallet.address, type: AddressTextType.PRIMARY60),
+            ),
+            // A main container that holds everything
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(top: 5, bottom: 5),
+                child: Stack(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        // Clear focus of our fields when tapped in this empty space
+                        _sendAddressFocusNode.unfocus();
+                        _sendAmountFocusNode.unfocus();
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: SizedBox.expand(),
+                        constraints: BoxConstraints.expand(),
+                      ),
+                    ),
+                    // A column for Enter Amount, Enter Address, Error containers and the pop up list
+                    Column(
+                      children: <Widget>[
+                        Stack(
+                          children: <Widget>[
+                            // Column for Balance Text, Enter Amount container + Enter Amount Error container
+                            Column(
+                              children: <Widget>[
+                                // Balance Text
+                                Container(
+                                  child: RichText(
+                                    textAlign: TextAlign.start,
+                                    text: TextSpan(
+                                      text: '',
+                                      children: [
+                                        TextSpan(
+                                          text: "(",
+                                          style: TextStyle(
+                                            color: StateContainer.of(
+                                                    context)
+                                                .curTheme
+                                                .primary60,
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w100,
+                                            fontFamily: 'NunitoSans',
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: _localCurrencyMode
+                                              ? StateContainer.of(
+                                                      context)
+                                                  .wallet
+                                                  .getLocalCurrencyPrice(
+                                                    StateContainer.of(context).curCurrency,
+                                                      locale: StateContainer
+                                                              .of(
+                                                                  context)
+                                                          .currencyLocale)
+                                              : StateContainer.of(
+                                                      context)
+                                                  .wallet
+                                                  .getAccountBalanceDisplay(),
+                                          style: TextStyle(
+                                            color: StateContainer.of(
+                                                    context)
+                                                .curTheme
+                                                .primary60,
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: 'NunitoSans',
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: _localCurrencyMode
+                                              ? ")"
+                                              : " NANO)",
+                                          style: TextStyle(
+                                            color: StateContainer.of(
+                                                    context)
+                                                .curTheme
+                                                .primary60,
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w100,
+                                            fontFamily: 'NunitoSans',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                // ******* Enter Amount Container ******* //
+                                getEnterAmountContainer(
+                                    context, setState),
+                                // ******* Enter Amount Container End ******* //
+
+                                // ******* Enter Amount Error Container ******* //
+                                Container(
+                                  alignment: AlignmentDirectional(0, 0),
+                                  margin: EdgeInsets.only(top: 3),
+                                  child: Text(_amountValidationText,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color:
+                                            StateContainer.of(context)
+                                                .curTheme
+                                                .primary,
+                                        fontFamily: 'NunitoSans',
+                                        fontWeight: FontWeight.w600,
+                                      )),
+                                ),
+                                // ******* Enter Amount Error Container End ******* //
+                              ],
+                            ),
+
+                            // Column for Enter Address container + Enter Address Error container
+                            Column(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Stack(
+                                    alignment: Alignment.bottomCenter,
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.105,
+                                            right:
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.105),
+                                        alignment:
+                                            Alignment.bottomCenter,
+                                        constraints: BoxConstraints(
+                                            maxHeight: 174,
+                                            minHeight: 0),
+                                        // ********************************************* //
+                                        // ********* The pop-up Contacts List ********* //
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      25),
+                                              color: StateContainer.of(
+                                                      context)
+                                                  .curTheme
+                                                  .backgroundDarkest,
+                                            ),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius
+                                                        .circular(25),
+                                              ),
+                                              margin: EdgeInsets.only(
+                                                  bottom: 50),
+                                              child: ListView.builder(
+                                                shrinkWrap: true,
+                                                padding:
+                                                    EdgeInsets.only(
+                                                        bottom: 0,
+                                                        top: 0),
+                                                itemCount:
+                                                    _contacts.length,
+                                                itemBuilder:
+                                                    (context, index) {
+                                                  return _buildContactItem(
+                                                      context,
+                                                      setState,
+                                                      _contacts[index]);
+                                                },
+                                              ), // ********* The pop-up Contacts List End ********* //
+                                              // ************************************************** //
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
+                                      // ******* Enter Address Container ******* //
+                                      getEnterAddressContainer(
+                                          context, setState),
+                                      // ******* Enter Address Container End ******* //
+                                    ],
+                                  ),
+                                ),
+
+                                // ******* Enter Address Error Container ******* //
+                                Container(
+                                  alignment: AlignmentDirectional(0, 0),
+                                  margin: EdgeInsets.only(top: 3),
+                                  child: Text(_addressValidationText,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color:
+                                            StateContainer.of(context)
+                                                .curTheme
+                                                .primary,
+                                        fontFamily: 'NunitoSans',
+                                        fontWeight: FontWeight.w600,
+                                      )),
+                                ),
+                                // ******* Enter Address Error Container End ******* //
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            //A column with "Scan QR Code" and "Send" buttons
+            Container(
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      // Send Button
+                      AppButton.buildAppButton(
+                          context,
+                          AppButtonType.PRIMARY,
+                          AppLocalization.of(context).send,
+                          Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                        bool validRequest =
+                            _validateRequest(context, setState);
+                        if (_sendAddressController.text
+                                .startsWith("@") &&
+                            validRequest) {
+                          // Need to make sure its a valid contact
+                          sl.get<DBHelper>()
+                              .getContactWithName(
+                                  _sendAddressController.text)
+                              .then((contact) {
+                            if (contact == null) {
+                              setState(() {
+                                _addressValidationText =
+                                    AppLocalization.of(context)
+                                        .contactInvalid;
+                              });
+                            } else {
+                              AppSendConfirmSheet(
+                                      _localCurrencyMode
+                                          ? NumberUtil.getAmountAsRaw(
+                                              _convertLocalCurrencyToCrypto(
+                                                  context))
+                                          : _rawAmount == null
+                                              ? NumberUtil.getAmountAsRaw(
+                                                  _sendAmountController
+                                                      .text)
+                                              : _rawAmount,
+                                      contact.address,
+                                      contactName: contact.name,
+                                      maxSend: _isMaxSend(context),
+                                      localCurrencyAmount:
+                                          _localCurrencyMode
+                                              ? _sendAmountController
+                                                  .text
+                                              : null)
+                                  .mainBottomSheet(context);
+                            }
+                          });
+                        } else if (validRequest) {
+                          AppSendConfirmSheet(
+                                  _localCurrencyMode
+                                      ? NumberUtil.getAmountAsRaw(
+                                          _convertLocalCurrencyToCrypto(
+                                              context))
+                                      : _rawAmount == null
+                                          ? NumberUtil.getAmountAsRaw(
+                                              _sendAmountController
+                                                  .text)
+                                          : _rawAmount,
+                                  _sendAddressController.text,
+                                  maxSend: _isMaxSend(context),
+                                  localCurrencyAmount:
+                                      _localCurrencyMode
+                                          ? _sendAmountController.text
+                                          : null)
+                              .mainBottomSheet(context);
+                        }
+                      }),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      // Scan QR Code Button
+                      AppButton.buildAppButton(
+                          context,
+                          AppButtonType.PRIMARY_OUTLINE,
+                          AppLocalization.of(context).scanQrCode,
+                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                        try {
+                          UIUtil.cancelLockEvent();
+                          BarcodeScanner.scan(StateContainer.of(context)
+                                  .curTheme
+                                  .qrScanTheme)
+                              .then((value) {
+                            Address address = Address(value);
+                            if (!address.isValid()) {
+                              UIUtil.showSnackbar(
+                                  AppLocalization.of(context)
+                                      .qrInvalidAddress,
+                                  context);
+                            } else {
+                              sl.get<DBHelper>()
+                                  .getContactWithAddress(
+                                      address.address)
+                                  .then((contact) {
+                                if (contact == null) {
+                                  setState(() {
+                                    _isContact = false;
+                                    _addressValidationText = "";
+                                    _sendAddressStyle = AppStyles
+                                        .textStyleAddressText90(
+                                            context);
+                                    _pasteButtonVisible = false;
+                                    _showContactButton = false;
+                                  });
+                                  _sendAddressController.text =
+                                      address.address;
+                                  _sendAddressFocusNode.unfocus();
+                                  setState(() {
+                                    _addressValidAndUnfocused = true;
+                                  });
+                                } else {
+                                  // Is a contact
+                                  setState(() {
+                                    _isContact = true;
+                                    _addressValidationText = "";
+                                    _sendAddressStyle = AppStyles
+                                        .textStyleAddressPrimary(
+                                            context);
+                                    _pasteButtonVisible = false;
+                                    _showContactButton = false;
+                                  });
+                                  _sendAddressController.text =
+                                      contact.name;
+                                }
+                                // Fill amount
+                                if (address.amount != null) {
+                                  if (_localCurrencyMode) {
+                                    toggleLocalCurrency(
+                                        context, setState);
+                                    _sendAmountController.text =
+                                        NumberUtil.getRawAsUsableString(
+                                            address.amount);
+                                  } else {
+                                    setState(() {
+                                      _rawAmount = address.amount;
+                                      // Indicate that this is a special amount if some digits are not displayed
+                                      if (NumberUtil
+                                                  .getRawAsUsableString(
+                                                      _rawAmount)
+                                              .replaceAll(",", "") ==
+                                          NumberUtil
+                                                  .getRawAsUsableDecimal(
+                                                      _rawAmount)
+                                              .toString()) {
+                                        _sendAmountController
+                                            .text = NumberUtil
+                                                .getRawAsUsableString(
+                                                    _rawAmount)
+                                            .replaceAll(",", "");
+                                      } else {
+                                        _sendAmountController
+                                            .text = NumberUtil.truncateDecimal(
+                                                    NumberUtil
+                                                        .getRawAsUsableDecimal(
+                                                            address
+                                                                .amount),
+                                                    digits: 6)
+                                                .toStringAsFixed(6) +
+                                            "~";
+                                      }
+                                    });
+                                  }
+                                }
+                              });
+                              _sendAddressFocusNode.unfocus();
+                            }
+                          });
+                        } catch (e) {
+                          if (e.code ==
+                              BarcodeScanner.CameraAccessDenied) {
+                            // TODO - Permission Denied to use camera
+                          } else {
+                            // UNKNOWN ERROR
+                          }
+                        }
+                      }),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 
   String _convertLocalCurrencyToCrypto(BuildContext context) {
@@ -947,7 +926,7 @@ class AppSendSheet {
         maxLines: null,
         autocorrect: false,
         decoration: InputDecoration(
-          hintText: _amountHint,
+          hintText: _amountHint == null ? "" : AppLocalization.of(context).enterAmount,
           border: InputBorder.none,
           hintStyle: TextStyle(
             fontSize: 16.0,
@@ -1083,7 +1062,7 @@ class AppSendSheet {
               maxLines: null,
               autocorrect: false,
               decoration: InputDecoration(
-                hintText: _addressHint,
+                hintText: _addressHint == null ? "" : AppLocalization.of(context).addressHint,
                 border: InputBorder.none,
                 hintStyle: TextStyle(
                   fontSize: 16.0,

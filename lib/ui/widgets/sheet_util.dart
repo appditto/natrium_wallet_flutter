@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 
-/** TODO - Replace all usage with the class in sheet_util.dart */
-class AppSheets {
+class Sheets {
   //App Ninty Height Sheet
   static Future<T> showAppHeightNineSheet<T>(
       {@required BuildContext context,
-      @required WidgetBuilder builder,
+      @required Widget widget,
       Color color,
       double radius = 30.0,
       Color bgColor,
@@ -18,7 +17,7 @@ class AppSheets {
       bool closeOnTap = false,
       Function onDisposed}) {
     assert(context != null);
-    assert(builder != null);
+    assert(widget != null);
     assert(radius != null && radius > 0.0);
     if (color == null) {
       color = StateContainer.of(context).curTheme.backgroundDark;
@@ -27,7 +26,9 @@ class AppSheets {
       bgColor = StateContainer.of(context).curTheme.overlay70;
     }
     var route = _AppHeightNineModalRoute<T>(
-        builder: builder,
+        builder: (BuildContext context) {
+          return widget;
+        },
         color: color,
         radius: radius,
         barrierLabel:
@@ -46,13 +47,13 @@ class AppSheets {
   //App Height Eigth Sheet
   static Future<T> showAppHeightEightSheet<T>(
       {@required BuildContext context,
-      @required WidgetBuilder builder,
+      @required Widget widget,
       Color color,
       double radius = 30.0,
       Color bgColor,
       int animationDurationMs = 225}) {
     assert(context != null);
-    assert(builder != null);
+    assert(widget != null);
     assert(radius != null && radius > 0.0);
     if (color == null) {
       color = StateContainer.of(context).curTheme.backgroundDark;
@@ -63,7 +64,9 @@ class AppSheets {
     return Navigator.push<T>(
         context,
         _AppHeightEightModalRoute<T>(
-            builder: builder,
+            builder: (BuildContext context) {
+              return widget;
+            },
             color: color,
             radius: radius,
             barrierLabel:
