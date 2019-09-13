@@ -8,7 +8,7 @@ import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/biometrics.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 
-GetIt sl = new GetIt();
+GetIt sl = GetIt.instance;
 
 void setupServiceLocator() {
   sl.registerLazySingleton<AccountService>(() => AccountService());

@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:natrium_wallet_flutter/appstate_container.dart';
 
 class BiometricUtil {
   ///
@@ -13,7 +11,7 @@ class BiometricUtil {
     bool canCheck = await localAuth.canCheckBiometrics;
     if (canCheck) {
       List<BiometricType> availableBiometrics = await localAuth.getAvailableBiometrics();
-      if (Platform.isIOS && availableBiometrics.contains(BiometricType.face)) {
+      if (availableBiometrics.contains(BiometricType.face)) {
         return true;
       } else if (availableBiometrics.contains(BiometricType.fingerprint)) {
         return true;
@@ -33,8 +31,7 @@ class BiometricUtil {
       LocalAuthentication localAuth = new LocalAuthentication();
       return await localAuth.authenticateWithBiometrics(
         localizedReason: message,
-        useErrorDialogs: false,
-        dialogTheme: StateContainer.of(context).curTheme.fpTheme
+        useErrorDialogs: false
       );
     }
     return false;

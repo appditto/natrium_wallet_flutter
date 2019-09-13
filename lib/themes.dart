@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:local_auth/local_auth.dart';
 
 abstract class BaseTheme {
   Color primary;
@@ -58,8 +57,6 @@ abstract class BaseTheme {
 
   // QR scanner theme
   OverlayTheme qrScanTheme;
-  // FP Dialog theme (android-only)
-  FPDialogTheme fpTheme;
   // App icon (iOS only)
   AppIconEnum appIcon;
 }
@@ -135,7 +132,6 @@ class NatriumTheme extends BaseTheme {
   BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
 
   OverlayTheme qrScanTheme = OverlayTheme.NATRIUM;
-  FPDialogTheme fpTheme = FPDialogTheme.NATRIUM;
   AppIconEnum appIcon = AppIconEnum.NATRIUM;
 }
 
@@ -210,7 +206,6 @@ class TitaniumTheme extends BaseTheme {
   BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
 
   OverlayTheme qrScanTheme = OverlayTheme.TITANIUM;
-  FPDialogTheme fpTheme = FPDialogTheme.TITANIUM;
   AppIconEnum appIcon = AppIconEnum.TITANIUM;
 }
 
@@ -291,7 +286,6 @@ class IndiumTheme extends BaseTheme {
       blurRadius: 15);
 
   OverlayTheme qrScanTheme = OverlayTheme.INDIUM;
-  FPDialogTheme fpTheme = FPDialogTheme.INDIUM;
   AppIconEnum appIcon = AppIconEnum.INDIUM;
 }
 
@@ -366,7 +360,6 @@ class NeptuniumTheme extends BaseTheme {
   BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
 
   OverlayTheme qrScanTheme = OverlayTheme.NEPTUNIUM;
-  FPDialogTheme fpTheme = FPDialogTheme.NEPTUNIUM;
   AppIconEnum appIcon = AppIconEnum.NEPTUNIUM;
 }
 
@@ -441,7 +434,6 @@ class ThoriumTheme extends BaseTheme {
   BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
 
   OverlayTheme qrScanTheme = OverlayTheme.THORIUM;
-  FPDialogTheme fpTheme = FPDialogTheme.THORIUM;
   AppIconEnum appIcon = AppIconEnum.THORIUM;
 }
 

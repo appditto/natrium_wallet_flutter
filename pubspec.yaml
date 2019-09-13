@@ -19,7 +19,7 @@ dependencies:
     sdk: flutter
 
   # Securley store data in a keystore
-  flutter_secure_storage: ^3.2.1+1
+  flutter_secure_storage: ^3.3.1
 
   # Nano core functions
   nanodart: ^1.0.0
@@ -28,10 +28,10 @@ dependencies:
   shared_preferences: ^0.5.3+4
 
   # Flare for animations
-  flare_flutter: ^1.5.5
+  flare_flutter: ^1.5.8
 
   # Websockets
-  web_socket_channel: ^1.0.14
+  web_socket_channel: ^1.0.15
 
   # Platform-specific build info
   package_info: ^0.4.0+6
@@ -40,32 +40,28 @@ dependencies:
   device_info: ^0.4.0+2
 
   # JSON Serialization
-  json_annotation: ^2.4.0
+  json_annotation: ^3.0.0
 
   # Localization
   intl: ^0.15.8
 
   # BigDecimal alternative
-  decimal: ^0.3.3
+  decimal: ^0.3.5
 
   # Logger
   logging: ^0.11.3+2
 
   # Native webview plugin
-  flutter_webview_plugin: ^0.3.5
+  flutter_webview_plugin: ^0.3.8
 
   # SQLite
-  sqflite: ^1.1.6+3
+  sqflite: ^1.1.6+4
 
   # Android/iOS path provider
-  path_provider: ^1.2.0
+  path_provider: ^1.3.0
   
   # TouchID/FaceID
-  local_auth:
-    git:
-      url: https://github.com/bbedward/plugins.git
-      path: packages/local_auth
-      ref: master
+  local_auth: ^0.6.0
 
   # Eventbus
   event_taxi: ^0.1.5
@@ -74,7 +70,7 @@ dependencies:
   flutter_svg: ^0.13.1
     
   # QR Codes
-  qr_flutter: ^2.1.0+55 # Generator
+  qr_flutter: ^3.0.1 # Generator
   barcode_scan:
     git:
       url: https://github.com/bbedward/flutter_barcode_reader.git
@@ -88,7 +84,7 @@ dependencies:
       ref: master
 
   # File picker
-  file_picker: ^1.3.8
+  file_picker: ^1.4.0+1
 
   # Deep link support
   #uni_links: ^0.2.0
@@ -110,16 +106,16 @@ dependencies:
   oktoast: ^2.2.0
 
   # Push notifications
-  firebase_messaging: ^5.1.2
+  firebase_messaging: ^5.1.5
 
   # Slidable list actions
   flutter_slidable: ^0.5.3
 
   # Lock helper
-  synchronized: ^2.1.0
+  synchronized: ^2.1.0+1
 
   # Service provider
-  get_it: ^1.0.3+2
+  get_it: ^3.0.0+1
 
   # Root/Jailbreak detection
   root_checker: ^0.1.3
@@ -130,9 +126,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.5.0
-  json_serializable: ^3.0.0
-  intl_translation: ^0.17.5
+  build_runner: ^1.7.0
+  json_serializable: ^3.2.2
+  intl_translation: ^0.17.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
