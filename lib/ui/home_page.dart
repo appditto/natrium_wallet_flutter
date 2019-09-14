@@ -653,133 +653,160 @@ class _AppHomePageState extends State<AppHomePage>
             top: MediaQuery.of(context).size.height * 0.045,
             bottom: MediaQuery.of(context).size.height * 0.035),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            //Main Card
-            _buildMainCard(context, _scaffoldKey),
-            //Main Card End
-
-            //Transactions Text
-            Container(
-              margin: EdgeInsetsDirectional.fromSTEB(30.0, 20.0, 26.0, 0.0),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    CaseChange.toUpperCase(
-                        AppLocalization.of(context).transactions, context),
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w100,
-                      color: StateContainer.of(context).curTheme.text,
-                    ),
-                  ),
-                ],
-              ),
-            ), //Transactions Text End
-
-            //Transactions List
             Expanded(
               child: Stack(
+                alignment: Alignment.bottomCenter,
                 children: <Widget>[
-                  _getListWidget(context),
-                  //List Top Gradient End
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      height: 10.0,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            StateContainer.of(context).curTheme.background00,
-                            StateContainer.of(context).curTheme.background
-                          ],
-                          begin: AlignmentDirectional(0.5, 1.0),
-                          end: AlignmentDirectional(0.5, -1.0),
-                        ),
-                      ),
-                    ),
-                  ), // List Top Gradient End
+                  //Everything else
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      //Main Card
+                      _buildMainCard(context, _scaffoldKey),
+                      //Main Card End
 
-                  //List Bottom Gradient
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: 30.0,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            StateContainer.of(context).curTheme.background00,
-                            StateContainer.of(context).curTheme.background
+                      //Transactions Text
+                      Container(
+                        margin: EdgeInsetsDirectional.fromSTEB(
+                            30.0, 20.0, 26.0, 0.0),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              CaseChange.toUpperCase(
+                                  AppLocalization.of(context).transactions,
+                                  context),
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w100,
+                                color: StateContainer.of(context).curTheme.text,
+                              ),
+                            ),
                           ],
-                          begin: AlignmentDirectional(0.5, -1),
-                          end: AlignmentDirectional(0.5, 0.5),
                         ),
-                      ),
-                    ),
-                  ), //List Bottom Gradient End
-                ],
-              ),
-            ), //Transactions List End
+                      ), //Transactions Text End
 
-            //Buttons Area
-            Container(
-              color: StateContainer.of(context).curTheme.background,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        boxShadow: [
-                          StateContainer.of(context).curTheme.boxShadowButton
-                        ],
-                      ),
-                      height: 55,
-                      margin: EdgeInsetsDirectional.only(
-                          start: 14, top: 0.0, end: 7.0),
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100.0)),
-                        color: receive != null
-                            ? StateContainer.of(context).curTheme.primary
-                            : StateContainer.of(context).curTheme.primary60,
-                        child: AutoSizeText(
-                          AppLocalization.of(context).receive,
-                          textAlign: TextAlign.center,
-                          style: AppStyles.textStyleButtonPrimary(context),
-                          maxLines: 1,
-                          stepGranularity: 0.5,
+                      //Transactions List
+                      Expanded(
+                        child: Stack(
+                          children: <Widget>[
+                            _getListWidget(context),
+                            //List Top Gradient End
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                height: 10.0,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      StateContainer.of(context)
+                                          .curTheme
+                                          .background00,
+                                      StateContainer.of(context)
+                                          .curTheme
+                                          .background
+                                    ],
+                                    begin: AlignmentDirectional(0.5, 1.0),
+                                    end: AlignmentDirectional(0.5, -1.0),
+                                  ),
+                                ),
+                              ),
+                            ), // List Top Gradient End
+
+                            //List Bottom Gradient
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                height: 30.0,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      StateContainer.of(context)
+                                          .curTheme
+                                          .background00,
+                                      StateContainer.of(context)
+                                          .curTheme
+                                          .background
+                                    ],
+                                    begin: AlignmentDirectional(0.5, -1),
+                                    end: AlignmentDirectional(0.5, 0.5),
+                                  ),
+                                ),
+                              ),
+                            ), //List Bottom Gradient End
+                          ],
                         ),
-                        onPressed: () {
+                      ), //Transactions List End
+                      //Buttons background
+                      SizedBox(
+                        height: 55,
+                        width: MediaQuery.of(context).size.width,
+                      ), //Buttons background
+                    ],
+                  ),
+                  // Buttons
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          boxShadow: [
+                            StateContainer.of(context)
+                                .curTheme
+                                .boxShadowButton
+                          ],
+                        ),
+                        height: 55,
+                        width: (MediaQuery.of(context).size.width - 42) / 2,
+                        margin: EdgeInsetsDirectional.only(start: 14, top: 0.0, end: 7.0),
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100.0)),
+                          color: receive != null
+                              ? StateContainer.of(context).curTheme.primary
+                              : StateContainer.of(context).curTheme.primary60,
+                          child: AutoSizeText(
+                            AppLocalization.of(context).receive,
+                            textAlign: TextAlign.center,
+                            style: AppStyles.textStyleButtonPrimary(context),
+                            maxLines: 1,
+                            stepGranularity: 0.5,
+                          ),
+                          onPressed: () {
+                            if (receive == null) {
+                              return;
+                            }
+                            receive.mainBottomSheet(context);
+                          },
+                          highlightColor: receive != null
+                              ? StateContainer.of(context)
+                                  .curTheme
+                                  .background40
+                              : Colors.transparent,
+                          splashColor: receive != null
+                              ? StateContainer.of(context)
+                                  .curTheme
+                                  .background40
+                              : Colors.transparent,
+                        ),
+                      ),
+                      AppPopupButton(
+                        popupFunction: () {
                           if (receive == null) {
                             return;
                           }
                           receive.mainBottomSheet(context);
                         },
-                        highlightColor: receive != null
-                            ? StateContainer.of(context).curTheme.background40
-                            : Colors.transparent,
-                        splashColor: receive != null
-                            ? StateContainer.of(context).curTheme.background40
-                            : Colors.transparent,
                       ),
-                    ),
-                  ),
-                  AppPopupButton(
-                    popupFunction: () {
-                      if (receive == null) {
-                        return;
-                      }
-                      receive.mainBottomSheet(context);
-                    },
+                    ],
                   ),
                 ],
               ),
-            ), //Buttons Area End
+            ),
           ],
         ),
       ),

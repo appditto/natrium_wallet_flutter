@@ -21,8 +21,10 @@ class AppPopupButton extends StatefulWidget {
 
 class _AppPopupButtonState extends State<AppPopupButton> {
   double scanButtonSize = 0;
+  double popupMarginBottom = 0;
   bool isScrolledUpEnough = false;
   bool firstTime = true;
+  Color popupColor = Colors.transparent;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +34,11 @@ class _AppPopupButtonState extends State<AppPopupButton> {
         AnimatedContainer(
           duration: Duration(milliseconds: 150),
           curve: Curves.easeOut,
-          margin: EdgeInsetsDirectional.only(bottom: 20),
           height: scanButtonSize,
           width: scanButtonSize,
+          margin: EdgeInsetsDirectional.only(bottom: popupMarginBottom),
           decoration: BoxDecoration(
-            color: StateContainer.of(context).curTheme.primary,
+            color: popupColor,
             shape: BoxShape.circle,
           ),
           child: Icon(
@@ -47,10 +49,15 @@ class _AppPopupButtonState extends State<AppPopupButton> {
         ),
         // Send Button
         GestureDetector(
+          onVerticalDragStart: (value) {
+            setState(() {
+              popupColor = StateContainer.of(context).curTheme.primary;
+            });
+          },
           onVerticalDragEnd: (value) {
             firstTime = true;
             if (isScrolledUpEnough) {
-              Future.delayed(Duration(milliseconds: 150), widget.popupFunction);
+              widget.popupFunction();
             }
             isScrolledUpEnough = false;
             setState(() {
@@ -62,38 +69,50 @@ class _AppPopupButtonState extends State<AppPopupButton> {
               isScrolledUpEnough = true;
               if (firstTime) {
                 sl.get<HapticUtil>().success();
+                print("REACHED");
               }
               firstTime = false;
+              setState(() {
+                  popupColor = StateContainer.of(context).curTheme.success;
+                });
             }
             if (dragUpdateDetails.localPosition.dy < 0) {
-              if (dragUpdateDetails.localPosition.dy >= -5) {
+              if (dragUpdateDetails.localPosition.dy >= -2) {
                 setState(() {
                   scanButtonSize = 0;
+                  popupMarginBottom = 0;
                 });
               }
               if (dragUpdateDetails.localPosition.dy >= -55) {
                 setState(() {
                   scanButtonSize = dragUpdateDetails.localPosition.dy * -1;
+                  popupMarginBottom = 5 + scanButtonSize / 3;
                 });
               } else if (dragUpdateDetails.localPosition.dy >= -65) {
                 setState(() {
                   scanButtonSize = 55 +
                       (((dragUpdateDetails.localPosition.dy * -1) - 55) / 20);
+                  popupMarginBottom = 5 + scanButtonSize / 3;
+                  isScrolledUpEnough = false;
+                  popupColor = StateContainer.of(context).curTheme.primary;
                 });
               } else if (dragUpdateDetails.localPosition.dy >= -75) {
                 setState(() {
                   scanButtonSize = 65 +
                       (((dragUpdateDetails.localPosition.dy * -1) - 65) / 40);
+                  popupMarginBottom = 5 + scanButtonSize / 3;
                 });
               } else {
                 setState(() {
                   scanButtonSize = 75 +
                       (((dragUpdateDetails.localPosition.dy * -1) - 75) / 80);
+                  popupMarginBottom = 5 + scanButtonSize / 3;
                 });
               }
             } else if (dragUpdateDetails.localPosition.dy >= 0) {
               setState(() {
                 scanButtonSize = 0;
+                popupMarginBottom = 0;
               });
             }
             print(dragUpdateDetails.localPosition.dy);
@@ -125,7 +144,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                 if (StateContainer.of(context).wallet != null &&
                     StateContainer.of(context).wallet.accountBalance >
                         BigInt.zero) {
-                  Sheets.showAppHeightEightSheet(
+                  Sheets.showAppHeightNineSheet(
                       context: context,
                       widget: SendSheet(
                           localCurrency:
