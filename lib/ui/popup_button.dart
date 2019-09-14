@@ -12,9 +12,8 @@ import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 
 class AppPopupButton extends StatefulWidget {
-  final popupFunction;
-
-  AppPopupButton({this.popupFunction});
+  final Color buttonColor;
+  AppPopupButton({this.buttonColor});
   @override
   _AppPopupButtonState createState() => _AppPopupButtonState();
 }
@@ -25,6 +24,12 @@ class _AppPopupButtonState extends State<AppPopupButton> {
   bool isScrolledUpEnough = false;
   bool firstTime = true;
   Color popupColor = Colors.transparent;
+  Color sendButtonColor;
+  @override
+  void initState() {
+    super.initState();
+    sendButtonColor = widget.buttonColor;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +49,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
             ),
             child: Icon(
               AppIcons.scan,
-              size: scanButtonSize < 65 ? scanButtonSize / 1.8 : 33,
+              size: scanButtonSize < 60 ? scanButtonSize / 1.8 : 30,
               color: StateContainer.of(context).curTheme.background,
             ),
           ),
@@ -57,6 +62,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
             });
           },
           onVerticalDragEnd: (value) {
+            sendButtonColor = StateContainer.of(context).curTheme.primary;
             firstTime = true;
             if (isScrolledUpEnough) {
               setState(() {
@@ -70,7 +76,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
             });
           },
           onVerticalDragUpdate: (dragUpdateDetails) {
-            if (dragUpdateDetails.localPosition.dy < -65) {
+            if (dragUpdateDetails.localPosition.dy < -60) {
               isScrolledUpEnough = true;
               if (firstTime) {
                 sl.get<HapticUtil>().success();
@@ -79,51 +85,64 @@ class _AppPopupButtonState extends State<AppPopupButton> {
               firstTime = false;
               setState(() {
                 popupColor = StateContainer.of(context).curTheme.success;
+                sendButtonColor = StateContainer.of(context).curTheme.primary;
               });
             }
-            if (dragUpdateDetails.localPosition.dy < 0) {
-              if (dragUpdateDetails.localPosition.dy >= -2) {
-                setState(() {
-                  scanButtonSize = 0;
-                  popupMarginBottom = 0;
-                });
-              }
-              if (dragUpdateDetails.localPosition.dy >= -55) {
-                setState(() {
-                  scanButtonSize = dragUpdateDetails.localPosition.dy * -1;
-                  popupMarginBottom = 5 + scanButtonSize / 3;
-                });
-              } else if (dragUpdateDetails.localPosition.dy >= -65) {
-                setState(() {
-                  scanButtonSize = 55 +
-                      (((dragUpdateDetails.localPosition.dy * -1) - 55) / 20);
-                  popupMarginBottom = 5 + scanButtonSize / 3;
-                  isScrolledUpEnough = false;
-                  popupColor = StateContainer.of(context).curTheme.primary;
-                });
-              } else if (dragUpdateDetails.localPosition.dy >= -75) {
-                setState(() {
-                  scanButtonSize = 65 +
-                      (((dragUpdateDetails.localPosition.dy * -1) - 65) / 40);
-                  popupMarginBottom = 5 + scanButtonSize / 3;
-                });
-              } else {
-                setState(() {
-                  scanButtonSize = 75 +
-                      (((dragUpdateDetails.localPosition.dy * -1) - 75) / 80);
-                  popupMarginBottom = 5 + scanButtonSize / 3;
-                });
-              }
-            } else if (dragUpdateDetails.localPosition.dy >= 0) {
+            // Swiping below the starting limit
+            if (dragUpdateDetails.localPosition.dy >= 0) {
               setState(() {
                 scanButtonSize = 0;
                 popupMarginBottom = 0;
+                sendButtonColor = StateContainer.of(context).curTheme.primary;
               });
             }
-            print(dragUpdateDetails.localPosition.dy);
+            // Swiping above the starting limit betwee 0 and 50
+            else if (dragUpdateDetails.localPosition.dy < 0 &&
+                dragUpdateDetails.localPosition.dy >= -50) {
+              setState(() {
+                scanButtonSize = dragUpdateDetails.localPosition.dy * -1;
+                popupMarginBottom = 5 + scanButtonSize / 3;
+                popupColor = StateContainer.of(context).curTheme.primary;
+                sendButtonColor = StateContainer.of(context).curTheme.success;
+              });
+            }
+            // Swiping between 50 and 60
+            else if (dragUpdateDetails.localPosition.dy < -50 &&
+                dragUpdateDetails.localPosition.dy >= -60) {
+              setState(() {
+                scanButtonSize = 50 +
+                    (((dragUpdateDetails.localPosition.dy * -1) - 50) / 20);
+                popupMarginBottom = 5 + scanButtonSize / 3;
+                popupColor = StateContainer.of(context).curTheme.primary;
+                sendButtonColor = StateContainer.of(context).curTheme.success;
+              });
+            }
+            // Swiping between 60 and 70
+            else if (dragUpdateDetails.localPosition.dy < -60 &&
+                dragUpdateDetails.localPosition.dy >= -70) {
+              isScrolledUpEnough = true;
+              setState(() {
+                scanButtonSize = 60 +
+                    (((dragUpdateDetails.localPosition.dy * -1) - 60) / 40);
+                popupMarginBottom = 5 + scanButtonSize / 3;
+                popupColor = StateContainer.of(context).curTheme.success;
+                sendButtonColor = StateContainer.of(context).curTheme.primary;
+              });
+            }
+            // Swiping between 70 and 80
+            else if (dragUpdateDetails.localPosition.dy < -70) {
+              isScrolledUpEnough = true;
+              setState(() {
+                scanButtonSize = 70 +
+                    (((dragUpdateDetails.localPosition.dy * -1) - 70) / 80);
+                popupMarginBottom = 5 + scanButtonSize / 3;
+                popupColor = StateContainer.of(context).curTheme.success;
+                sendButtonColor = StateContainer.of(context).curTheme.primary;
+              });
+            }
           },
           child: AnimatedContainer(
-            duration: Duration(milliseconds: 150),
+            duration: Duration(milliseconds: 75),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
@@ -138,7 +157,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
               color: StateContainer.of(context).wallet != null &&
                       StateContainer.of(context).wallet.accountBalance >
                           BigInt.zero
-                  ? StateContainer.of(context).curTheme.primary
+                  ? sendButtonColor
                   : StateContainer.of(context).curTheme.primary60,
               child: AutoSizeText(
                 AppLocalization.of(context).send,

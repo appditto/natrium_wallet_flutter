@@ -795,12 +795,7 @@ class _AppHomePageState extends State<AppHomePage>
                         ),
                       ),
                       AppPopupButton(
-                        popupFunction: () {
-                          if (receive == null) {
-                            return;
-                          }
-                          receive.mainBottomSheet(context);
-                        },
+                        buttonColor: StateContainer.of(context).curTheme.primary,
                       ),
                     ],
                   ),

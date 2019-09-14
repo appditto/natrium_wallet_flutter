@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
-import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/util/user_data_util.dart';
 
 class BeforeScanScreen extends StatefulWidget {
@@ -14,11 +12,11 @@ class BeforeScanScreen extends StatefulWidget {
 
 class _BeforeScanScreenState extends State<BeforeScanScreen> {
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(milliseconds: 200), () async {
+    Future.delayed(Duration(milliseconds: 150), () async {
       print("DONE");
       await UserDataUtil.getQRData(DataType.RAW, StateContainer.of(context).curTheme.qrScanTheme);
+      Navigator.pop(context);
     });
   }
 
@@ -31,7 +29,7 @@ class _BeforeScanScreenState extends State<BeforeScanScreen> {
       child: Hero(
         tag: 'scanButton',
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 150),
+          duration: Duration(milliseconds: 75),
           curve: Curves.easeOut,
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
