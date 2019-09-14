@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
+import 'package:natrium_wallet_flutter/ui/before_scan_screen.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_backup_safety.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_password.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_password_on_launch.dart';
@@ -262,6 +263,11 @@ class _AppState extends State<App> {
             case '/password_lock_screen_transition':
               return MaterialPageRoute(
                 builder: (_) => AppPasswordLockScreen(),
+                settings: settings,
+              );
+            case '/before_scan_screen':
+              return NoTransitionRoute(
+                builder: (_) => BeforeScanScreen(),
                 settings: settings,
               );
             default:

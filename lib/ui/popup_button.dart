@@ -31,20 +31,23 @@ class _AppPopupButtonState extends State<AppPopupButton> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        AnimatedContainer(
-          duration: Duration(milliseconds: 150),
-          curve: Curves.easeOut,
-          height: scanButtonSize,
-          width: scanButtonSize,
-          margin: EdgeInsetsDirectional.only(bottom: popupMarginBottom),
-          decoration: BoxDecoration(
-            color: popupColor,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            AppIcons.scan,
-            size: scanButtonSize < 65 ? scanButtonSize / 1.8 : 33,
-            color: StateContainer.of(context).curTheme.background,
+        Hero(
+          tag: 'scanButton',
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 150),
+            curve: Curves.easeOut,
+            height: scanButtonSize,
+            width: scanButtonSize,
+            margin: EdgeInsetsDirectional.only(bottom: popupMarginBottom),
+            decoration: BoxDecoration(
+              color: popupColor,
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: Icon(
+              AppIcons.scan,
+              size: scanButtonSize < 65 ? scanButtonSize / 1.8 : 33,
+              color: StateContainer.of(context).curTheme.background,
+            ),
           ),
         ),
         // Send Button
@@ -57,7 +60,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
           onVerticalDragEnd: (value) {
             firstTime = true;
             if (isScrolledUpEnough) {
-              widget.popupFunction();
+              Navigator.pushNamed(context, '/before_scan_screen');
             }
             isScrolledUpEnough = false;
             setState(() {
@@ -73,8 +76,8 @@ class _AppPopupButtonState extends State<AppPopupButton> {
               }
               firstTime = false;
               setState(() {
-                  popupColor = StateContainer.of(context).curTheme.success;
-                });
+                popupColor = StateContainer.of(context).curTheme.success;
+              });
             }
             if (dragUpdateDetails.localPosition.dy < 0) {
               if (dragUpdateDetails.localPosition.dy >= -2) {
