@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
@@ -9,9 +12,9 @@ import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 
 class AppPopupButton extends StatefulWidget {
-  final onVerticalDragEndFunction;
+  final popupFunction;
 
-  AppPopupButton({this.onVerticalDragEndFunction});
+  AppPopupButton({this.popupFunction});
   @override
   _AppPopupButtonState createState() => _AppPopupButtonState();
 }
@@ -19,6 +22,8 @@ class AppPopupButton extends StatefulWidget {
 class _AppPopupButtonState extends State<AppPopupButton> {
   double scanButtonSize = 0;
   bool isScrolledUpEnough = false;
+  bool firstTime = true;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,31 +32,45 @@ class _AppPopupButtonState extends State<AppPopupButton> {
         AnimatedContainer(
           duration: Duration(milliseconds: 150),
           curve: Curves.easeOut,
-          margin: EdgeInsetsDirectional.only(bottom: 12),
+          margin: EdgeInsetsDirectional.only(bottom: 20),
           height: scanButtonSize,
           width: scanButtonSize,
           decoration: BoxDecoration(
             color: StateContainer.of(context).curTheme.primary,
             shape: BoxShape.circle,
           ),
+          child: Icon(
+            AppIcons.scan,
+            size: scanButtonSize < 65 ? scanButtonSize / 1.8 : 33,
+            color: StateContainer.of(context).curTheme.background,
+          ),
         ),
         // Send Button
         GestureDetector(
           onVerticalDragEnd: (value) {
+            firstTime = true;
+            if (isScrolledUpEnough) {
+              Future.delayed(Duration(milliseconds: 150), widget.popupFunction);
+            }
+            isScrolledUpEnough = false;
             setState(() {
               scanButtonSize = 0;
             });
-            if (isScrolledUpEnough) {
-              widget.onVerticalDragEndFunction();
-            }
-            isScrolledUpEnough = false;
           },
           onVerticalDragUpdate: (dragUpdateDetails) {
-            if (dragUpdateDetails.localPosition.dy < -55) {
+            if (dragUpdateDetails.localPosition.dy < -65) {
               isScrolledUpEnough = true;
-              sl.get<HapticUtil>().success();
+              if (firstTime) {
+                sl.get<HapticUtil>().success();
+              }
+              firstTime = false;
             }
             if (dragUpdateDetails.localPosition.dy < 0) {
+              if (dragUpdateDetails.localPosition.dy >= -5) {
+                setState(() {
+                  scanButtonSize = 0;
+                });
+              }
               if (dragUpdateDetails.localPosition.dy >= -55) {
                 setState(() {
                   scanButtonSize = dragUpdateDetails.localPosition.dy * -1;
@@ -72,6 +91,10 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                       (((dragUpdateDetails.localPosition.dy * -1) - 75) / 80);
                 });
               }
+            } else if (dragUpdateDetails.localPosition.dy >= 0) {
+              setState(() {
+                scanButtonSize = 0;
+              });
             }
             print(dragUpdateDetails.localPosition.dy);
           },

@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:logging/logging.dart';
+import 'package:natrium_wallet_flutter/ui/popup_button.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -50,7 +51,10 @@ class AppHomePage extends StatefulWidget {
 }
 
 class _AppHomePageState extends State<AppHomePage>
-    with WidgetsBindingObserver, SingleTickerProviderStateMixin, FlareController {
+    with
+        WidgetsBindingObserver,
+        SingleTickerProviderStateMixin,
+        FlareController {
   final GlobalKey<AppScaffoldState> _scaffoldKey =
       new GlobalKey<AppScaffoldState>();
   final Logger log = Logger("HomePage");
@@ -66,7 +70,8 @@ class _AppHomePageState extends State<AppHomePage>
   // A separate unfortunate instance of this list, is a little unfortunate
   // but seems the only way to handle the animations
   final Map<String, GlobalKey<AnimatedListState>> _listKeyMap = Map();
-  final Map<String, ListModel<AccountHistoryResponseItem>> _historyListMap = Map();
+  final Map<String, ListModel<AccountHistoryResponseItem>> _historyListMap =
+      Map();
 
   // List of contacts (Store it so we only have to query the DB once for transaction cards)
   List<Contact> _contacts = List();
@@ -98,8 +103,10 @@ class _AppHomePageState extends State<AppHomePage>
 
   bool advance(FlutterActorArtboard artboard, double elapsed) {
     if (releaseAnimation) {
-      _sendSlideReleaseAnimation.apply(_sendSlideReleaseAnimation.duration * (1-_fanimationPosition),
-                                      artboard, 1.0);
+      _sendSlideReleaseAnimation.apply(
+          _sendSlideReleaseAnimation.duration * (1 - _fanimationPosition),
+          artboard,
+          1.0);
     } else {
       _sendSlideAnimation.apply(
           _sendSlideAnimation.duration * _fanimationPosition, artboard, 1.0);
@@ -108,7 +115,8 @@ class _AppHomePageState extends State<AppHomePage>
   }
 
   /// Notification includes which account its for, automatically switch to it if they're entering app from notification
-  Future<void> _chooseCorrectAccountFromNotification(Map<String, dynamic> message) async {
+  Future<void> _chooseCorrectAccountFromNotification(
+      Map<String, dynamic> message) async {
     try {
       if (message.containsKey("account")) {
         Account selectedAccount = await sl.get<DBHelper>().getSelectedAccount();
@@ -117,7 +125,8 @@ class _AppHomePageState extends State<AppHomePage>
           for (int i = 0; i < accounts.length; i++) {
             if (accounts[i].address == message['account']) {
               await sl.get<DBHelper>().changeAccount(accounts[i]);
-              EventTaxiImpl.singleton().fire(AccountChangedEvent(account: accounts[i]));
+              EventTaxiImpl.singleton()
+                  .fire(AccountChangedEvent(account: accounts[i]));
               break;
             }
           }
@@ -243,7 +252,8 @@ class _AppHomePageState extends State<AppHomePage>
       if (addressExists) {
         return;
       }
-      bool nameExists = await sl.get<DBHelper>().contactExistsWithName("@NatriumDonations");
+      bool nameExists =
+          await sl.get<DBHelper>().contactExistsWithName("@NatriumDonations");
       if (nameExists) {
         return;
       }
@@ -289,10 +299,14 @@ class _AppHomePageState extends State<AppHomePage>
       // Route to send complete if received process response for send block
       if (event.previous != null) {
         // Route to send complete
-        sl.get<DBHelper>().getContactWithAddress(event.previous.link).then((contact) {
+        sl
+            .get<DBHelper>()
+            .getContactWithAddress(event.previous.link)
+            .then((contact) {
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-          AppSendCompleteSheet(event.previous.sendAmount, event.previous.link, contactName,
+          AppSendCompleteSheet(
+                  event.previous.sendAmount, event.previous.link, contactName,
                   localAmount: event.previous.localCurrencyValue)
               .mainBottomSheet(context);
         });
@@ -372,7 +386,8 @@ class _AppHomePageState extends State<AppHomePage>
       case AppLifecycleState.resumed:
         cancelLockEvent();
         StateContainer.of(context).reconnect();
-        if (!StateContainer.of(context).wallet.loading && StateContainer.of(context).initialDeepLink != null) {
+        if (!StateContainer.of(context).wallet.loading &&
+            StateContainer.of(context).initialDeepLink != null) {
           handleDeepLink(StateContainer.of(context).initialDeepLink);
           StateContainer.of(context).initialDeepLink = null;
         }
@@ -413,20 +428,29 @@ class _AppHomePageState extends State<AppHomePage>
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
     String displayName = smallScreen(context)
-        ? _historyListMap[StateContainer.of(context).wallet.address][index].getShorterString()
-        : _historyListMap[StateContainer.of(context).wallet.address][index].getShortString();
+        ? _historyListMap[StateContainer.of(context).wallet.address][index]
+            .getShorterString()
+        : _historyListMap[StateContainer.of(context).wallet.address][index]
+            .getShortString();
     _contacts.forEach((contact) {
-      if (contact.address == _historyListMap[StateContainer.of(context).wallet.address][index].account.replaceAll("xrb_", "nano_")) {
+      if (contact.address ==
+          _historyListMap[StateContainer.of(context).wallet.address][index]
+              .account
+              .replaceAll("xrb_", "nano_")) {
         displayName = contact.name;
       }
     });
     return _buildTransactionCard(
-        _historyListMap[StateContainer.of(context).wallet.address][index], animation, displayName, context);
+        _historyListMap[StateContainer.of(context).wallet.address][index],
+        animation,
+        displayName,
+        context);
   }
 
   // Return widget for list
   Widget _getListWidget(BuildContext context) {
-    if (StateContainer.of(context).wallet == null || StateContainer.of(context).wallet.historyLoading) {
+    if (StateContainer.of(context).wallet == null ||
+        StateContainer.of(context).wallet.historyLoading) {
       // Loading Animation
       return ReactiveRefreshIndicator(
           backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
@@ -481,15 +505,16 @@ class _AppHomePageState extends State<AppHomePage>
     }
     // Setup history list
     if (!_listKeyMap.containsKey(StateContainer.of(context).wallet.address)) {
-      _listKeyMap.putIfAbsent(StateContainer.of(context).wallet.address, () => GlobalKey<AnimatedListState>());
+      _listKeyMap.putIfAbsent(StateContainer.of(context).wallet.address,
+          () => GlobalKey<AnimatedListState>());
       setState(() {
         _historyListMap.putIfAbsent(
-          StateContainer.of(context).wallet.address,
-          () => ListModel<AccountHistoryResponseItem>(
-                listKey: _listKeyMap[StateContainer.of(context).wallet.address],
-                initialItems: StateContainer.of(context).wallet.history,
-                )
-        );
+            StateContainer.of(context).wallet.address,
+            () => ListModel<AccountHistoryResponseItem>(
+                  listKey:
+                      _listKeyMap[StateContainer.of(context).wallet.address],
+                  initialItems: StateContainer.of(context).wallet.history,
+                ));
       });
     }
     return ReactiveRefreshIndicator(
@@ -497,7 +522,8 @@ class _AppHomePageState extends State<AppHomePage>
       child: AnimatedList(
         key: _listKeyMap[StateContainer.of(context).wallet.address],
         padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
-        initialItemCount: _historyListMap[StateContainer.of(context).wallet.address].length,
+        initialItemCount:
+            _historyListMap[StateContainer.of(context).wallet.address].length,
         itemBuilder: _buildItem,
       ),
       onRefresh: _refresh,
@@ -529,13 +555,20 @@ class _AppHomePageState extends State<AppHomePage>
   /// Required to do it this way for the animation
   ///
   void diffAndUpdateHistoryList(List<AccountHistoryResponseItem> newList) {
-    if (newList == null || newList.length == 0 || _historyListMap[StateContainer.of(context).wallet.address] == null) return;
+    if (newList == null ||
+        newList.length == 0 ||
+        _historyListMap[StateContainer.of(context).wallet.address] == null)
+      return;
     // Get items not in current list, and add them from top-down
     newList.reversed
-        .where((item) => !_historyListMap[StateContainer.of(context).wallet.address].items.contains(item))
+        .where((item) =>
+            !_historyListMap[StateContainer.of(context).wallet.address]
+                .items
+                .contains(item))
         .forEach((historyItem) {
       setState(() {
-        _historyListMap[StateContainer.of(context).wallet.address].insertAtTop(historyItem);
+        _historyListMap[StateContainer.of(context).wallet.address]
+            .insertAtTop(historyItem);
       });
     });
     // Re-subscribe if missing data
@@ -566,28 +599,24 @@ class _AppHomePageState extends State<AppHomePage>
       Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
       if (amount != null) {
         // Go to send confirm with amount
-        AppSendConfirmSheet(
-                amount,
-                address.address,
-                contactName: contactName)
+        AppSendConfirmSheet(amount, address.address, contactName: contactName)
             .mainBottomSheet(context);
       } else {
         // Go to send with address
         Sheets.showAppHeightNineSheet(
-          context: context,
-          widget: SendSheet(
-            localCurrency: StateContainer.of(context).curCurrency,
-            contact: contact,
-            address: address.address
-          )
-        );
+            context: context,
+            widget: SendSheet(
+                localCurrency: StateContainer.of(context).curCurrency,
+                contact: contact,
+                address: address.address));
       }
     });
   }
 
   void paintQrCode({String address}) {
     QrPainter painter = QrPainter(
-      data: address == null ? StateContainer.of(context).wallet.address : address,
+      data:
+          address == null ? StateContainer.of(context).wallet.address : address,
       version: 6,
       errorCorrectionLevel: QrErrorCorrectLevel.Q,
     );
@@ -599,7 +628,7 @@ class _AppHomePageState extends State<AppHomePage>
               child: Image.memory(byteData.buffer.asUint8List())),
         );
       });
-    });    
+    });
   }
 
   @override
@@ -699,6 +728,7 @@ class _AppHomePageState extends State<AppHomePage>
             Container(
               color: StateContainer.of(context).curTheme.background,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Expanded(
                     child: Container(
@@ -709,7 +739,8 @@ class _AppHomePageState extends State<AppHomePage>
                         ],
                       ),
                       height: 55,
-                      margin: EdgeInsetsDirectional.only(start: 14, top: 0.0, end: 7.0),
+                      margin: EdgeInsetsDirectional.only(
+                          start: 14, top: 0.0, end: 7.0),
                       child: FlatButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100.0)),
@@ -738,56 +769,13 @@ class _AppHomePageState extends State<AppHomePage>
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        boxShadow: [
-                          StateContainer.of(context).curTheme.boxShadowButton
-                        ],
-                      ),
-                      height: 55,
-                      margin: EdgeInsetsDirectional.only(start: 7, top: 0.0, end: 14.0),
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100.0)),
-                        color:
-                            StateContainer.of(context).wallet != null && StateContainer.of(context).wallet.accountBalance >
-                                    BigInt.zero
-                                ? StateContainer.of(context).curTheme.primary
-                                : StateContainer.of(context).curTheme.primary60,
-                        child: AutoSizeText(
-                          AppLocalization.of(context).send,
-                          textAlign: TextAlign.center,
-                          style: AppStyles.textStyleButtonPrimary(context),
-                          maxLines: 1,
-                          stepGranularity: 0.5,
-                        ),
-                        onPressed: () {
-                          if (StateContainer.of(context).wallet != null && StateContainer.of(context).wallet.accountBalance >
-                              BigInt.zero) {
-                            Sheets.showAppHeightNineSheet(
-                              context: context,
-                              widget: SendSheet(
-                                localCurrency: StateContainer.of(context).curCurrency
-                              )
-                            );
-                          }
-                        },
-                        highlightColor: StateContainer.of(context).wallet != null && StateContainer.of(context)
-                                    .wallet
-                                    .accountBalance >
-                                BigInt.zero
-                            ? StateContainer.of(context).curTheme.background40
-                            : Colors.transparent,
-                        splashColor: StateContainer.of(context).wallet != null && StateContainer.of(context)
-                                    .wallet
-                                    .accountBalance >
-                                BigInt.zero
-                            ? StateContainer.of(context).curTheme.background40
-                            : Colors.transparent,
-                      ),
-                    ),
+                  AppPopupButton(
+                    popupFunction: () {
+                      if (receive == null) {
+                        return;
+                      }
+                      receive.mainBottomSheet(context);
+                    },
                   ),
                 ],
               ),
@@ -797,11 +785,10 @@ class _AppHomePageState extends State<AppHomePage>
       ),
     );
   }
-  
+
   // Transaction Card/List Item
   Widget _buildTransactionCard(AccountHistoryResponseItem item,
       Animation<double> animation, String displayName, BuildContext context) {
-        
     TransactionDetailsSheet transactionDetails =
         TransactionDetailsSheet(item.hash, item.account, displayName);
     String text;
@@ -820,7 +807,8 @@ class _AppHomePageState extends State<AppHomePage>
       delegate: SlidableScrollDelegate(),
       actionExtentRatio: 0.35,
       movementDuration: Duration(milliseconds: 300),
-      enabled: StateContainer.of(context).wallet != null && StateContainer.of(context).wallet.accountBalance > BigInt.zero,
+      enabled: StateContainer.of(context).wallet != null &&
+          StateContainer.of(context).wallet.accountBalance > BigInt.zero,
       onTriggered: (preempt) {
         if (preempt) {
           setState(() {
@@ -828,17 +816,19 @@ class _AppHomePageState extends State<AppHomePage>
           });
         } else {
           // See if a contact
-          sl.get<DBHelper>().getContactWithAddress(item.account).then((contact) {
+          sl
+              .get<DBHelper>()
+              .getContactWithAddress(item.account)
+              .then((contact) {
             // Go to send with address
             Sheets.showAppHeightNineSheet(
-              context: context,
-              widget: SendSheet(
-                localCurrency: StateContainer.of(context).curCurrency,
-                contact: contact,
-                address: item.account,
-                quickSendAmount: item.amount,
-              )
-            );
+                context: context,
+                widget: SendSheet(
+                  localCurrency: StateContainer.of(context).curCurrency,
+                  contact: contact,
+                  address: item.account,
+                  quickSendAmount: item.amount,
+                ));
           });
         }
       },
@@ -865,13 +855,11 @@ class _AppHomePageState extends State<AppHomePage>
             child: Container(
               alignment: AlignmentDirectional(-0.5, 0),
               constraints: BoxConstraints.expand(),
-              child: FlareActor(
-                "assets/pulltosend_animation.flr",
-                animation: "pull",
-                fit: BoxFit.contain,
-                controller: this,
-                color: StateContainer.of(context).curTheme.primary
-              ),
+              child: FlareActor("assets/pulltosend_animation.flr",
+                  animation: "pull",
+                  fit: BoxFit.contain,
+                  controller: this,
+                  color: StateContainer.of(context).curTheme.primary),
             ),
           ),
         ),
@@ -1054,7 +1042,8 @@ class _AppHomePageState extends State<AppHomePage>
   // Welcome Card
   TextSpan _getExampleHeaderSpan(BuildContext context) {
     String workingStr;
-    if (StateContainer.of(context).selectedAccount == null || StateContainer.of(context).selectedAccount.index == 0) {
+    if (StateContainer.of(context).selectedAccount == null ||
+        StateContainer.of(context).selectedAccount.index == 0) {
       workingStr = AppLocalization.of(context).exampleCardIntro;
     } else {
       workingStr = AppLocalization.of(context).newAccountIntro;
@@ -1378,7 +1367,8 @@ class _AppHomePageState extends State<AppHomePage>
 
   // Get balance display
   Widget _getBalanceWidget(BuildContext context) {
-    if (StateContainer.of(context).wallet == null || StateContainer.of(context).wallet.loading) {
+    if (StateContainer.of(context).wallet == null ||
+        StateContainer.of(context).wallet.loading) {
       // Placeholder for balance text
       return Container(
         padding: EdgeInsets.symmetric(vertical: 14),
@@ -1526,7 +1516,7 @@ class _AppHomePageState extends State<AppHomePage>
           children: <Widget>[
             Text(
                 StateContainer.of(context).wallet.getLocalCurrencyPrice(
-                  StateContainer.of(context).curCurrency,
+                    StateContainer.of(context).curCurrency,
                     locale: StateContainer.of(context).currencyLocale),
                 textAlign: TextAlign.center,
                 style: _pricesHidden
@@ -1582,8 +1572,7 @@ class _AppHomePageState extends State<AppHomePage>
                         ? Colors.transparent
                         : StateContainer.of(context).curTheme.text60,
                     size: 14),
-                Text(
-                    StateContainer.of(context).wallet.btcPrice,
+                Text(StateContainer.of(context).wallet.btcPrice,
                     textAlign: TextAlign.center,
                     style: _pricesHidden
                         ? AppStyles.textStyleCurrencyAltHidden(context)
