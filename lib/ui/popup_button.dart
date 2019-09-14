@@ -59,6 +59,9 @@ class _AppPopupButtonState extends State<AppPopupButton> {
           onVerticalDragEnd: (value) {
             firstTime = true;
             if (isScrolledUpEnough) {
+              setState(() {
+                popupColor = Colors.white;
+              });
               Navigator.pushNamed(context, '/before_scan_screen');
             }
             isScrolledUpEnough = false;

@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
+import 'package:natrium_wallet_flutter/util/user_data_util.dart';
 
 class BeforeScanScreen extends StatefulWidget {
   @override
@@ -10,6 +13,15 @@ class BeforeScanScreen extends StatefulWidget {
 }
 
 class _BeforeScanScreenState extends State<BeforeScanScreen> {
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(milliseconds: 200), () async {
+      print("DONE");
+      await UserDataUtil.getQRData(DataType.RAW, StateContainer.of(context).curTheme.qrScanTheme);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -24,13 +36,13 @@ class _BeforeScanScreenState extends State<BeforeScanScreen> {
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            color: StateContainer.of(context).curTheme.success,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(0),
           ),
           child: Icon(
             AppIcons.scan,
             size: 50,
-            color: StateContainer.of(context).curTheme.background,
+            color: Colors.black,
           ),
         ),
       ),
