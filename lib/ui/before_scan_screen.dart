@@ -29,7 +29,7 @@ class _BeforeScanScreenState extends State<BeforeScanScreen> {
           ),
           child: Icon(
             AppIcons.scan,
-            size: 33,
+            size: 50,
             color: StateContainer.of(context).curTheme.background,
           ),
         ),

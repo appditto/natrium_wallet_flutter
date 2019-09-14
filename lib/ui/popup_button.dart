@@ -127,7 +127,8 @@ class _AppPopupButtonState extends State<AppPopupButton> {
             ),
             height: 55,
             width: (MediaQuery.of(context).size.width - 42) / 2,
-            margin: EdgeInsetsDirectional.only(start: 7, top: popupMarginBottom, end: 14.0),
+            margin: EdgeInsetsDirectional.only(
+                start: 7, top: popupMarginBottom, end: 14.0),
             child: FlatButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),
