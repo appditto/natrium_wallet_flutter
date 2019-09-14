@@ -38,7 +38,6 @@ class _AppPopupButtonState extends State<AppPopupButton> {
             curve: Curves.easeOut,
             height: scanButtonSize,
             width: scanButtonSize,
-            margin: EdgeInsetsDirectional.only(bottom: popupMarginBottom),
             decoration: BoxDecoration(
               color: popupColor,
               borderRadius: BorderRadius.circular(100),
@@ -120,14 +119,15 @@ class _AppPopupButtonState extends State<AppPopupButton> {
             }
             print(dragUpdateDetails.localPosition.dy);
           },
-          child: Container(
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 150),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
             ),
             height: 55,
             width: (MediaQuery.of(context).size.width - 42) / 2,
-            margin: EdgeInsetsDirectional.only(start: 7, top: 0.0, end: 14.0),
+            margin: EdgeInsetsDirectional.only(start: 7, top: popupMarginBottom, end: 14.0),
             child: FlatButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),

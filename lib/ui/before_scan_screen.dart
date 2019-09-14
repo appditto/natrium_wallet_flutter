@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
@@ -21,14 +23,13 @@ class _BeforeScanScreenState extends State<BeforeScanScreen> {
           curve: Curves.easeOut,
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsetsDirectional.only(bottom: 0),
           decoration: BoxDecoration(
             color: StateContainer.of(context).curTheme.success,
             borderRadius: BorderRadius.circular(0),
           ),
           child: Icon(
             AppIcons.scan,
-            size: 100,
+            size: 33,
             color: StateContainer.of(context).curTheme.background,
           ),
         ),
