@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:event_taxi/event_taxi.dart';
+import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -311,8 +312,14 @@ class AppTransferConfirmSheet {
         });
   }
 
-  Future<String> _getPrivKey(int index) async {
-    return await _nanoUtil.seedToPrivateInIsolate(await sl.get<Vault>().getSeed(), index);
+  Future<String> _getPrivKey(BuildContext context, int index) async {
+    String seed;
+    if (StateContainer.of(context).encryptedSecret != null)  {
+      seed = NanoHelpers.byteToHex(NanoCrypt.decrypt(StateContainer.of(context).encryptedSecret, await sl.get<Vault>().getSessionKey()));
+    } else {
+      seed = await sl.get<Vault>().getSeed();
+    }
+    return await _nanoUtil.seedToPrivateInIsolate(seed, index);
   }
 
   ///
@@ -365,7 +372,7 @@ class AppTransferConfirmSheet {
       PendingResponseItem pendingItem = pendingBlocks.remove(hash);
       if (StateContainer.of(context).wallet.openBlock != null) {
         // Receive block
-        _getPrivKey(StateContainer.of(context).selectedAccount.index).then((result) {
+        _getPrivKey(context, StateContainer.of(context).selectedAccount.index).then((result) {
           StateContainer.of(context).requestReceive(
               StateContainer.of(context).wallet.frontier,
               hash,
@@ -375,7 +382,7 @@ class AppTransferConfirmSheet {
         });
       } else {
         // Open account
-        _getPrivKey(StateContainer.of(context).selectedAccount.index).then((result) {
+        _getPrivKey(context, StateContainer.of(context).selectedAccount.index).then((result) {
           StateContainer.of(context).requestOpen("0", hash, pendingItem.amount,
               privKey: result,
               account: StateContainer.of(context).wallet.address);

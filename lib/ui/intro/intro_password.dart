@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
@@ -7,8 +8,7 @@ import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
-import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 
 class IntroPassword extends StatefulWidget {
@@ -253,6 +253,21 @@ class _IntroPasswordState extends State<IntroPassword> {
                         ),
                       ),
                     ),
+                    // Error Text
+                    Container(
+                      alignment: AlignmentDirectional(0, 0),
+                      margin: EdgeInsets.only(top: 3),
+                      child: Text(this.passwordError == null ? "" : AppLocalization.of(context).passwordsDontMatch,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color:
+                                StateContainer.of(context)
+                                    .curTheme
+                                    .primary,
+                            fontFamily: 'NunitoSans',
+                            fontWeight: FontWeight.w600,
+                          )),
+                    ),
                   ],
                 ),
               ),
@@ -264,12 +279,24 @@ class _IntroPasswordState extends State<IntroPassword> {
                     children: <Widget>[
                       // Next Button
                       AppButton.buildAppButton(context, AppButtonType.PRIMARY,
-                          AppLocalization.of(context).nextButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                        widget.comingFromImport
-                            ? Navigator.of(context)
-                                .pushNamed('/intro_import')
-                            : Navigator.of(context)
-                                .pushNamed('/intro_backup_safety');
+                          AppLocalization.of(context).nextButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                            if (widget.comingFromImport) {
+                              Navigator.of(context)
+                                .pushNamed('/intro_import');
+                            } else {
+                              // Generate a new seed and encrypt
+                              String seed = NanoSeeds.generateSeed();
+                              String encryptedSeed = NanoHelpers.byteToHex(NanoCrypt.encrypt(seed, confirmPasswordController.text));
+                              await sl.get<Vault>().setSeed(encryptedSeed);
+                              // Also encrypt it with the session key, so user doesnt need password to sign blocks within the app
+                              StateContainer.of(context).setEncryptedSecret(NanoHelpers.byteToHex(NanoCrypt.encrypt(seed, await sl.get<Vault>().getSessionKey())));
+                              // Update wallet
+                              NanoUtil().loginAccount(context).then((_) {
+                                StateContainer.of(context).requestUpdate();
+                                Navigator.of(context)
+                                    .pushNamed('/intro_backup_safety');
+                              });
+                            }
                       }),
                     ],
                   ),

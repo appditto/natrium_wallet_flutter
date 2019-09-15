@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
-import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
-import 'package:natrium_wallet_flutter/util/biometrics.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
-import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
-import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 
 class AppPasswordLockScreen extends StatefulWidget {
   @override
@@ -23,6 +19,16 @@ class AppPasswordLockScreen extends StatefulWidget {
 class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
   FocusNode enterPasswordFocusNode;
   TextEditingController enterPasswordController;
+
+  String passwordError;
+
+  @override
+  void initState() {
+    super.initState();
+    this.enterPasswordFocusNode = FocusNode();
+    this.enterPasswordController = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,9 +87,12 @@ class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
                           cursorColor:
                               StateContainer.of(context).curTheme.primary,
                           textInputAction: TextInputAction.go,
-                          // Temporary function
-                          onSubmitted: (String text) {
-                            Navigator.of(context).pop();
+                          onChanged: (String newText) {
+                            if (passwordError != null) {
+                              setState(() {
+                                passwordError = null;
+                              });
+                            }
                           },
                           // Temporary function END
                           maxLines: 1,
@@ -113,6 +122,21 @@ class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
                       ),
                     ),
                   ),
+                  // Error Container
+                  Container(
+                    alignment: AlignmentDirectional(0, 0),
+                    margin: EdgeInsets.only(top: 3),
+                    child: Text(this.passwordError == null ? "" : this.passwordError,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color:
+                              StateContainer.of(context)
+                                  .curTheme
+                                  .primary,
+                          fontFamily: 'NunitoSans',
+                          fontWeight: FontWeight.w600,
+                        )),
+                  ),
                 ],
               )),
               Row(
@@ -121,10 +145,18 @@ class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
                       context,
                       AppButtonType.PRIMARY,
                       AppLocalization.of(context).unlock,
-                      Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                    // Temporary function
-                    Navigator.of(context).pop();
-                    //Temporary function end
+                      Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () async {
+                    try {
+                      String decryptedSeed = NanoHelpers.byteToHex(NanoCrypt.decrypt(await sl.get<Vault>().getSeed(), enterPasswordController.text));
+                      StateContainer.of(context).setEncryptedSecret(NanoHelpers.byteToHex(NanoCrypt.encrypt(decryptedSeed, await sl.get<Vault>().getSessionKey())));
+                      _goHome();
+                    } catch (e) {
+                      if (mounted) {
+                        setState(() {
+                          passwordError = AppLocalization.of(context).invalidPassword;
+                        });
+                      }
+                    }
                   }),
                 ],
               )
@@ -133,5 +165,16 @@ class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _goHome() async {
+    if (StateContainer.of(context).wallet != null) {
+      StateContainer.of(context).reconnect();
+    } else {
+      await NanoUtil().loginAccount(context);
+    }
+    StateContainer.of(context).requestUpdate();
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        '/home_transition', (Route<dynamic> route) => false);
   }
 }

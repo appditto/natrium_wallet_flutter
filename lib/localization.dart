@@ -971,6 +971,10 @@ class AppLocalization {
   String get passwordsDontMatch {
     return Intl.message("Passwords do not match", desc: 'An error indicating a password has been confirmed incorrectly', name: 'passwordsDontMatch');
   }
+
+  String get invalidPassword {
+    return Intl.message("Invalid Password", desc: 'An error indicating a password has been entered incorrectly', name: 'invalidPassword');
+  }
   /// HINTS END
   
 

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/foundation.dart';
@@ -126,6 +127,9 @@ class StateContainerState extends State<StateContainer> {
   // List of Verified Nano Ninja Nodes
   bool nanoNinjaUpdated = false;
   List<NinjaNode> nanoNinjaNodes;
+
+  // When wallet is encrypted
+  String encryptedSecret;
 
   void updateNinjaNodes(List<NinjaNode> list) {
     setState(() {
@@ -390,7 +394,7 @@ class StateContainerState extends State<StateContainer> {
 
   // Update the global wallet instance with a new address
   Future<void> updateWallet({Account account}) async {
-    String address = await NanoUtil().seedToAddressInIsolate(await sl.get<Vault>().getSeed(), account.index);
+    String address = await NanoUtil().seedToAddressInIsolate(await _getSeed(), account.index);
     account.address = address;
     selectedAccount = account;
     updateRecentlyUsedAccounts();
@@ -427,6 +431,11 @@ class StateContainerState extends State<StateContainer> {
     setState(() {
       curLanguage = language;
     });
+  }
+
+  // Set encrypted secret
+  void setEncryptedSecret(String secret) {
+    encryptedSecret = secret;
   }
 
   // Change theme
@@ -890,13 +899,25 @@ class StateContainerState extends State<StateContainer> {
   void logOut() {
     setState(() {
       wallet = AppWallet();
+      encryptedSecret = null;
     });
     sl.get<DBHelper>().dropAccounts();
     sl.get<AccountService>().clearQueue();
   }
 
   Future<String> _getPrivKey() async {
-   return await NanoUtil().seedToPrivateInIsolate(await sl.get<Vault>().getSeed(), selectedAccount.index);
+    String seed = await _getSeed();
+   return await NanoUtil().seedToPrivateInIsolate(seed, selectedAccount.index);
+  }
+
+  Future<String> _getSeed() async {
+    String seed;
+    if (encryptedSecret != null)  {
+      seed = NanoHelpers.byteToHex(NanoCrypt.decrypt(encryptedSecret, await sl.get<Vault>().getSessionKey()));
+    } else {
+      seed = await sl.get<Vault>().getSeed();
+    }
+    return seed;
   }
 
   // Simple build method that just passes this state through

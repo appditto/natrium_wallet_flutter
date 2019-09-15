@@ -17,13 +17,11 @@ class IntroBackupConfirm extends StatefulWidget {
 }
 
 class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
-  var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      key: _scaffoldKey,
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       body: LayoutBuilder(
         builder: (context, constraints) => SafeArea(

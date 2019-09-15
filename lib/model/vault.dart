@@ -80,10 +80,15 @@ class Vault {
   Future<String> getSessionKey() async {
     String key = await _read(sessionKey);
     if (key == null) {
-      key = RandomUtil.generateEncryptionSecret(25);
-      await writeSessionKey(key);
+      key = await updateSessionKey();
     }
     return key;
+  }
+
+  Future<String> updateSessionKey() async {
+      String key = RandomUtil.generateEncryptionSecret(25);
+      await writeSessionKey(key);
+      return key;
   }
 
   Future<String> writeSessionKey(String key) async {

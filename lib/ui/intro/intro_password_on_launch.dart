@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
@@ -7,8 +8,7 @@ import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
-import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 
 class IntroPasswordOnLaunch extends StatefulWidget {
@@ -116,10 +116,18 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                       // Skip Button
                       AppButton.buildAppButton(context, AppButtonType.PRIMARY,
                           AppLocalization.of(context).noSkipButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                        widget.comingFromImport
-                            ? Navigator.of(context).pushNamed('/intro_import')
-                            : Navigator.of(context)
-                                .pushNamed('/intro_backup_safety');
+                        if (widget.comingFromImport) {
+                          Navigator.of(context).pushNamed('/intro_import');
+                        } else {
+                          sl.get<Vault>().setSeed(NanoSeeds.generateSeed()).then((result) {
+                            // Update wallet
+                            NanoUtil().loginAccount(context).then((_) {
+                              StateContainer.of(context).requestUpdate();
+                              Navigator.of(context)
+                                  .pushNamed('/intro_backup_safety');
+                            });
+                          });
+                        }
                       }),
                     ],
                   ),

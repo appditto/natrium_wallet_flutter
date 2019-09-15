@@ -15,12 +15,15 @@ import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/mnemonic_display.dart';
 
 class IntroBackupSeedPage extends StatefulWidget {
+  final String encryptedSeed;
+
+  IntroBackupSeedPage({this.encryptedSeed}) : super();
+
   @override
   _IntroBackupSeedState createState() => _IntroBackupSeedState();
 }
 
 class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
-  var _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _seed;
   List<String> _mnemonic;
   bool _showMnemonic;
@@ -28,12 +31,21 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   @override
   void initState() {
     super.initState();
-    sl.get<Vault>().getSeed().then((seed) {
-      setState(() {
-        _seed = seed;
-        _mnemonic = NanoMnemomics.seedToMnemonic(seed);
+    if (widget.encryptedSeed == null) {
+      sl.get<Vault>().getSeed().then((seed) {
+        setState(() {
+          _seed = seed;
+          _mnemonic = NanoMnemomics.seedToMnemonic(seed);
+        });
       });
-    });
+    } else {
+      sl.get<Vault>().getSessionKey().then((key) {
+        setState(() {
+          _seed = NanoHelpers.byteToHex(NanoCrypt.decrypt(widget.encryptedSeed, key));
+          _mnemonic = NanoMnemomics.seedToMnemonic(_seed);
+        });
+      });
+    }
     _showMnemonic = true;
   }
 
@@ -41,7 +53,6 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      key: _scaffoldKey,
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       body: LayoutBuilder(
         builder: (context, constraints) => SafeArea(
