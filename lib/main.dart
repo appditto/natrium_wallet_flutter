@@ -260,11 +260,6 @@ class _AppState extends State<App> {
                 builder: (_) => AppPasswordLockScreen(),
                 settings: settings,
               );
-            case '/password_lock_screen_transition':
-              return MaterialPageRoute(
-                builder: (_) => AppPasswordLockScreen(),
-                settings: settings,
-              );
             case '/before_scan_screen':
               return NoTransitionRoute(
                 builder: (_) => BeforeScanScreen(),
@@ -416,7 +411,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
 
       if (isLoggedIn) {
         if (isEncrypted) {
-          // TODO decrypt screen
+          Navigator.of(context).pushReplacementNamed('/password_lock_screen');
         } else if (await sl.get<SharedPrefsUtil>().getLock() ||
             await sl.get<SharedPrefsUtil>().shouldLock()) {
           Navigator.of(context).pushReplacementNamed('/lock_screen');
