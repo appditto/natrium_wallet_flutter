@@ -967,6 +967,10 @@ class AppLocalization {
     return Intl.message("Enter your password",
       desc: 'A text field hint that tells the users to enter their password', name: 'enterPasswordHint');
   }
+
+  String get passwordsDontMatch {
+    return Intl.message("Passwords do not match", desc: 'An error indicating a password has been confirmed incorrectly', name: 'passwordsDontMatch');
+  }
   /// HINTS END
   
 
