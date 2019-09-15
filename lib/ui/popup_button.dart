@@ -87,13 +87,16 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                 popupColor = StateContainer.of(context).curTheme.success;
                 sendButtonColor = StateContainer.of(context).curTheme.primary;
               });
+            } else {
+              isScrolledUpEnough = false;
+              popupColor = StateContainer.of(context).curTheme.primary;
+              sendButtonColor = StateContainer.of(context).curTheme.success;
             }
             // Swiping below the starting limit
             if (dragUpdateDetails.localPosition.dy >= 0) {
               setState(() {
                 scanButtonSize = 0;
                 popupMarginBottom = 0;
-                sendButtonColor = StateContainer.of(context).curTheme.primary;
               });
             }
             // Swiping above the starting limit betwee 0 and 50
@@ -102,8 +105,6 @@ class _AppPopupButtonState extends State<AppPopupButton> {
               setState(() {
                 scanButtonSize = dragUpdateDetails.localPosition.dy * -1;
                 popupMarginBottom = 5 + scanButtonSize / 3;
-                popupColor = StateContainer.of(context).curTheme.primary;
-                sendButtonColor = StateContainer.of(context).curTheme.success;
               });
             }
             // Swiping between 50 and 60
@@ -113,31 +114,23 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                 scanButtonSize = 50 +
                     (((dragUpdateDetails.localPosition.dy * -1) - 50) / 20);
                 popupMarginBottom = 5 + scanButtonSize / 3;
-                popupColor = StateContainer.of(context).curTheme.primary;
-                sendButtonColor = StateContainer.of(context).curTheme.success;
               });
             }
             // Swiping between 60 and 70
             else if (dragUpdateDetails.localPosition.dy < -60 &&
                 dragUpdateDetails.localPosition.dy >= -70) {
-              isScrolledUpEnough = true;
               setState(() {
                 scanButtonSize = 60 +
                     (((dragUpdateDetails.localPosition.dy * -1) - 60) / 40);
                 popupMarginBottom = 5 + scanButtonSize / 3;
-                popupColor = StateContainer.of(context).curTheme.success;
-                sendButtonColor = StateContainer.of(context).curTheme.primary;
               });
             }
             // Swiping between 70 and 80
             else if (dragUpdateDetails.localPosition.dy < -70) {
-              isScrolledUpEnough = true;
               setState(() {
                 scanButtonSize = 70 +
                     (((dragUpdateDetails.localPosition.dy * -1) - 70) / 80);
                 popupMarginBottom = 5 + scanButtonSize / 3;
-                popupColor = StateContainer.of(context).curTheme.success;
-                sendButtonColor = StateContainer.of(context).curTheme.primary;
               });
             }
           },
