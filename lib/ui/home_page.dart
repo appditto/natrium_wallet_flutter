@@ -755,14 +755,13 @@ class _AppHomePageState extends State<AppHomePage>
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
                           boxShadow: [
-                            StateContainer.of(context)
-                                .curTheme
-                                .boxShadowButton
+                            StateContainer.of(context).curTheme.boxShadowButton
                           ],
                         ),
                         height: 55,
                         width: (MediaQuery.of(context).size.width - 42) / 2,
-                        margin: EdgeInsetsDirectional.only(start: 14, top: 0.0, end: 7.0),
+                        margin: EdgeInsetsDirectional.only(
+                            start: 14, top: 0.0, end: 7.0),
                         child: FlatButton(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100.0)),
@@ -783,20 +782,14 @@ class _AppHomePageState extends State<AppHomePage>
                             receive.mainBottomSheet(context);
                           },
                           highlightColor: receive != null
-                              ? StateContainer.of(context)
-                                  .curTheme
-                                  .background40
+                              ? StateContainer.of(context).curTheme.background40
                               : Colors.transparent,
                           splashColor: receive != null
-                              ? StateContainer.of(context)
-                                  .curTheme
-                                  .background40
+                              ? StateContainer.of(context).curTheme.background40
                               : Colors.transparent,
                         ),
                       ),
-                      AppPopupButton(
-                        buttonColor: StateContainer.of(context).curTheme.primary,
-                      ),
+                      AppPopupButton(),
                     ],
                   ),
                 ],

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
@@ -12,8 +10,6 @@ import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 
 class AppPopupButton extends StatefulWidget {
-  final Color buttonColor;
-  AppPopupButton({this.buttonColor});
   @override
   _AppPopupButtonState createState() => _AppPopupButtonState();
 }
@@ -23,13 +19,8 @@ class _AppPopupButtonState extends State<AppPopupButton> {
   double popupMarginBottom = 0;
   bool isScrolledUpEnough = false;
   bool firstTime = true;
+  bool isSendButtonColorPrimary = true;
   Color popupColor = Colors.transparent;
-  Color sendButtonColor;
-  @override
-  void initState() {
-    super.initState();
-    sendButtonColor = widget.buttonColor;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +60,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                   StateContainer.of(context).wallet.accountBalance >
                       BigInt.zero)
               ? (value) {
-                  sendButtonColor = StateContainer.of(context).curTheme.primary;
+                  isSendButtonColorPrimary = true;
                   firstTime = true;
                   if (isScrolledUpEnough) {
                     setState(() {
@@ -95,14 +86,12 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                     firstTime = false;
                     setState(() {
                       popupColor = StateContainer.of(context).curTheme.success;
-                      sendButtonColor =
-                          StateContainer.of(context).curTheme.primary;
+                      isSendButtonColorPrimary = true;
                     });
                   } else {
                     isScrolledUpEnough = false;
                     popupColor = StateContainer.of(context).curTheme.primary;
-                    sendButtonColor =
-                        StateContainer.of(context).curTheme.success;
+                    isSendButtonColorPrimary = false;
                   }
                   // Swiping below the starting limit
                   if (dragUpdateDetails.localPosition.dy >= 0) {
@@ -125,7 +114,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                 }
               : (dragUpdateDetails) {},
           child: AnimatedContainer(
-            duration: Duration(milliseconds: 75),
+            duration: Duration(milliseconds: 100),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
@@ -140,7 +129,9 @@ class _AppPopupButtonState extends State<AppPopupButton> {
               color: StateContainer.of(context).wallet != null &&
                       StateContainer.of(context).wallet.accountBalance >
                           BigInt.zero
-                  ? sendButtonColor
+                  ? isSendButtonColorPrimary
+                      ? StateContainer.of(context).curTheme.primary
+                      : StateContainer.of(context).curTheme.success
                   : StateContainer.of(context).curTheme.primary60,
               child: AutoSizeText(
                 AppLocalization.of(context).send,
