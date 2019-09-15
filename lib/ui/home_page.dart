@@ -794,9 +794,7 @@ class _AppHomePageState extends State<AppHomePage>
                               : Colors.transparent,
                         ),
                       ),
-                      AppPopupButton(
-                        buttonColor: StateContainer.of(context).curTheme.primary,
-                      ),
+                      AppPopupButton(),
                     ],
                   ),
                 ],
