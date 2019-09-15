@@ -125,7 +125,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                 }
               : (dragUpdateDetails) {},
           child: AnimatedContainer(
-            duration: Duration(milliseconds: 75),
+            duration: Duration(milliseconds: 100),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
