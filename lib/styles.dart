@@ -278,7 +278,7 @@ class AppStyles {
       fontWeight: FontWeight.w100,
       fontFamily: 'OverpassMono',
       color: StateContainer.of(context).curTheme.primary,
-      height: 1.3,
+      height: 1.5,
       letterSpacing: 1,
     );
   }
@@ -288,7 +288,7 @@ class AppStyles {
       fontWeight: FontWeight.w100,
       fontFamily: 'OverpassMono',
       color: StateContainer.of(context).curTheme.text60,
-      height: 1.3,
+      height: 1.5,
       letterSpacing: 1,
     );
   }
@@ -319,7 +319,7 @@ class AppStyles {
       fontWeight: FontWeight.w100,
       fontFamily: 'OverpassMono',
       color: StateContainer.of(context).curTheme.success,
-      height: 1.3,
+      height: 1.5,
       letterSpacing: 1,
     );
   }
