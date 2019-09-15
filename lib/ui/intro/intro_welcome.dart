@@ -99,7 +99,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                               AppButtonType.PRIMARY_OUTLINE,
                               AppLocalization.of(context).importWallet,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                            Navigator.of(context).pushNamed('/intro_password_on_launch_fromimport');
+                            Navigator.of(context).pushNamed('/intro_import');
                           }),
                         ],
                       ),

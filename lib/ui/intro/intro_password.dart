@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
@@ -253,6 +254,21 @@ class _IntroPasswordState extends State<IntroPassword> {
                         ),
                       ),
                     ),
+                    // Error Text
+                    Container(
+                      alignment: AlignmentDirectional(0, 0),
+                      margin: EdgeInsets.only(top: 3),
+                      child: Text(this.passwordError == null ? "" : AppLocalization.of(context).passwordsDontMatch,
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            color:
+                                StateContainer.of(context)
+                                    .curTheme
+                                    .primary,
+                            fontFamily: 'NunitoSans',
+                            fontWeight: FontWeight.w600,
+                          )),
+                    ),
                   ],
                 ),
               ),
@@ -264,12 +280,20 @@ class _IntroPasswordState extends State<IntroPassword> {
                     children: <Widget>[
                       // Next Button
                       AppButton.buildAppButton(context, AppButtonType.PRIMARY,
-                          AppLocalization.of(context).nextButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                        widget.comingFromImport
-                            ? Navigator.of(context)
-                                .pushNamed('/intro_import')
-                            : Navigator.of(context)
+                          AppLocalization.of(context).nextButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                            if (widget.comingFromImport) {
+                              Navigator.of(context)
+                                .pushNamed('/intro_import');
+                            } else {
+                              // Generate a new seed and encrypt
+                              String seed = NanoSeeds.generateSeed();
+                              String encryptedSeed = NanoHelpers.byteToHex(NanoCrypt.encrypt(seed, confirmPasswordController.text));
+                              await sl.get<Vault>().setSeed(encryptedSeed);
+                              // Also encrypt it with the session key, so user doesnt need password to sign blocks within the app
+                              StateContainer.of(context).setEncryptedSecret(NanoHelpers.byteToHex(NanoCrypt.encrypt(seed, await sl.get<Vault>().getSessionKey())));
+                              Navigator.of(context)
                                 .pushNamed('/intro_backup_safety');
+                            }
                       }),
                     ],
                   ),

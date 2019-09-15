@@ -227,7 +227,7 @@ class _AppState extends State<App> {
               );
             case '/intro_backup':
               return MaterialPageRoute(
-                builder: (_) => IntroBackupSeedPage(),
+                builder: (_) => IntroBackupSeedPage(encryptedSeed: settings.arguments),
                 settings: settings,
               );
             case '/intro_backup_safety':
@@ -334,7 +334,25 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
     return migrated;
   }
 
+  bool seedIsEncrypted(String seed) {
+    if (seed == null) {
+      return false;
+    }
+    try {
+      String salted =
+          NanoHelpers.bytesToUtf8String(NanoHelpers.hexToBytes(seed.substring(0, 16)));
+      if (salted == "Salted__") {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future checkLoggedIn() async {
+    // Update session key
+    await sl.get<Vault>().updateSessionKey();
     // Check if device is rooted or jailbroken, show user a warning informing them of the risks if so
     if (!(await sl.get<SharedPrefsUtil>().getHasSeenRootWarning()) &&
         (await RootChecker.isDeviceRooted)) {
@@ -381,6 +399,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
       await sl.get<SharedPrefsUtil>().setFirstLaunch();
       // See if logged in already
       bool isLoggedIn = false;
+      bool isEncrypted = false;
       var seed = await sl.get<Vault>().getSeed();
       var pin = await sl.get<Vault>().getPin();
       // If we have a seed set, but not a pin - or vice versa
@@ -388,6 +407,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
       // This would mean user did not complete the intro screen completely.
       if (seed != null && pin != null) {
         isLoggedIn = true;
+        isEncrypted = seedIsEncrypted(seed);
       } else if (seed != null && pin == null) {
         await sl.get<Vault>().deleteSeed();
       } else if (pin != null && seed == null) {
@@ -395,7 +415,9 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
       }
 
       if (isLoggedIn) {
-        if (await sl.get<SharedPrefsUtil>().getLock() ||
+        if (isEncrypted) {
+          // TODO decrypt screen
+        } else if (await sl.get<SharedPrefsUtil>().getLock() ||
             await sl.get<SharedPrefsUtil>().shouldLock()) {
           Navigator.of(context).pushReplacementNamed('/lock_screen');
         } else {
