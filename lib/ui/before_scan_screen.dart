@@ -29,7 +29,7 @@ class _BeforeScanScreenState extends State<BeforeScanScreen> {
       child: Hero(
         tag: 'scanButton',
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 75),
+          duration: Duration(milliseconds: 100),
           curve: Curves.easeOut,
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,

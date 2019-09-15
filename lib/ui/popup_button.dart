@@ -39,7 +39,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
         Hero(
           tag: 'scanButton',
           child: AnimatedContainer(
-            duration: Duration(milliseconds: 150),
+            duration: Duration(milliseconds: 100),
             curve: Curves.easeOut,
             height: scanButtonSize,
             width: scanButtonSize,
@@ -49,91 +49,81 @@ class _AppPopupButtonState extends State<AppPopupButton> {
             ),
             child: Icon(
               AppIcons.scan,
-              size: scanButtonSize < 60 ? scanButtonSize / 1.8 : 30,
+              size: scanButtonSize < 60 ? scanButtonSize / 1.8 : 33,
               color: StateContainer.of(context).curTheme.background,
             ),
           ),
         ),
         // Send Button
         GestureDetector(
-          onVerticalDragStart: (value) {
-            setState(() {
-              popupColor = StateContainer.of(context).curTheme.primary;
-            });
-          },
-          onVerticalDragEnd: (value) {
-            sendButtonColor = StateContainer.of(context).curTheme.primary;
-            firstTime = true;
-            if (isScrolledUpEnough) {
-              setState(() {
-                popupColor = Colors.white;
-              });
-              Navigator.pushNamed(context, '/before_scan_screen');
-            }
-            isScrolledUpEnough = false;
-            setState(() {
-              scanButtonSize = 0;
-            });
-          },
-          onVerticalDragUpdate: (dragUpdateDetails) {
-            if (dragUpdateDetails.localPosition.dy < -60) {
-              isScrolledUpEnough = true;
-              if (firstTime) {
-                sl.get<HapticUtil>().success();
-                print("REACHED");
-              }
-              firstTime = false;
-              setState(() {
-                popupColor = StateContainer.of(context).curTheme.success;
-                sendButtonColor = StateContainer.of(context).curTheme.primary;
-              });
-            } else {
-              isScrolledUpEnough = false;
-              popupColor = StateContainer.of(context).curTheme.primary;
-              sendButtonColor = StateContainer.of(context).curTheme.success;
-            }
-            // Swiping below the starting limit
-            if (dragUpdateDetails.localPosition.dy >= 0) {
-              setState(() {
-                scanButtonSize = 0;
-                popupMarginBottom = 0;
-              });
-            }
-            // Swiping above the starting limit betwee 0 and 50
-            else if (dragUpdateDetails.localPosition.dy < 0 &&
-                dragUpdateDetails.localPosition.dy >= -50) {
-              setState(() {
-                scanButtonSize = dragUpdateDetails.localPosition.dy * -1;
-                popupMarginBottom = 5 + scanButtonSize / 3;
-              });
-            }
-            // Swiping between 50 and 60
-            else if (dragUpdateDetails.localPosition.dy < -50 &&
-                dragUpdateDetails.localPosition.dy >= -60) {
-              setState(() {
-                scanButtonSize = 50 +
-                    (((dragUpdateDetails.localPosition.dy * -1) - 50) / 20);
-                popupMarginBottom = 5 + scanButtonSize / 3;
-              });
-            }
-            // Swiping between 60 and 70
-            else if (dragUpdateDetails.localPosition.dy < -60 &&
-                dragUpdateDetails.localPosition.dy >= -70) {
-              setState(() {
-                scanButtonSize = 60 +
-                    (((dragUpdateDetails.localPosition.dy * -1) - 60) / 40);
-                popupMarginBottom = 5 + scanButtonSize / 3;
-              });
-            }
-            // Swiping between 70 and 80
-            else if (dragUpdateDetails.localPosition.dy < -70) {
-              setState(() {
-                scanButtonSize = 70 +
-                    (((dragUpdateDetails.localPosition.dy * -1) - 70) / 80);
-                popupMarginBottom = 5 + scanButtonSize / 3;
-              });
-            }
-          },
+          onVerticalDragStart: (StateContainer.of(context).wallet != null &&
+                  StateContainer.of(context).wallet.accountBalance >
+                      BigInt.zero)
+              ? (value) {
+                  setState(() {
+                    popupColor = StateContainer.of(context).curTheme.primary;
+                  });
+                }
+              : (value) {},
+          onVerticalDragEnd: (StateContainer.of(context).wallet != null &&
+                  StateContainer.of(context).wallet.accountBalance >
+                      BigInt.zero)
+              ? (value) {
+                  sendButtonColor = StateContainer.of(context).curTheme.primary;
+                  firstTime = true;
+                  if (isScrolledUpEnough) {
+                    setState(() {
+                      popupColor = Colors.white;
+                    });
+                    Navigator.pushNamed(context, '/before_scan_screen');
+                  }
+                  isScrolledUpEnough = false;
+                  setState(() {
+                    scanButtonSize = 0;
+                  });
+                }
+              : (value) {},
+          onVerticalDragUpdate: (StateContainer.of(context).wallet != null &&
+                  StateContainer.of(context).wallet.accountBalance >
+                      BigInt.zero)
+              ? (dragUpdateDetails) {
+                  if (dragUpdateDetails.localPosition.dy < -60) {
+                    isScrolledUpEnough = true;
+                    if (firstTime) {
+                      sl.get<HapticUtil>().success();
+                    }
+                    firstTime = false;
+                    setState(() {
+                      popupColor = StateContainer.of(context).curTheme.success;
+                      sendButtonColor =
+                          StateContainer.of(context).curTheme.primary;
+                    });
+                  } else {
+                    isScrolledUpEnough = false;
+                    popupColor = StateContainer.of(context).curTheme.primary;
+                    sendButtonColor =
+                        StateContainer.of(context).curTheme.success;
+                  }
+                  // Swiping below the starting limit
+                  if (dragUpdateDetails.localPosition.dy >= 0) {
+                    setState(() {
+                      scanButtonSize = 0;
+                      popupMarginBottom = 0;
+                    });
+                  } else if (dragUpdateDetails.localPosition.dy > -60) {
+                    setState(() {
+                      scanButtonSize = dragUpdateDetails.localPosition.dy * -1;
+                      popupMarginBottom = 5 + scanButtonSize / 3;
+                    });
+                  } else {
+                    setState(() {
+                      scanButtonSize = 60 +
+                          ((dragUpdateDetails.localPosition.dy * -1) - 60) / 30;
+                      popupMarginBottom = 5 + scanButtonSize / 3;
+                    });
+                  }
+                }
+              : (dragUpdateDetails) {},
           child: AnimatedContainer(
             duration: Duration(milliseconds: 75),
             decoration: BoxDecoration(
