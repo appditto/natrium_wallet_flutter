@@ -24,13 +24,24 @@ class _IntroPasswordState extends State<IntroPassword> {
   FocusNode confirmPasswordFocusNode;
   TextEditingController confirmPasswordController;
 
-  var _scaffoldKey = new GlobalKey<ScaffoldState>();
+  String passwordError;
+
+  bool passwordsMatch;
+
+  @override
+  void initState() {
+    super.initState();
+    this.passwordsMatch = false;
+    this.createPasswordFocusNode = FocusNode();
+    this.confirmPasswordFocusNode = FocusNode();
+    this.createPasswordController = TextEditingController();
+    this.confirmPasswordController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      key: _scaffoldKey,
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       body: LayoutBuilder(
         builder: (context, constraints) => SafeArea(
@@ -125,6 +136,26 @@ class _IntroPasswordState extends State<IntroPassword> {
                             textInputAction: TextInputAction.done,
                             maxLines: 1,
                             autocorrect: false,
+                            onChanged: (String newText) {
+                              if (passwordError != null) {
+                                setState(() {
+                                  passwordError = null;
+                                });
+                              }
+                              if (confirmPasswordController.text == createPasswordController.text) {
+                                if (mounted) {
+                                  setState(() {
+                                    passwordsMatch = true;
+                                  });
+                                }
+                              } else {
+                                if (mounted) {
+                                  setState(() {
+                                    passwordsMatch = false;
+                                  });
+                                }
+                              }
+                            },
                             decoration: InputDecoration(
                               hintText: AppLocalization.of(context).createPasswordHint,
                               border: InputBorder.none,
@@ -143,7 +174,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                               fontWeight: FontWeight.w700,
                               fontSize: 16.0,
                               color:
-                                  StateContainer.of(context).curTheme.primary,
+                                this.passwordsMatch ? StateContainer.of(context).curTheme.primary : StateContainer.of(context).curTheme.text,
                               fontFamily: 'NunitoSans',
                             ),
                           ),
@@ -177,6 +208,26 @@ class _IntroPasswordState extends State<IntroPassword> {
                             textInputAction: TextInputAction.done,
                             maxLines: 1,
                             autocorrect: false,
+                            onChanged: (String newText) {
+                              if (passwordError != null) {
+                                setState(() {
+                                  passwordError = null;
+                                });
+                              }
+                              if (confirmPasswordController.text == createPasswordController.text) {
+                                if (mounted) {
+                                  setState(() {
+                                    passwordsMatch = true;
+                                  });
+                                }
+                              } else {
+                                if (mounted) {
+                                  setState(() {
+                                    passwordsMatch = false;
+                                  });
+                                }
+                              }                              
+                            },
                             decoration: InputDecoration(
                               hintText: AppLocalization.of(context).confirmPasswordHint,
                               border: InputBorder.none,
@@ -185,7 +236,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                                 fontWeight: FontWeight.w100,
                                 fontFamily: 'NunitoSans',
                                 color:
-                                    StateContainer.of(context).curTheme.text60,
+                                     StateContainer.of(context).curTheme.text60,
                               ),
                             ),
                             keyboardType: TextInputType.text,
@@ -195,7 +246,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                               fontWeight: FontWeight.w700,
                               fontSize: 16.0,
                               color:
-                                  StateContainer.of(context).curTheme.primary,
+                                  this.passwordsMatch ? StateContainer.of(context).curTheme.primary : StateContainer.of(context).curTheme.text,
                               fontFamily: 'NunitoSans',
                             ),
                           ),
