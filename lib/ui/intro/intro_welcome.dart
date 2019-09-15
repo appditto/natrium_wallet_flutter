@@ -80,14 +80,8 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                               AppButtonType.PRIMARY,
                               AppLocalization.of(context).newWallet,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                            sl.get<Vault>().setSeed(NanoSeeds.generateSeed()).then((result) {
-                              // Update wallet
-                              NanoUtil().loginAccount(context).then((_) {
-                                StateContainer.of(context).requestUpdate();
                                 Navigator.of(context)
                                     .pushNamed('/intro_password_on_launch');
-                              });
-                            });
                           }),
                         ],
                       ),

@@ -8,8 +8,7 @@ import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
-import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 
 class IntroPassword extends StatefulWidget {
@@ -291,8 +290,12 @@ class _IntroPasswordState extends State<IntroPassword> {
                               await sl.get<Vault>().setSeed(encryptedSeed);
                               // Also encrypt it with the session key, so user doesnt need password to sign blocks within the app
                               StateContainer.of(context).setEncryptedSecret(NanoHelpers.byteToHex(NanoCrypt.encrypt(seed, await sl.get<Vault>().getSessionKey())));
-                              Navigator.of(context)
-                                .pushNamed('/intro_backup_safety');
+                              // Update wallet
+                              NanoUtil().loginAccount(context).then((_) {
+                                StateContainer.of(context).requestUpdate();
+                                Navigator.of(context)
+                                    .pushNamed('/intro_backup_safety');
+                              });
                             }
                       }),
                     ],
