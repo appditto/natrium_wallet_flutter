@@ -347,7 +347,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
             await sl.get<SharedPrefsUtil>().setHasSeenRootWarning();
             checkLoggedIn();
           },
-          cancelText: AppLocalization.of(context).exit,
+          cancelText: AppLocalization.of(context).exit.toUpperCase(),
           cancelAction: () {
             if (Platform.isIOS) {
               exit(0);
