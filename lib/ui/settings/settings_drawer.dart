@@ -845,11 +845,13 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   setState(() {
                                     _loadingAccounts = true;
                                   });
-                                  sl.get<DBHelper>().getAccounts().then((accounts) {
-                                    setState(() {
-                                      _loadingAccounts = false;
+                                  StateContainer.of(context).getSeed().then((seed) {
+                                    sl.get<DBHelper>().getAccounts(seed).then((accounts) {
+                                      setState(() {
+                                        _loadingAccounts = false;
+                                      });
+                                      AppAccountsSheet(accounts).mainBottomSheet(context);
                                     });
-                                    AppAccountsSheet(accounts).mainBottomSheet(context);
                                   });
                                 }
                               },
@@ -1039,8 +1041,10 @@ class _SettingsSheetState extends State<SettingsSheet>
                                 .then((authenticated) {
                               if (authenticated) {
                                 sl.get<HapticUtil>().fingerprintSucess();
-                                new AppSeedBackupSheet()
-                                    .mainBottomSheet(context);
+                                StateContainer.of(context).getSeed().then((seed) {
+                                  AppSeedBackupSheet(seed)
+                                      .mainBottomSheet(context);
+                                });
                               }
                             });
                           } else {
@@ -1052,8 +1056,10 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   PinOverlayType.ENTER_PIN,
                                   (pin) {
                                     Navigator.of(context).pop();
-                                    new AppSeedBackupSheet()
-                                        .mainBottomSheet(context);
+                                    StateContainer.of(context).getSeed().then((seed) {
+                                      AppSeedBackupSheet(seed)
+                                          .mainBottomSheet(context);
+                                    });
                                   },
                                   expectedPin: expectedPin,
                                   description:

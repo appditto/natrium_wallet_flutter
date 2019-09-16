@@ -286,14 +286,16 @@ class StateContainerState extends State<StateContainer> {
       if (event.transfer) {
         return;
       }
-      sl.get<DBHelper>().getAccounts().then((accounts) {
-        accounts.forEach((account) {
-          event.response.balances.forEach((address, balance) {
-            address = address.replaceAll("xrb_", "nano_");
-            String combinedBalance = (BigInt.tryParse(balance.balance) + BigInt.tryParse(balance.pending)).toString();
-            if (address == account.address && combinedBalance != account.balance) {
-              sl.get<DBHelper>().updateAccountBalance(account, combinedBalance);
-            }
+      getSeed().then((seed) {
+        sl.get<DBHelper>().getAccounts(seed).then((accounts) {
+          accounts.forEach((account) {
+            event.response.balances.forEach((address, balance) {
+              address = address.replaceAll("xrb_", "nano_");
+              String combinedBalance = (BigInt.tryParse(balance.balance) + BigInt.tryParse(balance.pending)).toString();
+              if (address == account.address && combinedBalance != account.balance) {
+                sl.get<DBHelper>().updateAccountBalance(account, combinedBalance);
+              }
+            });
           });
         });
       });
@@ -324,13 +326,15 @@ class StateContainerState extends State<StateContainer> {
             });
             EventTaxiImpl.singleton().fire(AccountChangedEvent(account: recentSecondLast, noPop: true));
           } else if (event.account.index == selectedAccount.index) {
-            sl.get<DBHelper>().getMainAccount().then((mainAccount) {
-              sl.get<DBHelper>().changeAccount(mainAccount);
-              setState(() {
-                selectedAccount = mainAccount;
-              });
-              EventTaxiImpl.singleton().fire(AccountChangedEvent(account: mainAccount, noPop: true)); 
-            });         
+            getSeed().then((seed) {
+              sl.get<DBHelper>().getMainAccount(seed).then((mainAccount) {
+                sl.get<DBHelper>().changeAccount(mainAccount);
+                setState(() {
+                  selectedAccount = mainAccount;
+                });
+                EventTaxiImpl.singleton().fire(AccountChangedEvent(account: mainAccount, noPop: true)); 
+              });  
+            });       
           }
         });
         updateRecentlyUsedAccounts();
@@ -394,7 +398,7 @@ class StateContainerState extends State<StateContainer> {
 
   // Update the global wallet instance with a new address
   Future<void> updateWallet({Account account}) async {
-    String address = await NanoUtil().seedToAddressInIsolate(await _getSeed(), account.index);
+    String address = await NanoUtil().seedToAddressInIsolate(await getSeed(), account.index);
     account.address = address;
     selectedAccount = account;
     updateRecentlyUsedAccounts();
@@ -405,7 +409,7 @@ class StateContainerState extends State<StateContainer> {
   }
 
   Future<void> updateRecentlyUsedAccounts() async {
-    List<Account> otherAccounts = await sl.get<DBHelper>().getRecentlyUsedAccounts();
+    List<Account> otherAccounts = await sl.get<DBHelper>().getRecentlyUsedAccounts(await getSeed());
     if (otherAccounts != null && otherAccounts.length > 0) {
       if (otherAccounts.length > 1) {
         setState(() {
@@ -718,7 +722,7 @@ class StateContainerState extends State<StateContainer> {
 
   /// Request balances for accounts in our database
   Future<void> _requestBalances() async {
-    List<Account> accounts = await sl.get<DBHelper>().getAccounts();
+    List<Account> accounts = await sl.get<DBHelper>().getAccounts(await getSeed());
     List<String> addressToRequest = List();
     accounts.forEach((account) {
       if (account.address != null) {
@@ -906,11 +910,11 @@ class StateContainerState extends State<StateContainer> {
   }
 
   Future<String> _getPrivKey() async {
-    String seed = await _getSeed();
-   return await NanoUtil().seedToPrivateInIsolate(seed, selectedAccount.index);
+    String seed = await getSeed();
+    return await NanoUtil().seedToPrivateInIsolate(seed, selectedAccount.index);
   }
 
-  Future<String> _getSeed() async {
+  Future<String> getSeed() async {
     String seed;
     if (encryptedSecret != null)  {
       seed = NanoHelpers.byteToHex(NanoCrypt.decrypt(encryptedSecret, await sl.get<Vault>().getSessionKey()));

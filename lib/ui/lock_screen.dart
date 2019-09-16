@@ -30,7 +30,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
     if (StateContainer.of(context).wallet != null) {
       StateContainer.of(context).reconnect();
     } else {
-      await NanoUtil().loginAccount(context);
+      await NanoUtil().loginAccount(await StateContainer.of(context).getSeed(), context);
     }
     StateContainer.of(context).requestUpdate();
     Navigator.of(context).pushNamedAndRemoveUntil(

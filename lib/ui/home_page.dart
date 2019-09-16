@@ -117,6 +117,9 @@ class _AppHomePageState extends State<AppHomePage>
   /// Notification includes which account its for, automatically switch to it if they're entering app from notification
   Future<void> _chooseCorrectAccountFromNotification(
       Map<String, dynamic> message) async {
+        // TODO repair this method
+        return;
+        /*
     try {
       if (message.containsKey("account")) {
         Account selectedAccount = await sl.get<DBHelper>().getSelectedAccount();
@@ -134,7 +137,7 @@ class _AppHomePageState extends State<AppHomePage>
       }
     } catch (e) {
       log.severe(e.toString());
-    }
+    }*/
   }
 
   @override

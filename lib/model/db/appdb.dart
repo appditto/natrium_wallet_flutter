@@ -159,29 +159,29 @@ class DBHelper{
   }
 
   // Accounts
-  Future<List<Account>> getAccounts() async {
+  Future<List<Account>> getAccounts(String seed) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts ORDER BY acct_index');
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
       accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, balance: list[i]["balance"]));
     }
-    accounts = await compute(setAddressForAccounts, {'seed': await sl.get<Vault>().getSeed(), 'accounts':accounts});
+    accounts = await compute(setAddressForAccounts, {'seed': seed, 'accounts':accounts});
     return accounts;
   }
 
-  Future<List<Account>> getRecentlyUsedAccounts({int limit = 2}) async {
+  Future<List<Account>> getRecentlyUsedAccounts(String seed, {int limit = 2}) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts WHERE selected != 1 ORDER BY last_accessed DESC, acct_index ASC LIMIT ?', [limit]);
     List<Account> accounts = new List();
     for (int i = 0; i < list.length; i++) {
       accounts.add(Account(id: list[i]["id"], name: list[i]["name"], index: list[i]["acct_index"], lastAccess: list[i]["last_accessed"], selected: list[i]["selected"] == 1 ? true : false, balance: list[i]["balance"]));
     }
-    accounts = await compute(setAddressForAccounts, {'seed': await sl.get<Vault>().getSeed(), 'accounts':accounts});
+    accounts = await compute(setAddressForAccounts, {'seed': seed, 'accounts':accounts});
     return accounts;
   }
 
-  Future<Account> addAccount({String nameBuilder}) async {
+  Future<Account> addAccount(String seed, {String nameBuilder}) async {
     var dbClient = await db;
     Account account;
     await dbClient.transaction((Transaction txn) async {
@@ -197,7 +197,7 @@ class DBHelper{
       }
       int nextID = nextIndex + 1;
       String nextName = nameBuilder.replaceAll("%1", nextID.toString());
-      account = Account(index: nextIndex, name:nextName, lastAccess: 0, selected: false, address: await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), nextIndex));
+      account = Account(index: nextIndex, name:nextName, lastAccess: 0, selected: false, address: await _nanoUtil.seedToAddressInIsolate(seed, nextIndex));
       await txn.rawInsert('INSERT INTO Accounts (name, acct_index, last_accessed, selected, address) values(?, ?, ?, ?, ?)', [account.name, account.index, account.lastAccess, account.selected ? 1 : 0, account.address]);
     });
     return account;
@@ -233,24 +233,24 @@ class DBHelper{
     return await dbClient.rawUpdate('UPDATE Accounts set balance = ? where acct_index = ?', [balance, account.index]);
   }
 
-  Future<Account> getSelectedAccount() async {
+  Future<Account> getSelectedAccount(String seed) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts where selected = 1');
     if (list.length == 0) {
       return null;
     }
-    String address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[0]["acct_index"]);
+    String address = await _nanoUtil.seedToAddressInIsolate(seed, list[0]["acct_index"]);
     Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: address);
     return account;
   }
 
-  Future<Account> getMainAccount() async {
+  Future<Account> getMainAccount(String seed) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM Accounts where acct_index = 0');
     if (list.length == 0) {
       return null;
     }
-    String address = await _nanoUtil.seedToAddressInIsolate(await sl.get<Vault>().getSeed(), list[0]["acct_index"]);
+    String address = await _nanoUtil.seedToAddressInIsolate(seed, list[0]["acct_index"]);
     Account account = Account(id: list[0]["id"], name: list[0]["name"], index: list[0]["acct_index"], selected: true, lastAccess: list[0]["last_accessed"], balance: list[0]["balance"],  address: address);
     return account;
   }

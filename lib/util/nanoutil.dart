@@ -25,8 +25,8 @@ class NanoUtil {
     return await compute(NanoUtil.seedToAddress, {'seed':seed, 'index':index});
   }
 
-  Future<void> loginAccount(BuildContext context) async {
-    Account selectedAcct = await sl.get<DBHelper>().getSelectedAccount();
+  Future<void> loginAccount(String seed, BuildContext context) async {
+    Account selectedAcct = await sl.get<DBHelper>().getSelectedAccount(seed);
     if (selectedAcct == null) {
       selectedAcct = Account(index: 0, lastAccess: 0, name: AppLocalization.of(context).defaultAccountName, selected: true);
       await sl.get<DBHelper>().saveAccount(selectedAcct);

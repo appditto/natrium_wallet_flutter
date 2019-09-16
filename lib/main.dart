@@ -416,7 +416,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
             await sl.get<SharedPrefsUtil>().shouldLock()) {
           Navigator.of(context).pushReplacementNamed('/lock_screen');
         } else {
-          await NanoUtil().loginAccount(context);
+          await NanoUtil().loginAccount(seed, context);
           Navigator.of(context).pushReplacementNamed('/home');
         }
       } else {

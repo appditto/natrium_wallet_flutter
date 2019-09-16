@@ -972,6 +972,10 @@ class AppLocalization {
     return Intl.message("Passwords do not match", desc: 'An error indicating a password has been confirmed incorrectly', name: 'passwordsDontMatch');
   }
 
+  String get passwordBlank {
+    return Intl.message("Password cannot be empty", desc: 'An error indicating a password has been entered incorrectly', name: 'passwordBlank');
+  }
+
   String get invalidPassword {
     return Intl.message("Invalid Password", desc: 'An error indicating a password has been entered incorrectly', name: 'invalidPassword');
   }

@@ -190,10 +190,12 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                         onPressed: () {
                           // Update wallet
                           sl.get<DBHelper>().dropAccounts().then((_) {
-                            NanoUtil().loginAccount(context).then((_) {
-                              StateContainer.of(context).requestUpdate();
-                              Navigator.of(context)
-                                  .pushNamed('/intro_backup_confirm');
+                            StateContainer.of(context).getSeed().then((seed) {
+                              NanoUtil().loginAccount(seed, context).then((_) {
+                                StateContainer.of(context).requestUpdate();
+                                Navigator.of(context)
+                                    .pushNamed('/intro_backup_confirm');
+                              });
                             });
                           });
                         },

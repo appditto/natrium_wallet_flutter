@@ -593,7 +593,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                         .setSeed(_seedInputController.text)
                                         .then((result) {
                                       sl.get<DBHelper>().dropAccounts().then((_) {
-                                        NanoUtil().loginAccount(context).then((_) {
+                                        NanoUtil().loginAccount(_seedInputController.text, context).then((_) {
                                           Navigator.of(context).push(
                                               MaterialPageRoute(builder:
                                                   (BuildContext context) {
@@ -622,7 +622,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                         .setSeed(NanoMnemomics.mnemonicListToSeed(_mnemonicController.text.split(' ')))
                                         .then((result) {
                                       sl.get<DBHelper>().dropAccounts().then((_) {
-                                        NanoUtil().loginAccount(context).then((_) {
+                                        NanoUtil().loginAccount(NanoMnemomics.mnemonicListToSeed(_mnemonicController.text.split(' ')), context).then((_) {
                                           Navigator.of(context).push(
                                               MaterialPageRoute(builder:
                                                   (BuildContext context) {

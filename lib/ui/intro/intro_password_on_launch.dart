@@ -121,10 +121,12 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                         } else {
                           sl.get<Vault>().setSeed(NanoSeeds.generateSeed()).then((result) {
                             // Update wallet
-                            NanoUtil().loginAccount(context).then((_) {
-                              StateContainer.of(context).requestUpdate();
-                              Navigator.of(context)
-                                  .pushNamed('/intro_backup_safety');
+                            StateContainer.of(context).getSeed().then((seed) {
+                              NanoUtil().loginAccount(seed, context).then((_) {
+                                StateContainer.of(context).requestUpdate();
+                                Navigator.of(context)
+                                    .pushNamed('/intro_backup_safety');
+                              });
                             });
                           });
                         }

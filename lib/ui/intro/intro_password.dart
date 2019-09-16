@@ -134,6 +134,9 @@ class _IntroPasswordState extends State<IntroPassword> {
                             cursorColor:
                                 StateContainer.of(context).curTheme.primary,
                             textInputAction: TextInputAction.done,
+                            onSubmitted: (value) async {
+                              await submitAndEncrypt();
+                            },
                             maxLines: 1,
                             autocorrect: false,
                             onChanged: (String newText) {
@@ -257,7 +260,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                     Container(
                       alignment: AlignmentDirectional(0, 0),
                       margin: EdgeInsets.only(top: 3),
-                      child: Text(this.passwordError == null ? "" : AppLocalization.of(context).passwordsDontMatch,
+                      child: Text(this.passwordError == null ? "" : passwordError,
                           style: TextStyle(
                             fontSize: 14.0,
                             color:
@@ -280,23 +283,7 @@ class _IntroPasswordState extends State<IntroPassword> {
                       // Next Button
                       AppButton.buildAppButton(context, AppButtonType.PRIMARY,
                           AppLocalization.of(context).nextButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
-                            if (widget.comingFromImport) {
-                              Navigator.of(context)
-                                .pushNamed('/intro_import');
-                            } else {
-                              // Generate a new seed and encrypt
-                              String seed = NanoSeeds.generateSeed();
-                              String encryptedSeed = NanoHelpers.byteToHex(NanoCrypt.encrypt(seed, confirmPasswordController.text));
-                              await sl.get<Vault>().setSeed(encryptedSeed);
-                              // Also encrypt it with the session key, so user doesnt need password to sign blocks within the app
-                              StateContainer.of(context).setEncryptedSecret(NanoHelpers.byteToHex(NanoCrypt.encrypt(seed, await sl.get<Vault>().getSessionKey())));
-                              // Update wallet
-                              NanoUtil().loginAccount(context).then((_) {
-                                StateContainer.of(context).requestUpdate();
-                                Navigator.of(context)
-                                    .pushNamed('/intro_backup_safety');
-                              });
-                            }
+                          await submitAndEncrypt();
                       }),
                     ],
                   ),
@@ -319,5 +306,37 @@ class _IntroPasswordState extends State<IntroPassword> {
         ),
       ),
     );
+  }
+
+  Future<void> submitAndEncrypt() async {
+    if (createPasswordController.text.isEmpty || confirmPasswordController.text.isEmpty) {
+      if (mounted) {
+        setState(() {
+          passwordError = AppLocalization.of(context).passwordBlank;
+        });
+      }
+    } else if (createPasswordController.text != confirmPasswordController.text) {
+      if (mounted) {
+        setState(() {
+          passwordError = AppLocalization.of(context).passwordsDontMatch;
+        });
+      }
+    } else if (widget.comingFromImport) {
+      Navigator.of(context)
+        .pushNamed('/intro_import');
+    } else {
+      // Generate a new seed and encrypt
+      String seed = NanoSeeds.generateSeed();
+      String encryptedSeed = NanoHelpers.byteToHex(NanoCrypt.encrypt(seed, confirmPasswordController.text));
+      await sl.get<Vault>().setSeed(encryptedSeed);
+      // Also encrypt it with the session key, so user doesnt need password to sign blocks within the app
+      StateContainer.of(context).setEncryptedSecret(NanoHelpers.byteToHex(NanoCrypt.encrypt(seed, await sl.get<Vault>().getSessionKey())));
+      // Update wallet
+      NanoUtil().loginAccount(await StateContainer.of(context).getSeed(), context).then((_) {
+        StateContainer.of(context).requestUpdate();
+        Navigator.of(context)
+            .pushNamed('/intro_backup_safety');
+      });
+    }    
   }
 }
