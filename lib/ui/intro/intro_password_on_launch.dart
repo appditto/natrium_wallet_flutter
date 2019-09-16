@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 
 class IntroPasswordOnLaunch extends StatefulWidget {
-  final bool comingFromImport;
-  IntroPasswordOnLaunch({this.comingFromImport = false});
+  final String seed;
+
+  IntroPasswordOnLaunch({this.seed});
   @override
   _IntroPasswordOnLaunchState createState() => _IntroPasswordOnLaunchState();
 }
@@ -116,8 +119,23 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                       // Skip Button
                       AppButton.buildAppButton(context, AppButtonType.PRIMARY,
                           AppLocalization.of(context).noSkipButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                        if (widget.comingFromImport) {
-                          Navigator.of(context).pushNamed('/intro_import');
+                        if (widget.seed != null) {
+                            sl.get<Vault>()
+                                .setSeed(widget.seed)
+                                .then((result) {
+                              sl.get<DBHelper>().dropAccounts().then((_) {
+                                NanoUtil().loginAccount(widget.seed, context).then((_) {
+                                  StateContainer.of(context).requestUpdate();
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder:
+                                          (BuildContext context) {
+                                    return PinScreen(
+                                        PinOverlayType.NEW_PIN,
+                                        (_pinEnteredCallback));
+                                  }));
+                                });
+                              });
+                            });
                         } else {
                           sl.get<Vault>().setSeed(NanoSeeds.generateSeed()).then((result) {
                             // Update wallet
@@ -141,11 +159,8 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).yesButton,
                           Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                        widget.comingFromImport
-                            ? Navigator.of(context)
-                                .pushNamed('/intro_password_fromimport')
-                            : Navigator.of(context)
-                                .pushNamed('/intro_password');
+                        Navigator.of(context)
+                                .pushNamed('/intro_password', arguments: widget.seed);
                       }),
                     ],
                   ),
@@ -156,5 +171,14 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
         ),
       ),
     );
+  }
+
+  void _pinEnteredCallback(String pin) {
+    Navigator.of(context).pop();
+    sl.get<Vault>().writePin(pin).then((result) {
+      // Update wallet
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+    });
   }
 }

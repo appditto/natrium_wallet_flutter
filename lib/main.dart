@@ -207,22 +207,12 @@ class _AppState extends State<App> {
               );
             case '/intro_password_on_launch':
               return MaterialPageRoute(
-                builder: (_) => IntroPasswordOnLaunch(),
-                settings: settings,
-              );
-            case '/intro_password_on_launch_fromimport':
-              return MaterialPageRoute(
-                builder: (_) => IntroPasswordOnLaunch(comingFromImport: true),
+                builder: (_) => IntroPasswordOnLaunch(seed: settings.arguments),
                 settings: settings,
               );
             case '/intro_password':
               return MaterialPageRoute(
-                builder: (_) => IntroPassword(),
-                settings: settings,
-              );
-            case '/intro_password_fromimport':
-              return MaterialPageRoute(
-                builder: (_) => IntroPassword(comingFromImport: true),
+                builder: (_) => IntroPassword(seed: settings.arguments),
                 settings: settings,
               );
             case '/intro_backup':

@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 
 class IntroPassword extends StatefulWidget {
-  final bool comingFromImport;
-  IntroPassword({this.comingFromImport = false});
+  final String seed;
+  IntroPassword({this.seed});
   @override
   _IntroPasswordState createState() => _IntroPasswordState();
 }
@@ -321,9 +323,17 @@ class _IntroPasswordState extends State<IntroPassword> {
           passwordError = AppLocalization.of(context).passwordsDontMatch;
         });
       }
-    } else if (widget.comingFromImport) {
-      Navigator.of(context)
-        .pushNamed('/intro_import');
+    } else if (widget.seed != null) {
+      String encryptedSeed = NanoHelpers.byteToHex(NanoCrypt.encrypt(widget.seed, confirmPasswordController.text));
+      await sl.get<Vault>().setSeed(encryptedSeed);
+      StateContainer.of(context).setEncryptedSecret(NanoHelpers.byteToHex(NanoCrypt.encrypt(widget.seed, await sl.get<Vault>().getSessionKey())));
+      await sl.get<DBHelper>().dropAccounts();
+      await NanoUtil().loginAccount(widget.seed, context);
+      StateContainer.of(context).requestUpdate();
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (BuildContext context) {
+          return PinScreen(PinOverlayType.NEW_PIN, _pinEnteredCallback);
+      }));
     } else {
       // Generate a new seed and encrypt
       String seed = NanoSeeds.generateSeed();
@@ -338,5 +348,14 @@ class _IntroPasswordState extends State<IntroPassword> {
             .pushNamed('/intro_backup_safety');
       });
     }    
+  }
+
+  void _pinEnteredCallback(String pin) {
+    Navigator.of(context).pop();
+    sl.get<Vault>().writePin(pin).then((result) {
+      // Update wallet
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+    });
   }
 }

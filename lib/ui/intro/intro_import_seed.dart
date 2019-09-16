@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:nanodart/nanodart.dart';
-import 'package:natrium_wallet_flutter/model/db/appdb.dart';
-import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
@@ -12,8 +10,6 @@ import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
-import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 
 class IntroImportSeedPage extends StatefulWidget {
@@ -589,21 +585,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   sl.get<SharedPrefsUtil>()
                                       .setSeedBackedUp(true)
                                       .then((result) {
-                                    sl.get<Vault>()
-                                        .setSeed(_seedInputController.text)
-                                        .then((result) {
-                                      sl.get<DBHelper>().dropAccounts().then((_) {
-                                        NanoUtil().loginAccount(_seedInputController.text, context).then((_) {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(builder:
-                                                  (BuildContext context) {
-                                            return PinScreen(
-                                                PinOverlayType.NEW_PIN,
-                                                (_pinEnteredCallback));
-                                          }));
-                                        });
-                                      });
-                                    });
+                                    Navigator.pushNamed(context, '/intro_password_on_launch', arguments: _seedInputController.text);
                                   });
                                 } else {
                                   // Display error
@@ -618,21 +600,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   sl.get<SharedPrefsUtil>()
                                       .setSeedBackedUp(true)
                                       .then((result) {
-                                    sl.get<Vault>()
-                                        .setSeed(NanoMnemomics.mnemonicListToSeed(_mnemonicController.text.split(' ')))
-                                        .then((result) {
-                                      sl.get<DBHelper>().dropAccounts().then((_) {
-                                        NanoUtil().loginAccount(NanoMnemomics.mnemonicListToSeed(_mnemonicController.text.split(' ')), context).then((_) {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(builder:
-                                                  (BuildContext context) {
-                                            return PinScreen(
-                                                PinOverlayType.NEW_PIN,
-                                                (_pinEnteredCallback));
-                                          }));
-                                        });
-                                      });
-                                    });
+                                    Navigator.pushNamed(context, '/intro_password_on_launch', arguments: NanoMnemomics.mnemonicListToSeed(_mnemonicController.text.split(' ')));
                                   });                                  
                                 } else {
                                   // Show mnemonic error
@@ -670,14 +638,5 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
             ),
       ),
     );
-  }
-
-  void _pinEnteredCallback(String pin) {
-    Navigator.of(context).pop();
-    sl.get<Vault>().writePin(pin).then((result) {
-      // Update wallet
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-    });
   }
 }
