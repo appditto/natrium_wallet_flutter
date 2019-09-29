@@ -1,9 +1,13 @@
+import 'package:event_taxi/event_taxi.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
+import 'package:natrium_wallet_flutter/bus/fcm_update_event.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/util/biometrics.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
@@ -30,7 +34,8 @@ class _AppLockScreenState extends State<AppLockScreen> {
     if (StateContainer.of(context).wallet != null) {
       StateContainer.of(context).reconnect();
     } else {
-      await NanoUtil().loginAccount(await StateContainer.of(context).getSeed(), context);
+      await NanoUtil()
+          .loginAccount(await StateContainer.of(context).getSeed(), context);
     }
     StateContainer.of(context).requestUpdate();
     Navigator.of(context).pushNamedAndRemoveUntil(
@@ -43,7 +48,8 @@ class _AppLockScreenState extends State<AppLockScreen> {
     },
         expectedPin: expectedPin,
         description: AppLocalization.of(context).unlockPin,
-        pinScreenBackgroundColor: StateContainer.of(context).curTheme.backgroundDark);
+        pinScreenBackgroundColor:
+            StateContainer.of(context).curTheme.backgroundDark);
   }
 
   String _formatCountDisplay(int count) {
@@ -145,8 +151,10 @@ class _AppLockScreenState extends State<AppLockScreen> {
             _showLock = true;
             _showUnlockButton = true;
           });
-          sl.get<BiometricUtil>().authenticateWithBiometrics(context,
-                  AppLocalization.of(context).unlockBiometrics)
+          sl
+              .get<BiometricUtil>()
+              .authenticateWithBiometrics(
+                  context, AppLocalization.of(context).unlockBiometrics)
               .then((authenticated) {
             if (authenticated) {
               _goHome();
@@ -196,71 +204,161 @@ class _AppLockScreenState extends State<AppLockScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: StateContainer.of(context).curTheme.background,
+            color: StateContainer.of(context).curTheme.backgroundDark,
             width: double.infinity,
             child: SafeArea(
-              minimum: EdgeInsets.only(
-               bottom: MediaQuery.of(context).size.height * 0.035,
-               top: MediaQuery.of(context).size.height * 0.1,
-              ),
-              child: Column(
-              children: <Widget>[
-                Expanded(
-                  child: _showLock
-                      ? Column(
-                          children: <Widget>[
-                            Container(
-                              child: Icon(
-                                AppIcons.lock,
-                                size: 80,
-                                color: StateContainer.of(context).curTheme.primary,
-                              ),
-                              margin: EdgeInsets.only(
-                                  top:
-                                      MediaQuery.of(context).size.height * 0.1),
-                            ),
-                            Container(
-                              child: Text(
-                                CaseChange.toUpperCase(AppLocalization.of(context)
-                                    .locked, context),
-                                style: AppStyles.textStyleHeaderColored(context),
-                              ),
-                              margin: EdgeInsets.only(top: 10),
-                            ),
-                          ],
-                        )
-                      : SizedBox(),
+                minimum: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height * 0.035,
                 ),
-                _lockedOut
-                    ? Container(
-                      width: MediaQuery.of(context).size.width-100,
-                      margin: EdgeInsets.symmetric(horizontal: 50),
-                      child: Text(
-                        AppLocalization.of(context).tooManyFailedAttempts,
-                        style: AppStyles.textStyleErrorMedium(context),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                    : SizedBox(),
-                _showUnlockButton
-                    ? Row(
+                child: Column(
+                  children: <Widget>[
+                    // Logout button
+                    Container(
+                      margin: EdgeInsetsDirectional.only(start: 16, top: 12),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          AppButton.buildAppButton(context, 
-                              AppButtonType.PRIMARY,
-                              _lockedOut
-                                  ? _countDownTxt
-                                  : AppLocalization.of(context).unlock,
-                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                            if (!_lockedOut) {
-                              _authenticate(transitions: true);
-                            }
-                          }, disabled: _lockedOut),
+                          FlatButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100)),
+                            onPressed: () {
+                              AppDialogs.showConfirmDialog(
+                                  context,
+                                  CaseChange.toUpperCase(
+                                      AppLocalization.of(context).warning,
+                                      context),
+                                  AppLocalization.of(context).logoutDetail,
+                                  AppLocalization.of(context)
+                                      .logoutAction
+                                      .toUpperCase(), () {
+                                // Show another confirm dialog
+                                AppDialogs.showConfirmDialog(
+                                    context,
+                                    AppLocalization.of(context)
+                                        .logoutAreYouSure,
+                                    AppLocalization.of(context)
+                                        .logoutReassurance,
+                                    CaseChange.toUpperCase(
+                                        AppLocalization.of(context).yes,
+                                        context), () {
+                                  // Unsubscribe from notifications
+                                  sl
+                                      .get<SharedPrefsUtil>()
+                                      .setNotificationsOn(false)
+                                      .then((_) {
+                                    FirebaseMessaging()
+                                        .getToken()
+                                        .then((fcmToken) {
+                                      EventTaxiImpl.singleton().fire(
+                                          FcmUpdateEvent(token: fcmToken));
+                                      // Delete all data
+                                      sl.get<Vault>().deleteAll().then((_) {
+                                        sl
+                                            .get<SharedPrefsUtil>()
+                                            .deleteAll()
+                                            .then((result) {
+                                          StateContainer.of(context).logOut();
+                                          Navigator.of(context)
+                                              .pushNamedAndRemoveUntil(
+                                                  '/',
+                                                  (Route<dynamic> route) =>
+                                                      false);
+                                        });
+                                      });
+                                    });
+                                  });
+                                });
+                              });
+                            },
+                            highlightColor:
+                                StateContainer.of(context).curTheme.text15,
+                            splashColor:
+                                StateContainer.of(context).curTheme.text30,
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
+                            child: Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(AppIcons.logout,
+                                      size: 16,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .text),
+                                  Container(
+                                    margin:
+                                        EdgeInsetsDirectional.only(start: 4),
+                                    child: Text(
+                                        AppLocalization.of(context).logout,
+                                        style: AppStyles.textStyleLogoutButton(
+                                            context)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
-                      )
-                    : SizedBox(),
-              ],
-            )
-          )
-        ));
+                      ),
+                    ),
+                    Expanded(
+                      child: _showLock
+                          ? Column(
+                              children: <Widget>[
+                                Container(
+                                  child: Icon(
+                                    AppIcons.lock,
+                                    size: 80,
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .primary,
+                                  ),
+                                  margin: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.1),
+                                ),
+                                Container(
+                                  child: Text(
+                                    CaseChange.toUpperCase(
+                                        AppLocalization.of(context).locked,
+                                        context),
+                                    style: AppStyles.textStyleHeaderColored(
+                                        context),
+                                  ),
+                                  margin: EdgeInsets.only(top: 10),
+                                ),
+                              ],
+                            )
+                          : SizedBox(),
+                    ),
+                    _lockedOut
+                        ? Container(
+                            width: MediaQuery.of(context).size.width - 100,
+                            margin: EdgeInsets.symmetric(horizontal: 50),
+                            child: Text(
+                              AppLocalization.of(context).tooManyFailedAttempts,
+                              style: AppStyles.textStyleErrorMedium(context),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        : SizedBox(),
+                    _showUnlockButton
+                        ? Row(
+                            children: <Widget>[
+                              AppButton.buildAppButton(
+                                  context,
+                                  AppButtonType.PRIMARY,
+                                  _lockedOut
+                                      ? _countDownTxt
+                                      : AppLocalization.of(context).unlock,
+                                  Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                                if (!_lockedOut) {
+                                  _authenticate(transitions: true);
+                                }
+                              }, disabled: _lockedOut),
+                            ],
+                          )
+                        : SizedBox(),
+                  ],
+                ))));
   }
 }
