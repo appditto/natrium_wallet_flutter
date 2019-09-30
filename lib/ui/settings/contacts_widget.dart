@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/material.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:logging/logging.dart';
@@ -368,7 +369,10 @@ class _ContactsListState extends State<ContactsList> {
                         AppButtonType.TEXT_OUTLINE,
                         AppLocalization.of(context).addContact,
                         Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                      AddContactSheet().mainBottomSheet(context);
+                      Sheets.showAppHeightNineSheet(
+                          context: context,
+                          widget: AddContactSheet()
+                      );
                     }),
                   ],
                 ),

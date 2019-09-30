@@ -1691,8 +1691,11 @@ class TransactionDetailsSheet {
                                         ? FlatButton(
                                             onPressed: () {
                                               Navigator.of(context).pop();
-                                              AddContactSheet(address: _address)
-                                                  .mainBottomSheet(context);
+                                              Sheets.showAppHeightNineSheet(
+                                                  context: context,
+                                                  widget: AddContactSheet(
+                                                      address: _address)
+                                              );
                                             },
                                             splashColor: Colors.transparent,
                                             highlightColor: Colors.transparent,
