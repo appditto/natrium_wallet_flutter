@@ -143,8 +143,18 @@ class AppLocalization {
   }
 
   String get qrInvalidAddress {
-    return Intl.message("QR code does not contain a valid address",
+    return Intl.message("QR code does not contain a valid destination",
       desc: "qr_invalid_address", name: 'qrInvalidAddress');
+  }
+
+  String get qrInvalidPermissions {
+    return Intl.message("Please Grant Camera Permissions to scan QR Codes",
+      desc: "User did not grant camera permissions to the app", name: "qrInvalidPermissions");
+  }
+
+  String get qrUnknownError {
+    return Intl.message("Could not Read QR Code",
+      desc: "An unknown error occurred with the QR scanner", name: "qrUnknownError");
   }
 
   /// -- END GENERIC ITEMS

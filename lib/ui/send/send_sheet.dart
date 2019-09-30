@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:decimal/decimal.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:intl/intl.dart';
+import 'package:manta_dart/manta_wallet.dart';
 
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -25,6 +26,7 @@ import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
+import 'package:natrium_wallet_flutter/util/user_data_util.dart';
 
 class SendSheet extends StatefulWidget {
   final AvailableCurrency localCurrency;
@@ -344,8 +346,7 @@ class _SendSheetState extends State<SendSheet> {
                                   ),
                                 ),
                                 // ******* Enter Amount Container ******* //
-                                getEnterAmountContainer(
-                                    context, setState),
+                                getEnterAmountContainer(),
                                 // ******* Enter Amount Container End ******* //
 
                                 // ******* Enter Amount Error Container ******* //
@@ -425,8 +426,6 @@ class _SendSheetState extends State<SendSheet> {
                                                 itemBuilder:
                                                     (context, index) {
                                                   return _buildContactItem(
-                                                      context,
-                                                      setState,
                                                       _contacts[index]);
                                                 },
                                               ), // ********* The pop-up Contacts List End ********* //
@@ -484,7 +483,7 @@ class _SendSheetState extends State<SendSheet> {
                           AppLocalization.of(context).send,
                           Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                         bool validRequest =
-                            _validateRequest(context, setState);
+                            _validateRequest();
                         if (_sendAddressController.text
                                 .startsWith("@") &&
                             validRequest) {
@@ -503,8 +502,7 @@ class _SendSheetState extends State<SendSheet> {
                               AppSendConfirmSheet(
                                       _localCurrencyMode
                                           ? NumberUtil.getAmountAsRaw(
-                                              _convertLocalCurrencyToCrypto(
-                                                  context))
+                                              _convertLocalCurrencyToCrypto())
                                           : _rawAmount == null
                                               ? NumberUtil.getAmountAsRaw(
                                                   _sendAmountController
@@ -512,7 +510,7 @@ class _SendSheetState extends State<SendSheet> {
                                               : _rawAmount,
                                       contact.address,
                                       contactName: contact.name,
-                                      maxSend: _isMaxSend(context),
+                                      maxSend: _isMaxSend(),
                                       localCurrencyAmount:
                                           _localCurrencyMode
                                               ? _sendAmountController
@@ -525,15 +523,14 @@ class _SendSheetState extends State<SendSheet> {
                           AppSendConfirmSheet(
                                   _localCurrencyMode
                                       ? NumberUtil.getAmountAsRaw(
-                                          _convertLocalCurrencyToCrypto(
-                                              context))
+                                          _convertLocalCurrencyToCrypto())
                                       : _rawAmount == null
                                           ? NumberUtil.getAmountAsRaw(
                                               _sendAmountController
                                                   .text)
                                           : _rawAmount,
                                   _sendAddressController.text,
-                                  maxSend: _isMaxSend(context),
+                                  maxSend: _isMaxSend(),
                                   localCurrencyAmount:
                                       _localCurrencyMode
                                           ? _sendAmountController.text
@@ -550,106 +547,65 @@ class _SendSheetState extends State<SendSheet> {
                           context,
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).scanQrCode,
-                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                        try {
-                          UIUtil.cancelLockEvent();
-                          BarcodeScanner.scan(StateContainer.of(context)
-                                  .curTheme
-                                  .qrScanTheme)
-                              .then((value) {
-                            Address address = Address(value);
-                            if (!address.isValid()) {
-                              UIUtil.showSnackbar(
-                                  AppLocalization.of(context)
-                                      .qrInvalidAddress,
-                                  context);
-                            } else {
-                              sl.get<DBHelper>()
-                                  .getContactWithAddress(
-                                      address.address)
-                                  .then((contact) {
-                                if (contact == null) {
-                                  setState(() {
-                                    _isContact = false;
-                                    _addressValidationText = "";
-                                    _sendAddressStyle = AppStyles
-                                        .textStyleAddressText90(
-                                            context);
-                                    _pasteButtonVisible = false;
-                                    _showContactButton = false;
-                                  });
-                                  _sendAddressController.text =
-                                      address.address;
-                                  _sendAddressFocusNode.unfocus();
-                                  setState(() {
-                                    _addressValidAndUnfocused = true;
-                                  });
-                                } else {
-                                  // Is a contact
-                                  setState(() {
-                                    _isContact = true;
-                                    _addressValidationText = "";
-                                    _sendAddressStyle = AppStyles
-                                        .textStyleAddressPrimary(
-                                            context);
-                                    _pasteButtonVisible = false;
-                                    _showContactButton = false;
-                                  });
-                                  _sendAddressController.text =
-                                      contact.name;
-                                }
-                                // Fill amount
-                                if (address.amount != null) {
-                                  if (_localCurrencyMode) {
-                                    toggleLocalCurrency(
-                                        context, setState);
-                                    _sendAmountController.text =
-                                        NumberUtil.getRawAsUsableString(
-                                            address.amount);
-                                  } else {
-                                    setState(() {
-                                      _rawAmount = address.amount;
-                                      // Indicate that this is a special amount if some digits are not displayed
-                                      if (NumberUtil
-                                                  .getRawAsUsableString(
-                                                      _rawAmount)
-                                              .replaceAll(",", "") ==
-                                          NumberUtil
-                                                  .getRawAsUsableDecimal(
-                                                      _rawAmount)
-                                              .toString()) {
-                                        _sendAmountController
-                                            .text = NumberUtil
-                                                .getRawAsUsableString(
-                                                    _rawAmount)
-                                            .replaceAll(",", "");
-                                      } else {
-                                        _sendAmountController
-                                            .text = NumberUtil.truncateDecimal(
-                                                    NumberUtil
-                                                        .getRawAsUsableDecimal(
-                                                            address
-                                                                .amount),
-                                                    digits: 6)
-                                                .toStringAsFixed(6) +
-                                            "~";
-                                      }
-                                    });
-                                  }
+                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () async {
+                        UIUtil.cancelLockEvent();
+                        String scanResult = await UserDataUtil.getQRData(DataType.MANTA_ADDRESS, context);
+                        if (scanResult == null) {
+                          UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+                        } else if (MantaWallet.parseUrl(scanResult) != null) {
+                          // TODO Manta flow
+                        } else {
+                          // Is a URI
+                          Address address = Address(scanResult);
+                          // See if this address belongs to a contact
+                          Contact contact = await sl.get<DBHelper>().getContactWithAddress(address.address);
+                          if (contact == null) {
+                            // Not a contact
+                            if (mounted) {
+                              setState(() {
+                                _isContact = false;
+                                _addressValidationText = "";
+                                _sendAddressStyle = AppStyles.textStyleAddressText90(context);
+                                _pasteButtonVisible = false;
+                                _showContactButton = false;
+                              });
+                              _sendAddressController.text = address.address;
+                              _sendAddressFocusNode.unfocus();
+                              setState(() {
+                                _addressValidAndUnfocused = true;
+                              });
+                            }
+                          } else {
+                            // Is a contact
+                            if (mounted) {
+                              setState(() {
+                                _isContact = true;
+                                _addressValidationText = "";
+                                _sendAddressStyle = AppStyles.textStyleAddressPrimary(context);
+                                _pasteButtonVisible = false;
+                                _showContactButton = false;
+                              });
+                              _sendAddressController.text = contact.name;
+                            }
+                          }
+                          // If amount is present, fill it
+                          if (address.amount != null) {
+                            if (_localCurrencyMode && mounted) {
+                              toggleLocalCurrency();
+                              _sendAmountController.text = NumberUtil.getRawAsUsableString(address.amount);
+                            } else if (mounted) {
+                              setState(() {
+                                _rawAmount = address.amount;
+                                // If raw amount has more precision than we support show a special indicator
+                                if (NumberUtil.getRawAsUsableString(_rawAmount).replaceAll(",", "") == NumberUtil.getRawAsUsableDecimal(_rawAmount).toString()) {
+                                  _sendAmountController.text = NumberUtil.truncateDecimal(NumberUtil.getRawAsUsableDecimal(address.amount), digits: 6).toStringAsFixed(6) + "~";
                                 }
                               });
                               _sendAddressFocusNode.unfocus();
                             }
-                          });
-                        } catch (e) {
-                          if (e.code ==
-                              BarcodeScanner.CameraAccessDenied) {
-                            // TODO - Permission Denied to use camera
-                          } else {
-                            // UNKNOWN ERROR
                           }
                         }
-                      }),
+                      })
                     ],
                   ),
                 ],
@@ -659,7 +615,7 @@ class _SendSheetState extends State<SendSheet> {
         ));
   }
 
-  String _convertLocalCurrencyToCrypto(BuildContext context) {
+  String _convertLocalCurrencyToCrypto() {
     String convertedAmt = _sendAmountController.text.replaceAll(",", ".");
     convertedAmt = NumberUtil.sanitizeNumber(convertedAmt);
     if (convertedAmt.isEmpty) {
@@ -671,7 +627,7 @@ class _SendSheetState extends State<SendSheet> {
     return NumberUtil.truncateDecimal(valueLocal / conversion).toString();
   }
 
-  String _convertCryptoToLocalCurrency(BuildContext context) {
+  String _convertCryptoToLocalCurrency() {
     String convertedAmt = NumberUtil.sanitizeNumber(_sendAmountController.text,
         maxDecimalDigits: 2);
     if (convertedAmt.isEmpty) {
@@ -690,7 +646,7 @@ class _SendSheetState extends State<SendSheet> {
   }
 
   // Determine if this is a max send or not by comparing balances
-  bool _isMaxSend(BuildContext context) {
+  bool _isMaxSend() {
     // Sanitize commas
     if (_sendAmountController.text.isEmpty) {
       return false;
@@ -740,7 +696,7 @@ class _SendSheetState extends State<SendSheet> {
     }
   }
 
-  void toggleLocalCurrency(BuildContext context, StateSetter setState) {
+  void toggleLocalCurrency() {
     // Keep a cache of previous amounts because, it's kinda nice to see approx what nano is worth
     // this way you can tap button and tap back and not end up with X.9993451 NANO
     if (_localCurrencyMode) {
@@ -751,7 +707,7 @@ class _SendSheetState extends State<SendSheet> {
         cryptoAmountStr = _lastCryptoAmount;
       } else {
         _lastLocalCurrencyAmount = _sendAmountController.text;
-        _lastCryptoAmount = _convertLocalCurrencyToCrypto(context);
+        _lastCryptoAmount = _convertLocalCurrencyToCrypto();
         cryptoAmountStr = _lastCryptoAmount;
       }
       setState(() {
@@ -770,7 +726,7 @@ class _SendSheetState extends State<SendSheet> {
         localAmountStr = _lastLocalCurrencyAmount;
       } else {
         _lastCryptoAmount = _sendAmountController.text;
-        _lastLocalCurrencyAmount = _convertCryptoToLocalCurrency(context);
+        _lastLocalCurrencyAmount = _convertCryptoToLocalCurrency();
         localAmountStr = _lastLocalCurrencyAmount;
       }
       setState(() {
@@ -785,8 +741,7 @@ class _SendSheetState extends State<SendSheet> {
   }
 
   // Build contact items for the list
-  Widget _buildContactItem(
-      BuildContext context, StateSetter setState, Contact contact) {
+  Widget _buildContactItem(Contact contact) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -820,7 +775,7 @@ class _SendSheetState extends State<SendSheet> {
 
   /// Validate form data to see if valid
   /// @returns true if valid, false otherwise
-  bool _validateRequest(BuildContext context, StateSetter setState) {
+  bool _validateRequest() {
     bool isValid = true;
     _sendAmountFocusNode.unfocus();
     _sendAddressFocusNode.unfocus();
@@ -832,7 +787,7 @@ class _SendSheetState extends State<SendSheet> {
       });
     } else {
       String bananoAmount = _localCurrencyMode
-          ? _convertLocalCurrencyToCrypto(context)
+          ? _convertLocalCurrencyToCrypto()
           : _rawAmount == null
               ? _sendAmountController.text
               : NumberUtil.getRawAsUsableString(_rawAmount);
@@ -878,7 +833,7 @@ class _SendSheetState extends State<SendSheet> {
 
   //************ Enter Amount Container Method ************//
   //*******************************************************//
-  getEnterAmountContainer(BuildContext context, StateSetter setState) {
+  getEnterAmountContainer() {
     return Container(
       margin: EdgeInsets.only(
         left: MediaQuery.of(context).size.width * 0.105,
@@ -942,7 +897,7 @@ class _SendSheetState extends State<SendSheet> {
                         StateContainer.of(context).curTheme.primary15,
                     splashColor: StateContainer.of(context).curTheme.primary30,
                     onPressed: () {
-                      toggleLocalCurrency(context, setState);
+                      toggleLocalCurrency();
                     },
                     child: Icon(AppIcons.swapcurrency,
                         size: 20,
@@ -962,7 +917,7 @@ class _SendSheetState extends State<SendSheet> {
                 splashColor: StateContainer.of(context).curTheme.primary30,
                 padding: EdgeInsets.all(12.0),
                 onPressed: () {
-                  if (_isMaxSend(context)) {
+                  if (_isMaxSend()) {
                     return;
                   }
                   if (!_localCurrencyMode) {
@@ -1001,7 +956,7 @@ class _SendSheetState extends State<SendSheet> {
               ),
             ),
             secondChild: SizedBox(),
-            crossFadeState: _isMaxSend(context)
+            crossFadeState: _isMaxSend()
                 ? CrossFadeState.showSecond
                 : CrossFadeState.showFirst,
           ),

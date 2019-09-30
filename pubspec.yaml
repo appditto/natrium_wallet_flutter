@@ -123,6 +123,10 @@ dependencies:
   # Validation utilities
   validators: ^2.0.0+1
 
+  # Manta dart implementation
+  manta_dart:
+    path: ../manta-dart
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

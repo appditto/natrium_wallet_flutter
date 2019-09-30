@@ -1,14 +1,19 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nanodart/nanodart.dart';
+import 'package:manta_dart/manta_wallet.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 
 import 'package:quiver/strings.dart';
 import 'package:validators/validators.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 
-enum DataType { RAW, URL }
+enum DataType { RAW, URL, MANTA_ADDRESS }
 
 class UserDataUtil {
   static const MethodChannel _channel = const MethodChannel('fappchannel');
@@ -24,6 +29,14 @@ class UserDataUtil {
       } else if (isURL(data)) {
         return data;
       }
+    } else if (type == DataType.MANTA_ADDRESS) {
+      // Check if an address or manta result
+      Address address = Address(data);
+      if (address.isValid()) {
+        return data;
+      } else if (MantaWallet.parseUrl(data) != null) {
+        return data;
+      }
     }
     return null;
   }
@@ -36,16 +49,21 @@ class UserDataUtil {
     return _parseData(data.text, type);
   }
 
-  static Future<String> getQRData(DataType type, OverlayTheme theme) async {
+  static Future<String> getQRData(DataType type, BuildContext context) async {
     UIUtil.cancelLockEvent();
     try {
-      String data = await BarcodeScanner.scan(theme);
+      String data = await BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme);
       if (isEmpty(data)) {
         return null;
       }
       return _parseData(data, type);
     } catch (e) {
-      return null;
+      if (e.code ==
+          BarcodeScanner.CameraAccessDenied) {
+        UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidPermissions, context);
+      } else {
+        UIUtil.showSnackbar(AppLocalization.of(context).qrUnknownError, context);
+      }
     }
   }
 
