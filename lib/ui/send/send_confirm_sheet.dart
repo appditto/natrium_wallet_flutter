@@ -83,7 +83,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
       Navigator.of(context).pop();
     });    
     _processEventSub = EventTaxiImpl.singleton().registerTo<ProcessEvent>().listen((event) {
-      if (!sent) {
+      if (!sent && widget.manta != null) {
         widget.manta.sendPayment(
           transactionHash: event.response.hash,
           cryptoCurrency: "NANO"
