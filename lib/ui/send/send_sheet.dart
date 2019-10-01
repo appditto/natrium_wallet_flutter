@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:decimal/decimal.dart';
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:intl/intl.dart';
 import 'package:manta_dart/manta_wallet.dart';
+import 'package:manta_dart/messages.dart';
 
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -21,9 +21,12 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/one_or_three_address_text.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
+import 'package:natrium_wallet_flutter/util/manta.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/util/user_data_util.dart';
@@ -53,6 +56,7 @@ class _SendSheetState extends State<SendSheet> {
   String _addressValidationText = "";
   String quickSendAmount;
   List<Contact> _contacts;
+  bool animationOpen;
   // Used to replace address textfield with colorized TextSpan
   bool _addressValidAndUnfocused = false;
   // Set to true when a contact is being entered
@@ -78,6 +82,7 @@ class _SendSheetState extends State<SendSheet> {
     _sendAddressStyle = AppStyles.textStyleAddressText60(context);
     _contacts = List();
     quickSendAmount = widget.quickSendAmount;
+    this.animationOpen = false;
     if (widget.contact != null) {
       // Setup initial state for contact pre-filled
       _sendAddressController.text = widget.contact.name;
@@ -161,6 +166,16 @@ class _SendSheetState extends State<SendSheet> {
       _sendAmountController.text =
           NumberUtil.getRawAsUsableString(quickSendAmount).replaceAll(",", "");
     }
+  }
+
+  void _showMantaAnimation() {
+    animationOpen = true;
+    Navigator.of(context).push(
+        AnimationLoadingOverlay(
+            AnimationType.MANTA,
+            StateContainer.of(context).curTheme.animationOverlayStrong,
+            StateContainer.of(context).curTheme.animationOverlayMedium,
+            onPoppedCallback: () => animationOpen = false));
   }
 
   @override
@@ -499,8 +514,33 @@ class _SendSheetState extends State<SendSheet> {
                                         .contactInvalid;
                               });
                             } else {
-                              AppSendConfirmSheet(
-                                      _localCurrencyMode
+                              Sheets.showAppHeightNineSheet(
+                                context: context,
+                                widget: SendConfirmSheet(
+                                          amountRaw: _localCurrencyMode
+                                              ? NumberUtil.getAmountAsRaw(
+                                                  _convertLocalCurrencyToCrypto())
+                                              : _rawAmount == null
+                                                  ? NumberUtil.getAmountAsRaw(
+                                                      _sendAmountController
+                                                          .text)
+                                                  : _rawAmount,
+                                          destination: contact.address,
+                                          contactName: contact.name,
+                                          maxSend: _isMaxSend(),
+                                          localCurrency:
+                                              _localCurrencyMode
+                                                  ? _sendAmountController
+                                                      .text
+                                                  : null)
+                              );
+                            }
+                          });
+                        } else if (validRequest) {
+                          Sheets.showAppHeightNineSheet(
+                            context: context,
+                            widget: SendConfirmSheet(
+                                      amountRaw: _localCurrencyMode
                                           ? NumberUtil.getAmountAsRaw(
                                               _convertLocalCurrencyToCrypto())
                                           : _rawAmount == null
@@ -508,34 +548,13 @@ class _SendSheetState extends State<SendSheet> {
                                                   _sendAmountController
                                                       .text)
                                               : _rawAmount,
-                                      contact.address,
-                                      contactName: contact.name,
+                                      destination: _sendAddressController.text,
                                       maxSend: _isMaxSend(),
-                                      localCurrencyAmount:
+                                      localCurrency:
                                           _localCurrencyMode
-                                              ? _sendAmountController
-                                                  .text
+                                              ? _sendAmountController.text
                                               : null)
-                                  .mainBottomSheet(context);
-                            }
-                          });
-                        } else if (validRequest) {
-                          AppSendConfirmSheet(
-                                  _localCurrencyMode
-                                      ? NumberUtil.getAmountAsRaw(
-                                          _convertLocalCurrencyToCrypto())
-                                      : _rawAmount == null
-                                          ? NumberUtil.getAmountAsRaw(
-                                              _sendAmountController
-                                                  .text)
-                                          : _rawAmount,
-                                  _sendAddressController.text,
-                                  maxSend: _isMaxSend(),
-                                  localCurrencyAmount:
-                                      _localCurrencyMode
-                                          ? _sendAmountController.text
-                                          : null)
-                              .mainBottomSheet(context);
+                          );
                         }
                       }),
                     ],
@@ -553,7 +572,39 @@ class _SendSheetState extends State<SendSheet> {
                         if (scanResult == null) {
                           UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
                         } else if (MantaWallet.parseUrl(scanResult) != null) {
-                          // TODO Manta flow
+                          try {
+                            _showMantaAnimation();
+                            // Get manta payment request
+                            MantaWallet manta = MantaWallet(scanResult);
+                            PaymentRequestMessage paymentRequest = await MantaUtil.getPaymentDetails(manta);
+                            if (animationOpen) {
+                              Navigator.of(context).pop();
+                            }
+                            // Validate account balance and destination as valid
+                            Destination dest = paymentRequest.destinations[0];
+                            String rawAmountStr = NumberUtil.getAmountAsRaw(dest.amount.toString());
+                            BigInt rawAmount = BigInt.tryParse(rawAmountStr);
+                            if (Address(dest.destination_address).isValid()) {
+                              UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+                            } else if (rawAmount == null || rawAmount > StateContainer.of(context).wallet.accountBalance) {
+                              UIUtil.showSnackbar(AppLocalization.of(context).insufficientBalance, context);
+                            } else {
+                              // Is valid, proceed
+                              Sheets.showAppHeightNineSheet(
+                                context: context,
+                                widget: SendConfirmSheet(
+                                          amountRaw: rawAmountStr,
+                                          destination: dest.destination_address,
+                                          manta: manta
+                                )
+                              );
+                            }
+                          } catch (e) {
+                            if (animationOpen) {
+                              Navigator.of(context).pop();
+                            }
+                            UIUtil.showSnackbar(AppLocalization.of(context).mantaError, context);
+                          }
                         } else {
                           // Is a URI
                           Address address = Address(scanResult);

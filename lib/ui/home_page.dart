@@ -602,8 +602,14 @@ class _AppHomePageState extends State<AppHomePage>
       Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
       if (amount != null) {
         // Go to send confirm with amount
-        AppSendConfirmSheet(amount, address.address, contactName: contactName)
-            .mainBottomSheet(context);
+        Sheets.showAppHeightNineSheet(
+          context: context,
+          widget: SendConfirmSheet(
+            amountRaw: amount,
+            destination: address.address,
+            contactName: contactName
+          )
+        );
       } else {
         // Go to send with address
         Sheets.showAppHeightNineSheet(

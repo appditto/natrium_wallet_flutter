@@ -96,7 +96,8 @@ enum AnimationType {
   GENERIC,
   TRANSFER_SEARCHING_QR,
   TRANSFER_SEARCHING_MANUAL,
-  TRANSFER_TRANSFERRING
+  TRANSFER_TRANSFERRING,
+  MANTA
 }
 
 class AnimationLoadingOverlay extends ModalRoute<void> {
@@ -160,6 +161,15 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
         return Center(
           child: FlareActor(
             "assets/send_animation.flr",
+            animation: "main",
+            fit: BoxFit.contain,
+            color: StateContainer.of(context).curTheme.primary,
+          ),
+        );
+      case AnimationType.MANTA:
+        return Center(
+          child: FlareActor(
+            "assets/manta_animation.flr",
             animation: "main",
             fit: BoxFit.contain,
             color: StateContainer.of(context).curTheme.primary,

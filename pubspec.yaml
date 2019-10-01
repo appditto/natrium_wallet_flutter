@@ -176,6 +176,7 @@ flutter:
     - assets/QR.svg
     - assets/welcome_animation.flr
     - assets/send_animation.flr
+    - assets/manta_animation.flr
     - assets/transfer_animation_natriumwalletonly.flr
     - assets/transfer_animation_paperwalletonly.flr
     - assets/searchseedqr_animation_magnifyingglassonly.flr

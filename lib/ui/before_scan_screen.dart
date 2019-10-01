@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
-import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/util/user_data_util.dart';
 
 class BeforeScanScreen extends StatefulWidget {
@@ -15,7 +14,7 @@ class _BeforeScanScreenState extends State<BeforeScanScreen> {
     super.initState();
     Future.delayed(Duration(milliseconds: 150), () async {
       await UserDataUtil.getQRData(
-          DataType.RAW, StateContainer.of(context).curTheme.qrScanTheme);
+          DataType.RAW, context);
       Navigator.pop(context);
     });
   }

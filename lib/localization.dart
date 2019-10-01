@@ -315,6 +315,11 @@ class AppLocalization {
       desc: 'send_generic_error', name: 'sendError');
   }
 
+  String get mantaError {
+    return Intl.message("Failed to validate the payment request",
+      desc: 'Manta QR scan failed', name: 'mantaError');
+  }
+
   String get enterAmount {
     return Intl.message("Enter Amount",
       desc: 'send_amount_hint', name: 'enterAmount');
