@@ -584,7 +584,7 @@ class _SendSheetState extends State<SendSheet> {
                             Destination dest = paymentRequest.destinations[0];
                             String rawAmountStr = NumberUtil.getAmountAsRaw(dest.amount.toString());
                             BigInt rawAmount = BigInt.tryParse(rawAmountStr);
-                            if (Address(dest.destination_address).isValid()) {
+                            if (!Address(dest.destination_address).isValid()) {
                               UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
                             } else if (rawAmount == null || rawAmount > StateContainer.of(context).wallet.accountBalance) {
                               UIUtil.showSnackbar(AppLocalization.of(context).insufficientBalance, context);
