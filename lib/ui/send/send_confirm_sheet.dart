@@ -102,11 +102,11 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
     }
   }
 
-  void _showLoadingAnimation(AnimationType type) {
+  void _showSendingAnimation() {
     animationOpen = true;
     Navigator.of(context).push(
         AnimationLoadingOverlay(
-            type,
+            AnimationType.SEND,
             StateContainer.of(context).curTheme.animationOverlayStrong,
             StateContainer.of(context).curTheme.animationOverlayMedium,
             onPoppedCallback: () => animationOpen = false));
@@ -280,7 +280,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                                 .then((authenticated) {
                               if (authenticated) {
                                 sl.get<HapticUtil>().fingerprintSucess();
-                                _showLoadingAnimation(AnimationType.SEND);
+                                _showSendingAnimation();
                                 StateContainer.of(context)
                                     .requestSend(
                                         StateContainer.of(context)
@@ -302,7 +302,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                                   PinOverlayType.ENTER_PIN,
                                   (pin) {
                                     Navigator.of(context).pop();
-                                    _showLoadingAnimation(AnimationType.SEND);
+                                    _showSendingAnimation();
                                     StateContainer.of(context)
                                         .requestSend(
                                             StateContainer.of(
