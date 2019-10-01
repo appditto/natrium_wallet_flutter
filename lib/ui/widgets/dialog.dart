@@ -172,7 +172,6 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
             "assets/manta_animation.flr",
             animation: "main",
             fit: BoxFit.contain,
-            color: StateContainer.of(context).curTheme.primary,
           ),
         );
       case AnimationType.TRANSFER_SEARCHING_QR:
