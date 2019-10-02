@@ -31,7 +31,7 @@ class SendConfirmSheet extends StatefulWidget {
   final bool maxSend;
   final MantaWallet manta;
 
-  SendConfirmSheet({this.amountRaw, this.destination, this.contactName, this.localCurrency, this.maxSend, this.manta}) : super();
+  SendConfirmSheet({this.amountRaw, this.destination, this.contactName, this.localCurrency, this.manta, this.maxSend = false}) : super();
 
   _SendConfirmSheetState createState() => _SendConfirmSheetState();
 }

@@ -125,9 +125,7 @@ dependencies:
 
   # Manta dart implementation
   manta_dart:
-    git:
-      url: https://github.com/NanoRay/manta-dart.git
-      ref: master
+    path: ../manta-dart
 
 dev_dependencies:
   flutter_test:
