@@ -317,6 +317,16 @@ class AnimationLoadingOverlay extends ModalRoute<void> {
             ],
           ),
         );
+      case AnimationType.MANTA:
+        return Center(
+          child: Container(
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * 0.1),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.width,
+            child: _getAnimation(context),
+          ),
+        );
       default:
         return Column(
           mainAxisSize: MainAxisSize.min,
