@@ -643,7 +643,7 @@ class _SendSheetState extends State<SendSheet> {
                               _sendAddressController.text = contact.name;
                             }
                           }
-                          // If amount is present, fill it
+                          // If amount is present, fill it and go to SendConfirm
                           if (address.amount != null) {
                             if (_localCurrencyMode && mounted) {
                               toggleLocalCurrency();
@@ -658,6 +658,27 @@ class _SendSheetState extends State<SendSheet> {
                               });
                               _sendAddressFocusNode.unfocus();
                             }
+                            // Go to confirm sheet
+                            Sheets.showAppHeightNineSheet(
+                              context: context,
+                              widget: SendConfirmSheet(
+                                        amountRaw: _localCurrencyMode
+                                            ? NumberUtil.getAmountAsRaw(
+                                                _convertLocalCurrencyToCrypto())
+                                            : _rawAmount == null
+                                                ? NumberUtil.getAmountAsRaw(
+                                                    _sendAmountController
+                                                        .text)
+                                                : _rawAmount,
+                                        destination: contact != null ? contact.address : address.address,
+                                        contactName: contact != null ? contact.name : null,
+                                        maxSend: _isMaxSend(),
+                                        localCurrency:
+                                            _localCurrencyMode
+                                                ? _sendAmountController
+                                                    .text
+                                                : null)
+                            );
                           }
                         }
                       })

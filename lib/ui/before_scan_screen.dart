@@ -10,12 +10,12 @@ class BeforeScanScreen extends StatefulWidget {
 }
 
 class _BeforeScanScreenState extends State<BeforeScanScreen> {
+  @override
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 150), () async {
-      await UserDataUtil.getQRData(
-          DataType.RAW, context);
-      Navigator.pop(context);
+      String scanResult = await UserDataUtil.getQRData(DataType.MANTA_ADDRESS, context);
+      Navigator.pop(context, scanResult);
     });
   }
 

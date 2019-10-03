@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:manta_dart/manta_wallet.dart';
+import 'package:manta_dart/messages.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/model/address.dart';
+import 'package:natrium_wallet_flutter/model/db/appdb.dart';
+import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
+import 'package:natrium_wallet_flutter/util/manta.dart';
+import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
 class AppPopupButton extends StatefulWidget {
   @override
@@ -21,6 +31,97 @@ class _AppPopupButtonState extends State<AppPopupButton> {
   bool firstTime = true;
   bool isSendButtonColorPrimary = true;
   Color popupColor = Colors.transparent;
+
+  bool animationOpen;
+
+  void _showMantaAnimation() {
+    animationOpen = true;
+    Navigator.of(context).push(
+        AnimationLoadingOverlay(
+            AnimationType.MANTA,
+            StateContainer.of(context).curTheme.animationOverlayStrong,
+            StateContainer.of(context).curTheme.animationOverlayMedium,
+            onPoppedCallback: () => animationOpen = false));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    animationOpen = false;
+  }
+
+  Future<void> scanAndHandlResult() async {
+    dynamic scanResult = await Navigator.pushNamed(context, '/before_scan_screen');
+    // Parse scan data and route appropriately
+    if (scanResult == null) {
+      UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+    } else if (MantaWallet.parseUrl(scanResult) != null) {
+      try {
+        _showMantaAnimation();
+        // Get manta payment request
+        MantaWallet manta = MantaWallet(scanResult);
+        PaymentRequestMessage paymentRequest = await MantaUtil.getPaymentDetails(manta);
+        if (animationOpen) {
+          Navigator.of(context).pop();
+        }
+        // Validate account balance and destination as valid
+        Destination dest = paymentRequest.destinations[0];
+        String rawAmountStr = NumberUtil.getAmountAsRaw(dest.amount.toString());
+        BigInt rawAmount = BigInt.tryParse(rawAmountStr);
+        if (!Address(dest.destination_address).isValid()) {
+          UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+        } else if (rawAmount == null || rawAmount > StateContainer.of(context).wallet.accountBalance) {
+          UIUtil.showSnackbar(AppLocalization.of(context).insufficientBalance, context);
+        } else {
+          // Is valid, proceed
+          Sheets.showAppHeightNineSheet(
+            context: context,
+            widget: SendConfirmSheet(
+                      amountRaw: rawAmountStr,
+                      destination: dest.destination_address,
+                      manta: manta
+            )
+          );
+        }
+      } catch (e) {
+        if (animationOpen) {
+          Navigator.of(context).pop();
+        }
+        UIUtil.showSnackbar(AppLocalization.of(context).mantaError, context);
+      }
+    } else {
+      // Is a URI
+      Address address = Address(scanResult);
+      if (address.address == null) {
+        UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+      } else {
+        // See if this address belongs to a contact
+        Contact contact = await sl.get<DBHelper>().getContactWithAddress(address.address);
+        // If amount is present, fill it and go to SendConfirm
+        BigInt amountBigInt = address.amount != null ? BigInt.tryParse(address.amount) : null;
+        if (amountBigInt != null && StateContainer.of(context).wallet.accountBalance > amountBigInt) {
+          // Go to confirm sheet
+          Sheets.showAppHeightNineSheet(
+            context: context,
+            widget: SendConfirmSheet(
+                      amountRaw: address.amount,
+                      destination: contact != null ? contact.address : address.address,
+                      contactName: contact != null ? contact.name : null)
+          );
+        } else {
+          // Go to send sheet
+          Sheets.showAppHeightNineSheet(
+            context: context,
+            widget: SendSheet(
+              localCurrency: StateContainer.of(context).curCurrency,
+              contact: contact,
+              address: contact != null ? contact.address : address.address
+            )
+          );            
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +167,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                     setState(() {
                       popupColor = Colors.white;
                     });
-                    Navigator.pushNamed(context, '/before_scan_screen');
+                    scanAndHandlResult();
                   }
                   isScrolledUpEnough = false;
                   setState(() {
