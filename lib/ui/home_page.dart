@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:logging/logging.dart';
+import 'package:manta_dart/manta_wallet.dart';
+import 'package:manta_dart/messages.dart';
 import 'package:natrium_wallet_flutter/ui/popup_button.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
@@ -32,12 +34,14 @@ import 'package:natrium_wallet_flutter/ui/settings/settings_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_scaffold.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/list_slidable.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/reactive_refresh.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/util/manta.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
@@ -63,6 +67,9 @@ class _AppHomePageState extends State<AppHomePage>
   AnimationController _placeholderCardAnimationController;
   Animation<double> _opacityAnimation;
   bool _animationDisposed;
+
+  // Manta
+  bool mantaAnimationOpen;
 
   // Receive card instance
   AppReceiveSheet receive;
@@ -144,6 +151,7 @@ class _AppHomePageState extends State<AppHomePage>
   void initState() {
     super.initState();
     _registerBus();
+    this.mantaAnimationOpen = false;
     WidgetsBinding.instance.addObserver(this);
     sl.get<SharedPrefsUtil>().getPriceConversion().then((result) {
       _priceConversion = result;
@@ -225,6 +233,7 @@ class _AppHomePageState extends State<AppHomePage>
   void _animationControllerListener() {
     setState(() {});
   }
+
 
   void _startAnimation() {
     if (_animationDisposed) {
@@ -580,21 +589,19 @@ class _AppHomePageState extends State<AppHomePage>
     }
   }
 
-  void handleDeepLink(link) {
+  Future<void> handleDeepLink(link) async {
     Address address = Address(link);
-    if (!address.isValid()) {
-      return;
-    }
-    String amount;
-    String contactName;
-    if (address.amount != null) {
-      // Require minimum 1 rai to send
-      if (BigInt.parse(address.amount) >= BigInt.from(10).pow(24)) {
-        amount = address.amount;
+    if (address.isValid()) {
+      String amount;
+      String contactName;
+      if (address.amount != null) {
+        // Require minimum 1 rai to send
+        if (BigInt.parse(address.amount) >= BigInt.from(10).pow(24)) {
+          amount = address.amount;
+        }
       }
-    }
-    // See if a contact
-    sl.get<DBHelper>().getContactWithAddress(address.address).then((contact) {
+      // See if a contact
+      Contact contact = await sl.get<DBHelper>().getContactWithAddress(address.address);
       if (contact != null) {
         contactName = contact.name;
       }
@@ -619,7 +626,52 @@ class _AppHomePageState extends State<AppHomePage>
                 contact: contact,
                 address: address.address));
       }
-    });
+    } else if (MantaWallet.parseUrl(link) != null) {
+      // Manta URI handling
+      try {
+        _showMantaAnimation();
+        // Get manta payment request
+        MantaWallet manta = MantaWallet(link);
+        PaymentRequestMessage paymentRequest = await MantaUtil.getPaymentDetails(manta);
+        if (mantaAnimationOpen) {
+          Navigator.of(context).pop();
+        }
+        // Validate account balance and destination as valid
+        Destination dest = paymentRequest.destinations[0];
+        String rawAmountStr = NumberUtil.getAmountAsRaw(dest.amount.toString());
+        BigInt rawAmount = BigInt.tryParse(rawAmountStr);
+        if (!Address(dest.destination_address).isValid()) {
+          UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+        } else if (rawAmount == null || rawAmount > StateContainer.of(context).wallet.accountBalance) {
+          UIUtil.showSnackbar(AppLocalization.of(context).insufficientBalance, context);
+        } else {
+          // Is valid, proceed
+          Sheets.showAppHeightNineSheet(
+            context: context,
+            widget: SendConfirmSheet(
+                      amountRaw: rawAmountStr,
+                      destination: dest.destination_address,
+                      manta: manta
+            )
+          );
+        }
+      } catch (e) {
+        if (mantaAnimationOpen) {
+          Navigator.of(context).pop();
+        }
+        UIUtil.showSnackbar(AppLocalization.of(context).mantaError, context);
+      }
+    }
+  }
+
+  void _showMantaAnimation() {
+    mantaAnimationOpen = true;
+    Navigator.of(context).push(
+        AnimationLoadingOverlay(
+            AnimationType.MANTA,
+            StateContainer.of(context).curTheme.animationOverlayStrong,
+            StateContainer.of(context).curTheme.animationOverlayMedium,
+            onPoppedCallback: () => mantaAnimationOpen = false));
   }
 
   void paintQrCode({String address}) {
