@@ -284,7 +284,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                                           color: StateContainer.of(context)
                                               .curTheme
                                               .text30,
-                                              size: 20,
+                                          size: 20,
                                         ),
                                       ),
                                       Expanded(
@@ -298,9 +298,12 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                                     ],
                                   ),
                                 ),
-                                UIUtil.threeLineAddressText(
-                                    context, destinationAltered,
-                                    contactName: widget.contactName)
+                                smallScreen(context)
+                                    ? UIUtil.oneLineAddressText(
+                                        context, destinationAltered)
+                                    : UIUtil.threeLineAddressText(
+                                        context, destinationAltered,
+                                        contactName: widget.contactName)
                               ],
                             )
                           : UIUtil.threeLineAddressText(
