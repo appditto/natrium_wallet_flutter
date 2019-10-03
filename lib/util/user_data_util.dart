@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:logging/logging.dart';
 import 'package:nanodart/nanodart.dart';
 import 'package:manta_dart/manta_wallet.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
@@ -15,7 +16,16 @@ import 'package:barcode_scan/barcode_scan.dart';
 
 enum DataType { RAW, URL, MANTA_ADDRESS }
 
+class QRScanErrs {
+  static const String PERMISSION_DENIED = "qr_denied";
+  static const String UNKNOWN_ERROR = "qr_unknown";
+  static const String CANCEL_ERROR = "qr_cancel";
+  static const List<String> ERROR_LIST = [PERMISSION_DENIED, UNKNOWN_ERROR, CANCEL_ERROR];
+}
+
 class UserDataUtil {
+  static final Logger log = Logger("UserDataUtil");
+
   static const MethodChannel _channel = const MethodChannel('fappchannel');
   static StreamSubscription<dynamic> setStream;
 
@@ -57,13 +67,19 @@ class UserDataUtil {
         return null;
       }
       return _parseData(data, type);
-    } catch (e) {
-      if (e.code ==
-          BarcodeScanner.CameraAccessDenied) {
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
         UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidPermissions, context);
+        return QRScanErrs.PERMISSION_DENIED;
       } else {
         UIUtil.showSnackbar(AppLocalization.of(context).qrUnknownError, context);
+        return QRScanErrs.UNKNOWN_ERROR;
       }
+    } on FormatException {
+      return QRScanErrs.CANCEL_ERROR;
+    } catch (e) {
+      log.severe("Unknown QR Scan Error ${e.toString()}", e);
+      return QRScanErrs.UNKNOWN_ERROR;
     }
   }
 

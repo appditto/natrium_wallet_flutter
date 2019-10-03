@@ -17,7 +17,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/manta.dart';
-import 'package:natrium_wallet_flutter/util/numberutil.dart';
+import 'package:natrium_wallet_flutter/util/user_data_util.dart';
 
 class AppPopupButton extends StatefulWidget {
   @override
@@ -55,7 +55,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
     // Parse scan data and route appropriately
     if (scanResult == null) {
       UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
-    } else if (MantaWallet.parseUrl(scanResult) != null) {
+    } else if (!QRScanErrs.ERROR_LIST.contains(scanResult) &&  MantaWallet.parseUrl(scanResult) != null) {
       try {
         _showMantaAnimation();
         // Get manta payment request
@@ -64,32 +64,14 @@ class _AppPopupButtonState extends State<AppPopupButton> {
         if (animationOpen) {
           Navigator.of(context).pop();
         }
-        // Validate account balance and destination as valid
-        Destination dest = paymentRequest.destinations[0];
-        String rawAmountStr = NumberUtil.getAmountAsRaw(dest.amount.toString());
-        BigInt rawAmount = BigInt.tryParse(rawAmountStr);
-        if (!Address(dest.destination_address).isValid()) {
-          UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
-        } else if (rawAmount == null || rawAmount > StateContainer.of(context).wallet.accountBalance) {
-          UIUtil.showSnackbar(AppLocalization.of(context).insufficientBalance, context);
-        } else {
-          // Is valid, proceed
-          Sheets.showAppHeightNineSheet(
-            context: context,
-            widget: SendConfirmSheet(
-                      amountRaw: rawAmountStr,
-                      destination: dest.destination_address,
-                      manta: manta
-            )
-          );
-        }
+        MantaUtil.processPaymentRequest(context, manta, paymentRequest);
       } catch (e) {
         if (animationOpen) {
           Navigator.of(context).pop();
         }
         UIUtil.showSnackbar(AppLocalization.of(context).mantaError, context);
       }
-    } else {
+    } else if (!QRScanErrs.ERROR_LIST.contains(scanResult)) {
       // Is a URI
       Address address = Address(scanResult);
       if (address.address == null) {

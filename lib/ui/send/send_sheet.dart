@@ -574,6 +574,8 @@ class _SendSheetState extends State<SendSheet> {
                         String scanResult = await UserDataUtil.getQRData(DataType.MANTA_ADDRESS, context);
                         if (scanResult == null) {
                           UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+                        } else if (QRScanErrs.ERROR_LIST.contains(scanResult)) {
+                          return;
                         } else if (MantaWallet.parseUrl(scanResult) != null) {
                           try {
                             _showMantaAnimation();
@@ -583,25 +585,7 @@ class _SendSheetState extends State<SendSheet> {
                             if (animationOpen) {
                               Navigator.of(context).pop();
                             }
-                            // Validate account balance and destination as valid
-                            Destination dest = paymentRequest.destinations[0];
-                            String rawAmountStr = NumberUtil.getAmountAsRaw(dest.amount.toString());
-                            BigInt rawAmount = BigInt.tryParse(rawAmountStr);
-                            if (!Address(dest.destination_address).isValid()) {
-                              UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
-                            } else if (rawAmount == null || rawAmount > StateContainer.of(context).wallet.accountBalance) {
-                              UIUtil.showSnackbar(AppLocalization.of(context).insufficientBalance, context);
-                            } else {
-                              // Is valid, proceed
-                              Sheets.showAppHeightNineSheet(
-                                context: context,
-                                widget: SendConfirmSheet(
-                                          amountRaw: rawAmountStr,
-                                          destination: dest.destination_address,
-                                          manta: manta
-                                )
-                              );
-                            }
+                            MantaUtil.processPaymentRequest(context, manta, paymentRequest);
                           } catch (e) {
                             if (animationOpen) {
                               Navigator.of(context).pop();
