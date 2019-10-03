@@ -32,6 +32,7 @@ class SendConfirmSheet extends StatefulWidget {
   final String localCurrency;
   final bool maxSend;
   final MantaWallet manta;
+  final PaymentRequestMessage paymentRequest;
 
   SendConfirmSheet(
       {this.amountRaw,
@@ -39,6 +40,7 @@ class SendConfirmSheet extends StatefulWidget {
       this.contactName,
       this.localCurrency,
       this.manta,
+      this.paymentRequest,
       this.maxSend = false})
       : super();
 
@@ -58,7 +60,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
     _registerBus();
     this.animationOpen = false;
     this.sent = false;
-    this.isMantaTransaction = true;
+    this.isMantaTransaction = widget.manta != null && widget.paymentRequest != null;
     // Derive amount from raw amount
     if (NumberUtil.getRawAsUsableString(widget.amountRaw).replaceAll(",", "") ==
         NumberUtil.getRawAsUsableDecimal(widget.amountRaw).toString()) {
@@ -242,7 +244,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                           ? Column(
                               children: <Widget>[
                                 AutoSizeText(
-                                  "Appditto",
+                                  widget.paymentRequest.merchant.name,
                                   minFontSize: 12,
                                   stepGranularity: 0.1,
                                   maxLines: 1,
@@ -253,7 +255,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                                   height: 2,
                                 ),
                                 AutoSizeText(
-                                  "123 Sesame St, Ohio, United States 55555",
+                                  widget.paymentRequest.merchant.address,
                                   minFontSize: 10,
                                   maxLines: 2,
                                   textAlign: TextAlign.center,

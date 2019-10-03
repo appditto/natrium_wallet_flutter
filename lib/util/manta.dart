@@ -43,7 +43,8 @@ class MantaUtil {
           widget: SendConfirmSheet(
                     amountRaw: rawAmountStr,
                     destination: dest.destination_address,
-                    manta: manta
+                    manta: manta,
+                    paymentRequest: paymentRequest
           )
         );
       }    
