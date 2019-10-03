@@ -43,6 +43,12 @@ class SendSheet extends StatefulWidget {
   _SendSheetState createState() => _SendSheetState();
 }
 
+enum AddressStyle {
+  TEXT60,
+  TEXT90,
+  PRIMARY
+}
+
 class _SendSheetState extends State<SendSheet> {
   final Logger log = Logger('SendSheet');
 
@@ -52,7 +58,7 @@ class _SendSheetState extends State<SendSheet> {
   TextEditingController _sendAmountController;
 
   // States
-  var _sendAddressStyle;
+  AddressStyle _sendAddressStyle;
   String _amountHint = "";
   String _addressHint = "";
   String _amountValidationText = "";
@@ -78,11 +84,11 @@ class _SendSheetState extends State<SendSheet> {
   @override
   void initState() {
     super.initState();
-    _sendAmountFocusNode = new FocusNode();
-    _sendAddressFocusNode = new FocusNode();
-    _sendAmountController = new TextEditingController();
-    _sendAddressController = new TextEditingController();
-    _sendAddressStyle = AppStyles.textStyleAddressText60(context);
+    _sendAmountFocusNode = FocusNode();
+    _sendAddressFocusNode = FocusNode();
+    _sendAmountController = TextEditingController();
+    _sendAddressController = TextEditingController();
+    _sendAddressStyle = AddressStyle.TEXT60;
     _contacts = List();
     quickSendAmount = widget.quickSendAmount;
     this.animationOpen = false;
@@ -92,13 +98,13 @@ class _SendSheetState extends State<SendSheet> {
       _isContact = true;
       _showContactButton = false;
       _pasteButtonVisible = false;
-      _sendAddressStyle = AppStyles.textStyleAddressPrimary(context);
+      _sendAddressStyle = AddressStyle.PRIMARY;
     } else if (widget.address != null) {
       // Setup initial state with prefilled address
       _sendAddressController.text = widget.address;
       _showContactButton = false;
       _pasteButtonVisible = false;
-      _sendAddressStyle = AppStyles.textStyleAddressText90(context);
+      _sendAddressStyle = AddressStyle.TEXT90;
       _addressValidAndUnfocused = true;
     }
     // On amount focus change
@@ -604,7 +610,7 @@ class _SendSheetState extends State<SendSheet> {
                               setState(() {
                                 _isContact = false;
                                 _addressValidationText = "";
-                                _sendAddressStyle = AppStyles.textStyleAddressText90(context);
+                                _sendAddressStyle = AddressStyle.TEXT90;
                                 _pasteButtonVisible = false;
                                 _showContactButton = false;
                               });
@@ -620,7 +626,7 @@ class _SendSheetState extends State<SendSheet> {
                               setState(() {
                                 _isContact = true;
                                 _addressValidationText = "";
-                                _sendAddressStyle = AppStyles.textStyleAddressPrimary(context);
+                                _sendAddressStyle = AddressStyle.PRIMARY;
                                 _pasteButtonVisible = false;
                                 _showContactButton = false;
                               });
@@ -816,7 +822,7 @@ class _SendSheetState extends State<SendSheet> {
                 _isContact = true;
                 _showContactButton = false;
                 _pasteButtonVisible = false;
-                _sendAddressStyle = AppStyles.textStyleAddressPrimary(context);
+                _sendAddressStyle = AddressStyle.PRIMARY;
               });
             },
             child: Text(contact.name,
@@ -1146,7 +1152,7 @@ class _SendSheetState extends State<SendSheet> {
                           if (data == null || data.text == null) {
                             return;
                           }
-                          Address address = new Address(data.text);
+                          Address address = Address(data.text);
                           if (address.isValid()) {
                             sl.get<DBHelper>()
                                 .getContactWithAddress(address.address)
@@ -1155,8 +1161,7 @@ class _SendSheetState extends State<SendSheet> {
                                 setState(() {
                                   _isContact = false;
                                   _addressValidationText = "";
-                                  _sendAddressStyle =
-                                      AppStyles.textStyleAddressText90(context);
+                                  _sendAddressStyle = AddressStyle.TEXT90;
                                   _pasteButtonVisible = false;
                                   _showContactButton = false;
                                 });
@@ -1170,9 +1175,7 @@ class _SendSheetState extends State<SendSheet> {
                                 setState(() {
                                   _isContact = true;
                                   _addressValidationText = "";
-                                  _sendAddressStyle =
-                                      AppStyles.textStyleAddressPrimary(
-                                          context);
+                                  _sendAddressStyle = AddressStyle.PRIMARY;
                                   _pasteButtonVisible = false;
                                   _showContactButton = false;
                                 });
@@ -1195,7 +1198,11 @@ class _SendSheetState extends State<SendSheet> {
                       : CrossFadeState.showSecond,
                 ),
               ),
-              style: _sendAddressStyle,
+              style: _sendAddressStyle == AddressStyle.TEXT60 
+                    ? AppStyles.textStyleAddressText60(context)
+                    : _sendAddressStyle == AddressStyle.TEXT90
+                    ? AppStyles.textStyleAddressText90(context)
+                    : AppStyles.textStyleAddressPrimary(context),
               onChanged: (text) {
                 if (text.length > 0) {
                   setState(() {
@@ -1231,14 +1238,14 @@ class _SendSheetState extends State<SendSheet> {
                   _sendAddressFocusNode.unfocus();
                   setState(() {
                     _sendAddressStyle =
-                        AppStyles.textStyleAddressText90(context);
+                        AddressStyle.TEXT90;
                     _addressValidationText = "";
                     _pasteButtonVisible = false;
                   });
                 } else if (!isContact) {
                   setState(() {
                     _sendAddressStyle =
-                        AppStyles.textStyleAddressText60(context);
+                        AddressStyle.TEXT60;
                     _pasteButtonVisible = true;
                   });
                 } else {
@@ -1246,13 +1253,13 @@ class _SendSheetState extends State<SendSheet> {
                     if (contact == null) {
                       setState(() {
                         _sendAddressStyle =
-                            AppStyles.textStyleAddressText60(context);
+                            AddressStyle.TEXT60;
                       });
                     } else {
                       setState(() {
                         _pasteButtonVisible = false;
                         _sendAddressStyle =
-                            AppStyles.textStyleAddressPrimary(context);
+                            AddressStyle.PRIMARY;
                       });
                     }
                   });

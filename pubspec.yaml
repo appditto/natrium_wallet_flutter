@@ -126,7 +126,7 @@ dependencies:
   # Manta dart implementation
   manta_dart:
     git:
-      url: https://github.com/NanoRay/manta-dart.git
+      url: https://github.com/appiapay/manta-dart.git
       ref: master
 
 dev_dependencies:
