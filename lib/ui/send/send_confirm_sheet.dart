@@ -300,8 +300,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                                     ? UIUtil.oneLineAddressText(
                                         context, destinationAltered)
                                     : UIUtil.threeLineAddressText(
-                                        context, destinationAltered,
-                                        contactName: widget.contactName)
+                                        context, destinationAltered)
                               ],
                             )
                           : UIUtil.threeLineAddressText(
