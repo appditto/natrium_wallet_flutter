@@ -512,6 +512,14 @@ class AppStyles {
       fontWeight: FontWeight.w700,
     );
   }
+  static TextStyle headerSuccess(BuildContext context) {
+    return TextStyle(
+      fontSize: 16,
+      color: StateContainer.of(context).curTheme.success,
+      fontFamily: 'NunitoSans',
+      fontWeight: FontWeight.w700,
+    );
+  }
   static TextStyle addressText(BuildContext context) {
     return TextStyle(
       fontSize: 12,
