@@ -503,6 +503,23 @@ class AppStyles {
       fontWeight: FontWeight.w100,
     );
   }
+  // Text style for numbers of mnemonic
+  static TextStyle headerPrimary(BuildContext context) {
+    return TextStyle(
+      fontSize: 16,
+      color: StateContainer.of(context).curTheme.primary,
+      fontFamily: 'NunitoSans',
+      fontWeight: FontWeight.w700,
+    );
+  }
+  static TextStyle addressText(BuildContext context) {
+    return TextStyle(
+      fontSize: 12,
+      color: StateContainer.of(context).curTheme.text,
+      fontFamily: 'NunitoSans',
+      fontWeight: FontWeight.w400,
+    );
+  }
 }
 
 class AppFontSizes {
