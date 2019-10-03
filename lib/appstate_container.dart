@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:manta_dart/messages.dart';
 import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';
 import 'package:event_taxi/event_taxi.dart';
@@ -796,7 +797,7 @@ class StateContainerState extends State<StateContainer> {
   /// @param destination - Destination address
   /// @param amount - Amount to send in RAW
   /// 
-  Future<void> requestSend(String previous, String destination, String amount, {String privKey,String account,String localCurrencyAmount}) async {
+  Future<void> requestSend(String previous, String destination, String amount, {String privKey,String account,String localCurrencyAmount, PaymentRequestMessage paymentRequest}) async {
     String representative = wallet.representative;
     bool fromTransfer = privKey == null && account == null ? false: true;
 
@@ -808,7 +809,8 @@ class StateContainerState extends State<StateContainer> {
       link:destination,
       account: !fromTransfer ? wallet.address : account,
       privKey: privKey,
-      localCurrencyValue: localCurrencyAmount
+      localCurrencyValue: localCurrencyAmount,
+      paymentRequest: paymentRequest
     );
     previousPendingMap.putIfAbsent(previous, () => sendBlock);
 

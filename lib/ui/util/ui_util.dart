@@ -435,4 +435,11 @@ class UIUtil {
       EventTaxiImpl.singleton().fire(DisableLockTimeoutEvent(disable: false));
     });
   }
+
+  static bool smallScreen(BuildContext context) {
+    if (MediaQuery.of(context).size.height < 667)
+      return true;
+    else
+      return false;
+  }
 }

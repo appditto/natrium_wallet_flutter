@@ -317,10 +317,18 @@ class _AppHomePageState extends State<AppHomePage>
             .then((contact) {
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-          AppSendCompleteSheet(
-                  event.previous.sendAmount, event.previous.link, contactName,
-                  localAmount: event.previous.localCurrencyValue)
-              .mainBottomSheet(context);
+          Sheets.showAppHeightNineSheet(
+            context: context,
+            closeOnTap: true,
+            removeUntilHome: true,
+            widget: SendCompleteSheet(
+              amountRaw: event.previous.sendAmount,
+              destination: event.previous.link,
+              contactName: contactName,
+              localAmount: event.previous.localCurrencyValue,
+              paymentRequest: event.previous.paymentRequest
+            )
+          );
         });
       }
     });

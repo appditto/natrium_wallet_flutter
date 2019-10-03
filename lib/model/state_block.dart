@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:nanodart/nanodart.dart';
+import 'package:manta_dart/messages.dart';
 
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 
@@ -55,6 +56,9 @@ class StateBlock {
   // Represents local currency value of this TX
   @JsonKey(ignore: true)
   String localCurrencyValue;
+  // Represents a manta TX
+  @JsonKey(ignore: true)
+  PaymentRequestMessage paymentRequest;
 
   /// StateBlock constructor.
   /// subtype is one of "send", "receive", "change", "open"
@@ -64,7 +68,7 @@ class StateBlock {
   /// and update it later before signing
   StateBlock({String subtype, @required String previous, @required String representative,
               @required String balance, @required String link, @required String account,
-              this.privKey, this.localCurrencyValue}) {
+              this.privKey, this.localCurrencyValue, this.paymentRequest}) {
     this.link = link;
     this.subType = subtype;
     this.type = BlockTypes.STATE;

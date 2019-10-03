@@ -355,7 +355,8 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                                       destinationAltered,
                                       widget.maxSend ? "0" : widget.amountRaw,
                                       localCurrencyAmount:
-                                          widget.localCurrency);
+                                          widget.localCurrency,
+                                      paymentRequest: widget.paymentRequest);
                                 }
                               });
                             } else {
@@ -373,9 +374,10 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                                               .wallet
                                               .frontier,
                                           destinationAltered,
-                                          widget.maxSend
-                                              ? "0"
-                                              : widget.amountRaw);
+                                          widget.maxSend ? "0" : widget.amountRaw,
+                                          localCurrencyAmount:
+                                              widget.localCurrency,
+                                          paymentRequest: widget.paymentRequest);
                                     },
                                     expectedPin: expectedPin,
                                     description: AppLocalization.of(context)
