@@ -199,7 +199,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                           ),
                           TextSpan(
                             text: widget.localCurrency != null
-                                ? " ($widget.localCurrency)"
+                                ? " (${widget.localCurrency})"
                                 : "",
                             style: TextStyle(
                               color:

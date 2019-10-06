@@ -124,7 +124,7 @@ class _SendCompleteSheetState extends State<SendCompleteSheet> {
                           ),
                           TextSpan(
                             text: widget.localAmount != null
-                                ? " ($widget.localAmount)"
+                                ? " (${widget.localAmount})"
                                 : "",
                             style: TextStyle(
                               color: StateContainer.of(context)
