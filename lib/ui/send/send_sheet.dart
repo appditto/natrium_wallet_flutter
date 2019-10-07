@@ -21,6 +21,7 @@ import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/app_text_field.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/one_or_three_address_text.dart';
@@ -900,147 +901,96 @@ class _SendSheetState extends State<SendSheet> {
   //************ Enter Amount Container Method ************//
   //*******************************************************//
   getEnterAmountContainer() {
-    return Container(
-      margin: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width * 0.105,
-        right: MediaQuery.of(context).size.width * 0.105,
-        top: 30,
-      ),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: StateContainer.of(context).curTheme.backgroundDarkest,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      // Amount Text Field
-      child: TextField(
-        focusNode: _sendAmountFocusNode,
-        controller: _sendAmountController,
-        cursorColor: StateContainer.of(context).curTheme.primary,
-        inputFormatters: _rawAmount == null
-            ? [
-                LengthLimitingTextInputFormatter(13),
-                _localCurrencyMode
-                    ? CurrencyFormatter(
-                        decimalSeparator:
-                            _localCurrencyFormat.symbols.DECIMAL_SEP,
-                        commaSeparator: _localCurrencyFormat.symbols.GROUP_SEP,
-                        maxDecimalDigits: 2)
-                    : CurrencyFormatter(
-                        maxDecimalDigits: NumberUtil.maxDecimalDigits),
-                LocalCurrencyFormatter(
-                    active: _localCurrencyMode,
-                    currencyFormat: _localCurrencyFormat)
-              ]
-            : [LengthLimitingTextInputFormatter(13)],
-        onChanged: (text) {
-          // Always reset the error message to be less annoying
-          setState(() {
-            _amountValidationText = "";
-            // Reset the raw amount
-            _rawAmount = null;
-          });
+    return AppTextField(
+      focusNode: _sendAmountFocusNode,
+      controller: _sendAmountController,
+      topMargin: 30,
+      cursorColor: StateContainer.of(context).curTheme.primary,
+      style: TextStyle(
+        fontWeight: FontWeight.w700,
+        fontSize: 16.0,
+        color: StateContainer.of(context).curTheme.primary,
+        fontFamily: 'NunitoSans',
+      ),     
+      inputFormatters: _rawAmount == null
+        ? [
+            LengthLimitingTextInputFormatter(13),
+            _localCurrencyMode
+                ? CurrencyFormatter(
+                    decimalSeparator:
+                        _localCurrencyFormat.symbols.DECIMAL_SEP,
+                    commaSeparator: _localCurrencyFormat.symbols.GROUP_SEP,
+                    maxDecimalDigits: 2)
+                : CurrencyFormatter(
+                    maxDecimalDigits: NumberUtil.maxDecimalDigits),
+            LocalCurrencyFormatter(
+                active: _localCurrencyMode,
+                currencyFormat: _localCurrencyFormat)
+          ]
+        : [LengthLimitingTextInputFormatter(13)],
+      onChanged: (text) {
+        // Always reset the error message to be less annoying
+        setState(() {
+          _amountValidationText = "";
+          // Reset the raw amount
+          _rawAmount = null;
+        });
+      },
+      textInputAction: TextInputAction.next,
+      maxLines: null,
+      autocorrect: false,
+      hintText: _amountHint == null ? "" : AppLocalization.of(context).enterAmount,
+      prefixButton: _rawAmount == null ? TextFieldButton(
+        icon: AppIcons.swapcurrency,
+        onPressed: () {
+          toggleLocalCurrency();
         },
-        textInputAction: TextInputAction.next,
-        maxLines: null,
-        autocorrect: false,
-        decoration: InputDecoration(
-          hintText: _amountHint == null ? "" : AppLocalization.of(context).enterAmount,
-          border: InputBorder.none,
-          hintStyle: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.w100,
-            fontFamily: 'NunitoSans',
-            color: StateContainer.of(context).curTheme.text60,
-          ),
-          // Currency Switch Button - TODO
-          prefixIcon: Container(
-            width: 48,
-            height: 48,
-            child: _rawAmount == null
-                ? FlatButton(
-                    padding: EdgeInsets.all(14.0),
-                    highlightColor:
-                        StateContainer.of(context).curTheme.primary15,
-                    splashColor: StateContainer.of(context).curTheme.primary30,
-                    onPressed: () {
-                      toggleLocalCurrency();
-                    },
-                    child: Icon(AppIcons.swapcurrency,
-                        size: 20,
-                        color: StateContainer.of(context).curTheme.primary),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(200.0)),
-                  )
-                : SizedBox(),
-          ), // MAX Button
-          suffixIcon: AnimatedCrossFade(
-            duration: Duration(milliseconds: 100),
-            firstChild: Container(
-              width: 48,
-              height: 48,
-              child: FlatButton(
-                highlightColor: StateContainer.of(context).curTheme.primary15,
-                splashColor: StateContainer.of(context).curTheme.primary30,
-                padding: EdgeInsets.all(12.0),
-                onPressed: () {
-                  if (_isMaxSend()) {
-                    return;
-                  }
-                  if (!_localCurrencyMode) {
-                    _sendAmountController.text = StateContainer.of(context)
-                        .wallet
-                        .getAccountBalanceDisplay()
-                        .replaceAll(r",", "");
-                    _sendAddressController.selection =
-                        TextSelection.fromPosition(TextPosition(
-                            offset: _sendAddressController.text.length));
-                  } else {
-                    String localAmount = StateContainer.of(context)
-                        .wallet
-                        .getLocalCurrencyPrice(
-                          StateContainer.of(context).curCurrency,
-                            locale: StateContainer.of(context).currencyLocale);
-                    localAmount = localAmount.replaceAll(
-                        _localCurrencyFormat.symbols.GROUP_SEP, "");
-                    localAmount = localAmount.replaceAll(
-                        _localCurrencyFormat.symbols.DECIMAL_SEP, ".");
-                    localAmount = NumberUtil.sanitizeNumber(localAmount)
-                        .replaceAll(
-                            ".", _localCurrencyFormat.symbols.DECIMAL_SEP);
-                    _sendAmountController.text =
-                        _localCurrencyFormat.currencySymbol + localAmount;
-                    _sendAddressController.selection =
-                        TextSelection.fromPosition(TextPosition(
-                            offset: _sendAddressController.text.length));
-                  }
-                },
-                child: Icon(AppIcons.max,
-                    size: 24,
-                    color: StateContainer.of(context).curTheme.primary),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(200.0)),
-              ),
-            ),
-            secondChild: SizedBox(),
-            crossFadeState: _isMaxSend()
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
-          ),
-        ),
-        keyboardType: TextInputType.numberWithOptions(decimal: true),
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 16.0,
-          color: StateContainer.of(context).curTheme.primary,
-          fontFamily: 'NunitoSans',
-        ),
-        onSubmitted: (text) {
-          if (!Address(_sendAddressController.text).isValid()) {
-            FocusScope.of(context).requestFocus(_sendAddressFocusNode);
+      ) : SizedBox(),
+      suffixButton: TextFieldButton(
+        icon: AppIcons.max, 
+        onPressed: () {
+          if (_isMaxSend()) {
+            return;
+          }
+          if (!_localCurrencyMode) {
+            _sendAmountController.text = StateContainer.of(context)
+                .wallet
+                .getAccountBalanceDisplay()
+                .replaceAll(r",", "");
+            _sendAddressController.selection =
+                TextSelection.fromPosition(TextPosition(
+                    offset: _sendAddressController.text.length));
+          } else {
+            String localAmount = StateContainer.of(context)
+                .wallet
+                .getLocalCurrencyPrice(
+                  StateContainer.of(context).curCurrency,
+                    locale: StateContainer.of(context).currencyLocale);
+            localAmount = localAmount.replaceAll(
+                _localCurrencyFormat.symbols.GROUP_SEP, "");
+            localAmount = localAmount.replaceAll(
+                _localCurrencyFormat.symbols.DECIMAL_SEP, ".");
+            localAmount = NumberUtil.sanitizeNumber(localAmount)
+                .replaceAll(
+                    ".", _localCurrencyFormat.symbols.DECIMAL_SEP);
+            _sendAmountController.text =
+                _localCurrencyFormat.currencySymbol + localAmount;
+            _sendAddressController.selection =
+                TextSelection.fromPosition(TextPosition(
+                    offset: _sendAddressController.text.length));
           }
         },
       ),
+      fadeSuffixOnCondition: true,
+      suffixShowFirstCondition: !_isMaxSend(),
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      textAlign: TextAlign.center,
+      onSubmitted: (text) {
+        FocusScope.of(context).unfocus();
+        if (!Address(_sendAddressController.text).isValid()) {
+          FocusScope.of(context).requestFocus(_sendAddressFocusNode);
+        }
+      },
     );
   } //************ Enter Address Container Method End ************//
   //*************************************************************//
@@ -1048,225 +998,164 @@ class _SendSheetState extends State<SendSheet> {
   //************ Enter Address Container Method ************//
   //*******************************************************//
   getEnterAddressContainer(BuildContext context, StateSetter setState) {
-    return Container(
-      margin: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width * 0.105,
-        right: MediaQuery.of(context).size.width * 0.105,
-        top: 124,
-      ),
+    return AppTextField(
+      topMargin: 124,
       padding: _addressValidAndUnfocused
           ? EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0)
           : EdgeInsets.zero,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: StateContainer.of(context).curTheme.backgroundDarkest,
-        borderRadius: BorderRadius.circular(25),
+      textAlign: _isContact && false ? TextAlign.start: TextAlign.center,
+      focusNode: _sendAddressFocusNode,
+      controller: _sendAddressController,
+      cursorColor: StateContainer.of(context).curTheme.primary,
+      inputFormatters: [
+        _isContact
+            ? LengthLimitingTextInputFormatter(20)
+            : LengthLimitingTextInputFormatter(65),
+      ],
+      textInputAction: TextInputAction.done,
+      maxLines: null,
+      autocorrect: false,
+      hintText: _addressHint,
+      prefixButton: TextFieldButton(
+        icon: AppIcons.at,
+        onPressed: () {
+          if (_showContactButton && _contacts.length == 0) {
+            // Show menu
+            FocusScope.of(context)
+                .requestFocus(_sendAddressFocusNode);
+            if (_sendAddressController.text.length == 0) {
+              _sendAddressController.text = "@";
+              _sendAddressController.selection =
+                  TextSelection.fromPosition(TextPosition(
+                      offset:
+                          _sendAddressController.text.length));
+            }
+            sl.get<DBHelper>().getContacts().then((contactList) {
+              setState(() {
+                _contacts = contactList;
+              });
+            });
+          }          
+        },
       ),
-      // Enter Address Text field
-      child: !_addressValidAndUnfocused
-          ? TextField(
-              textAlign:
-                  _isContact && false ? TextAlign.start : TextAlign.center,
-              focusNode: _sendAddressFocusNode,
-              controller: _sendAddressController,
-              cursorColor: StateContainer.of(context).curTheme.primary,
-              keyboardAppearance: Brightness.dark,
-              inputFormatters: [
-                _isContact
-                    ? LengthLimitingTextInputFormatter(20)
-                    : LengthLimitingTextInputFormatter(65),
-              ],
-              textInputAction: TextInputAction.done,
-              maxLines: null,
-              autocorrect: false,
-              decoration: InputDecoration(
-                hintText: _addressHint == null ? "" : AppLocalization.of(context).addressHint,
-                border: InputBorder.none,
-                hintStyle: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'NunitoSans',
-                  color: StateContainer.of(context).curTheme.text60,
-                ),
-                // @ Button
-                prefixIcon: AnimatedCrossFade(
-                  duration: Duration(milliseconds: 100),
-                  firstChild: Container(
-                    width: 48.0,
-                    height: 48.0,
-                    child: FlatButton(
-                      highlightColor:
-                          StateContainer.of(context).curTheme.primary15,
-                      splashColor:
-                          StateContainer.of(context).curTheme.primary30,
-                      padding: EdgeInsets.all(14.0),
-                      onPressed: () {
-                        if (_showContactButton && _contacts.length == 0) {
-                          // Show menu
-                          FocusScope.of(context)
-                              .requestFocus(_sendAddressFocusNode);
-                          if (_sendAddressController.text.length == 0) {
-                            _sendAddressController.text = "@";
-                            _sendAddressController.selection =
-                                TextSelection.fromPosition(TextPosition(
-                                    offset:
-                                        _sendAddressController.text.length));
-                          }
-                          sl.get<DBHelper>().getContacts().then((contactList) {
-                            setState(() {
-                              _contacts = contactList;
-                            });
-                          });
-                        }
-                      },
-                      child: Icon(AppIcons.at,
-                          size: 20,
-                          color: StateContainer.of(context).curTheme.primary),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(200.0)),
-                    ),
-                  ),
-                  secondChild: SizedBox(),
-                  crossFadeState: _showContactButton && _contacts.length == 0
-                      ? CrossFadeState.showFirst
-                      : CrossFadeState.showSecond,
-                ),
-                // Paste Button
-                suffixIcon: AnimatedCrossFade(
-                  duration: const Duration(milliseconds: 100),
-                  firstChild: Container(
-                    width: 48.0,
-                    height: 48.0,
-                    child: FlatButton(
-                      highlightColor:
-                          StateContainer.of(context).curTheme.primary15,
-                      splashColor:
-                          StateContainer.of(context).curTheme.primary30,
-                      padding: EdgeInsets.all(14.0),
-                      onPressed: () {
-                        if (!_pasteButtonVisible) {
-                          return;
-                        }
-                        Clipboard.getData("text/plain")
-                            .then((ClipboardData data) {
-                          if (data == null || data.text == null) {
-                            return;
-                          }
-                          Address address = Address(data.text);
-                          if (address.isValid()) {
-                            sl.get<DBHelper>()
-                                .getContactWithAddress(address.address)
-                                .then((contact) {
-                              if (contact == null) {
-                                setState(() {
-                                  _isContact = false;
-                                  _addressValidationText = "";
-                                  _sendAddressStyle = AddressStyle.TEXT90;
-                                  _pasteButtonVisible = false;
-                                  _showContactButton = false;
-                                });
-                                _sendAddressController.text = address.address;
-                                _sendAddressFocusNode.unfocus();
-                                setState(() {
-                                  _addressValidAndUnfocused = true;
-                                });
-                              } else {
-                                // Is a contact
-                                setState(() {
-                                  _isContact = true;
-                                  _addressValidationText = "";
-                                  _sendAddressStyle = AddressStyle.PRIMARY;
-                                  _pasteButtonVisible = false;
-                                  _showContactButton = false;
-                                });
-                                _sendAddressController.text = contact.name;
-                              }
-                            });
-                          }
-                        });
-                      },
-                      child: Icon(AppIcons.paste,
-                          size: 20,
-                          color: StateContainer.of(context).curTheme.primary),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(200.0)),
-                    ),
-                  ),
-                  secondChild: SizedBox(),
-                  crossFadeState: _pasteButtonVisible
-                      ? CrossFadeState.showFirst
-                      : CrossFadeState.showSecond,
-                ),
-              ),
-              style: _sendAddressStyle == AddressStyle.TEXT60 
-                    ? AppStyles.textStyleAddressText60(context)
-                    : _sendAddressStyle == AddressStyle.TEXT90
-                    ? AppStyles.textStyleAddressText90(context)
-                    : AppStyles.textStyleAddressPrimary(context),
-              onChanged: (text) {
-                if (text.length > 0) {
-                  setState(() {
-                    _showContactButton = false;
-                  });
-                } else {
-                  setState(() {
-                    _showContactButton = true;
-                  });
-                }
-                bool isContact = text.startsWith("@");
-                // Switch to contact mode if starts with @
-                if (isContact) {
-                  setState(() {
-                    _isContact = true;
-                  });
-                  sl.get<DBHelper>().getContactsWithNameLike(text).then((matchedList) {
-                    setState(() {
-                      _contacts = matchedList;
-                    });
-                  });
-                } else {
+      fadePrefixOnCondition: true,
+      prefixShowFirstCondition: _showContactButton && _contacts.length == 0,
+      suffixButton: TextFieldButton(
+        icon: AppIcons.paste,
+        onPressed: () {
+          if (!_pasteButtonVisible) {
+            return;
+          }
+          Clipboard.getData("text/plain")
+              .then((ClipboardData data) {
+            if (data == null || data.text == null) {
+              return;
+            }
+            Address address = Address(data.text);
+            if (address.isValid()) {
+              sl.get<DBHelper>()
+                  .getContactWithAddress(address.address)
+                  .then((contact) {
+                if (contact == null) {
                   setState(() {
                     _isContact = false;
-                    _contacts = [];
+                    _addressValidationText = "";
+                    _sendAddressStyle = AddressStyle.TEXT90;
+                    _pasteButtonVisible = false;
+                    _showContactButton = false;
                   });
-                }
-                // Always reset the error message to be less annoying
-                setState(() {
-                  _addressValidationText = "";
-                });
-                if (!isContact && Address(text).isValid()) {
+                  _sendAddressController.text = address.address;
                   _sendAddressFocusNode.unfocus();
                   setState(() {
-                    _sendAddressStyle =
-                        AddressStyle.TEXT90;
-                    _addressValidationText = "";
-                    _pasteButtonVisible = false;
-                  });
-                } else if (!isContact) {
-                  setState(() {
-                    _sendAddressStyle =
-                        AddressStyle.TEXT60;
-                    _pasteButtonVisible = true;
+                    _addressValidAndUnfocused = true;
                   });
                 } else {
-                  sl.get<DBHelper>().getContactWithName(text).then((contact) {
-                    if (contact == null) {
-                      setState(() {
-                        _sendAddressStyle =
-                            AddressStyle.TEXT60;
-                      });
-                    } else {
-                      setState(() {
-                        _pasteButtonVisible = false;
-                        _sendAddressStyle =
-                            AddressStyle.PRIMARY;
-                      });
-                    }
+                  // Is a contact
+                  setState(() {
+                    _isContact = true;
+                    _addressValidationText = "";
+                    _sendAddressStyle = AddressStyle.PRIMARY;
+                    _pasteButtonVisible = false;
+                    _showContactButton = false;
                   });
+                  _sendAddressController.text = contact.name;
                 }
-              },
-            )
-          : GestureDetector(
+              });
+            }
+          });          
+        },
+      ),
+      fadeSuffixOnCondition: true,
+      suffixShowFirstCondition: _pasteButtonVisible,    
+      style: _sendAddressStyle == AddressStyle.TEXT60 
+            ? AppStyles.textStyleAddressText60(context)
+            : _sendAddressStyle == AddressStyle.TEXT90
+            ? AppStyles.textStyleAddressText90(context)
+            : AppStyles.textStyleAddressPrimary(context),
+      onChanged: (text) {
+        if (text.length > 0) {
+          setState(() {
+            _showContactButton = false;
+          });
+        } else {
+          setState(() {
+            _showContactButton = true;
+          });
+        }
+        bool isContact = text.startsWith("@");
+        // Switch to contact mode if starts with @
+        if (isContact) {
+          setState(() {
+            _isContact = true;
+          });
+          sl.get<DBHelper>().getContactsWithNameLike(text).then((matchedList) {
+            setState(() {
+              _contacts = matchedList;
+            });
+          });
+        } else {
+          setState(() {
+            _isContact = false;
+            _contacts = [];
+          });
+        }
+        // Always reset the error message to be less annoying
+        setState(() {
+          _addressValidationText = "";
+        });
+        if (!isContact && Address(text).isValid()) {
+          _sendAddressFocusNode.unfocus();
+          setState(() {
+            _sendAddressStyle =
+                AddressStyle.TEXT90;
+            _addressValidationText = "";
+            _pasteButtonVisible = false;
+          });
+        } else if (!isContact) {
+          setState(() {
+            _sendAddressStyle =
+                AddressStyle.TEXT60;
+            _pasteButtonVisible = true;
+          });
+        } else {
+          sl.get<DBHelper>().getContactWithName(text).then((contact) {
+            if (contact == null) {
+              setState(() {
+                _sendAddressStyle =
+                    AddressStyle.TEXT60;
+              });
+            } else {
+              setState(() {
+                _pasteButtonVisible = false;
+                _sendAddressStyle =
+                    AddressStyle.PRIMARY;
+              });
+            }
+          });
+        }
+      },
+      overrideTextFieldWidget: _addressValidAndUnfocused ?
+        GestureDetector(
               onTap: () {
                 setState(() {
                   _addressValidAndUnfocused = false;
@@ -1276,8 +1165,9 @@ class _SendSheetState extends State<SendSheet> {
                 });
               },
               child: UIUtil.threeLineAddressText(
-                  context, _sendAddressController.text),
-            ),
+                  context, _sendAddressController.text)
+        )
+        : SizedBox()
     );
   } //************ Enter Address Container Method End ************//
   //*************************************************************//
