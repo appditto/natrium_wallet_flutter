@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
@@ -9,7 +10,6 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/tap_outside_unfocus.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flare_flutter/flare.dart';
 import 'package:flare_dart/math/mat2d.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -11,14 +12,12 @@ import 'package:logging/logging.dart';
 import 'package:manta_dart/manta_wallet.dart';
 import 'package:manta_dart/messages.dart';
 import 'package:natrium_wallet_flutter/ui/popup_button.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/list_model.dart';
-import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
@@ -433,7 +432,14 @@ class _AppHomePageState extends State<AppHomePage>
         return true;
       });
       lockStreamListener = delayed.asStream().listen((_) {
-        Navigator.of(context).pushReplacementNamed('/');
+        try {
+          StateContainer.of(context).resetEncryptedSecret();
+        } catch (e) {
+          log.warning("Failed to reset encrypted secret when locking ${e.toString()}");
+        } finally {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+        }
       });
     }
   }

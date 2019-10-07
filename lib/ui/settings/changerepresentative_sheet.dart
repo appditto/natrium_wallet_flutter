@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,7 +13,6 @@ import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
@@ -26,7 +26,6 @@ import 'package:natrium_wallet_flutter/util/biometrics.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
-import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';

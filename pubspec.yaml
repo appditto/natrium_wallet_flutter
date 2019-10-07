@@ -123,6 +123,9 @@ dependencies:
   # Validation utilities
   validators: ^2.0.0+1
 
+  # Auto resize text widget
+  auto_size_text: ^2.1.0
+
   # Manta dart implementation
   manta_dart:
     git:

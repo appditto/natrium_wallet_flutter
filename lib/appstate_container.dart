@@ -440,7 +440,16 @@ class StateContainerState extends State<StateContainer> {
 
   // Set encrypted secret
   void setEncryptedSecret(String secret) {
-    encryptedSecret = secret;
+    setState(() {
+      encryptedSecret = secret;      
+    });
+  }
+
+  // Reset encrypted secret
+  void resetEncryptedSecret() {
+    setState(() {
+      encryptedSecret = null;
+    });
   }
 
   // Change theme

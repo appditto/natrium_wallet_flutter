@@ -2,9 +2,12 @@ import 'dart:async';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accounts_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/settings/disable_password_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/settings/set_password_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 import 'package:logging/logging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
@@ -1312,16 +1315,20 @@ class _SettingsSheetState extends State<SettingsSheet>
                             _authMethodDialog)
                         : null,
                     // Authenticate on Launch
-                    Divider(
-                      height: 2,
-                      color: StateContainer.of(context).curTheme.text15,
-                    ),
-                    AppSettings.buildSettingsListItemDoubleLine(
-                        context,
-                        AppLocalization.of(context).lockAppSetting,
-                        _curUnlockSetting,
-                        AppIcons.lock,
-                        _lockDialog),
+                    StateContainer.of(context).encryptedSecret == null ?
+                    Column(
+                      children: <Widget> [
+                        Divider(
+                          height: 2,
+                          color: StateContainer.of(context).curTheme.text15),
+                        AppSettings.buildSettingsListItemDoubleLine(
+                            context,
+                            AppLocalization.of(context).lockAppSetting,
+                            _curUnlockSetting,
+                            AppIcons.lock,
+                            _lockDialog),                        
+                      ]
+                    ) : SizedBox(),
                     // Authentication Timer
                     Divider(
                       height: 2,
@@ -1333,12 +1340,52 @@ class _SettingsSheetState extends State<SettingsSheet>
                       _curTimeoutSetting,
                       AppIcons.timer,
                       _lockTimeoutDialog,
-                      disabled: _curUnlockSetting.setting == UnlockOption.NO,
+                      disabled: _curUnlockSetting.setting == UnlockOption.NO && StateContainer.of(context).encryptedSecret == null,
                     ),
                     Divider(
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,
                     ),
+                    // Encrypt option
+                    StateContainer.of(context).encryptedSecret == null ?
+                    Column(
+                      children: <Widget> [
+                        Divider(
+                          height: 2,
+                          color: StateContainer.of(context).curTheme.text15),
+                        AppSettings.buildSettingsListItemSingleLine(
+                          context,
+                          AppLocalization.of(context).setWalletPassword,
+                          AppIcons.lock,
+                          onPressed: () {
+                            Sheets.showAppHeightEightSheet(
+                              context: context,
+                              widget: SetPasswordSheet()
+                            );
+                          }
+                        )                        
+                      ]
+                    )
+                    : // Decrypt option
+                    Column(
+                      children: <Widget> [
+                        Divider(
+                          height: 2,
+                          color: StateContainer.of(context).curTheme.text15),
+                        AppSettings.buildSettingsListItemSingleLine(
+                          context,
+                          AppLocalization.of(context).disableWalletPassword,
+                          AppIcons.lock,
+                          onPressed: () {
+                            Sheets.showAppHeightEightSheet(
+                              context: context,
+                              widget: DisablePasswordSheet()
+                            );
+                          }
+                        )                     
+                      ]
+                    )
+                    ,
                   ].where(notNull).toList(),
                 ),
                 //List Top Gradient End

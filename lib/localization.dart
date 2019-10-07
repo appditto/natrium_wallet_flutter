@@ -773,6 +773,36 @@ class AppLocalization {
       desc: 'insantly', name: 'instantly');
   }
 
+  String get setWalletPassword {
+    return Intl.message("Set wallet password",
+      desc: 'Allows user to encrypt wallet with a password', name: 'setWalletPassword');
+  }
+
+  String get setPassword {
+    return Intl.message("Set Password",
+      desc: 'A button that sets the wallet password', name: 'setPassword');
+  }
+
+  String get disableWalletPassword {
+    return Intl.message("Disable wallet password",
+      desc: 'Allows user to deencrypt wallet with a password', name: 'disableWalletPassword');
+  }
+
+  String get encryptionFailedError {
+    return Intl.message("Failed to set a wallet password",
+      desc: 'If encrypting a wallet raised an error', name: 'encryptionFailedError');
+  }
+
+  String get setPasswordSuccess {
+    return Intl.message("Password has been set successfully",
+      desc: 'Setting a Wallet Password was successful', name: 'setPasswordSuccess');
+  }
+
+  String get disablePasswordSuccess {
+    return Intl.message("Password has been disabled",
+      desc: 'Disabling a Wallet Password was successful', name: 'disablePasswordSuccess');
+  }
+
   /// -- END SECURITY SETTINGS SUBMENU
 
   /// -- EXAMPLE HOME SCREEN CARDS
@@ -1003,6 +1033,11 @@ class AppLocalization {
       desc: 'A paragraph that tells the users that the created password will be required to open Natrium.', name: 'passwordWillBeRequiredToOpenParagraph');
   }
 
+  String get passwordNoLongerRequiredToOpenParagraph {
+    return Intl.message("You will not need a password to open Natrium anymore.",
+      desc: 'An info paragraph that tells the user a password will no longer be needed to open Natrium', name: 'passwordNoLongerRequiredToOpenParagraph');
+  }
+
   String get createPasswordFirstParagraph {
     return Intl.message("You can create a password to add additional security to your wallet.",
       desc: 'A paragraph that tells the users that they can create a password for additional security.', name: 'createPasswordFirstParagraph');
@@ -1019,6 +1054,17 @@ class AppLocalization {
     return Intl.message("Create a password.",
       desc: 'A paragraph that tells the users to create a password.', name: 'createAPasswordHeader');
   }
+
+  String get createPasswordSheetHeader {
+    return Intl.message("Create Password",
+      desc: 'Prompt user to create a new password', name: 'createPasswordSheetHeader');
+  }
+
+  String get disablePasswordSheetHeader {
+    return Intl.message("Disable Password",
+      desc: 'Prompt user to disable their password', name: 'disablePasswordSheetHeader');
+  }
+
   String get requireAPasswordToOpenHeader {
     return Intl.message("Require a password to open Natrium?",
       desc: 'A paragraph that asks the users if they would like a password to be required to open Natrium.', name: 'requireAPasswordToOpenHeader');

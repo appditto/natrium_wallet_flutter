@@ -1,6 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:manta_dart/messages.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/auto_resize_text.dart';
 
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
