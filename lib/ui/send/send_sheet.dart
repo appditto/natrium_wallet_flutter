@@ -461,8 +461,7 @@ class _SendSheetState extends State<SendSheet> {
                                       ),
 
                                       // ******* Enter Address Container ******* //
-                                      getEnterAddressContainer(
-                                          context, setState),
+                                      getEnterAddressContainer(),
                                       // ******* Enter Address Container End ******* //
                                     ],
                                   ),
@@ -997,7 +996,7 @@ class _SendSheetState extends State<SendSheet> {
 
   //************ Enter Address Container Method ************//
   //*******************************************************//
-  getEnterAddressContainer(BuildContext context, StateSetter setState) {
+  getEnterAddressContainer() {
     return AppTextField(
       topMargin: 124,
       padding: _addressValidAndUnfocused
@@ -1015,7 +1014,7 @@ class _SendSheetState extends State<SendSheet> {
       textInputAction: TextInputAction.done,
       maxLines: null,
       autocorrect: false,
-      hintText: _addressHint,
+      hintText: _addressHint == null ? "" : AppLocalization.of(context).enterAddress,
       prefixButton: TextFieldButton(
         icon: AppIcons.at,
         onPressed: () {
@@ -1167,7 +1166,7 @@ class _SendSheetState extends State<SendSheet> {
               child: UIUtil.threeLineAddressText(
                   context, _sendAddressController.text)
         )
-        : SizedBox()
+        : null
     );
   } //************ Enter Address Container Method End ************//
   //*************************************************************//
