@@ -57,7 +57,10 @@ class AppTextField extends StatefulWidget {
   final Function onSubmitted;
   final Function onChanged;
   final double topMargin;
+  final double leftMargin;
+  final double rightMargin;
   final TextStyle style;
+  final bool obscureText;
 
   AppTextField({
     this.focusNode,
@@ -76,14 +79,17 @@ class AppTextField extends StatefulWidget {
     this.keyboardType,
     this.onSubmitted,
     this.onChanged,
-    this.textAlign = TextAlign.start,
+    this.style,
+    this.leftMargin,
+    this.rightMargin,
+    this.obscureText = false,
+    this.textAlign = TextAlign.center,
     this.keyboardAppearance = Brightness.dark,
     this.autocorrect = true,
     this.maxLines = 1,
     this.padding = EdgeInsets.zero,
     this.buttonFadeDurationMs = 100,
     this.topMargin = 0,
-    this.style
   });
 
   _AppTextFieldState createState() => _AppTextFieldState();
@@ -94,8 +100,8 @@ class _AppTextFieldState extends State<AppTextField> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        left: MediaQuery.of(context).size.width * 0.105,
-        right: MediaQuery.of(context).size.width * 0.105,
+        left: widget.leftMargin ?? MediaQuery.of(context).size.width * 0.105,
+        right: widget.rightMargin ?? MediaQuery.of(context).size.width * 0.105,
         top: widget.topMargin,
       ),
       padding: widget.padding,
@@ -116,10 +122,11 @@ class _AppTextFieldState extends State<AppTextField> {
             maxLines: widget.maxLines,
             focusNode: widget.focusNode,
             controller: widget.controller,
-            cursorColor: widget.cursorColor,
+            cursorColor: widget.cursorColor ?? StateContainer.of(context).curTheme.primary,
             inputFormatters: widget.inputFormatters,
             textInputAction: widget.textInputAction,
             keyboardType: widget.keyboardType,
+            obscureText: widget.obscureText,
             onSubmitted: widget.onSubmitted != null ? widget.onSubmitted : (text) {
               if (widget.textInputAction == TextInputAction.done) {
                 FocusScope.of(context).unfocus();

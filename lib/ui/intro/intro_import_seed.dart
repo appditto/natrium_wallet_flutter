@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
@@ -10,6 +11,7 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/app_text_field.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/tap_outside_unfocus.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 
@@ -50,7 +52,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
             child: Column(
               children: <Widget>[
                 Expanded(
-                  child:Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Row(
@@ -145,405 +147,258 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                           textAlign: TextAlign.start,
                         ),
                       ),
-                      // The container for the seed
-                      Container(
-                        margin: EdgeInsets.only(
-                            left: smallScreen(context) ? 30 : 40, right: smallScreen(context) ? 30 : 40, top: 20),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: StateContainer.of(context)
-                              .curTheme
-                              .backgroundDarkest,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        // Text Field for the seed
-                        child: Theme(
-                          data: Theme.of(context).copyWith(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent),
-                          child: _seedMode ? TextField(
-                            focusNode: _seedInputFocusNode,
-                            controller: _seedInputController,
-                            textAlign: TextAlign.center,
-                            cursorColor: StateContainer.of(context)
-                                .curTheme
-                                .primary,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(64),
-                              UpperCaseTextFormatter()
-                            ],
-                            textInputAction: TextInputAction.done,
-                            maxLines: null,
-                            autocorrect: false,
-                            decoration: InputDecoration(
-                              // Emtpy SizedBox
-                              prefixIcon: AnimatedCrossFade(
-                                duration: Duration(milliseconds: 100),
-                                firstChild: Container(
-                                  width: 48,
-                                  height: 48,
-                                  child: FlatButton(
-                                    highlightColor:
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .primary15,
-                                    splashColor:
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .primary30,
-                                    child: Icon(AppIcons.scan,
-                                        size: 20,
-                                        color:
-                                            StateContainer.of(context)
-                                                .curTheme
-                                                .primary),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                                100.0)),
-                                    padding: EdgeInsets.all(14.0),
-                                    onPressed: () {
-                                      if (NanoSeeds.isValidSeed(
-                                          _seedInputController
-                                              .text)) {
-                                        return;
+                      Expanded(
+                        child: KeyboardAvoider(
+                          duration: Duration(milliseconds: 0),
+                          autoScroll: true,
+                          focusPadding: 40,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              // The text field for the seed
+                              _seedMode ? AppTextField(
+                                leftMargin: smallScreen(context) ? 30 : 40,
+                                rightMargin: smallScreen(context) ? 30 : 40,
+                                topMargin: 20,
+                                focusNode: _seedInputFocusNode,
+                                controller: _seedInputController,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(64),
+                                  UpperCaseTextFormatter()
+                                ],
+                                textInputAction: TextInputAction.done,
+                                maxLines: null,
+                                autocorrect: false,
+                                prefixButton: TextFieldButton(
+                                  icon: AppIcons.scan,
+                                  onPressed: () {
+                                    if (NanoSeeds.isValidSeed(
+                                        _seedInputController
+                                            .text)) {
+                                      return;
+                                    }
+                                    // Scan QR for seed
+                                    UIUtil.cancelLockEvent();
+                                    BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
+                                      if (result != null && NanoSeeds.isValidSeed(result)) {
+                                        _seedInputController.text = result;
+                                        setState(() {
+                                          _seedIsValid = true;
+                                        });
+                                      } else if (result != null && NanoMnemomics.validateMnemonic(result.split(' '))) {
+                                        _mnemonicController.text = result;
+                                        _mnemonicFocusNode.unfocus();
+                                        _seedInputFocusNode.unfocus();
+                                        setState(() {
+                                          _seedMode = false;
+                                          _mnemonicError = null;
+                                          _mnemonicIsValid = true;
+                                        });
+                                      } else {
+                                        UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidSeed, context);
                                       }
-                                      // Scan QR for seed
-                                      UIUtil.cancelLockEvent();
-                                      BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
-                                        if (result != null && NanoSeeds.isValidSeed(result)) {
-                                          _seedInputController.text = result;
-                                          setState(() {
-                                            _seedIsValid = true;
-                                          });
-                                        } else if (result != null && NanoMnemomics.validateMnemonic(result.split(' '))) {
-                                          _mnemonicController.text = result;
-                                          _mnemonicFocusNode.unfocus();
-                                          _seedInputFocusNode.unfocus();
-                                          setState(() {
-                                            _seedMode = false;
-                                            _mnemonicError = null;
-                                            _mnemonicIsValid = true;
-                                          });
-                                        } else {
-                                          UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidSeed, context);
-                                        }
-                                      });
-
-                                    },
-                                  ),
+                                    });
+                                  },
                                 ),
-                                secondChild: SizedBox(),
-                                crossFadeState: NanoSeeds.isValidSeed(
-                                        _seedInputController.text)
-                                    ? CrossFadeState.showSecond
-                                    : CrossFadeState.showFirst,
-                              ),
-                              // Paste Button
-                              suffixIcon: AnimatedCrossFade(
-                                duration: Duration(milliseconds: 100),
-                                firstChild: Container(
-                                  width: 48,
-                                  height: 48,
-                                  child: FlatButton(
-                                    highlightColor:
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .primary15,
-                                    splashColor:
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .primary30,
-                                    child: Icon(AppIcons.paste,
-                                        size: 20,
-                                        color:
-                                            StateContainer.of(context)
-                                                .curTheme
-                                                .primary),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                                100.0)),
-                                    padding: EdgeInsets.all(14.0),
-                                    onPressed: () {
-                                      if (NanoSeeds.isValidSeed(
-                                          _seedInputController
-                                              .text)) {
+                                fadePrefixOnCondition: true,
+                                prefixShowFirstCondition: !NanoSeeds.isValidSeed(_seedInputController.text),
+                                suffixButton: TextFieldButton(
+                                  icon: AppIcons.paste,
+                                  onPressed: () {
+                                    if (NanoSeeds.isValidSeed(
+                                        _seedInputController
+                                            .text)) {
+                                      return;
+                                    }
+                                    Clipboard.getData("text/plain")
+                                        .then((ClipboardData data) {
+                                      if (data == null ||
+                                          data.text == null) {
                                         return;
+                                      } else if (NanoSeeds
+                                          .isValidSeed(data.text)) {
+                                        _seedInputController.text =
+                                            data.text;
+                                        setState(() {
+                                          _seedIsValid = true;
+                                        });
+                                      } else if (NanoMnemomics.validateMnemonic(data.text.split(' '))) {
+                                        _mnemonicController.text = data.text;
+                                        _mnemonicFocusNode.unfocus();
+                                        _seedInputFocusNode.unfocus();
+                                        setState(() {
+                                          _seedMode = false;
+                                          _mnemonicError = null;
+                                          _mnemonicIsValid = true;
+                                        });
                                       }
-                                      Clipboard.getData("text/plain")
-                                          .then((ClipboardData data) {
-                                        if (data == null ||
-                                            data.text == null) {
-                                          return;
-                                        } else if (NanoSeeds
-                                            .isValidSeed(data.text)) {
-                                          _seedInputController.text =
-                                              data.text;
-                                          setState(() {
-                                            _seedIsValid = true;
-                                          });
-                                        } else if (NanoMnemomics.validateMnemonic(data.text.split(' '))) {
-                                          _mnemonicController.text = data.text;
-                                          _mnemonicFocusNode.unfocus();
-                                          _seedInputFocusNode.unfocus();
-                                          setState(() {
-                                            _seedMode = false;
-                                            _mnemonicError = null;
-                                            _mnemonicIsValid = true;
-                                          });
-                                        }
-                                      });
-                                    },
-                                  ),
+                                    });                            
+                                  },
                                 ),
-                                secondChild: SizedBox(),
-                                crossFadeState: NanoSeeds.isValidSeed(
-                                        _seedInputController.text)
-                                    ? CrossFadeState.showSecond
-                                    : CrossFadeState.showFirst,
-                              ),
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                fontFamily: 'NunitoSans',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w100,
-                                color: StateContainer.of(context)
-                                    .curTheme
-                                    .text60,
-                              ),
-                            ),
-                            keyboardType: TextInputType.text,
-                            style: _seedIsValid ?AppStyles.textStyleSeed(context) : AppStyles.textStyleSeedGray(context),
-                            onChanged: (text) {
-                              // Always reset the error message to be less annoying
-                              setState(() {
-                                _showSeedError = false;
-                              });
-                              // If valid seed, clear focus/close keyboard
-                              if (NanoSeeds.isValidSeed(text)) {
-                                _seedInputFocusNode.unfocus();
-                                setState(() {
-                                  _seedIsValid = true;
-                                });
-                              } else {
-                                setState(() {
-                                  _seedIsValid = false;
-                                });
-                              }
-                            },
-                          ) :
-                          // MNEMONIC TextField
-                          TextField(
-                            focusNode: _mnemonicFocusNode,
-                            controller: _mnemonicController,
-                            textAlign: TextAlign.center,
-                            cursorColor: StateContainer.of(context)
-                                .curTheme
-                                .primary,
-                            inputFormatters: [
-                              SingleSpaceInputFormatter(),
-                              LowerCaseTextFormatter(),
-                              WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
-                            ],
-                            textInputAction: TextInputAction.done,
-                            maxLines: null,
-                            autocorrect: false,
-                            decoration: InputDecoration(
-                              // Emtpy SizedBox
-                              prefixIcon: AnimatedCrossFade(
-                                duration: Duration(milliseconds: 100),
-                                firstChild: Container(
-                                  width: 48,
-                                  height: 48,
-                                  child: FlatButton(
-                                    highlightColor:
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .primary15,
-                                    splashColor:
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .primary30,
-                                    child: Icon(AppIcons.scan,
-                                        size: 20,
-                                        color:
-                                            StateContainer.of(context)
-                                                .curTheme
-                                                .primary),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                                100.0)),
-                                    padding: EdgeInsets.all(14.0),
-                                    onPressed: () {
-                                      if (NanoMnemomics.validateMnemonic(
-                                          _mnemonicController.text.split(' '))) {
-                                        return;
-                                      }
-                                      // Scan QR for mnemonic
-                                      UIUtil.cancelLockEvent();
-                                      BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
-                                        if (result != null && NanoMnemomics.validateMnemonic(result.split(' '))) {
-                                          _mnemonicController.text = result;
-                                          setState(() {
-                                            _mnemonicIsValid = true;
-                                          });
-                                        } else if (result != null && NanoSeeds.isValidSeed(result)) {
-                                          _seedInputController.text = result;
-                                          _mnemonicFocusNode.unfocus();
-                                          _seedInputFocusNode.unfocus();
-                                          setState(() {
-                                            _seedMode = true;
-                                            _seedIsValid = true;
-                                            _showSeedError = false;
-                                          });
-                                        } else {
-                                          UIUtil.showSnackbar(AppLocalization.of(context).qrMnemonicError, context);
-                                        }
-                                      });
-
-                                    },
-                                  ),
-                                ),
-                                secondChild: SizedBox(),
-                                crossFadeState: NanoMnemomics.validateMnemonic(_mnemonicController.text.split(' '))
-                                    ? CrossFadeState.showSecond
-                                    : CrossFadeState.showFirst,
-                              ),
-                              // Paste Button
-                              suffixIcon: AnimatedCrossFade(
-                                duration: Duration(milliseconds: 100),
-                                firstChild: Container(
-                                  width: 48,
-                                  height: 48,
-                                  child: FlatButton(
-                                    highlightColor:
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .primary15,
-                                    splashColor:
-                                        StateContainer.of(context)
-                                            .curTheme
-                                            .primary30,
-                                    child: Icon(AppIcons.paste,
-                                        size: 20,
-                                        color:
-                                            StateContainer.of(context)
-                                                .curTheme
-                                                .primary),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                                100.0)),
-                                    padding: EdgeInsets.all(14.0),
-                                    onPressed: () {
-                                      if (NanoMnemomics.validateMnemonic(
-                                          _mnemonicController.text.split(' '))) {
-                                        return;
-                                      }
-                                      Clipboard.getData("text/plain")
-                                          .then((ClipboardData data) {
-                                        if (data == null ||
-                                            data.text == null) {
-                                          return;
-                                        } else if (NanoMnemomics.validateMnemonic(data.text.split(' '))) {
-                                          _mnemonicController.text =
-                                              data.text;
-                                          setState(() {
-                                            _mnemonicIsValid = true;
-                                          });
-                                        } else if (NanoSeeds.isValidSeed(data.text)) {
-                                          _seedInputController.text = data.text;
-                                          _mnemonicFocusNode.unfocus();
-                                          _seedInputFocusNode.unfocus();
-                                          setState(() {
-                                            _seedMode = true;
-                                            _seedIsValid = true;
-                                            _showSeedError = false;
-                                          });
-                                        }
-                                      });
-                                    },
-                                  ),
-                                ),
-                                secondChild: SizedBox(),
-                                crossFadeState: NanoMnemomics.validateMnemonic(
-                                        _mnemonicController.text.split(' '))
-                                    ? CrossFadeState.showSecond
-                                    : CrossFadeState.showFirst,
-                              ),
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                fontFamily: 'NunitoSans',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w100,
-                                color: StateContainer.of(context)
-                                    .curTheme
-                                    .text60,
-                              ),
-                            ),
-                            keyboardType: TextInputType.text,
-                            style: _mnemonicIsValid ? AppStyles.textStyleParagraphPrimary(context) : AppStyles.textStyleParagraph(context),
-                            onChanged: (text) {
-                              if (text.length < 3) {
-                                setState(() {
-                                  _mnemonicError = null;
-                                });
-                              } else if (_mnemonicError != null) {
-                                if (!text.contains(_mnemonicError.split(' ')[0])) {
+                                fadeSuffixOnCondition: true,
+                                suffixShowFirstCondition: !NanoSeeds.isValidSeed(_seedInputController.text),
+                                keyboardType: TextInputType.text,
+                                style: _seedIsValid ?AppStyles.textStyleSeed(context) : AppStyles.textStyleSeedGray(context),
+                                onChanged: (text) {
+                                  // Always reset the error message to be less annoying
                                   setState(() {
-                                    _mnemonicError = null;
+                                    _showSeedError = false;
                                   });
-                                }
-                              }
-                              // If valid mnemonic, clear focus/close keyboard
-                              if (NanoMnemomics.validateMnemonic(text.split(' '))) {
-                                _mnemonicFocusNode.unfocus();
-                                setState(() {
-                                  _mnemonicIsValid = true;
-                                  _mnemonicError = null;
-                                });
-                              } else {
-                                setState(() {
-                                  _mnemonicIsValid = false;
-                                });
-                                // Validate each mnemonic word
-                                if (text.endsWith(" ") && text.length > 1) {
-                                  int lastSpaceIndex = text.substring(0, text.length - 1).lastIndexOf(" ");
-                                  if (lastSpaceIndex == -1) {
-                                    lastSpaceIndex = 0;
-                                  } else {
-                                    lastSpaceIndex++;
-                                  }
-                                  String lastWord = text.substring(lastSpaceIndex, text.length - 1);
-                                  if (!NanoMnemomics.isValidWord(lastWord)) {
+                                  // If valid seed, clear focus/close keyboard
+                                  if (NanoSeeds.isValidSeed(text)) {
+                                    _seedInputFocusNode.unfocus();
                                     setState(() {
-                                      _mnemonicIsValid = false;
-                                      setState(() {
-                                        _mnemonicError = AppLocalization.of(context).mnemonicInvalidWord.replaceAll("%1", lastWord);
-                                      });
+                                      _seedIsValid = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _seedIsValid = false;
                                     });
                                   }
                                 }
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-                      // "Invalid Seed" text that appears if the input is invalid
-                      Container(
-                        margin: EdgeInsets.only(top: 5),
-                        child: Text(
-                            !_seedMode ? _mnemonicError == null ? "" : _mnemonicError
-                            : _showSeedError ? AppLocalization.of(context).seedInvalid : "",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: _seedMode ? _showSeedError ? StateContainer.of(context).curTheme.primary : Colors.transparent : _mnemonicError != null ? StateContainer.of(context).curTheme.primary : Colors.transparent,
-                              fontFamily: 'NunitoSans',
-                              fontWeight: FontWeight.w600,
-                            )),
-                      ),
+                              ) : // Mnemonic mode
+                              AppTextField(
+                                leftMargin: smallScreen(context) ? 30 : 40,
+                                rightMargin: smallScreen(context) ? 30 : 40,
+                                topMargin: 20,
+                                focusNode: _mnemonicFocusNode,
+                                controller: _mnemonicController,
+                                inputFormatters: [
+                                  SingleSpaceInputFormatter(),
+                                  LowerCaseTextFormatter(),
+                                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]")),
+                                ],
+                                textInputAction: TextInputAction.done,
+                                maxLines: null,
+                                autocorrect: false,
+                                prefixButton: TextFieldButton(
+                                  icon: AppIcons.scan,
+                                  onPressed: () {
+                                    if (NanoMnemomics.validateMnemonic(
+                                        _mnemonicController.text.split(' '))) {
+                                      return;
+                                    }
+                                    // Scan QR for mnemonic
+                                    UIUtil.cancelLockEvent();
+                                    BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
+                                      if (result != null && NanoMnemomics.validateMnemonic(result.split(' '))) {
+                                        _mnemonicController.text = result;
+                                        setState(() {
+                                          _mnemonicIsValid = true;
+                                        });
+                                      } else if (result != null && NanoSeeds.isValidSeed(result)) {
+                                        _seedInputController.text = result;
+                                        _mnemonicFocusNode.unfocus();
+                                        _seedInputFocusNode.unfocus();
+                                        setState(() {
+                                          _seedMode = true;
+                                          _seedIsValid = true;
+                                          _showSeedError = false;
+                                        });
+                                      } else {
+                                        UIUtil.showSnackbar(AppLocalization.of(context).qrMnemonicError, context);
+                                      }
+                                    });
+                                  },
+                                ),
+                                fadePrefixOnCondition: true,
+                                prefixShowFirstCondition: !NanoMnemomics.validateMnemonic(_mnemonicController.text.split(' ')),
+                                suffixButton: TextFieldButton(
+                                  icon: AppIcons.paste,
+                                  onPressed: () {
+                                    if (NanoMnemomics.validateMnemonic(
+                                        _mnemonicController.text.split(' '))) {
+                                      return;
+                                    }
+                                    Clipboard.getData("text/plain")
+                                        .then((ClipboardData data) {
+                                      if (data == null ||
+                                          data.text == null) {
+                                        return;
+                                      } else if (NanoMnemomics.validateMnemonic(data.text.split(' '))) {
+                                        _mnemonicController.text =
+                                            data.text;
+                                        setState(() {
+                                          _mnemonicIsValid = true;
+                                        });
+                                      } else if (NanoSeeds.isValidSeed(data.text)) {
+                                        _seedInputController.text = data.text;
+                                        _mnemonicFocusNode.unfocus();
+                                        _seedInputFocusNode.unfocus();
+                                        setState(() {
+                                          _seedMode = true;
+                                          _seedIsValid = true;
+                                          _showSeedError = false;
+                                        });
+                                      }
+                                    });                           
+                                  },
+                                ),
+                                fadeSuffixOnCondition: true,
+                                suffixShowFirstCondition: !NanoMnemomics.validateMnemonic(_mnemonicController.text.split(' ')),                      
+                                keyboardType: TextInputType.text,
+                                style: _mnemonicIsValid ? AppStyles.textStyleParagraphPrimary(context) : AppStyles.textStyleParagraph(context),
+                                onChanged: (text) {
+                                  if (text.length < 3) {
+                                    setState(() {
+                                      _mnemonicError = null;
+                                    });
+                                  } else if (_mnemonicError != null) {
+                                    if (!text.contains(_mnemonicError.split(' ')[0])) {
+                                      setState(() {
+                                        _mnemonicError = null;
+                                      });
+                                    }
+                                  }
+                                  // If valid mnemonic, clear focus/close keyboard
+                                  if (NanoMnemomics.validateMnemonic(text.split(' '))) {
+                                    _mnemonicFocusNode.unfocus();
+                                    setState(() {
+                                      _mnemonicIsValid = true;
+                                      _mnemonicError = null;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _mnemonicIsValid = false;
+                                    });
+                                    // Validate each mnemonic word
+                                    if (text.endsWith(" ") && text.length > 1) {
+                                      int lastSpaceIndex = text.substring(0, text.length - 1).lastIndexOf(" ");
+                                      if (lastSpaceIndex == -1) {
+                                        lastSpaceIndex = 0;
+                                      } else {
+                                        lastSpaceIndex++;
+                                      }
+                                      String lastWord = text.substring(lastSpaceIndex, text.length - 1);
+                                      if (!NanoMnemomics.isValidWord(lastWord)) {
+                                        setState(() {
+                                          _mnemonicIsValid = false;
+                                          setState(() {
+                                            _mnemonicError = AppLocalization.of(context).mnemonicInvalidWord.replaceAll("%1", lastWord);
+                                          });
+                                        });
+                                      }
+                                    }
+                                  }
+                                },
+                              ),
+                              // "Invalid Seed" text that appears if the input is invalid
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                child: Text(
+                                    !_seedMode ? _mnemonicError == null ? "" : _mnemonicError
+                                    : _showSeedError ? AppLocalization.of(context).seedInvalid : "",
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: _seedMode ? _showSeedError ? StateContainer.of(context).curTheme.primary : Colors.transparent : _mnemonicError != null ? StateContainer.of(context).curTheme.primary : Colors.transparent,
+                                      fontFamily: 'NunitoSans',
+                                      fontWeight: FontWeight.w600,
+                                    )),
+                              ),
+                            ]
+                          )
+                        )
+                      )
                     ],
                   ),
                 ),

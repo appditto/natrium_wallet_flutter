@@ -126,6 +126,9 @@ dependencies:
   # Auto resize text widget
   auto_size_text: ^2.1.0
 
+  # Avoid keyboard from overlapping text fields
+  keyboard_avoider: ^0.1.2
+
   # Manta dart implementation
   manta_dart:
     git:
