@@ -105,10 +105,6 @@ class _DisablePasswordSheetState extends State<DisablePasswordSheet> {
                             focusNode: passwordFocusNode,
                             controller: passwordController,
                             textInputAction: TextInputAction.done,
-                            onSubmitted: (value) async {
-                              FocusScope.of(context).unfocus();
-                              await submitAndDecrypt();
-                            },
                             maxLines: 1,
                             autocorrect: false,
                             onChanged: (String newText) {
