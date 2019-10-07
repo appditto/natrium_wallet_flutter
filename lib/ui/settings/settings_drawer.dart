@@ -1434,7 +1434,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                             AppSettings.buildSettingsListItemSingleLine(
                                 context,
                                 AppLocalization.of(context).setWalletPassword,
-                                Icons.vpn_key, onPressed: () {
+                                AppIcons.walletpassword, onPressed: () {
                               Sheets.showAppHeightNineSheet(
                                   context: context, widget: SetPasswordSheet());
                             })
@@ -1449,7 +1449,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                 context,
                                 AppLocalization.of(context)
                                     .disableWalletPassword,
-                                Icons.vpn_key, onPressed: () {
+                                AppIcons.walletpassworddisabled, onPressed: () {
                               Sheets.showAppHeightNineSheet(
                                   context: context,
                                   widget: DisablePasswordSheet());
