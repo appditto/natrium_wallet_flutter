@@ -1,12 +1,14 @@
 import 'package:event_taxi/event_taxi.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/bus/fcm_update_event.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/app_text_field.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/tap_outside_unfocus.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
@@ -144,81 +146,60 @@ class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
                       ),
                       margin: EdgeInsets.only(top: 10),
                     ),
-                    // Enter your password Text Field
-                    Container(
-                      margin: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.105,
-                        right: MediaQuery.of(context).size.width * 0.105,
-                        top: 30,
-                      ),
-                      padding: EdgeInsetsDirectional.only(start: 16, end: 16),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color:
-                            StateContainer.of(context).curTheme.backgroundDarkest,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: TextField(
-                            focusNode: enterPasswordFocusNode,
-                            controller: enterPasswordController,
-                            cursorColor:
-                                StateContainer.of(context).curTheme.primary,
-                            textInputAction: TextInputAction.done,
-                            onChanged: (String newText) {
-                              if (passwordError != null) {
-                                setState(() {
-                                  passwordError = null;
-                                });
-                              }
-                            },
-                            onSubmitted: (value) async {
-                              await validateAndDecrypt();
-                            },
-                            // Temporary function END
-                            maxLines: 1,
-                            autocorrect: false,
-                            autofocus: true,
-                            decoration: InputDecoration(
-                              hintText:
-                                  AppLocalization.of(context).enterPasswordHint,
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
+                    Expanded(
+                      child: KeyboardAvoider(
+                        duration: Duration(milliseconds: 0),
+                        autoScroll: true,
+                        focusPadding: 40,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            // Enter your password Text Field
+                            AppTextField(
+                              topMargin: 30,
+                              padding: EdgeInsetsDirectional.only(start: 16, end: 16),
+                              focusNode: enterPasswordFocusNode,
+                              controller: enterPasswordController,
+                              textInputAction: TextInputAction.go,
+                              onChanged: (String newText) {
+                                if (passwordError != null) {
+                                  setState(() {
+                                    passwordError = null;
+                                  });
+                                }
+                              },
+                              onSubmitted: (value) async {
+                                FocusScope.of(context).unfocus();
+                                await validateAndDecrypt();
+                              },
+                              hintText: AppLocalization.of(context).enterPasswordHint,
+                              keyboardType: TextInputType.text,
+                              obscureText: true,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
                                 fontSize: 16.0,
-                                fontWeight: FontWeight.w100,
+                                color: StateContainer.of(context).curTheme.primary,
                                 fontFamily: 'NunitoSans',
-                                color: StateContainer.of(context).curTheme.text60,
                               ),
                             ),
-                            keyboardType: TextInputType.text,
-                            obscureText: true,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16.0,
-                              color: StateContainer.of(context).curTheme.primary,
-                              fontFamily: 'NunitoSans',
+                            // Error Container
+                            Container(
+                              alignment: AlignmentDirectional(0, 0),
+                              margin: EdgeInsets.only(top: 3),
+                              child: Text(
+                                  this.passwordError == null ? "" : this.passwordError,
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    color: StateContainer.of(context).curTheme.primary,
+                                    fontFamily: 'NunitoSans',
+                                    fontWeight: FontWeight.w600,
+                                  )),
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Error Container
-                    Container(
-                      alignment: AlignmentDirectional(0, 0),
-                      margin: EdgeInsets.only(top: 3),
-                      child: Text(
-                          this.passwordError == null ? "" : this.passwordError,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: StateContainer.of(context).curTheme.primary,
-                            fontFamily: 'NunitoSans',
-                            fontWeight: FontWeight.w600,
-                          )),
-                    ),
+                          ]
+                        )
+                      )
+                    )
                   ],
                 )),
                 Row(

@@ -61,6 +61,7 @@ class AppTextField extends StatefulWidget {
   final double rightMargin;
   final TextStyle style;
   final bool obscureText;
+  final bool autofocus;
 
   AppTextField({
     this.focusNode,
@@ -90,6 +91,7 @@ class AppTextField extends StatefulWidget {
     this.padding = EdgeInsets.zero,
     this.buttonFadeDurationMs = 100,
     this.topMargin = 0,
+    this.autofocus = false
   });
 
   _AppTextFieldState createState() => _AppTextFieldState();
@@ -127,6 +129,7 @@ class _AppTextFieldState extends State<AppTextField> {
             textInputAction: widget.textInputAction,
             keyboardType: widget.keyboardType,
             obscureText: widget.obscureText,
+            autofocus: widget.autofocus,
             onSubmitted: widget.onSubmitted != null ? widget.onSubmitted : (text) {
               if (widget.textInputAction == TextInputAction.done) {
                 FocusScope.of(context).unfocus();
