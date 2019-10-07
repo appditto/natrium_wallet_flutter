@@ -1056,12 +1056,12 @@ class AppLocalization {
   }
 
   String get createPasswordSheetHeader {
-    return Intl.message("Create Password",
+    return Intl.message("Create",
       desc: 'Prompt user to create a new password', name: 'createPasswordSheetHeader');
   }
 
   String get disablePasswordSheetHeader {
-    return Intl.message("Disable Password",
+    return Intl.message("Disable",
       desc: 'Prompt user to disable their password', name: 'disablePasswordSheetHeader');
   }
 
