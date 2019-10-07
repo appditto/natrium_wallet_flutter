@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:keyboard_avoider/keyboard_avoider.dart';
 
 import 'package:nanodart/nanodart.dart';
 import 'package:barcode_scan/barcode_scan.dart';
@@ -13,6 +14,7 @@ import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/app_text_field.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
@@ -20,6 +22,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/tap_outside_unfocus.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/biometrics.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
@@ -94,7 +97,8 @@ class AppChangeRepresentativeManualEntrySheet {
             });
             return WillPopScope(
                 onWillPop: _onWillPop,
-                child: SafeArea(
+                child: TapOutsideUnfocus(
+                  child: SafeArea(
                     minimum: EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height * 0.035,
                     ),
@@ -152,281 +156,148 @@ class AppChangeRepresentativeManualEntrySheet {
 
                           //A expanded section for current representative and new representative fields
                           Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  top: smallScreen(context) ? 20 : 35,
-                                  bottom: smallScreen(context) ? 20 : 55),
-                              child: Stack(children: <Widget>[
-                                GestureDetector(
-                                  onTap: () {
-                                    // Clear focus of our fields when tapped in this empty space
-                                    _repFocusNode.unfocus();
-                                  },
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    child: SizedBox.expand(),
-                                    constraints: BoxConstraints.expand(),
-                                  ),
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    // New representative
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                        left:
-                                            MediaQuery.of(context).size.width *
-                                                0.105,
-                                        right:
-                                            MediaQuery.of(context).size.width *
-                                                0.105,
-                                        top:
-                                            MediaQuery.of(context).size.height *
-                                                0.05,
-                                      ),
-                                      width: double.infinity,
-                                      padding: _addressValidAndUnfocused
-                                          ? EdgeInsets.symmetric(
-                                              horizontal: 25.0, vertical: 15.0)
-                                          : EdgeInsets.zero,
-                                      decoration: BoxDecoration(
-                                        color: StateContainer.of(context)
-                                            .curTheme
-                                            .backgroundDarkest,
-                                        borderRadius: BorderRadius.circular(25),
-                                      ),
-                                      child: !_addressValidAndUnfocused
-                                          ? TextField(
-                                              focusNode: _repFocusNode,
-                                              controller: _repController,
-                                              textAlign: TextAlign.center,
-                                              cursorColor:
+                            child: KeyboardAvoider(
+                              duration: Duration(milliseconds: 0),
+                              autoScroll: true,
+                              focusPadding: 40,
+                              child: Column(
+                                children: <Widget>[
+                                  // New representative
+                                  AppTextField(
+                                    topMargin: MediaQuery.of(context).size.height * 0.05,
+                                    padding: _addressValidAndUnfocused
+                                        ? EdgeInsets.symmetric(
+                                            horizontal: 25.0, vertical: 15.0)
+                                        : EdgeInsets.zero,
+                                    focusNode: _repFocusNode,
+                                    controller: _repController,
+                                    textAlign: TextAlign.center,
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(
+                                          65),
+                                    ],
+                                    textInputAction: TextInputAction.done,
+                                    maxLines: null,
+                                    autocorrect: false,
+                                    hintText: _changeRepHint,
+                                    prefixButton: TextFieldButton(
+                                      icon: AppIcons.scan,
+                                      onPressed: () {
+                                        UIUtil.cancelLockEvent();
+                                          BarcodeScanner.scan(
                                                   StateContainer.of(context)
                                                       .curTheme
-                                                      .primary,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(
-                                                    65),
-                                              ],
-                                              textInputAction:
-                                                  TextInputAction.done,
-                                              maxLines: null,
-                                              autocorrect: false,
-                                              decoration: InputDecoration(
-                                                hintText: _changeRepHint,
-                                                // QR Code Scan Button
-                                                prefixIcon: AnimatedCrossFade(
-                                                  duration: Duration(
-                                                      milliseconds: 100),
-                                                  firstChild: Container(
-                                                    width: 48.0,
-                                                    height: 48.0,
-                                                    child: FlatButton(
-                                                      highlightColor:
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .curTheme
-                                                              .primary15,
-                                                      splashColor:
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .curTheme
-                                                              .primary30,
-                                                      padding:
-                                                          EdgeInsets.all(15.0),
-                                                      onPressed: () {
-                                                        UIUtil.cancelLockEvent();
-                                                          BarcodeScanner.scan(
-                                                                  StateContainer.of(context)
-                                                                      .curTheme
-                                                                      .qrScanTheme)
-                                                              .then((result) {
-                                                            if (result == null) {
-                                                              return;
-                                                            }
-                                                            Address address = new Address(result);
-                                                            if (address.isValid()) {
-                                                              setState(() {
-                                                                _addressValidAndUnfocused = true;
-                                                                _showPasteButton = false;
-                                                                _repAddressStyle =
-                                                                    AppStyles.textStyleAddressText60(
-                                                                        context);
-                                                              });
-                                                              _repController.text = address.address;
-                                                              _repFocusNode.unfocus();
-                                                            } else {
-                                                              UIUtil.showSnackbar(
-                                                                  AppLocalization.of(context)
-                                                                      .qrInvalidAddress,
-                                                                  context);
-                                                            }
-                                                          });  
-                                                      },
-                                                      child: Icon(
-                                                          AppIcons.scan,
-                                                          size: 20.0,
-                                                          color:
-                                                              StateContainer.of(
-                                                                      context)
-                                                                  .curTheme
-                                                                  .primary),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          200.0)),
-                                                      materialTapTargetSize:
-                                                          MaterialTapTargetSize
-                                                              .padded,
-                                                    ),
-                                                  ),
-                                                  secondChild: SizedBox(),
-                                                  crossFadeState:
-                                                      _showPasteButton
-                                                          ? CrossFadeState
-                                                              .showFirst
-                                                          : CrossFadeState
-                                                              .showSecond,
-                                                ),
-                                                // Paste Button
-                                                suffixIcon: AnimatedCrossFade(
-                                                  duration: Duration(
-                                                      milliseconds: 100),
-                                                  firstChild: Container(
-                                                    width: 48.0,
-                                                    height: 48.0,
-                                                    child: FlatButton(
-                                                      highlightColor:
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .curTheme
-                                                              .primary15,
-                                                      splashColor:
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .curTheme
-                                                              .primary30,
-                                                      padding:
-                                                          EdgeInsets.all(15.0),
-                                                      onPressed: () {
-                                                        if (!_showPasteButton) {
-                                                          return;
-                                                        }
-                                                        Clipboard.getData(
-                                                                "text/plain")
-                                                            .then((ClipboardData
-                                                                data) {
-                                                          if (data == null ||
-                                                              data.text ==
-                                                                  null) {
-                                                            return;
-                                                          }
-                                                          Address address =
-                                                              new Address(
-                                                                  data.text);
-                                                          if (address
-                                                              .isValid()) {
-                                                            setState(() {
-                                                              _addressValidAndUnfocused =
-                                                                  true;
-                                                              _showPasteButton =
-                                                                  false;
-                                                              _repAddressStyle =
-                                                                  AppStyles
-                                                                      .textStyleAddressText90(
-                                                                          context);
-                                                            });
-                                                            _repController
-                                                                    .text =
-                                                                address.address;
-                                                            _repFocusNode
-                                                                .unfocus();
-                                                          }
-                                                        });
-                                                      },
-                                                      child: Icon(
-                                                          AppIcons.paste,
-                                                          size: 20.0,
-                                                          color:
-                                                              StateContainer.of(
-                                                                      context)
-                                                                  .curTheme
-                                                                  .primary),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          200.0)),
-                                                      materialTapTargetSize:
-                                                          MaterialTapTargetSize
-                                                              .padded,
-                                                    ),
-                                                  ),
-                                                  secondChild: SizedBox(),
-                                                  crossFadeState:
-                                                      _showPasteButton
-                                                          ? CrossFadeState
-                                                              .showFirst
-                                                          : CrossFadeState
-                                                              .showSecond,
-                                                ),
-                                                border: InputBorder.none,
-                                                hintStyle: TextStyle(
-                                                  fontFamily: 'NunitoSans',
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w100,
-                                                  color:
-                                                      StateContainer.of(context)
-                                                          .curTheme
-                                                          .text60,
-                                                ),
-                                              ),
-                                              keyboardType: TextInputType.text,
-                                              style: _repAddressStyle,
-                                              onChanged: (text) {
-                                                if (Address(text).isValid()) {
-                                                  _repFocusNode.unfocus();
-                                                  setState(() {
-                                                    _showPasteButton = false;
-                                                    _repAddressStyle = AppStyles
-                                                        .textStyleAddressText90(
-                                                            context);
-                                                  });
-                                                } else {
-                                                  setState(() {
-                                                    _showPasteButton = true;
-                                                    _repAddressStyle = AppStyles
-                                                        .textStyleAddressText60(
-                                                            context);
-                                                  });
-                                                }
-                                              },
-                                            )
-                                          : GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  _addressValidAndUnfocused =
-                                                      false;
-                                                });
-                                                Future.delayed(
-                                                    Duration(milliseconds: 50),
-                                                    () {
-                                                  FocusScope.of(context)
-                                                      .requestFocus(
-                                                          _repFocusNode);
-                                                });
-                                              },
-                                              child:
-                                                  UIUtil.threeLineAddressText(
-                                                      context,
-                                                      _repController.text),
-                                            ),
+                                                      .qrScanTheme)
+                                              .then((result) {
+                                            if (result == null) {
+                                              return;
+                                            }
+                                            Address address = new Address(result);
+                                            if (address.isValid()) {
+                                              setState(() {
+                                                _addressValidAndUnfocused = true;
+                                                _showPasteButton = false;
+                                                _repAddressStyle =
+                                                    AppStyles.textStyleAddressText60(
+                                                        context);
+                                              });
+                                              _repController.text = address.address;
+                                              _repFocusNode.unfocus();
+                                            } else {
+                                              UIUtil.showSnackbar(
+                                                  AppLocalization.of(context)
+                                                      .qrInvalidAddress,
+                                                  context);
+                                            }
+                                          });                                         
+                                      },
                                     ),
-                                  ],
-                                ),
-                              ]),
+                                    fadePrefixOnCondition: true,
+                                    prefixShowFirstCondition: _showPasteButton,
+                                    suffixButton: TextFieldButton(
+                                      icon: AppIcons.paste,
+                                      onPressed: () {
+                                        if (!_showPasteButton) {
+                                          return;
+                                        }
+                                        Clipboard.getData("text/plain")
+                                            .then((ClipboardData
+                                                data) {
+                                          if (data == null ||
+                                              data.text ==
+                                                  null) {
+                                            return;
+                                          }
+                                          Address address =
+                                              new Address(
+                                                  data.text);
+                                          if (address
+                                              .isValid()) {
+                                            setState(() {
+                                              _addressValidAndUnfocused =
+                                                  true;
+                                              _showPasteButton =
+                                                  false;
+                                              _repAddressStyle =
+                                                  AppStyles
+                                                      .textStyleAddressText90(
+                                                          context);
+                                            });
+                                            _repController
+                                                    .text =
+                                                address.address;
+                                            _repFocusNode
+                                                .unfocus();
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    fadeSuffixOnCondition: true,
+                                    suffixShowFirstCondition: _showPasteButton,
+                                    keyboardType: TextInputType.text,
+                                    style: _repAddressStyle,
+                                    onChanged: (text) {
+                                      if (Address(text).isValid()) {
+                                        _repFocusNode.unfocus();
+                                        setState(() {
+                                          _showPasteButton = false;
+                                          _repAddressStyle = AppStyles
+                                              .textStyleAddressText90(
+                                                  context);
+                                        });
+                                      } else {
+                                        setState(() {
+                                          _showPasteButton = true;
+                                          _repAddressStyle = AppStyles
+                                              .textStyleAddressText60(
+                                                  context);
+                                        });
+                                      }
+                                    },
+                                    overrideTextFieldWidget: _addressValidAndUnfocused ?
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _addressValidAndUnfocused =
+                                                false;
+                                          });
+                                          Future.delayed(
+                                              Duration(milliseconds: 50),
+                                              () {
+                                            FocusScope.of(context)
+                                                .requestFocus(
+                                                    _repFocusNode);
+                                          });
+                                        },
+                                        child:
+                                            UIUtil.threeLineAddressText(
+                                                context,
+                                                _repController.text),
+                                      )
+                                    : null,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
 
@@ -623,7 +494,10 @@ class AppChangeRepresentativeManualEntrySheet {
                           )
                         ],
                       ),
-                    )));
+                    )
+                  )
+                )   
+            );
           });
         });
   }
