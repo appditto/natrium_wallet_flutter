@@ -57,6 +57,7 @@ class AppTextField extends StatefulWidget {
   final Function onSubmitted;
   final Function onChanged;
   final double topMargin;
+  final TextStyle style;
 
   AppTextField({
     this.focusNode,
@@ -81,7 +82,8 @@ class AppTextField extends StatefulWidget {
     this.maxLines = 1,
     this.padding = EdgeInsets.zero,
     this.buttonFadeDurationMs = 100,
-    this.topMargin = 0
+    this.topMargin = 0,
+    this.style
   });
 
   _AppTextFieldState createState() => _AppTextFieldState();
@@ -125,12 +127,7 @@ class _AppTextFieldState extends State<AppTextField> {
             },
             onChanged: widget.onChanged,
             // Style
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 16.0,
-              color: StateContainer.of(context).curTheme.primary,
-              fontFamily: 'NunitoSans',
-            ),        
+            style: widget.style,   
             // Input decoration
             decoration: InputDecoration(
               border: InputBorder.none,
