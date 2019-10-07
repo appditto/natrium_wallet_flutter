@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -8,6 +9,7 @@ import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/app_text_field.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/tap_outside_unfocus.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
@@ -94,167 +96,115 @@ class _SetPasswordSheetState extends State<SetPasswordSheet> {
                       stepGranularity: 0.5,
                     ),
                   ),
-                  // Create a Password Text Field
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.105,
-                      right: MediaQuery.of(context).size.width * 0.105,
-                      top: 30,
-                    ),
-                    padding: EdgeInsetsDirectional.only(start: 16, end: 16),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color:
-                          StateContainer.of(context).curTheme.backgroundDarkest,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(25),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: TextField(
-                          focusNode: createPasswordFocusNode,
-                          controller: createPasswordController,
-                          cursorColor:
-                              StateContainer.of(context).curTheme.primary,
-                          textInputAction: TextInputAction.done,
-                          onSubmitted: (value) async {
-                            await submitAndEncrypt();
-                          },
-                          maxLines: 1,
-                          autocorrect: false,
-                          onChanged: (String newText) {
-                            if (passwordError != null) {
-                              setState(() {
-                                passwordError = null;
-                              });
-                            }
-                            if (confirmPasswordController.text ==
-                                createPasswordController.text) {
-                              if (mounted) {
+                  Expanded(
+                    child: KeyboardAvoider(
+                      duration: Duration(milliseconds: 0),
+                      autoScroll: true,
+                      focusPadding: 40,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          // Create a Password Text Field
+                          AppTextField(
+                            topMargin: 30,
+                            padding: EdgeInsetsDirectional.only(start: 16, end: 16),
+                            focusNode: createPasswordFocusNode,
+                            controller: createPasswordController,
+                            textInputAction: TextInputAction.done,
+                            maxLines: 1,
+                            autocorrect: false,
+                            onChanged: (String newText) {
+                              if (passwordError != null) {
                                 setState(() {
-                                  passwordsMatch = true;
+                                  passwordError = null;
                                 });
                               }
-                            } else {
-                              if (mounted) {
-                                setState(() {
-                                  passwordsMatch = false;
-                                });
+                              if (confirmPasswordController.text == createPasswordController.text) {
+                                if (mounted) {
+                                  setState(() {
+                                    passwordsMatch = true;
+                                  });
+                                }
+                              } else {
+                                if (mounted) {
+                                  setState(() {
+                                    passwordsMatch = false;
+                                  });
+                                }
                               }
-                            }
-                          },
-                          decoration: InputDecoration(
-                            hintText:
-                                AppLocalization.of(context).createPasswordHint,
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
+                            },
+                            hintText: AppLocalization.of(context).createPasswordHint,
+                            keyboardType: TextInputType.text,
+                            obscureText: true,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
                               fontSize: 16.0,
-                              fontWeight: FontWeight.w100,
+                              color:
+                                this.passwordsMatch ? StateContainer.of(context).curTheme.primary : StateContainer.of(context).curTheme.text,
                               fontFamily: 'NunitoSans',
-                              color: StateContainer.of(context).curTheme.text60,
                             ),
                           ),
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16.0,
-                            color: this.passwordsMatch
-                                ? StateContainer.of(context).curTheme.primary
-                                : StateContainer.of(context).curTheme.text,
-                            fontFamily: 'NunitoSans',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Confirm Password Text Field
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.105,
-                      right: MediaQuery.of(context).size.width * 0.105,
-                      top: 20,
-                    ),
-                    padding: EdgeInsetsDirectional.only(start: 16, end: 16),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color:
-                          StateContainer.of(context).curTheme.backgroundDarkest,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(25),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: TextField(
-                          focusNode: confirmPasswordFocusNode,
-                          controller: confirmPasswordController,
-                          cursorColor:
-                              StateContainer.of(context).curTheme.primary,
-                          textInputAction: TextInputAction.done,
-                          maxLines: 1,
-                          autocorrect: false,
-                          onChanged: (String newText) {
-                            if (passwordError != null) {
-                              setState(() {
-                                passwordError = null;
-                              });
-                            }
-                            if (confirmPasswordController.text ==
-                                createPasswordController.text) {
-                              if (mounted) {
+                          // Confirm Password Text Field
+                          AppTextField(
+                            topMargin: 20,
+                            padding: EdgeInsetsDirectional.only(start: 16, end: 16),
+                            focusNode: confirmPasswordFocusNode,
+                            controller: confirmPasswordController,
+                            textInputAction: TextInputAction.done,
+                            maxLines: 1,
+                            autocorrect: false,
+                            onChanged: (String newText) {
+                              if (passwordError != null) {
                                 setState(() {
-                                  passwordsMatch = true;
+                                  passwordError = null;
                                 });
                               }
-                            } else {
-                              if (mounted) {
-                                setState(() {
-                                  passwordsMatch = false;
-                                });
-                              }
-                            }
-                          },
-                          decoration: InputDecoration(
-                            hintText:
-                                AppLocalization.of(context).confirmPasswordHint,
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
+                              if (confirmPasswordController.text == createPasswordController.text) {
+                                if (mounted) {
+                                  setState(() {
+                                    passwordsMatch = true;
+                                  });
+                                }
+                              } else {
+                                if (mounted) {
+                                  setState(() {
+                                    passwordsMatch = false;
+                                  });
+                                }
+                              }                              
+                            },
+                            hintText: AppLocalization.of(context).confirmPasswordHint,
+                            keyboardType: TextInputType.text,
+                            obscureText: true,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
                               fontSize: 16.0,
-                              fontWeight: FontWeight.w100,
+                              color:
+                                  this.passwordsMatch ? StateContainer.of(context).curTheme.primary : StateContainer.of(context).curTheme.text,
                               fontFamily: 'NunitoSans',
-                              color: StateContainer.of(context).curTheme.text60,
                             ),
                           ),
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16.0,
-                            color: this.passwordsMatch
-                                ? StateContainer.of(context).curTheme.primary
-                                : StateContainer.of(context).curTheme.text,
-                            fontFamily: 'NunitoSans',
+                          // Error Text
+                          Container(
+                            alignment: AlignmentDirectional(0, 0),
+                            margin: EdgeInsets.only(top: 3),
+                            child: Text(this.passwordError == null ? "" : passwordError,
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  color:
+                                      StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                  fontFamily: 'NunitoSans',
+                                  fontWeight: FontWeight.w600,
+                                )),
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Error Text
-                  Container(
-                    alignment: AlignmentDirectional(0, 0),
-                    margin: EdgeInsets.only(top: 3),
-                    child: Text(this.passwordError == null ? "" : passwordError,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: StateContainer.of(context).curTheme.primary,
-                          fontFamily: 'NunitoSans',
-                          fontWeight: FontWeight.w600,
-                        )),
-                  ),
+                        ]
+                      )
+                    )
+                  )
                 ],
               ),
             ),
