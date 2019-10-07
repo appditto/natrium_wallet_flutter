@@ -774,7 +774,7 @@ class AppLocalization {
   }
 
   String get setWalletPassword {
-    return Intl.message("Set wallet password",
+    return Intl.message("Set Wallet Password",
       desc: 'Allows user to encrypt wallet with a password', name: 'setWalletPassword');
   }
 
@@ -784,7 +784,7 @@ class AppLocalization {
   }
 
   String get disableWalletPassword {
-    return Intl.message("Disable wallet password",
+    return Intl.message("Disable Wallet Password",
       desc: 'Allows user to deencrypt wallet with a password', name: 'disableWalletPassword');
   }
 

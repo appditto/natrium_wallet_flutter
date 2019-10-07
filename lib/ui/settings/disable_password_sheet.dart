@@ -33,156 +33,170 @@ class _DisablePasswordSheetState extends State<DisablePasswordSheet> {
   @override
   Widget build(BuildContext context) {
     return TapOutsideUnfocus(
-      child: LayoutBuilder(
-        builder: (context, constraints) => SafeArea(
-          minimum: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height * 0.035),
-          child: Column(
-            children: <Widget>[
-              // Sheet handle
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                height: 5,
-                width: MediaQuery.of(context).size.width * 0.15,
-                decoration: BoxDecoration(
-                  color: StateContainer.of(context).curTheme.text10,
-                  borderRadius: BorderRadius.circular(100.0),
-                ),
+        child: LayoutBuilder(
+      builder: (context, constraints) => SafeArea(
+        minimum:
+            EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.035),
+        child: Column(
+          children: <Widget>[
+            // Sheet handle
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              height: 5,
+              width: MediaQuery.of(context).size.width * 0.15,
+              decoration: BoxDecoration(
+                color: StateContainer.of(context).curTheme.text10,
+                borderRadius: BorderRadius.circular(100.0),
               ),
-              // The main widget that holds the header, text fields, and submit button
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    // The header
-                    Container(
-                      margin: EdgeInsets.only(bottom: 10.0),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            CaseChange.toUpperCase(
-                                AppLocalization.of(context).disablePasswordSheetHeader, context),
-                            style: AppStyles.textStyleHeader(context),
-                          ),
-                        ],
-                      ),
+            ),
+            // The main widget that holds the header, text fields, and submit button
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  // The header
+                  Container(
+                    margin:
+                        EdgeInsetsDirectional.only(top: 10, start: 60, end: 60),
+                    child: Column(
+                      children: <Widget>[
+                        AutoSizeText(
+                          CaseChange.toUpperCase(
+                              AppLocalization.of(context)
+                                  .disablePasswordSheetHeader,
+                              context),
+                          style: AppStyles.textStyleHeader(context),
+                          minFontSize: 12,
+                          stepGranularity: 0.1,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                        ),
+                      ],
                     ),
-                    // The paragraph
-                    Container(
-                      margin: EdgeInsetsDirectional.only(
-                          start: smallScreen(context) ? 30 : 40,
-                          end: smallScreen(context) ? 30 : 40,
-                          top: 16.0),
-                      child: AutoSizeText(
-                        AppLocalization.of(context).passwordNoLongerRequiredToOpenParagraph,
-                        style: AppStyles.textStyleParagraph(context),
-                        maxLines: 5,
-                        stepGranularity: 0.5,
-                      ),
+                  ),
+                  // The paragraph
+                  Container(
+                    margin: EdgeInsetsDirectional.only(
+                        start: smallScreen(context) ? 30 : 40,
+                        end: smallScreen(context) ? 30 : 40,
+                        top: 16.0),
+                    child: AutoSizeText(
+                      AppLocalization.of(context)
+                          .passwordNoLongerRequiredToOpenParagraph,
+                      style: AppStyles.textStyleParagraph(context),
+                      maxLines: 5,
+                      stepGranularity: 0.5,
                     ),
-                    // Enter Password Text Field
-                    Container(
-                      margin: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.105,
-                        right: MediaQuery.of(context).size.width * 0.105,
-                        top: 30,
-                      ),
-                      padding: EdgeInsetsDirectional.only(start: 16, end: 16),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: StateContainer.of(context)
-                            .curTheme
-                            .backgroundDarkest,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: TextField(
-                            focusNode: passwordFocusNode,
-                            controller: passwordController,
-                            cursorColor:
-                                StateContainer.of(context).curTheme.primary,
-                            textInputAction: TextInputAction.done,
-                            onSubmitted: (value) async {
-                              await submitAndDecrypt();
-                            },
-                            maxLines: 1,
-                            autocorrect: false,
-                            onChanged: (String newText) {
-                              if (passwordError != null) {
-                                setState(() {
-                                  passwordError = null;
-                                });
-                              }
-                            },
-                            decoration: InputDecoration(
-                              hintText: AppLocalization.of(context).enterPasswordHint,
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w100,
-                                fontFamily: 'NunitoSans',
-                                color:
-                                    StateContainer.of(context).curTheme.text60,
-                              ),
-                            ),
-                            keyboardType: TextInputType.text,
-                            obscureText: true,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
+                  ),
+                  // Enter Password Text Field
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.105,
+                      right: MediaQuery.of(context).size.width * 0.105,
+                      top: 30,
+                    ),
+                    padding: EdgeInsetsDirectional.only(start: 16, end: 16),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color:
+                          StateContainer.of(context).curTheme.backgroundDarkest,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: TextField(
+                          focusNode: passwordFocusNode,
+                          controller: passwordController,
+                          cursorColor:
+                              StateContainer.of(context).curTheme.primary,
+                          textInputAction: TextInputAction.done,
+                          onSubmitted: (value) async {
+                            await submitAndDecrypt();
+                          },
+                          maxLines: 1,
+                          autocorrect: false,
+                          onChanged: (String newText) {
+                            if (passwordError != null) {
+                              setState(() {
+                                passwordError = null;
+                              });
+                            }
+                          },
+                          decoration: InputDecoration(
+                            hintText:
+                                AppLocalization.of(context).enterPasswordHint,
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(
                               fontSize: 16.0,
-                              color: StateContainer.of(context).curTheme.text,
+                              fontWeight: FontWeight.w100,
                               fontFamily: 'NunitoSans',
+                              color: StateContainer.of(context).curTheme.text60,
                             ),
+                          ),
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16.0,
+                            color: StateContainer.of(context).curTheme.text,
+                            fontFamily: 'NunitoSans',
                           ),
                         ),
                       ),
                     ),
-                    // Error Text
-                    Container(
-                      alignment: AlignmentDirectional(0, 0),
-                      margin: EdgeInsets.only(top: 3),
-                      child: Text(this.passwordError == null ? "" : passwordError,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color:
-                                StateContainer.of(context)
-                                    .curTheme
-                                    .primary,
-                            fontFamily: 'NunitoSans',
-                            fontWeight: FontWeight.w600,
-                          )),
-                    ),
-                  ],
-                ),
+                  ),
+                  // Error Text
+                  Container(
+                    alignment: AlignmentDirectional(0, 0),
+                    margin: EdgeInsets.only(top: 3),
+                    child: Text(this.passwordError == null ? "" : passwordError,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: StateContainer.of(context).curTheme.primary,
+                          fontFamily: 'NunitoSans',
+                          fontWeight: FontWeight.w600,
+                        )),
+                  ),
+                ],
               ),
+            ),
 
-              // Set Password Button
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        AppButton.buildAppButton(
-                            context,
-                            AppButtonType.PRIMARY,
-                            AppLocalization.of(context).setPassword,
-                            Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () async {
-                          await submitAndDecrypt();
-                        }),
-                      ],
-                    ),
-                  ],
-                ),
+            // Set Password Button
+            Container(
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      AppButton.buildAppButton(
+                          context,
+                          AppButtonType.PRIMARY,
+                          AppLocalization.of(context).setPassword,
+                          Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                        await submitAndDecrypt();
+                      }),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      AppButton.buildAppButton(
+                          context,
+                          AppButtonType.PRIMARY_OUTLINE,
+                          AppLocalization.of(context).close,
+                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      )
-    );
+      ),
+    ));
   }
 
   Future<void> submitAndDecrypt() async {
@@ -195,11 +209,13 @@ class _DisablePasswordSheetState extends State<DisablePasswordSheet> {
       }
     } else {
       try {
-        String decryptedSeed = NanoHelpers.byteToHex(NanoCrypt.decrypt(encryptedSeed, passwordController.text));
+        String decryptedSeed = NanoHelpers.byteToHex(
+            NanoCrypt.decrypt(encryptedSeed, passwordController.text));
         throwIf(!NanoSeeds.isValidSeed(decryptedSeed), FormatException());
         await sl.get<Vault>().setSeed(decryptedSeed);
         StateContainer.of(context).resetEncryptedSecret();
-        UIUtil.showSnackbar(AppLocalization.of(context).disablePasswordSuccess, context);
+        UIUtil.showSnackbar(
+            AppLocalization.of(context).disablePasswordSuccess, context);
         Navigator.pop(context);
       } catch (e) {
         if (mounted) {
