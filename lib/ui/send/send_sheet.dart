@@ -31,6 +31,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/util/manta.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
+import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/user_data_util.dart';
 
 class SendSheet extends StatefulWidget {
@@ -309,67 +310,75 @@ class _SendSheetState extends State<SendSheet> {
                             Column(
                               children: <Widget>[
                                 // Balance Text
-                                Container(
-                                  child: RichText(
-                                    textAlign: TextAlign.start,
-                                    text: TextSpan(
-                                      text: '',
-                                      children: [
-                                        TextSpan(
-                                          text: "(",
-                                          style: TextStyle(
-                                            color: StateContainer.of(
-                                                    context)
-                                                .curTheme
-                                                .primary60,
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.w100,
-                                            fontFamily: 'NunitoSans',
+                                FutureBuilder(
+                                  future: sl.get<SharedPrefsUtil>().getPriceConversion(),
+                                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                    if (snapshot.hasData && snapshot.data != null && snapshot.data != PriceConversion.HIDDEN) {
+                                      return Container(
+                                        child: RichText(
+                                          textAlign: TextAlign.start,
+                                          text: TextSpan(
+                                            text: '',
+                                            children: [
+                                              TextSpan(
+                                                text: "(",
+                                                style: TextStyle(
+                                                  color: StateContainer.of(
+                                                          context)
+                                                      .curTheme
+                                                      .primary60,
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w100,
+                                                  fontFamily: 'NunitoSans',
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: _localCurrencyMode
+                                                    ? StateContainer.of(
+                                                            context)
+                                                        .wallet
+                                                        .getLocalCurrencyPrice(
+                                                          StateContainer.of(context).curCurrency,
+                                                            locale: StateContainer
+                                                                    .of(
+                                                                        context)
+                                                                .currencyLocale)
+                                                    : StateContainer.of(
+                                                            context)
+                                                        .wallet
+                                                        .getAccountBalanceDisplay(),
+                                                style: TextStyle(
+                                                  color: StateContainer.of(
+                                                          context)
+                                                      .curTheme
+                                                      .primary60,
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontFamily: 'NunitoSans',
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: _localCurrencyMode
+                                                    ? ")"
+                                                    : " NANO)",
+                                                style: TextStyle(
+                                                  color: StateContainer.of(
+                                                          context)
+                                                      .curTheme
+                                                      .primary60,
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w100,
+                                                  fontFamily: 'NunitoSans',
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        TextSpan(
-                                          text: _localCurrencyMode
-                                              ? StateContainer.of(
-                                                      context)
-                                                  .wallet
-                                                  .getLocalCurrencyPrice(
-                                                    StateContainer.of(context).curCurrency,
-                                                      locale: StateContainer
-                                                              .of(
-                                                                  context)
-                                                          .currencyLocale)
-                                              : StateContainer.of(
-                                                      context)
-                                                  .wallet
-                                                  .getAccountBalanceDisplay(),
-                                          style: TextStyle(
-                                            color: StateContainer.of(
-                                                    context)
-                                                .curTheme
-                                                .primary60,
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: 'NunitoSans',
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: _localCurrencyMode
-                                              ? ")"
-                                              : " NANO)",
-                                          style: TextStyle(
-                                            color: StateContainer.of(
-                                                    context)
-                                                .curTheme
-                                                .primary60,
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.w100,
-                                            fontFamily: 'NunitoSans',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                      );
+                                    }
+                                    return SizedBox();
+                                  },
+                                )
                                 // ******* Enter Amount Container ******* //
                                 getEnterAmountContainer(),
                                 // ******* Enter Amount Container End ******* //
