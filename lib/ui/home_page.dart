@@ -1578,7 +1578,13 @@ class _AppHomePageState extends State<AppHomePage>
             _priceConversion = PriceConversion.NONE;
           });
           sl.get<SharedPrefsUtil>().setPriceConversion(PriceConversion.NONE);
-        } else {
+        } else if (_priceConversion == PriceConversion.NONE) {
+          // Cyclce to hidden
+          setState(() {
+            _priceConversion = PriceConversion.HIDDEN;
+          });
+          sl.get<SharedPrefsUtil>().setPriceConversion(PriceConversion.HIDDEN);
+        } else if (_priceConversion == PriceConversion.HIDDEN) {
           // Cycle to BTC price
           setState(() {
             _pricesHidden = false;
@@ -1587,7 +1593,13 @@ class _AppHomePageState extends State<AppHomePage>
           sl.get<SharedPrefsUtil>().setPriceConversion(PriceConversion.BTC);
         }
       },
-      child: Container(
+      child: _priceConversion == PriceConversion.HIDDEN ?
+        Center(
+          child: Container(
+            child: Icon(AppIcons.nanologo, size: 50, color: StateContainer.of(context).curTheme.primary)
+          )
+        )
+      : Container(
         padding: EdgeInsets.symmetric(vertical: 14),
         child: Column(
           mainAxisSize: MainAxisSize.min,

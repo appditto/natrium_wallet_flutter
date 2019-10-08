@@ -14,7 +14,7 @@ import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';
 
 /// Price conversion preference values
-enum PriceConversion { BTC, NONE }
+enum PriceConversion { BTC, NONE, HIDDEN }
 
 /// Singleton wrapper for shared preferences
 class SharedPrefsUtil {
