@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 
 import 'package:decimal/decimal.dart';
 import 'package:intl/intl.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:manta_dart/manta_wallet.dart';
 import 'package:manta_dart/messages.dart';
 
@@ -52,7 +52,7 @@ enum AddressStyle {
 }
 
 class _SendSheetState extends State<SendSheet> {
-  final Logger log = Logger('SendSheet');
+  final Logger log = sl.get<Logger>();
 
   FocusNode _sendAddressFocusNode;
   TextEditingController _sendAddressController;
@@ -605,7 +605,7 @@ class _SendSheetState extends State<SendSheet> {
                             if (animationOpen) {
                               Navigator.of(context).pop();
                             }
-                            log.severe('Failed to make manta request ${e.toString()}', e);
+                            log.e('Failed to make manta request ${e.toString()}', e);
                             UIUtil.showSnackbar(AppLocalization.of(context).mantaError, context);
                           }
                         } else {

@@ -1,12 +1,12 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:natrium_wallet_flutter/ui/before_scan_screen.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_backup_safety.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_password.dart';
@@ -28,10 +28,7 @@ import 'package:natrium_wallet_flutter/ui/intro/intro_backup_seed.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_backup_confirm.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_import_seed.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
-import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
-import 'package:natrium_wallet_flutter/model/db/appdb.dart';
-import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:root_checker/root_checker.dart';
@@ -39,11 +36,12 @@ import 'package:root_checker/root_checker.dart';
 void main() async {
   // Setup Service Provide
   setupServiceLocator();
-  // Setup logger
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((LogRecord rec) {
-    print('${rec.level.name}: ${rec.time}: ${rec.message}');
-  });
+  // Setup logger, only show warning and higher in release mode.
+  if (kReleaseMode) {
+    Logger.level = Level.warning;
+  } else {
+    Logger.level = Level.debug;
+  }
   // Run app
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {

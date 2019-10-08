@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:event_taxi/event_taxi.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:manta_dart/manta_wallet.dart';
 import 'package:manta_dart/messages.dart';
 import 'package:natrium_wallet_flutter/ui/popup_button.dart';
@@ -35,14 +35,12 @@ import 'package:natrium_wallet_flutter/ui/widgets/app_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_scaffold.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/list_slidable.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/reactive_refresh.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/util/manta.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
-import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -60,7 +58,7 @@ class _AppHomePageState extends State<AppHomePage>
         FlareController {
   final GlobalKey<AppScaffoldState> _scaffoldKey =
       new GlobalKey<AppScaffoldState>();
-  final Logger log = Logger("HomePage");
+  final Logger log = sl.get<Logger>();
 
   // Controller for placeholder card animations
   AnimationController _placeholderCardAnimationController;
@@ -177,7 +175,7 @@ class _AppHomePageState extends State<AppHomePage>
     // Register push notifications
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
+        //print("onMessage: $message");
       },
       onLaunch: (Map<String, dynamic> message) async {
         _chooseCorrectAccountFromNotification(message);
@@ -435,7 +433,7 @@ class _AppHomePageState extends State<AppHomePage>
         try {
           StateContainer.of(context).resetEncryptedSecret();
         } catch (e) {
-          log.warning("Failed to reset encrypted secret when locking ${e.toString()}");
+          log.w("Failed to reset encrypted secret when locking ${e.toString()}");
         } finally {
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);

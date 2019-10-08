@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:logger/logger.dart';
 import 'package:manta_dart/messages.dart';
 import 'package:nanodart/nanodart.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';
@@ -9,7 +10,6 @@ import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:logging/logging.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
@@ -90,7 +90,7 @@ class StateContainer extends StatefulWidget {
 /// 
 /// Basically the central hub behind the entire app
 class StateContainerState extends State<StateContainer> {
-  final Logger log = Logger("StateContainerState");
+  final Logger log = sl.get<Logger>();
 
   // Minimum receive = 0.000001 NANO
   String receiveThreshold = BigInt.from(10).pow(24).toString();
@@ -693,9 +693,9 @@ class StateContainerState extends State<StateContainer> {
   /// Typically this means we need to pocket transactions
   Future<void> handleCallbackResponse(CallbackResponse resp) async {
     if (_locked) { return; }
-    log.fine("Received callback ${json.encode(resp.toJson())}");
+    log.d("Received callback ${json.encode(resp.toJson())}");
     if (resp.isSend != "true") {
-      log.fine("Is not send");
+      log.d("Is not send");
       sl.get<AccountService>().processQueue();
       return;
     }

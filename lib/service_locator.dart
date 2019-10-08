@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
@@ -16,4 +17,5 @@ void setupServiceLocator() {
   sl.registerLazySingleton<BiometricUtil>(() => BiometricUtil());
   sl.registerLazySingleton<Vault>(() => Vault());
   sl.registerLazySingleton<SharedPrefsUtil>(() => SharedPrefsUtil());
+  sl.registerLazySingleton<Logger>(() => Logger(printer: PrettyPrinter()));
 }

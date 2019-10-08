@@ -10,7 +10,7 @@ class NinjaAPI {
 
   static Future<String> getAndCacheAPIResponse() async {
     String url = API_URL + '/accounts/verified';
-    http.Response response = await http.get(url);
+    http.Response response = await http.get(url, headers:  {});
     if (response.statusCode != 200) {
       return null;
     }

@@ -4,10 +4,10 @@ import 'dart:async';
 
 import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:logging/logging.dart';
 import 'package:share/share.dart';
 
 import 'package:natrium_wallet_flutter/service_locator.dart';
@@ -17,7 +17,6 @@ import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
-import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
@@ -36,7 +35,7 @@ class ContactsList extends StatefulWidget {
 }
 
 class _ContactsListState extends State<ContactsList> {
-  final log = Logger("ContactsList");
+  final Logger log = sl.get<Logger>();
 
   List<Contact> _contacts;
   String documentsDirectory;
@@ -175,7 +174,7 @@ class _ContactsListState extends State<ContactsList> {
             AppLocalization.of(context).noContactsImport, context);
       }
     } catch (e) {
-      log.severe(e.toString());
+      log.e(e.toString(), e);
       UIUtil.showSnackbar(
           AppLocalization.of(context).contactsImportErr, context);
       return;

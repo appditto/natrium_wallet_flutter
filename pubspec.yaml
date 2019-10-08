@@ -49,7 +49,7 @@ dependencies:
   decimal: ^0.3.5
 
   # Logger
-  logging: ^0.11.3+2
+  logger: ^0.7.0+2
 
   # Native webview plugin
   flutter_webview_plugin: ^0.3.8

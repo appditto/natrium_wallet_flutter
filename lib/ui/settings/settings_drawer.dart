@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:event_taxi/event_taxi.dart';
+import 'package:logger/logger.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accounts_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/settings/disable_password_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/settings/set_password_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
-import 'package:logging/logging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:package_info/package_info.dart';
@@ -56,7 +56,7 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   String versionString = "";
 
-  final log = Logger("SettingsSheet");
+  final Logger log = sl.get<Logger>();
   bool _hasBiometrics = false;
   AuthenticationMethod _curAuthMethod =
       AuthenticationMethod(AuthMethod.BIOMETRICS);

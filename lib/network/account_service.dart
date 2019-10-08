@@ -3,10 +3,11 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 
 import 'package:web_socket_channel/io.dart';
 import 'package:package_info/package_info.dart';
-import 'package:logging/logging.dart';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -39,7 +40,7 @@ Map decodeJson(dynamic src) {
 
 // AccountService singleton
 class AccountService {
-  static final Logger log = new Logger("AccountService");
+  final Logger log = sl.get<Logger>();
 
   // For all requests we place them on a queue with expiry to be processed sequentially
   Queue<RequestItem> _requestQueue;
@@ -77,13 +78,13 @@ class AccountService {
       reconnectStream.cancel();
     }
     _isInRetryState = true;
-    log.fine("Retrying connection in 3 seconds...");
+    log.d("Retrying connection in 3 seconds...");
     Future<dynamic> delayed = new Future.delayed(new Duration(seconds: 3));
     delayed.then((_) {
       return true;
     });
     reconnectStream = delayed.asStream().listen((_) {
-      log.fine("Attempting connection to service");
+      log.d("Attempting connection to service");
       initCommunication(unsuspend: true);
       _isInRetryState = false;
     });
@@ -110,13 +111,13 @@ class AccountService {
                                headers: {
                                 'X-Client-Version': packageInfo.buildNumber
                                });
-      log.fine("Connected to service");
+      log.d("Connected to service");
       _isConnecting = false;
       _isConnected = true;
       EventTaxiImpl.singleton().fire(ConnStatusEvent(status: ConnectionStatus.CONNECTED));
       _channel.stream.listen(_onMessageReceived, onDone: connectionClosed, onError: connectionClosedError);
     } catch(e){
-      log.severe("Error from service ${e.toString()}");
+      log.e("Error from service ${e.toString()}", e);
       _isConnected = false;
       _isConnecting = false;
       EventTaxiImpl.singleton().fire(ConnStatusEvent(status: ConnectionStatus.DISCONNECTED));
@@ -128,7 +129,7 @@ class AccountService {
     _isConnected = false;
     _isConnecting = false;
     clearQueue();
-    log.fine("disconnected from service");
+    log.d("disconnected from service");
     // Send disconnected message
     EventTaxiImpl.singleton().fire(ConnStatusEvent(status: ConnectionStatus.DISCONNECTED));
   }
@@ -138,7 +139,7 @@ class AccountService {
     _isConnected = false;
     _isConnecting = false;
     clearQueue();
-    log.fine("disconnected from service with error ${e.toString()}");
+    log.w("disconnected from service with error ${e.toString()}");
     // Send disconnected message
     EventTaxiImpl.singleton().fire(ConnStatusEvent(status: ConnectionStatus.DISCONNECTED));
   }
@@ -184,7 +185,7 @@ class AccountService {
     await _lock.synchronized(() async {
       _isConnected = true;
       _isConnecting = false;
-      log.fine("Received ${message.length > 30 ? message.substring(0, 30) : message}");
+      log.d("Received $message");
       Map msg = await compute(decodeJson, message);
       // Determine response type
       if (msg.containsKey("uuid") || (msg.containsKey("frontier") && msg.containsKey("representative_block")) ||
@@ -252,20 +253,20 @@ class AccountService {
   /* Send Request */
   Future<void> sendRequest(BaseRequest request) async {
     // We don't care about order or server response in these requests
-    log.fine("sending ${json.encode(request.toJson())}");
+    log.d("sending ${json.encode(request.toJson())}");
     _send(await compute(encodeRequestItem, request));
   }
 
   /* Enqueue Request */
   void queueRequest(BaseRequest request, {bool fromTransfer = false}) {
-    log.fine("requetest ${json.encode(request.toJson())}, q length: ${_requestQueue.length}");
+    log.d("requetest ${json.encode(request.toJson())}, q length: ${_requestQueue.length}");
     _requestQueue.add(new RequestItem(request, fromTransfer: fromTransfer));
   }
 
   /* Process Queue */
   Future<void> processQueue() async {
     await _lock.synchronized(() async {
-      log.fine("Request Queue length ${_requestQueue.length}");
+      log.d("Request Queue length ${_requestQueue.length}");
       if (_requestQueue != null && _requestQueue.length > 0) {
         RequestItem requestItem = _requestQueue.first;
         if (requestItem != null && !requestItem.isProcessing) {
@@ -277,7 +278,7 @@ class AccountService {
           }
           requestItem.isProcessing = true;
           String requestJson = await compute(encodeRequestItem, requestItem.request);
-          log.fine("Sending: $requestJson");
+          log.d("Sending: $requestJson");
           await _send(requestJson);
         } else if (requestItem != null && (DateTime
             .now()

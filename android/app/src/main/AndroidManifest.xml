@@ -20,7 +20,8 @@
     <application
         android:name=".MultidexApplication"
         android:label="Natrium"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup=false>
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_status_bar" />

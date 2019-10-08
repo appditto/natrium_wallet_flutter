@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:nanodart/nanodart.dart';
 import 'package:manta_dart/manta_wallet.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 
 import 'package:quiver/strings.dart';
@@ -24,7 +25,7 @@ class QRScanErrs {
 }
 
 class UserDataUtil {
-  static final Logger log = Logger("UserDataUtil");
+  static final Logger log = sl.get<Logger>();
 
   static const MethodChannel _channel = const MethodChannel('fappchannel');
   static StreamSubscription<dynamic> setStream;
@@ -88,7 +89,7 @@ class UserDataUtil {
     } on FormatException {
       return QRScanErrs.CANCEL_ERROR;
     } catch (e) {
-      log.severe("Unknown QR Scan Error ${e.toString()}", e);
+      log.e("Unknown QR Scan Error ${e.toString()}", e);
       return QRScanErrs.UNKNOWN_ERROR;
     }
   }

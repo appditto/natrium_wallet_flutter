@@ -316,8 +316,8 @@ class AppLocalization {
   }
 
   String get mantaError {
-    return Intl.message("Failed to validate the payment request",
-      desc: 'Manta QR scan failed', name: 'mantaError');
+    return Intl.message("Couldn't Verify Request",
+      desc: 'Was unable to verify the manta/appia payment request (from scanning QR code, etc.)', name: 'mantaError');
   }
 
   String get enterAmount {
