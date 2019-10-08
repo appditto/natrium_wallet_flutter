@@ -22,15 +22,7 @@ public class MainActivity extends FlutterFragmentActivity {
           new MethodChannel.MethodCallHandler() {
               @Override
               public void onMethodCall(MethodCall call, MethodChannel.Result result) {
-                  if (call.method.equals("getLegacySeed")) {
-                      result.success(new MigrationStuff().getLegacySeed());
-                  } else if (call.method.equals("getLegacyContacts")) {
-                      result.success(new MigrationStuff().getLegacyContactsAsJson());
-                  } else if (call.method.equals("clearLegacyData")) {
-                      new MigrationStuff().clearLegacyData();
-                  } else if (call.method.equals("getLegacyPin")) {
-                      result.success(new MigrationStuff().getLegacyPin());
-                  } else if (call.method.equals("getSecret")) {
+                  if (call.method.equals("getSecret")) {
                       result.success(new LegacyStorage().getSecret());                      
                   } else {
                       result.notImplemented();

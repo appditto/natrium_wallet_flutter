@@ -34,7 +34,6 @@ import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
-import 'package:natrium_wallet_flutter/util/legacyutil.dart';
 import 'package:root_checker/root_checker.dart';
 
 void main() async {
@@ -275,50 +274,6 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
   bool _hasCheckedLoggedIn;
   bool _retried;
 
-  Future<bool> _doAndroidMigration() async {
-    bool migrated = false;
-    // Migrate seed
-    String legacySeed = await sl.get<LegacyMigration>().getLegacySeed();
-    if (legacySeed != null && NanoSeeds.isValidSeed(legacySeed)) {
-      migrated = true;
-      await sl.get<Vault>().setSeed(legacySeed);
-      await sl.get<SharedPrefsUtil>().setSeedBackedUp(true);
-    }
-    if (migrated) {
-      // Migrate PIN
-      String legacyPin = await sl.get<LegacyMigration>().getLegacyPin();
-      if (legacyPin != null && legacyPin.length == 4) {
-        await sl.get<Vault>().writePin(legacyPin);
-      }
-      // Migrate Contacts
-      String legacyContacts =
-          await sl.get<LegacyMigration>().getLegacyContacts();
-      if (legacyContacts != null) {
-        Iterable contactsJson = json.decode(legacyContacts);
-        List<Contact> contacts = List();
-        List<Contact> contactsToAdd = List();
-        contactsJson.forEach((contact) {
-          contacts.add(Contact.fromJson(contact));
-        });
-        for (Contact contact in contacts) {
-          if (!await sl.get<DBHelper>().contactExistsWithName(contact.name) &&
-              !await sl
-                  .get<DBHelper>()
-                  .contactExistsWithAddress(contact.address)) {
-            // Contact doesnt exist, make sure name and address are valid
-            if (Address(contact.address).isValid()) {
-              if (contact.name.startsWith("@") && contact.name.length <= 20) {
-                contactsToAdd.add(contact);
-              }
-            }
-          }
-        }
-        await sl.get<DBHelper>().saveContacts(contactsToAdd);
-      }
-    }
-    return migrated;
-  }
-
   bool seedIsEncrypted(String seed) {
     if (seed == null) {
       return false;
@@ -369,17 +324,7 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
       // iOS key store is persistent, so if this is first launch then we will clear the keystore
       bool firstLaunch = await sl.get<SharedPrefsUtil>().getFirstLaunch();
       if (firstLaunch) {
-        bool migrated = false;
-        if (Platform.isAndroid) {
-          try {
-            migrated = await _doAndroidMigration();
-          } catch (e) {
-            migrated = false;
-          }
-        }
-        if (!migrated) {
-          await sl.get<Vault>().deleteAll();
-        }
+        await sl.get<Vault>().deleteAll();
       }
       await sl.get<SharedPrefsUtil>().setFirstLaunch();
       // See if logged in already
