@@ -422,7 +422,7 @@ class _AppHomePageState extends State<AppHomePage>
   StreamSubscription<dynamic> lockStreamListener;
 
   Future<void> setAppLockEvent() async {
-    if (await sl.get<SharedPrefsUtil>().getLock() && !_lockDisabled) {
+    if (((await sl.get<SharedPrefsUtil>().getLock()) || StateContainer.of(context).encryptedSecret != null) && !_lockDisabled) {
       if (lockStreamListener != null) {
         lockStreamListener.cancel();
       }

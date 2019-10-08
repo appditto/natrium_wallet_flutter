@@ -378,7 +378,7 @@ class _SendSheetState extends State<SendSheet> {
                                     }
                                     return SizedBox();
                                   },
-                                )
+                                ),
                                 // ******* Enter Amount Container ******* //
                                 getEnterAmountContainer(),
                                 // ******* Enter Amount Container End ******* //
