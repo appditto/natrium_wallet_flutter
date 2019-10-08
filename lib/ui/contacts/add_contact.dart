@@ -2,8 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:event_taxi/event_taxi.dart';
+import 'package:keyboard_avoider/keyboard_avoider.dart';
 
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -14,15 +14,17 @@ import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/app_text_field.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/tap_outside_unfocus.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
+import 'package:natrium_wallet_flutter/util/user_data_util.dart';
 
 class AddContactSheet extends StatefulWidget {
-  String address;
+  final String address;
 
   AddContactSheet({this.address}) : super();
 
@@ -151,56 +153,26 @@ class _AddContactSheetState extends State<AddContactSheet> {
 
             // The main container that holds "Enter Name" and "Enter Address" text fields
             Expanded(
-              child: 
-              Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.14),
+              child: KeyboardAvoider(
+                duration: Duration(milliseconds: 0),
+                autoScroll: true,
+                focusPadding: 40,
                 child: Column(
-                  children: <Widget>[
-                    // Enter Name Container
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width *
-                              0.105,
-                          right: MediaQuery.of(context).size.width *
-                              0.105),
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: StateContainer.of(context)
-                            .curTheme
-                            .backgroundDarkest,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      // Enter Name text field
-                      child: TextField(
+                children: <Widget>[
+                  // Enter Name Container
+                  AppTextField(
+                    topMargin: MediaQuery.of(context).size.height * 0.14,
+                    padding: EdgeInsets.symmetric(horizontal: 30),
                         focusNode: _nameFocusNode,
                         controller: _nameController,
-                        cursorColor: StateContainer.of(context)
-                            .curTheme
-                            .primary,
                         textInputAction: widget.address != null
                             ? TextInputAction.done
                             : TextInputAction.next,
-                        maxLines: null,
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                          hintText: _showNameHint
-                              ? AppLocalization.of(context)
-                                  .contactNameHint
-                              : "",
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w100,
-                            fontFamily: 'NunitoSans',
-                            color: StateContainer.of(context)
-                                .curTheme
-                                .text60,
-                          ),
-                        ),
+                        hintText: _showNameHint
+                            ? AppLocalization.of(context)
+                                .contactNameHint
+                            : "",
                         keyboardType: TextInputType.text,
-                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16.0,
@@ -220,227 +192,119 @@ class _AddContactSheetState extends State<AddContactSheet> {
                               FocusScope.of(context)
                                   .requestFocus(_addressFocusNode);
                             } else {
-                              _nameFocusNode.unfocus();
-                              _addressFocusNode.unfocus();
+                              FocusScope.of(context).unfocus();
                             }
+                          } else {
+                            FocusScope.of(context).unfocus();
                           }
                         },
                       ),
-                    ),
-                    // Enter Name Error Container
-                    Container(
-                      margin: EdgeInsets.only(top: 5, bottom: 5),
-                      child: Text(_nameValidationText,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: StateContainer.of(context)
-                                .curTheme
-                                .primary,
-                            fontFamily: 'NunitoSans',
-                            fontWeight: FontWeight.w600,
-                          )),
-                    ),
-                    // Enter Address container
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width *
-                              0.105,
-                          right: MediaQuery.of(context).size.width *
-                              0.105),
-                      padding: !_shouldShowTextField()
-                          ? EdgeInsets.symmetric(
-                              horizontal: 25.0, vertical: 15.0)
-                          : EdgeInsets.zero,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: StateContainer.of(context)
-                            .curTheme
-                            .backgroundDarkest,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      // Enter Address text field
-                      child: _shouldShowTextField()
-                          ? TextField(
-                              focusNode: _addressFocusNode,
-                              controller: _addressController,
-                              style: _addressValid
-                                  ? AppStyles.textStyleAddressText90(
-                                      context)
-                                  : AppStyles.textStyleAddressText60(
-                                      context),
-                              textAlign: TextAlign.center,
-                              cursorColor: StateContainer.of(context)
+                      // Enter Name Error Container
+                      Container(
+                        margin: EdgeInsets.only(top: 5, bottom: 5),
+                        child: Text(_nameValidationText,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: StateContainer.of(context)
                                   .curTheme
                                   .primary,
-                              keyboardAppearance: Brightness.dark,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(65),
-                              ],
-                              textInputAction: TextInputAction.done,
-                              maxLines: null,
-                              autocorrect: false,
-                              decoration: InputDecoration(
-                                hintText: _showAddressHint
-                                    ? AppLocalization.of(context)
-                                        .addressHint
-                                    : "",
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: 'NunitoSans',
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .text60,
-                                ),
-                                // QR Scan BUtton
-                                prefixIcon: AnimatedCrossFade(
-                                  duration: const Duration(milliseconds: 100),
-                                  firstChild: Container(
-                                    width: 48,
-                                    child: FlatButton(
-                                      highlightColor: StateContainer.of(context).curTheme.primary15,
-                                      splashColor: StateContainer.of(context).curTheme.primary30,
-                                      padding: EdgeInsets.all(14.0),
-                                      onPressed: () {
-                                        try {
-                                          UIUtil.cancelLockEvent();
-                                          BarcodeScanner.scan(
-                                                  StateContainer.of(context)
-                                                      .curTheme
-                                                      .qrScanTheme)
-                                              .then((value) {
-                                            Address address = Address(value);
-                                            if (!address.isValid()) {
-                                              UIUtil.showSnackbar(
-                                                  AppLocalization.of(context)
-                                                      .qrInvalidAddress,
-                                                  context);
-                                            } else {
-                                              setState(() {
-                                                _addressController.text =
-                                                    address.address;
-                                                _addressValidationText = "";
-                                                _addressValid = true;
-                                                _addressValidAndUnfocused = true;
-                                              });
-                                              _addressFocusNode.unfocus();
-                                            }
-                                          });
-                                        } catch (e) {
-                                          if (e.code ==
-                                              BarcodeScanner.CameraAccessDenied) {
-                                            // TODO - Permission Denied to use camera
-                                          } else {
-                                            // UNKNOWN ERROR
-                                          }
-                                        }                                                  
-                                      },
-                                      child: Icon(AppIcons.scan,
-                                          size: 20,
-                                          color: StateContainer.of(
-                                                  context)
-                                              .curTheme
-                                              .primary),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(
-                                                  200.0)),
-                                    ),
-                                  ),
-                                  secondChild: SizedBox(),
-                                  crossFadeState: _showPasteButton
-                                      ? CrossFadeState.showFirst
-                                      : CrossFadeState.showSecond,
-                                ),
-                                // Paste Button
-                                suffixIcon: AnimatedCrossFade(
-                                  duration: const Duration(
-                                      milliseconds: 100),
-                                  firstChild: Container(
-                                    width: 48,
-                                    child: FlatButton(
-                                      highlightColor:
-                                          StateContainer.of(context)
-                                              .curTheme
-                                              .primary15,
-                                      splashColor:
-                                          StateContainer.of(context)
-                                              .curTheme
-                                              .primary30,
-                                      padding: EdgeInsets.all(14.0),
-                                      onPressed: () {
-                                        if (!_showPasteButton) {
-                                          return;
-                                        }
-                                        Clipboard.getData(
-                                                "text/plain")
-                                            .then(
-                                                (ClipboardData data) {
-                                          if (data == null ||
-                                              data.text == null) {
-                                            return;
-                                          }
-                                          Address address =
-                                              Address(data.text);
-                                          if (address.isValid()) {
-                                            setState(() {
-                                              _addressValid = true;
-                                              _showPasteButton =
-                                                  false;
-                                              _addressController
-                                                      .text =
-                                                  address.address;
-                                              _addressValidAndUnfocused =
-                                                  true;
-                                            });
-                                            _addressFocusNode
-                                                .unfocus();
-                                          } else {
-                                            setState(() {
-                                              _showPasteButton = true;
-                                              _addressValid = false;
-                                            });
-                                          }
-                                        });
-                                      },
-                                      child: Icon(AppIcons.paste,
-                                          size: 20,
-                                          color: StateContainer.of(
-                                                  context)
-                                              .curTheme
-                                              .primary),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(
-                                                  200.0)),
-                                    ),
-                                  ),
-                                  secondChild: SizedBox(),
-                                  crossFadeState: _showPasteButton
-                                      ? CrossFadeState.showFirst
-                                      : CrossFadeState.showSecond,
-                                ),
-                              ),
-                              onChanged: (text) {
-                                Address address = Address(text);
-                                if (address.isValid()) {
-                                  setState(() {
-                                    _addressValid = true;
-                                    _showPasteButton = false;
-                                    _addressController.text =
-                                        address.address;
-                                  });
-                                  _addressFocusNode.unfocus();
-                                } else {
-                                  setState(() {
-                                    _showPasteButton = true;
-                                    _addressValid = false;
-                                  });
-                                }
-                              },
-                            )
-                          : GestureDetector(
+                              fontFamily: 'NunitoSans',
+                              fontWeight: FontWeight.w600,
+                            )),
+                      ),
+                      // Enter Address container
+                      AppTextField(
+                        padding: !_shouldShowTextField()
+                            ? EdgeInsets.symmetric(
+                                horizontal: 25.0, vertical: 15.0)
+                            : EdgeInsets.zero,                        
+                        focusNode: _addressFocusNode,
+                        controller: _addressController,
+                        style: _addressValid
+                            ? AppStyles.textStyleAddressText90(
+                                context)
+                            : AppStyles.textStyleAddressText60(
+                                context),
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(65),
+                        ],
+                        textInputAction: TextInputAction.done,
+                        maxLines: null,
+                        autocorrect: false,
+                        hintText: _showAddressHint
+                            ? AppLocalization.of(context)
+                                .addressHint
+                            : "",
+                        prefixButton: TextFieldButton(
+                          icon: AppIcons.scan,
+                          onPressed: () async {
+                            UIUtil.cancelLockEvent();
+                            String scanResult = await UserDataUtil.getQRData(DataType.ADDRESS, context);
+                            if (scanResult == null) {
+                              UIUtil.showSnackbar(
+                                  AppLocalization.of(context)
+                                      .qrInvalidAddress,
+                                  context);                                
+                            } else if (scanResult != null && !QRScanErrs.ERROR_LIST.contains(scanResult)) {
+                              if (mounted) {
+                                setState(() {
+                                  _addressController.text = scanResult;
+                                  _addressValidationText = "";
+                                  _addressValid = true;
+                                  _addressValidAndUnfocused = true;
+                                });
+                                _addressFocusNode.unfocus();
+                              }
+                            }
+                          }
+                        ),
+                        fadePrefixOnCondition: true,
+                        prefixShowFirstCondition: _showPasteButton,
+                        suffixButton: TextFieldButton(
+                          icon: AppIcons.paste,
+                          onPressed: () async {
+                            if (!_showPasteButton) {
+                              return;
+                            }
+                            String data = await UserDataUtil.getClipboardText(DataType.ADDRESS);
+                            if (data != null) {
+                              setState(() {
+                                _addressValid = true;
+                                _showPasteButton = false;
+                                _addressController.text = data;
+                                _addressValidAndUnfocused = true;
+                              });
+                              _addressFocusNode.unfocus();
+                            } else {
+                              setState(() {
+                                _showPasteButton = true;
+                                _addressValid = false;
+                              });
+                            }
+                          },
+                        ),
+                        fadeSuffixOnCondition: true,
+                        suffixShowFirstCondition: _showPasteButton,
+                        onChanged: (text) {
+                          Address address = Address(text);
+                          if (address.isValid()) {
+                            setState(() {
+                              _addressValid = true;
+                              _showPasteButton = false;
+                              _addressController.text =
+                                  address.address;
+                            });
+                            _addressFocusNode.unfocus();
+                          } else {
+                            setState(() {
+                              _showPasteButton = true;
+                              _addressValid = false;
+                            });
+                          }
+                        },
+                        overrideTextFieldWidget: 
+                          !_shouldShowTextField()
+                          ? GestureDetector(
                               onTap: () {
                                 if (widget.address != null) {
                                   return;
@@ -458,7 +322,8 @@ class _AddContactSheetState extends State<AddContactSheet> {
                                   context,
                                   widget.address != null
                                       ? widget.address
-                                      : _addressController.text)),
+                                      : _addressController.text)
+                          ) : null,
                     ),
                     // Enter Address Error Container
                     Container(
@@ -477,7 +342,6 @@ class _AddContactSheetState extends State<AddContactSheet> {
                 ),
               ),
             ),
-
             //A column with "Add Contact" and "Close" buttons
             Container(
               child: Column(

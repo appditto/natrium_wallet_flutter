@@ -110,7 +110,7 @@ class _SetPasswordSheetState extends State<SetPasswordSheet> {
                             padding: EdgeInsetsDirectional.only(start: 16, end: 16),
                             focusNode: createPasswordFocusNode,
                             controller: createPasswordController,
-                            textInputAction: TextInputAction.done,
+                            textInputAction: TextInputAction.next,
                             maxLines: 1,
                             autocorrect: false,
                             onChanged: (String newText) {
@@ -144,6 +144,9 @@ class _SetPasswordSheetState extends State<SetPasswordSheet> {
                                 this.passwordsMatch ? StateContainer.of(context).curTheme.primary : StateContainer.of(context).curTheme.text,
                               fontFamily: 'NunitoSans',
                             ),
+                            onSubmitted: (text) {
+                              confirmPasswordFocusNode.requestFocus();
+                            },
                           ),
                           // Confirm Password Text Field
                           AppTextField(

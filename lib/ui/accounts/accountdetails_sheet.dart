@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:event_taxi/event_taxi.dart';
@@ -14,9 +15,11 @@ import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/app_text_field.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/tap_outside_unfocus.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
@@ -61,7 +64,9 @@ class AccountDetailsSheet {
               builder: (BuildContext context, StateSetter setState) {
             return WillPopScope(
                 onWillPop: _onWillPop,
-                child: SafeArea(
+                child: 
+                 TapOutsideUnfocus(
+                   child: SafeArea(
                     minimum: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.035),
                     child: Column(
@@ -213,68 +218,36 @@ class AccountDetailsSheet {
 
                         // The main container that holds Contact Name and Contact Address
                         Expanded(
-                            child: Stack(children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              // Clear focus of our fields when tapped in this empty space
-                              _nameFocusNode.unfocus();
-                            },
-                            child: Container(
-                              color: Colors.transparent,
-                              child: SizedBox.expand(),
-                              constraints: BoxConstraints.expand(),
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.width * 0.14,
-                              left: MediaQuery.of(context).size.width * 0.105,
-                              right: MediaQuery.of(context).size.width * 0.105,
-                            ),
-                            padding: EdgeInsets.symmetric(horizontal: 30),
-                            decoration: BoxDecoration(
-                              color: StateContainer.of(context)
-                                  .curTheme
-                                  .backgroundDarkest,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: TextField(
-                              controller: _nameController,
-                              focusNode: _nameFocusNode,
-                              textAlign: TextAlign.center,
-                              cursorColor:
-                                  StateContainer.of(context).curTheme.primary,
-                              textInputAction: TextInputAction.done,
-                              autocorrect: false,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: 'NunitoSans',
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .text60,
+                          child: KeyboardAvoider(
+                            duration: Duration(milliseconds: 0),
+                            autoScroll: true,
+                            focusPadding: 40,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                AppTextField(
+                                  topMargin: MediaQuery.of(context).size.width * 0.14,
+                                  rightMargin: MediaQuery.of(context).size.width * 0.105,
+                                  controller: _nameController,
+                                  focusNode: _nameFocusNode,
+                                  textInputAction: TextInputAction.done,
+                                  autocorrect: false,
+                                  keyboardType: TextInputType.text,
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(15),
+                                  ],
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16.0,
+                                    color:
+                                        StateContainer.of(context).curTheme.primary,
+                                    fontFamily: 'NunitoSans',
+                                  ),
                                 ),
-                              ),
-                              keyboardType: TextInputType.text,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(15),
-                              ],
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16.0,
-                                color:
-                                    StateContainer.of(context).curTheme.primary,
-                                fontFamily: 'NunitoSans',
-                              ),
-                              onChanged: (text) {
-                                // Will rset validation message here
-                              },
-                            ),
+                              ]
+                            )
                           ),
-                        ])),
+                        ),
                         Container(
                           child: Column(
                             children: <Widget>[
@@ -327,7 +300,9 @@ class AccountDetailsSheet {
                           ),
                         ),
                       ],
-                    )));
+                    )
+                  ))
+                );
           });
         });
   }

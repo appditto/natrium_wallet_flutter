@@ -861,8 +861,6 @@ class _AppHomePageState extends State<AppHomePage>
   // Transaction Card/List Item
   Widget _buildTransactionCard(AccountHistoryResponseItem item,
       Animation<double> animation, String displayName, BuildContext context) {
-    TransactionDetailsSheet transactionDetails =
-        TransactionDetailsSheet(item.hash, item.account, displayName);
     String text;
     IconData icon;
     Color iconColor;
@@ -952,7 +950,17 @@ class _AppHomePageState extends State<AppHomePage>
             padding: EdgeInsets.all(0.0),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
-            onPressed: () => transactionDetails.mainBottomSheet(context),
+            onPressed: () {
+              Sheets.showAppHeightEightSheet(
+                context: context,
+                widget: TransactionDetailsSheet(
+                  hash: item.hash,
+                  address: item.account,
+                  displayName: displayName
+                ),
+                animationDurationMs: 175
+              );
+            },
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -1658,148 +1666,149 @@ class _AppHomePageState extends State<AppHomePage>
   }
 }
 
-class TransactionDetailsSheet {
-  String _hash;
-  String _address;
-  String _displayName;
-  TransactionDetailsSheet(String hash, String address, String displayName)
-      : _hash = hash,
-        _address = address,
-        _displayName = displayName;
+
+class TransactionDetailsSheet extends StatefulWidget {
+  final String hash;
+  final String address;
+  final String displayName;
+
+  TransactionDetailsSheet({this.hash, this.address, this.displayName}) : super();
+
+  _TransactionDetailsSheetState createState() => _TransactionDetailsSheetState();
+}
+
+class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
   // Current state references
   bool _addressCopied = false;
   // Timer reference so we can cancel repeated events
   Timer _addressCopiedTimer;
 
-  mainBottomSheet(BuildContext context) {
-    AppSheets.showAppHeightEightSheet(
-        animationDurationMs: 175,
-        context: context,
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-            return SafeArea(
-              minimum: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.035,
-              ),
-              child: Container(
-                width: double.infinity,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      minimum: EdgeInsets.only(
+        bottom: MediaQuery.of(context).size.height * 0.035,
+      ),
+      child: Container(
+        width: double.infinity,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                // A stack for Copy Address and Add Contact buttons
+                Stack(
                   children: <Widget>[
-                    Column(
+                    // A row for Copy Address Button
+                    Row(
                       children: <Widget>[
-                        // A stack for Copy Address and Add Contact buttons
-                        Stack(
-                          children: <Widget>[
-                            // A row for Copy Address Button
-                            Row(
-                              children: <Widget>[
-                                AppButton.buildAppButton(
-                                    context,
-                                    // Share Address Button
-                                    _addressCopied
-                                        ? AppButtonType.SUCCESS
-                                        : AppButtonType.PRIMARY,
-                                    _addressCopied
-                                        ? AppLocalization.of(context)
-                                            .addressCopied
-                                        : AppLocalization.of(context)
-                                            .copyAddress,
-                                    Dimens.BUTTON_TOP_EXCEPTION_DIMENS,
+                        AppButton.buildAppButton(
+                            context,
+                            // Share Address Button
+                            _addressCopied
+                                ? AppButtonType.SUCCESS
+                                : AppButtonType.PRIMARY,
+                            _addressCopied
+                                ? AppLocalization.of(context)
+                                    .addressCopied
+                                : AppLocalization.of(context)
+                                    .copyAddress,
+                            Dimens.BUTTON_TOP_EXCEPTION_DIMENS,
+                            onPressed: () {
+                          Clipboard.setData(
+                              new ClipboardData(text: widget.address));
+                          if (mounted) {
+                            setState(() {
+                              // Set copied style
+                              _addressCopied = true;
+                            });
+                          }
+                          if (_addressCopiedTimer != null) {
+                            _addressCopiedTimer.cancel();
+                          }
+                          _addressCopiedTimer = new Timer(
+                              const Duration(milliseconds: 800), () {
+                            if (mounted) {
+                              setState(() {
+                                _addressCopied = false;
+                              });
+                            }
+                          });
+                        }),
+                      ],
+                    ),
+                    // A row for Add Contact Button
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsetsDirectional.only(
+                              top:
+                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
+                              end: Dimens
+                                  .BUTTON_TOP_EXCEPTION_DIMENS[2]),
+                          child: Container(
+                            height: 55,
+                            width: 55,
+                            // Add Contact Button
+                            child: !widget.displayName.startsWith("@")
+                                ? FlatButton(
                                     onPressed: () {
-                                  Clipboard.setData(
-                                      new ClipboardData(text: _address));
-                                  setState(() {
-                                    // Set copied style
-                                    _addressCopied = true;
-                                  });
-                                  if (_addressCopiedTimer != null) {
-                                    _addressCopiedTimer.cancel();
-                                  }
-                                  _addressCopiedTimer = new Timer(
-                                      const Duration(milliseconds: 800), () {
-                                    setState(() {
-                                      _addressCopied = false;
-                                    });
-                                  });
-                                }),
-                              ],
-                            ),
-                            // A row for Add Contact Button
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsetsDirectional.only(
-                                      top:
-                                          Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
-                                      end: Dimens
-                                          .BUTTON_TOP_EXCEPTION_DIMENS[2]),
-                                  child: Container(
-                                    height: 55,
-                                    width: 55,
-                                    // Add Contact Button
-                                    child: !_displayName.startsWith("@")
-                                        ? FlatButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              Sheets.showAppHeightNineSheet(
-                                                  context: context,
-                                                  widget: AddContactSheet(
-                                                      address: _address)
-                                              );
-                                            },
-                                            splashColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        100.0)),
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10.0, horizontal: 10),
-                                            child: Icon(AppIcons.addcontact,
-                                                size: 35,
-                                                color: _addressCopied
-                                                    ? StateContainer.of(context)
-                                                        .curTheme
-                                                        .successDark
-                                                    : StateContainer.of(context)
-                                                        .curTheme
-                                                        .backgroundDark),
-                                          )
-                                        : SizedBox(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        // A row for View Details button
-                        Row(
-                          children: <Widget>[
-                            AppButton.buildAppButton(
-                                context,
-                                AppButtonType.PRIMARY_OUTLINE,
-                                AppLocalization.of(context).viewDetails,
-                                Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                return UIUtil.showBlockExplorerWebview(
-                                    context, _hash);
-                              }));
-                            }),
-                          ],
+                                      Navigator.of(context).pop();
+                                      Sheets.showAppHeightNineSheet(
+                                          context: context,
+                                          widget: AddContactSheet(
+                                              address: widget.address)
+                                      );
+                                    },
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(
+                                                100.0)),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10.0, horizontal: 10),
+                                    child: Icon(AppIcons.addcontact,
+                                        size: 35,
+                                        color: _addressCopied
+                                            ? StateContainer.of(context)
+                                                .curTheme
+                                                .successDark
+                                            : StateContainer.of(context)
+                                                .curTheme
+                                                .backgroundDark),
+                                  )
+                                : SizedBox(),
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
-              ),
-            );
-          });
-        });
+                // A row for View Details button
+                Row(
+                  children: <Widget>[
+                    AppButton.buildAppButton(
+                        context,
+                        AppButtonType.PRIMARY_OUTLINE,
+                        AppLocalization.of(context).viewDetails,
+                        Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) {
+                        return UIUtil.showBlockExplorerWebview(
+                            context, widget.hash);
+                      }));
+                    }),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

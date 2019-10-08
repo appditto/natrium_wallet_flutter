@@ -11,6 +11,7 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_balance_item.dart';
 import 'package:natrium_wallet_flutter/ui/transfer/transfer_manual_entry_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
@@ -242,8 +243,12 @@ class AppTransferOverviewSheet {
                             AppLocalization.of(context).manualEntry,
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             onPressed: () {
-                              AppTransferManualEntrySheet(manualEntryCallback)
-                                  .mainBottomSheet(context);
+                              Sheets.showAppHeightNineSheet(
+                                context: context,
+                                widget: TransferManualEntrySheet(
+                                  validSeedCallback: manualEntryCallback,
+                                )
+                              );
                             },
                           ),
                         ],

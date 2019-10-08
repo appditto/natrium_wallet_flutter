@@ -161,6 +161,7 @@ class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
                               focusNode: enterPasswordFocusNode,
                               controller: enterPasswordController,
                               textInputAction: TextInputAction.go,
+                              autofocus: true,
                               onChanged: (String newText) {
                                 if (passwordError != null) {
                                   setState(() {

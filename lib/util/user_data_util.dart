@@ -14,7 +14,7 @@ import 'package:quiver/strings.dart';
 import 'package:validators/validators.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 
-enum DataType { RAW, URL, MANTA_ADDRESS }
+enum DataType { RAW, URL, ADDRESS, MANTA_ADDRESS, SEED }
 
 class QRScanErrs {
   static const String PERMISSION_DENIED = "qr_denied";
@@ -39,12 +39,22 @@ class UserDataUtil {
       } else if (isURL(data)) {
         return data;
       }
+    } else if (type == DataType.ADDRESS) {
+      Address address = Address(data);
+      if (address.isValid()) {
+        return data;
+      }
     } else if (type == DataType.MANTA_ADDRESS) {
       // Check if an address or manta result
       Address address = Address(data);
       if (address.isValid()) {
         return data;
       } else if (MantaWallet.parseUrl(data) != null) {
+        return data;
+      }
+    } else if (type == DataType.SEED) {
+      // Check if valid seed
+      if (NanoSeeds.isValidSeed(data)) {
         return data;
       }
     }
