@@ -89,7 +89,7 @@ class _AppHomePageState extends State<AppHomePage>
 
   // Main card height
   double mainCardHeight;
-  double settingsIconMarginTop;
+  double settingsIconMarginTop = 5;
   // FCM instance
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -1472,13 +1472,12 @@ class _AppHomePageState extends State<AppHomePage>
         StateContainer.of(context).wallet.loading) {
       // Placeholder for balance text
       return Container(
-        padding: EdgeInsets.symmetric(vertical: 14),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
+            _priceConversion == PriceConversion.BTC?Container(
               child: Stack(
                 alignment: AlignmentDirectional(0, 0),
                 children: <Widget>[
@@ -1511,7 +1510,7 @@ class _AppHomePageState extends State<AppHomePage>
                   ),
                 ],
               ),
-            ),
+            ):SizedBox(),
             Container(
               constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width - 225),
@@ -1552,7 +1551,7 @@ class _AppHomePageState extends State<AppHomePage>
                 ],
               ),
             ),
-            Container(
+            _priceConversion == PriceConversion.BTC?Container(
               child: Stack(
                 alignment: AlignmentDirectional(0, 0),
                 children: <Widget>[
@@ -1585,7 +1584,7 @@ class _AppHomePageState extends State<AppHomePage>
                   ),
                 ],
               ),
-            ),
+            ):SizedBox(),
           ],
         ),
       );
