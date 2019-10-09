@@ -82,7 +82,6 @@ class _AppHomePageState extends State<AppHomePage>
 
   // Price conversion state (BTC, NANO, NONE)
   PriceConversion _priceConversion;
-  bool _pricesHidden = false;
 
   bool _isRefreshing = false;
 
@@ -151,7 +150,11 @@ class _AppHomePageState extends State<AppHomePage>
     this.mantaAnimationOpen = false;
     WidgetsBinding.instance.addObserver(this);
     sl.get<SharedPrefsUtil>().getPriceConversion().then((result) {
-      _priceConversion = result;
+      if (mounted) {
+        setState(() {
+          _priceConversion = result;
+        });
+      }
     });
     _addSampleContact();
     _updateContacts();
@@ -1433,7 +1436,7 @@ class _AppHomePageState extends State<AppHomePage>
                       size: 24)),
             ),
           ),
-          _getBalanceWidget(context),
+          _getBalanceWidget(),
           SizedBox(
             width: 70.0,
             height: 70.0,
@@ -1444,7 +1447,7 @@ class _AppHomePageState extends State<AppHomePage>
   } //Main Card
 
   // Get balance display
-  Widget _getBalanceWidget(BuildContext context) {
+  Widget _getBalanceWidget() {
     if (StateContainer.of(context).wallet == null ||
         StateContainer.of(context).wallet.loading) {
       // Placeholder for balance text
@@ -1572,7 +1575,6 @@ class _AppHomePageState extends State<AppHomePage>
         if (_priceConversion == PriceConversion.BTC) {
           // Hide prices
           setState(() {
-            _pricesHidden = true;
             _priceConversion = PriceConversion.NONE;
           });
           sl.get<SharedPrefsUtil>().setPriceConversion(PriceConversion.NONE);
@@ -1585,7 +1587,6 @@ class _AppHomePageState extends State<AppHomePage>
         } else if (_priceConversion == PriceConversion.HIDDEN) {
           // Cycle to BTC price
           setState(() {
-            _pricesHidden = false;
             _priceConversion = PriceConversion.BTC;
           });
           sl.get<SharedPrefsUtil>().setPriceConversion(PriceConversion.BTC);
@@ -1609,9 +1610,9 @@ class _AppHomePageState extends State<AppHomePage>
                     StateContainer.of(context).curCurrency,
                     locale: StateContainer.of(context).currencyLocale),
                 textAlign: TextAlign.center,
-                style: _pricesHidden
-                    ? AppStyles.textStyleCurrencyAltHidden(context)
-                    : AppStyles.textStyleCurrencyAlt(context)),
+                style: _priceConversion == PriceConversion.BTC
+                    ? AppStyles.textStyleCurrencyAlt(context)
+                    : AppStyles.textStyleCurrencyAltHidden(context)),
             Container(
               margin: EdgeInsetsDirectional.only(end: 15),
               child: Row(
@@ -1655,18 +1656,16 @@ class _AppHomePageState extends State<AppHomePage>
             Row(
               children: <Widget>[
                 Icon(
-                    _priceConversion == PriceConversion.BTC
-                        ? AppIcons.btc
-                        : AppIcons.nanocurrency,
+                    AppIcons.btc,
                     color: _priceConversion == PriceConversion.NONE
                         ? Colors.transparent
                         : StateContainer.of(context).curTheme.text60,
                     size: 14),
                 Text(StateContainer.of(context).wallet.btcPrice,
                     textAlign: TextAlign.center,
-                    style: _pricesHidden
-                        ? AppStyles.textStyleCurrencyAltHidden(context)
-                        : AppStyles.textStyleCurrencyAlt(context)),
+                    style: _priceConversion == PriceConversion.BTC
+                        ? AppStyles.textStyleCurrencyAlt(context)
+                        : AppStyles.textStyleCurrencyAltHidden(context)),
               ],
             ),
           ],
