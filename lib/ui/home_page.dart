@@ -1595,7 +1595,7 @@ class _AppHomePageState extends State<AppHomePage>
       child: _priceConversion == PriceConversion.HIDDEN ?
         Center(
           child: Container(
-            child: Icon(AppIcons.nanologo, size: 50, color: StateContainer.of(context).curTheme.primary)
+            child: Icon(AppIcons.nanologo, size: 40, color: StateContainer.of(context).curTheme.primary)
           )
         )
       : Container(
