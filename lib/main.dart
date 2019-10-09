@@ -190,12 +190,12 @@ class _AppState extends State<App> {
               );
             case '/home':
               return NoTransitionRoute(
-                builder: (_) => AppHomePage(),
+                builder: (_) => AppHomePage(priceConversion: settings.arguments),
                 settings: settings,
               );
             case '/home_transition':
               return NoPopTransitionRoute(
-                builder: (_) => AppHomePage(),
+                builder: (_) => AppHomePage(priceConversion: settings.arguments),
                 settings: settings,
               );
             case '/intro_welcome':
@@ -351,7 +351,8 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
           Navigator.of(context).pushReplacementNamed('/lock_screen');
         } else {
           await NanoUtil().loginAccount(seed, context);
-          Navigator.of(context).pushReplacementNamed('/home');
+          PriceConversion conversion = await sl.get<SharedPrefsUtil>().getPriceConversion();
+          Navigator.of(context).pushReplacementNamed('/home', arguments: conversion);
         }
       } else {
         Navigator.of(context).pushReplacementNamed('/intro_welcome');

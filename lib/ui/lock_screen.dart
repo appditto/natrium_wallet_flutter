@@ -38,8 +38,9 @@ class _AppLockScreenState extends State<AppLockScreen> {
           .loginAccount(await StateContainer.of(context).getSeed(), context);
     }
     StateContainer.of(context).requestUpdate();
+    PriceConversion conversion = await sl.get<SharedPrefsUtil>().getPriceConversion();
     Navigator.of(context).pushNamedAndRemoveUntil(
-        '/home_transition', (Route<dynamic> route) => false);
+        '/home_transition', (Route<dynamic> route) => false, arguments: conversion);
   }
 
   Widget _buildPinScreen(BuildContext context, String expectedPin) {

@@ -47,6 +47,10 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 
 class AppHomePage extends StatefulWidget {
+  PriceConversion priceConversion;
+
+  AppHomePage({this.priceConversion}) : super();
+
   @override
   _AppHomePageState createState() => _AppHomePageState();
 }
@@ -152,21 +156,22 @@ class _AppHomePageState extends State<AppHomePage>
     _registerBus();
     this.mantaAnimationOpen = false;
     WidgetsBinding.instance.addObserver(this);
-    sl.get<SharedPrefsUtil>().getPriceConversion().then((result) {
-      _priceConversion = result;
-    }).then((result) {
-      // Main Card Size
-      if (_priceConversion == PriceConversion.BTC) {
-        mainCardHeight = 120;
-        settingsIconMarginTop = 7;
-      } else if (_priceConversion == PriceConversion.NONE) {
-        mainCardHeight = 64;
-        settingsIconMarginTop = 7;
-      } else if (_priceConversion == PriceConversion.HIDDEN) {
-        mainCardHeight = 64;
-        settingsIconMarginTop = 5;
-      }
-    });
+    if (widget.priceConversion != null) {
+      _priceConversion = widget.priceConversion;
+    } else {
+      _priceConversion = PriceConversion.BTC;  
+    }
+    // Main Card Size
+    if (_priceConversion == PriceConversion.BTC) {
+      mainCardHeight = 120;
+      settingsIconMarginTop = 7;
+    } else if (_priceConversion == PriceConversion.NONE) {
+      mainCardHeight = 64;
+      settingsIconMarginTop = 7;
+    } else if (_priceConversion == PriceConversion.HIDDEN) {
+      mainCardHeight = 64;
+      settingsIconMarginTop = 5;
+    }
     _addSampleContact();
     _updateContacts();
     // Setup placeholder animation and start

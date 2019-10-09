@@ -12,6 +12,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
+import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 
 class IntroPasswordOnLaunch extends StatefulWidget {
   final String seed;
@@ -173,12 +174,12 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
     );
   }
 
-  void _pinEnteredCallback(String pin) {
+  void _pinEnteredCallback(String pin) async {
     Navigator.of(context).pop();
-    sl.get<Vault>().writePin(pin).then((result) {
-      // Update wallet
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-    });
+    await sl.get<Vault>().writePin(pin);
+    PriceConversion conversion = await sl.get<SharedPrefsUtil>().getPriceConversion();
+    // Update wallet
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false, arguments: conversion);
   }
 }
