@@ -1660,7 +1660,7 @@ class _AppHomePageState extends State<AppHomePage>
                           Container(
                             constraints: BoxConstraints(
                                 maxWidth:
-                                    MediaQuery.of(context).size.width - 185),
+                                    MediaQuery.of(context).size.width - 200),
                             child: AutoSizeText.rich(
                               TextSpan(
                                 children: [
@@ -1672,7 +1672,10 @@ class _AppHomePageState extends State<AppHomePage>
                                       color: StateContainer.of(context)
                                           .curTheme
                                           .primary,
-                                      fontSize: _priceConversion == PriceConversion.BTC ? 26.0 : 22,
+                                      fontSize: _priceConversion ==
+                                              PriceConversion.BTC
+                                          ? 26.0
+                                          : 20,
                                     ),
                                   ),
                                   // Main balance text
@@ -1680,7 +1683,8 @@ class _AppHomePageState extends State<AppHomePage>
                                     text: StateContainer.of(context)
                                         .wallet
                                         .getAccountBalanceDisplay(),
-                                    style: _priceConversion == PriceConversion.BTC
+                                    style: _priceConversion ==
+                                            PriceConversion.BTC
                                         ? AppStyles.textStyleCurrency(context)
                                         : AppStyles.textStyleCurrencySmaller(
                                             context),
@@ -1688,11 +1692,17 @@ class _AppHomePageState extends State<AppHomePage>
                                 ],
                               ),
                               maxLines: 1,
-                              style:
-                                  TextStyle(fontSize: _priceConversion == PriceConversion.BTC ? 28 : 24),
+                              style: TextStyle(
+                                  fontSize:
+                                      _priceConversion == PriceConversion.BTC
+                                          ? 28
+                                          : 22),
                               stepGranularity: 0.1,
                               minFontSize: 1,
-                              maxFontSize: _priceConversion == PriceConversion.BTC ? 28 : 24,
+                              maxFontSize:
+                                  _priceConversion == PriceConversion.BTC
+                                      ? 28
+                                      : 22,
                             ),
                           ),
                         ],

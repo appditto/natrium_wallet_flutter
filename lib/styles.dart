@@ -199,7 +199,7 @@ class AppStyles {
   static TextStyle textStyleCurrencySmaller(BuildContext context) {
     return TextStyle(
         fontFamily: "NunitoSans",
-        fontSize: 24,
+        fontSize: 22,
         fontWeight: FontWeight.w900,
         color: StateContainer.of(context).curTheme.primary);
   }
