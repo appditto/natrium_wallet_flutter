@@ -513,6 +513,10 @@ class _AppHomePageState extends State<AppHomePage>
                   "Received", "24,00000", "12345678912345671234", context),
               _buildLoadingTransactionCard(
                   "Sent", "1,00000", "123456789121234", context),
+              _buildLoadingTransactionCard(
+                  "Sent", "1,00000", "123456789121234", context),
+              _buildLoadingTransactionCard(
+                  "Sent", "1,00000", "123456789121234", context),
             ],
           ));
     } else if (StateContainer.of(context).wallet.history.length == 0) {
@@ -1477,40 +1481,42 @@ class _AppHomePageState extends State<AppHomePage>
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _priceConversion == PriceConversion.BTC?Container(
-              child: Stack(
-                alignment: AlignmentDirectional(0, 0),
-                children: <Widget>[
-                  Text(
-                    "1234567",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: "NunitoSans",
-                        fontSize: AppFontSizes.small,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.transparent),
-                  ),
-                  Opacity(
-                    opacity: _opacityAnimation.value,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: StateContainer.of(context).curTheme.text20,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Text(
-                        "1234567",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: "NunitoSans",
-                            fontSize: AppFontSizes.small - 3,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.transparent),
-                      ),
+            _priceConversion == PriceConversion.BTC
+                ? Container(
+                    child: Stack(
+                      alignment: AlignmentDirectional(0, 0),
+                      children: <Widget>[
+                        Text(
+                          "1234567",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: "NunitoSans",
+                              fontSize: AppFontSizes.small,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.transparent),
+                        ),
+                        Opacity(
+                          opacity: _opacityAnimation.value,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: StateContainer.of(context).curTheme.text20,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Text(
+                              "1234567",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: "NunitoSans",
+                                  fontSize: AppFontSizes.small - 3,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.transparent),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            ):SizedBox(),
+                  )
+                : SizedBox(),
             Container(
               constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width - 225),
@@ -1551,40 +1557,42 @@ class _AppHomePageState extends State<AppHomePage>
                 ],
               ),
             ),
-            _priceConversion == PriceConversion.BTC?Container(
-              child: Stack(
-                alignment: AlignmentDirectional(0, 0),
-                children: <Widget>[
-                  Text(
-                    "1234567",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: "NunitoSans",
-                        fontSize: AppFontSizes.small,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.transparent),
-                  ),
-                  Opacity(
-                    opacity: _opacityAnimation.value,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: StateContainer.of(context).curTheme.text20,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Text(
-                        "1234567",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: "NunitoSans",
-                            fontSize: AppFontSizes.small - 3,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.transparent),
-                      ),
+            _priceConversion == PriceConversion.BTC
+                ? Container(
+                    child: Stack(
+                      alignment: AlignmentDirectional(0, 0),
+                      children: <Widget>[
+                        Text(
+                          "1234567",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: "NunitoSans",
+                              fontSize: AppFontSizes.small,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.transparent),
+                        ),
+                        Opacity(
+                          opacity: _opacityAnimation.value,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: StateContainer.of(context).curTheme.text20,
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Text(
+                              "1234567",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: "NunitoSans",
+                                  fontSize: AppFontSizes.small - 3,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.transparent),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            ):SizedBox(),
+                  )
+                : SizedBox(),
           ],
         ),
       );
