@@ -88,6 +88,9 @@ class _AppHomePageState extends State<AppHomePage>
 
   bool _lockDisabled = false; // whether we should avoid locking the app
 
+  // Main card height
+  double mainCardHeight;
+  double settingsIconMarginTop;
   // FCM instance
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -121,9 +124,9 @@ class _AppHomePageState extends State<AppHomePage>
   /// Notification includes which account its for, automatically switch to it if they're entering app from notification
   Future<void> _chooseCorrectAccountFromNotification(
       Map<String, dynamic> message) async {
-        // TODO repair this method
-        return;
-        /*
+    // TODO repair this method
+    return;
+    /*
     try {
       if (message.containsKey("account")) {
         Account selectedAccount = await sl.get<DBHelper>().getSelectedAccount();
@@ -152,6 +155,18 @@ class _AppHomePageState extends State<AppHomePage>
     WidgetsBinding.instance.addObserver(this);
     sl.get<SharedPrefsUtil>().getPriceConversion().then((result) {
       _priceConversion = result;
+    }).then((result) {
+      // Main Card Size
+      if (_priceConversion == PriceConversion.BTC) {
+        mainCardHeight = 64;
+        settingsIconMarginTop = 7;
+      } else if (_priceConversion == PriceConversion.NONE) {
+        mainCardHeight = 64;
+        settingsIconMarginTop = 7;
+      } else if (_priceConversion == PriceConversion.HIDDEN) {
+        mainCardHeight = 120;
+        settingsIconMarginTop = 5;
+      }
     });
     _addSampleContact();
     _updateContacts();
@@ -230,7 +245,6 @@ class _AppHomePageState extends State<AppHomePage>
   void _animationControllerListener() {
     setState(() {});
   }
-
 
   void _startAnimation() {
     if (_animationDisposed) {
@@ -315,17 +329,15 @@ class _AppHomePageState extends State<AppHomePage>
           String contactName = contact == null ? null : contact.name;
           Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
           Sheets.showAppHeightNineSheet(
-            context: context,
-            closeOnTap: true,
-            removeUntilHome: true,
-            widget: SendCompleteSheet(
-              amountRaw: event.previous.sendAmount,
-              destination: event.previous.link,
-              contactName: contactName,
-              localAmount: event.previous.localCurrencyValue,
-              paymentRequest: event.previous.paymentRequest
-            )
-          );
+              context: context,
+              closeOnTap: true,
+              removeUntilHome: true,
+              widget: SendCompleteSheet(
+                  amountRaw: event.previous.sendAmount,
+                  destination: event.previous.link,
+                  contactName: contactName,
+                  localAmount: event.previous.localCurrencyValue,
+                  paymentRequest: event.previous.paymentRequest));
         });
       }
     });
@@ -420,7 +432,9 @@ class _AppHomePageState extends State<AppHomePage>
   StreamSubscription<dynamic> lockStreamListener;
 
   Future<void> setAppLockEvent() async {
-    if (((await sl.get<SharedPrefsUtil>().getLock()) || StateContainer.of(context).encryptedSecret != null) && !_lockDisabled) {
+    if (((await sl.get<SharedPrefsUtil>().getLock()) ||
+            StateContainer.of(context).encryptedSecret != null) &&
+        !_lockDisabled) {
       if (lockStreamListener != null) {
         lockStreamListener.cancel();
       }
@@ -433,7 +447,8 @@ class _AppHomePageState extends State<AppHomePage>
         try {
           StateContainer.of(context).resetEncryptedSecret();
         } catch (e) {
-          log.w("Failed to reset encrypted secret when locking ${e.toString()}");
+          log.w(
+              "Failed to reset encrypted secret when locking ${e.toString()}");
         } finally {
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
@@ -613,7 +628,8 @@ class _AppHomePageState extends State<AppHomePage>
         }
       }
       // See if a contact
-      Contact contact = await sl.get<DBHelper>().getContactWithAddress(address.address);
+      Contact contact =
+          await sl.get<DBHelper>().getContactWithAddress(address.address);
       if (contact != null) {
         contactName = contact.name;
       }
@@ -622,13 +638,11 @@ class _AppHomePageState extends State<AppHomePage>
       if (amount != null) {
         // Go to send confirm with amount
         Sheets.showAppHeightNineSheet(
-          context: context,
-          widget: SendConfirmSheet(
-            amountRaw: amount,
-            destination: address.address,
-            contactName: contactName
-          )
-        );
+            context: context,
+            widget: SendConfirmSheet(
+                amountRaw: amount,
+                destination: address.address,
+                contactName: contactName));
       } else {
         // Go to send with address
         Sheets.showAppHeightNineSheet(
@@ -644,7 +658,8 @@ class _AppHomePageState extends State<AppHomePage>
         _showMantaAnimation();
         // Get manta payment request
         MantaWallet manta = MantaWallet(link);
-        PaymentRequestMessage paymentRequest = await MantaUtil.getPaymentDetails(manta);
+        PaymentRequestMessage paymentRequest =
+            await MantaUtil.getPaymentDetails(manta);
         if (mantaAnimationOpen) {
           Navigator.of(context).pop();
         }
@@ -660,12 +675,11 @@ class _AppHomePageState extends State<AppHomePage>
 
   void _showMantaAnimation() {
     mantaAnimationOpen = true;
-    Navigator.of(context).push(
-        AnimationLoadingOverlay(
-            AnimationType.MANTA,
-            StateContainer.of(context).curTheme.animationOverlayStrong,
-            StateContainer.of(context).curTheme.animationOverlayMedium,
-            onPoppedCallback: () => mantaAnimationOpen = false));
+    Navigator.of(context).push(AnimationLoadingOverlay(
+        AnimationType.MANTA,
+        StateContainer.of(context).curTheme.animationOverlayStrong,
+        StateContainer.of(context).curTheme.animationOverlayMedium,
+        onPoppedCallback: () => mantaAnimationOpen = false));
   }
 
   void paintQrCode({String address}) {
@@ -950,14 +964,12 @@ class _AppHomePageState extends State<AppHomePage>
                 borderRadius: BorderRadius.circular(10.0)),
             onPressed: () {
               Sheets.showAppHeightEightSheet(
-                context: context,
-                widget: TransactionDetailsSheet(
-                  hash: item.hash,
-                  address: item.account,
-                  displayName: displayName
-                ),
-                animationDurationMs: 175
-              );
+                  context: context,
+                  widget: TransactionDetailsSheet(
+                      hash: item.hash,
+                      address: item.account,
+                      displayName: displayName),
+                  animationDurationMs: 175);
             },
             child: Center(
               child: Padding(
@@ -1411,12 +1423,17 @@ class _AppHomePageState extends State<AppHomePage>
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
+          AnimatedContainer(
+            duration: Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
             width: 70.0,
-            height: 120,
+            height: mainCardHeight,
             alignment: AlignmentDirectional(-1, -1),
-            child: Container(
-              margin: EdgeInsetsDirectional.only(top: 5, start: 5),
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 200),
+              curve: Curves.easeInOut,
+              margin: EdgeInsetsDirectional.only(
+                  top: settingsIconMarginTop, start: 5),
               height: 50,
               width: 50,
               child: FlatButton(
@@ -1433,10 +1450,17 @@ class _AppHomePageState extends State<AppHomePage>
                       size: 24)),
             ),
           ),
-          _getBalanceWidget(context),
-          SizedBox(
+          AnimatedContainer(
+            duration: Duration(milliseconds: 200),
+            height: mainCardHeight,
+            curve: Curves.easeInOut,
+            child: _getBalanceWidget(context),
+          ),
+          AnimatedContainer(
+            duration: Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
             width: 70.0,
-            height: 70.0,
+            height: mainCardHeight,
           ),
         ],
       ),
@@ -1574,117 +1598,149 @@ class _AppHomePageState extends State<AppHomePage>
           setState(() {
             _pricesHidden = true;
             _priceConversion = PriceConversion.NONE;
+            mainCardHeight = 64;
+            settingsIconMarginTop = 7;
           });
           sl.get<SharedPrefsUtil>().setPriceConversion(PriceConversion.NONE);
         } else if (_priceConversion == PriceConversion.NONE) {
           // Cyclce to hidden
           setState(() {
             _priceConversion = PriceConversion.HIDDEN;
+            mainCardHeight = 64;
+            settingsIconMarginTop = 7;
           });
           sl.get<SharedPrefsUtil>().setPriceConversion(PriceConversion.HIDDEN);
         } else if (_priceConversion == PriceConversion.HIDDEN) {
           // Cycle to BTC price
           setState(() {
-            _pricesHidden = false;
-            _priceConversion = PriceConversion.BTC;
+            mainCardHeight = 120;
+            settingsIconMarginTop = 5;
+          });
+          Future.delayed(Duration(milliseconds: 150), () {
+            setState(() {
+              _pricesHidden = false;
+              _priceConversion = PriceConversion.BTC;
+            });
           });
           sl.get<SharedPrefsUtil>().setPriceConversion(PriceConversion.BTC);
         }
       },
-      child: _priceConversion == PriceConversion.HIDDEN ?
-        Center(
-          child: Container(
-            child: Icon(AppIcons.nanologo, size: 40, color: StateContainer.of(context).curTheme.primary)
-          )
-        )
-      : Container(
-        padding: EdgeInsets.symmetric(vertical: 14),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-                StateContainer.of(context).wallet.getLocalCurrencyPrice(
-                    StateContainer.of(context).curCurrency,
-                    locale: StateContainer.of(context).currencyLocale),
-                textAlign: TextAlign.center,
-                style: _pricesHidden
-                    ? AppStyles.textStyleCurrencyAltHidden(context)
-                    : AppStyles.textStyleCurrencyAlt(context)),
-            Container(
-              margin: EdgeInsetsDirectional.only(end: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width - 185),
-                    child: AutoSizeText.rich(
-                      TextSpan(
-                        children: [
-                          // Currency Icon
-                          TextSpan(
-                            text: "",
-                            style: TextStyle(
-                              fontFamily: 'AppIcons',
-                              color:
-                                  StateContainer.of(context).curTheme.primary,
-                              fontSize: 26.0,
-                            ),
-                          ),
-                          // Main balance text
-                          TextSpan(
-                            text: StateContainer.of(context)
+      child: Container(
+        alignment: Alignment.center,
+        width: MediaQuery.of(context).size.width - 185,
+        color: Colors.transparent,
+        child: _priceConversion == PriceConversion.HIDDEN
+            ?
+            // Nano logo
+            Center(
+                child: Container(
+                    child: Icon(AppIcons.nanologo,
+                        size: 32,
+                        color: StateContainer.of(context).curTheme.primary)))
+            : Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    !_pricesHidden
+                        ? Text(
+                            StateContainer.of(context)
                                 .wallet
-                                .getAccountBalanceDisplay(),
-                            style: AppStyles.textStyleCurrency(context),
+                                .getLocalCurrencyPrice(
+                                    StateContainer.of(context).curCurrency,
+                                    locale: StateContainer.of(context)
+                                        .currencyLocale),
+                            textAlign: TextAlign.center,
+                            style: AppStyles.textStyleCurrencyAlt(context))
+                        : SizedBox(height: 0),
+                    Container(
+                      margin: EdgeInsetsDirectional.only(end: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width - 185),
+                            child: AutoSizeText.rich(
+                              TextSpan(
+                                children: [
+                                  // Currency Icon
+                                  TextSpan(
+                                    text: "",
+                                    style: TextStyle(
+                                      fontFamily: 'AppIcons',
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                      fontSize: !_pricesHidden ? 26.0 : 22,
+                                    ),
+                                  ),
+                                  // Main balance text
+                                  TextSpan(
+                                    text: StateContainer.of(context)
+                                        .wallet
+                                        .getAccountBalanceDisplay(),
+                                    style: !_pricesHidden
+                                        ? AppStyles.textStyleCurrency(context)
+                                        : AppStyles.textStyleCurrencySmaller(
+                                            context),
+                                  ),
+                                ],
+                              ),
+                              maxLines: 1,
+                              style:
+                                  TextStyle(fontSize: !_pricesHidden ? 28 : 24),
+                              stepGranularity: 0.1,
+                              minFontSize: 1,
+                              maxFontSize: !_pricesHidden ? 28 : 24,
+                            ),
                           ),
                         ],
                       ),
-                      maxLines: 1,
-                      style: TextStyle(fontSize: 28.0),
-                      stepGranularity: 0.1,
-                      minFontSize: 1,
                     ),
-                  ),
-                ],
+                    !_pricesHidden
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                  _priceConversion == PriceConversion.BTC
+                                      ? AppIcons.btc
+                                      : AppIcons.nanocurrency,
+                                  color:
+                                      _priceConversion == PriceConversion.NONE
+                                          ? Colors.transparent
+                                          : StateContainer.of(context)
+                                              .curTheme
+                                              .text60,
+                                  size: 14),
+                              Text(StateContainer.of(context).wallet.btcPrice,
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      AppStyles.textStyleCurrencyAlt(context)),
+                            ],
+                          )
+                        : SizedBox(height: 0),
+                  ],
+                ),
               ),
-            ),
-            Row(
-              children: <Widget>[
-                Icon(
-                    _priceConversion == PriceConversion.BTC
-                        ? AppIcons.btc
-                        : AppIcons.nanocurrency,
-                    color: _priceConversion == PriceConversion.NONE
-                        ? Colors.transparent
-                        : StateContainer.of(context).curTheme.text60,
-                    size: 14),
-                Text(StateContainer.of(context).wallet.btcPrice,
-                    textAlign: TextAlign.center,
-                    style: _pricesHidden
-                        ? AppStyles.textStyleCurrencyAltHidden(context)
-                        : AppStyles.textStyleCurrencyAlt(context)),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }
 }
-
 
 class TransactionDetailsSheet extends StatefulWidget {
   final String hash;
   final String address;
   final String displayName;
 
-  TransactionDetailsSheet({this.hash, this.address, this.displayName}) : super();
+  TransactionDetailsSheet({this.hash, this.address, this.displayName})
+      : super();
 
-  _TransactionDetailsSheetState createState() => _TransactionDetailsSheetState();
+  _TransactionDetailsSheetState createState() =>
+      _TransactionDetailsSheetState();
 }
 
 class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
@@ -1719,12 +1775,9 @@ class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
                                 ? AppButtonType.SUCCESS
                                 : AppButtonType.PRIMARY,
                             _addressCopied
-                                ? AppLocalization.of(context)
-                                    .addressCopied
-                                : AppLocalization.of(context)
-                                    .copyAddress,
-                            Dimens.BUTTON_TOP_EXCEPTION_DIMENS,
-                            onPressed: () {
+                                ? AppLocalization.of(context).addressCopied
+                                : AppLocalization.of(context).copyAddress,
+                            Dimens.BUTTON_TOP_EXCEPTION_DIMENS, onPressed: () {
                           Clipboard.setData(
                               new ClipboardData(text: widget.address));
                           if (mounted) {
@@ -1736,8 +1789,8 @@ class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
                           if (_addressCopiedTimer != null) {
                             _addressCopiedTimer.cancel();
                           }
-                          _addressCopiedTimer = new Timer(
-                              const Duration(milliseconds: 800), () {
+                          _addressCopiedTimer =
+                              new Timer(const Duration(milliseconds: 800), () {
                             if (mounted) {
                               setState(() {
                                 _addressCopied = false;
@@ -1754,10 +1807,8 @@ class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
                       children: <Widget>[
                         Container(
                           margin: EdgeInsetsDirectional.only(
-                              top:
-                                  Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
-                              end: Dimens
-                                  .BUTTON_TOP_EXCEPTION_DIMENS[2]),
+                              top: Dimens.BUTTON_TOP_EXCEPTION_DIMENS[1],
+                              end: Dimens.BUTTON_TOP_EXCEPTION_DIMENS[2]),
                           child: Container(
                             height: 55,
                             width: 55,
@@ -1769,15 +1820,13 @@ class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
                                       Sheets.showAppHeightNineSheet(
                                           context: context,
                                           widget: AddContactSheet(
-                                              address: widget.address)
-                                      );
+                                              address: widget.address));
                                     },
                                     splashColor: Colors.transparent,
                                     highlightColor: Colors.transparent,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(
-                                                100.0)),
+                                            BorderRadius.circular(100.0)),
                                     padding: EdgeInsets.symmetric(
                                         vertical: 10.0, horizontal: 10),
                                     child: Icon(AppIcons.addcontact,
@@ -1805,8 +1854,8 @@ class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
                         AppButtonType.PRIMARY_OUTLINE,
                         AppLocalization.of(context).viewDetails,
                         Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (BuildContext context) {
                         return UIUtil.showBlockExplorerWebview(
                             context, widget.hash);
                       }));

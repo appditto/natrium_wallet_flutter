@@ -195,6 +195,15 @@ class AppStyles {
         color: StateContainer.of(context).curTheme.primary);
   }
 
+  // Text style for primary currency on home page
+  static TextStyle textStyleCurrencySmaller(BuildContext context) {
+    return TextStyle(
+        fontFamily: "NunitoSans",
+        fontSize: 24,
+        fontWeight: FontWeight.w900,
+        color: StateContainer.of(context).curTheme.primary);
+  }
+
   /* Transaction cards */
   // Text style for transaction card "Received"/"Sent" text
   static TextStyle textStyleTransactionType(BuildContext context) {
