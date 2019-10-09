@@ -830,15 +830,12 @@
     "uptime": "Tiempo en línea", 
     "tapToReveal": "Pulse para revelar",
     "tapToHide": "Toque para ocultar",
-    "copiado": "copiado",
-    "copiar": "copiar",
     "seedDescription": "Una semilla contiene la misma información que una frase secreta, pero de forma legible por la máquina. Mientras tenga una copia de seguridad de una copia de seguridad, tendrá acceso a sus fondos",
     "importSecretPhrase": "Importar frase secreta",
     "importSecretPhraseHint": "Por favor ingrese su frase secreta de 24 palabras a continuación. Cada palabra debe estar separada por un espacio",
     "qrMnemonicError": "El QR no contiene una frase secreta válida",
     "mnemonicInvalidWord": "% 1 no es una palabra válida",
     "mnemonicSizeError": "La frase secreta solo puede contener 24 palabras",
-    "frase secreta": "frase secreta",
     "backupConfirmButton": "Lo he respaldado",
     "secretInfoHeader": "¡La seguridad es lo primero!",
     "secretInfo": "En la siguiente pantalla, verá su frase secreta. Es una contraseña para acceder a sus fondos. Es crucial que la respalde y nunca la comparta con nadie",
@@ -847,7 +844,6 @@
     "ackBackedUp": "¿Estás seguro de que has hecho una copia de seguridad de tu frase secreta o semilla?",
     "secretPhraseCopy": "Copiar frase secreta",
     "secretPhraseCopied": "Frase secreta copiada",
-    "importar": "importar",
     "importSeedInstead": "Importar semilla en su lugar",
     "switchToSeed": "Cambiar a semilla"    
 }

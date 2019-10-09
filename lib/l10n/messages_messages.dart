@@ -3,22 +3,21 @@
 // messages from the main program should be duplicated here with the same
 // function name.
 
-// ignore_for_file: unnecessary_brace_in_string_interps
+// Ignore issues from commonly used lints in this file.
+// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
+// ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
+// ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
+// ignore_for_file:unused_import, file_names
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
 
-// ignore: unnecessary_new
 final messages = new MessageLookup();
 
-// ignore: unused_element
-final _keepAnalysisHappy = Intl.defaultLocale;
-
-// ignore: non_constant_identifier_names
-typedef MessageIfAbsent(String message_str, List args);
+typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  get localeName => 'messages';
+  String get localeName => 'messages';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -35,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "authMethod" : MessageLookupByLibrary.simpleMessage("Authentication Method"),
     "autoLockHeader" : MessageLookupByLibrary.simpleMessage("Automatically Lock"),
     "backupConfirmButton" : MessageLookupByLibrary.simpleMessage("I\'ve Backed It Up"),
+    "backupSecretPhrase" : MessageLookupByLibrary.simpleMessage("Backup Secret Phrase"),
     "backupSeed" : MessageLookupByLibrary.simpleMessage("Backup Seed"),
     "backupSeedConfirm" : MessageLookupByLibrary.simpleMessage("Are you sure that you backed up your wallet seed?"),
     "backupYourSeed" : MessageLookupByLibrary.simpleMessage("Backup your seed"),
@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeRepSucces" : MessageLookupByLibrary.simpleMessage("Representative Changed Successfully"),
     "close" : MessageLookupByLibrary.simpleMessage("Close"),
     "confirm" : MessageLookupByLibrary.simpleMessage("Confirm"),
+    "confirmPasswordHint" : MessageLookupByLibrary.simpleMessage("Confirm the password"),
     "contactAdded" : MessageLookupByLibrary.simpleMessage("%1 added to contacts."),
     "contactExists" : MessageLookupByLibrary.simpleMessage("Contact Already Exists"),
     "contactHeader" : MessageLookupByLibrary.simpleMessage("Contact"),
@@ -61,19 +62,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "copy" : MessageLookupByLibrary.simpleMessage("Copy"),
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Copy Address"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Copy Seed"),
+    "createAPasswordHeader" : MessageLookupByLibrary.simpleMessage("Create a password."),
+    "createPasswordFirstParagraph" : MessageLookupByLibrary.simpleMessage("You can create a password to add additional security to your wallet."),
+    "createPasswordHint" : MessageLookupByLibrary.simpleMessage("Create a password"),
+    "createPasswordSecondParagraph" : MessageLookupByLibrary.simpleMessage("Password is optional, and your wallet will be protected with your PIN or biometrics regardless."),
+    "createPasswordSheetHeader" : MessageLookupByLibrary.simpleMessage("Create"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Currently Represented By"),
     "defaultAccountName" : MessageLookupByLibrary.simpleMessage("Main Account"),
     "defaultNewAccountName" : MessageLookupByLibrary.simpleMessage("Account %1"),
+    "disablePasswordSheetHeader" : MessageLookupByLibrary.simpleMessage("Disable"),
+    "disablePasswordSuccess" : MessageLookupByLibrary.simpleMessage("Password has been disabled"),
+    "disableWalletPassword" : MessageLookupByLibrary.simpleMessage("Disable Wallet Password"),
+    "encryptionFailedError" : MessageLookupByLibrary.simpleMessage("Failed to set a wallet password"),
     "enterAddress" : MessageLookupByLibrary.simpleMessage("Enter Address"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Enter Amount"),
+    "enterPasswordHint" : MessageLookupByLibrary.simpleMessage("Enter your password"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("from someone"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("Welcome to Natrium. Once you receive NANO, transactions will show up like this:"),
     "exampleCardLittle" : MessageLookupByLibrary.simpleMessage("A little"),
     "exampleCardLot" : MessageLookupByLibrary.simpleMessage("A lot of"),
     "exampleCardTo" : MessageLookupByLibrary.simpleMessage("to someone"),
+    "exit" : MessageLookupByLibrary.simpleMessage("Exit"),
     "fingerprintSeedBackup" : MessageLookupByLibrary.simpleMessage("Authenticate to backup seed."),
+    "goBackButton" : MessageLookupByLibrary.simpleMessage("Go Back"),
     "gotItButton" : MessageLookupByLibrary.simpleMessage("Got It!"),
     "hideAccountHeader" : MessageLookupByLibrary.simpleMessage("Hide Account?"),
+    "iUnderstandTheRisks" : MessageLookupByLibrary.simpleMessage("I Understand the Risks"),
     "import" : MessageLookupByLibrary.simpleMessage("Import"),
     "importSecretPhrase" : MessageLookupByLibrary.simpleMessage("Import Secret Phrase"),
     "importSecretPhraseHint" : MessageLookupByLibrary.simpleMessage("Please enter your 24-word secret phrase below. Each word should be separated by a space."),
@@ -84,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "instantly" : MessageLookupByLibrary.simpleMessage("Instantly"),
     "insufficientBalance" : MessageLookupByLibrary.simpleMessage("Insufficient Balance"),
     "invalidAddress" : MessageLookupByLibrary.simpleMessage("Address entered was invalid"),
+    "invalidPassword" : MessageLookupByLibrary.simpleMessage("Invalid Password"),
     "kaliumWallet" : MessageLookupByLibrary.simpleMessage("Natrium Wallet"),
     "language" : MessageLookupByLibrary.simpleMessage("Language"),
     "lockAppSetting" : MessageLookupByLibrary.simpleMessage("Authenticate on Launch"),
@@ -94,15 +109,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "logoutDetail" : MessageLookupByLibrary.simpleMessage("Logging out will remove your seed and all Natrium-related data from this device. If your seed is not backed up, you will never be able to access your funds again"),
     "logoutReassurance" : MessageLookupByLibrary.simpleMessage("As long as you\'ve backed up your seed you have nothing to worry about."),
     "manage" : MessageLookupByLibrary.simpleMessage("Manage"),
+    "mantaError" : MessageLookupByLibrary.simpleMessage("Couldn\'t Verify Request"),
     "manualEntry" : MessageLookupByLibrary.simpleMessage("Manual Entry"),
     "mnemonicInvalidWord" : MessageLookupByLibrary.simpleMessage("%1 is not a valid word"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Mnemonic Phrase"),
     "mnemonicSizeError" : MessageLookupByLibrary.simpleMessage("Secret phrase may only contain 24 words"),
     "newAccountIntro" : MessageLookupByLibrary.simpleMessage("This is your new account. Once you receive NANO, transactions will show up like this:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("New Wallet"),
+    "nextButton" : MessageLookupByLibrary.simpleMessage("Next"),
     "no" : MessageLookupByLibrary.simpleMessage("No"),
     "noContactsExport" : MessageLookupByLibrary.simpleMessage("There\'s no contacts to export."),
     "noContactsImport" : MessageLookupByLibrary.simpleMessage("No new contacts to import."),
+    "noSkipButton" : MessageLookupByLibrary.simpleMessage("No, Skip"),
     "notificationBody" : MessageLookupByLibrary.simpleMessage("Open Natrium to view this transaction"),
     "notificationHeaderSupplement" : MessageLookupByLibrary.simpleMessage("Tap to open"),
     "notificationTitle" : MessageLookupByLibrary.simpleMessage("Received %1 NANO"),
@@ -110,6 +128,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "off" : MessageLookupByLibrary.simpleMessage("Off"),
     "onStr" : MessageLookupByLibrary.simpleMessage("On"),
     "paperWallet" : MessageLookupByLibrary.simpleMessage("Paper Wallet"),
+    "passwordBlank" : MessageLookupByLibrary.simpleMessage("Password cannot be empty"),
+    "passwordNoLongerRequiredToOpenParagraph" : MessageLookupByLibrary.simpleMessage("You will not need a password to open Natrium anymore."),
+    "passwordWillBeRequiredToOpenParagraph" : MessageLookupByLibrary.simpleMessage("This password will be required to open Natrium."),
+    "passwordsDontMatch" : MessageLookupByLibrary.simpleMessage("Passwords do not match"),
     "pickFromList" : MessageLookupByLibrary.simpleMessage("Pick From a List"),
     "pinConfirmError" : MessageLookupByLibrary.simpleMessage("Pins do not match"),
     "pinConfirmTitle" : MessageLookupByLibrary.simpleMessage("Confirm your pin"),
@@ -121,9 +143,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "pinSeedBackup" : MessageLookupByLibrary.simpleMessage("Enter PIN to Backup Seed"),
     "preferences" : MessageLookupByLibrary.simpleMessage("Preferences"),
     "privacyPolicy" : MessageLookupByLibrary.simpleMessage("Privacy Policy"),
-    "qrInvalidAddress" : MessageLookupByLibrary.simpleMessage("QR code does not contain a valid address"),
+    "qrInvalidAddress" : MessageLookupByLibrary.simpleMessage("QR code does not contain a valid destination"),
+    "qrInvalidPermissions" : MessageLookupByLibrary.simpleMessage("Please Grant Camera Permissions to scan QR Codes"),
     "qrInvalidSeed" : MessageLookupByLibrary.simpleMessage("QR code does not contain a valid seed or private key"),
     "qrMnemonicError" : MessageLookupByLibrary.simpleMessage("QR does not contain a valid secret phrase"),
+    "qrUnknownError" : MessageLookupByLibrary.simpleMessage("Could not Read QR Code"),
     "rawSeed" : MessageLookupByLibrary.simpleMessage("Raw Seed"),
     "receive" : MessageLookupByLibrary.simpleMessage("Receive"),
     "received" : MessageLookupByLibrary.simpleMessage("Received"),
@@ -133,6 +157,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "repInfo" : MessageLookupByLibrary.simpleMessage("A representative is an account that votes for network consensus. Voting power is weighted by balance, you may delegate your balance to increase the voting weight of a representative you trust. Your representative does not have spending power over your funds. You should choose a representative that has little downtime and is trustworthy."),
     "repInfoHeader" : MessageLookupByLibrary.simpleMessage("What is a representative?"),
     "representatives" : MessageLookupByLibrary.simpleMessage("Representatives"),
+    "requireAPasswordToOpenHeader" : MessageLookupByLibrary.simpleMessage("Require a password to open Natrium?"),
+    "rootWarning" : MessageLookupByLibrary.simpleMessage("It appears your device is \"rooted\", \"jailbroken\", or modified in a way that compromises security. It is recommended that you reset your device to its original state before proceeding."),
     "scanInstructions" : MessageLookupByLibrary.simpleMessage("Scan a Nano \naddress QR code"),
     "scanQrCode" : MessageLookupByLibrary.simpleMessage("Scan QR Code"),
     "secretInfo" : MessageLookupByLibrary.simpleMessage("In the next screen, you will see your secret phrase. It is a password to access your funds. It is crucial that you back it up and never share it with anyone."),
@@ -155,6 +181,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sending" : MessageLookupByLibrary.simpleMessage("Sending"),
     "sent" : MessageLookupByLibrary.simpleMessage("Sent"),
     "sentTo" : MessageLookupByLibrary.simpleMessage("Sent To"),
+    "setPassword" : MessageLookupByLibrary.simpleMessage("Set Password"),
+    "setPasswordSuccess" : MessageLookupByLibrary.simpleMessage("Password has been set successfully"),
+    "setWalletPassword" : MessageLookupByLibrary.simpleMessage("Set Wallet Password"),
     "settingsHeader" : MessageLookupByLibrary.simpleMessage("Settings"),
     "settingsTransfer" : MessageLookupByLibrary.simpleMessage("Load from Paper Wallet"),
     "shareNatrium" : MessageLookupByLibrary.simpleMessage("Share Natrium"),
@@ -191,6 +220,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "welcomeText" : MessageLookupByLibrary.simpleMessage("Welcome to Natrium. To begin, you may create a new wallet or import an existing one."),
     "xMinute" : MessageLookupByLibrary.simpleMessage("After %1 minute"),
     "xMinutes" : MessageLookupByLibrary.simpleMessage("After %1 minutes"),
-    "yes" : MessageLookupByLibrary.simpleMessage("Yes")
+    "yes" : MessageLookupByLibrary.simpleMessage("Yes"),
+    "yesButton" : MessageLookupByLibrary.simpleMessage("Yes")
   };
 }

@@ -480,18 +480,6 @@
         "type": "text",
         "placeholders": {}
     },
-    "shareKalium": "שתף את נאטריום",
-    "@shareKalium": {
-        "description": "settings_share",
-        "type": "text",
-        "placeholders": {}
-    },
-    "shareKaliumText": ".התנתקות תוביל להסרת הסיד וכל המידע הקשור לנאטריום מהמכשיר. אם הסיד שלך אינו מגובה, אתה לעולם לא תוכל לקבל גישה לכספים שלך יותר.",
-    "@logoutDetail": {
-        "description": "settings_logout_alert_message",
-        "type": "text",
-        "placeholders": {}
-    },
     "logoutAction": "מחק סיד והתנתק",
     "@logoutAction": {
         "description": "settings_logout_alert_confirm_cta",

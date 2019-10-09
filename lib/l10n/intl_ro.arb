@@ -480,18 +480,6 @@
         "type": "text",
         "placeholders": {}
     },
-    "shareKalium": "Share Natrium",
-    "@shareKalium": {
-        "description": "settings_share",
-        "type": "text",
-        "placeholders": {}
-    },
-    "shareKaliumText": "Acesta este Natrium! Portofelul oficial pentru NANO pe Android!",
-    "@shareKaliumText": {
-        "description": "share_extra",
-        "type": "text",
-        "placeholders": {}
-    },
     "logout": "Deconectare",
     "@logout": {
         "description": "settings_logout",

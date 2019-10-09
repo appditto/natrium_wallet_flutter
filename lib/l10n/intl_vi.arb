@@ -138,18 +138,6 @@
 		"type": "text",
 		"placeholders": {}
 	},
-	"fileReadErr": "Couldn't read file",
-	"@fileReadErr": {
-		"description": "file_error",
-		"type": "text",
-		"placeholders": {}
-	},
-	"fileParseErr": "Couldn't parse file",
-	"@fileParseErr": {
-		"description": "file_parse_error",
-		"type": "text",
-		"placeholders": {}
-	},
 	"viewDetails": "Xem chi tiết",
 	"@viewDetails": {
 		"description": "transaction_details",
@@ -465,18 +453,6 @@
 	"language": "Ngôn ngữ",
 	"@language": {
 		"description": "settings_change_language",
-		"type": "text",
-		"placeholders": {}
-	},
-	"shareKalium": "Chia sẻ Kalium",
-	"@shareKalium": {
-		"description": "settings_share",
-		"type": "text",
-		"placeholders": {}
-	},
-	"shareKaliumText": "Hãy xem Kalium! Ví Android chính thức của Banano.",
-	"@shareKaliumText": {
-		"description": "share_extra",
 		"type": "text",
 		"placeholders": {}
 	},

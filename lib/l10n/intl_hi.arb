@@ -450,18 +450,6 @@
         "type": "text",
         "placeholders": {}
     },
-    "shareKalium": "नेट्रियम साझा (शेयर) करें",
-    "@shareKalium": {
-        "description": "settings_share",
-        "type": "text",
-        "placeholders": {}
-    },
-    "shareKaliumText": "नेट्रियम - बनानो का एंड्रॉइड वॉलेट देखें!",
-    "@shareKaliumText": {
-        "description": "share_extra",
-        "type": "text",
-        "placeholders": {}
-    },
     "logout": "लॉगआउट करें",
     "@logout": {
         "description": "settings_logout",

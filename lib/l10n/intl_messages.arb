@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-08-13T16:19:49.540710",
+  "@@last_modified": "2019-10-08T14:41:51.422281",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -138,9 +138,21 @@
     "type": "text",
     "placeholders": {}
   },
-  "qrInvalidAddress": "QR code does not contain a valid address",
+  "qrInvalidAddress": "QR code does not contain a valid destination",
   "@qrInvalidAddress": {
     "description": "qr_invalid_address",
+    "type": "text",
+    "placeholders": {}
+  },
+  "qrInvalidPermissions": "Please Grant Camera Permissions to scan QR Codes",
+  "@qrInvalidPermissions": {
+    "description": "User did not grant camera permissions to the app",
+    "type": "text",
+    "placeholders": {}
+  },
+  "qrUnknownError": "Could not Read QR Code",
+  "@qrUnknownError": {
+    "description": "An unknown error occurred with the QR scanner",
     "type": "text",
     "placeholders": {}
   },
@@ -315,6 +327,12 @@
   "sendError": "An error occured. Try again later.",
   "@sendError": {
     "description": "send_generic_error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mantaError": "Couldn't Verify Request",
+  "@mantaError": {
+    "description": "Was unable to verify the manta/appia payment request (from scanning QR code, etc.)",
     "type": "text",
     "placeholders": {}
   },
@@ -519,6 +537,24 @@
   "logout": "Logout",
   "@logout": {
     "description": "settings_logout",
+    "type": "text",
+    "placeholders": {}
+  },
+  "rootWarning": "It appears your device is \"rooted\", \"jailbroken\", or modified in a way that compromises security. It is recommended that you reset your device to its original state before proceeding.",
+  "@rootWarning": {
+    "description": "Shown to users if they have a rooted Android device or jailbroken iOS device",
+    "type": "text",
+    "placeholders": {}
+  },
+  "iUnderstandTheRisks": "I Understand the Risks",
+  "@iUnderstandTheRisks": {
+    "description": "Shown to users if they have a rooted Android device or jailbroken iOS device",
+    "type": "text",
+    "placeholders": {}
+  },
+  "exit": "Exit",
+  "@exit": {
+    "description": "Exit action, like a button",
     "type": "text",
     "placeholders": {}
   },
@@ -810,6 +846,42 @@
     "type": "text",
     "placeholders": {}
   },
+  "setWalletPassword": "Set Wallet Password",
+  "@setWalletPassword": {
+    "description": "Allows user to encrypt wallet with a password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "setPassword": "Set Password",
+  "@setPassword": {
+    "description": "A button that sets the wallet password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "disableWalletPassword": "Disable Wallet Password",
+  "@disableWalletPassword": {
+    "description": "Allows user to deencrypt wallet with a password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "encryptionFailedError": "Failed to set a wallet password",
+  "@encryptionFailedError": {
+    "description": "If encrypting a wallet raised an error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "setPasswordSuccess": "Password has been set successfully",
+  "@setPasswordSuccess": {
+    "description": "Setting a Wallet Password was successful",
+    "type": "text",
+    "placeholders": {}
+  },
+  "disablePasswordSuccess": "Password has been disabled",
+  "@disablePasswordSuccess": {
+    "description": "Disabling a Wallet Password was successful",
+    "type": "text",
+    "placeholders": {}
+  },
   "exampleCardIntro": "Welcome to Natrium. Once you receive NANO, transactions will show up like this:",
   "@exampleCardIntro": {
     "description": "example_card_intro",
@@ -1023,6 +1095,114 @@
   "backupSecretPhrase": "Backup Secret Phrase",
   "@backupSecretPhrase": {
     "description": "backup seed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createPasswordHint": "Create a password",
+  "@createPasswordHint": {
+    "description": "A text field hint that tells the user to create a password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirmPasswordHint": "Confirm the password",
+  "@confirmPasswordHint": {
+    "description": "A text field hint that tells the user to confirm the password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "enterPasswordHint": "Enter your password",
+  "@enterPasswordHint": {
+    "description": "A text field hint that tells the users to enter their password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordsDontMatch": "Passwords do not match",
+  "@passwordsDontMatch": {
+    "description": "An error indicating a password has been confirmed incorrectly",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordBlank": "Password cannot be empty",
+  "@passwordBlank": {
+    "description": "An error indicating a password has been entered incorrectly",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidPassword": "Invalid Password",
+  "@invalidPassword": {
+    "description": "An error indicating a password has been entered incorrectly",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordWillBeRequiredToOpenParagraph": "This password will be required to open Natrium.",
+  "@passwordWillBeRequiredToOpenParagraph": {
+    "description": "A paragraph that tells the users that the created password will be required to open Natrium.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordNoLongerRequiredToOpenParagraph": "You will not need a password to open Natrium anymore.",
+  "@passwordNoLongerRequiredToOpenParagraph": {
+    "description": "An info paragraph that tells the user a password will no longer be needed to open Natrium",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createPasswordFirstParagraph": "You can create a password to add additional security to your wallet.",
+  "@createPasswordFirstParagraph": {
+    "description": "A paragraph that tells the users that they can create a password for additional security.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createPasswordSecondParagraph": "Password is optional, and your wallet will be protected with your PIN or biometrics regardless.",
+  "@createPasswordSecondParagraph": {
+    "description": "A paragraph that tells the users that the password creation is optional and the wallet will be still protected with biometrics or PIN regardless.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createAPasswordHeader": "Create a password.",
+  "@createAPasswordHeader": {
+    "description": "A paragraph that tells the users to create a password.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createPasswordSheetHeader": "Create",
+  "@createPasswordSheetHeader": {
+    "description": "Prompt user to create a new password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "disablePasswordSheetHeader": "Disable",
+  "@disablePasswordSheetHeader": {
+    "description": "Prompt user to disable their password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "requireAPasswordToOpenHeader": "Require a password to open Natrium?",
+  "@requireAPasswordToOpenHeader": {
+    "description": "A paragraph that asks the users if they would like a password to be required to open Natrium.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noSkipButton": "No, Skip",
+  "@noSkipButton": {
+    "description": "A button that declines and skips the mentioned process.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yesButton": "Yes",
+  "@yesButton": {
+    "description": "A button that accepts the mentioned process.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "nextButton": "Next",
+  "@nextButton": {
+    "description": "A button that goes to the next screen.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "goBackButton": "Go Back",
+  "@goBackButton": {
+    "description": "A button that goes to the previous screen.",
     "type": "text",
     "placeholders": {}
   }

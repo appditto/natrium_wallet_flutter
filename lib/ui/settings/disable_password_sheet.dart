@@ -153,7 +153,7 @@ class _DisablePasswordSheetState extends State<DisablePasswordSheet> {
                       AppButton.buildAppButton(
                           context,
                           AppButtonType.PRIMARY,
-                          AppLocalization.of(context).setPassword,
+                          AppLocalization.of(context).disablePasswordSheetHeader,
                           Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                         await submitAndDecrypt();
                       }),
