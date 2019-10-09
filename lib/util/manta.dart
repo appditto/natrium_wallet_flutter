@@ -11,8 +11,6 @@ import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:pointycastle/asymmetric/api.dart' show RSAPublicKey;
 
 class MantaUtil {
-  final Logger log = Logger("MantaUtil");
-
   // Utilities for the manta protocol
   static Future<PaymentRequestMessage> getPaymentDetails(MantaWallet manta) async {
     await manta.connect();
