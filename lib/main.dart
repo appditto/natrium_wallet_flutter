@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
+import 'package:natrium_wallet_flutter/model/available_language.dart';
 import 'package:natrium_wallet_flutter/ui/before_scan_screen.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_backup_safety.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_password.dart';
@@ -86,8 +87,8 @@ class _AppState extends State<App> {
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate
         ],
-        locale: StateContainer.of(context).curLanguage == null
-            ? Locale('en')
+        locale: StateContainer.of(context).curLanguage == null || StateContainer.of(context).curLanguage.language == AvailableLanguage.DEFAULT
+            ? null
             : StateContainer.of(context).curLanguage.getLocale(),
         supportedLocales: [
           const Locale('en', 'US'), // English

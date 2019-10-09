@@ -82,7 +82,6 @@ class _AppHomePageState extends State<AppHomePage>
 
   // Price conversion state (BTC, NANO, NONE)
   PriceConversion _priceConversion;
-  bool _pricesHidden = false;
 
   bool _isRefreshing = false;
 
@@ -154,6 +153,7 @@ class _AppHomePageState extends State<AppHomePage>
     this.mantaAnimationOpen = false;
     WidgetsBinding.instance.addObserver(this);
     sl.get<SharedPrefsUtil>().getPriceConversion().then((result) {
+<<<<<<< HEAD
       _priceConversion = result;
     }).then((result) {
       // Main Card Size
@@ -166,6 +166,12 @@ class _AppHomePageState extends State<AppHomePage>
       } else if (_priceConversion == PriceConversion.HIDDEN) {
         mainCardHeight = 120;
         settingsIconMarginTop = 5;
+=======
+      if (mounted) {
+        setState(() {
+          _priceConversion = result;
+        });
+>>>>>>> 154210ee80332067e834a568955911d62d15924c
       }
     });
     _addSampleContact();
@@ -1450,6 +1456,7 @@ class _AppHomePageState extends State<AppHomePage>
                       size: 24)),
             ),
           ),
+<<<<<<< HEAD
           AnimatedContainer(
             duration: Duration(milliseconds: 200),
             height: mainCardHeight,
@@ -1459,6 +1466,10 @@ class _AppHomePageState extends State<AppHomePage>
           AnimatedContainer(
             duration: Duration(milliseconds: 200),
             curve: Curves.easeInOut,
+=======
+          _getBalanceWidget(),
+          SizedBox(
+>>>>>>> 154210ee80332067e834a568955911d62d15924c
             width: 70.0,
             height: mainCardHeight,
           ),
@@ -1468,7 +1479,7 @@ class _AppHomePageState extends State<AppHomePage>
   } //Main Card
 
   // Get balance display
-  Widget _getBalanceWidget(BuildContext context) {
+  Widget _getBalanceWidget() {
     if (StateContainer.of(context).wallet == null ||
         StateContainer.of(context).wallet.loading) {
       // Placeholder for balance text
@@ -1596,7 +1607,6 @@ class _AppHomePageState extends State<AppHomePage>
         if (_priceConversion == PriceConversion.BTC) {
           // Hide prices
           setState(() {
-            _pricesHidden = true;
             _priceConversion = PriceConversion.NONE;
             mainCardHeight = 64;
             settingsIconMarginTop = 7;
@@ -1613,6 +1623,7 @@ class _AppHomePageState extends State<AppHomePage>
         } else if (_priceConversion == PriceConversion.HIDDEN) {
           // Cycle to BTC price
           setState(() {
+<<<<<<< HEAD
             mainCardHeight = 120;
             settingsIconMarginTop = 5;
           });
@@ -1621,10 +1632,14 @@ class _AppHomePageState extends State<AppHomePage>
               _pricesHidden = false;
               _priceConversion = PriceConversion.BTC;
             });
+=======
+            _priceConversion = PriceConversion.BTC;
+>>>>>>> 154210ee80332067e834a568955911d62d15924c
           });
           sl.get<SharedPrefsUtil>().setPriceConversion(PriceConversion.BTC);
         }
       },
+<<<<<<< HEAD
       child: Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width - 185,
@@ -1646,6 +1661,54 @@ class _AppHomePageState extends State<AppHomePage>
                     !_pricesHidden
                         ? Text(
                             StateContainer.of(context)
+=======
+      child: _priceConversion == PriceConversion.HIDDEN ?
+        Center(
+          child: Container(
+            child: Icon(AppIcons.nanologo, size: 40, color: StateContainer.of(context).curTheme.primary)
+          )
+        )
+      : Container(
+        padding: EdgeInsets.symmetric(vertical: 14),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+                StateContainer.of(context).wallet.getLocalCurrencyPrice(
+                    StateContainer.of(context).curCurrency,
+                    locale: StateContainer.of(context).currencyLocale),
+                textAlign: TextAlign.center,
+                style: _priceConversion == PriceConversion.BTC
+                    ? AppStyles.textStyleCurrencyAlt(context)
+                    : AppStyles.textStyleCurrencyAltHidden(context)),
+            Container(
+              margin: EdgeInsetsDirectional.only(end: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width - 185),
+                    child: AutoSizeText.rich(
+                      TextSpan(
+                        children: [
+                          // Currency Icon
+                          TextSpan(
+                            text: "",
+                            style: TextStyle(
+                              fontFamily: 'AppIcons',
+                              color:
+                                  StateContainer.of(context).curTheme.primary,
+                              fontSize: 26.0,
+                            ),
+                          ),
+                          // Main balance text
+                          TextSpan(
+                            text: StateContainer.of(context)
+>>>>>>> 154210ee80332067e834a568955911d62d15924c
                                 .wallet
                                 .getLocalCurrencyPrice(
                                     StateContainer.of(context).curCurrency,
@@ -1726,6 +1789,27 @@ class _AppHomePageState extends State<AppHomePage>
                   ],
                 ),
               ),
+<<<<<<< HEAD
+=======
+            ),
+            Row(
+              children: <Widget>[
+                Icon(
+                    AppIcons.btc,
+                    color: _priceConversion == PriceConversion.NONE
+                        ? Colors.transparent
+                        : StateContainer.of(context).curTheme.text60,
+                    size: 14),
+                Text(StateContainer.of(context).wallet.btcPrice,
+                    textAlign: TextAlign.center,
+                    style: _priceConversion == PriceConversion.BTC
+                        ? AppStyles.textStyleCurrencyAlt(context)
+                        : AppStyles.textStyleCurrencyAltHidden(context)),
+              ],
+            ),
+          ],
+        ),
+>>>>>>> 154210ee80332067e834a568955911d62d15924c
       ),
     );
   }

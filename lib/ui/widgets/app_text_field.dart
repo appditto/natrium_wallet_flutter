@@ -169,7 +169,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     AnimatedCrossFade(
                       duration: Duration(milliseconds: widget.buttonFadeDurationMs),
                       firstChild: widget.prefixButton,
-                      secondChild: SizedBox(),
+                      secondChild: SizedBox(height: 48, width: 48),
                       crossFadeState: widget.prefixShowFirstCondition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                     )
                   : widget.prefixButton != null
@@ -179,7 +179,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     AnimatedCrossFade(
                       duration: Duration(milliseconds: widget.buttonFadeDurationMs),
                       firstChild: widget.suffixButton,
-                      secondChild: SizedBox(),
+                      secondChild: SizedBox(height: 48, width: 48),
                       crossFadeState: widget.suffixShowFirstCondition ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                     )
                   : widget.suffixButton != null
