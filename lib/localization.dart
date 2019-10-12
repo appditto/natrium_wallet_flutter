@@ -1091,8 +1091,24 @@ class AppLocalization {
     return Intl.message("Go Back",
       desc: 'A button that goes to the previous screen.', name: 'goBackButton');
   }
+  String get supportButton {
+    return Intl.message("Support",
+        desc: 'A button to open up the live support window', name: 'supportButton');
+  }
+  String get liveSupportButton {
+    return Intl.message("Support",
+        desc: 'A button to open up the live support window', name: 'liveSupportButton');
+  }
   /// BUTTONS END
-  
+
+  /// Live chat
+  String get connectingHeader {
+    return Intl.message(
+        "Connecting",
+        desc:
+            'A header to let the user now that Natrium is currently connecting to (or loading) live chat.',
+        name: 'connectingHeader');
+  }
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash) {
     return 'https://nanocrawler.cc/explorer/block/$hash';
