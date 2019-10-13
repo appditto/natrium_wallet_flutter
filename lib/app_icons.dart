@@ -72,4 +72,5 @@ class AppIcons {
   static const IconData appia = const IconData(0xe831, fontFamily: _kFontFam);
   static const IconData walletpassword = const IconData(0xe832, fontFamily: _kFontFam);
   static const IconData walletpassworddisabled = const IconData(0xe833, fontFamily: _kFontFam);
+  static const IconData support = const IconData(0xe834, fontFamily: _kFontFam);
 }
