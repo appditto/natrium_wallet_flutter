@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:logger/logger.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
@@ -420,7 +421,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
-                    AppLocalization.of(context).changeCurrency,
+                    AppLocalization.of(context).currency,
                     style: AppStyles.textStyleDialogHeader(context),
                   ),
                 ),
@@ -996,25 +997,39 @@ class _SettingsSheetState extends State<SettingsSheet>
                 child: Stack(
               children: <Widget>[
                 ListView(
-                  padding: EdgeInsets.only(top: 15.0),
+                  padding: EdgeInsets.only(top: 18.0),
                   children: <Widget>[
-                    Container(
-                      margin:
-                          EdgeInsetsDirectional.only(start: 30.0, bottom: 10),
-                      child: Text(AppLocalization.of(context).preferences,
-                          style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w100,
-                              color:
-                                  StateContainer.of(context).curTheme.text60)),
-                    ),
-                    Divider(
-                      height: 2,
-                      color: StateContainer.of(context).curTheme.text15,
+                    Stack(
+                      alignment: Alignment.topRight,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsetsDirectional.only(
+                                  start: 30.0, bottom: 10, top: 6),
+                              child: Text(
+                                  AppLocalization.of(context).preferences,
+                                  style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w100,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .text60)),
+                            ),
+                            Divider(
+                              height: 2,
+                              color: StateContainer.of(context).curTheme.text15,
+                            ),
+                          ],
+                        ),
+                        // Live support button
+                        AppSupportButton(),
+                      ],
                     ),
                     AppSettings.buildSettingsListItemDoubleLine(
                         context,
-                        AppLocalization.of(context).changeCurrency,
+                        AppLocalization.of(context).currency,
                         StateContainer.of(context).curCurrency,
                         AppIcons.currency,
                         _currencyDialog),
@@ -1480,6 +1495,85 @@ class _SettingsSheetState extends State<SettingsSheet>
                 ), //List Top Gradient End
               ],
             )),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AppSupportButton extends StatelessWidget {
+  const AppSupportButton({
+    Key key,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        color: StateContainer.of(context).curTheme.primary,
+        boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
+      ),
+      height: 30,
+      padding: EdgeInsets.all(0),
+      margin: EdgeInsetsDirectional.only(end: 24),
+      // Support Button
+      child: FlatButton(
+        splashColor: StateContainer.of(context).curTheme.background40,
+        highlightColor: StateContainer.of(context).curTheme.background40,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (BuildContext context) {
+            return UIUtil.showWebview(
+                context,
+                'https://natrium.io/support/' +
+                    "?fcBackgroundColor=" +
+                    StateContainer.of(context)
+                        .curTheme
+                        .backgroundDark
+                        .toString()
+                        .substring(10, 16) +
+                    "&fcForegroundColor=" +
+                    StateContainer.of(context)
+                        .curTheme
+                        .text
+                        .toString()
+                        .substring(10, 16) +
+                    "&loadingText=" +
+                    AppLocalization.of(context).connectingHeader);
+          }));
+        },
+        padding: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
+        // A row for support icon and text
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            // Support icon
+            Container(
+              margin: EdgeInsetsDirectional.only(end: 6),
+              child: Icon(AppIcons.support,
+                  size: 16,
+                  color: StateContainer.of(context).curTheme.backgroundDark),
+            ),
+            // Support text
+            Container(
+              constraints: BoxConstraints(
+                maxWidth: (MediaQuery.of(context).size.width * 0.225),
+              ),
+              child: AutoSizeText(
+                AppLocalization.of(context).supportButton,
+                style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    fontFamily: "NunitoSans",
+                    color: StateContainer.of(context).curTheme.backgroundDark),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                minFontSize: 6,
+                stepGranularity: 0.1,
+              ),
+            ),
           ],
         ),
       ),

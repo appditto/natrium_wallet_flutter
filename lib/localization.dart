@@ -476,6 +476,11 @@ class AppLocalization {
       desc: 'settings_local_currency', name: 'changeCurrency');
   }
 
+  String get currency {
+    return Intl.message("Currency",
+      desc: 'A settings menu item for changing currency', name: 'currency');
+  }
+
   String get language {
     return Intl.message("Language",
       desc: 'settings_change_language', name: 'language');
