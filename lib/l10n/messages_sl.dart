@@ -27,7 +27,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "addAccount" : MessageLookupByLibrary.simpleMessage("Dodaj račun"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Dodaj stik"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Naslov skopiran"),
-    "addressHint" : MessageLookupByLibrary.simpleMessage("Vnesite naslov"),
     "addressMising" : MessageLookupByLibrary.simpleMessage("Prosim vnesite naslov"),
     "addressShare" : MessageLookupByLibrary.simpleMessage("Deli naslov"),
     "amountMissing" : MessageLookupByLibrary.simpleMessage("Prosim vnesite znesek"),

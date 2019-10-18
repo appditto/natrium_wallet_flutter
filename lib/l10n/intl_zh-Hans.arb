@@ -1,853 +1,203 @@
 {
-    "@@last_modified": "2019-02-04T09:26:48.408903",
-    "contactsImportSuccess": "已成功导入％d个联系人",
-    "@contactsImportSuccess": {
-        "description": "contact_import_success",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactNameMissing": "请给此联系人一个名字",
-    "@contactNameMissing": {
-        "description": "contact_name_missing",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressShare": "分享地址",
-    "@addressShare": {
-        "description": "receive_share_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "cancel": "取消",
-    "@cancel": {
-        "description": "dialog_cancel",
-        "type": "text",
-        "placeholders": {}
-    },
-    "close": "关闭",
-    "@close": {
-        "description": "dialog_close",
-        "type": "text",
-        "placeholders": {}
-    },
-    "confirm": "确认",
-    "@confirm": {
-        "description": "dialog_confirm",
-        "type": "text",
-        "placeholders": {}
-    },
-    "no": "否认",
-    "@no": {
-        "description": "intro_new_wallet_backup_no",
-        "type": "text",
-        "placeholders": {}
-    },
-    "yes": "确认",
-    "@yes": {
-        "description": "intro_new_wallet_backup_yes",
-        "type": "text",
-        "placeholders": {}
-    },
-    "onStr": "开启",
-    "@onStr": {
-        "description": "generic_on",
-        "type": "text",
-        "placeholders": {}
-    },
-    "off": "关闭 ",
-    "@off": {
-        "description": "generic_off",
-        "type": "text",
-        "placeholders": {}
-    },
-    "send": "发送",
-    "@send": {
-        "description": "home_send_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "receive": "接收",
-    "@receive": {
-        "description": "home_receive_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sent": "发送",
-    "@sent": {
-        "description": "history_sent",
-        "type": "text",
-        "placeholders": {}
-    },
-    "received": "收到",
-    "@received": {
-        "description": "history_received",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transactions": "交易",
-    "@transactions": {
-        "description": "transaction_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressCopied": "地址已复制",
-    "@addressCopied": {
-        "description": "receive_copied",
-        "type": "text",
-        "placeholders": {}
-    },
-    "copyAddress": "复制地址",
-    "@copyAddress": {
-        "description": "receive_copy_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressHint": "输入地址",
-    "@addressHint": {
-        "description": "send_address_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seed": "种子代码",
-    "@seed": {
-        "description": "intro_new_wallet_seed_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedInvalid": "种子代码无效",
-    "@seedInvalid": {
-        "description": "intro_seed_invalid",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedCopied": "种子代码复制到剪贴板。 2分钟后失效",
-    "@seedCopied": {
-        "description": "intro_new_wallet_seed_copied",
-        "type": "text",
-        "placeholders": {}
-    },
-    "scanQrCode": "扫描二维码",
-    "@scanQrCode": {
-        "description": "send_scan_qr",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactsImportErr": "无法导入联系人",
-    "@contactsImportErr": {
-        "description": "contact_import_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "viewDetails": "查看详情",
-    "@viewDetails": {
-        "description": "transaction_details",
-        "type": "text",
-        "placeholders": {}
-    },
-    "removeContact": "删除联系人",
-    "@removeContact": {
-        "description": "contact_remove_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "removeContactConfirmation": "您确认要刪除%1吗？",
-    "@removeContactConfirmation": {
-        "description": "contact_remove_sure",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactHeader": "联系人",
-    "@contactHeader": {
-        "description": "contact_view_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactsHeader": "联系人名单",
-    "@contactsHeader": {
-        "description": "contact_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addContact": "添加联系人",
-    "@addContact": {
-        "description": "contact_add_button",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactNameHint": "输入姓名@",
-    "@contactNameHint": {
-        "description": "contact_name_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactInvalid": "联系人姓名无效",
-    "@contactInvalid": {
-        "description": "contact_invalid_name",
-        "type": "text",
-        "placeholders": {}
-    },
-    "noContactsExport": "没有要导出的联系人",
-    "@noContactsExport": {
-        "description": "contact_export_none",
-        "type": "text",
-        "placeholders": {}
-    },
-    "noContactsImport": "找不到要导入的联系人",
-    "@noContactsImport": {
-        "description": "contact_import_none",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactAdded": "%1已被添加到联系人！",
-    "@contactAdded": {
-        "description": "contact_added",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactRemoved": "%1已从联系人名单中刪除!",
-    "@contactRemoved": {
-        "description": "contact_removed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactNameMissing": "没有要导出的联系人",
-    "@contactNameMissing": {
-        "description": "contact_export_none",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactExists": "联系人已存在",
-    "@contactExists": {
-        "description": "contact_name_exists",
-        "type": "text",
-        "placeholders": {}
-    },
-    "backupYourSeed": "备份您的种子代码",
-    "@backupYourSeed": {
-        "description": "intro_new_wallet_seed_backup_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "backupSeedConfirm": "您确认您备份了您的钱包种子吗？",
-    "@backupSeedConfirm": {
-        "description": "intro_new_wallet_backup",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedBackupInfo": "以下是您钱包的种子代码。请注意，您一定要备份种子代码但不要将其存储为纯文本或屏幕截图",
-    "@seedBackupInfo": {
-        "description": "intro_new_wallet_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "importSeed": "导入种子代码",
-    "@importSeed": {
-        "description": "intro_seed_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "importSeedHint": "请在下面输入您的种子代码",
-    "@importSeedHint": {
-        "description": "intro_seed_info",
-        "type": "text",
-        "placeholders": {}
-    },
-    "welcomeText": "欢迎来到Natrium。下一步，您可以创建新钱包或导入现有钱包",
-    "@welcomeText": {
-        "description": "intro_welcome_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "newWallet": "创建新钱包",
-    "@newWallet": {
-        "description": "intro_welcome_new_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "importWallet": "导入现有钱包",
-    "@importWallet": {
-        "description": "intro_welcome_have_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sentTo": "发给：",
-    "@sentTo": {
-        "description": "sent_to",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sending": "发出",
-    "@sending": {
-        "description": "send_sending",
-        "type": "text",
-        "placeholders": {}
-    },
-    "to": "至：",
-    "@to": {
-        "description": "send_to",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sendAmountConfirm": "发送 %1 NANO?",
-    "@sendAmountConfirm": {
-        "description": "send_pin_description",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sendError": "发生错误。请稍后再试。",
-    "@sendError": {
-        "description": "send_generic_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "enterAmount": "输入金额",
-    "@enterAmount": {
-        "description": "send_amount_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "invalidAddress": "无效的目标地址",
-    "@invalidAddress": {
-        "description": "send_invalid_address",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressMising": "请输入目标地址",
-    "@addressMising": {
-        "description": "send_enter_address",
-        "type": "text",
-        "placeholders": {}
-    },
-    "amountMissing": "请输入金额",
-    "@amountMissing": {
-        "description": "send_enter_amount",
-        "type": "text",
-        "placeholders": {}
-    },
-    "insufficientBalance": "余额不足",
-    "@insufficientBalance": {
-        "description": "send_insufficient_balance",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sendFrom": "发送自：",
-    "@sendFrom": {
-        "description": "send_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinCreateTitle": "创建一个6位数的识别码",
-    "@pinCreateTitle": {
-        "description": "pin_create_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinConfirmTitle": "确认您的识别码",
-    "@pinConfirmTitle": {
-        "description": "pin_confirm_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinEnterTitle": "输入识别码",
-    "@pinEnterTitle": {
-        "description": "pin_enter_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinConfirmError": "识别码不匹配",
-    "@pinConfirmError": {
-        "description": "pin_confirm_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinInvalid": "输入的识别码无效",
-    "@pinInvalid": {
-        "description": "pin_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "themeHeader": "主题",
-    "@themeHeader": {
-        "description": "theme_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepButton": "更改",
-    "@changeRepButton": {
-        "description": "change_representative_change",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepAuthenticate": "更改指定代表",
-    "@changeRepAuthenticate": {
-        "description": "settings_change_rep",
-        "type": "text",
-        "placeholders": {}
-    },
-    "currentlyRepresented": "当前指定代表",
-    "@currentlyRepresented": {
-        "description": "change_representative_current_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepSucces": "指定代表更改成功",
-    "@changeRepSucces": {
-        "description": "change_representative_success",
-        "type": "text",
-        "placeholders": {}
-    },
-    "repInfoHeader": "什么是指定代表？",
-    "@repInfoHeader": {
-        "description": "change_representative_info_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "repInfo": "指定代表是投票支持网络共识的帐户。代表的投票权重由账户余额加权，您可以用余额投票来增加您信任的代表的投票权重。您的代表对您的资金没有控制权。您应该选择一个下线时间很少并且值得信赖的代表。",
-    "@repInfo": {
-        "description": "change_representative_info",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinRepChange": "输入识别码以更改指定代表。",
-    "@pinRepChange": {
-        "description": "change_representative_pin",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepHint": "输入新指定代表",
-    "@changeRepHint": {
-        "description": "change_representative_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "authMethod": "验证方法",
-    "@authMethod": {
-        "description": "settings_disable_fingerprint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinMethod": "识别码",
-    "@pinMethod": {
-        "description": "settings_pin_method",
-        "type": "text",
-        "placeholders": {}
-    },
-	"privacyPolicy": "隐私政策",
-    "@privacyPolicy": {
-		"description": "settings_privacy_policy",
-		"type": "text",
-		"placeholders": {}
-	},
-    "biometricsMethod": "生物识别技术",
-    "@biometricsMethod": {
-        "description": "settings_fingerprint_method",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeCurrency": "更改货币",
-    "@changeCurrency": {
-        "description": "settings_local_currency",
-        "type": "text",
-        "placeholders": {}
-    },
-    "language": "语言",
-    "@language": {
-        "description": "settings_change_language",
-        "type": "text",
-        "placeholders": {}
-    },
-    "shareNatrium": "分享Natrium",
-    "@shareNatrium": {
-        "description": "settings_share",
-        "type": "text",
-        "placeholders": {}
-    },
-    "shareNatriumText": "来试试Natrium！ NANO在苹果和安卓系统上的钱包！",
-    "@shareNatriumText": {
-        "description": "share_extra",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logout": "登出",
-    "@logout": {
-        "description": "settings_logout",
-        "type": "text",
-        "placeholders": {}
-    },
-    "warning": "警告",
-    "@warning": {
-        "description": "settings_logout_alert_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logoutDetail": "注销将从此设备中删除您的种子代码和所有与Natrium相关的数据。如果您的种子代码没有备份，您将永远无法再次访问您的帐户",
-    "@logoutDetail": {
-        "description": "settings_logout_alert_message",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logoutAction": "删除种子代码并登出",
-    "@logoutAction": {
-        "description": "settings_logout_alert_confirm_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logoutAreYouSure": "您确定？",
-    "@logoutAreYouSure": {
-        "description": "settings_logout_warning_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logoutReassurance": "只要您有备份您的种子代码，就没有什么可担心的",
-    "@logoutReassurance": {
-        "description": "settings_logout_warning_message",
-        "type": "text",
-        "placeholders": {}
-    },
-    "settingsHeader": "设置",
-    "@settingsHeader": {
-        "description": "settings_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "preferences": "偏好",
-    "@preferences": {
-        "description": "settings_preferences_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "manage": "管理",
-    "@manage": {
-        "description": "settings_manage_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "backupSeed": "备份种子代码",
-    "@backupSeed": {
-        "description": "settings_backup_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "fingerprintSeedBackup": "确认指纹，备份钱包种子。",
-    "@fingerprintSeedBackup": {
-        "description": "settings_fingerprint_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinSeedBackup": "输入识别码以查看钱包种子。",
-    "@pinSeedBackup": {
-        "description": "settings_pin_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "systemDefault": "系统默认",
-    "@systemDefault": {
-        "description": "settings_default_language_string",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notifications": "通知",
-    "@notifications": {
-        "description": "notifications_settings",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notificationTitle": "收到 %1 NANO",
-    "@notificationTitle": {
-        "description": "notification_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notificationBody": "打开Natrium查看此交易。",
-    "@notificationBody": {
-        "description": "notification_body",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notificationHeaderSupplement": "点击打开 ",
-    "@notificationHeaderSupplement": {
-        "description": "notificaiton_header_suplement",
-        "type": "text",
-        "placeholders": {}
-    },
-    "settingsTransfer": "用纸钱包充值",
-    "@settingsTransfer": {
-        "description": "settings_transfer",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferError": "传送出现了问题，请稍后再尝试。",
-    "@transferError": {
-        "description": "transfer_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "paperWallet": "纸钱包",
-    "@paperWallet": {
-        "description": "paper_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "kaliumWallet": "Natrium 钱包",
-    "@kaliumWallet": {
-        "description": "Natrium_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "manualEntry": "手动输入",
-    "@manualEntry": {
-        "description": "transfer_manual_entry",
-        "type": "text",
-        "placeholders": {}
-    },
-    "mnemonicPhrase": "密码短语",
-    "@mnemonicPhrase": {
-        "description": "mnemonic_phrase",
-        "type": "text",
-        "placeholders": {}
-    },
-    "rawSeed": "种子代码",
-    "@rawSeed": {
-        "description": "raw_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferHeader": "传送钱币",
-    "@transferHeader": {
-        "description": "transfer_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transfer": "传送",
-    "@transfer": {
-        "description": "transfer_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferManualHint": "请输入种子代码。",
-    "@transferManualHint": {
-        "description": "transfer_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferIntro": "这个过程会将纸钱包的钱币转移到您的 Natrium 钱包。\n\n请按 \"%1\" 键开始。",
-    "@transferIntro": {
-        "description": "transfer_intro",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferQrScanHint": "请扫描 NANO \n种子代码",
-    "@transferQrScanHint": {
-        "description": "transfer_qr_scan_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferQrScanError": "这个二维码没有包含任何有效的种子代码",
-    "@transferQrScanError": {
-        "description": "transfer_qr_scan_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferNoFunds": "这个种子代码没有包含任何 NANO",
-    "@transferNoFunds": {
-        "description": "transfer_no_funds_toast",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferConfirmInfo": "检测到一个包含 %1 NANO 的钱包。\n",
-    "@transferConfirmInfo": {
-        "description": "transfer_confirm_info_first",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferConfirmInfoSecond": "按键确定传送钱币。\n",
-    "@transferConfirmInfoSecond": {
-        "description": "transfer_confirm_info_second",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferConfirmInfoThird": "传送需要几秒钟完成，请稍等一下。",
-    "@transferConfirmInfoThird": {
-        "description": "transfer_confirm_info_third",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferLoading": "传送中",
-    "@transferLoading": {
-        "description": "transfer_loading_text",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferComplete": "%1 NANO 成功传送到您的 Natrium 钱包。\n",
-    "@transferComplete": {
-        "description": "transfer_complete_text",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferClose": "点击任意位置关闭窗口。",
-    "@transferClose": {
-        "description": "transfer_close_text",
-        "type": "text",
-        "placeholders": {}
-    },
-    "unlockPin": "请输入识别码码解锁 Natrium",
-    "@unlockPin": {
-        "description": "unlock_Natrium_pin",
-        "type": "text",
-        "placeholders": {}
-    },
-    "unlockBiometrics": "以生物特征解锁 Natrium",
-    "@unlockBiometrics": {
-        "description": "unlock_Natrium_bio",
-        "type": "text",
-        "placeholders": {}
-    },
-    "lockAppSetting": "启动时要求认证",
-    "@lockAppSetting": {
-        "description": "authenticate_on_launch",
-        "type": "text",
-        "placeholders": {}
-    },
-    "locked": "已锁定",
-    "@locked": {
-        "description": "lockedtxt",
-        "type": "text",
-        "placeholders": {}
-    },
-    "unlock": "解锁",
-    "@unlock": {
-        "description": "unlocktxt",
-        "type": "text",
-        "placeholders": {}
-    },
-    "tooManyFailedAttempts": "解锁失败太多次",
-    "@tooManyFailedAttempts": {
-        "description": "fail_toomany_attempts",
-        "type": "text",
-        "placeholders": {}
-    },
-    "securityHeader": "安全性",
-    "@securityHeader": {
-        "description": "security_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "autoLockHeader": "自动锁定",
-    "@autoLockHeader": {
-        "description": "auto_lock_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "xMinutes": "%1 分钟后",
-    "@xMinutes": {
-        "description": "after_minutes",
-        "type": "text",
-        "placeholders": {}
-    },
-    "xMinute": "%1 分钟后",
-    "@xMinute": {
-        "description": "after_minute",
-        "type": "text",
-        "placeholders": {}
-    },
-    "instantly": "立刻",
-    "@instantly": {
-        "description": "insantly",
-        "type": "text",
-        "placeholders": {}
-    },
-    "copySeed": "复制种子代码",
-    "@copySeed": {
-        "description": "copy_seed_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedCopiedShort": "种子代码已复制",
-    "@seedCopiedShort": {
-        "description": "seed_copied_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "qrInvalidSeed": "二维码没有包含任何有效的种子代码",
-    "@qrInvalidSeed": {
-        "description": "qr_invalid_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "qrInvalidAddress": "二维码没有包含任何有效的地址",
-    "@qrInvalidAddress": {
-        "description": "qr_invalid_address",
-        "type": "text",
-        "placeholders": {}
-    },
-    "scanInstructions": "扫描NANO二维码地址",
-    "@scanInstructions": {
-        "description": "scan_send_instruction_label",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardIntro": "欢迎来到Natrium。当您收到或发送NANO时，交易将如下出现。",
-    "@exampleCardIntro": {
-        "description": "example_card_intro",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardLittle": "一点",
-    "@exampleCardLittle": {
-        "description": "example_card_little",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardLot": "很多",
-    "@exampleCardLot": {
-        "description": "example_card_lot",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardTo": "给某人",
-    "@exampleCardTo": {
-        "description": "example_card_to",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardFrom": "来自某人",
-    "@exampleCardFrom": {
-        "description": "example_card_from",
-        "type": "text",
-        "placeholders": {}
-    },
-    "defaultAccountName": "主要账户",
-    "defaultNewAccountName": "账户 %1",
-    "newAccountIntro": "这是您的新账户。当您收到 NANO 时, 交易会如下出现：",
-    "account": "账户",
-    "accounts": "账户",
-    "addAccount": "添加账户",
-    "hideAccountHeader": "隐藏账户？",
-    "removeAccountText": "您确定要隐藏此账户？ 您之后可以点 \"%1\" 键来重新添加此账户。",
-    "representatives": "代表",
-    "pickFromList": "从代表名单选择",
-    "votingWeight": "投票比重",
-    "uptime": "上线时间",
-    "tapToReveal": "点击揭示",
-    "tapToHide": "点击隐藏",
-    "copied": "已复制",
-    "copy": "复制",
-    "seedDescription": "私钥和秘密词语对机器包含同样的资讯，只要有私钥或秘密词语的备份，就可以存取你的币。",
-    "importSecretPhrase": "输入秘密词语",
-    "importSecretPhraseHint": "请输入你的24个秘密词语。每个词语应该由空格分隔。",
-    "qrMnemonicError": "QR 不包含有效的秘密词语",
-    "mnemonicInvalidWord": "%1 不是有效的词语。",
-    "mnemonicSizeError": "秘密词语一定要包含 24 个词语",
-    "secretPhrase": "秘密词语",
-    "backupConfirmButton": "已经备份",
-    "secretInfoHeader": "安全第一！",
-    "secretInfo": "你将会看到你的秘密词语，秘密词语是存取你的币的密码。要确保你把它备份，而不要和任何人分享。",
-    "secretWarning": "如果你迷失了你的手机或卸载这程式，就需要你的私钥或秘密词才可以重获你的币！",
-    "gotItButton": "明白！",
-    "ackBackedUp": "你确定已经将你的私钥或秘密词语备份吗？",
-    "secretPhraseCopy": "复制秘密词语",
-    "secretPhraseCopied": "已复制秘密词语",
-    "import": "输入",
-    "importSeedInstead": "输入私钥",
-    "switchToSeed": "转成私钥"
+  "cancel": "取消",
+  "close": "关闭",
+  "confirm": "确认",
+  "no": "否认",
+  "yes": "确认",
+  "onStr": "开启",
+  "off": "关闭",
+  "send": "发送",
+  "receive": "接收",
+  "sent": "发送",
+  "received": "收到",
+  "transactions": "交易",
+  "addressCopied": "地址已复制",
+  "copyAddress": "复制地址",
+  "addressShare": "分享地址",
+  "addressHint": "输入地址",
+  "seed": "种子",
+  "seedInvalid": "无效的种子",
+  "seedCopied": "种子复制到剪贴板。 2分钟后失效",
+  "scanQrCode": "扫描二维码",
+  "contactsImportErr": "无法导入联系人",
+  "viewDetails": "查看详情",
+  "qrInvalidSeed": "二维码没有包含任何有效的种子",
+  "qrInvalidAddress": "二维码不包含一个有效的地址",
+  "removeContact": "删除联系人",
+  "removeContactConfirmation": "您确认要刪除%1吗？",
+  "contactHeader": "联系人",
+  "contactsHeader": "联系人名单",
+  "addContact": "添加联系人",
+  "contactNameHint": "输入姓名@",
+  "contactInvalid": "联系人姓名无效",
+  "noContactsExport": "没有要导出的联系人",
+  "noContactsImport": "找不到要导入的联系人",
+  "contactsImportSuccess": "已成功导入％1个联系人",
+  "contactAdded": "%1已被添加到联系人！",
+  "contactRemoved": "%1已从联系人名单中刪除!",
+  "contactNameMissing": "没有要导出的联系人",
+  "contactExists": "联系人已存在",
+  "backupYourSeed": "备份您的种子",
+  "backupSeedConfirm": "您确认您备份了您的钱包种子吗？",
+  "seedBackupInfo": "以下是您钱包的种子。请您务必备份此种子，但为了安全请永远不要用纯文本或屏幕截图来储存它。",
+  "copySeed": "复制种子",
+  "seedCopiedShort": "种子已复制",
+  "importSeed": "导入种子",
+  "importSeedHint": "请在下面输入您的种子。",
+  "welcomeText": "欢迎来到Natrium。下一步，您可以创建新钱包或导入已有钱包。",
+  "newWallet": "创建新钱包",
+  "importWallet": "导入现有钱包",
+  "sentTo": "发给",
+  "sending": "发出",
+  "to": "至",
+  "sendAmountConfirm": "发送 %1 NANO",
+  "sendError": "发生错误。请稍后再试。",
+  "enterAmount": "输入金额",
+  "enterAddress": "输入地址",
+  "invalidAddress": "无效的目标地址",
+  "addressMising": "请输入目标地址",
+  "amountMissing": "请输入金额",
+  "insufficientBalance": "余额不足",
+  "sendFrom": "发送自",
+  "pinCreateTitle": "创建一个6位数的识别码",
+  "pinConfirmTitle": "确认您的识别码",
+  "pinEnterTitle": "输入识别码",
+  "pinConfirmError": "识别码不匹配",
+  "pinInvalid": "输入的识别码无效",
+  "themeHeader": "主题",
+  "changeRepButton": "更改",
+  "changeRepAuthenticate": "更改代表",
+  "currentlyRepresented": "当前代表",
+  "changeRepSucces": "代表更改成功",
+  "repInfoHeader": "什么是代表？",
+  "repInfo": "代表是投票支持网络共识的帐户。代表的投票权重由账户余额加权，您可以用余额投票来增加您信任的代表的投票权重。您的代表对您的资金没有控制权。您应该选择一个下线时间很少并且值得信赖的代表。",
+  "pinRepChange": "输入识别码以更改代表。",
+  "changeRepHint": "输入新代表",
+  "representatives": "代表",
+  "pickFromList": "从代表名单选择",
+  "votingWeight": "投票比重",
+  "uptime": "上线时间",
+  "authMethod": "验证方法",
+  "pinMethod": "识别码",
+  "privacyPolicy": "隐私政策",
+  "biometricsMethod": "生物识别技术",
+  "changeCurrency": "更改货币",
+  "language": "语言",
+  "shareNatrium": "分享Natrium",
+  "shareNatriumText": "来试试Natrium！ 一个卓越的NANO手机钱包！",
+  "logout": "登出",
+  "warning": "警告",
+  "logoutDetail": "注销将从此设备中删除您的种子和所有与Natrium相关的数据。如果您的种子代码没有备份，您将永远无法再次访问您的帐户",
+  "logoutAction": "删除种子并登出",
+  "logoutAreYouSure": "您确定？",
+  "logoutReassurance": "只要您有备份您的种子，就没有什么可担心的。",
+  "settingsHeader": "设置",
+  "preferences": "偏好",
+  "manage": "管理",
+  "backupSeed": "备份种子",
+  "fingerprintSeedBackup": "确认指纹，备份钱包种子。",
+  "pinSeedBackup": "输入识别码以查看钱包种子。",
+  "systemDefault": "系统默认",
+  "notifications": "通知",
+  "notificationTitle": "收到 %1 NANO",
+  "notificationBody": "打开Natrium查看此交易",
+  "notificationHeaderSupplement": "点击打开",
+  "settingsTransfer": "用纸钱包充值",
+  "transferError": "传送出现了问题，请稍后再尝试。",
+  "paperWallet": "纸钱包",
+  "kaliumWallet": "Natrium 钱包",
+  "manualEntry": "手动输入",
+  "mnemonicPhrase": "秘密短语",
+  "rawSeed": "种子",
+  "transferHeader": "传送钱币",
+  "transfer": "传送",
+  "transferManualHint": "请输入种子。",
+  "transferIntro": "这个过程会将纸钱包的钱币转移到您的 Natrium 钱包。\n\n请按 \"%1\" 键开始。",
+  "transferQrScanHint": "请扫描 NANO \n种子",
+  "transferQrScanError": "这个二维码没有包含任何有效的种子。",
+  "transferNoFunds": "这个种子没有包含任何 NANO",
+  "transferConfirmInfo": "检测到一个包含 %1 NANO 的钱包。\n",
+  "transferConfirmInfoSecond": "按键确定传送钱币。\n",
+  "transferConfirmInfoThird": "传送需要几秒钟完成，请稍等一下。",
+  "transferLoading": "传送中",
+  "transferComplete": "%1 NANO 成功传送到您的 Natrium 钱包。\n",
+  "transferClose": "点击任意位置关闭窗口。",
+  "scanInstructions": "扫描NANO二维码地址",
+  "unlockPin": "请输入识别码来解锁 Natrium",
+  "unlockBiometrics": "验证并解锁 Natrium",
+  "lockAppSetting": "启动时要求验证",
+  "locked": "已锁定",
+  "unlock": "解锁",
+  "tooManyFailedAttempts": "解锁失败太多次。",
+  "securityHeader": "安全性",
+  "autoLockHeader": "自动锁定",
+  "xMinutes": "%1 分钟后",
+  "xMinute": "%1 分钟后",
+  "instantly": "立刻",
+  "exampleCardIntro": "欢迎来到Natrium。当您收到或发送NANO时，交易将如下出现。",
+  "exampleCardLittle": "一点",
+  "exampleCardLot": "很多",
+  "exampleCardTo": "发给某人",
+  "exampleCardFrom": "来自某人",
+  "defaultAccountName": "主要账户",
+  "defaultNewAccountName": "账户 %1",
+  "newAccountIntro": "这是您的新账户。当您收到 NANO 时, 交易会如下出现：",
+  "account": "账户",
+  "accounts": "账户",
+  "addAccount": "添加账户",
+  "hideAccountHeader": "隐藏账户？",
+  "removeAccountText": "您确定要隐藏此账户？ 您之后可以点 \"%1\" 键来重新添加此账户。",
+  "tapToReveal": "点击揭示",
+  "tapToHide": "点击隐藏",
+  "copied": "已复制",
+  "copy": "复制",
+  "seedDescription": "种子和秘密词语对机器来说是同一个东西，只要有种子或秘密词语的备份，就可以存取您的币。",
+  "importSecretPhrase": "输入秘密词语",
+  "importSecretPhraseHint": "请输入您的24个秘密词语。每个词语应该由空格分隔。",
+  "qrMnemonicError": "二维码不包含有效的秘密词语",
+  "mnemonicInvalidWord": "%1 不是有效的词语",
+  "mnemonicSizeError": "秘密词语一定要包含 24 个词语",
+  "secretPhrase": "秘密词语",
+  "backupConfirmButton": "我已备份",
+  "secretInfoHeader": "安全第一！",
+  "secretInfo": "您将会看到您的秘密词语，它是存取您的币的密匙。您要确保把它备份好，并且不要和任何人分享。",
+  "secretWarning": "如果您丢了您的手机或卸载这程序，您就需要您的种子或秘密词语才可以重获您的币！",
+  "gotItButton": "明白！",
+  "ackBackedUp": "您确定已经将您的种子或秘密词语备份了吗？",
+  "secretPhraseCopy": "复制秘密词语",
+  "secretPhraseCopied": "已复制秘密词语",
+  "import": "导入",
+  "importSeedInstead": "导入种子",
+  "switchToSeed": "转换成种子",
+  "backupSecretPhrase": "备份秘密词语",
+  "qrInvalidPermissions": "请提供相机许可来扫描二维码",
+  "qrUnknownError": "无法读取二维码",
+  "mantaError": "无法验证请求",
+  "rootWarning": "您的设备似乎被“越狱”或被修改，从而存在安全隐患。建议您在继续之前把设备还原到初始状态。",
+  "iUnderstandTheRisks": "我已明白风险",
+  "exit": "退出",
+  "setWalletPassword": "设置钱包密码",
+  "setPassword": "设置密码",
+  "disableWalletPassword": "解除钱包密码",
+  "encryptionFailedError": "钱包密码设置失败",
+  "setPasswordSuccess": "密码设置成功",
+  "disablePasswordSuccess": "钱包密码已被解除",
+  "createPasswordHint": "创建密码",
+  "confirmPasswordHint": "确认密码",
+  "enterPasswordHint": "输入您的密码",
+  "passwordsDontMatch": "密码不匹配",
+  "passwordBlank": "密码不能为空",
+  "invalidPassword": "无效密码",
+  "passwordWillBeRequiredToOpenParagraph": "以后需要这个密码才能打开Natrium。",
+  "passwordNoLongerRequiredToOpenParagraph": "您以后打开Natrium不再需要密码了。",
+  "createPasswordFirstParagraph": "您可以创建一个密码来加强您钱包的安全性。",
+  "createPasswordSecondParagraph": "密码是可选的，无论如何您的钱包仍会被识别码或生物识别技术保护。",
+  "createAPasswordHeader": "创建一个密码。",
+  "createPasswordSheetHeader": "创建",
+  "disablePasswordSheetHeader": "解除",
+  "requireAPasswordToOpenHeader": "需要密码来打开Natrium吗？",
+  "noSkipButton": "不，跳过",
+  "yesButton": "确认",
+  "nextButton": "继续",
+  "goBackButton": "返回"
 }

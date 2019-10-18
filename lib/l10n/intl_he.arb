@@ -1,801 +1,144 @@
 {
-    "@@last_modified": "2019-02-04T09:26:48.408903",
-    "contactsImportSuccess": "יבוא אנשי הקשר של %1 עבר בהצלחה",
-    "@contactsImportSuccess": {
-        "description": "contact_import_success",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactNameMissing": "בחר שם לאיש קשר זה",
-    "@contactNameMissing": {
-        "description": "contact_name_missing",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressShare": "שתף",
-    "@addressShare": {
-        "description": "receive_share_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "cancel": "בטל",
-    "@cancel": {
-        "description": "dialog_cancel",
-        "type": "text",
-        "placeholders": {}
-    },
-    "close": "סגור",
-    "@close": {
-        "description": "dialog_close",
-        "type": "text",
-        "placeholders": {}
-    },
-    "confirm": "אשר",
-    "@confirm": {
-        "description": "dialog_confirm",
-        "type": "text",
-        "placeholders": {}
-    },
-    "no": "לא",
-    "@no": {
-        "description": "intro_new_wallet_backup_no",
-        "type": "text",
-        "placeholders": {}
-    },
-    "yes": "כן",
-    "@yes": {
-        "description": "intro_new_wallet_backup_yes",
-        "type": "text",
-        "placeholders": {}
-    },
-    "onStr": "פועל",
-    "@onStr": {
-        "description": "generic_on",
-        "type": "text",
-        "placeholders": {}
-    },
-    "off": "כבוי",
-    "@off": {
-        "description": "generic_off",
-        "type": "text",
-        "placeholders": {}
-    },
-    "send": "שלח",
-    "@send": {
-        "description": "home_send_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "receive": "קבל",
-    "@receive": {
-        "description": "home_receive_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sent": "נשלח",
-    "@sent": {
-        "description": "history_sent",
-        "type": "text",
-        "placeholders": {}
-    },
-    "received": "התקבל",
-    "@received": {
-        "description": "history_received",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transactions": "טרנסקציות",
-    "@transactions": {
-        "description": "transaction_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressCopied": "כתובת הועתקה",
-    "@addressCopied": {
-        "description": "receive_copied",
-        "type": "text",
-        "placeholders": {}
-    },
-    "copyAddress": "העתק כתובת",
-    "@copyAddress": {
-        "description": "receive_copy_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressHint": "הכנס כתובת",
-    "@addressHint": {
-        "description": "send_address_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seed": "סיד",
-    "@seed": {
-        "description": "intro_new_wallet_seed_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedInvalid": "הסיד לא תקין",
-    "@seedInvalid": {
-        "description": "intro_seed_invalid",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedCopied": ".הסיד הועתק \n הוא ניתן להדבקה במשך שתי דקות",
-    "@seedCopied": {
-        "description": "intro_new_wallet_seed_copied",
-        "type": "text",
-        "placeholders": {}
-    },
-    "scanQrCode": "סרוק ברקוד",
-    "@scanQrCode": {
-        "description": "send_scan_qr",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactsImportErr": "ייבוא איש קשר נכשל",
-    "@contactsImportErr": {
-        "description": "contact_import_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "viewDetails": "ראה פרטים",
-    "@viewDetails": {
-        "description": "transaction_details",
-        "type": "text",
-        "placeholders": {}
-    },
-    "qrInvalidSeed": "הברקוד אינו מכיל סיד ולידי של מפתח פרטי",
-    "@qrInvalidSeed": {
-        "description": "qr_invalid_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "qrInvalidAddress": "הברקוד אינו מכיל כתובת ולידית ",
-    "@qrInvalidAddress": {
-        "description": "qr_invalid_address",
-        "type": "text",
-        "placeholders": {}
-    },
-    "removeContact": "הסר איש קשר",
-    "@removeContact": {
-        "description": "contact_remove_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "removeContactConfirmation": "האם אתה בטוח שאתה רוצה למחוק את %?",
-    "@removeContactConfirmation": {
-        "description": "contact_remove_sure",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactHeader": "איש קשר",
-    "@contactHeader": {
-        "description": "contact_view_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactsHeader": "אנשי קשר",
-    "@contactsHeader": {
-        "description": "contact_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addContact": "הוסף איש קשר",
-    "@addContact": {
-        "description": "contact_add_button",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactNameHint": "הכנס שם @",
-    "@contactNameHint": {
-        "description": "contact_name_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactInvalid": "שם איש קשר לא תקין",
-    "@contactInvalid": {
-        "description": "contact_invalid_name",
-        "type": "text",
-        "placeholders": {}
-    },
-    "noContactsExport": "לא קיימים אנשי קשר לייצא",
-    "@noContactsExport": {
-        "description": "contact_export_none",
-        "type": "text",
-        "placeholders": {}
-    },
-    "noContactsImport": "לא נמצאו אנשי קשר לייבוא",
-    "@noContactsImport": {
-        "description": "contact_import_none",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactAdded": "  !נוסף לאנשי הקשר %1 ",
-    "@contactAdded": {
-        "description": "contact_added",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactRemoved": "% הוסר מאנשי הקשר!",
-    "@contactRemoved": {
-        "description": "contact_removed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactNameMissing": "לא קיימים אנשי קשר לייצא",
-    "@contactNameMissing": {
-        "description": "contact_export_none",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactExists": "איש קשר כבר קיים",
-    "@contactExists": {
-        "description": "contact_name_exists",
-        "type": "text",
-        "placeholders": {}
-    },
-    "backupYourSeed": "גבה את הסיד שלך",
-    "@backupYourSeed": {
-        "description": "intro_new_wallet_seed_backup_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "backupSeedConfirm": "אתה בטוח שגיבית את הסיד של הארנק שלך?",
-    "@backupSeedConfirm": {
-        "description": "intro_new_wallet_backup",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedBackupInfo": "\tמתחת נמצא הסיד של הארנקים שלך. זה מאוד קריטי שתגבה את הסיד שלך ולא תשמור אותו בקובץ טקסט או כתמונת מסך.",
-    "@seedBackupInfo": {
-        "description": "intro_new_wallet_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "copySeed": "העתק סיד",
-    "@copySeed": {
-        "description": "copy_seed_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedCopiedShort": "הסיד הועתק",
-    "@seedCopiedShort": {
-        "description": "seed_copied_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "importSeed": "ייבא סיד",
-    "@importSeed": {
-        "description": "intro_seed_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "importSeedHint": "בבקשה תכניס את הסיד שלך.",
-    "@importSeedHint": {
-        "description": "intro_seed_info",
-        "type": "text",
-        "placeholders": {}
-    },
-    "welcomeText": "ברוך הבא לנאטריום. בכדי להמשיך, אתה רשאי לייצר ארנק חדש או לייבא אחד קיים.",
-    "@welcomeText": {
-        "description": "intro_welcome_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "newWallet": "ארנק חדש",
-    "@newWallet": {
-        "description": "intro_welcome_new_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "importWallet": "ייבא ארנק",
-    "@importWallet": {
-        "description": "intro_welcome_have_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sentTo": "נשלח ל",
-    "@sentTo": {
-        "description": "sent_to",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sending": "נשלח",
-    "@sending": {
-        "description": "send_sending",
-        "type": "text",
-        "placeholders": {}
-    },
-    "to": "מ",
-    "@to": {
-        "description": "send_to",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sendAmountConfirm": "שלח %1 נאנו?",
-    "@sendAmountConfirm": {
-        "description": "send_pin_description",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sendError": "קרתה תקלה. נסה שוב מאוחר יותר",
-    "@sendError": {
-        "description": "send_generic_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "enterAmount": "הכנס כמות",
-    "@enterAmount": {
-        "description": "send_amount_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "invalidAddress": "כתובת יעד אינה תקינה",
-    "@invalidAddress": {
-        "description": "send_invalid_address",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressMising": "הזן יעד",
-    "@addressMising": {
-        "description": "send_enter_address",
-        "type": "text",
-        "placeholders": {}
-    },
-    "amountMissing": "הזן סכום",
-    "@amountMissing": {
-        "description": "send_enter_amount",
-        "type": "text",
-        "placeholders": {}
-    },
-    "insufficientBalance": "אין מספיק מטבעות בחשבון",
-    "@insufficientBalance": {
-        "description": "send_insufficient_balance",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sendFrom": "נשלח מ",
-    "@sendFrom": {
-        "description": "send_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinCreateTitle": "יצר קוד באורך 6 ספרות",
-    "@pinCreateTitle": {
-        "description": "pin_create_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinConfirmTitle": "אשר את הקוד",
-    "@pinConfirmTitle": {
-        "description": "pin_confirm_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinEnterTitle": "הכנס קוד",
-    "@pinEnterTitle": {
-        "description": "pin_enter_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinConfirmError": "הקודים אינם תואמים",
-    "@pinConfirmError": {
-        "description": "pin_confirm_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinInvalid": "הוכנס קוד לא תקין",
-    "@pinInvalid": {
-        "description": "pin_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "themeHeader": "נושא",
-    "@themeHeader": {
-        "description": "theme_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepButton": "שנה",
-    "@changeRepButton": {
-        "description": "change_representative_change",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepAuthenticate": "שנה נציג",
-    "@changeRepAuthenticate": {
-        "description": "settings_change_rep",
-        "type": "text",
-        "placeholders": {}
-    },
-    "currentlyRepresented": "מיוצג על ידי",
-    "@currentlyRepresented": {
-        "description": "change_representative_current_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepSucces": "נציג השתנה בהצלחה",
-    "@changeRepSucces": {
-        "description": "change_representative_success",
-        "type": "text",
-        "placeholders": {}
-    },
-    "repInfoHeader": "מה זה נציג?",
-    "@repInfoHeader": {
-        "description": "change_representative_info_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "repInfo": "נציג הוא חשבון המצביע עבור הסכמת הרשת. כוח ההצבעה נשקל על ידי כמות המטבעות שחשבון, אתה רשאי להעביר את הסמכות של חשבונך בכדי להגדיל את כוח ההצבעה של נציג שבו אתה בוטח.",
-    "@repInfo": {
-        "description": "change_representative_info",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinRepChange": "הכנס קוד בכדי לשנות נציג",
-    "@pinRepChange": {
-        "description": "change_representative_pin",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepHint": "הכנס כתובת נציג חדש",
-    "@changeRepHint": {
-        "description": "change_representative_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "authMethod": "שיטת אימות",
-    "@authMethod": {
-        "description": "settings_disable_fingerprint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinMethod": "קוד",
-    "@pinMethod": {
-        "description": "settings_pin_method",
-        "type": "text",
-        "placeholders": {}
-    },
-    "privacyPolicy": "פרטיות",
-    "@privacyPolicy": {
-        "description": "settings_privacy_policy",
-        "type": "text",
-        "placeholders": {}
-    },
-    "biometricsMethod": "ביומטריה",
-    "@biometricsMethod": {
-        "description": "settings_fingerprint_method",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeCurrency": "שנה מטבע חליפין",
-    "@changeCurrency": {
-        "description": "settings_local_currency",
-        "type": "text",
-        "placeholders": {}
-    },
-    "language": "שפה",
-    "@language": {
-        "description": "settings_change_language",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logoutAction": "מחק סיד והתנתק",
-    "@logoutAction": {
-        "description": "settings_logout_alert_confirm_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logoutAreYouSure": "אתה בטוח?",
-    "@logoutAreYouSure": {
-        "description": "settings_logout_warning_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logoutReassurance": "כל עוד גיבית את הסיד שלך, אין לך מה לדאוג.",
-    "@logoutReassurance": {
-        "description": "settings_logout_warning_message",
-        "type": "text",
-        "placeholders": {}
-    },
-    "settingsHeader": "הגדרות",
-    "@settingsHeader": {
-        "description": "settings_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "preferences": "העדפות",
-    "@preferences": {
-        "description": "settings_preferences_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "manage": "נהל",
-    "@manage": {
-        "description": "settings_manage_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "backupSeed": "גבה סיד",
-    "@backupSeed": {
-        "description": "settings_backup_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "fingerprintSeedBackup": "אשר טביעות אצבע בכדי לגבות סיד.",
-    "@fingerprintSeedBackup": {
-        "description": "settings_fingerprint_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinSeedBackup": "הכנס קוד בכדי לראות את הסיד של הארנק.",
-    "@pinSeedBackup": {
-        "description": "settings_pin_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "systemDefault": "בְּרִירַת מֶחדָל",
-    "@systemDefault": {
-        "description": "settings_default_language_string",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notifications": "התראות",
-    "@notifications": {
-        "description": "notifications_settings",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notificationTitle": "%1 נאנו התקבלו",
-    "@notificationTitle": {
-        "description": "notification_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notificationBody": "פתח את נאטריום בשביל לצפות בטרנסקציה.",
-    "@notificationBody": {
-        "description": "notification_body",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notificationHeaderSupplement": "לחץ בשביל לפתוח",
-    "@notificationHeaderSupplement": {
-        "description": "notificaiton_header_suplement",
-        "type": "text",
-        "placeholders": {}
-    },
-    "settingsTransfer": "טען מארנק נייר",
-    "@settingsTransfer": {
-        "description": "settings_transfer",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferError": "חלה תקלה במהלך ההעברה. בבקשה נסה מאוחר יותר.",
-    "@transferError": {
-        "description": "transfer_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "paperWallet": "ארנק נייר",
-    "@paperWallet": {
-        "description": "paper_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "kaliumWallet": "ארנק נאטריום",
-    "@kaliumWallet": {
-        "description": "kalium_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "manualEntry": "הכנסה ידנית",
-    "@manualEntry": {
-        "description": "transfer_manual_entry",
-        "type": "text",
-        "placeholders": {}
-    },
-    "mnemonicPhrase": "פתגם זכרון",
-    "@mnemonicPhrase": {
-        "description": "mnemonic_phrase",
-        "type": "text",
-        "placeholders": {}
-    },
-    "rawSeed": "סיד",
-    "@rawSeed": {
-        "description": "raw_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferHeader": "העברת\nסכום",
-    "@transferHeader": {
-        "description": "transfer_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transfer": "העבר",
-    "@transfer": {
-        "description": "transfer_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferManualHint": "בבקשה הכנס את הסיד הנ\"ל",
-    "@transferManualHint": {
-        "description": "transfer_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferIntro": "התהליך יעביר את הסכום שברשותך מארנק הנייר לארנק נאטריום\n\nלחץ על כפתור ה \"%1\" בכדי להתחיל.",
-    "@transferIntro": {
-        "description": "transfer_intro",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferQrScanHint": "סרוק סיד של \nנאנו או ארנק נייר",
-    "@transferQrScanHint": {
-        "description": "transfer_qr_scan_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferQrScanError": "הברקוד אינו מכיל סיד תקין.",
-    "@transferQrScanError": {
-        "description": "transfer_qr_scan_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferNoFunds": "אין שום נאנו בסיד המצורף.",
-    "@transferNoFunds": {
-        "description": "transfer_no_funds_toast",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferConfirmInfo": "\nארנק עם מאזן של %1 נאנו אותר.",
-    "@transferConfirmInfo": {
-        "description": "transfer_confirm_info_first",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferConfirmInfoSecond": "\nלחץ על אשר בכדי להעביר את הסכום.",
-    "@transferConfirmInfoSecond": {
-        "description": "transfer_confirm_info_second",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferConfirmInfoThird": "יתכן שיקחו כמה שניות עד תחילת ההעברה.",
-    "@transferConfirmInfoThird": {
-        "description": "transfer_confirm_info_third",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferLoading": "מעביר",
-    "@transferLoading": {
-        "description": "transfer_loading_text",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferComplete": "%1 נאנו הועברו לארנק נאטריום.",
-    "@transferComplete": {
-        "description": "transfer_complete_text",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferClose": "לחץ בכל מקום בכדי לסגור את החלון.",
-    "@transferClose": {
-        "description": "transfer_close_text",
-        "type": "text",
-        "placeholders": {}
-    },
-    "scanInstructions": "סרוק כתובת ברקוד \n של נאנו",
-    "@scanInstructions": {
-        "description": "scan_send_instruction_label",
-        "type": "text",
-        "placeholders": {}
-    },
-    "unlockPin": "הכנס קוד בשביל לשחרר את נאטריום מנעילה",
-    "@unlockPin": {
-        "description": "unlock_kalium_pin",
-        "type": "text",
-        "placeholders": {}
-    },
-    "unlockBiometrics": "בצע אימות בכדי לשחרר את נאטריום מנעילה",
-    "@unlockBiometrics": {
-        "description": "unlock_kalium_bio",
-        "type": "text",
-        "placeholders": {}
-    },
-    "lockAppSetting": "בצע אימות בעת הפעלה",
-    "@lockAppSetting": {
-        "description": "authenticate_on_launch",
-        "type": "text",
-        "placeholders": {}
-    },
-    "locked": "נעל",
-    "@locked": {
-        "description": "lockedtxt",
-        "type": "text",
-        "placeholders": {}
-    },
-    "unlock": "שחרר מנעילה",
-    "@unlock": {
-        "description": "unlocktxt",
-        "type": "text",
-        "placeholders": {}
-    },
-    "tooManyFailedAttempts": "יותר מדי נסיונות כושלים לשחרור הנעילה.",
-    "@tooManyFailedAttempts": {
-        "description": "fail_toomany_attempts",
-        "type": "text",
-        "placeholders": {}
-    },
-    "securityHeader": "אבטחה",
-    "@securityHeader": {
-        "description": "security_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "autoLockHeader": "נעל באופן אוטומטי",
-    "@autoLockHeader": {
-        "description": "auto_lock_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "xMinutes": "אחרי %1 דקות",
-    "@xMinutes": {
-        "description": "after_minutes",
-        "type": "text",
-        "placeholders": {}
-    },
-    "xMinute": "אחרי דקה %1",
-    "@xMinute": {
-        "description": "after_minute",
-        "type": "text",
-        "placeholders": {}
-    },
-    "instantly": "באופן מידי",
-    "@instantly": {
-        "description": "insantly",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardIntro": "ברוך הבא לנאטריום. בכדי להמשיך, אתה רשאי לייצר ארנק חדש או לייבא אחד קיים",
-    "@exampleCardIntro": {
-        "description": "example_card_intro",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardLittle": "קצת",
-    "@exampleCardLittle": {
-        "description": "example_card_little",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardLot": "הרבה",
-    "@exampleCardLot": {
-        "description": "example_card_lot",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardTo": "למישהו",
-    "@exampleCardTo": {
-        "description": "example_card_to",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardFrom": "ממישהו",
-    "@exampleCardFrom": {
-        "description": "example_card_from",
-        "type": "text",
-        "placeholders": {}
-    },
-    "defaultAccountName": "חשבון ראשי",
-    "defaultNewAccountName": "חשבון %1",
-    "newAccountIntro": "זה החשבון החדש שלך. ברגע שתקבל נאנו, הטראנזקציות יראו כך:",
-    "account": "חשבון",
-    "accounts": "חשבונות",
-    "addAccount": "הוסף חשבון",
-    "hideAccountHeader": "הסתר חשבון?",
-    "removeAccountText": "אתה בטוח שאתה רוצה להחביא את החשבון? אתה יכול להוסיף אותו מחודש מאוחר יותר על ידי לחיצה על כפתור ה%1.",
-    "representatives": "נציגים",
-    "pickFromList": "בחר מרשימה",
-    "votingWeight": "משקל הצבעה",
-    "uptime": "זמן אונליין"
+  "cancel": "בטל",
+  "close": "סגור",
+  "confirm": "אשר",
+  "no": "לא",
+  "yes": "כן",
+  "onStr": "פועל",
+  "off": "כבוי",
+  "send": "שלח",
+  "receive": "קבל",
+  "sent": "נשלח",
+  "received": "התקבל",
+  "transactions": "טרנסקציות",
+  "addressCopied": "כתובת הועתקה",
+  "copyAddress": "העתק כתובת",
+  "addressShare": "שתף",
+  "seed": "סיד",
+  "seedInvalid": "הסיד לא תקין",
+  "seedCopied": ".הסיד הועתק \n הוא ניתן להדבקה במשך שתי דקות",
+  "scanQrCode": "סרוק ברקוד",
+  "contactsImportErr": "ייבוא איש קשר נכשל",
+  "viewDetails": "ראה פרטים",
+  "qrInvalidSeed": "הברקוד אינו מכיל סיד ולידי של מפתח פרטי",
+  "qrInvalidAddress": "הברקוד אינו מכיל כתובת ולידית ",
+  "removeContact": "הסר איש קשר",
+  "removeContactConfirmation": "האם אתה בטוח שאתה רוצה למחוק את %?",
+  "contactHeader": "איש קשר",
+  "contactsHeader": "אנשי קשר",
+  "addContact": "הוסף איש קשר",
+  "contactNameHint": "הכנס שם @",
+  "contactInvalid": "שם איש קשר לא תקין",
+  "noContactsExport": "לא קיימים אנשי קשר לייצא",
+  "noContactsImport": "לא נמצאו אנשי קשר לייבוא",
+  "contactsImportSuccess": "יבוא אנשי הקשר של %1 עבר בהצלחה",
+  "contactAdded": "  !נוסף לאנשי הקשר %1 ",
+  "contactRemoved": "% הוסר מאנשי הקשר!",
+  "contactNameMissing": "לא קיימים אנשי קשר לייצא",
+  "contactExists": "איש קשר כבר קיים",
+  "backupYourSeed": "גבה את הסיד שלך",
+  "backupSeedConfirm": "אתה בטוח שגיבית את הסיד של הארנק שלך?",
+  "seedBackupInfo": "\tמתחת נמצא הסיד של הארנקים שלך. זה מאוד קריטי שתגבה את הסיד שלך ולא תשמור אותו בקובץ טקסט או כתמונת מסך.",
+  "copySeed": "העתק סיד",
+  "seedCopiedShort": "הסיד הועתק",
+  "importSeed": "ייבא סיד",
+  "importSeedHint": "בבקשה תכניס את הסיד שלך.",
+  "welcomeText": "ברוך הבא לנאטריום. בכדי להמשיך, אתה רשאי לייצר ארנק חדש או לייבא אחד קיים.",
+  "newWallet": "ארנק חדש",
+  "importWallet": "ייבא ארנק",
+  "sentTo": "נשלח ל",
+  "sending": "נשלח",
+  "to": "מ",
+  "sendAmountConfirm": "שלח %1 נאנו?",
+  "sendError": "קרתה תקלה. נסה שוב מאוחר יותר",
+  "enterAmount": "הכנס כמות",
+  "enterAddress": "הכנס כתובת",
+  "invalidAddress": "כתובת יעד אינה תקינה",
+  "addressMising": "הזן יעד",
+  "amountMissing": "הזן סכום",
+  "insufficientBalance": "אין מספיק מטבעות בחשבון",
+  "sendFrom": "נשלח מ",
+  "pinCreateTitle": "יצר קוד באורך 6 ספרות",
+  "pinConfirmTitle": "אשר את הקוד",
+  "pinEnterTitle": "הכנס קוד",
+  "pinConfirmError": "הקודים אינם תואמים",
+  "pinInvalid": "הוכנס קוד לא תקין",
+  "themeHeader": "נושא",
+  "changeRepButton": "שנה",
+  "changeRepAuthenticate": "שנה נציג",
+  "currentlyRepresented": "מיוצג על ידי",
+  "changeRepSucces": "נציג השתנה בהצלחה",
+  "repInfoHeader": "מה זה נציג?",
+  "repInfo": "נציג הוא חשבון המצביע עבור הסכמת הרשת. כוח ההצבעה נשקל על ידי כמות המטבעות שחשבון, אתה רשאי להעביר את הסמכות של חשבונך בכדי להגדיל את כוח ההצבעה של נציג שבו אתה בוטח.",
+  "pinRepChange": "הכנס קוד בכדי לשנות נציג",
+  "changeRepHint": "הכנס כתובת נציג חדש",
+  "representatives": "נציגים",
+  "pickFromList": "בחר מרשימה",
+  "votingWeight": "משקל הצבעה",
+  "uptime": "זמן אונליין",
+  "authMethod": "שיטת אימות",
+  "pinMethod": "קוד",
+  "privacyPolicy": "פרטיות",
+  "biometricsMethod": "ביומטריה",
+  "changeCurrency": "שנה מטבע חליפין",
+  "language": "שפה",
+  "logoutAction": "מחק סיד והתנתק",
+  "logoutAreYouSure": "אתה בטוח?",
+  "logoutReassurance": "כל עוד גיבית את הסיד שלך, אין לך מה לדאוג.",
+  "settingsHeader": "הגדרות",
+  "preferences": "העדפות",
+  "manage": "נהל",
+  "backupSeed": "גבה סיד",
+  "fingerprintSeedBackup": "אשר טביעות אצבע בכדי לגבות סיד.",
+  "pinSeedBackup": "הכנס קוד בכדי לראות את הסיד של הארנק.",
+  "systemDefault": "בְּרִירַת מֶחדָל",
+  "notifications": "התראות",
+  "notificationTitle": "%1 נאנו התקבלו",
+  "notificationBody": "פתח את נאטריום בשביל לצפות בטרנסקציה.",
+  "notificationHeaderSupplement": "לחץ בשביל לפתוח",
+  "settingsTransfer": "טען מארנק נייר",
+  "transferError": "חלה תקלה במהלך ההעברה. בבקשה נסה מאוחר יותר.",
+  "paperWallet": "ארנק נייר",
+  "kaliumWallet": "ארנק נאטריום",
+  "manualEntry": "הכנסה ידנית",
+  "mnemonicPhrase": "פתגם זכרון",
+  "rawSeed": "סיד",
+  "transferHeader": "העברת\nסכום",
+  "transfer": "העבר",
+  "transferManualHint": "בבקשה הכנס את הסיד הנ\"ל",
+  "transferIntro": "התהליך יעביר את הסכום שברשותך מארנק הנייר לארנק נאטריום\n\nלחץ על כפתור ה \"%1\" בכדי להתחיל.",
+  "transferQrScanHint": "סרוק סיד של \nנאנו או ארנק נייר",
+  "transferQrScanError": "הברקוד אינו מכיל סיד תקין.",
+  "transferNoFunds": "אין שום נאנו בסיד המצורף.",
+  "transferConfirmInfo": "\nארנק עם מאזן של %1 נאנו אותר.",
+  "transferConfirmInfoSecond": "\nלחץ על אשר בכדי להעביר את הסכום.",
+  "transferConfirmInfoThird": "יתכן שיקחו כמה שניות עד תחילת ההעברה.",
+  "transferLoading": "מעביר",
+  "transferComplete": "%1 נאנו הועברו לארנק נאטריום.",
+  "transferClose": "לחץ בכל מקום בכדי לסגור את החלון.",
+  "scanInstructions": "סרוק כתובת ברקוד \n של נאנו",
+  "unlockPin": "הכנס קוד בשביל לשחרר את נאטריום מנעילה",
+  "unlockBiometrics": "בצע אימות בכדי לשחרר את נאטריום מנעילה",
+  "lockAppSetting": "בצע אימות בעת הפעלה",
+  "locked": "נעל",
+  "unlock": "שחרר מנעילה",
+  "tooManyFailedAttempts": "יותר מדי נסיונות כושלים לשחרור הנעילה.",
+  "securityHeader": "אבטחה",
+  "autoLockHeader": "נעל באופן אוטומטי",
+  "xMinutes": "אחרי %1 דקות",
+  "xMinute": "אחרי דקה %1",
+  "instantly": "באופן מידי",
+  "exampleCardIntro": "ברוך הבא לנאטריום. בכדי להמשיך, אתה רשאי לייצר ארנק חדש או לייבא אחד קיים",
+  "exampleCardLittle": "קצת",
+  "exampleCardLot": "הרבה",
+  "exampleCardTo": "למישהו",
+  "exampleCardFrom": "ממישהו",
+  "defaultAccountName": "חשבון ראשי",
+  "defaultNewAccountName": "חשבון %1",
+  "newAccountIntro": "זה החשבון החדש שלך. ברגע שתקבל נאנו, הטראנזקציות יראו כך:",
+  "account": "חשבון",
+  "accounts": "חשבונות",
+  "addAccount": "הוסף חשבון",
+  "hideAccountHeader": "הסתר חשבון?",
+  "removeAccountText": "אתה בטוח שאתה רוצה להחביא את החשבון? אתה יכול להוסיף אותו מחודש מאוחר יותר על ידי לחיצה על כפתור ה%1."
 }

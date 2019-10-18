@@ -27,7 +27,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "addAccount" : MessageLookupByLibrary.simpleMessage("Pievienot kontu"),
     "addContact" : MessageLookupByLibrary.simpleMessage("Pievienot kontaktu"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Adrese nokopēta"),
-    "addressHint" : MessageLookupByLibrary.simpleMessage("Ievadīt adresi"),
     "addressMising" : MessageLookupByLibrary.simpleMessage("Lūdzu ievadiet adresi"),
     "addressShare" : MessageLookupByLibrary.simpleMessage("Kopīgot adresi"),
     "amountMissing" : MessageLookupByLibrary.simpleMessage("Lūdzu ievadiet daudzumu"),

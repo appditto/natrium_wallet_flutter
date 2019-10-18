@@ -1,853 +1,203 @@
 {
-    "@@last_modified": "2019-02-04T09:26:48.408903",
-    "contactsImportSuccess": "%1 contatti importati con successo",
-    "@contactsImportSuccess": {
-        "description": "contact_import_success",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactNameMissing": "Scegli un Nome per questo Contatto",
-    "@contactNameMissing": {
-        "description": "contact_name_missing",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressShare": "Condividi",
-    "@addressShare": {
-        "description": "receive_share_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "cancel": "Annulla",
-    "@cancel": {
-        "description": "dialog_cancel",
-        "type": "text",
-        "placeholders": {}
-    },
-    "close": "Chiudi",
-    "@close": {
-        "description": "dialog_close",
-        "type": "text",
-        "placeholders": {}
-    },
-    "confirm": "Conferma",
-    "@confirm": {
-        "description": "dialog_confirm",
-        "type": "text",
-        "placeholders": {}
-    },
-    "no": "No",
-    "@no": {
-        "description": "intro_new_wallet_backup_no",
-        "type": "text",
-        "placeholders": {}
-    },
-    "yes": "Si",
-    "@yes": {
-        "description": "intro_new_wallet_backup_yes",
-        "type": "text",
-        "placeholders": {}
-    },
-    "onStr": "On",
-    "@onStr": {
-        "description": "generic_on",
-        "type": "text",
-        "placeholders": {}
-    },
-    "off": "Off",
-    "@off": {
-        "description": "generic_off",
-        "type": "text",
-        "placeholders": {}
-    },
-    "send": "Invia",
-    "@send": {
-        "description": "home_send_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "receive": "Ricevi",
-    "@receive": {
-        "description": "home_receive_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sent": "Inviati",
-    "@sent": {
-        "description": "history_sent",
-        "type": "text",
-        "placeholders": {}
-    },
-    "received": "Ricevuti",
-    "@received": {
-        "description": "history_received",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transactions": "Transazioni",
-    "@transactions": {
-        "description": "transaction_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressCopied": "Copiato",
-    "@addressCopied": {
-        "description": "receive_copied",
-        "type": "text",
-        "placeholders": {}
-    },
-    "copyAddress": "Copia Indirizzo",
-    "@copyAddress": {
-        "description": "receive_copy_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressHint": "Inserisci Indirizzo",
-    "@addressHint": {
-        "description": "send_address_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seed": "Seed",
-    "@seed": {
-        "description": "intro_new_wallet_seed_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedInvalid": "Seed non valido",
-    "@seedInvalid": {
-        "description": "intro_seed_invalid",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedCopied": "Seed copiato negli appunti.\n Potrai incollarlo per 2 minuti.",
-    "@seedCopied": {
-        "description": "intro_new_wallet_seed_copied",
-        "type": "text",
-        "placeholders": {}
-    },
-    "scanQrCode": "Codice QR",
-    "@scanQrCode": {
-        "description": "send_scan_qr",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactsImportErr": "Errore nell'importazione contatti",
-    "@contactsImportErr": {
-        "description": "contact_import_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "viewDetails": "Dettagli",
-    "@viewDetails": {
-        "description": "transaction_details",
-        "type": "text",
-        "placeholders": {}
-    },
-    "qrInvalidSeed": "Il codice QR non contiene un seed o una chiave privata validi",
-    "@qrInvalidSeed": {
-        "description": "qr_invalid_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "qrInvalidAddress": "Il codice QR non contiene un indirizzo valido",
-    "@qrInvalidAddress": {
-        "description": "qr_invalid_address",
-        "type": "text",
-        "placeholders": {}
-    },
-    "removeContact": "Rimuovi Contatto",
-    "@removeContact": {
-        "description": "contact_remove_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "removeContactConfirmation": "Sei sicuro di voler rimuovere %1?",
-    "@removeContactConfirmation": {
-        "description": "contact_remove_sure",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactHeader": "Contatto",
-    "@contactHeader": {
-        "description": "contact_view_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactsHeader": "Contatti",
-    "@contactsHeader": {
-        "description": "contact_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addContact": "Aggiungi",
-    "@addContact": {
-        "description": "contact_add_button",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactNameHint": "Inserisci un Nome @",
-    "@contactNameHint": {
-        "description": "contact_name_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactInvalid": "Nome Contatto Invalido",
-    "@contactInvalid": {
-        "description": "contact_invalid_name",
-        "type": "text",
-        "placeholders": {}
-    },
-    "noContactsExport": "Non ci sono contatti da esportare",
-    "@noContactsExport": {
-        "description": "contact_export_none",
-        "type": "text",
-        "placeholders": {}
-    },
-    "noContactsImport": "Nessun contatto da importare trovato",
-    "@noContactsImport": {
-        "description": "contact_import_none",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactAdded": "%1 è stato aggiunto ai contatti!",
-    "@contactAdded": {
-        "description": "contact_added",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactRemoved": "%1 è stato rimosso dai contatti!",
-    "@contactRemoved": {
-        "description": "contact_removed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactNameMissing": "Non ci sono contatti da esportare",
-    "@contactNameMissing": {
-        "description": "contact_export_none",
-        "type": "text",
-        "placeholders": {}
-    },
-    "contactExists": "Contatto Già Esistente",
-    "@contactExists": {
-        "description": "contact_name_exists",
-        "type": "text",
-        "placeholders": {}
-    },
-    "backupYourSeed": "Salva il seed",
-    "@backupYourSeed": {
-        "description": "intro_new_wallet_seed_backup_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "backupSeedConfirm": "Sei sicuro di aver fatto un backup del tuo seed?",
-    "@backupSeedConfirm": {
-        "description": "intro_new_wallet_backup",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedBackupInfo": "Qui sotto c'è il seed del tuo portafoglio. È fondamentale che tu faccia un backup del seed evitando di conservarlo in chiaro o con uno screenshot.",
-    "@seedBackupInfo": {
-        "description": "intro_new_wallet_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "copySeed": "Copia Seed",
-    "@copySeed": {
-        "description": "copy_seed_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "seedCopiedShort": "Seed Copiato",
-    "@seedCopiedShort": {
-        "description": "seed_copied_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "importSeed": "Importa seed",
-    "@importSeed": {
-        "description": "intro_seed_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "importSeedHint": "Inserisci il seed qui in basso.",
-    "@importSeedHint": {
-        "description": "intro_seed_info",
-        "type": "text",
-        "placeholders": {}
-    },
-    "welcomeText": "Benvenuto in Natrium. Per continuare, puoi creare un nuovo portafoglio o importarne uno esistente.",
-    "@welcomeText": {
-        "description": "intro_welcome_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "newWallet": "Nuovo",
-    "@newWallet": {
-        "description": "intro_welcome_new_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "importWallet": "Importa",
-    "@importWallet": {
-        "description": "intro_welcome_have_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sentTo": "Inviato A",
-    "@sentTo": {
-        "description": "sent_to",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sending": "Inviando",
-    "@sending": {
-        "description": "send_sending",
-        "type": "text",
-        "placeholders": {}
-    },
-    "to": "A",
-    "@to": {
-        "description": "send_to",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sendAmountConfirm": "Inviare %1 Nano?",
-    "@sendAmountConfirm": {
-        "description": "send_pin_description",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sendError": "Si è verificato un errore. Riprova più tardi.",
-    "@sendError": {
-        "description": "send_generic_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "enterAmount": "Inserisci Importo",
-    "@enterAmount": {
-        "description": "send_amount_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "invalidAddress": "Indirizzo invalido",
-    "@invalidAddress": {
-        "description": "send_invalid_address",
-        "type": "text",
-        "placeholders": {}
-    },
-    "addressMising": "Inserisci un indirizzo",
-    "@addressMising": {
-        "description": "send_enter_address",
-        "type": "text",
-        "placeholders": {}
-    },
-    "amountMissing": "Inserisci un importo",
-    "@amountMissing": {
-        "description": "send_enter_amount",
-        "type": "text",
-        "placeholders": {}
-    },
-    "insufficientBalance": "Saldo Insufficiente",
-    "@insufficientBalance": {
-        "description": "send_insufficient_balance",
-        "type": "text",
-        "placeholders": {}
-    },
-    "sendFrom": "Invia Da",
-    "@sendFrom": {
-        "description": "send_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinCreateTitle": "Crea un pin a 6 cifre",
-    "@pinCreateTitle": {
-        "description": "pin_create_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinConfirmTitle": "Conferma il pin",
-    "@pinConfirmTitle": {
-        "description": "pin_confirm_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinEnterTitle": "Inserisci pin",
-    "@pinEnterTitle": {
-        "description": "pin_enter_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinConfirmError": "I pin non combaciano",
-    "@pinConfirmError": {
-        "description": "pin_confirm_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinInvalid": "Pin errato",
-    "@pinInvalid": {
-        "description": "pin_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "themeHeader": "Tema",
-    "@themeHeader": {
-        "description": "theme_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepButton": "Cambia",
-    "@changeRepButton": {
-        "description": "change_representative_change",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepAuthenticate": "Cambia Rappresentante",
-    "@changeRepAuthenticate": {
-        "description": "settings_change_rep",
-        "type": "text",
-        "placeholders": {}
-    },
-    "currentlyRepresented": "Attualmente Rappresentato Da",
-    "@currentlyRepresented": {
-        "description": "change_representative_current_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepSucces": "Rappresentante Cambiato con Successo",
-    "@changeRepSucces": {
-        "description": "change_representative_success",
-        "type": "text",
-        "placeholders": {}
-    },
-    "repInfoHeader": "Cos'è un Rappresentante?",
-    "@repInfoHeader": {
-        "description": "change_representative_info_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "repInfo": "Un rappresentante è un account che vota per il consenso della rete. Il potere di voto è determinato dal saldo, potresti delegare il tuo saldo per aumentare il peso del voto di un rappresentante di cui ti fidi. Il tuo rappresentante non ha il potere di spendere i tuoi fondi. Dovresti scegliere un rappresentante che abbia un basso tempo di inattività e che sia affidabile.",
-    "@repInfo": {
-        "description": "change_representative_info",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinRepChange": "Inserisci pin per cambiare rappresentante",
-    "@pinRepChange": {
-        "description": "change_representative_pin",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeRepHint": "Inserisci Nuovo Rappresentante",
-    "@changeRepHint": {
-        "description": "change_representative_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "authMethod": "Metodo di Autenticazione",
-    "@authMethod": {
-        "description": "settings_disable_fingerprint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinMethod": "PIN",
-    "@pinMethod": {
-        "description": "settings_pin_method",
-        "type": "text",
-        "placeholders": {}
-    },
-    "privacyPolicy": "",
-    "@privacyPolicy": {
-        "description": "settings_privacy_policy",
-        "type": "text",
-        "placeholders": {}
-    },
-    "biometricsMethod": "Biometrica",
-    "@biometricsMethod": {
-        "description": "settings_fingerprint_method",
-        "type": "text",
-        "placeholders": {}
-    },
-    "changeCurrency": "Cambia Valuta",
-    "@changeCurrency": {
-        "description": "settings_local_currency",
-        "type": "text",
-        "placeholders": {}
-    },
-    "language": "Lingua",
-    "@language": {
-        "description": "settings_change_language",
-        "type": "text",
-        "placeholders": {}
-    },
-    "shareNatrium": "Condividi Natrium",
-    "@shareNatrium": {
-        "description": "settings_share",
-        "type": "text",
-        "placeholders": {}
-    },
-    "shareNatriumText": "Dai un'occhiata a Natrium! Il portafoglio ufficiale di Nano per Android!",
-    "@shareNatriumText": {
-        "description": "share_extra",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logout": "Logout",
-    "@logout": {
-        "description": "settings_logout",
-        "type": "text",
-        "placeholders": {}
-    },
-    "warning": "ATTENZIONE",
-    "@warning": {
-        "description": "settings_logout_alert_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logoutDetail": "Facendo il logout il tuo seed e tutti i dati relativi a Natrium verranno rimossi dal dispositivo. Se non hai salvato il tuo seed, non sarai più in grado di accedere ai tuoi fondi.",
-    "@logoutDetail": {
-        "description": "settings_logout_alert_message",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logoutAction": "Elimina seed e fai il logout",
-    "@logoutAction": {
-        "description": "settings_logout_alert_confirm_cta",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logoutAreYouSure": "Sei sicuro?",
-    "@logoutAreYouSure": {
-        "description": "settings_logout_warning_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "logoutReassurance": "Finché avrai un backup del seed non avrai nulla di cui preoccuparti.",
-    "@logoutReassurance": {
-        "description": "settings_logout_warning_message",
-        "type": "text",
-        "placeholders": {}
-    },
-    "settingsHeader": "Impostazioni",
-    "@settingsHeader": {
-        "description": "settings_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "preferences": "Preferenze",
-    "@preferences": {
-        "description": "settings_preferences_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "manage": "Gestisci",
-    "@manage": {
-        "description": "settings_manage_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "backupSeed": "Salva Seed",
-    "@backupSeed": {
-        "description": "settings_backup_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "fingerprintSeedBackup": "Conferma l'impronta per salvare il seed.",
-    "@fingerprintSeedBackup": {
-        "description": "settings_fingerprint_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "pinSeedBackup": "Inserisci il pin per vedere il seed.",
-    "@pinSeedBackup": {
-        "description": "settings_pin_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "systemDefault": "Predefinito",
-    "@systemDefault": {
-        "description": "settings_default_language_string",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notifications": "Notifiche",
-    "@notifications": {
-        "description": "notifications_settings",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notificationTitle": "Ricevuti %1 NANO",
-    "@notificationTitle": {
-        "description": "notification_title",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notificationBody": "Apri Natrium per vedere la transazione.",
-    "@notificationBody": {
-        "description": "notification_body",
-        "type": "text",
-        "placeholders": {}
-    },
-    "notificationHeaderSupplement": "Tocca per aprire",
-    "@notificationHeaderSupplement": {
-        "description": "notificaiton_header_suplement",
-        "type": "text",
-        "placeholders": {}
-    },
-    "settingsTransfer": "Carica Portafoglio Cartaceo",
-    "@settingsTransfer": {
-        "description": "settings_transfer",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferError": "Si è verificato un errore durante il trasferimento. Riprova più tardi.",
-    "@transferError": {
-        "description": "transfer_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "paperWallet": "Portafoglio Cartaceo",
-    "@paperWallet": {
-        "description": "paper_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "kaliumWallet": "Portafoglio Natrium",
-    "@kaliumWallet": {
-        "description": "kalium_wallet",
-        "type": "text",
-        "placeholders": {}
-    },
-    "manualEntry": "Inserisci Manualmente",
-    "@manualEntry": {
-        "description": "transfer_manual_entry",
-        "type": "text",
-        "placeholders": {}
-    },
-    "mnemonicPhrase": "Frase Mnemonica",
-    "@mnemonicPhrase": {
-        "description": "mnemonic_phrase",
-        "type": "text",
-        "placeholders": {}
-    },
-    "rawSeed": "Seed",
-    "@rawSeed": {
-        "description": "raw_seed",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferHeader": "Trasferisci\nFondi",
-    "@transferHeader": {
-        "description": "transfer_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transfer": "Trasferisci",
-    "@transfer": {
-        "description": "transfer_btn",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferManualHint": "Inserisci il tuo seed.",
-    "@transferManualHint": {
-        "description": "transfer_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferIntro": "Questo processo trasferirà i fondi da un portafoglio cartaceo al tuo portafoglio Natrium.\n\nPremi il pulsante \"%1\" per iniziare.",
-    "@transferIntro": {
-        "description": "transfer_intro",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferQrScanHint": "Scansiona un seed \no una chiave privata",
-    "@transferQrScanHint": {
-        "description": "transfer_qr_scan_hint",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferQrScanError": "Questo codice QR non contiene un seed valido.",
-    "@transferQrScanError": {
-        "description": "transfer_qr_scan_error",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferNoFunds": "Questo seed non contiene alcun NANO al suo interno.",
-    "@transferNoFunds": {
-        "description": "transfer_no_funds_toast",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferConfirmInfo": "Rilevato un portafoglio con un saldo di %1 NANO.\n",
-    "@transferConfirmInfo": {
-        "description": "transfer_confirm_info_first",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferConfirmInfoSecond": "Premi conferma per trasferire i fondi.\n",
-    "@transferConfirmInfoSecond": {
-        "description": "transfer_confirm_info_second",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferConfirmInfoThird": "Il trasferimento potrebbe richiedere parecchi secondi.",
-    "@transferConfirmInfoThird": {
-        "description": "transfer_confirm_info_third",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferLoading": "Trasferimento",
-    "@transferLoading": {
-        "description": "transfer_loading_text",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferComplete": "%1 NANO trasferiti con successo sul tuo portafoglio Natrium.",
-    "@transferComplete": {
-        "description": "transfer_complete_text",
-        "type": "text",
-        "placeholders": {}
-    },
-    "transferClose": "Premi dove vuoi per chiudere la finestra.",
-    "@transferClose": {
-        "description": "transfer_close_text",
-        "type": "text",
-        "placeholders": {}
-    },
-    "scanInstructions": "Scansiona un \ncodice QR Nano",
-    "@scanInstructions": {
-        "description": "scan_send_instruction_label",
-        "type": "text",
-        "placeholders": {}
-    },
-    "unlockPin": "Inserisci il PIN per Sbloccare Natrium",
-    "@unlockPin": {
-        "description": "unlock_kalium_pin",
-        "type": "text",
-        "placeholders": {}
-    },
-    "unlockBiometrics": "Autenticati per Sbloccare Natrium",
-    "@unlockBiometrics": {
-        "description": "unlock_kalium_bio",
-        "type": "text",
-        "placeholders": {}
-    },
-    "lockAppSetting": "Autenticazione all'Avvio",
-    "@lockAppSetting": {
-        "description": "authenticate_on_launch",
-        "type": "text",
-        "placeholders": {}
-    },
-    "locked": "Bloccato",
-    "@locked": {
-        "description": "lockedtxt",
-        "type": "text",
-        "placeholders": {}
-    },
-    "unlock": "Sblocca",
-    "@unlock": {
-        "description": "unlocktxt",
-        "type": "text",
-        "placeholders": {}
-    },
-    "tooManyFailedAttempts": "Troppi tentativi di sblocco falliti.",
-    "@tooManyFailedAttempts": {
-        "description": "fail_toomany_attempts",
-        "type": "text",
-        "placeholders": {}
-    },
-    "securityHeader": "Sicurezza",
-    "@securityHeader": {
-        "description": "security_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "autoLockHeader": "Blocco Automatico",
-    "@autoLockHeader": {
-        "description": "auto_lock_header",
-        "type": "text",
-        "placeholders": {}
-    },
-    "xMinutes": "Dopo %1 minuti",
-    "@xMinutes": {
-        "description": "after_minutes",
-        "type": "text",
-        "placeholders": {}
-    },
-    "xMinute": "Dopo %1 minuto",
-    "@xMinute": {
-        "description": "after_minute",
-        "type": "text",
-        "placeholders": {}
-    },
-    "instantly": "Subito",
-    "@instantly": {
-        "description": "insantly",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardIntro": "Benvenuto in Natrium. Una volta ricevuti dei NANO, le transazioni compariranno in questo modo",
-    "@exampleCardIntro": {
-        "description": "example_card_intro",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardLittle": "Un po' di",
-    "@exampleCardLittle": {
-        "description": "example_card_little",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardLot": "Un sacco di",
-    "@exampleCardLot": {
-        "description": "example_card_lot",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardTo": "a qualcuno",
-    "@exampleCardTo": {
-        "description": "example_card_to",
-        "type": "text",
-        "placeholders": {}
-    },
-    "exampleCardFrom": "da qualcuno",
-    "@exampleCardFrom": {
-        "description": "example_card_from",
-        "type": "text",
-        "placeholders": {}
-    },
-    "defaultAccountName": "Principale",
-    "defaultNewAccountName": "Account %1",
-    "newAccountIntro": "Questo è il tuo nuovo account. Una volta ricevuti NANO, le transazioni appariranno così:",
-    "account": "Account",
-    "accounts": "Accounts",
-    "addAccount": "Aggiungi",
-    "hideAccountHeader": "Nascondere l'Account?",
-    "removeAccountText": "Sei sicuro di voler nascondere questo account? Potrai riaggiungerlo in futuro cliccando sul pulsante \"%1\".",
-    "representatives": "Rappresentanti",
-    "pickFromList": "Scegli da una Lista",
-    "votingWeight": "Peso del Voto",
-    "uptime": "Operatività",
-    "tapToReveal": "Tocca per visualizzare",
-    "tapToHide": "Tocca per nascondere",
-    "copied": "Copiato",
-    "copy": "Copia",
-    "seedDescription": "Un seed contiene le stesse informazioni di una frase segreta, ma può essere letto da una macchina. Finché ne avrai una copia, avrai accesso ai tuoi fondi. ",
-    "importSecretPhrase": "Importa Frase Segreta",
-    "importSecretPhraseHint": "Inserisci la tua frase segreta da 24 parole qui sotto. Ogni parola deve essere separata da uno spazio.",
-    "qrMnemonicError": "Il QR non contiene una frase segreta valida",
-    "mnemonicInvalidWord": "%1 non è una parola valida",
-    "mnemonicSizeError": "La frase segreta può contenere solo 24 parole",
-    "secretPhrase": "Frase Segreta",
-    "backupConfirmButton": "L'ho Conservata",
-    "secretInfoHeader": "Sicurezza al primo posto!",
-    "secretInfo": "Nella prossima schermata, vedrai la tua frase segreta. È la password per accedere ai tuoi fondi. È fondamentale che tu ne faccia una copia e che tu non la condivida con nessuno.",
-    "secretWarning": "Se perdi il tuo device o disinstalli l'applicazione, avrai bisogno della tua frase segreta o del seed per recuperare i tuoi fondi!",
-    "gotItButton": "Capito!",
-    "ackBackedUp": "Sei sicuro di aver fatto una copia della tua frase segreta o seed?",
-    "secretPhraseCopy": "Copia Frase Segreta",
-    "secretPhraseCopied": "Frase Segreta Copiata",
-    "import": "Importa",
-    "importSeedInstead": "Oppure Importa Seed",
-    "switchToSeed": "Passa al Seed"
+  "cancel": "Annulla",
+  "close": "Chiudi",
+  "confirm": "Conferma",
+  "no": "No",
+  "yes": "Si",
+  "onStr": "On",
+  "off": "Off",
+  "send": "Invia",
+  "receive": "Ricevi",
+  "sent": "Inviati",
+  "received": "Ricevuti",
+  "transactions": "Transazioni",
+  "addressCopied": "Copiato",
+  "copyAddress": "Copia Indirizzo",
+  "addressShare": "Condividi",
+  "addressHint": "Inserisci Indirizzo",
+  "seed": "Seed",
+  "seedInvalid": "Seed non valido",
+  "seedCopied": "Seed copiato negli appunti.\n Potrai incollarlo per 2 minuti.",
+  "scanQrCode": "Codice QR",
+  "contactsImportErr": "Errore nell'importazione contatti",
+  "viewDetails": "Dettagli",
+  "qrInvalidSeed": "Il codice QR non contiene un seed o una chiave privata validi",
+  "qrInvalidAddress": "Il codice QR non contiene una destinazione valida",
+  "removeContact": "Rimuovi Contatto",
+  "removeContactConfirmation": "Sei sicuro di voler rimuovere %1?",
+  "contactHeader": "Contatto",
+  "contactsHeader": "Contatti",
+  "addContact": "Aggiungi",
+  "contactNameHint": "Inserisci un Nome @",
+  "contactInvalid": "Nome Contatto Invalido",
+  "noContactsExport": "Non ci sono contatti da esportare",
+  "noContactsImport": "Nessun contatto da importare trovato",
+  "contactsImportSuccess": "%1 contatti importati con successo",
+  "contactAdded": "%1 è stato aggiunto ai contatti!",
+  "contactRemoved": "%1 è stato rimosso dai contatti!",
+  "contactNameMissing": "Non ci sono contatti da esportare",
+  "contactExists": "Contatto Già Esistente",
+  "backupYourSeed": "Salva il seed",
+  "backupSeedConfirm": "Sei sicuro di aver fatto un backup del tuo seed?",
+  "seedBackupInfo": "Qui sotto c'è il seed del tuo portafoglio. È fondamentale che tu faccia un backup del seed evitando di conservarlo in chiaro o con uno screenshot.",
+  "copySeed": "Copia Seed",
+  "seedCopiedShort": "Seed Copiato",
+  "importSeed": "Importa seed",
+  "importSeedHint": "Inserisci il seed qui in basso.",
+  "welcomeText": "Benvenuto in Natrium. Per continuare, puoi creare un nuovo portafoglio o importarne uno esistente.",
+  "newWallet": "Nuovo",
+  "importWallet": "Importa",
+  "sentTo": "Inviato A",
+  "sending": "Inviando",
+  "to": "A",
+  "sendAmountConfirm": "Inviare %1 Nano?",
+  "sendError": "Si è verificato un errore. Riprova più tardi.",
+  "enterAmount": "Inserisci Importo",
+  "enterAddress": "Inserisci Indirizzo",
+  "invalidAddress": "Indirizzo invalido",
+  "addressMising": "Inserisci un indirizzo",
+  "amountMissing": "Inserisci un importo",
+  "insufficientBalance": "Saldo Insufficiente",
+  "sendFrom": "Invia Da",
+  "pinCreateTitle": "Crea un pin a 6 cifre",
+  "pinConfirmTitle": "Conferma il pin",
+  "pinEnterTitle": "Inserisci pin",
+  "pinConfirmError": "I pin non combaciano",
+  "pinInvalid": "Pin errato",
+  "themeHeader": "Tema",
+  "changeRepButton": "Cambia",
+  "changeRepAuthenticate": "Cambia Rappresentante",
+  "currentlyRepresented": "Attualmente Rappresentato Da",
+  "changeRepSucces": "Rappresentante Cambiato con Successo",
+  "repInfoHeader": "Cos'è un Rappresentante?",
+  "repInfo": "Un rappresentante è un account che vota per il consenso della rete. Il potere di voto è determinato dal saldo, potresti delegare il tuo saldo per aumentare il peso del voto di un rappresentante di cui ti fidi. Il tuo rappresentante non ha il potere di spendere i tuoi fondi. Dovresti scegliere un rappresentante che abbia un basso tempo di inattività e che sia affidabile.",
+  "pinRepChange": "Inserisci pin per cambiare rappresentante",
+  "changeRepHint": "Inserisci Nuovo Rappresentante",
+  "representatives": "Rappresentanti",
+  "pickFromList": "Scegli da una Lista",
+  "votingWeight": "Peso del Voto",
+  "uptime": "Operatività",
+  "authMethod": "Metodo di Autenticazione",
+  "pinMethod": "PIN",
+  "privacyPolicy": "Politica sulla Privacy",
+  "biometricsMethod": "Biometrica",
+  "changeCurrency": "Cambia Valuta",
+  "language": "Lingua",
+  "shareNatrium": "Condividi Natrium",
+  "shareNatriumText": "Dai un'occhiata a Natrium! Il portafoglio ufficiale di Nano per Android!",
+  "logout": "Logout",
+  "warning": "ATTENZIONE",
+  "logoutDetail": "Facendo il logout il tuo seed e tutti i dati relativi a Natrium verranno rimossi dal dispositivo. Se non hai salvato il tuo seed, non sarai più in grado di accedere ai tuoi fondi.",
+  "logoutAction": "Elimina seed e fai il logout",
+  "logoutAreYouSure": "Sei sicuro?",
+  "logoutReassurance": "Finché avrai un backup del seed non avrai nulla di cui preoccuparti.",
+  "settingsHeader": "Impostazioni",
+  "preferences": "Preferenze",
+  "manage": "Gestisci",
+  "backupSeed": "Salva Seed",
+  "fingerprintSeedBackup": "Conferma l'impronta per salvare il seed.",
+  "pinSeedBackup": "Inserisci il pin per vedere il seed.",
+  "systemDefault": "Predefinito",
+  "notifications": "Notifiche",
+  "notificationTitle": "Ricevuti %1 NANO",
+  "notificationBody": "Apri Natrium per vedere la transazione.",
+  "notificationHeaderSupplement": "Tocca per aprire",
+  "settingsTransfer": "Carica Portafoglio Cartaceo",
+  "transferError": "Si è verificato un errore durante il trasferimento. Riprova più tardi.",
+  "paperWallet": "Portafoglio Cartaceo",
+  "kaliumWallet": "Portafoglio Natrium",
+  "manualEntry": "Inserisci Manualmente",
+  "mnemonicPhrase": "Frase Mnemonica",
+  "rawSeed": "Seed",
+  "transferHeader": "Trasferisci\nFondi",
+  "transfer": "Trasferisci",
+  "transferManualHint": "Inserisci il tuo seed.",
+  "transferIntro": "Questo processo trasferirà i fondi da un portafoglio cartaceo al tuo portafoglio Natrium.\n\nPremi il pulsante \"%1\" per iniziare.",
+  "transferQrScanHint": "Scansiona un seed \no una chiave privata",
+  "transferQrScanError": "Questo codice QR non contiene un seed valido.",
+  "transferNoFunds": "Questo seed non contiene alcun NANO al suo interno.",
+  "transferConfirmInfo": "Rilevato un portafoglio con un saldo di %1 NANO.\n",
+  "transferConfirmInfoSecond": "Premi conferma per trasferire i fondi.\n",
+  "transferConfirmInfoThird": "Il trasferimento potrebbe richiedere parecchi secondi.",
+  "transferLoading": "Trasferimento",
+  "transferComplete": "%1 NANO trasferiti con successo sul tuo portafoglio Natrium.",
+  "transferClose": "Premi dove vuoi per chiudere la finestra.",
+  "scanInstructions": "Scansiona un \ncodice QR Nano",
+  "unlockPin": "Inserisci il PIN per Sbloccare Natrium",
+  "unlockBiometrics": "Autenticati per Sbloccare Natrium",
+  "lockAppSetting": "Autenticazione all'Avvio",
+  "locked": "Bloccato",
+  "unlock": "Sblocca",
+  "tooManyFailedAttempts": "Troppi tentativi di sblocco falliti.",
+  "securityHeader": "Sicurezza",
+  "autoLockHeader": "Blocco Automatico",
+  "xMinutes": "Dopo %1 minuti",
+  "xMinute": "Dopo %1 minuto",
+  "instantly": "Subito",
+  "exampleCardIntro": "Benvenuto in Natrium. Una volta ricevuti dei NANO, le transazioni compariranno in questo modo",
+  "exampleCardLittle": "Un po' di",
+  "exampleCardLot": "Un sacco di",
+  "exampleCardTo": "a qualcuno",
+  "exampleCardFrom": "da qualcuno",
+  "defaultAccountName": "Principale",
+  "defaultNewAccountName": "Account %1",
+  "newAccountIntro": "Questo è il tuo nuovo account. Una volta ricevuti NANO, le transazioni appariranno così:",
+  "account": "Account",
+  "accounts": "Accounts",
+  "addAccount": "Aggiungi",
+  "hideAccountHeader": "Nascondere l'Account?",
+  "removeAccountText": "Sei sicuro di voler nascondere questo account? Potrai riaggiungerlo in futuro cliccando sul pulsante \"%1\".",
+  "tapToReveal": "Tocca per visualizzare",
+  "tapToHide": "Tocca per nascondere",
+  "copied": "Copiato",
+  "copy": "Copia",
+  "seedDescription": "Un seed contiene le stesse informazioni di una frase segreta, ma può essere letto da una macchina. Finché ne avrai una copia, avrai accesso ai tuoi fondi. ",
+  "importSecretPhrase": "Importa Frase Segreta",
+  "importSecretPhraseHint": "Inserisci la tua frase segreta da 24 parole qui sotto. Ogni parola deve essere separata da uno spazio.",
+  "qrMnemonicError": "Il QR non contiene una frase segreta valida",
+  "mnemonicInvalidWord": "%1 non è una parola valida",
+  "mnemonicSizeError": "La frase segreta può contenere solo 24 parole",
+  "secretPhrase": "Frase Segreta",
+  "backupConfirmButton": "L'ho Conservata",
+  "secretInfoHeader": "Sicurezza al primo posto!",
+  "secretInfo": "Nella prossima schermata, vedrai la tua frase segreta. È la password per accedere ai tuoi fondi. È fondamentale che tu ne faccia una copia e che non la condivida con nessuno.",
+  "secretWarning": "Se perdi il tuo device o disinstalli l'applicazione, avrai bisogno della tua frase segreta o del seed per recuperare i tuoi fondi!",
+  "gotItButton": "Capito!",
+  "ackBackedUp": "Sei sicuro di aver fatto una copia della tua frase segreta o seed?",
+  "secretPhraseCopy": "Copia Frase Segreta",
+  "secretPhraseCopied": "Frase Segreta Copiata",
+  "import": "Importa",
+  "importSeedInstead": "Oppure Importa Seed",
+  "switchToSeed": "Passa al Seed",
+  "backupSecretPhrase": "Salva Frase Segreta",
+  "qrInvalidPermissions": "Abilita l’accesso alla fotocamera per scansionare i codici QR",
+  "qrUnknownError": "Errore nella Lettura del codice QR",
+  "mantaError": "Errore nella Verifica della Richiesta",
+  "rootWarning": "Sembra che il tuo dispositivo sia “rooted”, “jailbroken”, o abbia una modifica che ne compromette la sicurezza. Prima di procedere, è consigliato eseguire un ripristino del dispositivo al suo stato originale.",
+  "iUnderstandTheRisks": "Sono Consapevole dei Rischi",
+  "exit": "Esci",
+  "setWalletPassword": "Imposta Password Portafoglio",
+  "setPassword": "Imposta Password",
+  "disableWalletPassword": "Disabilita Password Portafoglio",
+  "encryptionFailedError": "Errore nell’impostazione della password",
+  "setPasswordSuccess": "La password è stata impostata correttamente",
+  "disablePasswordSuccess": "La password è stata disabilitata",
+  "createPasswordHint": "Crea una password",
+  "confirmPasswordHint": "Conferma la password",
+  "enterPasswordHint": "Inserisci la tua password",
+  "passwordsDontMatch": "Le password non corrispondono",
+  "passwordBlank": "La password non può essere vuota",
+  "invalidPassword": "Password Invalida",
+  "passwordWillBeRequiredToOpenParagraph": "Questa password sarà richiesta per aprire Natrium.",
+  "passwordNoLongerRequiredToOpenParagraph": "Non hai più bisogno di una password per aprire Natrium.",
+  "createPasswordFirstParagraph": "Puoi creare una password per rendere il tuo portafoglio ancora più sicuro.",
+  "createPasswordSecondParagraph": "La password è opzionale, e il tuo portafoglio sarà comunque protetto dal PIN o dal riconoscimento biometrico.",
+  "createAPasswordHeader": "Crea una password.",
+  "createPasswordSheetHeader": "Crea",
+  "disablePasswordSheetHeader": "Disabilita",
+  "requireAPasswordToOpenHeader": "Richiedi una password per aprire Natrium?",
+  "noSkipButton": "No, Salta",
+  "yesButton": "Si",
+  "nextButton": "Avanti",
+  "goBackButton": "Indietro"
 }

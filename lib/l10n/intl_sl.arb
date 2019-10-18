@@ -1,834 +1,151 @@
 {
-  "@@last_modified": "2019-02-09T12:21:43.713478",
   "cancel": "Prekliči",
-  "@cancel": {
-    "description": "dialog_cancel",
-    "type": "text",
-    "placeholders": {}
-  },
   "close": "Zapri",
-  "@close": {
-    "description": "dialog_close",
-    "type": "text",
-    "placeholders": {}
-  },
   "confirm": "Potrdi",
-  "@confirm": {
-    "description": "dialog_confirm",
-    "type": "text",
-    "placeholders": {}
-  },
   "no": "Ne",
-  "@no": {
-    "description": "intro_new_wallet_backup_no",
-    "type": "text",
-    "placeholders": {}
-  },
   "yes": "Da",
-  "@yes": {
-    "description": "intro_new_wallet_backup_yes",
-    "type": "text",
-    "placeholders": {}
-  },
   "onStr": "Vklopi",
-  "@onStr": {
-    "description": "generic_on",
-    "type": "text",
-    "placeholders": {}
-  },
   "off": "Izklopi",
-  "@off": {
-    "description": "generic_off",
-    "type": "text",
-    "placeholders": {}
-  },
   "send": "Pošlji",
-  "@send": {
-    "description": "home_send_cta",
-    "type": "text",
-    "placeholders": {}
-  },
   "receive": "Prejmi",
-  "@receive": {
-    "description": "home_receive_cta",
-    "type": "text",
-    "placeholders": {}
-  },
   "sent": "Poslano",
-  "@sent": {
-    "description": "history_sent",
-    "type": "text",
-    "placeholders": {}
-  },
   "received": "Prejeto",
-  "@received": {
-    "description": "history_received",
-    "type": "text",
-    "placeholders": {}
-  },
   "transactions": "Transakcije",
-  "@transactions": {
-    "description": "transaction_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "addressCopied": "Naslov skopiran",
-  "@addressCopied": {
-    "description": "receive_copied",
-    "type": "text",
-    "placeholders": {}
-  },
   "copyAddress": "Kopiraj naslov",
-  "@copyAddress": {
-    "description": "receive_copy_cta",
-    "type": "text",
-    "placeholders": {}
-  },
   "addressShare": "Deli naslov",
-  "@addressShare": {
-    "description": "receive_share_cta",
-    "type": "text",
-    "placeholders": {}
-  },
-  "addressHint": "Vnesite naslov",
-  "@addressHint": {
-    "description": "send_address_hint",
-    "type": "text",
-    "placeholders": {}
-  },
   "seed": "Zasebni ključ",
-  "@seed": {
-    "description": "intro_new_wallet_seed_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "seedInvalid": "Zasebni ključ je neveljaven",
-  "@seedInvalid": {
-    "description": "intro_seed_invalid",
-    "type": "text",
-    "placeholders": {}
-  },
   "seedCopied": "Zasebni ključ skopiran\nMožno prilepiti v 2 minutah.",
-  "@seedCopied": {
-    "description": "intro_new_wallet_seed_copied",
-    "type": "text",
-    "placeholders": {}
-  },
   "scanQrCode": "Zajemi QR kodo",
-  "@scanQrCode": {
-    "description": "send_scan_qr",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactsImportErr": "Ni možno uvoziti stikov",
-  "@contactsImportErr": {
-    "description": "contact_import_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "viewDetails": "Podrobnosti",
-  "@viewDetails": {
-    "description": "transaction_details",
-    "type": "text",
-    "placeholders": {}
-  },
   "qrInvalidSeed": "QR koda ne vsebuje veljavnega zasebnega ključa",
-  "@qrInvalidSeed": {
-    "description": "qr_invalid_seed",
-    "type": "text",
-    "placeholders": {}
-  },
-  "qrInvalidAddress": "QR koda ne vsebuje veljavnega naslova", 
-  "@qrInvalidAddress": {
-    "description": "qr_invalid_address",
-    "type": "text",
-    "placeholders": {}
-  },
+  "qrInvalidAddress": "QR koda ne vsebuje veljavnega naslova",
   "removeContact": "Odstrani stik",
-  "@removeContact": {
-    "description": "contact_remove_btn",
-    "type": "text",
-    "placeholders": {}
-  },
   "removeContactConfirmation": "Ste prepričani, da hočete izbrisati %1?",
-  "@removeContactConfirmation": {
-    "description": "contact_remove_sure",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactHeader": "Stik",
-  "@contactHeader": {
-    "description": "contact_view_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactsHeader": "Stiki",
-  "@contactsHeader": {
-    "description": "contact_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "addContact": "Dodaj stik",
-  "@addContact": {
-    "description": "contact_add_button",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactNameHint": "Vnesite ime @",
-  "@contactNameHint": {
-    "description": "contact_name_hint",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactInvalid": "Neveljavno ime",
-  "@contactInvalid": {
-    "description": "contact_invalid_name",
-    "type": "text",
-    "placeholders": {}
-  },
   "noContactsExport": "Ni stikov za izvoz.",
-  "@noContactsExport": {
-    "description": "contact_export_none",
-    "type": "text",
-    "placeholders": {}
-  },
   "noContactsImport": "Ni novih stikov za uvoz.",
-  "@noContactsImport": {
-    "description": "contact_import_none",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactsImportSuccess": "Uspešen uvoz %1 stikov.",
-  "@contactsImportSuccess": {
-    "description": "contact_import_success",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactAdded": "%1 dodan stikom.",
-  "@contactAdded": {
-    "description": "contact_added",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactRemoved": "%1 je bil odstranjen iz stikov!",
-  "@contactRemoved": {
-    "description": "contact_removed",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactNameMissing": "Izberite ime za ta stik",
-  "@contactNameMissing": {
-    "description": "contact_name_missing",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactExists": "Stik že obstaja",
-  "@contactExists": {
-    "description": "contact_name_exists",
-    "type": "text",
-    "placeholders": {}
-  },
   "backupYourSeed": "Shrani zasebni ključ",
-  "@backupYourSeed": {
-    "description": "intro_new_wallet_seed_backup_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "backupSeedConfirm": "Ste prepričani, da ste shranili zasebni ključ?",
-  "@backupSeedConfirm": {
-    "description": "intro_new_wallet_backup",
-    "type": "text",
-    "placeholders": {}
-  },
   "seedBackupInfo": "Spodaj je prikazan zasebni ključ denarnice. Obvezno ga shranite, vendar nikoli v navadni tekstovni obliki ali s posnetkom zaslona.",
-  "@seedBackupInfo": {
-    "description": "intro_new_wallet_seed",
-    "type": "text",
-    "placeholders": {}
-  },
   "copySeed": "Kopiraj ključ",
-  "@copySeed": {
-    "description": "copy_seed_btn",
-    "type": "text",
-    "placeholders": {}
-  },
   "seedCopiedShort": "Ključ skopiran",
-  "@seedCopiedShort": {
-    "description": "seed_copied_btn",
-    "type": "text",
-    "placeholders": {}
-  },
   "importSeed": "Uvozi ključ",
-  "@importSeed": {
-    "description": "intro_seed_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "importSeedHint": "Spodaj vnesite ključ.",
-  "@importSeedHint": {
-    "description": "intro_seed_info",
-    "type": "text",
-    "placeholders": {}
-  },
   "welcomeText": "Dobrodošli v Natrium. Za začetek ustvarite novo denarnico ali uvozite že obstoječo.",
-  "@welcomeText": {
-    "description": "intro_welcome_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "newWallet": "Nova denarnica",
-  "@newWallet": {
-    "description": "intro_welcome_new_wallet",
-    "type": "text",
-    "placeholders": {}
-  },
   "importWallet": "Uvozi denarnico",
-  "@importWallet": {
-    "description": "intro_welcome_have_wallet",
-    "type": "text",
-    "placeholders": {}
-  },
   "sentTo": "Poslano",
-  "@sentTo": {
-    "description": "sent_to",
-    "type": "text",
-    "placeholders": {}
-  },
   "sending": "Pošiljam",
-  "@sending": {
-    "description": "send_sending",
-    "type": "text",
-    "placeholders": {}
-  },
   "to": "Na",
-  "@to": {
-    "description": "send_to",
-    "type": "text",
-    "placeholders": {}
-  },
   "sendAmountConfirm": "Pošlji %1 NANO",
-  "@sendAmountConfirm": {
-    "description": "send_pin_description",
-    "type": "text",
-    "placeholders": {}
-  },
   "sendError": "Napaka. Poskusite kasneje.",
-  "@sendError": {
-    "description": "send_generic_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "enterAmount": "Vnesite znesek",
-  "@enterAmount": {
-    "description": "send_amount_hint",
-    "type": "text",
-    "placeholders": {}
-  },
   "enterAddress": "Vnesite naslov",
-  "@enterAddress": {
-    "description": "enter_address",
-    "type": "text",
-    "placeholders": {}
-  },
   "invalidAddress": "Naslov je neveljaven",
-  "@invalidAddress": {
-    "description": "send_invalid_address",
-    "type": "text",
-    "placeholders": {}
-  },
   "addressMising": "Prosim vnesite naslov",
-  "@addressMising": {
-    "description": "send_enter_address",
-    "type": "text",
-    "placeholders": {}
-  },
   "amountMissing": "Prosim vnesite znesek",
-  "@amountMissing": {
-    "description": "send_enter_amount",
-    "type": "text",
-    "placeholders": {}
-  },
   "insufficientBalance": "Premalo na računu",
-  "@insufficientBalance": {
-    "description": "send_insufficient_balance",
-    "type": "text",
-    "placeholders": {}
-  },
   "sendFrom": "Pošlji iz",
-  "@sendFrom": {
-    "description": "send_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinCreateTitle": "Ustvari 6-mestni PIN",
-  "@pinCreateTitle": {
-    "description": "pin_create_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinConfirmTitle": "Potrdi PIN",
-  "@pinConfirmTitle": {
-    "description": "pin_confirm_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinEnterTitle": "Vnesite PIN",
-  "@pinEnterTitle": {
-    "description": "pin_enter_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinConfirmError": "PIN se ne ujema",
-  "@pinConfirmError": {
-    "description": "pin_confirm_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinInvalid": "Neveljaven PIN",
-  "@pinInvalid": {
-    "description": "pin_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "themeHeader": "Tema",
-  "@themeHeader": {
-    "description": "theme_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "changeRepButton": "Zamenjaj",
-  "@changeRepButton": {
-    "description": "change_representative_change",
-    "type": "text",
-    "placeholders": {}
-  },
   "changeRepAuthenticate": "Zamenjaj predstavnika",
-  "@changeRepAuthenticate": {
-    "description": "settings_change_rep",
-    "type": "text",
-    "placeholders": {}
-  },
   "currentlyRepresented": "Trenutni predstavnik",
-  "@currentlyRepresented": {
-    "description": "change_representative_current_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "changeRepSucces": "Predstavnik uspešno zamenjan",
-  "@changeRepSucces": {
-    "description": "change_representative_success",
-    "type": "text",
-    "placeholders": {}
-  },
   "repInfoHeader": "Kaj je predstavnik?",
-  "@repInfoHeader": {
-    "description": "change_representative_info_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "repInfo": "Predstavnik je račun, ki glasuje za konsenz omrežja. Moč glasovanja je odvisna od zneska na računu, kateremu lahko prispevate svoj znesek za povečanje teže. Vaš predstavnik ne more upravljati z vašim zneskom. Izberite predstavnika, ki je prisoten večino časa in je zaupanja vreden.",
-  
-  "@repInfo": {
-    "description": "change_representative_info",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinRepChange": "Vnesite PIN za spremembo predstavnika.",
-  "@pinRepChange": {
-    "description": "change_representative_pin",
-    "type": "text",
-    "placeholders": {}
-  },
   "changeRepHint": "Vnesite novega predstavnika",
-  "@changeRepHint": {
-    "description": "change_representative_hint",
-    "type": "text",
-    "placeholders": {}
-  },
+  "representatives": "Predstavniki",
+  "pickFromList": "Izberi iz seznama",
+  "votingWeight": "teža glasovanja",
+  "uptime": "prisotnost",
   "authMethod": "Način avtentikacije",
-  "@authMethod": {
-    "description": "settings_disable_fingerprint",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinMethod": "PIN",
-  "@pinMethod": {
-    "description": "settings_pin_method",
-    "type": "text",
-    "placeholders": {}
-  },
   "privacyPolicy": "Zasebnost",
-  "@privacyPolicy": {
-    "description": "settings_privacy_policy",
-    "type": "text",
-    "placeholders": {}
-  },
   "biometricsMethod": "Prstni odtis",
-  "@biometricsMethod": {
-    "description": "settings_fingerprint_method",
-    "type": "text",
-    "placeholders": {}
-  },
   "changeCurrency": "Spremeni valuto",
-  "@changeCurrency": {
-    "description": "settings_local_currency",
-    "type": "text",
-    "placeholders": {}
-  },
   "language": "Jezik",
-  "@language": {
-    "description": "settings_change_language",
-    "type": "text",
-    "placeholders": {}
-  },
   "shareNatrium": "Deli Natrium",
-  "@shareNatrium": {
-    "description": "settings_share",
-    "type": "text",
-    "placeholders": {}
-  },
   "shareNatriumText": "Preveri Natrium! Uradna mobilna Nano denarnica!",
-  "@shareNatriumText": {
-    "description": "share_extra",
-    "type": "text",
-    "placeholders": {}
-  },
   "logout": "Odjava",
-  "@logout": {
-    "description": "settings_logout",
-    "type": "text",
-    "placeholders": {}
-  },
   "warning": "Opozorilo",
-  "@warning": {
-    "description": "settings_logout_alert_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "logoutDetail": "Odjava bo izbrisala zasebni ključ in vse podatke v povezavi z aplikacijo Natrium. Če zasebnega ključa niste shranili, ne boste imeli več dostopa do vašega računa.",
-  "@logoutDetail": {
-    "description": "settings_logout_alert_message",
-    "type": "text",
-    "placeholders": {}
-  },
   "logoutAction": "Izbriši ključ in odjava",
-  "@logoutAction": {
-    "description": "settings_logout_alert_confirm_cta",
-    "type": "text",
-    "placeholders": {}
-  },
   "logoutAreYouSure": "Ste prepričani?",
-  "@logoutAreYouSure": {
-    "description": "settings_logout_warning_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "logoutReassurance": "Dokler imate shranjen zasebni ključ, ste lahko brez skrbi.",
-  "@logoutReassurance": {
-    "description": "settings_logout_warning_message",
-    "type": "text",
-    "placeholders": {}
-  },
   "settingsHeader": "Nastavitve",
-  "@settingsHeader": {
-    "description": "settings_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "preferences": "Splošno",
-  "@preferences": {
-    "description": "settings_preferences_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "manage": "Upravljaj",
-  "@manage": {
-    "description": "settings_manage_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "backupSeed": "Shrani ključ",
-  "@backupSeed": {
-    "description": "settings_backup_seed",
-    "type": "text",
-    "placeholders": {}
-  },
   "fingerprintSeedBackup": "Avtenticiraj za shranitev ključa.",
-  "@fingerprintSeedBackup": {
-    "description": "settings_fingerprint_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinSeedBackup": "Vnesite PIN za shranitev ključa",
-  "@pinSeedBackup": {
-    "description": "settings_pin_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "systemDefault": "Sistemski",
-  "@systemDefault": {
-    "description": "settings_default_language_string",
-    "type": "text",
-    "placeholders": {}
-  },
   "notifications": "Opozorila",
-  "@notifications": {
-    "description": "notifications_settings",
-    "type": "text",
-    "placeholders": {}
-  },
   "notificationTitle": "Prejeto %1 NANO",
-  "@notificationTitle": {
-    "description": "notification_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "notificationBody": "Odpri Natrium za ogled transakcije",
-  "@notificationBody": {
-    "description": "notification_body",
-    "type": "text",
-    "placeholders": {}
-  },
   "notificationHeaderSupplement": "Dotik za ogled",
-  "@notificationHeaderSupplement": {
-    "description": "notificaiton_header_suplement",
-    "type": "text",
-    "placeholders": {}
-  },
   "settingsTransfer": "Naloži iz papirnate denarnice",
-  "@settingsTransfer": {
-    "description": "settings_transfer",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferError": "Napaka med prenosom. Poskusite kasneje.",
-  "@transferError": {
-    "description": "transfer_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "paperWallet": "Papirna denarnica",
-  "@paperWallet": {
-    "description": "paper_wallet",
-    "type": "text",
-    "placeholders": {}
-  },
   "kaliumWallet": "Natrium denarnica",
-  "@kaliumWallet": {
-    "description": "kalium_wallet",
-    "type": "text",
-    "placeholders": {}
-  },
   "manualEntry": "Ročni vnos",
-  "@manualEntry": {
-    "description": "transfer_manual_entry",
-    "type": "text",
-    "placeholders": {}
-  },
   "mnemonicPhrase": "Besedna fraza",
-  "@mnemonicPhrase": {
-    "description": "mnemonic_phrase",
-    "type": "text",
-    "placeholders": {}
-  },
   "rawSeed": "Surov ključ",
-  "@rawSeed": {
-    "description": "raw_seed",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferHeader": "Prenesi znesek",
-  "@transferHeader": {
-    "description": "transfer_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "transfer": "Prenesi",
-  "@transfer": {
-    "description": "transfer_btn",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferManualHint": "Spodaj vnesite ključ.",
-  "@transferManualHint": {
-    "description": "transfer_hint",
-    "type": "text",
-    "placeholders": {}
-  },
-  "transferIntro": "Postopek bo prenesel znesek iz papirnate denarnice v vašo Natrium denarnico.\n\nPritisnite \"%1\" gumb za začetek.",  
-  "@transferIntro": {
-    "description": "transfer_intro",
-    "type": "text",
-    "placeholders": {}
-  },
+  "transferIntro": "Postopek bo prenesel znesek iz papirnate denarnice v vašo Natrium denarnico.\n\nPritisnite \"%1\" gumb za začetek.",
   "transferQrScanHint": "Zajemi Nano \nključ",
-  "@transferQrScanHint": {
-    "description": "transfer_qr_scan_hint",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferQrScanError": "QR koda ne vsebuje veljavnega ključa.",
-  "@transferQrScanError": {
-    "description": "transfer_qr_scan_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferNoFunds": "Ključ ne vsebuje nobenega NANO zneska.",
-  "@transferNoFunds": {
-    "description": "transfer_no_funds_toast",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferConfirmInfo": "Denarnica z zneskom %1 NANO je bila zaznana.\n",
-  "@transferConfirmInfo": {
-    "description": "transfer_confirm_info_first",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferConfirmInfoSecond": "Pritisni za prenos zneska.\n",
-  "@transferConfirmInfoSecond": {
-    "description": "transfer_confirm_info_second",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferConfirmInfoThird": "Prenos lahko traja nekaj sekund.",
-  "@transferConfirmInfoThird": {
-    "description": "transfer_confirm_info_third",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferLoading": "Prenašam",
-  "@transferLoading": {
-    "description": "transfer_loading_text",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferComplete": "%1 NANO uspešno prenešenih v vašo Natrium denarnico.\n",
-  "@transferComplete": {
-    "description": "transfer_complete_text",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferClose": "Pritisni kjerkoli za izhod.",
-  "@transferClose": {
-    "description": "transfer_close_text",
-    "type": "text",
-    "placeholders": {}
-  },
   "scanInstructions": "Zajemi Nano \nnaslov QR kodo",
-  "@scanInstructions": {
-    "description": "scan_send_instruction_label",
-    "type": "text",
-    "placeholders": {}
-  },
   "unlockPin": "Vnesite PIN za odklep Natrium",
-  "@unlockPin": {
-    "description": "unlock_kalium_pin",
-    "type": "text",
-    "placeholders": {}
-  },
   "unlockBiometrics": "Avtenticiraj za odklep Natrium",
-  "@unlockBiometrics": {
-    "description": "unlock_kalium_bio",
-    "type": "text",
-    "placeholders": {}
-  },
   "lockAppSetting": "Avtenticiraj ob zagonu",
-  "@lockAppSetting": {
-    "description": "authenticate_on_launch",
-    "type": "text",
-    "placeholders": {}
-  },
   "locked": "Zaklenjeno",
-  "@locked": {
-    "description": "lockedtxt",
-    "type": "text",
-    "placeholders": {}
-  },
   "unlock": "Odkleni",
-  "@unlock": {
-    "description": "unlocktxt",
-    "type": "text",
-    "placeholders": {}
-  },
   "tooManyFailedAttempts": "Preveč neuspešnih poizkusov.",
-  "@tooManyFailedAttempts": {
-    "description": "fail_toomany_attempts",
-    "type": "text",
-    "placeholders": {}
-  },
   "securityHeader": "Varnost",
-  "@securityHeader": {
-    "description": "security_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "autoLockHeader": "Samodejno zakleni",
-  "@autoLockHeader": {
-    "description": "auto_lock_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "xMinutes": "Po %1 minutah",
-  "@xMinutes": {
-    "description": "after_minutes",
-    "type": "text",
-    "placeholders": {}
-  },
   "xMinute": "Po %1 minuti",
-  "@xMinute": {
-    "description": "after_minute",
-    "type": "text",
-    "placeholders": {}
-  },
   "instantly": "Takoj",
-  "@instantly": {
-    "description": "insantly",
-    "type": "text",
-    "placeholders": {}
-  },
   "exampleCardIntro": "Dobrodošli v Natrium. Ko boste prejeli NANO, bodo transakcije prikazane takole:",
-  "@exampleCardIntro": {
-    "description": "example_card_intro",
-    "type": "text",
-    "placeholders": {}
-  },
   "exampleCardLittle": "nekaj",
-  "@exampleCardLittle": {
-    "description": "example_card_little",
-    "type": "text",
-    "placeholders": {}
-  },
   "exampleCardLot": "več",
-  "@exampleCardLot": {
-    "description": "example_card_lot",
-    "type": "text",
-    "placeholders": {}
-  },
   "exampleCardTo": "nekomu",
-  "@exampleCardTo": {
-    "description": "example_card_to",
-    "type": "text",
-    "placeholders": {}
-  },
   "exampleCardFrom": "od nekoga",
-  "@exampleCardFrom": {
-    "description": "example_card_from",
-    "type": "text",
-    "placeholders": {}
-  },
   "defaultAccountName": "Glavni račun",
-  "defaultNewAccountName": "Račun %1", 
+  "defaultNewAccountName": "Račun %1",
   "newAccountIntro": "To je vaš nov račun. Ko boste prejeli NANO, bodo transakcije prikazane takole:",
   "account": "Račun",
   "accounts": "Računi",
   "addAccount": "Dodaj račun",
   "hideAccountHeader": "Skrij račun?",
   "removeAccountText": "Ste prepričani, da hočete skriti ta račun? Lahko ga ponovno dodate kasneje s pritiskom na gumb \"%1\"",
-  "representatives": "Predstavniki",
-  "pickFromList": "Izberi iz seznama",
-  "votingWeight": "teža glasovanja",
-  "uptime": "prisotnost",
   "tapToReveal": "Pritisnite za ogled",
   "tapToHide": "Pritisnite za skrivanje",
   "copied": "Skopirano",

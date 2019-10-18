@@ -23,7 +23,6 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "addContact" : MessageLookupByLibrary.simpleMessage("Kontakt Hozzáadása"),
     "addressCopied" : MessageLookupByLibrary.simpleMessage("Cím Másolva"),
-    "addressHint" : MessageLookupByLibrary.simpleMessage("Küldés Erre A Címre"),
     "addressMising" : MessageLookupByLibrary.simpleMessage("Adjon meg egy célt"),
     "addressShare" : MessageLookupByLibrary.simpleMessage("Megosztás"),
     "amountMissing" : MessageLookupByLibrary.simpleMessage("Adjon meg egy összeget"),
@@ -54,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyAddress" : MessageLookupByLibrary.simpleMessage("Cím Másolása"),
     "copySeed" : MessageLookupByLibrary.simpleMessage("Seed Másolása"),
     "currentlyRepresented" : MessageLookupByLibrary.simpleMessage("Jelenlegi Képviselő"),
+    "enterAddress" : MessageLookupByLibrary.simpleMessage("Küldés Erre A Címre"),
     "enterAmount" : MessageLookupByLibrary.simpleMessage("Küldött Mennyiség"),
     "exampleCardFrom" : MessageLookupByLibrary.simpleMessage("valakitől"),
     "exampleCardIntro" : MessageLookupByLibrary.simpleMessage("Üdvözöllek a Natriumban! Így fogod látni a tranzakcióid, amikor kapsz NANO-t."),

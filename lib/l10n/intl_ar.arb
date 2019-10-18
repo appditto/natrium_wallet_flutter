@@ -1,893 +1,151 @@
 {
-  "@@last_modified": "2019-05-06T10:02:35.878512",
   "cancel": "إلغاء",
-  "@cancel": {
-    "description": "dialog_cancel",
-    "type": "text",
-    "placeholders": {}
-  },
   "close": "إغلاق",
-  "@close": {
-    "description": "dialog_close",
-    "type": "text",
-    "placeholders": {}
-  },
   "confirm": "تأكيد",
-  "@confirm": {
-    "description": "dialog_confirm",
-    "type": "text",
-    "placeholders": {}
-  },
   "no": "لا",
-  "@no": {
-    "description": "intro_new_wallet_backup_no",
-    "type": "text",
-    "placeholders": {}
-  },
   "yes": "نعم",
-  "@yes": {
-    "description": "intro_new_wallet_backup_yes",
-    "type": "text",
-    "placeholders": {}
-  },
   "onStr": "فتح",
-  "@onStr": {
-    "description": "generic_on",
-    "type": "text",
-    "placeholders": {}
-  },
   "off": "غلق",
-  "@off": {
-    "description": "generic_off",
-    "type": "text",
-    "placeholders": {}
-  },
   "send": "إرسال",
-  "@send": {
-    "description": "home_send_cta",
-    "type": "text",
-    "placeholders": {}
-  },
   "receive": "إستلام",
-  "@receive": {
-    "description": "home_receive_cta",
-    "type": "text",
-    "placeholders": {}
-  },
   "sent": "تم الارسال",
-  "@sent": {
-    "description": "history_sent",
-    "type": "text",
-    "placeholders": {}
-  },
   "received": "تم الإستلام",
-  "@received": {
-    "description": "history_received",
-    "type": "text",
-    "placeholders": {}
-  },
   "transactions": "معاملات",
-  "@transactions": {
-    "description": "transaction_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "addressCopied": "تم نسخ العنوان",
-  "@addressCopied": {
-    "description": "receive_copied",
-    "type": "text",
-    "placeholders": {}
-  },
   "copyAddress": "نسخ العنوان",
-  "@copyAddress": {
-    "description": "receive_copy_cta",
-    "type": "text",
-    "placeholders": {}
-  },
   "addressShare": "أنشر العنوان",
-  "@addressShare": {
-    "description": "receive_share_cta",
-    "type": "text",
-    "placeholders": {}
-  },
-  "addressHint": "أدخل العنوان",
-  "@addressHint": {
-    "description": "send_address_hint",
-    "type": "text",
-    "placeholders": {}
-  },
   "seed": "مفتاح خاص",
-  "@seed": {
-    "description": "intro_new_wallet_seed_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "seedInvalid": "مفتاح خاص غير صحيح",
-  "@seedInvalid": {
-    "description": "intro_seed_invalid",
-    "type": "text",
-    "placeholders": {}
-  },
   "seedCopied": "تم نسخ المفتاح الخاص\n لمدة دقيقتين",
-  "@seedCopied": {
-    "description": "intro_new_wallet_seed_copied",
-    "type": "text",
-    "placeholders": {}
-  },
   "scanQrCode": "مسح رمز الاستجابة السريعة",
-  "@scanQrCode": {
-    "description": "send_scan_qr",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactsImportErr": "فشل استيراد جهات الاتصال",
-  "@contactsImportErr": {
-    "description": "contact_import_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "viewDetails": "عرض التفاصيل",
-  "@viewDetails": {
-    "description": "transaction_details",
-    "type": "text",
-    "placeholders": {}
-  },
   "qrInvalidSeed": "رمز الاستجابة السريعة لا يحتوي على مفتاح خاص صحيح",
-  "@qrInvalidSeed": {
-    "description": "qr_invalid_seed",
-    "type": "text",
-    "placeholders": {}
-  },
   "qrInvalidAddress": "رمز الاستجابة السريعة لا يحتوي على عنوان صحيح",
-  "@qrInvalidAddress": {
-    "description": "qr_invalid_address",
-    "type": "text",
-    "placeholders": {}
-  },
   "removeContact": "حذف بيانات جهة الاتصال",
-  "@removeContact": {
-    "description": "contact_remove_btn",
-    "type": "text",
-    "placeholders": {}
-  },
   "removeContactConfirmation": "هل تريد حذف %1؟",
-  "@removeContactConfirmation": {
-    "description": "contact_remove_sure",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactHeader": "جهة الاتصال",
-  "@contactHeader": {
-    "description": "contact_view_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactsHeader": "جهات الاتصال",
-  "@contactsHeader": {
-    "description": "contact_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "addContact": "إضافة جهة الاتصال",
-  "@addContact": {
-    "description": "contact_add_button",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactNameHint": "أدخل اسم @",
-  "@contactNameHint": {
-    "description": "contact_name_hint",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactInvalid": "اسم جهة الاتصال خاطيء",
-  "@contactInvalid": {
-    "description": "contact_invalid_name",
-    "type": "text",
-    "placeholders": {}
-  },
   "noContactsExport": "لا توجد جهات الاتصال للنقل",
-  "@noContactsExport": {
-    "description": "contact_export_none",
-    "type": "text",
-    "placeholders": {}
-  },
   "noContactsImport": "لا توجد جهات اتصال جديدة للجلب.",
-  "@noContactsImport": {
-    "description": "contact_import_none",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactsImportSuccess": "تم جلب جهات اتصال %1 بنجاح.",
-  "@contactsImportSuccess": {
-    "description": "contact_import_success",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactAdded": "تم إضافة %1 إلى جهات الاتصال.",
-  "@contactAdded": {
-    "description": "contact_added",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactRemoved": "تم حذف %1 من جهة الاتصال !",
-  "@contactRemoved": {
-    "description": "contact_removed",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactNameMissing": "إختر إسم جهة الاتصال",
-  "@contactNameMissing": {
-    "description": "contact_name_missing",
-    "type": "text",
-    "placeholders": {}
-  },
   "contactExists": "جهة الاتصال موجودة مسبقا",
-  "@contactExists": {
-    "description": "contact_name_exists",
-    "type": "text",
-    "placeholders": {}
-  },
   "backupYourSeed": "حفظ المفتاح الخاص",
-  "@backupYourSeed": {
-    "description": "intro_new_wallet_seed_backup_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "backupSeedConfirm": "هل أنت متاكد من حفظ المفتاح الخاص؟",
-  "@backupSeedConfirm": {
-    "description": "intro_new_wallet_backup",
-    "type": "text",
-    "placeholders": {}
-  },
   "seedBackupInfo": "مفتاحك الخاص يوجد أسفله. يجب حفظ نسخةٌ منه في مكان أمن.  لا للقطة الشاشة أو لنص في الهاتف.",
-  "@seedBackupInfo": {
-    "description": "intro_new_wallet_seed",
-    "type": "text",
-    "placeholders": {}
-  },
   "copySeed": "نسخ المفتاح الخاص",
-  "@copySeed": {
-    "description": "copy_seed_btn",
-    "type": "text",
-    "placeholders": {}
-  },
   "seedCopiedShort": "تم النسخ المفتاح الخاص",
-  "@seedCopiedShort": {
-    "description": "seed_copied_btn",
-    "type": "text",
-    "placeholders": {}
-  },
   "importSeed": "جلب المفتاح الخاص",
-  "@importSeed": {
-    "description": "intro_seed_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "importSeedHint": "أدخل المفتاح الخاص",
-  "@importSeedHint": {
-    "description": "intro_seed_info",
-    "type": "text",
-    "placeholders": {}
-  },
   "welcomeText": "أهلا بك في نتريوم. لتبدأ، إحدث محفظة أو إجلب محفظة موجودة.",
-  "@welcomeText": {
-    "description": "intro_welcome_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "newWallet": "محفظة جديدة",
-  "@newWallet": {
-    "description": "intro_welcome_new_wallet",
-    "type": "text",
-    "placeholders": {}
-  },
   "importWallet": "إجلب محفظة",
-  "@importWallet": {
-    "description": "intro_welcome_have_wallet",
-    "type": "text",
-    "placeholders": {}
-  },
   "sentTo": "تم الإرسال إلى",
-  "@sentTo": {
-    "description": "sent_to",
-    "type": "text",
-    "placeholders": {}
-  },
   "sending": "إرسال",
-  "@sending": {
-    "description": "send_sending",
-    "type": "text",
-    "placeholders": {}
-  },
   "to": "إلى",
-  "@to": {
-    "description": "send_to",
-    "type": "text",
-    "placeholders": {}
-  },
   "sendAmountConfirm": "أرسل %1 NANO",
-  "@sendAmountConfirm": {
-    "description": "send_pin_description",
-    "type": "text",
-    "placeholders": {}
-  },
   "sendError": "يوجد خطأ. حاول لاحقاً.",
-  "@sendError": {
-    "description": "send_generic_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "enterAmount": "أدخل المبلغ",
-  "@enterAmount": {
-    "description": "send_amount_hint",
-    "type": "text",
-    "placeholders": {}
-  },
   "enterAddress": "أدخل العنوان",
-  "@enterAddress": {
-    "description": "enter_address",
-    "type": "text",
-    "placeholders": {}
-  },
   "invalidAddress": "العنوان المدخل غير صحيح",
-  "@invalidAddress": {
-    "description": "send_invalid_address",
-    "type": "text",
-    "placeholders": {}
-  },
   "addressMising": "يرجى إدخال العنوان",
-  "@addressMising": {
-    "description": "send_enter_address",
-    "type": "text",
-    "placeholders": {}
-  },
   "amountMissing": "يرجى إدخال المبلغ",
-  "@amountMissing": {
-    "description": "send_enter_amount",
-    "type": "text",
-    "placeholders": {}
-  },
   "insufficientBalance": "لرصيد غير كافي",
-  "@insufficientBalance": {
-    "description": "send_insufficient_balance",
-    "type": "text",
-    "placeholders": {}
-  },
   "sendFrom": "أرسل من",
-  "@sendFrom": {
-    "description": "send_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinCreateTitle": "ضع 6 أرقام رمز الPIN",
-  "@pinCreateTitle": {
-    "description": "pin_create_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinConfirmTitle": "تأكيد رمز الPIN",
-  "@pinConfirmTitle": {
-    "description": "pin_confirm_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinEnterTitle": "أدخل رمز الPIN",
-  "@pinEnterTitle": {
-    "description": "pin_enter_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinConfirmError": "رمز الPIN غير مطابق",
-  "@pinConfirmError": {
-    "description": "pin_confirm_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinInvalid": "رمز الPIN غير صحيح",
-  "@pinInvalid": {
-    "description": "pin_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "themeHeader": "مظهر",
-  "@themeHeader": {
-    "description": "theme_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "changeRepButton": "تغير",
-  "@changeRepButton": {
-    "description": "change_representative_change",
-    "type": "text",
-    "placeholders": {}
-  },
   "changeRepAuthenticate": "تغير المندوب",
-  "@changeRepAuthenticate": {
-    "description": "settings_change_rep",
-    "type": "text",
-    "placeholders": {}
-  },
   "currentlyRepresented": "المندوب الحالي",
-  "@currentlyRepresented": {
-    "description": "change_representative_current_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "changeRepSucces": "تم تغير المندوب بنجاح",
-  "@changeRepSucces": {
-    "description": "change_representative_success",
-    "type": "text",
-    "placeholders": {}
-  },
   "repInfoHeader": "ماهو المندوب؟",
-  "@repInfoHeader": {
-    "description": "change_representative_info_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "repInfo": "المندوب هو الحساب الذي يصوت لصالح توافق شبكة. يتم وزن قوة التصويت بالتوازن ، يمكنك تفويض رصيدك لزيادة وزن التصويت لمندوب تثق فيه. المندوب ليست له القدرة الشرائية لأموالك. يجب إختيار مندوب ضئيل الإنقطاع وجدير بالثقة.",
-  "@repInfo": {
-    "description": "change_representative_info",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinRepChange": "أدخل رمز الPIN لتغير المندوب",
-  "@pinRepChange": {
-    "description": "change_representative_pin",
-    "type": "text",
-    "placeholders": {}
-  },
   "changeRepHint": "أدخل مندوب جديد",
-  "@changeRepHint": {
-    "description": "change_representative_hint",
-    "type": "text",
-    "placeholders": {}
-  },
   "representatives": "مندوب",
-  "@representatives": {
-    "description": "representatives",
-    "type": "text",
-    "placeholders": {}
-  },
   "pickFromList": "اختيار من قائمة",
-  "@pickFromList": {
-    "description": "pick rep from list",
-    "type": "text",
-    "placeholders": {}
-  },
   "votingWeight": "وزن التصويت",
-  "@votingWeight": {
-    "description": "Representative Voting Weight",
-    "type": "text",
-    "placeholders": {}
-  },
   "uptime": "مدة التشغيل",
-  "@uptime": {
-    "description": "Rep uptime",
-    "type": "text",
-    "placeholders": {}
-  },
   "authMethod": "طريقة المصادقة",
-  "@authMethod": {
-    "description": "settings_disable_fingerprint",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinMethod": "PIN",
-  "@pinMethod": {
-    "description": "settings_pin_method",
-    "type": "text",
-    "placeholders": {}
-  },
   "privacyPolicy": "سياسة الخصوصية",
-  "@privacyPolicy": {
-    "description": "settings_privacy_policy",
-    "type": "text",
-    "placeholders": {}
-  },
   "biometricsMethod": "القياسات الحيوية",
-  "@biometricsMethod": {
-    "description": "settings_fingerprint_method",
-    "type": "text",
-    "placeholders": {}
-  },
   "changeCurrency": "تغيير العملة",
-  "@changeCurrency": {
-    "description": "settings_local_currency",
-    "type": "text",
-    "placeholders": {}
-  },
   "language": "اللغة",
-  "@language": {
-    "description": "settings_change_language",
-    "type": "text",
-    "placeholders": {}
-  },
   "shareNatrium": "شارك نتريوم",
-  "@shareNatrium": {
-    "description": "settings_share",
-    "type": "text",
-    "placeholders": {}
-  },
   "shareNatriumText": "راجع نتريوم! محفظة نتريوم الرسمية للهاتف",
-  "@shareNatriumText": {
-    "description": "share_extra",
-    "type": "text",
-    "placeholders": {}
-  },
   "logout": "خروج",
-  "@logout": {
-    "description": "settings_logout",
-    "type": "text",
-    "placeholders": {}
-  },
   "warning": "تحذير",
-  "@warning": {
-    "description": "settings_logout_alert_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "logoutDetail": "خروجك من حساب نتريوم سوف يحذف البيانات من الجهاز. إذا مفتاحك الخاص غير محفوظ في مكان أمن، سوف تفقد رصيدك نهائيا",
-  "@logoutDetail": {
-    "description": "settings_logout_alert_message",
-    "type": "text",
-    "placeholders": {}
-  },
   "logoutAction": "حذف المفتاح الخاص والخروج",
-  "@logoutAction": {
-    "description": "settings_logout_alert_confirm_cta",
-    "type": "text",
-    "placeholders": {}
-  },
   "logoutAreYouSure": "هل أنت متأكد؟",
-  "@logoutAreYouSure": {
-    "description": "settings_logout_warning_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "logoutReassurance": "ليس هناك خشية إذا قمت بحفض نسخة للمفتاح الخاص",
-  "@logoutReassurance": {
-    "description": "settings_logout_warning_message",
-    "type": "text",
-    "placeholders": {}
-  },
   "settingsHeader": "الإعدادات",
-  "@settingsHeader": {
-    "description": "settings_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "preferences": "الاختيارات",
-  "@preferences": {
-    "description": "settings_preferences_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "manage": "إدارة",
-  "@manage": {
-    "description": "settings_manage_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "backupSeed": "نسخ احتياطي للمفتاح الخاص",
-  "@backupSeed": {
-    "description": "settings_backup_seed",
-    "type": "text",
-    "placeholders": {}
-  },
   "fingerprintSeedBackup": "المصادقة على نسخ المفتاح الخاص.",
-  "@fingerprintSeedBackup": {
-    "description": "settings_fingerprint_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "pinSeedBackup": "أدخل الPIN للنسخ المفتاح الخاص",
-  "@pinSeedBackup": {
-    "description": "settings_pin_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "systemDefault": "النظام الافتراضي",
-  "@systemDefault": {
-    "description": "settings_default_language_string",
-    "type": "text",
-    "placeholders": {}
-  },
   "notifications": "تنبيهات",
-  "@notifications": {
-    "description": "notifications_settings",
-    "type": "text",
-    "placeholders": {}
-  },
   "notificationTitle": "تم استلام %1 NANO",
-  "@notificationTitle": {
-    "description": "notification_title",
-    "type": "text",
-    "placeholders": {}
-  },
   "notificationBody": "أفتح نتريوم للكشف عن هذا التعامل",
-  "@notificationBody": {
-    "description": "notification_body",
-    "type": "text",
-    "placeholders": {}
-  },
   "notificationHeaderSupplement": "اضغط للفتح",
-  "@notificationHeaderSupplement": {
-    "description": "notificaiton_header_suplement",
-    "type": "text",
-    "placeholders": {}
-  },
   "settingsTransfer": "تحميل من المحفظة الورقية",
-  "@settingsTransfer": {
-    "description": "settings_transfer",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferError": "لقد حدث خطأ أثناء النقل. الرجاء إعادة المحاولة في وقت لاحق.",
-  "@transferError": {
-    "description": "transfer_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "paperWallet": "المحفظة الورقية",
-  "@paperWallet": {
-    "description": "paper_wallet",
-    "type": "text",
-    "placeholders": {}
-  },
   "kaliumWallet": "المحفظة نتريوم",
-  "@kaliumWallet": {
-    "description": "kalium_wallet",
-    "type": "text",
-    "placeholders": {}
-  },
   "manualEntry": "إدخال يدوي",
-  "@manualEntry": {
-    "description": "transfer_manual_entry",
-    "type": "text",
-    "placeholders": {}
-  },
   "mnemonicPhrase": "عبارة تذكيرية",
-  "@mnemonicPhrase": {
-    "description": "mnemonic_phrase",
-    "type": "text",
-    "placeholders": {}
-  },
   "rawSeed": "Raw Seed",
-  "@rawSeed": {
-    "description": "raw_seed",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferHeader": "تحويل الرصيد",
-  "@transferHeader": {
-    "description": "transfer_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "transfer": "تحويل",
-  "@transfer": {
-    "description": "transfer_btn",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferManualHint": "الرجاء إدخال المفتاح الخاص.",
-  "@transferManualHint": {
-    "description": "transfer_hint",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferIntro": "ستقوم هذه العملية بتحويل الرصيد من المحفظة الورقية إلى محفظة نتريوم الخاصة بك. \n\n اضغط على الزر \"%1\" للبدء.",
-  "@transferIntro": {
-    "description": "transfer_intro",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferQrScanHint": "مسح\n المفتاح الخاص",
-  "@transferQrScanHint": {
-    "description": "transfer_qr_scan_hint",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferQrScanError": "لا يحتوي رمز الاستجابة السريعة على مفتاح خاص صحيح.",
-  "@transferQrScanError": {
-    "description": "transfer_qr_scan_error",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferNoFunds": "هذا المفتاح الخاص لا يحتوي على NANO",
-  "@transferNoFunds": {
-    "description": "transfer_no_funds_toast",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferConfirmInfo": "تم كشف محفظة برصيد %1 NANO.\n",
-  "@transferConfirmInfo": {
-    "description": "transfer_confirm_info_first",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferConfirmInfoSecond": "إضغط لتأكيد تحويل الرصيد.\n",
-  "@transferConfirmInfoSecond": {
-    "description": "transfer_confirm_info_second",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferConfirmInfoThird": "قد يستغرق النقل عدة ثوانيٍ.",
-  "@transferConfirmInfoThird": {
-    "description": "transfer_confirm_info_third",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferLoading": "بصدد التحويل",
-  "@transferLoading": {
-    "description": "transfer_loading_text",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferComplete": "تم تحويل %1 NANO إلى محفظة نتريوم.\n",
-  "@transferComplete": {
-    "description": "transfer_complete_text",
-    "type": "text",
-    "placeholders": {}
-  },
   "transferClose": "اضغط في أي مكان لغلق النافذة.",
-  "@transferClose": {
-    "description": "transfer_close_text",
-    "type": "text",
-    "placeholders": {}
-  },
   "scanInstructions": "مسح \nعنوان رمز الاستجابة السريعة",
-  "@scanInstructions": {
-    "description": "scan_send_instruction_label",
-    "type": "text",
-    "placeholders": {}
-  },
   "unlockPin": "أدخل الPIN لفتح نتريوم",
-  "@unlockPin": {
-    "description": "unlock_kalium_pin",
-    "type": "text",
-    "placeholders": {}
-  },
   "unlockBiometrics": "مصادقة لفتح نتريوم",
-  "@unlockBiometrics": {
-    "description": "unlock_kalium_bio",
-    "type": "text",
-    "placeholders": {}
-  },
   "lockAppSetting": "المصادقة في الاطلاق",
-  "@lockAppSetting": {
-    "description": "authenticate_on_launch",
-    "type": "text",
-    "placeholders": {}
-  },
   "locked": "مقفل",
-  "@locked": {
-    "description": "lockedtxt",
-    "type": "text",
-    "placeholders": {}
-  },
   "unlock": "فتح",
-  "@unlock": {
-    "description": "unlocktxt",
-    "type": "text",
-    "placeholders": {}
-  },
   "tooManyFailedAttempts": "العديد من محاولات الفتح الفاشلة.",
-  "@tooManyFailedAttempts": {
-    "description": "fail_toomany_attempts",
-    "type": "text",
-    "placeholders": {}
-  },
   "securityHeader": "تأمين",
-  "@securityHeader": {
-    "description": "security_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "autoLockHeader": "قفل آليً",
-  "@autoLockHeader": {
-    "description": "auto_lock_header",
-    "type": "text",
-    "placeholders": {}
-  },
   "xMinutes": "بعد %1 دقائق",
-  "@xMinutes": {
-    "description": "after_minutes",
-    "type": "text",
-    "placeholders": {}
-  },
   "xMinute": "بعد %1 دقيقة",
-  "@xMinute": {
-    "description": "after_minute",
-    "type": "text",
-    "placeholders": {}
-  },
   "instantly": "فوراً",
-  "@instantly": {
-    "description": "insantly",
-    "type": "text",
-    "placeholders": {}
-  },
   "exampleCardIntro": "مرحبا بكم في نتريوم. بمجرد تلقي NANO ، ستظهر المعاملات كما يلي:",
-  "@exampleCardIntro": {
-    "description": "example_card_intro",
-    "type": "text",
-    "placeholders": {}
-  },
   "exampleCardLittle": "القليل",
-  "@exampleCardLittle": {
-    "description": "example_card_little",
-    "type": "text",
-    "placeholders": {}
-  },
   "exampleCardLot": "كثيرا من",
-  "@exampleCardLot": {
-    "description": "example_card_lot",
-    "type": "text",
-    "placeholders": {}
-  },
   "exampleCardTo": "إلى شخص ما",
-  "@exampleCardTo": {
-    "description": "example_card_to",
-    "type": "text",
-    "placeholders": {}
-  },
   "exampleCardFrom": "من شخص ما",
-  "@exampleCardFrom": {
-    "description": "example_card_from",
-    "type": "text",
-    "placeholders": {}
-  },
   "defaultAccountName": "الحساب الرئيسي",
-  "@defaultAccountName": {
-    "description": "Default account name",
-    "type": "text",
-    "placeholders": {}
-  },
   "defaultNewAccountName": "الحساب %1",
-  "@defaultNewAccountName": {
-    "description": "Default new account name - e.g. Account 1",
-    "type": "text",
-    "placeholders": {}
-  },
   "newAccountIntro": "هذا هو حسابك الجديد بمجرد تلقي NANO ، ستظهر المعاملات كما يلي:",
-  "@newAccountIntro": {
-    "description": "Alternate account intro card",
-    "type": "text",
-    "placeholders": {}
-  },
   "account": "الحساب",
-  "@account": {
-    "description": "Account text",
-    "type": "text",
-    "placeholders": {}
-  },
   "accounts": "الحسابات",
-  "@accounts": {
-    "description": "Accounts header",
-    "type": "text",
-    "placeholders": {}
-  },
   "addAccount": "إضافة حساب",
-  "@addAccount": {
-    "description": "Default new account name - e.g. Account 1",
-    "type": "text",
-    "placeholders": {}
-  },
   "hideAccountHeader": "إخفاء الحساب؟",
-  "@hideAccountHeader": {
-    "description": "Confirmation dialog header",
-    "type": "text",
-    "placeholders": {}
-  },
   "removeAccountText": "هل أنت متأكد أنك تريد إخفاء هذا الحساب؟ يمكنك إعادة إضافته لاحقًا بذخت على \"%1\"",
-  "@removeAccountText": {
-    "description": "Remove account dialog body",
-    "type": "text",
-    "placeholders": {}
-  },
   "tapToReveal": "اضغط للكشف",
   "tapToHide": "إضغط للاخفاء",
   "copied": "تم نسخ",
