@@ -695,6 +695,7 @@ class _AppHomePageState extends State<AppHomePage>
       data:
           address == null ? StateContainer.of(context).wallet.address : address,
       version: 6,
+      gapless: true,
       errorCorrectionLevel: QrErrorCorrectLevel.Q,
     );
     painter.toImageData(MediaQuery.of(context).size.width).then((byteData) {

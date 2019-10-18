@@ -148,6 +148,8 @@ class AppReceiveSheet {
                             // Actual QR part of the QR
                             Center(
                               child: Container(
+                                height: devicewidth/2.65,
+                                width: devicewidth/2.65,
                                 child: qrCode,
                               ),
                             ),
