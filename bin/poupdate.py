@@ -1,15 +1,3 @@
-import requests.api
-import warnings
-
-
-def requestspatch(method, url, **kwargs):
-    kwargs['verify'] = False
-    return _origcall(method, url, **kwargs)
-
-_origcall = requests.api.request
-requests.api.request = requestspatch
-warnings.warn('Patched requests: SSL verification disabled!')
-
 import os
 import json
 import subprocess

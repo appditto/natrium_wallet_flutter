@@ -15,6 +15,7 @@ enum AvailableLanguage {
   HINDI,
   HUNGARIAN,
   INDONESIAN,
+  JAPANESE,
   KOREAN,
   LATVIAN,
   ITALIAN,
@@ -60,6 +61,8 @@ class LanguageSetting extends SettingSelectionItem {
         return "Hebrew (he)";
       case AvailableLanguage.INDONESIAN:
         return "Bahasa Indonesia (id)";
+      case AvailableLanguage.JAPANESE:
+        return "日本語 (ja)";
       case AvailableLanguage.KOREAN:
         return "한국어 (ko)";
       case AvailableLanguage.LATVIAN:
@@ -119,6 +122,8 @@ class LanguageSetting extends SettingSelectionItem {
         return "he";
       case AvailableLanguage.INDONESIAN:
         return "id";
+      case AvailableLanguage.JAPANESE:
+        return "ja";
       case AvailableLanguage.KOREAN:
         return "ko";
       case AvailableLanguage.LATVIAN:

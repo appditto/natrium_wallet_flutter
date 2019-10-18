@@ -101,6 +101,7 @@ class _AppState extends State<App> {
           const Locale('hi'), // Hindi
           const Locale('id'), // Indonesian
           const Locale('it'), // Italian
+          const Locale('ja'), // Japanese
           const Locale('ko'), // Korean
           const Locale('ms'), // Malay
           const Locale('nl'), // Dutch
