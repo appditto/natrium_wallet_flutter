@@ -191,9 +191,7 @@ class _AppShareCardState extends State<AppShareCard> {
                   ),
                   // Address
                   Container(
-                    padding: Platform.isIOS
-                        ? EdgeInsets.only(bottom: 7)
-                        : EdgeInsets.zero,
+                    padding: EdgeInsets.only(bottom: 7),
                     child: Column(
                       children: <Widget>[
                         // First row of the address
@@ -215,7 +213,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
-                                    height: Platform.isIOS?1:1.2,
+                                    height: 1.2,
                                   ),
                                 ),
                                 TextSpan(
@@ -230,7 +228,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
-                                    height: Platform.isIOS?1:1.2,
+                                    height: 1.2,
                                   ),
                                 ),
                               ],
@@ -242,7 +240,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontSize: 50.0,
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
-                              height: Platform.isIOS?1:1.2,
+                              height: 1.2,
                             ),
                           ),
                         ),
@@ -263,7 +261,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
                               fontSize: 50,
-                              height: Platform.isIOS?1:1.2,
+                              height: 1.2,
                             ),
                           ),
                         ),
@@ -284,7 +282,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
                               fontSize: 50,
-                              height: Platform.isIOS?1:1.2,
+                              height: 1.2,
                             ),
                           ),
                         ),
@@ -307,7 +305,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
-                                    height: Platform.isIOS?1:1.2,
+                                    height: 1.2,
                                   ),
                                 ),
                                 // Primary colored part of the last row
@@ -323,7 +321,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                     fontFamily: "OverpassMono",
                                     fontWeight: FontWeight.w100,
                                     fontSize: 50.0,
-                                    height: Platform.isIOS?1:1.2,
+                                    height: 1.2,
                                   ),
                                 ),
                               ],
@@ -335,7 +333,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               fontSize: 50,
                               fontFamily: "OverpassMono",
                               fontWeight: FontWeight.w100,
-                              height: Platform.isIOS?1:1.2,
+                              height: 1.2,
                             ),
                           ),
                         ),
