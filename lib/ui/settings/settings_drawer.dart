@@ -421,7 +421,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
-                    AppLocalization.of(context).currency,
+                    AppLocalization.of(context).changeCurrency,
                     style: AppStyles.textStyleDialogHeader(context),
                   ),
                 ),
@@ -1029,7 +1029,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     ),
                     AppSettings.buildSettingsListItemDoubleLine(
                         context,
-                        AppLocalization.of(context).currency,
+                        AppLocalization.of(context).changeCurrency,
                         StateContainer.of(context).curCurrency,
                         AppIcons.currency,
                         _currencyDialog),
