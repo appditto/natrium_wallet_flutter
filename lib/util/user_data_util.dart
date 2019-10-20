@@ -43,13 +43,13 @@ class UserDataUtil {
     } else if (type == DataType.ADDRESS) {
       Address address = Address(data);
       if (address.isValid()) {
-        return data;
+        return address.address;
       }
     } else if (type == DataType.MANTA_ADDRESS) {
       // Check if an address or manta result
       Address address = Address(data);
       if (address.isValid()) {
-        return data;
+        return address.address;
       } else if (MantaWallet.parseUrl(data) != null) {
         return data;
       }
