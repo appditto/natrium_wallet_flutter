@@ -33,7 +33,7 @@ If you need any help, feel free to file an issue if you do not manage to find a 
 
 ## License
 
-Natrium is released under the BSD-2 License
+Natrium is released under the MIT License
 
 ### Update translations:
 
