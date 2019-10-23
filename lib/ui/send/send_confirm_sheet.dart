@@ -325,26 +325,20 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                           AppButtonType.PRIMARY,
                           CaseChange.toUpperCase(
                               AppLocalization.of(context).confirm, context),
-                          Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                          Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                         // Authenticate
-                        sl
-                            .get<SharedPrefsUtil>()
-                            .getAuthMethod()
-                            .then((authMethod) {
-                          sl
-                              .get<BiometricUtil>()
-                              .hasBiometrics()
-                              .then((hasBiometrics) {
-                            if (authMethod.method == AuthMethod.BIOMETRICS &&
-                                hasBiometrics) {
-                              sl
-                                  .get<BiometricUtil>()
-                                  .authenticateWithBiometrics(
-                                      context,
-                                      AppLocalization.of(context)
-                                          .sendAmountConfirm
-                                          .replaceAll("%1", amount))
-                                  .then((authenticated) {
+                        AuthenticationMethod authMethod = await sl.get<SharedPrefsUtil>().getAuthMethod();
+                        bool hasBiometrics = await sl.get<BiometricUtil>().hasBiometrics();
+                        if (authMethod.method == AuthMethod.BIOMETRICS &&
+                            hasBiometrics) {
+                              try {
+                                bool authenticated = await sl
+                                                  .get<BiometricUtil>()
+                                                  .authenticateWithBiometrics(
+                                                      context,
+                                                      AppLocalization.of(context)
+                                                          .sendAmountConfirm
+                                                          .replaceAll("%1", amount));
                                 if (authenticated) {
                                   sl.get<HapticUtil>().fingerprintSucess();
                                   _showSendingAnimation(context);
@@ -358,38 +352,14 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                                           widget.localCurrency,
                                       paymentRequest: widget.paymentRequest);
                                 }
-                              });
+                              } catch (e) {
+                                await authenticateWithPin();
+                              }
                             } else {
-                              // PIN Authentication
-                              sl.get<Vault>().getPin().then((expectedPin) {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                  return new PinScreen(
-                                    PinOverlayType.ENTER_PIN,
-                                    (pin) {
-                                      Navigator.of(context).pop();
-                                      _showSendingAnimation(context);
-                                      StateContainer.of(context).requestSend(
-                                          StateContainer.of(context)
-                                              .wallet
-                                              .frontier,
-                                          destinationAltered,
-                                          widget.maxSend ? "0" : widget.amountRaw,
-                                          localCurrencyAmount:
-                                              widget.localCurrency,
-                                          paymentRequest: widget.paymentRequest);
-                                    },
-                                    expectedPin: expectedPin,
-                                    description: AppLocalization.of(context)
-                                        .sendAmountConfirmPin
-                                        .replaceAll("%1", amount),
-                                  );
-                                }));
-                              });
+                              await authenticateWithPin();
                             }
-                          });
-                        });
-                      }),
+                          }
+                      )
                     ],
                   ),
                   // A row for CANCEL Button
@@ -411,5 +381,34 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
             ),
           ],
         ));
+  }
+
+  Future<void> authenticateWithPin() async {
+    // PIN Authentication
+    sl.get<Vault>().getPin().then((expectedPin) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) {
+        return new PinScreen(
+          PinOverlayType.ENTER_PIN,
+          (pin) {
+            Navigator.of(context).pop();
+            _showSendingAnimation(context);
+            StateContainer.of(context).requestSend(
+                StateContainer.of(context)
+                    .wallet
+                    .frontier,
+                destinationAltered,
+                widget.maxSend ? "0" : widget.amountRaw,
+                localCurrencyAmount:
+                    widget.localCurrency,
+                paymentRequest: widget.paymentRequest);
+          },
+          expectedPin: expectedPin,
+          description: AppLocalization.of(context)
+              .sendAmountConfirmPin
+              .replaceAll("%1", amount),
+        );
+      }));
+    });
   }
 }

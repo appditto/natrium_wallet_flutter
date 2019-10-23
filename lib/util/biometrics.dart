@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
+import 'package:logger/logger.dart';
 
 class BiometricUtil {
   ///
@@ -11,6 +13,10 @@ class BiometricUtil {
     bool canCheck = await localAuth.canCheckBiometrics;
     if (canCheck) {
       List<BiometricType> availableBiometrics = await localAuth.getAvailableBiometrics();
+      availableBiometrics.forEach((type) {
+        sl.get<Logger>().i(type.toString());
+        sl.get<Logger>().i("${type == BiometricType.face ? 'face' : type == BiometricType.iris ? 'iris' : type == BiometricType.fingerprint ? 'fingerprint' : 'unknown'}");
+      });
       if (availableBiometrics.contains(BiometricType.face)) {
         return true;
       } else if (availableBiometrics.contains(BiometricType.fingerprint)) {

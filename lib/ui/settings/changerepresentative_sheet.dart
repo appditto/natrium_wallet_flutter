@@ -92,154 +92,77 @@ class AppChangeRepresentativeSheet {
           FlatButton(
             highlightColor: StateContainer.of(context).curTheme.text15,
             splashColor: StateContainer.of(context).curTheme.text15,
-            onPressed: () {
+            onPressed: () async {
               if (!NanoAccounts.isValid(NanoAccountType.NANO, rep.account)) {
                   return;
               }
-                // Authenticate
-                sl
-                    .get<SharedPrefsUtil>()
-                    .getAuthMethod()
-                    .then((authMethod) {
-                  sl
-                      .get<BiometricUtil>()
-                      .hasBiometrics()
-                      .then((hasBiometrics) {
-                    if (authMethod.method ==
-                            AuthMethod.BIOMETRICS &&
-                        hasBiometrics) {
-                      sl
-                          .get<BiometricUtil>()
+              AuthenticationMethod authMethod = await sl.get<SharedPrefsUtil>().getAuthMethod();
+              bool hasBiometrics = await sl.get<BiometricUtil>().hasBiometrics();
+              if (authMethod.method ==
+                      AuthMethod.BIOMETRICS &&
+                  hasBiometrics) {
+                try {
+                  bool authenticated = await sl.get<BiometricUtil>()
                           .authenticateWithBiometrics(
                               context,
                               AppLocalization.of(context)
-                                  .changeRepAuthenticate)
-                          .then((authenticated) {
-                        if (authenticated) {
-                          sl
-                              .get<HapticUtil>()
-                              .fingerprintSucess();
-                          Navigator.of(context).push(
-                              AnimationLoadingOverlay(
-                                  AnimationType.GENERIC,
-                                  StateContainer.of(
-                                          context)
-                                      .curTheme
-                                      .animationOverlayStrong,
-                                  StateContainer.of(
-                                          context)
-                                      .curTheme
-                                      .animationOverlayMedium));
-                          // If account isnt open, just store the account in sharedprefs
-                          if (StateContainer.of(context)
-                                  .wallet
-                                  .openBlock ==
-                              null) {
-                            sl
-                                .get<SharedPrefsUtil>()
-                                .setRepresentative(
-                                    rep.account)
-                                .then((result) {
-                              EventTaxiImpl.singleton()
-                                  .fire(RepChangedEvent(
-                                      previous: StateBlock(
-                                          representative:
-                                              rep.account,
-                                          previous: "",
-                                          link: "",
-                                          balance: "",
-                                          account: "")));
-                            });
-                          } else {
-                            StateContainer.of(context)
-                                .requestChange(
-                                    StateContainer.of(
-                                            context)
-                                        .wallet
-                                        .frontier,
-                                    StateContainer.of(
-                                            context)
-                                        .wallet
-                                        .accountBalance
-                                        .toString(),
-                                    rep.account);
-                          }
-                        }
+                                  .changeRepAuthenticate);
+                  if (authenticated) {
+                    sl
+                        .get<HapticUtil>()
+                        .fingerprintSucess();
+                    Navigator.of(context).push(
+                        AnimationLoadingOverlay(
+                            AnimationType.GENERIC,
+                            StateContainer.of(
+                                    context)
+                                .curTheme
+                                .animationOverlayStrong,
+                            StateContainer.of(
+                                    context)
+                                .curTheme
+                                .animationOverlayMedium));
+                    // If account isnt open, just store the account in sharedprefs
+                    if (StateContainer.of(context)
+                            .wallet
+                            .openBlock ==
+                        null) {
+                      sl
+                          .get<SharedPrefsUtil>()
+                          .setRepresentative(
+                              rep.account)
+                          .then((result) {
+                        EventTaxiImpl.singleton()
+                            .fire(RepChangedEvent(
+                                previous: StateBlock(
+                                    representative:
+                                        rep.account,
+                                    previous: "",
+                                    link: "",
+                                    balance: "",
+                                    account: "")));
                       });
                     } else {
-                      // PIN Authentication
-                      sl
-                          .get<Vault>()
-                          .getPin()
-                          .then((expectedPin) {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder:
-                                (BuildContext context) {
-                          return new PinScreen(
-                            PinOverlayType.ENTER_PIN,
-                            (pin) {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).push(
-                                  AnimationLoadingOverlay(
-                                AnimationType.GENERIC,
-                                StateContainer.of(context)
-                                    .curTheme
-                                    .animationOverlayStrong,
-                                StateContainer.of(context)
-                                    .curTheme
-                                    .animationOverlayMedium,
-                              ));
-                              // If account isnt open, just store the account in sharedprefs
-                              if (StateContainer.of(
-                                          context)
-                                      .wallet
-                                      .openBlock ==
-                                  null) {
-                                sl
-                                    .get<
-                                        SharedPrefsUtil>()
-                                    .setRepresentative(
-                                        rep.account)
-                                    .then((result) {
-                                  EventTaxiImpl
-                                          .singleton()
-                                      .fire(RepChangedEvent(
-                                          previous: StateBlock(
-                                              representative:
-                                                  rep.account,
-                                              previous:
-                                                  "",
-                                              link: "",
-                                              balance: "",
-                                              account:
-                                                  "")));
-                                });
-                              } else {
-                                StateContainer.of(context)
-                                    .requestChange(
-                                        StateContainer.of(
-                                                context)
-                                            .wallet
-                                            .frontier,
-                                        StateContainer.of(
-                                                context)
-                                            .wallet
-                                            .accountBalance
-                                            .toString(),
-                                          rep.account);
-                              }
-                            },
-                            expectedPin: expectedPin,
-                            description:
-                                AppLocalization.of(
-                                        context)
-                                    .pinRepChange,
-                          );
-                        }));
-                      });
+                      StateContainer.of(context)
+                          .requestChange(
+                              StateContainer.of(
+                                      context)
+                                  .wallet
+                                  .frontier,
+                              StateContainer.of(
+                                      context)
+                                  .wallet
+                                  .accountBalance
+                                  .toString(),
+                              rep.account);
                     }
-                 });
-                });
+                  }
+                } catch (e) {
+                  await authenticateWithPin(context, rep);
+                }
+              } else {
+                await authenticateWithPin(context, rep);
+              }
             },
             padding: EdgeInsets.all(0),
             child: Container(
@@ -648,4 +571,77 @@ class AppChangeRepresentativeSheet {
           });
         });
   }
+
+  Future<void> authenticateWithPin(BuildContext context, NinjaNode rep) async {
+    // PIN Authentication
+    sl
+        .get<Vault>()
+        .getPin()
+        .then((expectedPin) {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder:
+              (BuildContext context) {
+        return new PinScreen(
+          PinOverlayType.ENTER_PIN,
+          (pin) {
+            Navigator.of(context).pop();
+            Navigator.of(context).push(
+                AnimationLoadingOverlay(
+              AnimationType.GENERIC,
+              StateContainer.of(context)
+                  .curTheme
+                  .animationOverlayStrong,
+              StateContainer.of(context)
+                  .curTheme
+                  .animationOverlayMedium,
+            ));
+            // If account isnt open, just store the account in sharedprefs
+            if (StateContainer.of(
+                        context)
+                    .wallet
+                    .openBlock ==
+                null) {
+              sl
+                  .get<
+                      SharedPrefsUtil>()
+                  .setRepresentative(
+                      rep.account)
+                  .then((result) {
+                EventTaxiImpl
+                        .singleton()
+                    .fire(RepChangedEvent(
+                        previous: StateBlock(
+                            representative:
+                                rep.account,
+                            previous:
+                                "",
+                            link: "",
+                            balance: "",
+                            account:
+                                "")));
+              });
+            } else {
+              StateContainer.of(context)
+                  .requestChange(
+                      StateContainer.of(
+                              context)
+                          .wallet
+                          .frontier,
+                      StateContainer.of(
+                              context)
+                          .wallet
+                          .accountBalance
+                          .toString(),
+                        rep.account);
+            }
+          },
+          expectedPin: expectedPin,
+          description:
+              AppLocalization.of(
+                      context)
+                  .pinRepChange,
+        );
+      }));
+    });
+  }    
 }

@@ -1110,60 +1110,34 @@ class _SettingsSheetState extends State<SettingsSheet>
                     AppSettings.buildSettingsListItemSingleLine(
                         context,
                         AppLocalization.of(context).backupSecretPhrase,
-                        AppIcons.backupseed, onPressed: () {
+                        AppIcons.backupseed, onPressed: () async {
                       // Authenticate
-                      sl
-                          .get<SharedPrefsUtil>()
-                          .getAuthMethod()
-                          .then((authMethod) {
-                        sl
-                            .get<BiometricUtil>()
-                            .hasBiometrics()
-                            .then((hasBiometrics) {
-                          if (authMethod.method == AuthMethod.BIOMETRICS &&
-                              hasBiometrics) {
-                            sl
+                      AuthenticationMethod authMethod = await sl.get<SharedPrefsUtil>().getAuthMethod();
+                      bool hasBiometrics = await sl.get<BiometricUtil>().hasBiometrics();
+                      if (authMethod.method == AuthMethod.BIOMETRICS &&
+                          hasBiometrics) {
+                        try {
+                          bool authenticated = await sl
                                 .get<BiometricUtil>()
                                 .authenticateWithBiometrics(
                                     context,
                                     AppLocalization.of(context)
-                                        .fingerprintSeedBackup)
-                                .then((authenticated) {
-                              if (authenticated) {
-                                sl.get<HapticUtil>().fingerprintSucess();
-                                StateContainer.of(context)
-                                    .getSeed()
-                                    .then((seed) {
-                                  AppSeedBackupSheet(seed)
-                                      .mainBottomSheet(context);
-                                });
-                              }
-                            });
-                          } else {
-                            // PIN Authentication
-                            sl.get<Vault>().getPin().then((expectedPin) {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                return new PinScreen(
-                                  PinOverlayType.ENTER_PIN,
-                                  (pin) {
-                                    Navigator.of(context).pop();
-                                    StateContainer.of(context)
-                                        .getSeed()
-                                        .then((seed) {
-                                      AppSeedBackupSheet(seed)
-                                          .mainBottomSheet(context);
-                                    });
-                                  },
-                                  expectedPin: expectedPin,
-                                  description:
-                                      AppLocalization.of(context).pinSeedBackup,
-                                );
-                              }));
+                                        .fingerprintSeedBackup);
+                          if (authenticated) {
+                            sl.get<HapticUtil>().fingerprintSucess();
+                            StateContainer.of(context)
+                                .getSeed()
+                                .then((seed) {
+                              AppSeedBackupSheet(seed)
+                                  .mainBottomSheet(context);
                             });
                           }
-                        });
-                      });
+                        } catch (e) {
+                          await authenticateWithPin();
+                        }
+                      } else {
+                        await authenticateWithPin();
+                      }
                     }),
                     Divider(
                       height: 2,
@@ -1499,6 +1473,30 @@ class _SettingsSheetState extends State<SettingsSheet>
         ),
       ),
     );
+  }
+
+  Future<void> authenticateWithPin() async {
+    // PIN Authentication
+    sl.get<Vault>().getPin().then((expectedPin) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) {
+        return new PinScreen(
+          PinOverlayType.ENTER_PIN,
+          (pin) {
+            Navigator.of(context).pop();
+            StateContainer.of(context)
+                .getSeed()
+                .then((seed) {
+              AppSeedBackupSheet(seed)
+                  .mainBottomSheet(context);
+            });
+          },
+          expectedPin: expectedPin,
+          description:
+              AppLocalization.of(context).pinSeedBackup,
+        );
+      }));
+    });    
   }
 }
 
