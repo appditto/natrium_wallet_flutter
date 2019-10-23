@@ -9,6 +9,10 @@ Natrium is a cross-platform mobile wallet for the NANO cryptocurrency. It is wri
 [natrium.io](https://natrium.io) | Natrium Homepage
 [nano.org](https://nano.org) | NANO Cryptocurrency Homepage
 
+![Natrium Themes](https://natrium.io/assets/natrium-themes.jpg)
+
+![Natrium Quick Send](https://natrium.io/assets/natrium-qt-1.gif) ![Natrium Add to Contacts](https://natrium.io/assets/natrium-qt-2.gif) ![Natrium Change Representative](https://natrium.io/assets/natrium-qt-4.gif)
+
 ## Server
 
 Natrium's backend server can be found [here](https://github.com/appditto/natrium-wallet-server)
