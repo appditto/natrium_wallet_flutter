@@ -653,17 +653,15 @@ class _SendSheetState extends State<SendSheet> {
                               setState(() {
                                 _rawAmount = address.amount;
                                 // If raw amount has more precision than we support show a special indicator
-                                if (NumberUtil.getRawAsUsableString(_rawAmount)
-                                        .replaceAll(",", "") ==
-                                    NumberUtil.getRawAsUsableDecimal(_rawAmount)
-                                        .toString()) {
-                                  _sendAmountController
-                                      .text = NumberUtil.truncateDecimal(
-                                              NumberUtil.getRawAsUsableDecimal(
-                                                  address.amount),
-                                              digits: 6)
-                                          .toStringAsFixed(6) +
-                                      "~";
+                                if (NumberUtil.getRawAsUsableString(_rawAmount).replaceAll(",", "") ==
+                                    NumberUtil.getRawAsUsableDecimal(_rawAmount).toString()) {
+                                  _sendAmountController.text = NumberUtil.getRawAsUsableString(_rawAmount).replaceAll(",", "");
+                                } else {
+                                  _sendAmountController.text = 
+                                    NumberUtil.truncateDecimal(
+                                      NumberUtil.getRawAsUsableDecimal(address.amount),
+                                      digits: 6
+                                    ).toStringAsFixed(6) + "~";
                                 }
                               });
                               _sendAddressFocusNode.unfocus();
@@ -966,7 +964,7 @@ class _SendSheetState extends State<SendSheet> {
                 toggleLocalCurrency();
               },
             )
-          : SizedBox(),
+          : null,
       suffixButton: TextFieldButton(
         icon: AppIcons.max,
         onPressed: () {

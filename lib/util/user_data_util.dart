@@ -49,7 +49,7 @@ class UserDataUtil {
       // Check if an address or manta result
       Address address = Address(data);
       if (address.isValid()) {
-        return address.address;
+        return data;
       } else if (MantaWallet.parseUrl(data) != null) {
         return data;
       }
