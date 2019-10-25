@@ -101,7 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "insufficientBalance" : MessageLookupByLibrary.simpleMessage("Недостаточный баланс"),
     "invalidAddress" : MessageLookupByLibrary.simpleMessage("Введен неверный адрес"),
     "invalidPassword" : MessageLookupByLibrary.simpleMessage("Неправильный пароль"),
-    "kaliumWallet" : MessageLookupByLibrary.simpleMessage("Kalium кошелек"),
+    "kaliumWallet" : MessageLookupByLibrary.simpleMessage("Kalium кошелёк"),
     "language" : MessageLookupByLibrary.simpleMessage("Язык"),
     "liveSupportButton" : MessageLookupByLibrary.simpleMessage("Служба поддержки"),
     "lockAppSetting" : MessageLookupByLibrary.simpleMessage("Аутентификация при запуске"),

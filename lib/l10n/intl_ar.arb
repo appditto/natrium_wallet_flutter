@@ -104,7 +104,7 @@
   "settingsTransfer": "تحميل من المحفظة الورقية",
   "transferError": "لقد حدث خطأ أثناء النقل. الرجاء إعادة المحاولة في وقت لاحق.",
   "paperWallet": "المحفظة الورقية",
-  "kaliumWallet": "المحفظة نتريوم",
+  "kaliumWallet": "محفظة  كاليوم",
   "manualEntry": "إدخال يدوي",
   "mnemonicPhrase": "عبارة تذكيرية",
   "rawSeed": "Raw Seed",
@@ -202,6 +202,9 @@
   "goBackButton": "عد\n",
   "welcomeTextKal": "أهلا بك في كاليوم. لتبدأ، إحدث محفظة أو إجلب محفظة موجودة.",
   "sendAmountConfirmKal": "أرسل %1 BANANO",
+  "currency": "عملة",
+  "shareKalium": "نشر كاليوم",
+  "shareKaliumText": "ألق نظرة على كاليوم !محفظة بننو !",
   "logoutDetailKal": "خروجك من حساب كاليوم سوف يحذف البيانات من الجهاز. إذا مفتاحك الخاص غير محفوظ في مكان أمن، سوف تفقد رصيدك نهائيا.",
   "notificationTitleKal": "تم استلام %1 BANANO",
   "notificationBodyKal": "أفتح كاليوم للكشف عن هذا التعامل",
@@ -216,5 +219,7 @@
   "exampleCardIntroKal": "مرحبا بكم في كاليوم. بمجرد تلقي BANANO ، ستظهر المعاملات كما يلي:",
   "exampleCardToKal": "لقرد عشوائي",
   "exampleCardFromKal": "من قرد عشوائي",
-  "newAccountIntroKal": "هذا هو حسابك الجديد بمجرد تلقي BANANO ، ستظهر المعاملات كما يلي:"
+  "newAccountIntroKal": "هذا هو حسابك الجديد بمجرد تلقي BANANO ، ستظهر المعاملات كما يلي:",
+  "liveSupportButton": "مساعدة",
+  "connectingHeader": "الاتصال"
 }

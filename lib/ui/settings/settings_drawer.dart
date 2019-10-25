@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:event_taxi/event_taxi.dart';
+import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accounts_sheet.dart';
@@ -1133,6 +1134,18 @@ class _SettingsSheetState extends State<SettingsSheet>
                             });
                           }
                         } catch (e) {
+                          AppDialogs.showConfirmDialog(
+                              context,
+                              "Error",
+                              e.toString(),
+                              "Copy to clipboard", () {
+                                Clipboard.setData(ClipboardData(text: e.toString()));
+                                  },
+                                  cancelText: "Close",
+                                  cancelAction: () {
+                                    Navigator.of(context).pop();
+                                  }
+                          );
                           await authenticateWithPin();
                         }
                       } else {
