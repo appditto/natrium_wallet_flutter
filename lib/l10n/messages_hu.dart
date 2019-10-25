@@ -96,7 +96,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "pinSeedBackup" : MessageLookupByLibrary.simpleMessage("Írd be a PIN-kódod, hogy megjelenjen a seeded."),
     "preferences" : MessageLookupByLibrary.simpleMessage("Preferenciák"),
     "privacyPolicy" : MessageLookupByLibrary.simpleMessage("Adatvédelmi Szabályzat"),
-    "qrInvalidAddress" : MessageLookupByLibrary.simpleMessage("QR-kód nem tartalmaz érvényes címet"),
     "qrInvalidSeed" : MessageLookupByLibrary.simpleMessage("QR-kód nem tartalmaz érvényes seedet vagy privát kulcsot"),
     "receive" : MessageLookupByLibrary.simpleMessage("Fogadás"),
     "received" : MessageLookupByLibrary.simpleMessage("Fogadott"),

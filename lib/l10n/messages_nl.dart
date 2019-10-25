@@ -201,7 +201,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 Nano succesvol overgezet naar jouw Natrium-wallet."),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("Een wallet met een balans van %1 Nano is gedetecteerd.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("Tik op bevestigen om het bedrag over te zetten.\n"),
-    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("Het overzetten kan enkele seconden duren om te voltooien."),
     "transferError" : MessageLookupByLibrary.simpleMessage("Tijdens het overzetten is een fout opgetreden. Probeer het later nog eens."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Bedragen overzetten"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Met dit proces worden de bedragen van een papieren wallet overgezet naar jouw Natrium-wallet.\n\nTik op de \"%1\" knop om te starten."),

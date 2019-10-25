@@ -201,7 +201,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 NANO au fost transferate cu succes în portofelul dvs. Natrium."),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("Un portofel cu un sold de %1 NANO a fost găsit.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("Apăsați pentru a confirma transferul.\n"),
-    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("Transferul poate dura câteva secunde."),
     "transferError" : MessageLookupByLibrary.simpleMessage("A avut loc o eroare în timpul transferului. Vă rugăm să încercați din nou mai târziu."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Transferă\nFonduri"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Acest proces va transfera fondurile dintr-un Paper Wallet către contul dvs. Natrium.\n\nAtingeți butonul \"%1\" pentru a începe."),

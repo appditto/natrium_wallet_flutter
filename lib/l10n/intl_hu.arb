@@ -21,7 +21,6 @@
   "contactsImportErr": "Sikertelen kontakt importálás",
   "viewDetails": "Részletek Mutatása",
   "qrInvalidSeed": "QR-kód nem tartalmaz érvényes seedet vagy privát kulcsot",
-  "qrInvalidAddress": "QR-kód nem tartalmaz érvényes címet",
   "removeContact": "Kontakt Törlése",
   "removeContactConfirmation": "Biztos, hogy törölni szeretnéd %1-t?",
   "contactHeader": "Kontakt",
@@ -115,5 +114,16 @@
   "exampleCardLittle": "Egy kevés",
   "exampleCardLot": "Rengeteg",
   "exampleCardTo": "valakinek",
-  "exampleCardFrom": "valakitől"
+  "exampleCardFrom": "valakitől",
+  "welcomeTextKal": "Üdvözöllek a Kaliumban! Hozz létre egy új tárcát, vagy importálj egy létezőt.",
+  "sendAmountConfirmKal": "%1 Banano küldése?",
+  "logoutDetailKal": "Ha kijelentkezel, elvész a beírt seeded, és minden Kaliumhoz kapcsolódó adatod az eszközről. Ha nem őrizted meg a seeded, nem fogsz tudni hozzáférni a tőkédhez.",
+  "notificationTitleKal": "Kaptál %1 BANANO-t",
+  "notificationBodyKal": "Nyisd meg a Kaliumot, hogy megnézhesd a tranzakciót.",
+  "scanInstructionsKal": "Olvass be QR kóddal egy Banano \ncímet",
+  "unlockPinKal": "Írd be a PIN-t a Bejelentkezéshez a Kaliumba",
+  "unlockBiometricsKal": "Hitelesítés Szükséges a Kaliumba való bejelentkezéshez",
+  "exampleCardIntroKal": "Üdvözöllek a Kaliumban! Így fogod látni a tranzakcióid, amikor kapsz BANANO-t.",
+  "exampleCardToKal": "Egy random majomnak",
+  "exampleCardFromKal": "Egy random majomtól"
 }

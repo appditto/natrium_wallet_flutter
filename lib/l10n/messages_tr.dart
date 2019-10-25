@@ -201,7 +201,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 NANO başarıyla Natrium cüzdanına aktarıldı."),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("%1 NANO bakiyeye sahip bir cüzdan tespit edildi.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("Transfer işlemini başlatmak için onayla butonuna bas.\n"),
-    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("Bu işlem birkaç saniye sürebilir."),
     "transferError" : MessageLookupByLibrary.simpleMessage("Aktarma esnasında bir problem oluştu. Lütfen daha sonra tekrar dene."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Bakiye\nTransferi"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Bu işlem bir kağıt cüzdanda bulunan bakiyeyi senin Natrium cüzdanına aktaracak.\n\nBaşlamak için \"%1\" butonuna bas."),

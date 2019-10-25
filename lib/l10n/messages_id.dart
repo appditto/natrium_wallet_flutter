@@ -201,7 +201,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 NANO berhasil ditransfer ke Dompet Natrium Anda."),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("Dompet dengan saldo %1 NANO telah terdeteksi.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("Ketuk konfirmasi untuk mentransfer dana.\n"),
-    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("Transfer membutuhkan beberapa detik."),
     "transferError" : MessageLookupByLibrary.simpleMessage("Terjadi kesalahan selama transfer. Silakan coba lagi nanti."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Transfer\nDana"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Proses ini akan mentransfer dana dari dompet kertas ke dompet Natrium Anda.\n\nKetuk \"%1\" tombol untuk memulai."),

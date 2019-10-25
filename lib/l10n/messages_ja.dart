@@ -201,7 +201,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("％1 NANOがNatriumウォレットに正常に転送されました。\n"),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("残高％1 NANOのウォレットが検出されました。\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("確認をタップして資金を転送します。\n"),
-    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("転送が完了するまでに数秒かかる場合があります。"),
     "transferError" : MessageLookupByLibrary.simpleMessage("転送中にエラーが発生しました。後で再び実行してください。"),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("資金を転送する"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("このプロセスにより、資金がペーパーウォレットからNatriumウォレットに転送されます。\n \n「％1」ボタンをタップして開始します。"),

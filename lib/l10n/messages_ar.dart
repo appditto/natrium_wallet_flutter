@@ -201,7 +201,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("تم تحويل %1 NANO إلى محفظة نتريوم.\n"),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("تم كشف محفظة برصيد %1 NANO.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("إضغط لتأكيد تحويل الرصيد.\n"),
-    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("قد يستغرق النقل عدة ثوانيٍ."),
     "transferError" : MessageLookupByLibrary.simpleMessage("لقد حدث خطأ أثناء النقل. الرجاء إعادة المحاولة في وقت لاحق."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("تحويل الرصيد"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("ستقوم هذه العملية بتحويل الرصيد من المحفظة الورقية إلى محفظة نتريوم الخاصة بك. \n\n اضغط على الزر \"%1\" للبدء."),
