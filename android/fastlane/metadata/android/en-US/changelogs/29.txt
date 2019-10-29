@@ -1,0 +1,2 @@
+Natrium 2.0 BETA
+Natrium was rebuilt from the ground up and brings numerous new features and enhancements including multiple accounts, themes, support for "StrongBox" security chips, optionally require authentication to open the app, and more.

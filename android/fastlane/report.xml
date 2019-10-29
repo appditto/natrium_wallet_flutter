@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.00858">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: ./flutter_build.sh" time="46.312994">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: upload_to_play_store" time="64.301878">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

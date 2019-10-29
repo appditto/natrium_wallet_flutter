@@ -1,0 +1,2 @@
+json_key_file("./playapi_key.json") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+package_name("co.banano.natriumwallet") # e.g. com.krausefx.app

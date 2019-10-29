@@ -1,0 +1,30 @@
+Natrium is a fast, robust, & secure wallet for the NANO cryptocurrency. Natrium has been thoroughly audited by Red4Sec, a security firm with extensive experience with blockchain and cryptocurrency projects.
+
+Features:
+
+- Create a new NANO wallet or import an existing one.
+- Secure pin and biometric authentication
+- Send NANO instantly to anyone, anywhere in the world.
+- Manage contacts in an intuitive easy-to-use address book
+- Receive real-time notifications when you receive NANO
+- Add and manage multiple NANO accounts
+- Load NANO from a paper wallet or a seed.
+- Share your personal account address with a personalized QR card.
+- Personalize your experience with numerous themes.
+- Change your wallet representative.
+- View your account's entire transaction history.
+- Support for over 20 different languages
+- Support for over 30 different currency conversions.
+- Get live support for all your questions and issues right inside of the app
+
+IMPORTANT:
+
+Remember to backup your wallet seed and store it in a safe place. It is the only way to recover your funds if you sign out of the wallet or lose your device! If someone else gets your seed, they will be able to control your funds!
+
+Natrium is open source and available on GitHub.
+
+Github:
+https://github.com/appditto/natrium_wallet_flutter
+
+For support:
+https://help.natrium.io

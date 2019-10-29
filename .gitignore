@@ -80,3 +80,6 @@ build/
 # Translations
 lib/l10n/*.json
 bin/settings.py
+
+# API keys
+android/playapi_key.json
