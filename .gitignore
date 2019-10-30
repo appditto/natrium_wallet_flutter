@@ -69,6 +69,8 @@ build/
 **/ios/Flutter/flutter_export_environment.sh
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/*.ipa
+**/ios/*.app.dSYM.zip
 
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
@@ -83,3 +85,4 @@ bin/settings.py
 
 # Fastlane
 android/fastlane/report.xml
+ios/fastlane/report.xml

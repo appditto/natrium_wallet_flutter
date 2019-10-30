@@ -1,0 +1,50 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Build & push a new release build to the App Store"
+  lane :deploy do
+    sh "./flutter_build.sh --clean"
+    build_ios_app(
+      scheme: "Release",
+      export_options: {
+        method: "app-store",
+      }
+    )
+    upload_to_app_store(
+      skip_metadata: true,
+      skip_screenshots: true,
+      ipa: "./Runner.ipa"
+    )
+  end
+
+  desc "Build and push a new release to app store without running clean"
+  lane :deploy_dirty do
+    sh "./flutter_build.sh"
+    build_ios_app(
+      scheme: "Release",
+      export_options: {
+        method: "app-store",
+      }
+    )
+    upload_to_app_store(
+      skip_metadata: true,
+      skip_screenshots: true,
+      ipa: "./Runner.ipa"
+    )
+  end
+end
