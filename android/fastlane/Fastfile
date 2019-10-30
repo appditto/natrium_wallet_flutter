@@ -23,6 +23,7 @@ platform :android do
 
   desc "Clean, build, & upload to google play"
   lane :deploy do
+    sh "./flutter_test.sh"
     sh "./flutter_build.sh --clean"
     upload_to_play_store(
        track: 'production',
@@ -34,6 +35,7 @@ platform :android do
 
   desc "Build & upload to google play, skip clean"
   lane :deploy_dirty do
+    sh "./flutter_test.sh"
     sh "./flutter_build.sh"
     upload_to_play_store(
        track: 'alpha',

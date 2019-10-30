@@ -26,8 +26,10 @@ platform :ios do
       }
     )
     upload_to_app_store(
-      skip_metadata: true,
+      skip_metadata: false,
       skip_screenshots: true,
+      submit_for_review: true,
+      force: true,
       ipa: "./Runner.ipa"
     )
   end
@@ -42,8 +44,10 @@ platform :ios do
       }
     )
     upload_to_app_store(
-      skip_metadata: true,
+      skip_metadata: false,
       skip_screenshots: true,
+      submit_for_review: true,
+      force: true,
       ipa: "./Runner.ipa"
     )
   end
