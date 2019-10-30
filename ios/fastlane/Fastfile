@@ -18,6 +18,7 @@ default_platform(:ios)
 platform :ios do
   desc "Build & push a new release build to the App Store"
   lane :deploy do
+    sh "./flutter_test.sh"
     sh "./flutter_build.sh --clean"
     build_ios_app(
       export_options: {
@@ -35,6 +36,7 @@ platform :ios do
 
   desc "Build and push a new release to app store without running clean"
   lane :deploy_dirty do
+    sh "./flutter_test.sh"
     sh "./flutter_build.sh"
     build_ios_app(
       export_options: {
