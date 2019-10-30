@@ -1,3 +1,4 @@
 release_notes({
   'default' => File.read('./fastlane/changelog.txt'),
+  'en-US' => File.read('./fastlane/changelog.txt')
 });

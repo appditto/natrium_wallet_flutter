@@ -25,7 +25,7 @@ platform :ios do
         method: "app-store",
       }
     )
-    upload_to_app_store(
+    deliver(
       skip_metadata: false,
       skip_screenshots: true,
       submit_for_review: true,
@@ -43,7 +43,7 @@ platform :ios do
         method: "app-store",
       }
     )
-    upload_to_app_store(
+    deliver(
       skip_metadata: false,
       skip_screenshots: true,
       submit_for_review: true,
