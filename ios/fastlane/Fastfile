@@ -20,7 +20,6 @@ platform :ios do
   lane :deploy do
     sh "./flutter_build.sh --clean"
     build_ios_app(
-      scheme: "Release",
       export_options: {
         method: "app-store",
       }
@@ -38,7 +37,6 @@ platform :ios do
   lane :deploy_dirty do
     sh "./flutter_build.sh"
     build_ios_app(
-      scheme: "Release",
       export_options: {
         method: "app-store",
       }
