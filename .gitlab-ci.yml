@@ -9,6 +9,7 @@ stages:
   - test
   - build
   - tag
+  - deploy
 
 run_tests:
   stage: test
@@ -36,4 +37,47 @@ build_ios:
     - cd ios
     - fastlane build_ios
 
+tag_version:
+  stage: tag
+  tags:
+    - appditto_mac
+  script:
+    - ./ci/tag_version.sh
+  when: manual
 
+deploy_android_production:
+  stage: deploy
+  tags:
+    - appditto_mac
+  script:
+    - cd android
+    - fastlane deploy_android production:true
+  when: manual
+
+deploy_android_internal:
+  stage: deploy
+  tags:
+    - appditto_mac
+  script:
+    - cd android
+    - fastlane deploy_android internal:true
+  when: manual
+
+deploy_ios_production:
+  stage: deploy
+  tags:
+    - appditto_mac
+  script:
+    - cd ios
+    - fastlane deploy_ios
+  when: manual
+
+
+deploy_ios_testflight:
+  stage: deploy
+  tags:
+    - appditto_mac
+  script:
+    - cd ios
+    - fastlane deploy_ios testflight:true
+  when: manual
