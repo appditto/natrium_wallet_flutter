@@ -1,3 +1,15 @@
+variables:
+  FLUTTER_VERSION: "https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_v1.9.1+hotfix.6-stable.tar.xz"
+
+before_script:
+  - apt-get --quiet update --yes
+  - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
+  # flutter sdk setup
+  - wget --output-document=flutter-sdk.tar.xz $FLUTTER_VERSION
+  - tar -xf flutter-sdk.tar.xz
+  - export PATH=$PATH:$PWD/flutter/bin
+  - echo flutter.sdk=$PWD/flutter > android/local.properties
+
 stages:
   - test
 
