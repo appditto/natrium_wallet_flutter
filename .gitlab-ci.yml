@@ -2,5 +2,9 @@ stages:
   - test
 
 run_tests:
-  stage: test
-  script: flutter test
+  stage:
+    - test
+  tag:
+    - natrium
+  script:
+    - flutter test
