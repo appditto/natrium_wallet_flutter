@@ -15,8 +15,7 @@ before_script:
   - export GH_OWNER=appditto
   - export GH_REPO_NAME=natrium_wallet_flutter
   - export GH_API=https://api.github.com
-  - export GH_REPO=$GH_API/repos/$GH_OWNER/$GH_REPO
-  - export AUTH="Authorization: token $GITHUB_API_TOKEN"
+  - export GH_REPO=$GH_API/repos/$GH_OWNER/$GH_REPO_NAME
 
 stages:
   - test

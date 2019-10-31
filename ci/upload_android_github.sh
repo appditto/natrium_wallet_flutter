@@ -16,7 +16,6 @@
 
 source ./ci/get_version.sh
 VERSION=$(get_version)
-VERSION="v2.1.3"
 
 # Define variables.
 GH_TAGS="$GH_REPO/releases/tags/$VERSION"
@@ -27,6 +26,8 @@ filename=./build/app/outputs/apk/release/app-release.apk
 if [[ "$tag" == 'LATEST' ]]; then
   GH_TAGS="$GH_REPO/releases/latest"
 fi
+
+AUTH="Authorization: token $GITHUB_API_TOKEN"
 
 # Validate token.
 curl -o /dev/null -sH "$AUTH" $GH_REPO || { echo "Error: Invalid repo, token or network issue!";  exit 1; }
