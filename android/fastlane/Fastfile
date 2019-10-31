@@ -16,18 +16,20 @@ update_fastlane
 default_platform(:android)
 
 platform :android do
-  desc "Build & Submit"
+  desc "Build android aab and apk"
   lane :build_android do |options|
     sh "./flutter_test.sh"
     sh "./flutter_build.sh --clean"
-    
-    if options[:upload]
-      upload_to_play_store(
-        track: options[:production] ? 'production' : 'beta',
-        aab: '../build/app/outputs/bundle/release/app.aab',
-        skip_upload_images: true,
-        skip_upload_screenshots: true,
-      )
-    end
+    sh "./flutter_build.sh --apk"
+  end
+
+  desc "Deploy (Upload to play store)"
+  lane :deploy_android do |options|
+    upload_to_play_store(
+      track: options[:production] ? 'production' : options[:internal] ? 'internal' : options[:alpha] ? 'alpha' ? 'beta',
+      aab: '../build/app/outputs/bundle/release/app.aab',
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
   end
 end

@@ -1,16 +1,4 @@
-image: openjdk:8-jdk
-
-variables:
-  FLUTTER_VERSION: "https://storage.googleapis.com/flutter_infra/releases/stable/linux/flutter_linux_v1.9.1+hotfix.6-stable.tar.xz"
-
 before_script:
-  - apt-get --quiet update --yes
-  - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
-  # flutter sdk setup
-  - wget --output-document=flutter-sdk.tar.xz $FLUTTER_VERSION
-  - tar -xf flutter-sdk.tar.xz
-  - export PATH=$PATH:$PWD/flutter/bin
-  - echo flutter.sdk=$PWD/flutter > android/local.properties
   # Github upload variables
   - export GH_OWNER=appditto
   - export GH_REPO_NAME=natrium_wallet_flutter
@@ -19,32 +7,33 @@ before_script:
 
 stages:
   - test
-  - android_only_production_start
-  - android_only_production_build
-  - android_only_production_github_upload
+  - build
+  - tag
 
 run_tests:
   stage: test
+  only:
+    - tags
+    - master
+  tags:
+    - appditto_mac
   script: 
     - flutter test
 
-# Pipeline for releasing android-only  into production
-tag_release_android:
-  stage: android_only_production_start
-  script:
-    - ./ci/tag_version.sh
-  when: manual
-
-build_release_android:
-  stage: android_only_production_build
+build_android:
+  stage: build
+  tags:
+    - appditto_mac
   script:
     - cd android
-    - fastlane build_android upload:true production:true
+    - fastlane build_android production:true
 
-upload_android_github:
-  stage: android_only_production_github_upload
+build_ios:
+  stage: build
+  tags:
+    - appditto_mac
   script:
-    - ./ci/upload_android_github.sh
-
+    - cd ios
+    - fastlane build_ios
 
 
