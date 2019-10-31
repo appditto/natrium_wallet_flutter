@@ -11,11 +11,41 @@ before_script:
   - tar -xf flutter-sdk.tar.xz
   - export PATH=$PATH:$PWD/flutter/bin
   - echo flutter.sdk=$PWD/flutter > android/local.properties
+  # Github upload variables
+  - export GH_OWNER=appditto
+  - export GH_REPO_NAME=natrium_wallet_flutter
+  - export GH_API=https://api.github.com
+  - export GH_REPO=$GH_API/repos/$GH_OWNER/$GH_REPO
+  - export AUTH="Authorization: token $GITHUB_API_TOKEN"
 
 stages:
   - test
+  - android_only_production_start
+  - android_only_production_build
+  - android_only_production_github_upload
 
 run_tests:
   stage: test
   script: 
     - flutter test
+
+# Pipeline for releasing android-only  into production
+tag_release_android:
+  stage: android_only_production_start
+  script:
+    - ./ci/tag_version.sh
+  when: manual
+
+build_release_android:
+  stage: android_only_production_build
+  script:
+    - cd android
+    - fastlane build_android upload:true production:true
+
+upload_android_github:
+  stage: android_only_production_github_upload
+  script:
+    - ./ci/upload_android_github.sh
+
+
+

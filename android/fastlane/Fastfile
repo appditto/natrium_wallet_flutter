@@ -11,37 +11,23 @@
 #
 
 # Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
+update_fastlane
 
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
-  end
-
-  desc "Clean, build, & upload to google play"
-  lane :deploy do
+  desc "Build & Submit"
+  lane :build_android do |options|
     sh "./flutter_test.sh"
     sh "./flutter_build.sh --clean"
-    upload_to_play_store(
-       track: 'production',
-       aab: '../build/app/outputs/bundle/release/app.aab',
-       skip_upload_images: true,
-       skip_upload_screenshots: true,
-    )
-  end
-
-  desc "Build & upload to google play, skip clean"
-  lane :deploy_dirty do
-    sh "./flutter_test.sh"
-    sh "./flutter_build.sh"
-    upload_to_play_store(
-       track: 'alpha',
-       aab: '../build/app/outputs/bundle/release/app.aab',
-       skip_upload_images: true,
-       skip_upload_screenshots: true,
-    )
+    
+    if options[:upload]
+      upload_to_play_store(
+        track: options[:production] ? 'production' : 'beta',
+        aab: '../build/app/outputs/bundle/release/app.aab',
+        skip_upload_images: true,
+        skip_upload_screenshots: true,
+      )
+    end
   end
 end

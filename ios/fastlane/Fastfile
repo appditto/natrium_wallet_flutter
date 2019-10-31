@@ -11,13 +11,13 @@
 #
 
 # Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
+update_fastlane
 
 default_platform(:ios)
 
 platform :ios do
   desc "Build & push a new release build to the App Store"
-  lane :deploy do
+  lane :build_ios do |options|
     sh "./flutter_test.sh"
     sh "./flutter_build.sh --clean"
     build_ios_app(
@@ -25,30 +25,21 @@ platform :ios do
         method: "app-store",
       }
     )
-    deliver(
-      skip_metadata: false,
-      skip_screenshots: true,
-      submit_for_review: true,
-      force: true,
-      ipa: "./Runner.ipa"
-    )
-  end
-
-  desc "Build and push a new release to app store without running clean"
-  lane :deploy_dirty do
-    sh "./flutter_test.sh"
-    sh "./flutter_build.sh"
-    build_ios_app(
-      export_options: {
-        method: "app-store",
-      }
-    )
-    deliver(
-      skip_metadata: false,
-      skip_screenshots: true,
-      submit_for_review: true,
-      force: true,
-      ipa: "./Runner.ipa"
-    )
+    if options[:upload]
+      if options[:testflight]
+        upload_to_testflight(
+          skip_submission: true,
+          ipa: "./Runner.ipa"
+        )
+      else
+        deliver(
+          skip_metadata: false,
+          skip_screenshots: true,
+          submit_for_review: true,
+          force: true,
+          ipa: "./Runner.ipa"
+        )
+      end
+    end
   end
 end
