@@ -4,7 +4,7 @@ stages:
 run_tests:
   stage:
     - test
-  tag:
+  tags:
     - natrium
   script:
     - flutter test
