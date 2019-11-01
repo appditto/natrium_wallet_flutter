@@ -88,4 +88,4 @@ upload:apk:github_release:
     - appditto_mac
   script:
     ./ci/upload_android_github.sh
-  needs: ["android:prod:deploy"]
+  needs: ["prod:android:deploy"]
