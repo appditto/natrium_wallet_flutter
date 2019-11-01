@@ -64,7 +64,7 @@ prod:ios:deploy:
     - fastlane deploy_ios
   when: manual
 
-internal:android:deploy:
+z:internal:android:deploy:
   stage: deploy
   tags:
     - appditto_mac
@@ -73,7 +73,7 @@ internal:android:deploy:
     - fastlane deploy_android internal:true
   when: manual
 
-testflight:ios:deploy:
+z:tflight:ios:deploy:
   stage: deploy
   tags:
     - appditto_mac
