@@ -46,7 +46,7 @@ tag:create:
     - ./ci/tag_version.sh
   when: manual
 
-android:prod:deploy:
+prod:android:deploy:
   stage: deploy
   tags:
     - appditto_mac
@@ -55,7 +55,7 @@ android:prod:deploy:
     - fastlane deploy_android production:true
   when: manual
 
-ios:prod:deploy:
+prod:ios:deploy:
   stage: deploy
   tags:
     - appditto_mac
@@ -64,7 +64,7 @@ ios:prod:deploy:
     - fastlane deploy_ios
   when: manual
 
-android:internal:deploy:
+internal:android:deploy:
   stage: deploy
   tags:
     - appditto_mac
@@ -73,7 +73,7 @@ android:internal:deploy:
     - fastlane deploy_android internal:true
   when: manual
 
-ios:testflight:deploy:
+testflight:ios:deploy:
   stage: deploy
   tags:
     - appditto_mac
