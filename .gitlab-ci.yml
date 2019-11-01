@@ -10,8 +10,9 @@ stages:
   - build
   - tag
   - deploy
+  - postdeploy
 
-run_tests:
+tests:
   stage: test
   only:
     - tags
@@ -21,7 +22,7 @@ run_tests:
   script: 
     - flutter test
 
-build_android:
+android:build:
   stage: build
   tags:
     - appditto_mac
@@ -29,7 +30,7 @@ build_android:
     - cd android
     - fastlane build_android production:true
 
-build_ios:
+ios:build:
   stage: build
   tags:
     - appditto_mac
@@ -37,7 +38,7 @@ build_ios:
     - cd ios
     - fastlane build_ios
 
-tag_version:
+tag:create:
   stage: tag
   tags:
     - appditto_mac
@@ -45,7 +46,7 @@ tag_version:
     - ./ci/tag_version.sh
   when: manual
 
-deploy_android_production:
+android:prod:deploy:
   stage: deploy
   tags:
     - appditto_mac
@@ -54,16 +55,7 @@ deploy_android_production:
     - fastlane deploy_android production:true
   when: manual
 
-deploy_android_internal:
-  stage: deploy
-  tags:
-    - appditto_mac
-  script:
-    - cd android
-    - fastlane deploy_android internal:true
-  when: manual
-
-deploy_ios_production:
+ios:prod:deploy:
   stage: deploy
   tags:
     - appditto_mac
@@ -72,8 +64,16 @@ deploy_ios_production:
     - fastlane deploy_ios
   when: manual
 
+android:internal:deploy:
+  stage: deploy
+  tags:
+    - appditto_mac
+  script:
+    - cd android
+    - fastlane deploy_android internal:true
+  when: manual
 
-deploy_ios_testflight:
+ios:testflight:deploy:
   stage: deploy
   tags:
     - appditto_mac
@@ -81,3 +81,11 @@ deploy_ios_testflight:
     - cd ios
     - fastlane deploy_ios testflight:true
   when: manual
+
+upload:apk:github_release:
+  stage: postdeploy
+  tags:
+    - appditto_mac
+  script:
+    ./ci/upload_android_github.sh
+  needs: ["android:prod:deploy"]
