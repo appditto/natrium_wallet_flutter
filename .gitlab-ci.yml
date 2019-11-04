@@ -4,6 +4,15 @@ before_script:
   - export GH_REPO_NAME=natrium_wallet_flutter
   - export GH_API=https://api.github.com
   - export GH_REPO=$GH_API/repos/$GH_OWNER/$GH_REPO_NAME
+  # Flutter local configuration
+  - echo flutter.sdk=/Users/adapps/flutter > android/local.properties
+  - echo sdk.dir=/Users/adapps/Library/Android/Sdk >> android/local.properties
+  - echo flutter.buildMode=release >> android/local.properties
+  # Android signing
+  - echo storePassword=$ANDROID_KEY_STORE_PASSWORD > android/key.properties
+  - echo keyPassword=$ANDROID_KEY_PASSWORD >> android/key.properties
+  - echo keyAlias=$ANDROID_KEY_ALIAS >> android/key.properties
+  - echo storeFile=/Users/adapps/appditto.jks >> android/key.properties
 
 stages:
   - test
