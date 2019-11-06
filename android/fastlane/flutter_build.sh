@@ -8,4 +8,11 @@ then
 else
    echo "Skipping clean..."
 fi
-flutter build appbundle --release
+if [ "$1" == "--apk" ]
+then
+   echo "Building APK..."
+   flutter build apk --release
+else
+   echo "Building AAB..."
+   flutter build appbundle --release
+fi
