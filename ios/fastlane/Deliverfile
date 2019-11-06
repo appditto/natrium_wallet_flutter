@@ -1,6 +1,6 @@
 release_notes({
-  'default' => File.read('./fastlane/changelog.txt'),
-  'en-US' => File.read('./fastlane/changelog.txt')
+  'default' => File.read('./fastlane/metadata/en-US/release_notes.txt'),
+  'en-US' => File.read('./fastlane/metadata/en-US/release_notes.txt')
 });
 
 submission_information({
