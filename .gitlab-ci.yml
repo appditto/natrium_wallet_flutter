@@ -5,8 +5,8 @@ before_script:
   - export GH_API=https://api.github.com
   - export GH_REPO=$GH_API/repos/$GH_OWNER/$GH_REPO_NAME
   # Flutter local configuration
-  - echo flutter.sdk=/Users/adapps/flutter > android/local.properties
-  - echo sdk.dir=/Users/adapps/Library/Android/Sdk >> android/local.properties
+  - echo flutter.sdk=$FLUTTER_PATH > android/local.properties
+  - echo sdk.dir=$ANDROID_SDK_PATH >> android/local.properties
   - echo flutter.buildMode=release >> android/local.properties
   # Android signing
   - echo storePassword=$ANDROID_KEY_STORE_PASSWORD > android/key.properties
