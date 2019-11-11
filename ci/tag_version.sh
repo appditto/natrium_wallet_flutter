@@ -27,7 +27,10 @@ GH_PUBLISH="$GH_REPO/releases"
 #fi
 
 pubresponse=$(curl -u "$GITHUB_OAUTH_BASIC" -sH "$AUTH" --data '{"tag_name":"'"$VERSION"'", "name":"Natrium '"${VERSION}"'", "draft":false, "prerelease":false}' $GH_PUBLISH)
-if [[ "$pubresponse" == *"Validation Failed"* ]]; then
+if [[ "$pubresponse" == *"already_exists"* ]]; then
+  echo "Tag already exists, skipping"
+   exit 0
+elif [[ "$pubresponse" == *"Validation Failed"* ]]; then
   echo "Error! ${pubresponse}"
   exit 1
 fi
