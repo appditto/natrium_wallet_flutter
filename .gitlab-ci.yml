@@ -13,6 +13,9 @@ before_script:
   - echo keyPassword=$ANDROID_KEY_PASSWORD >> android/key.properties
   - echo keyAlias=$ANDROID_KEY_ALIAS >> android/key.properties
   - echo storeFile=$ANDROID_KEYSTORE_PATH >> android/key.properties
+  # Update depends
+  - flutter packages get
+  - flutter packages upgrade
 
 stages:
   - test
