@@ -1,1 +1,1 @@
-
+- Fix QR scanner on iOS 13+
