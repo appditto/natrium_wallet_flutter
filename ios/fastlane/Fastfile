@@ -18,13 +18,13 @@ default_platform(:ios)
 TEMP_KEYCHAIN_NAME = "fastlane_natrium"
 TEMP_KEYCHAN_PASSWORD = "natriumtempkeychainpassword"
 
-def delete_keychain()
+def delete_temp_keychain()
   delete_keychain(
     name: TEMP_KEYCHAIN_NAME
   ) if File.exist? File.expand_path("~/Library/Keychains/#{TEMP_KEYCHAIN_NAME}-db")
 end
 
-def create_keychain()
+def create_temp_keychain()
   create_keychain(
     name: TEMP_KEYCHAIN_NAME,
     password: TEMP_KEYCHAN_PASSWORD,
@@ -34,8 +34,8 @@ def create_keychain()
 end
 
 def ensure_temp_keychain()
-  delete_keychain
-  create_keychain
+  delete_temp_keychain
+  create_temp_keychain
 end
 
 platform :ios do
@@ -55,7 +55,7 @@ platform :ios do
         method: "app-store",
       }
     )
-    delete_keychain
+    delete_temp_keychain
   end
 
   desc "Upload iOS app to app store"
