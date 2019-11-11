@@ -12,7 +12,7 @@ before_script:
   - echo storePassword=$ANDROID_KEY_STORE_PASSWORD > android/key.properties
   - echo keyPassword=$ANDROID_KEY_PASSWORD >> android/key.properties
   - echo keyAlias=$ANDROID_KEY_ALIAS >> android/key.properties
-  - echo storeFile=/Users/adapps/appditto.jks >> android/key.properties
+  - echo storeFile=$ANDROID_KEYSTORE_PATH >> android/key.properties
 
 stages:
   - test
