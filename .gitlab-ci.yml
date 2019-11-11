@@ -13,12 +13,10 @@ before_script:
   - echo keyPassword=$ANDROID_KEY_PASSWORD >> android/key.properties
   - echo keyAlias=$ANDROID_KEY_ALIAS >> android/key.properties
   - echo storeFile=$ANDROID_KEYSTORE_PATH >> android/key.properties
-  # Update depends
-  - flutter packages get
-  - flutter packages upgrade
 
 stages:
   - test
+  - update
   - build
   - tag
   - deploy
@@ -27,12 +25,21 @@ stages:
 tests:
   stage: test
   only:
-    - tags
     - master
   tags:
     - appditto_mac
   script: 
     - flutter test
+
+update:
+  stage: update
+  only:
+    - master
+  tags:
+    - appditto_mac
+  script:
+    - flutter packages get
+    - flutter packages upgrade
 
 android:build:
   stage: build
