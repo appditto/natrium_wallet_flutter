@@ -30,6 +30,7 @@ tests:
     - appditto_mac
   script: 
     - flutter test
+  interruptible: true
 
 update:
   stage: update
