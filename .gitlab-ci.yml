@@ -124,7 +124,7 @@ upload:apk:github_release:
     - appditto_mac
   script:
     ./ci/upload_android_github.sh
-  needs: ["prod:android:deploy"]
+  needs: ["android:build", "prod:android:deploy"]
   when: manual
   dependencies:
     - android:build
