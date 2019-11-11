@@ -48,6 +48,11 @@ android:build:
   script:
     - cd android
     - fastlane build_android production:true
+  artifacts:
+    paths:
+    - build/app/outputs/apk/release/app-release.apk
+    - build/app/outputs/bundle/release/app.aab
+    expire_in: 1 week
 
 ios:build:
   stage: build
@@ -56,6 +61,10 @@ ios:build:
   script:
     - cd ios
     - fastlane build_ios
+  artifacts:
+    paths:
+    - ios/Runner.ipa
+    expire_in: 1 week
 
 tag:create:
   stage: tag
@@ -73,6 +82,8 @@ prod:android:deploy:
     - cd android
     - fastlane deploy_android production:true
   when: manual
+  dependencies:
+    - android:build
 
 prod:ios:deploy:
   stage: deploy
@@ -82,6 +93,8 @@ prod:ios:deploy:
     - cd ios
     - fastlane deploy_ios
   when: manual
+  dependencies:
+    - ios:build
 
 z:internal:android:deploy:
   stage: deploy
@@ -91,6 +104,8 @@ z:internal:android:deploy:
     - cd android
     - fastlane deploy_android internal:true
   when: manual
+  dependencies:
+    - android:build
 
 z:tflight:ios:deploy:
   stage: deploy
@@ -100,6 +115,8 @@ z:tflight:ios:deploy:
     - cd ios
     - fastlane deploy_ios testflight:true
   when: manual
+  dependencies:
+    - android:build
 
 upload:apk:github_release:
   stage: postdeploy
@@ -109,3 +126,5 @@ upload:apk:github_release:
     ./ci/upload_android_github.sh
   needs: ["prod:android:deploy"]
   when: manual
+  dependencies:
+    - android:build
