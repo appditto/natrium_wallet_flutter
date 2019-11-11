@@ -98,3 +98,4 @@ upload:apk:github_release:
   script:
     ./ci/upload_android_github.sh
   needs: ["prod:android:deploy"]
+  when: manual
