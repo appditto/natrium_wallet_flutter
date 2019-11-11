@@ -15,10 +15,39 @@ update_fastlane
 
 default_platform(:ios)
 
+TEMP_KEYCHAIN_NAME = "fastlane_natrium"
+TEMP_KEYCHAN_PASSWORD = "natriumtempkeychainpassword"
+
+def delete_keychain()
+  delete_keychain(
+    name: TEMP_KEYCHAIN_NAME
+  ) if File.exist? File.expand_path("~/Library/Keychains/#{TEMP_KEYCHAIN_NAME}-db")
+end
+
+def create_keychain()
+  create_keychain(
+    name: TEMP_KEYCHAIN_NAME,
+    password: TEMP_KEYCHAN_PASSWORD,
+    unlock: true,
+    timeout: false
+  )
+end
+
+def ensure_temp_keychain()
+  delete_keychain
+  create_keychain
+end
+
 platform :ios do
   desc "Build & sign iOS app"
   lane :build_ios do |options|
-    match(type: "appstore", readonly: is_ci)
+    ensure_temp_keychain
+    match(
+      type: "appstore",
+      readonly: is_ci,
+      keychain_name: TEMP_KEYCHAIN_NAME,
+      keychain_password: TEMP_KEYCHAN_PASSWORD
+    )
     sh "./flutter_test.sh"
     sh "./flutter_build.sh --clean"
     build_ios_app(
@@ -26,6 +55,7 @@ platform :ios do
         method: "app-store",
       }
     )
+    delete_keychain
   end
 
   desc "Upload iOS app to app store"
