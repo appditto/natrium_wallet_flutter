@@ -49,7 +49,7 @@ android:build:
     - appditto_mac
   script:
     - cd android
-    - fastlane build_android production:true
+    - bundle exec fastlane build_android production:true
   artifacts:
     paths:
     - build/app/outputs/apk/release/app-release.apk
@@ -65,7 +65,7 @@ ios:build:
     - cd ios
     - export TEMP_KEYCHAIN_NAME=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w ${1:-16} | head -n 1)
     - export TEMP_KEYCHAIN_PASSWORD=$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w ${1:-64} | head -n 1)
-    - fastlane build_ios keychain_name:$TEMP_KEYCHAIN_NAME keychain_password:$TEMP_KEYCHAIN_PASSWORD
+    - bundle exec fastlane build_ios keychain_name:$TEMP_KEYCHAIN_NAME keychain_password:$TEMP_KEYCHAIN_PASSWORD
   artifacts:
     paths:
     - ios/Runner.ipa
@@ -86,7 +86,7 @@ prod:android:deploy:
     - appditto_mac
   script:
     - cd android
-    - fastlane deploy_android production:true
+    - bundle exec fastlane deploy_android production:true
   when: manual
   dependencies:
     - android:build
@@ -97,7 +97,7 @@ prod:ios:deploy:
     - appditto_mac
   script:
     - cd ios
-    - fastlane deploy_ios
+    - bundle exec fastlane deploy_ios
   when: manual
   dependencies:
     - ios:build
@@ -108,7 +108,7 @@ z:internal:android:deploy:
     - appditto_mac
   script:
     - cd android
-    - fastlane deploy_android internal:true
+    - bundle exec fastlane deploy_android internal:true
   when: manual
   dependencies:
     - android:build
@@ -119,7 +119,7 @@ z:tflight:ios:deploy:
     - appditto_mac
   script:
     - cd ios
-    - fastlane deploy_ios testflight:true
+    - bundle exec fastlane deploy_ios testflight:true
   when: manual
   dependencies:
     - android:build
