@@ -41,8 +41,8 @@ end
 platform :ios do
   desc "Build & sign iOS app"
   lane :build_ios do |options|
-    keychain_name = options[:keychain_name] ? options[:keychain_name] : TEMP_KEYCHAIN_NAME_DEFAULT
-    keychain_password = options[:keychain_password] ? options[:keychain_password] : TEMP_KEYCHAN_PASSWORD_DEFAULT
+    keychain_name = ENV['TEMP_KEYCHAIN_NAME'] || TEMP_KEYCHAIN_NAME_DEFAULT
+    keychain_password = ENV['TEMP_KEYCHAIN_PASSWORD'] || TEMP_KEYCHAN_PASSWORD_DEFAULT
     ensure_temp_keychain(keychain_name, keychain_password)
     match(
       type: "appstore",
