@@ -4,15 +4,6 @@ before_script:
   - export GH_REPO_NAME=natrium_wallet_flutter
   - export GH_API=https://api.github.com
   - export GH_REPO=$GH_API/repos/$GH_OWNER/$GH_REPO_NAME
-  # Flutter local configuration
-  - echo flutter.sdk=$FLUTTER_PATH > android/local.properties
-  - echo sdk.dir=$ANDROID_SDK_PATH >> android/local.properties
-  - echo flutter.buildMode=release >> android/local.properties
-  # Android signing
-  - echo storePassword=$ANDROID_KEY_STORE_PASSWORD > android/key.properties
-  - echo keyPassword=$ANDROID_KEY_PASSWORD >> android/key.properties
-  - echo keyAlias=$ANDROID_KEY_ALIAS >> android/key.properties
-  - echo storeFile=$ANDROID_KEYSTORE_PATH >> android/key.properties
 
 stages:
   - test
@@ -48,8 +39,19 @@ android:build:
   tags:
     - appditto_mac
   script:
+    # Flutter local configuration
+    - echo flutter.sdk=$FLUTTER_PATH > android/local.properties
+    - echo sdk.dir=$ANDROID_SDK_PATH >> android/local.properties
+    - echo flutter.buildMode=release >> android/local.properties
+    # Android signing
+    - echo storePassword=$ANDROID_KEY_STORE_PASSWORD > android/key.properties
+    - echo keyPassword=$ANDROID_KEY_PASSWORD >> android/key.properties
+    - echo keyAlias=$ANDROID_KEY_ALIAS >> android/key.properties
+    - echo storeFile=$ANDROID_KEYSTORE_PATH >> android/key.properties
     - cd android
     - bundle exec fastlane build_android production:true
+    - rm -f android/local.properties
+    - rm -f android/key.properties
   artifacts:
     paths:
     - build/app/outputs/apk/release/app-release.apk
