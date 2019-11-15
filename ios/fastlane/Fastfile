@@ -41,36 +41,43 @@ end
 platform :ios do
   desc "Build & sign iOS app"
   lane :build_ios do |options|
-    disable_automatic_code_signing(
-      path: "./Runner.xcodeproj",
-      team_id: CredentialsManager::AppfileConfig.try_fetch_value(:team_id),
-      profile_name: "match AppStore #{CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)}",
-      code_sign_identity: "iPhone Distribution"
-    )
-    keychain_name = ENV['TEMP_KEYCHAIN_NAME'] || TEMP_KEYCHAIN_NAME_DEFAULT
-    keychain_password = ENV['TEMP_KEYCHAIN_PASSWORD'] || TEMP_KEYCHAN_PASSWORD_DEFAULT
-    ensure_temp_keychain(keychain_name, keychain_password)
-    match(
-      app_identifier: CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier),
-      type: "appstore",
-      readonly: is_ci,
-      keychain_name: keychain_name,
-      keychain_password: keychain_password
-    )
-    sh "./flutter_test.sh"
-    sh "./flutter_build.sh --clean"
-    build_ios_app(
-      export_options: {
-          method: "app-store"
-      }
-    )
-    enable_automatic_code_signing(
-      path: "./Runner.xcodeproj",
-      team_id: CredentialsManager::AppfileConfig.try_fetch_value(:team_id),
-      profile_name: "match AppStore #{CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)}",
-      code_sign_identity: "iPhone Developer"
-    )
-    delete_temp_keychain(keychain_name)
+    begin
+      sh "cp -Rp ../Runner.xcodeproj ../Runner.xcodeproj.bak"
+      disable_automatic_code_signing(
+        path: "./Runner.xcodeproj",
+        team_id: CredentialsManager::AppfileConfig.try_fetch_value(:team_id),
+        profile_name: "match AppStore #{CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)}",
+        code_sign_identity: "iPhone Distribution"
+      )
+      keychain_name = ENV['TEMP_KEYCHAIN_NAME'] || TEMP_KEYCHAIN_NAME_DEFAULT
+      keychain_password = ENV['TEMP_KEYCHAIN_PASSWORD'] || TEMP_KEYCHAN_PASSWORD_DEFAULT
+      ensure_temp_keychain(keychain_name, keychain_password)
+      match(
+        app_identifier: CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier),
+        type: "appstore",
+        readonly: is_ci,
+        keychain_name: keychain_name,
+        keychain_password: keychain_password
+      )
+      sh "./flutter_test.sh"
+      sh "./flutter_build.sh --clean"
+      build_ios_app(
+        export_options: {
+            method: "app-store"
+        }
+      )
+    rescue SystemExit, Interrupt
+      raise
+    rescue Exception => e
+      delete_temp_keychain(keychain_name)
+      sh "cp -Rp ../Runner.xcodeproj.bak/* ../Runner.xcodeproj/"
+      sh "rm -rf ../Runner.xcodeproj.bak"
+      raise
+    ensure
+      delete_temp_keychain(keychain_name)
+      sh "cp -Rp ../Runner.xcodeproj.bak/* ../Runner.xcodeproj/"
+      sh "rm -rf ../Runner.xcodeproj.bak"
+    end
   end
 
   desc "Upload iOS app to app store"
