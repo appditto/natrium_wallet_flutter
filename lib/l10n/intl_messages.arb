@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-10-25T14:47:49.664174",
+  "@@last_modified": "2019-12-19T23:48:11.397197",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -333,6 +333,12 @@
   "mantaError": "Couldn't Verify Request",
   "@mantaError": {
     "description": "Was unable to verify the manta/appia payment request (from scanning QR code, etc.)",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidMantaRequest": "The Manta request is not valid.",
+  "@invalidMantaRequest": {
+    "description": "invalid_manta_request",
     "type": "text",
     "placeholders": {}
   },

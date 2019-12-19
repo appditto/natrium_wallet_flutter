@@ -320,6 +320,11 @@ class AppLocalization {
       desc: 'Was unable to verify the manta/appia payment request (from scanning QR code, etc.)', name: 'mantaError');
   }
 
+  String get invalidMantaRequest {
+    return Intl.message("The Manta request is not valid.",
+      desc: 'invalid_manta_request', name: 'invalidMantaRequest');
+  }
+
   String get enterAmount {
     return Intl.message("Enter Amount",
       desc: 'send_amount_hint', name: 'enterAmount');
