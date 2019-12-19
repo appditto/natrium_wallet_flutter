@@ -30,9 +30,14 @@ class MantaUtil {
       String rawAmountStr = NumberUtil.getAmountAsRaw(dest.amount.toString());
       BigInt rawAmount = BigInt.tryParse(rawAmountStr);
       if (!Address(dest.destination_address).isValid()) {
-        UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+        UIUtil.showSnackbar(AppLocalization.of(context).invalidMantaRequest, context);
       } else if (rawAmount == null || rawAmount > StateContainer.of(context).wallet.accountBalance) {
-        UIUtil.showSnackbar(AppLocalization.of(context).insufficientBalance, context);
+        UIUtil.showSnackbar(AppLocalization
+            .of(context)
+            .insufficientBalance, context);
+      } else if (rawAmount <= BigInt.zero) {
+        // Prevent the app from sending an invalid (or max) balance
+        UIUtil.showSnackbar(AppLocalization.of(context).invalidMantaRequest, context);
       } else {
         // Is valid, proceed
         Sheets.showAppHeightNineSheet(
