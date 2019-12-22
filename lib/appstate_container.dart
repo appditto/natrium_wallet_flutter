@@ -804,22 +804,25 @@ class StateContainerState extends State<StateContainer> {
   /// 
   /// @param previous - Previous Hash
   /// @param destination - Destination address
-  /// @param amount - Amount to send in RAW
+  /// @param amount - Amount to send in RAW, or null for max balance value
   /// 
   Future<void> requestSend(String previous, String destination, String amount, {String privKey,String account,String localCurrencyAmount, PaymentRequestMessage paymentRequest}) async {
     String representative = wallet.representative;
     bool fromTransfer = privKey == null && account == null ? false: true;
 
+    if (amount != null && BigInt.parse(amount) <= BigInt.zero)
+      throw 'requestSend() amount cannot be zero or less';
+
     StateBlock sendBlock = StateBlock(
-      subtype:BlockTypes.SEND,
-      previous: previous,
-      representative: representative,
-      balance:amount,
-      link:destination,
-      account: !fromTransfer ? wallet.address : account,
-      privKey: privKey,
+      subtype:            BlockTypes.SEND,
+      previous:           previous,
+      representative:     representative,
+      balance:            amount == null ? "0" : amount,
+      link:               destination,
+      account:            !fromTransfer ? wallet.address : account,
+      privKey:            privKey,
       localCurrencyValue: localCurrencyAmount,
-      paymentRequest: paymentRequest
+      paymentRequest:     paymentRequest
     );
     previousPendingMap.putIfAbsent(previous, () => sendBlock);
 

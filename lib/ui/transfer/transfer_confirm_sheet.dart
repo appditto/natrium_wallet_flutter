@@ -405,7 +405,7 @@ class AppTransferConfirmSheet {
         StateContainer.of(context).requestAccountHistory(account);
       } else {
         StateContainer.of(context).requestSend(
-            balItem.frontier, StateContainer.of(context).wallet.address, "0",
+            balItem.frontier, StateContainer.of(context).wallet.address, null,
             privKey: balItem.privKey, account: account);
       }
     } else if (!finished) {

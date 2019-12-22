@@ -42,7 +42,10 @@ class SendConfirmSheet extends StatefulWidget {
       this.manta,
       this.paymentRequest,
       this.maxSend = false})
-      : super();
+      : super() {
+        if (amountRaw == null || BigInt.tryParse(amountRaw) <= BigInt.zero)
+            throw 'Send request value cannot be zero, negative or null';
+      }
 
   _SendConfirmSheetState createState() => _SendConfirmSheetState();
 }
@@ -347,7 +350,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                                           .wallet
                                           .frontier,
                                       destinationAltered,
-                                      widget.maxSend ? "0" : widget.amountRaw,
+                                      widget.maxSend ? null : widget.amountRaw,
                                       localCurrencyAmount:
                                           widget.localCurrency,
                                       paymentRequest: widget.paymentRequest);
@@ -398,7 +401,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                     .wallet
                     .frontier,
                 destinationAltered,
-                widget.maxSend ? "0" : widget.amountRaw,
+                widget.maxSend ? null : widget.amountRaw,
                 localCurrencyAmount:
                     widget.localCurrency,
                 paymentRequest: widget.paymentRequest);
