@@ -50,7 +50,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
     animationOpen = false;
   }
 
-  Future<void> scanAndHandlResult() async {
+  Future<void> scanAndHandleResult() async {
     dynamic scanResult = await Navigator.pushNamed(context, '/before_scan_screen');
     // Parse scan data and route appropriately
     if (scanResult == null) {
@@ -149,7 +149,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                     setState(() {
                       popupColor = Colors.white;
                     });
-                    scanAndHandlResult();
+                    scanAndHandleResult();
                   }
                   isScrolledUpEnough = false;
                   setState(() {
