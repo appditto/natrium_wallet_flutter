@@ -44,7 +44,7 @@ class Address {
         Uri uri = Uri.tryParse(value);
         if (uri != null && uri.queryParameters['amount'] != null) {
           BigInt amount = BigInt.tryParse(uri.queryParameters['amount']);
-          if (amount != null) {
+          if (amount != null && amount > BigInt.zero) {
             _amount = amount.toString();
           }
         }
