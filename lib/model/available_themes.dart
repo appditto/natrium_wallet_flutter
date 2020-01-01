@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/model/setting_item.dart';
 
@@ -40,7 +39,7 @@ class ThemeSetting extends SettingSelectionItem {
       case ThemeOptions.NATRIUM:
       default:
         return NatriumTheme();
-    }    
+    }
   }
 
   // For saving to shared prefs

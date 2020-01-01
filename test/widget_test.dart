@@ -13,7 +13,8 @@ import 'package:natrium_wallet_flutter/ui/intro/intro_welcome.dart';
 // TODO - we can probably do with some proper widget testing
 
 void main() {
-  testWidgets('App loads and draws at least 1 widget', (WidgetTester tester) async {
+  testWidgets('App loads and draws at least 1 widget',
+      (WidgetTester tester) async {
     // Build our app and trigger a frame.
     //await tester.pumpWidget(IntroWelcomePage());
 
