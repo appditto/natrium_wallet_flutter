@@ -907,7 +907,7 @@ class StateContainerState extends State<StateContainer> {
     await changeBlock.sign(await _getPrivKey());
     pendingResponseBlockMap.putIfAbsent(changeBlock.hash, () => changeBlock);
 
-    sl.get<AccountService>().queueRequest(ProcessRequest(block: json.encode(changeBlock.toJson()), subType: BlockTypes.CHANGE));
+    sl.get<AccountService>().queueRequest(BlockInfoRequest(hash: previous), fromTransfer: false);
     sl.get<AccountService>().processQueue();
   }
 
