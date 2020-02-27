@@ -376,7 +376,6 @@ class UIUtil {
   static Widget showWebview(BuildContext context, String url) {
     cancelLockEvent();
     return WebviewScaffold(
-      resizeToAvoidBottomInset: Platform.isAndroid,
       url: url,
       appBar: new AppBar(
         backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
