@@ -35,6 +35,7 @@ import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:root_checker/root_checker.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   // Setup Service Provide
   setupServiceLocator();
   // Setup logger, only show warning and higher in release mode.
