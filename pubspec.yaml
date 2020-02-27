@@ -43,7 +43,7 @@ dependencies:
   json_annotation: ^3.0.1
 
   # Localization
-  intl: ^0.16.1
+  intl: ^0.16.0
 
   # BigDecimal alternative
   decimal: ^0.3.5

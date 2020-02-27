@@ -344,7 +344,12 @@ class AppLocalization {
     return Intl.message("Please Enter an Amount",
       desc: 'send_enter_amount', name: 'amountMissing');
   }
-  
+
+  String get minimumSend {
+    return Intl.message("Minimum send amount is %1 NANO",
+      desc: 'send_minimum_error', name: 'amountMinimumError');
+  }
+
   String get insufficientBalance {
     return Intl.message("Insufficient Balance",
       desc: 'send_insufficient_balance', name: 'insufficientBalance');

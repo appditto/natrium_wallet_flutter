@@ -81,7 +81,9 @@ class _AppPopupButtonState extends State<AppPopupButton> {
         Contact contact = await sl.get<DBHelper>().getContactWithAddress(address.address);
         // If amount is present, fill it and go to SendConfirm
         BigInt amountBigInt = address.amount != null ? BigInt.tryParse(address.amount) : null;
-        if (amountBigInt != null && StateContainer.of(context).wallet.accountBalance > amountBigInt) {
+        if (amountBigInt < BigInt.from(10).pow(26)) {
+          UIUtil.showSnackbar(AppLocalization.of(context).minimumSend.replaceAll("%1", "0.000001"), context);
+        } else if (amountBigInt != null && StateContainer.of(context).wallet.accountBalance > amountBigInt) {
           // Go to confirm sheet
           Sheets.showAppHeightNineSheet(
             context: context,

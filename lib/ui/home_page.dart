@@ -630,8 +630,9 @@ class _AppHomePageState extends State<AppHomePage>
       String amount;
       String contactName;
       if (address.amount != null) {
-        // Require minimum 1 rai to send
-        if (BigInt.parse(address.amount) >= BigInt.from(10).pow(24)) {
+        BigInt amountBigInt = BigInt.parse(address.amount);
+        // Require minimum 1 rai to send, and make sure sufficient balance
+        if (amountBigInt != null && StateContainer.of(context).wallet.accountBalance > amountBigInt && amountBigInt >= BigInt.from(10).pow(24)) {
           amount = address.amount;
         }
       }
