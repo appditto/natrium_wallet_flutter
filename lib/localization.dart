@@ -476,6 +476,11 @@ class AppLocalization {
       desc: 'settings_fingerprint_method', name: 'biometricsMethod');
   }
 
+  String get currency {
+    return Intl.message("Currency",
+      desc: 'A settings menu item for changing currency', name: 'currency');
+  }
+
   String get changeCurrency {
     return Intl.message("Change Currency",
       desc: 'settings_local_currency', name: 'changeCurrency');

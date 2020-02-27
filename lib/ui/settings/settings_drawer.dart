@@ -421,7 +421,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                 title: Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
                   child: Text(
-                    AppLocalization.of(context).changeCurrency,
+                    AppLocalization.of(context).currency,
                     style: AppStyles.textStyleDialogHeader(context),
                   ),
                 ),
