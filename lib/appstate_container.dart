@@ -666,7 +666,9 @@ class StateContainerState extends State<StateContainer> {
 
     // Update data on our next pending request
     nextBlock.previous = hash;
-    nextBlock.representative = previousBlock.representative;
+    if (nextBlock.subType != BlockTypes.CHANGE) {
+      nextBlock.representative = previousBlock.representative;
+    }
     nextBlock.setBalance(previousBlock.balance);
     if (nextBlock.subType == BlockTypes.SEND && nextBlock.balance == "0") {
       // In case of a max send, go back and update sendAmount with the balance
@@ -904,8 +906,7 @@ class StateContainerState extends State<StateContainer> {
       link:"0000000000000000000000000000000000000000000000000000000000000000",
       account:wallet.address
     );
-    await changeBlock.sign(await _getPrivKey());
-    pendingResponseBlockMap.putIfAbsent(changeBlock.hash, () => changeBlock);
+    previousPendingMap.putIfAbsent(previous, () => changeBlock);
 
     sl.get<AccountService>().queueRequest(BlockInfoRequest(hash: previous), fromTransfer: false);
     sl.get<AccountService>().processQueue();
