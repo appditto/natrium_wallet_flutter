@@ -33,6 +33,7 @@ android/app/release
 .pub-cache/
 .pub/
 build/
+.flutter-plugins-dependencies
 
 # Android related
 **/android/**/gradle-wrapper.jar
