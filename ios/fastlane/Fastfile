@@ -70,12 +70,12 @@ platform :ios do
       raise
     rescue Exception => e
       delete_temp_keychain(keychain_name)
-      sh "cp -Rp ../Runner.xcodeproj.bak/* ../Runner.xcodeproj/"
+      sh "cp -Rp ../Runner.xcodeproj.bak/* ../Runner.xcodeproj/ || true"
       sh "rm -rf ../Runner.xcodeproj.bak"
       raise
     ensure
       delete_temp_keychain(keychain_name)
-      sh "cp -Rp ../Runner.xcodeproj.bak/* ../Runner.xcodeproj/"
+      sh "cp -Rp ../Runner.xcodeproj.bak/* ../Runner.xcodeproj/ || true"
       sh "rm -rf ../Runner.xcodeproj.bak"
     end
   end
