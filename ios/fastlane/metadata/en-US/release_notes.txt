@@ -1,1 +1,1 @@
-- Make QR Scanner Full Screen on iOS 13
+- Bug fixes & performance improvements
