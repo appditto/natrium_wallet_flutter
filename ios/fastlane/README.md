@@ -16,16 +16,16 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## iOS
-### ios deploy
+### ios build_ios
 ```
-fastlane ios deploy
+fastlane ios build_ios
 ```
-Build & push a new release build to the App Store
-### ios deploy_dirty
+Build & sign iOS app
+### ios deploy_ios
 ```
-fastlane ios deploy_dirty
+fastlane ios deploy_ios
 ```
-Build and push a new release to app store without running clean
+Upload iOS app to app store
 
 ----
 
