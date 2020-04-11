@@ -132,7 +132,7 @@ class _ContactsListState extends State<ContactsList> {
   Future<void> _importContacts() async {
     UIUtil.cancelLockEvent();
     String filePath = await FilePicker.getFilePath(
-        type: FileType.CUSTOM, fileExtension: "txt");
+        type: FileType.custom, allowedExtensions: ["txt"]);
     File f = File(filePath);
     if (!await f.exists()) {
       UIUtil.showSnackbar(

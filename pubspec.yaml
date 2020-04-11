@@ -84,7 +84,7 @@ dependencies:
       ref: master
 
   # File picker
-  file_picker: ^1.4.3+2
+  file_picker: ^1.6.2
 
   # Deep link support
   #uni_links: ^0.2.0
