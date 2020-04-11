@@ -17,7 +17,7 @@ default_platform(:ios)
 
 TEMP_KEYCHAIN_NAME_DEFAULT = "fastlane_flutter"
 TEMP_KEYCHAN_PASSWORD_DEFAULT = "temppassword"
-SIGH_PROVISIONING_PROFILE_NAME = "match AppStore Natrium2"
+SIGH_PROVISIONING_PROFILE_NAME = "com.avengemedia.natrium AppStore"
 
 def delete_temp_keychain(name)
   delete_keychain(
@@ -44,12 +44,6 @@ platform :ios do
   lane :build_ios do |options|
     begin
       sh "cp -Rp ../Runner.xcodeproj ../Runner.xcodeproj.bak"
-      disable_automatic_code_signing(
-        path: "./Runner.xcodeproj",
-        team_id: CredentialsManager::AppfileConfig.try_fetch_value(:team_id),
-        profile_name: ENV['SIGH_PROVISIONING_PROFILE_NAME'],
-        code_sign_identity: "iPhone Distribution"
-      )
       keychain_name = ENV['TEMP_KEYCHAIN_NAME'] || TEMP_KEYCHAIN_NAME_DEFAULT
       keychain_password = ENV['TEMP_KEYCHAIN_PASSWORD'] || TEMP_KEYCHAN_PASSWORD_DEFAULT
       ensure_temp_keychain(keychain_name, keychain_password)
@@ -61,9 +55,23 @@ platform :ios do
         readonly: false,
         skip_provisioning_profiles: true
       )
+      cert(
+        keychain_path: "~/Library/Keychains/#{keychain_name}-db",
+        keychain_password: keychain_password        
+      )
       sigh(
         app_identifier: CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier),
-        readonly: false
+        readonly: false,
+        cert_id: lane_context[SharedValues::CERT_CERTIFICATE_ID],
+        provisioning_name: ENV['SIGH_PROVISIONING_PROFILE_NAME'],
+        ignore_profiles_with_different_name: true
+      )
+      disable_automatic_code_signing(
+        path: "./Runner.xcodeproj",
+        team_id: CredentialsManager::AppfileConfig.try_fetch_value(:team_id),
+        profile_name: lane_context[SharedValues::SIGH_NAME],
+        profile_uuid: lane_context[SharedValues::SIGH_UUID],
+        code_sign_identity: "iPhone Distribution"
       )
       sh "./flutter_test.sh"
       sh "./flutter_build.sh --clean"
