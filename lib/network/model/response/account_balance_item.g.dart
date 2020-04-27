@@ -8,8 +8,13 @@ part of 'account_balance_item.dart';
 
 AccountBalanceItem _$AccountBalanceItemFromJson(Map<String, dynamic> json) {
   return AccountBalanceItem(
-      balance: json['balance'] as String, pending: json['pending'] as String);
+    balance: json['balance'] as String,
+    pending: json['pending'] as String,
+  );
 }
 
 Map<String, dynamic> _$AccountBalanceItemToJson(AccountBalanceItem instance) =>
-    <String, dynamic>{'balance': instance.balance, 'pending': instance.pending};
+    <String, dynamic>{
+      'balance': instance.balance,
+      'pending': instance.pending,
+    };

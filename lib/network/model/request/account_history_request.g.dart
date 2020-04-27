@@ -9,9 +9,10 @@ part of 'account_history_request.dart';
 AccountHistoryRequest _$AccountHistoryRequestFromJson(
     Map<String, dynamic> json) {
   return AccountHistoryRequest(
-      action: json['action'] as String,
-      account: json['account'] as String,
-      count: json['count'] as int);
+    action: json['action'] as String,
+    account: json['account'] as String,
+    count: json['count'] as int,
+  );
 }
 
 Map<String, dynamic> _$AccountHistoryRequestToJson(

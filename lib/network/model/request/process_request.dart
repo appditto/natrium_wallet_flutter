@@ -16,7 +16,7 @@ class ProcessRequest extends BaseRequest {
   @JsonKey(name:'do_work')
   bool doWork;
 
-  @JsonKey(ignore: true)
+  @JsonKey(name: 'subtype')
   String subType;
 
   ProcessRequest({String block, bool doWork = true, String subType}) {

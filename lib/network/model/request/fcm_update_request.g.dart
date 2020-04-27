@@ -8,10 +8,10 @@ part of 'fcm_update_request.dart';
 
 FcmUpdateRequest _$FcmUpdateRequestFromJson(Map<String, dynamic> json) {
   return FcmUpdateRequest(
-      account: json['account'] as String,
-      fcmToken: json['fcm_token_v2'] as String,
-      enabled: json['enabled'] as bool)
-    ..action = json['action'] as String;
+    account: json['account'] as String,
+    fcmToken: json['fcm_token_v2'] as String,
+    enabled: json['enabled'] as bool,
+  )..action = json['action'] as String;
 }
 
 Map<String, dynamic> _$FcmUpdateRequestToJson(FcmUpdateRequest instance) {

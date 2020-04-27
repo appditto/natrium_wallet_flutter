@@ -8,12 +8,13 @@ part of 'pending_request.dart';
 
 PendingRequest _$PendingRequestFromJson(Map<String, dynamic> json) {
   return PendingRequest(
-      action: json['action'] as String,
-      account: json['account'] as String,
-      source: json['source'] as bool,
-      count: json['count'] as int,
-      threshold: json['threshold'] as String,
-      includeActive: json['include_active'] as bool);
+    action: json['action'] as String,
+    account: json['account'] as String,
+    source: json['source'] as bool,
+    count: json['count'] as int,
+    threshold: json['threshold'] as String,
+    includeActive: json['include_active'] as bool,
+  );
 }
 
 Map<String, dynamic> _$PendingRequestToJson(PendingRequest instance) {

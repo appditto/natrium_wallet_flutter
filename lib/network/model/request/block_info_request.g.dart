@@ -7,9 +7,13 @@ part of 'block_info_request.dart';
 // **************************************************************************
 
 BlockInfoRequest _$BlockInfoRequestFromJson(Map<String, dynamic> json) {
-  return BlockInfoRequest(hash: json['hash'] as String)
-    ..action = json['action'] as String;
+  return BlockInfoRequest(
+    hash: json['hash'] as String,
+  )..action = json['action'] as String;
 }
 
 Map<String, dynamic> _$BlockInfoRequestToJson(BlockInfoRequest instance) =>
-    <String, dynamic>{'action': instance.action, 'hash': instance.hash};
+    <String, dynamic>{
+      'action': instance.action,
+      'hash': instance.hash,
+    };

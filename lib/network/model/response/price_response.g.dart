@@ -9,13 +9,13 @@ part of 'price_response.dart';
 PriceResponse _$PriceResponseFromJson(Map<String, dynamic> json) {
   return PriceResponse()
     ..currency = json['currency'] as String
-    ..price = json['price'] == null ? null : _toDouble(json['price'])
-    ..btcPrice = json['btc'] == null ? null : _toDouble(json['btc']);
+    ..price = _toDouble(json['price'])
+    ..btcPrice = _toDouble(json['btc']);
 }
 
 Map<String, dynamic> _$PriceResponseToJson(PriceResponse instance) =>
     <String, dynamic>{
       'currency': instance.currency,
       'price': instance.price,
-      'btc': instance.btcPrice
+      'btc': instance.btcPrice,
     };

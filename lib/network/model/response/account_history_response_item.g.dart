@@ -9,10 +9,11 @@ part of 'account_history_response_item.dart';
 AccountHistoryResponseItem _$AccountHistoryResponseItemFromJson(
     Map<String, dynamic> json) {
   return AccountHistoryResponseItem(
-      type: json['type'] as String,
-      account: json['account'] as String,
-      amount: json['amount'] as String,
-      hash: json['hash'] as String);
+    type: json['type'] as String,
+    account: json['account'] as String,
+    amount: json['amount'] as String,
+    hash: json['hash'] as String,
+  );
 }
 
 Map<String, dynamic> _$AccountHistoryResponseItemToJson(
@@ -21,5 +22,5 @@ Map<String, dynamic> _$AccountHistoryResponseItemToJson(
       'type': instance.type,
       'account': instance.account,
       'amount': instance.amount,
-      'hash': instance.hash
+      'hash': instance.hash,
     };

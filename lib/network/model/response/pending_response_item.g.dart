@@ -8,9 +8,10 @@ part of 'pending_response_item.dart';
 
 PendingResponseItem _$PendingResponseItemFromJson(Map<String, dynamic> json) {
   return PendingResponseItem(
-      source: json['source'] as String,
-      amount: json['amount'] as String,
-      hash: json['hash'] as String);
+    source: json['source'] as String,
+    amount: json['amount'] as String,
+    hash: json['hash'] as String,
+  );
 }
 
 Map<String, dynamic> _$PendingResponseItemToJson(
@@ -18,5 +19,5 @@ Map<String, dynamic> _$PendingResponseItemToJson(
     <String, dynamic>{
       'source': instance.source,
       'amount': instance.amount,
-      'hash': instance.hash
+      'hash': instance.hash,
     };
