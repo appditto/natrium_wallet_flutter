@@ -1,5 +1,5 @@
 import 'dart:core';
-import 'package:nanodart/nanodart.dart';
+import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
 
 // Object to represent an account address or address URI, and provide useful utilities
 class Address {

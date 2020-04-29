@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
-import 'package:nanodart/nanodart.dart';
+import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
 import 'package:manta_dart/manta_wallet.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';

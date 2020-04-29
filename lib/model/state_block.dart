@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:nanodart/nanodart.dart';
+import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
 import 'package:manta_dart/messages.dart';
 
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
