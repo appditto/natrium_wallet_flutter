@@ -100,11 +100,6 @@ class StateBlock {
     }
   }
 
-  /// Helper function that can be used with flutter's compute function
-  static String signBlock(Map<String, String> params) {
-    return NanoSignatures.signBlock(params['hash'], params['privKey']);
-  }
-
   /// Sign block with private key
   /// Returns signature if signed, null if this block is invalid and can't be signed
   Future<String> sign(String privateKey) async {
@@ -117,7 +112,7 @@ class StateBlock {
                       BigInt.parse(this.balance),
                       this.link
                   );
-    this.signature = await compute(signBlock, {'hash':this.hash, 'privKey':privateKey});
+    this.signature = NanoSignatures.signBlock(this.hash, privateKey);
     return this.signature;
   }
 

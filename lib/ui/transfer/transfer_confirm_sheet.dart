@@ -319,7 +319,7 @@ class AppTransferConfirmSheet {
     } else {
       seed = await sl.get<Vault>().getSeed();
     }
-    return await _nanoUtil.seedToPrivateInIsolate(seed, index);
+    return NanoUtil.seedToPrivate(seed, index);
   }
 
   ///

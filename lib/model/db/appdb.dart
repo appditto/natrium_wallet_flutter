@@ -171,16 +171,6 @@ class DBHelper {
         0;
   }
 
-  static Future<List<Account>> setAddressForAccounts(
-      Map<String, dynamic> params) async {
-    List<Account> accounts = params['accounts'];
-    String seed = params['seed'];
-    accounts.forEach((a) {
-      a.address = NanoUtil.seedToAddress({'seed': seed, 'index': a.index});
-    });
-    return accounts;
-  }
-
   // Accounts
   Future<List<Account>> getAccounts(String seed) async {
     var dbClient = await db;
@@ -196,8 +186,9 @@ class DBHelper {
           selected: list[i]["selected"] == 1 ? true : false,
           balance: list[i]["balance"]));
     }
-    accounts = await compute(
-        setAddressForAccounts, {'seed': seed, 'accounts': accounts});
+    accounts.forEach((a) {
+      a.address = NanoUtil.seedToAddress(seed, a.index);
+    });
     return accounts;
   }
 
@@ -217,8 +208,9 @@ class DBHelper {
           selected: list[i]["selected"] == 1 ? true : false,
           balance: list[i]["balance"]));
     }
-    accounts = await compute(
-        setAddressForAccounts, {'seed': seed, 'accounts': accounts});
+    accounts.forEach((a) {
+      a.address = NanoUtil.seedToAddress(seed, a.index);
+    });
     return accounts;
   }
 
@@ -244,7 +236,7 @@ class DBHelper {
           name: nextName,
           lastAccess: 0,
           selected: false,
-          address: await _nanoUtil.seedToAddressInIsolate(seed, nextIndex));
+          address: NanoUtil.seedToAddress(seed, nextIndex));
       await txn.rawInsert(
           'INSERT INTO Accounts (name, acct_index, last_accessed, selected, address) values(?, ?, ?, ?, ?)',
           [
@@ -311,7 +303,7 @@ class DBHelper {
       return null;
     }
     String address =
-        await _nanoUtil.seedToAddressInIsolate(seed, list[0]["acct_index"]);
+        NanoUtil.seedToAddress(seed, list[0]["acct_index"]);
     Account account = Account(
         id: list[0]["id"],
         name: list[0]["name"],
@@ -331,7 +323,7 @@ class DBHelper {
       return null;
     }
     String address =
-        await _nanoUtil.seedToAddressInIsolate(seed, list[0]["acct_index"]);
+        NanoUtil.seedToAddress(seed, list[0]["acct_index"]);
     Account account = Account(
         id: list[0]["id"],
         name: list[0]["name"],
