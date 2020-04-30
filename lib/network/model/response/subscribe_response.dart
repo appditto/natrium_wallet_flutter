@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'subscribe_response.g.dart';
 
-int _toInt(String v) => int.tryParse(v);
+int _toInt(String v) => v == null ? 0 : int.tryParse(v);
 
 double _toDouble(v) {
   return double.tryParse(v.toString());

@@ -4,12 +4,18 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
+import 'package:natrium_wallet_flutter/model/wallet.dart';
+import 'package:natrium_wallet_flutter/network/model/block_types.dart';
+import 'package:natrium_wallet_flutter/network/model/request/account_info_request.dart';
+import 'package:natrium_wallet_flutter/network/model/request/block_info_request.dart';
+import 'package:natrium_wallet_flutter/network/model/response/account_info_response.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 
 import 'package:web_socket_channel/io.dart';
 import 'package:package_info/package_info.dart';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:synchronized/synchronized.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/network/model/base_request.dart';
@@ -33,6 +39,7 @@ import 'package:natrium_wallet_flutter/bus/events.dart';
 
 // Server Connection String
 const String _SERVER_ADDRESS = "wss://app.natrium.io";
+const String _SERVER_ADDRESS_HTTP = "https://app.natrium.io/api";
 
 Map decodeJson(dynamic src) {
   return json.decode(src);
@@ -185,7 +192,7 @@ class AccountService {
     await _lock.synchronized(() async {
       _isConnected = true;
       _isConnecting = false;
-      log.d("Received $message");
+      //log.d("Received $message");
       Map msg = await compute(decodeJson, message);
       // Determine response type
       if (msg.containsKey("uuid") || (msg.containsKey("frontier") && msg.containsKey("representative_block")) ||
@@ -253,20 +260,20 @@ class AccountService {
   /* Send Request */
   Future<void> sendRequest(BaseRequest request) async {
     // We don't care about order or server response in these requests
-    log.d("sending ${json.encode(request.toJson())}");
+    //log.d("sending ${json.encode(request.toJson())}");
     _send(await compute(encodeRequestItem, request));
   }
 
   /* Enqueue Request */
   void queueRequest(BaseRequest request, {bool fromTransfer = false}) {
-    log.d("requetest ${json.encode(request.toJson())}, q length: ${_requestQueue.length}");
+    //log.d("requetest ${json.encode(request.toJson())}, q length: ${_requestQueue.length}");
     _requestQueue.add(new RequestItem(request, fromTransfer: fromTransfer));
   }
 
   /* Process Queue */
   Future<void> processQueue() async {
     await _lock.synchronized(() async {
-      log.d("Request Queue length ${_requestQueue.length}");
+      //log.d("Request Queue length ${_requestQueue.length}");
       if (_requestQueue != null && _requestQueue.length > 0) {
         RequestItem requestItem = _requestQueue.first;
         if (requestItem != null && !requestItem.isProcessing) {
@@ -278,7 +285,7 @@ class AccountService {
           }
           requestItem.isProcessing = true;
           String requestJson = await compute(encodeRequestItem, requestItem.request);
-          log.d("Sending: $requestJson");
+          //log.d("Sending: $requestJson");
           await _send(requestJson);
         } else if (requestItem != null && (DateTime
             .now()
@@ -364,4 +371,164 @@ class AccountService {
   }
 
   Queue<RequestItem> get requestQueue => _requestQueue;
+
+  // HTTP API
+
+  Future<dynamic> makeHttpRequest(BaseRequest request) async {
+    http.Response response = await http.post(
+      _SERVER_ADDRESS_HTTP,
+      headers:  {
+        'Content-type': 'application/json'
+      },
+      body: json.encode(request.toJson())
+    );
+    if (response.statusCode != 200) {
+      return null;
+    }
+    Map decoded = json.decode(response.body);
+    if (decoded.containsKey("error")) {
+      return ErrorResponse.fromJson(decoded);
+    }
+    return decoded;
+  }
+
+  Future<AccountInfoResponse> getAccountInfo(String account) async {
+    AccountInfoRequest request = AccountInfoRequest(
+      account: account
+    );
+    dynamic response = await makeHttpRequest(request);
+    if (response is ErrorResponse) {
+      if (response.error == "Account not found") {
+        return AccountInfoResponse(unopened: true);
+      }
+      throw Exception("Received error ${response.error}");
+    }
+    AccountInfoResponse infoResponse = AccountInfoResponse.fromJson(response); 
+    return infoResponse;
+  }
+
+  Future<PendingResponse> getPending(String account, int count, {bool includeActive = false}) async {
+    String threshold = BigInt.from(10).pow(24).toString();
+    PendingRequest request = PendingRequest(
+      account: account,
+      count: count,
+      threshold: threshold,
+      includeActive: includeActive
+    );
+    dynamic response = await makeHttpRequest(request);
+    if (response is ErrorResponse) {
+      throw Exception("Received error ${response.error}");
+    }
+    PendingResponse pr;
+    if (response["blocks"] == "") {
+      pr = PendingResponse(
+        blocks: {}
+      );
+    } else {
+      pr = PendingResponse.fromJson(response); 
+    }
+    return pr;
+  }
+
+  Future<BlockInfoItem> requestBlockInfo(String hash) async {
+    BlockInfoRequest request = BlockInfoRequest(
+      hash: hash
+    );
+    dynamic response = await makeHttpRequest(request);
+    if (response is ErrorResponse) {
+      throw Exception("Received error ${response.error}");
+    }
+    BlockInfoItem item = BlockInfoItem.fromJson(response);
+    return item;
+  }
+
+  Future<ProcessResponse> requestProcess(ProcessRequest request) async {
+    dynamic response = await makeHttpRequest(request);
+    if (response is ErrorResponse) {
+      throw Exception("Received error ${response.error}");
+    }
+    ProcessResponse item = ProcessResponse.fromJson(response);
+    return item;
+  }
+
+  Future<ProcessResponse> requestReceive(String representative, String previous, String balance, String link, String account, String privKey) async {
+    StateBlock receiveBlock = StateBlock(
+      subtype:BlockTypes.RECEIVE,
+      previous: previous,
+      representative: representative,
+      balance:balance,
+      link:link,
+      account: account,
+      privKey: privKey
+    );
+
+    BlockInfoItem previousInfo = await requestBlockInfo(previous);
+    StateBlock previousBlock = StateBlock.fromJson(json.decode(previousInfo.contents));
+
+    // Update data on our next pending request
+    receiveBlock.representative = previousBlock.representative;
+    receiveBlock.setBalance(previousBlock.balance);
+    await receiveBlock.sign(privKey);
+
+    // Process
+    ProcessRequest processRequest = ProcessRequest(
+      block: json.encode(receiveBlock.toJson()),
+      subType: BlockTypes.RECEIVE
+    );
+
+    return await requestProcess(processRequest);   
+  }
+
+  Future<ProcessResponse> requestSend(String representative, String previous, String sendAmount, String link, String account, String privKey, {bool max = false}) async {
+    StateBlock sendBlock = StateBlock(
+      subtype:BlockTypes.SEND,
+      previous: previous,
+      representative: representative,
+      balance: max ? "0" : sendAmount,
+      link:link,
+      account: account,
+      privKey: privKey
+    );
+
+    BlockInfoItem previousInfo = await requestBlockInfo(previous);
+    StateBlock previousBlock = StateBlock.fromJson(json.decode(previousInfo.contents));
+
+    // Update data on our next pending request
+    sendBlock.representative = previousBlock.representative;
+    sendBlock.setBalance(previousBlock.balance);
+    await sendBlock.sign(privKey);
+
+    // Process
+    ProcessRequest processRequest = ProcessRequest(
+      block: json.encode(sendBlock.toJson()),
+      subType: BlockTypes.SEND
+    );
+
+    return await requestProcess(processRequest);   
+  }
+
+  Future<ProcessResponse> requestOpen(String balance, String link, String account, String privKey, {String representative}) async {
+    representative = representative ?? AppWallet.defaultRepresentative;
+    StateBlock openBlock = StateBlock(
+      subtype:BlockTypes.OPEN,
+      previous: "0",
+      representative: representative,
+      balance:balance,
+      link:link,
+      account: account,
+      privKey: privKey
+    );
+
+    // Sign
+    await openBlock.sign(privKey);
+
+    // Process
+    ProcessRequest processRequest = ProcessRequest(
+      block: json.encode(openBlock.toJson()),
+      subType: BlockTypes.OPEN
+    );
+
+    return await requestProcess(processRequest);   
+  }
 }
+

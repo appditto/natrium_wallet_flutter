@@ -6,4 +6,5 @@ class Actions {
   static const String PENDING = "pending";
   static const String ACCOUNTS_BALANCES = 'accounts_balances';
   static const String FCM_UPDATE = 'fcm_update';
+  static const String INFO = "account_info";
 }

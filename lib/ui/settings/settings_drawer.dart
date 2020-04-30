@@ -161,8 +161,13 @@ class _SettingsSheetState extends State<SettingsSheet>
     _transferConfirmSub = EventTaxiImpl.singleton()
         .registerTo<TransferConfirmEvent>()
         .listen((event) {
-      AppTransferConfirmSheet(event.balMap, transferError)
-          .mainBottomSheet(context);
+      Sheets.showAppHeightNineSheet(
+        context: context,
+        widget: AppTransferConfirmSheet(
+          privKeyBalanceMap: event.balMap,
+          errorCallback: transferError,
+        )
+      );          
     });
     // Ready to go to transfer complete
     _transferCompleteSub = EventTaxiImpl.singleton()

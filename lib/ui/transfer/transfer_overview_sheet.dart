@@ -292,7 +292,7 @@ class AppTransferOverviewSheet {
     // Get NUM_SWEEP private keys + accounts from seed
     for (int i = 0; i < NUM_SWEEP; i++) {
       privKey = NanoUtil.seedToPrivate(seed, i);
-      address = NanoUtil.seedToPrivate(seed, i);
+      address = NanoUtil.seedToAddress(seed, i);
       // Don't add this if it is the currently logged in account
       if (address != StateContainer.of(context).wallet.address) {
         privKeyBalanceMap.putIfAbsent(
