@@ -1,11 +1,9 @@
-
-name: CI
+name: DEPLOY_BETA
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    tags:
+    - 'v*-beta'
 
 jobs:
   build_ed25519:
@@ -109,3 +107,47 @@ jobs:
         with:
           name: ios-ipa
           path: ios/Runner.ipa
+
+  deploy_android:
+    name: Deploy android internal
+    needs: build_android
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@master   
+      - name: Download AAB
+        uses: actions/download-artifact@v2
+        with:
+          name: android-aab
+
+      - name: Set workspace in env
+        run: echo ::set-env name=workspace::$GITHUB_WORKSPACE
+
+      - name: Deploy android
+        if: success()
+        working-directory: android
+        env:
+          AAB_PATH: ${{ env.workspace }}/android-aab/app.aab     
+        run: |
+          bundle exec fastlane deploy_android internal:true
+
+  deploy_ios:
+    name: Deploy iOS testflight
+    needs: build_ios
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@master   
+      - name: Download AAB
+        uses: actions/download-artifact@v2
+        with:
+          name: ios-ipa
+
+      - name: Set workspace in env
+        run: echo ::set-env name=workspace::$GITHUB_WORKSPACE
+
+      - name: Deploy iOS
+        if: success()
+        working-directory: ios
+        env:
+          IPA_PATH: ${{ env.workspace }}/ios-ipa/Runner.ipa   
+        run: |
+          bundle exec fastlane deploy_ios testflight:true

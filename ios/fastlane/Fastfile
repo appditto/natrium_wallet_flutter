@@ -101,7 +101,7 @@ platform :ios do
     if options[:testflight]
       upload_to_testflight(
         skip_submission: true,
-        ipa: "./Runner.ipa"
+        ipa: ENV['IPA_PATH']
       )
     else
       deliver(

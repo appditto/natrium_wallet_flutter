@@ -26,7 +26,7 @@ platform :android do
   lane :deploy_android do |options|
     upload_to_play_store(
       track: options[:production] ? 'production' : options[:internal] ? 'internal' : options[:alpha] ? 'alpha' : 'beta',
-      aab: '../build/app/outputs/bundle/release/app.aab',
+      aab: ENV['AAB_PATH'],
       skip_upload_images: true,
       skip_upload_screenshots: true,
     )
