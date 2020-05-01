@@ -1,9 +1,9 @@
-name: DEPLOY_RELEASE
+name: DEPLOY_BETA
 
 on:
   push:
     tags:
-    - 'v*-release'
+    - 'v*-beta'
 
 jobs:
   build_ed25519:
@@ -58,7 +58,9 @@ jobs:
           ED215519_SO_FILE: /Users/adapps/flutter_nano_ffi/android/libed25519_blake2b.dylib
           FLUTTER_PATH: /Users/adapps/flutter
           ANDROID_SDK_PATH: /Users/adapps/Library/Android/Sdk
+          GEM_HOME: ~/.gems
         run: |
+          echo "::add-path::~/.gems/bin"
           echo flutter.sdk=${{ env.FLUTTER_PATH }} > local.properties
           echo sdk.dir=${{ env.ANDROID_SDK_PATH }} >> local.properties
           echo flutter.buildMode=release >> local.properties
@@ -66,7 +68,7 @@ jobs:
           echo keyAlias=${{ secrets.ANDROID_KEY_ALIAS }} >> key.properties
           echo keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }} >> key.properties
           echo storePassword=${{ secrets.ANDROID_KEY_STORE_PASSWORD }} >> key.properties
-          bundle exec fastlane build_android production:true
+          fastlane build_android production:true
           rm -f key.properties
 
       - name: Upload APK
@@ -98,8 +100,10 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           TEMP_KEYCHAIN_NAME: ${{ secrets.TEMP_KEYCHAIN_NAME }}
           TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
+          GEM_HOME: ~/.gems
         run: |
-          bundle exec fastlane build_ios
+          echo "::add-path::~/.gems/bin"
+          fastlane build_ios
 
       - name: Upload IPA
         if: success()
@@ -126,9 +130,11 @@ jobs:
         if: success()
         working-directory: android
         env:
-          AAB_PATH: ${{ env.workspace }}/app.aab     
+          AAB_PATH: ${{ env.workspace }}/app.aab
+          GEM_HOME: ~/.gems
         run: |
-          bundle exec fastlane deploy_android production:true
+          echo "::add-path::~/.gems/bin"
+          fastlane deploy_android production:true
 
   deploy_ios:
     name: Deploy iOS testflight
@@ -144,10 +150,14 @@ jobs:
       - name: Set workspace in env
         run: echo ::set-env name=workspace::$GITHUB_WORKSPACE
 
-      - name: Deploy iOS
+      - name: Deploy iOS 
         if: success()
         working-directory: ios
         env:
           IPA_PATH: ${{ env.workspace }}/Runner.ipa   
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}   
+          GEM_HOME: ~/.gems
         run: |
-          bundle exec fastlane deploy_ios
+          echo "::add-path::~/.gems/bin"
+          fastlane deploy_ios
