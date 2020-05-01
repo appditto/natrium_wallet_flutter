@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_ed25519:
-    name: Run tests
+    name: Build dependent library
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -49,3 +49,21 @@ jobs:
         run: |
           flutter pub get
           flutter test
+
+  build_android:
+    name: Build android
+    needs: run_tests
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Build apk
+        env:
+          ED215519_SO_FILE: /Users/adapps/flutter_nano_ffi/android/libed25519_blake2b.dylib
+        run: |
+          echo ${{ secrets.ANDROID_KEYSTORE_PATH }} > android/key.properties
+          echo ${{ secrets.ANDROID_KEY_ALIAS }} >> android/key.properties
+          echo ${{ secrets.ANDROID_KEY_PASSWORD }} >> android/key.properties
+          echo ${{ secrets.ANDROID_KEY_STORE_PASSWORD }} >> android/key.properties
+          flutter pub get
+          flutter build apk --release
