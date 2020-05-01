@@ -1,1 +1,51 @@
 
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build_ed25519:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          name: appditto/flutter_nano_ffi
+          ref: refs/heads/master
+      - name: Run cmake
+        working-directory: android
+        run: |
+          cmake .
+          make
+      - name: Upload artifact
+        if: success()
+        uses: actions/upload-artifact@v1
+        with:
+          name: libraries
+          path: android/libed25519_blake2b.so
+
+  run_tests:
+    name: Run tests
+    needs: build_ed25519
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master   
+      - name: Download library
+        uses: actions/download-artifact@v2
+
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '1.12.x'
+          channel: 'stable'
+
+      - name: Set workspace in env
+        run: echo ::set-env name=workspace::$GITHUB_WORKSPACE
+
+      - name: Run tests
+        env:
+          ED215519_SO_FILE: ${{ env.workspace }}/libraries/libed25519_blake2b.so
+        run: |
+          flutter pub get
+          flutter test
