@@ -20,6 +20,7 @@ tests:
   tags:
     - appditto_mac
   script: 
+    - export ED215519_SO_FILE=Users/adapps/flutter_nano_ffi/android/libed25519_blake2b.dylib
     - flutter test
   interruptible: true
 

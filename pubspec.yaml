@@ -22,9 +22,7 @@ dependencies:
   flutter_secure_storage: ^3.3.3
 
   # Nano core functions
-  flutter_nano_ffi:
-    git:
-      url: https://github.com/appditto/flutter_nano_ffi.git
+  flutter_nano_ffi: ^1.0.2
 
   # Shared prefs
   shared_preferences: ^0.5.7
