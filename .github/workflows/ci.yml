@@ -9,9 +9,9 @@ on:
 
 jobs:
 
+
   build_ios:
     name: Build iOS app
-    needs: run_tests
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@master
