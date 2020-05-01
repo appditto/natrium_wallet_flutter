@@ -10,7 +10,7 @@ on:
 jobs:
   build_ed25519:
     name: Build dependent library
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@master
         with:
@@ -26,28 +26,23 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: libraries
-          path: android/libed25519_blake2b.so
+          path: android/libed25519_blake2b.dylib
 
   run_tests:
     name: Run tests
     needs: build_ed25519
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@master   
       - name: Download library
         uses: actions/download-artifact@v2
-
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '1.12.x'
-          channel: 'stable'
 
       - name: Set workspace in env
         run: echo ::set-env name=workspace::$GITHUB_WORKSPACE
 
       - name: Run tests
         env:
-          ED215519_SO_FILE: ${{ env.workspace }}/libraries/libed25519_blake2b.so
+          ED215519_SO_FILE: ${{ env.workspace }}/libraries/libed25519_blake2b.dylib
         run: |
           flutter pub get
           flutter test

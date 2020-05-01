@@ -18,7 +18,6 @@ default_platform(:android)
 platform :android do
   desc "Build android aab and apk"
   lane :build_android do |options|
-    sh "./flutter_test.sh"
     sh "./flutter_build.sh --clean"
     sh "./flutter_build.sh --apk"
   end

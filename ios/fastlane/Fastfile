@@ -73,7 +73,6 @@ platform :ios do
         profile_uuid: lane_context[SharedValues::SIGH_UUID],
         code_sign_identity: "iPhone Distribution"
       )
-      sh "./flutter_test.sh"
       sh "./flutter_build.sh --clean"
       build_ios_app(
         export_options: {
