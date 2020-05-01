@@ -8,94 +8,19 @@ on:
     branches: [ master ]
 
 jobs:
-  build_ed25519:
-    name: Build dependent library
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@master
-        with:
-          repository: appditto/flutter_nano_ffi
-          ref: refs/heads/master
-      - name: Run cmake
-        working-directory: android
-        run: |
-          cmake .
-          make
-      - name: Upload artifact
-        if: success()
-        uses: actions/upload-artifact@v1
-        with:
-          name: libraries
-          path: android/libed25519_blake2b.dylib
 
-  run_tests:
-    name: Run tests
-    needs: build_ed25519
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@master   
-      - name: Download library
-        uses: actions/download-artifact@v2
-
-      - name: Set workspace in env
-        run: echo ::set-env name=workspace::$GITHUB_WORKSPACE
-
-      - name: Run tests
-        env:
-          ED215519_SO_FILE: ${{ env.workspace }}/libraries/libed25519_blake2b.dylib
-        run: |
-          flutter pub get
-          flutter test
-
-  build_android:
-    name: Build android app
-    needs: run_tests
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@master
-
-      - name: Build artifacts
-        working-directory: android
-        env:
-          ED215519_SO_FILE: /Users/adapps/flutter_nano_ffi/android/libed25519_blake2b.dylib
-          FLUTTER_PATH: /Users/adapps/flutter
-          ANDROID_SDK_PATH: /Users/adapps/Library/Android/Sdk
-        run: |
-          echo flutter.sdk=${{ env.FLUTTER_PATH }} > local.properties
-          echo sdk.dir=${{ env.ANDROID_SDK_PATH }} >> local.properties
-          echo flutter.buildMode=release >> local.properties
-          echo storeFile=${{ secrets.ANDROID_KEYSTORE_PATH }} > key.properties
-          echo keyAlias=${{ secrets.ANDROID_KEY_ALIAS }} >> key.properties
-          echo keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }} >> key.properties
-          echo storePassword=${{ secrets.ANDROID_KEY_STORE_PASSWORD }} >> key.properties
-          bundle exec fastlane build_android production:true
-          rm -f key.properties
-
-      - name: Upload APK
-        if: success()
-        uses: actions/upload-artifact@v1
-        with:
-          name: android-apk
-          path: build/app/outputs/apk/release/app-release.apk
-
-      - name: Upload Bundle
-        if: success()
-        uses: actions/upload-artifact@v1
-        with:
-          name: android-aab
-          path: build/app/outputs/bundle/release/app.aab
 
   build_ios:
     name: Build iOS app
-    needs: run_tests
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@master
 
-      - name: Set keychain env
-        run: |
-          echo ::set-env name=TEMP_KEYCHAIN_NAME::fastlane_$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w ${1:-16} | head -n 1)
-          echo ::set-env name=TEMP_KEYCHAIN_PASSWORD::$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w ${1:-64} | head -n 1)
+      - name: Set keychain name
+        run: echo ::set-env name=TEMP_KEYCHAIN_NAME::fastlane_$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w ${1:-16} | head -n 1)
+
+      - name:  Set keychain password
+        run: echo ::set-env name=TEMP_KEYCHAIN_PASSWORD::$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w ${1:-64} | head -n 1)
 
       - name: Build artifacts
         working-directory: ios
