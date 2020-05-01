@@ -58,12 +58,32 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Build apk
+        working-directory: android
         env:
           ED215519_SO_FILE: /Users/adapps/flutter_nano_ffi/android/libed25519_blake2b.dylib
+          FLUTTER_PATH: /Users/adapps/flutter
+          ANDROID_SDK_PATH: /Users/adapps/Library/Android/Sdk
         run: |
-          echo ${{ secrets.ANDROID_KEYSTORE_PATH }} > android/key.properties
-          echo ${{ secrets.ANDROID_KEY_ALIAS }} >> android/key.properties
-          echo ${{ secrets.ANDROID_KEY_PASSWORD }} >> android/key.properties
-          echo ${{ secrets.ANDROID_KEY_STORE_PASSWORD }} >> android/key.properties
-          flutter pub get
-          flutter build apk --release
+          echo flutter.sdk=${{ env.FLUTTER_PATH }} > local.properties
+          echo sdk.dir=${{ env.ANDROID_SDK_PATH }} >> local.properties
+          echo flutter.buildMode=release >> local.properties
+          echo storeFile=${{ secrets.ANDROID_KEYSTORE_PATH }} > key.properties
+          echo keyAlias=${{ secrets.ANDROID_KEY_ALIAS }} >> key.properties
+          echo keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }} >> key.properties
+          echo storePassword=${{ secrets.ANDROID_KEY_STORE_PASSWORD }} >> key.properties
+          bundle exec fastlane build_android production:true
+          rm -f key.properties
+
+      - name: Upload APK
+        if: success()
+        uses: actions/upload-artifact@v1
+        with:
+          name: android-apk
+          path: build/app/outputs/apk/release/app-release.apk
+
+      - name: Upload Bundle
+        if: success()
+        uses: actions/upload-artifact@v1
+        with:
+          name: android-aab
+          path: build/app/outputs/bundle/release/app.aab
