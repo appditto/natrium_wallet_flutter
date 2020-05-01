@@ -4,6 +4,8 @@ name: CI
 on:
   push:
     branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build_ed25519:
@@ -51,13 +53,13 @@ jobs:
           flutter test
 
   build_android:
-    name: Build android
+    name: Build android app
     needs: run_tests
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@master
 
-      - name: Build apk
+      - name: Build artifacts
         working-directory: android
         env:
           ED215519_SO_FILE: /Users/adapps/flutter_nano_ffi/android/libed25519_blake2b.dylib
@@ -87,3 +89,26 @@ jobs:
         with:
           name: android-aab
           path: build/app/outputs/bundle/release/app.aab
+
+  build_ios:
+    name: Build iOS app
+    needs: run_tests
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Build artifacts
+        working-directory: ios
+        env:
+          ED215519_SO_FILE: /Users/adapps/flutter_nano_ffi/android/libed25519_blake2b.dylib
+          TEMP_KEYCHAIN_NAME: fastlane_$(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w ${1:-16} | head -n 1)
+          TEMP_KEYCHAIN_PASSWORD: $(cat /dev/urandom | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w ${1:-64} | head -n 1)
+        run: |
+          bundle exec fastlane build_ios
+
+      - name: Upload IPA
+        if: success()
+        uses: actions/upload-artifact@v1
+        with:
+          name: ios-ipa
+          path: ios/Runner.ipa
