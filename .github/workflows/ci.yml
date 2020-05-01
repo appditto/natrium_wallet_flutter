@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
         with:
-          name: appditto/flutter_nano_ffi
+          repository: appditto/flutter_nano_ffi
           ref: refs/heads/master
       - name: Run cmake
         working-directory: android
