@@ -1,9 +1,9 @@
-name: DEPLOY_BETA
+name: DEPLOY_RELEASE
 
 on:
   push:
     tags:
-    - 'v*-beta'
+    - 'v*-release'
 
 jobs:
   build_ed25519:
@@ -128,7 +128,7 @@ jobs:
         env:
           AAB_PATH: ${{ env.workspace }}/app.aab     
         run: |
-          bundle exec fastlane deploy_android internal:true
+          bundle exec fastlane deploy_android production:true
 
   deploy_ios:
     name: Deploy iOS testflight
@@ -150,4 +150,4 @@ jobs:
         env:
           IPA_PATH: ${{ env.workspace }}/Runner.ipa   
         run: |
-          bundle exec fastlane deploy_ios testflight:true
+          bundle exec fastlane deploy_ios
