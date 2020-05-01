@@ -606,7 +606,7 @@ class StateContainerState extends State<StateContainer> {
       // This is can still be improved because history excludes change/open, blockCount doesn't
 
       // Get largest count we have + 5 (just a safe-buffer)
-      int count = max(max(response.blockCount, 3000), wallet.history.length) + 5;
+      int count = max(995, max(response.blockCount, wallet.history.length)) + 5;
       // Subtract by what we already have to get amount we want to request
       count -= wallet.history.length;
       // Minimum of 10 to request
