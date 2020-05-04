@@ -1,9 +1,9 @@
-name: DEPLOY_BETA
+name: DEPLOY_RELEASE
 
 on:
   push:
     tags:
-    - 'v*-beta'
+    - 'v*-release'
 
 jobs:
   build_ed25519:
@@ -113,7 +113,7 @@ jobs:
           path: ios/Runner.ipa
 
   deploy_android:
-    name: Deploy android internal
+    name: Deploy android prod
     needs: build_android
     runs-on: self-hosted
     steps:
