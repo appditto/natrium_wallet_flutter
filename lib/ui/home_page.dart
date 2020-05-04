@@ -11,6 +11,7 @@ import 'package:event_taxi/event_taxi.dart';
 import 'package:logger/logger.dart';
 import 'package:manta_dart/manta_wallet.dart';
 import 'package:manta_dart/messages.dart';
+import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/ui/popup_button.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -124,30 +125,25 @@ class _AppHomePageState extends State<AppHomePage>
     return true;
   }
 
-  /// Notification includes which account its for, automatically switch to it if they're entering app from notification
-  Future<void> _chooseCorrectAccountFromNotification(
-      Map<String, dynamic> message) async {
-    // TODO repair this method
-    return;
-    /*
-    try {
-      if (message.containsKey("account")) {
-        Account selectedAccount = await sl.get<DBHelper>().getSelectedAccount();
-        if (message['account'] != selectedAccount.address) {
-          List<Account> accounts = await sl.get<DBHelper>().getAccounts();
-          for (int i = 0; i < accounts.length; i++) {
-            if (accounts[i].address == message['account']) {
-              await sl.get<DBHelper>().changeAccount(accounts[i]);
-              EventTaxiImpl.singleton()
-                  .fire(AccountChangedEvent(account: accounts[i]));
-              break;
-            }
-          }
-        }
+  Future<void> _switchToAccount(String account) async {
+    List<Account> accounts = await sl.get<DBHelper>().getAccounts(await StateContainer.of(context).getSeed());
+    for (Account a in accounts) {
+      if (a.address == account && a.address != StateContainer.of(context).wallet.address) {
+        await sl.get<DBHelper>().changeAccount(a);
+        EventTaxiImpl.singleton()
+                .fire(AccountChangedEvent(account: a, delayPop: true));        
       }
-    } catch (e) {
-      log.severe(e.toString());
-    }*/
+    }
+  }
+
+  /// Notification includes which account its for, automatically switch to it if they're entering app from notification
+  Future<void> _chooseCorrectAccountFromNotification(dynamic message) async {
+    if (message.containsKey("account")) {
+      String account = message['account'];
+      if (account != null) {
+        await _switchToAccount(account);
+      }
+    }
   }
 
   @override
@@ -197,10 +193,14 @@ class _AppHomePageState extends State<AppHomePage>
         //print("onMessage: $message");
       },
       onLaunch: (Map<String, dynamic> message) async {
-        _chooseCorrectAccountFromNotification(message);
+        if (message.containsKey('data')) {
+          await _chooseCorrectAccountFromNotification(message['data']);
+        }
       },
       onResume: (Map<String, dynamic> message) async {
-        _chooseCorrectAccountFromNotification(message);
+        if (message.containsKey('data')) {
+          await _chooseCorrectAccountFromNotification(message['data']);
+        }
       },
     );
     _firebaseMessaging.requestNotificationPermissions(

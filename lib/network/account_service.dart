@@ -411,6 +411,9 @@ class AccountService {
     if (response is ErrorResponse) {
       throw Exception("Received error ${response.error}");
     }
+    if (response["history"] == "") {
+      response["history"] = [];
+    }    
     return AccountHistoryResponse.fromJson(response);
   }
 
