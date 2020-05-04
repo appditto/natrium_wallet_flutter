@@ -154,7 +154,6 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   StreamSubscription<TransferConfirmEvent> _transferConfirmSub;
   StreamSubscription<TransferCompleteEvent> _transferCompleteSub;
-  StreamSubscription<UnlockCallbackEvent> _callbackUnlockSub;
 
   void _registerBus() {
     // Ready to go to transfer confirm
@@ -178,12 +177,6 @@ class _SettingsSheetState extends State<SettingsSheet>
               NumberUtil.getRawAsUsableString(event.amount.toString()))
           .mainBottomSheet(context);
     });
-    // Unlock callback
-    _callbackUnlockSub = EventTaxiImpl.singleton()
-        .registerTo<UnlockCallbackEvent>()
-        .listen((event) {
-      StateContainer.of(context).unlockCallback();
-    });
   }
 
   void _destroyBus() {
@@ -192,9 +185,6 @@ class _SettingsSheetState extends State<SettingsSheet>
     }
     if (_transferCompleteSub != null) {
       _transferCompleteSub.cancel();
-    }
-    if (_callbackUnlockSub != null) {
-      _callbackUnlockSub.cancel();
     }
   }
 

@@ -303,7 +303,6 @@ class _AppHomePageState extends State<AppHomePage>
 
   StreamSubscription<HistoryHomeEvent> _historySub;
   StreamSubscription<ContactModifiedEvent> _contactModifiedSub;
-  StreamSubscription<SendCompleteEvent> _sendCompleteSub;
   StreamSubscription<DisableLockTimeoutEvent> _disableLockSub;
   StreamSubscription<AccountChangedEvent> _switchAccountSub;
 
@@ -318,31 +317,6 @@ class _AppHomePageState extends State<AppHomePage>
       if (StateContainer.of(context).initialDeepLink != null) {
         handleDeepLink(StateContainer.of(context).initialDeepLink);
         StateContainer.of(context).initialDeepLink = null;
-      }
-    });
-    _sendCompleteSub = EventTaxiImpl.singleton()
-        .registerTo<SendCompleteEvent>()
-        .listen((event) {
-      // Route to send complete if received process response for send block
-      if (event.previous != null) {
-        // Route to send complete
-        sl
-            .get<DBHelper>()
-            .getContactWithAddress(event.previous.link)
-            .then((contact) {
-          String contactName = contact == null ? null : contact.name;
-          Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-          Sheets.showAppHeightNineSheet(
-              context: context,
-              closeOnTap: true,
-              removeUntilHome: true,
-              widget: SendCompleteSheet(
-                  amountRaw: event.previous.sendAmount,
-                  destination: event.previous.link,
-                  contactName: contactName,
-                  localAmount: event.previous.localCurrencyValue,
-                  paymentRequest: event.previous.paymentRequest));
-        });
       }
     });
     _contactModifiedSub = EventTaxiImpl.singleton()
@@ -394,9 +368,6 @@ class _AppHomePageState extends State<AppHomePage>
     }
     if (_contactModifiedSub != null) {
       _contactModifiedSub.cancel();
-    }
-    if (_sendCompleteSub != null) {
-      _sendCompleteSub.cancel();
     }
     if (_disableLockSub != null) {
       _disableLockSub.cancel();

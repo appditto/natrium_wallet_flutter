@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:logger/logger.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
@@ -205,55 +206,12 @@ class AccountService {
         // Price info sent from server
         PriceResponse resp = PriceResponse.fromJson(msg);
         EventTaxiImpl.singleton().fire(PriceEvent(response: resp));
-      } else if (msg.containsKey("history")) {
-        // Account history response
-        if (msg['history'] == "") {
-          msg['history'] = new List<AccountHistoryResponseItem>();
-        }
-        AccountHistoryResponse resp = await compute(accountHistoryresponseFromJson, msg);
-        EventTaxiImpl.singleton().fire(HistoryEvent(response: resp));
-      } else if (msg.containsKey("blocks")) {
-        // This is a 'pending' response
-        if (msg['blocks'] is Map && msg['blocks'].length > 0) {
-          Map<String, dynamic> blockMap = msg['blocks'];
-          if (blockMap != null && blockMap.length > 0) {
-            PendingResponse resp = await compute(pendingResponseFromJson, msg);
-            EventTaxiImpl.singleton().fire(PendingEvent(response: resp));
-          }
-        } else {
-          // Possibly a response when there is no pendings
-          pop();
-          processQueue();
-        }
-      } else if (msg.containsKey("block_account") && msg.containsKey("contents") && msg.containsKey("amount") && msg.containsKey("balance")) {
-        // Block Info Response
-        BlockInfoItem resp = await compute(blockInfoItemFromJson, msg);
-        EventTaxiImpl.singleton().fire(BlocksInfoEvent(response: resp));
       } else if (msg.containsKey("block") && msg.containsKey("hash") && msg.containsKey("account")) {
         CallbackResponse resp = await compute(callbackResponseFromJson, msg);
         EventTaxiImpl.singleton().fire(CallbackEvent(response: resp));
-      } else if (msg.containsKey("hash")) {
-        // process response
-        ProcessResponse resp = ProcessResponse.fromJson(msg);
-        EventTaxiImpl.singleton().fire(ProcessEvent(response: resp));
       } else if (msg.containsKey("error")) {
         ErrorResponse resp = ErrorResponse.fromJson(msg);
         EventTaxiImpl.singleton().fire(ErrorEvent(response: resp));
-      } else if (msg.containsKey("balances")) {
-        // accounts_balances response
-        if (msg['balances'] is Map && msg['balances'].length > 0) {
-          Map<String, dynamic> balancesMap = msg['balances'];
-          if (balancesMap != null && balancesMap.length > 0) {
-            if (balancesMap[balancesMap.keys.first].containsKey('pending')) {
-              RequestItem<dynamic> lastRequest = pop();
-              if (lastRequest != null) {
-                AccountsBalancesResponse resp = await compute(accountsBalancesResponseFromJson, msg);
-                EventTaxiImpl.singleton().fire(AccountsBalancesEvent(response: resp, transfer: lastRequest.fromTransfer));
-              }
-              processQueue();
-            }
-          }
-        }
       }
       return;
     });
@@ -409,8 +367,8 @@ class AccountService {
     return infoResponse;
   }
 
-  Future<PendingResponse> getPending(String account, int count, {bool includeActive = false}) async {
-    String threshold = BigInt.from(10).pow(24).toString();
+  Future<PendingResponse> getPending(String account, int count, {String threshold, bool includeActive = false}) async {
+    threshold = threshold ?? BigInt.from(10).pow(24).toString();
     PendingRequest request = PendingRequest(
       account: account,
       count: count,
@@ -442,6 +400,29 @@ class AccountService {
     }
     BlockInfoItem item = BlockInfoItem.fromJson(response);
     return item;
+  }
+
+  Future<AccountHistoryResponse> requestAccountHistory(String account, { int count = 1}) async {
+    AccountHistoryRequest request = AccountHistoryRequest(
+      account: account,
+      count: count
+    );
+    dynamic response = await makeHttpRequest(request);
+    if (response is ErrorResponse) {
+      throw Exception("Received error ${response.error}");
+    }
+    return AccountHistoryResponse.fromJson(response);
+  }
+
+  Future<AccountsBalancesResponse> requestAccountsBalances(List<String> accounts) async {
+    AccountsBalancesRequest request = AccountsBalancesRequest(
+      accounts: accounts
+    );
+    dynamic response = await makeHttpRequest(request);
+    if (response is ErrorResponse) {
+      throw Exception("Received error ${response.error}");
+    }
+    return AccountsBalancesResponse.fromJson(response);
   }
 
   Future<ProcessResponse> requestProcess(ProcessRequest request) async {
@@ -510,7 +491,7 @@ class AccountService {
   }
 
   Future<ProcessResponse> requestOpen(String balance, String link, String account, String privKey, {String representative}) async {
-    representative = representative ?? AppWallet.defaultRepresentative;
+    representative = representative ?? await sl.get<SharedPrefsUtil>().getRepresentative();
     StateBlock openBlock = StateBlock(
       subtype:BlockTypes.OPEN,
       previous: "0",
@@ -528,6 +509,34 @@ class AccountService {
     ProcessRequest processRequest = ProcessRequest(
       block: json.encode(openBlock.toJson()),
       subType: BlockTypes.OPEN
+    );
+
+    return await requestProcess(processRequest);   
+  }
+
+  Future<ProcessResponse> requestChange(String account, String representative, String previous, String balance, String privKey) async {
+    StateBlock chgBlock = StateBlock(
+      subtype:BlockTypes.CHANGE,
+      previous: previous,
+      representative: representative,
+      balance: balance,
+      link:"0000000000000000000000000000000000000000000000000000000000000000",
+      account: account,
+      privKey: privKey
+    );
+
+    BlockInfoItem previousInfo = await requestBlockInfo(previous);
+    StateBlock previousBlock = StateBlock.fromJson(json.decode(previousInfo.contents));
+
+    // Update data on our next pending request
+    chgBlock.representative = previousBlock.representative;
+    chgBlock.setBalance(previousBlock.balance);
+    await chgBlock.sign(privKey);
+
+    // Process
+    ProcessRequest processRequest = ProcessRequest(
+      block: json.encode(chgBlock.toJson()),
+      subType: BlockTypes.CHANGE
     );
 
     return await requestProcess(processRequest);   

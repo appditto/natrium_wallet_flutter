@@ -203,6 +203,7 @@ class _AppTransferConfirmSheetState extends State<AppTransferConfirmSheet> {
   Future<void> processWallets() async {
     BigInt totalTransferred = BigInt.zero;
     try {
+      state.lockCallback();
       for (String account in widget.privKeyBalanceMap.keys) {
         AccountBalanceItem  balanceItem = widget.privKeyBalanceMap[account];
         // Get frontiers first
@@ -265,8 +266,11 @@ class _AppTransferConfirmSheetState extends State<AppTransferConfirmSheet> {
       widget.errorCallback();
       sl.get<Logger>().e("Error processing wallet", e);
       return;
+    } finally {
+      state.unlockCallback();
     }
     try {
+      state.lockCallback();
       // Receive all new blocks to our own account
       PendingResponse pr = await sl.get<AccountService>().getPending(state.wallet.address, 20, includeActive: true);
       Map<String, PendingResponseItem> pendingBlocks = pr.blocks;
@@ -302,6 +306,8 @@ class _AppTransferConfirmSheetState extends State<AppTransferConfirmSheet> {
     } catch (e) {
       // Less-important error
       sl.get<Logger>().e("Error processing wallet", e);
+    } finally {
+      state.unlockCallback();
     }
     EventTaxiImpl.singleton()
         .fire(TransferCompleteEvent(amount: totalTransferred));
