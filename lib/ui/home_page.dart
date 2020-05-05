@@ -126,12 +126,15 @@ class _AppHomePageState extends State<AppHomePage>
   }
 
   Future<void> _switchToAccount(String account) async {
-    List<Account> accounts = await sl.get<DBHelper>().getAccounts(await StateContainer.of(context).getSeed());
+    List<Account> accounts = await sl
+        .get<DBHelper>()
+        .getAccounts(await StateContainer.of(context).getSeed());
     for (Account a in accounts) {
-      if (a.address == account && a.address != StateContainer.of(context).wallet.address) {
+      if (a.address == account &&
+          a.address != StateContainer.of(context).wallet.address) {
         await sl.get<DBHelper>().changeAccount(a);
         EventTaxiImpl.singleton()
-                .fire(AccountChangedEvent(account: a, delayPop: true));        
+            .fire(AccountChangedEvent(account: a, delayPop: true));
       }
     }
   }
@@ -155,7 +158,7 @@ class _AppHomePageState extends State<AppHomePage>
     if (widget.priceConversion != null) {
       _priceConversion = widget.priceConversion;
     } else {
-      _priceConversion = PriceConversion.BTC;  
+      _priceConversion = PriceConversion.BTC;
     }
     // Main Card Size
     if (_priceConversion == PriceConversion.BTC) {
@@ -603,7 +606,9 @@ class _AppHomePageState extends State<AppHomePage>
       if (address.amount != null) {
         BigInt amountBigInt = BigInt.parse(address.amount);
         // Require minimum 1 rai to send, and make sure sufficient balance
-        if (amountBigInt != null && StateContainer.of(context).wallet.accountBalance > amountBigInt && amountBigInt >= BigInt.from(10).pow(24)) {
+        if (amountBigInt != null &&
+            StateContainer.of(context).wallet.accountBalance > amountBigInt &&
+            amountBigInt >= BigInt.from(10).pow(24)) {
           amount = address.amount;
         }
       }
@@ -1407,7 +1412,7 @@ class _AppHomePageState extends State<AppHomePage>
           AnimatedContainer(
             duration: Duration(milliseconds: 200),
             curve: Curves.easeInOut,
-            width: 70.0,
+            width: 80.0,
             height: mainCardHeight,
             alignment: AlignmentDirectional(-1, -1),
             child: AnimatedContainer(
@@ -1437,11 +1442,17 @@ class _AppHomePageState extends State<AppHomePage>
             curve: Curves.easeInOut,
             child: _getBalanceWidget(),
           ),
+          // Nnnnn
           AnimatedContainer(
             duration: Duration(milliseconds: 200),
             curve: Curves.easeInOut,
-            width: 70.0,
+            width: 80.0,
             height: mainCardHeight,
+            alignment: Alignment(0, 0),
+            child: Container(
+              width: 64.0,
+              height: 64.0,
+            ),
           ),
         ],
       ),
@@ -1575,6 +1586,7 @@ class _AppHomePageState extends State<AppHomePage>
         ),
       );
     }
+    // Balance texts
     return GestureDetector(
       onTap: () {
         if (_priceConversion == PriceConversion.BTC) {
@@ -1609,7 +1621,7 @@ class _AppHomePageState extends State<AppHomePage>
       },
       child: Container(
         alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width - 185,
+        width: MediaQuery.of(context).size.width - 190,
         color: Colors.transparent,
         child: _priceConversion == PriceConversion.HIDDEN
             ?
