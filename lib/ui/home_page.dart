@@ -46,6 +46,7 @@ import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AppHomePage extends StatefulWidget {
   PriceConversion priceConversion;
@@ -1449,10 +1450,18 @@ class _AppHomePageState extends State<AppHomePage>
             width: 80.0,
             height: mainCardHeight,
             alignment: Alignment(0, 0),
-            child: Container(
-              width: 64.0,
-              height: 64.0,
-            ),
+            /* child: Container(
+              width: 70.0,
+              height: 70.0,
+              margin: EdgeInsetsDirectional.fromSTEB(0, 6, 10, 4),
+              child: SvgPicture.network(
+                'https://natricon-go-server.appditto.com/api/svg?address=' +
+                    StateContainer.of(context).wallet.address,
+                placeholderBuilder: (BuildContext context) => Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: const CircularProgressIndicator()),
+              ),
+            ), */
           ),
         ],
       ),

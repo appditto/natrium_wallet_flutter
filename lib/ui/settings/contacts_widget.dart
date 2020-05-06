@@ -24,6 +24,7 @@ import 'package:natrium_wallet_flutter/ui/contacts/add_contact.dart';
 import 'package:natrium_wallet_flutter/ui/contacts/contact_details.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ContactsList extends StatefulWidget {
   final AnimationController contactsController;
@@ -39,8 +40,8 @@ class _ContactsListState extends State<ContactsList> {
 
   List<Contact> _contacts;
   String documentsDirectory;
-
-  @override void initState() {
+  @override
+  void initState() {
     super.initState();
     _registerBus();
     // Initial contacts list
@@ -54,7 +55,8 @@ class _ContactsListState extends State<ContactsList> {
     });
   }
 
-  @override void dispose() {
+  @override
+  void dispose() {
     if (_contactAddedSub != null) {
       _contactAddedSub.cancel();
     }
@@ -88,7 +90,7 @@ class _ContactsListState extends State<ContactsList> {
       setState(() {
         _contacts.remove(event.contact);
       });
-    });    
+    });
   }
 
   void _updateContacts() {
@@ -149,7 +151,9 @@ class _ContactsListState extends State<ContactsList> {
       });
       for (Contact contact in contacts) {
         if (!await sl.get<DBHelper>().contactExistsWithName(contact.name) &&
-            !await sl.get<DBHelper>().contactExistsWithAddress(contact.address)) {
+            !await sl
+                .get<DBHelper>()
+                .contactExistsWithAddress(contact.address)) {
           // Contact doesnt exist, make sure name and address are valid
           if (Address(contact.address).isValid()) {
             if (contact.name.startsWith("@") && contact.name.length <= 20) {
@@ -181,7 +185,8 @@ class _ContactsListState extends State<ContactsList> {
     }
   }
 
-  @override Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
           color: StateContainer.of(context).curTheme.backgroundDark,
@@ -303,7 +308,8 @@ class _ContactsListState extends State<ContactsList> {
                               .exists()
                               .then((exists) {
                             if (!exists) {
-                              sl.get<DBHelper>()
+                              sl
+                                  .get<DBHelper>()
                                   .setMonkeyForContact(_contacts[index], null);
                             }
                           });
@@ -369,18 +375,15 @@ class _ContactsListState extends State<ContactsList> {
                         AppLocalization.of(context).addContact,
                         Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                       Sheets.showAppHeightNineSheet(
-                          context: context,
-                          widget: AddContactSheet()
-                      );
+                          context: context, widget: AddContactSheet());
                     }),
                   ],
                 ),
               ),
             ],
           ),
-        ));    
+        ));
   }
-
 
   Widget buildSingleContact(BuildContext context, Contact contact) {
     return FlatButton(
@@ -396,26 +399,41 @@ class _ContactsListState extends State<ContactsList> {
         ),
         // Main Container
         Container(
-          padding: EdgeInsets.symmetric(vertical: 16.0),
-          margin: new EdgeInsetsDirectional.only(start: 36.0),
+          padding: EdgeInsets.symmetric(vertical: 8.0),
+          margin: new EdgeInsetsDirectional.only(start: 12.0, end: 20.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              //Contact info
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    //Contact name
-                    Text(contact.name,
-                        style: AppStyles.textStyleSettingItemHeader(context)),
-                    //Contact address
-                    Text(
-                      Address(contact.address).getShortString(),
-                      style: AppStyles.textStyleTransactionAddress(context),
-                    ),
-                  ],
+              // nnnnn
+              /* Container(
+                width: 64.0,
+                height: 64.0,
+                child: SvgPicture.network(
+                  'https://natricon-go-server.appditto.com/api/svg?address=' +
+                      contact.address,
+                  placeholderBuilder: (BuildContext context) => Container(
+                      padding: const EdgeInsets.all(10.0),
+                      child: const CircularProgressIndicator()),
+                ),
+              ), */
+              // Contact info
+              Expanded(
+                child: Container(
+                  margin: EdgeInsetsDirectional.only(start: 16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      //Contact name
+                      Text(contact.name,
+                          style: AppStyles.textStyleSettingItemHeader(context)),
+                      //Contact address
+                      Text(
+                        Address(contact.address).getShortString(),
+                        style: AppStyles.textStyleTransactionAddress(context),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
