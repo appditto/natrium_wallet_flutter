@@ -110,7 +110,7 @@ platform :ios do
         skip_screenshots: true,
         submit_for_review: true,
         force: true,
-        ipa: "./Runner.ipa"
+        ipa: ENV['IPA_PATH']
       )
     end
   end
