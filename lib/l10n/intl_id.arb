@@ -104,7 +104,7 @@
   "settingsTransfer": "Muat dari Dompet Kertas",
   "transferError": "Terjadi kesalahan selama transfer. Silakan coba lagi nanti.",
   "paperWallet": "Dompet Kertas",
-  "kaliumWallet": "Dompet Natrium",
+  "kaliumWallet": "Dompet Kalium",
   "manualEntry": "Entri Manual",
   "mnemonicPhrase": "Frase Mnemonic",
   "rawSeed": "Benih Mentah",
@@ -202,6 +202,9 @@
   "goBackButton": "Kembali",
   "welcomeTextKal": "Selamat datang di Kalium. Untuk melanjutkan, anda bisa membuat dompet baru atau mengimpor dompet lama anda.",
   "sendAmountConfirmKal": "Kirim %1 Banano?",
+  "currency": "Mata Uang",
+  "shareKalium": "Bagikan Kalium",
+  "shareKaliumText": "Lihat Kalium! Dompet ponsel resmi Banano!",
   "logoutDetailKal": "Keluar akan menghapus benih anda dan semua data terkait kalium dari perangkat ini. Jika benih anda belum disimpan, Anda tidak akan pernah bisa mengakses dana anda lagi.",
   "notificationTitleKal": "Menerima %1 BANANO",
   "notificationBodyKal": "Buka Kalium untuk melihat transaksi.",
@@ -216,5 +219,7 @@
   "exampleCardIntroKal": "Hai, Saat anda mengirim dan menerima BANANO, akan terlihat seperti ini",
   "exampleCardToKal": "ke monkey lain",
   "exampleCardFromKal": "dari monkey lain",
-  "newAccountIntroKal": "Ini adalah akun baru anda. Setelah menerima BANANO, transaksi akan muncul seperti ini"
+  "newAccountIntroKal": "Ini adalah akun baru anda. Setelah menerima BANANO, transaksi akan muncul seperti ini",
+  "liveSupportButton": "Bantuan",
+  "connectingHeader": "Menghubungkan"
 }

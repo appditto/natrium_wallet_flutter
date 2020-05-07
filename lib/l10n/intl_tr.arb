@@ -104,7 +104,7 @@
   "settingsTransfer": "Bakiye Transferi",
   "transferError": "Aktarma esnasında bir problem oluştu. Lütfen daha sonra tekrar dene.",
   "paperWallet": "Kağıt Cüzdan",
-  "kaliumWallet": "Natrium Cüzdanı",
+  "kaliumWallet": "Kalium",
   "manualEntry": "Manuel Giriş",
   "mnemonicPhrase": "Memonik Cümle",
   "rawSeed": "Seed",
@@ -202,6 +202,9 @@
   "goBackButton": "Geri Git",
   "welcomeTextKal": "Kalium'a hoşgeldiniz. Devam etmek için yeni bir cüzdan oluşturabilir veya var olanı içe aktarabilirsiniz.",
   "sendAmountConfirmKal": "%1 Banano gönder?",
+  "currency": "Para Birimi",
+  "shareKalium": "Kalium'u Paylaş",
+  "shareKaliumText": "Banano'nun resmi cüzdanı Kalium'u dene!",
   "logoutDetailKal": "Çıkış yaptığınızda seed'iniz ve Kalium'la ilgili bütün verileriniz bu cihazdan silinecektir. Seed'inizi yedeklemediyseniz paranıza bir daha asla ulaşamazsınız.",
   "notificationTitleKal": "%1 BANANO Alındı",
   "notificationBodyKal": "Bu transferi görmek için Kalium’u aç.",
@@ -216,5 +219,7 @@
   "exampleCardIntroKal": "Kalium’a hoşgeldin. Hesabına BANANO geldiğinde işlemlerin şu şekilde görünecek",
   "exampleCardToKal": "rastgele bir maymuna",
   "exampleCardFromKal": "rastgele bir maymundan",
-  "newAccountIntroKal": "Bu senin yeni hesabın. Hesabına BANANO geldiğinde işlemlerin aşağıdaki gibi görünecek."
+  "newAccountIntroKal": "Bu senin yeni hesabın. Hesabına BANANO geldiğinde işlemlerin aşağıdaki gibi görünecek.",
+  "liveSupportButton": "Destek",
+  "connectingHeader": "Bağlanıyor"
 }
