@@ -92,7 +92,7 @@ class LanguageSetting extends SettingSelectionItem {
       case AvailableLanguage.CHINESE_SIMPLIFIED:
         return "简体字 (zh-Hans)";
       case AvailableLanguage.CHINESE_TRADITIONAL:
-        return "繁體字 (zh-Hant)";
+        return "繁體中文 (zh-Hant)";
       case AvailableLanguage.MALAY:
         return "Bahasa Melayu (ms)";
       default:
