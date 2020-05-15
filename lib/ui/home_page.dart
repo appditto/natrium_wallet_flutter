@@ -46,6 +46,8 @@ import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 
+import 'package:connectivity/connectivity.dart';
+
 class AppHomePage extends StatefulWidget {
   PriceConversion priceConversion;
 
@@ -102,6 +104,11 @@ class _AppHomePageState extends State<AppHomePage>
   ActorAnimation _sendSlideReleaseAnimation;
   double _fanimationPosition;
   bool releaseAnimation = false;
+
+  //Connectivity network subscriber
+  final Connectivity _connectivity = Connectivity();
+  StreamSubscription<ConnectivityResult> _connectivityNetworkSubscriber;
+  String _connectivityErrorMsj = '';
 
   void initialize(FlutterActorArtboard actor) {
     _fanimationPosition = 0.0;
@@ -233,6 +240,40 @@ class _AppHomePageState extends State<AppHomePage>
         EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
       }
     });
+
+    initConnectivity();
+    _connectivityNetworkSubscriber =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      log.e("Failed to recover connectivity status ${e.toString()}");
+    }
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  void _updateConnectionStatus(ConnectivityResult result) async {
+    if (result == ConnectivityResult.none) {
+      if (mounted) {
+        setState(() {
+          _connectivityErrorMsj =
+              AppLocalization.of(context).noNetworkConnection;
+        });
+      }
+    } else if (result != null) {
+      if (mounted) {
+        setState(() {
+          _connectivityErrorMsj = '';
+        });
+      }
+    }
   }
 
   void _animationStatusListener(AnimationStatus status) {
@@ -361,6 +402,7 @@ class _AppHomePageState extends State<AppHomePage>
     _destroyBus();
     WidgetsBinding.instance.removeObserver(this);
     _placeholderCardAnimationController.dispose();
+    _connectivityNetworkSubscriber.cancel();
     super.dispose();
   }
 
@@ -685,6 +727,29 @@ class _AppHomePageState extends State<AppHomePage>
     });
   }
 
+  Widget paintConnectivityStatus() {
+    return Visibility(
+      visible: _connectivityErrorMsj != null && _connectivityErrorMsj != '',
+      maintainSize: false,
+      child: Container(
+        margin: EdgeInsetsDirectional.fromSTEB(30.0, 20.0, 26.0, 0.0),
+        child: Row(
+          children: <Widget>[
+            Text(
+              CaseChange.toUpperCase(_connectivityErrorMsj, context),
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w100,
+                color: StateContainer.of(context).curTheme.text,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Create QR ahead of time because it improves performance this way
@@ -720,6 +785,8 @@ class _AppHomePageState extends State<AppHomePage>
                       _buildMainCard(context, _scaffoldKey),
                       //Main Card End
 
+                      //Conectivity status Text
+                      paintConnectivityStatus(),
                       //Transactions Text
                       Container(
                         margin: EdgeInsetsDirectional.fromSTEB(
@@ -833,7 +900,8 @@ class _AppHomePageState extends State<AppHomePage>
                             if (receive == null) {
                               return;
                             }
-                            Sheets.showAppHeightEightSheet(context: context, widget: receive);
+                            Sheets.showAppHeightEightSheet(
+                                context: context, widget: receive);
                           },
                           highlightColor: receive != null
                               ? StateContainer.of(context).curTheme.background40
