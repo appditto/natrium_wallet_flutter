@@ -10,6 +10,7 @@ import 'package:event_taxi/event_taxi.dart';
 import 'package:logger/logger.dart';
 
 import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/network/account_service.dart';
@@ -51,17 +52,36 @@ class AppChangeRepresentativeManualEntrySheet {
     _repController = new TextEditingController();
   }
 
+  StreamSubscription<AuthenticatedEvent> _authSub;
+
+  void _registerBus(BuildContext context) {
+    _authSub = EventTaxiImpl.singleton()
+        .registerTo<AuthenticatedEvent>()
+        .listen((event) {
+      if (event.authType == AUTH_EVENT_TYPE.CHANGE_MANUAL) {
+        doChange(context);
+      }
+    });
+  }
+
+  void _destroyBus() {
+    if (_authSub != null) {
+      _authSub.cancel();
+    }
+  }
+
   Future<bool> _onWillPop() async {
+    _destroyBus();
     return true;
   }
 
   mainBottomSheet(BuildContext context) {
     _changeRepHint = AppLocalization.of(context).changeRepHint;
     _repAddressStyle = AppStyles.textStyleAddressText60(context);
-
     AppSheets.showAppHeightEightSheet(
         context: context,
         builder: (BuildContext context) {
+          _registerBus(context);
           return StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
             // On address focus change
@@ -319,46 +339,8 @@ class AppChangeRepresentativeManualEntrySheet {
                                                               .changeRepAuthenticate);
                                           if (authenticated) {
                                             sl.get<HapticUtil>().fingerprintSucess();
-                                            _animationOpen = true;
-                                            Navigator.of(context).push(
-                                                AnimationLoadingOverlay(
-                                                    AnimationType.GENERIC,
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .animationOverlayStrong,
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .animationOverlayMedium,
-                                                    onPoppedCallback: () =>
-                                                        _animationOpen =
-                                                            false));
-                                              // If account isnt open, just store the account in sharedprefs
-                                              if (StateContainer.of(context).wallet.openBlock == null) {
-                                                await sl.get<SharedPrefsUtil>().setRepresentative(_repController.text);
-                                                StateContainer.of(context).wallet.representative = _repController.text;
-                                                UIUtil.showSnackbar(AppLocalization.of(context).changeRepSucces, context);
-                                                Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-                                              } else {
-                                                try {
-                                                  ProcessResponse resp = await sl.get<AccountService>().requestChange(
-                                                    StateContainer.of(context).wallet.address,
-                                                    _repController.text,
-                                                    StateContainer.of(context).wallet.frontier,
-                                                    StateContainer.of(context).wallet.accountBalance.toString(),
-                                                    NanoUtil.seedToPrivate(await sl.get<Vault>().getSeed(), StateContainer.of(context).selectedAccount.index)
-                                                  );
-                                                  StateContainer.of(context).wallet.representative = _repController.text;
-                                                  StateContainer.of(context).wallet.frontier = resp.hash;
-                                                  UIUtil.showSnackbar(AppLocalization.of(context).changeRepSucces, context);
-                                                  Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));                                              
-                                                } catch (e) {
-                                                  sl.get<Logger>().e("Failed to change", e);
-                                                  if (_animationOpen) {
-                                                    Navigator.of(context).pop();
-                                                  }
-                                                  UIUtil.showSnackbar(AppLocalization.of(context).sendError, context);
-                                                }
-                                              }
+                                            EventTaxiImpl.singleton()
+                                                .fire(AuthenticatedEvent(AUTH_EVENT_TYPE.CHANGE_MANUAL));                                               
                                           }
                                         } catch(e) {
                                           await authenticateWithPin(context);
@@ -397,18 +379,10 @@ class AppChangeRepresentativeManualEntrySheet {
         });
   }
 
-  Future<void> authenticateWithPin(BuildContext context) async {
-    // PIN Authentication
-    String expectedPin = await sl.get<Vault>().getPin();
+  Future<void> doChange(BuildContext context) async {
+    _animationOpen = true;
     Navigator.of(context).push(
-        MaterialPageRoute(builder:
-            (BuildContext context) {
-      return new PinScreen(
-        PinOverlayType.ENTER_PIN,
-        (pin) async {
-          Navigator.of(context).pop();
-          Navigator.of(context).push(
-              AnimationLoadingOverlay(
+        AnimationLoadingOverlay(
             AnimationType.GENERIC,
             StateContainer.of(context)
                 .curTheme
@@ -416,40 +390,56 @@ class AppChangeRepresentativeManualEntrySheet {
             StateContainer.of(context)
                 .curTheme
                 .animationOverlayMedium,
-          ));
-          // If account isnt open, just store the account in sharedprefs
-          if (StateContainer.of(context).wallet.openBlock == null) {
-            await sl.get<SharedPrefsUtil>().setRepresentative(_repController.text);
-            StateContainer.of(context).wallet.representative = _repController.text;
-            UIUtil.showSnackbar(AppLocalization.of(context).changeRepSucces, context);
-            Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-          } else {
-            try {
-              ProcessResponse resp = await sl.get<AccountService>().requestChange(
-                StateContainer.of(context).wallet.address,
-                _repController.text,
-                StateContainer.of(context).wallet.frontier,
-                StateContainer.of(context).wallet.accountBalance.toString(),
-                NanoUtil.seedToPrivate(await sl.get<Vault>().getSeed(), StateContainer.of(context).selectedAccount.index)
-              );
-              StateContainer.of(context).wallet.representative = _repController.text;
-              StateContainer.of(context).wallet.frontier = resp.hash;
-              UIUtil.showSnackbar(AppLocalization.of(context).changeRepSucces, context);
-              Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));                                              
-            } catch (e) {
-              sl.get<Logger>().e("Failed to change", e);
-              if (_animationOpen) {
-                Navigator.of(context).pop();
-              }
-              UIUtil.showSnackbar(AppLocalization.of(context).sendError, context);
-            }
-          }                                                
-        },
+            onPoppedCallback: () =>
+                _animationOpen =
+                    false));
+      // If account isnt open, just store the account in sharedprefs
+      if (StateContainer.of(context).wallet.openBlock == null) {
+        await sl.get<SharedPrefsUtil>().setRepresentative(_repController.text);
+        StateContainer.of(context).wallet.representative = _repController.text;
+        UIUtil.showSnackbar(AppLocalization.of(context).changeRepSucces, context);
+        Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
+      } else {
+        try {
+          ProcessResponse resp = await sl.get<AccountService>().requestChange(
+            StateContainer.of(context).wallet.address,
+            _repController.text,
+            StateContainer.of(context).wallet.frontier,
+            StateContainer.of(context).wallet.accountBalance.toString(),
+            NanoUtil.seedToPrivate(await sl.get<Vault>().getSeed(), StateContainer.of(context).selectedAccount.index)
+          );
+          StateContainer.of(context).wallet.representative = _repController.text;
+          StateContainer.of(context).wallet.frontier = resp.hash;
+          UIUtil.showSnackbar(AppLocalization.of(context).changeRepSucces, context);
+          Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));                                              
+        } catch (e) {
+          sl.get<Logger>().e("Failed to change", e);
+          if (_animationOpen) {
+            Navigator.of(context).pop();
+          }
+          UIUtil.showSnackbar(AppLocalization.of(context).sendError, context);
+        }
+      }    
+  }
+
+  Future<void> authenticateWithPin(BuildContext context) async {
+    // PIN Authentication
+    String expectedPin = await sl.get<Vault>().getPin();
+    bool auth = await Navigator.of(context).push(
+        MaterialPageRoute(builder:
+            (BuildContext context) {
+      return new PinScreen(
+        PinOverlayType.ENTER_PIN,
         expectedPin: expectedPin,
         description:
             AppLocalization.of(context)
                 .pinRepChange,
       );
     }));
+    if (auth != null && auth) {
+      await Future.delayed(Duration(milliseconds: 200));
+      EventTaxiImpl.singleton()
+      .fire(AuthenticatedEvent(AUTH_EVENT_TYPE.CHANGE_MANUAL));   
+    }
   }
 }

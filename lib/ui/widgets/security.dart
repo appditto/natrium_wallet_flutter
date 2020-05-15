@@ -26,30 +26,21 @@ class PinScreen extends StatefulWidget {
   final PinOverlayType type;
   final String expectedPin;
   final String description;
-  final Function pinSuccessCallback;
   final Color pinScreenBackgroundColor;
 
-  PinScreen(this.type, this.pinSuccessCallback,
+  PinScreen(this.type,
       {this.description = "", this.expectedPin = "", this.pinScreenBackgroundColor});
 
   @override
   _PinScreenState createState() =>
-      _PinScreenState(type, expectedPin, description, pinSuccessCallback, pinScreenBackgroundColor);
+      _PinScreenState();
 }
 
 class _PinScreenState extends State<PinScreen>
     with SingleTickerProviderStateMixin {
   static const int MAX_ATTEMPTS = 5;
 
-  _PinScreenState(
-      this.type, this.expectedPin, this.description, this.successCallback, this.pinScreenBackgroundColor);
-
-  PinOverlayType type;
-  String expectedPin;
-  Function successCallback;
-  String description;
-  Color pinScreenBackgroundColor;
-  int _pinLength = 6;
+  int _pinLength = 6; 
   double buttonSize = 100.0;
 
   String pinEnterTitle = "";
@@ -72,9 +63,9 @@ class _PinScreenState extends State<PinScreen>
   void initState() {
     super.initState();
     // Initialize list all empty
-    if (type == PinOverlayType.ENTER_PIN) {
+    if (widget.type == PinOverlayType.ENTER_PIN) {
       _header = pinEnterTitle;
-      _pinLength = expectedPin.length;
+      _pinLength = widget.expectedPin.length;
     } else {
       _header = pinCreateTitle;
     }
@@ -96,7 +87,7 @@ class _PinScreenState extends State<PinScreen>
     _animation = Tween(begin: 0.0, end: 25.0).animate(curve)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          if (type == PinOverlayType.ENTER_PIN) {
+          if (widget.type == PinOverlayType.ENTER_PIN) {
             sl.get<SharedPrefsUtil>().incrementLockAttempts().then((_) {
               _failedAttempts++;
               if (_failedAttempts >= MAX_ATTEMPTS) {
@@ -207,14 +198,14 @@ class _PinScreenState extends State<PinScreen>
           if (_setCharacter(buttonText)) {
             // Mild delay so they can actually see the last dot get filled
             Future.delayed(Duration(milliseconds: 50), () {
-              if (type == PinOverlayType.ENTER_PIN) {
+              if (widget.type == PinOverlayType.ENTER_PIN) {
                 // Pin is not what was expected
-                if (_pin != expectedPin) {
+                if (_pin != widget.expectedPin) {
                   sl.get<HapticUtil>().error();
                   _controller.forward();
                 } else {
                   sl.get<SharedPrefsUtil>().resetLockAttempts().then((_) {
-                    successCallback(_pin);
+                    Navigator.of(context).pop(true);
                   });
                 }
               } else {
@@ -228,7 +219,7 @@ class _PinScreenState extends State<PinScreen>
                 } else {
                   // First and second pins match
                   if (_pin == _pinConfirmed) {
-                    successCallback(_pin);
+                    Navigator.of(context).pop(_pin);
                   } else {
                     sl.get<HapticUtil>().error();
                     _controller.forward();
@@ -268,15 +259,10 @@ class _PinScreenState extends State<PinScreen>
 
   @override
   Widget build(BuildContext context) {
-    if (this.pinScreenBackgroundColor == null) {
-      setState(() {
-        pinScreenBackgroundColor = StateContainer.of(context).curTheme.backgroundDark;
-      });
-    }
     if (pinEnterTitle.isEmpty) {
       setState(() {
         pinEnterTitle = AppLocalization.of(context).pinEnterTitle;
-        if (type == PinOverlayType.ENTER_PIN) {
+        if (widget.type == PinOverlayType.ENTER_PIN) {
           _header = pinEnterTitle;
         }
       });
@@ -284,7 +270,7 @@ class _PinScreenState extends State<PinScreen>
     if (pinCreateTitle.isEmpty) {
       setState(() {
         pinCreateTitle = AppLocalization.of(context).pinCreateTitle;
-        if (type == PinOverlayType.NEW_PIN) {
+        if (widget.type == PinOverlayType.NEW_PIN) {
           _header = pinCreateTitle;
         }
       });
@@ -295,7 +281,7 @@ class _PinScreenState extends State<PinScreen>
       body: Container(
         constraints: BoxConstraints.expand(),
         child: Material(
-          color: pinScreenBackgroundColor,
+          color: widget.pinScreenBackgroundColor == null ? StateContainer.of(context).curTheme.backgroundDark : widget.pinScreenBackgroundColor,
           child: Column(
             children: <Widget>[
               Container(
@@ -319,7 +305,7 @@ class _PinScreenState extends State<PinScreen>
                       margin:
                           EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                       child: AutoSizeText(
-                        description,
+                        widget.description,
                         style: AppStyles.textStyleParagraph(context),
                         textAlign: TextAlign.center,
                         maxLines: 1,

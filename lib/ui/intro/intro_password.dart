@@ -286,10 +286,13 @@ class _IntroPasswordState extends State<IntroPassword> {
       await sl.get<DBHelper>().dropAccounts();
       await NanoUtil().loginAccount(widget.seed, context);
       StateContainer.of(context).requestUpdate();
-      Navigator.of(context).push(
+      String pin = await Navigator.of(context).push(
         MaterialPageRoute(builder: (BuildContext context) {
-          return PinScreen(PinOverlayType.NEW_PIN, _pinEnteredCallback);
+          return PinScreen(PinOverlayType.NEW_PIN);
       }));
+      if (pin != null && pin.length > 5) {
+        _pinEnteredCallback(pin);
+      }
     } else {
       // Generate a new seed and encrypt
       String seed = NanoSeeds.generateSeed();
@@ -307,7 +310,6 @@ class _IntroPasswordState extends State<IntroPassword> {
   }
 
   void _pinEnteredCallback(String pin) async {
-    Navigator.of(context).pop();
     await sl.get<Vault>().writePin(pin);
     PriceConversion conversion = await sl.get<SharedPrefsUtil>().getPriceConversion();
     // Update wallet
