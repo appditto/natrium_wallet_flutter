@@ -271,7 +271,7 @@ class AvailableCurrency extends SettingSelectionItem {
   static AvailableCurrency getBestForLocale(Locale locale) {
     AvailableCurrencyEnum.values.forEach((value) {
       AvailableCurrency currency = AvailableCurrency(value);
-      if (locale != null && locale.countryCode == null) {
+      if (locale != null && locale.countryCode != null) {
         // Special cases
         if (['AT', 'BE', 'CY', 'EE', 'FI', 'FR', 'DE', 'GR', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PT', 'SK', 'SI', 'ES'].contains(locale.countryCode)) {
           return AvailableCurrency(AvailableCurrencyEnum.EUR);
