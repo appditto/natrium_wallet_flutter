@@ -59,7 +59,6 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
   String amount;
   String destinationAltered;
   bool animationOpen;
-  bool sent;
   bool isMantaTransaction;
 
   StreamSubscription<AuthenticatedEvent> _authSub;
@@ -85,7 +84,6 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
     super.initState();
     _registerBus();
     this.animationOpen = false;
-    this.sent = false;
     this.isMantaTransaction = widget.manta != null && widget.paymentRequest != null;
     // Derive amount from raw amount
     if (NumberUtil.getRawAsUsableString(widget.amountRaw).replaceAll(",", "") ==
@@ -380,6 +378,10 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
         NanoUtil.seedToPrivate(await StateContainer.of(context).getSeed(), StateContainer.of(context).selectedAccount.index),
         max: widget.maxSend
       );
+      if (widget.manta != null) {
+        widget.manta.sendPayment(
+            transactionHash: resp.hash, cryptoCurrency: "NANO");        
+      }
       StateContainer.of(context).wallet.frontier = resp.hash;
       StateContainer.of(context).wallet.accountBalance += BigInt.parse(widget.amountRaw);
       // Show complete
