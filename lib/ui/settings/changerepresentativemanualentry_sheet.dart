@@ -35,31 +35,63 @@ import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 
-// TODO - add validations
+class ChangeRepManualSheet extends StatefulWidget {
+  ChangeRepManualSheet()
+      : super();
 
-class AppChangeRepresentativeManualEntrySheet {
+  _ChangeRepManualSheetState createState() => _ChangeRepManualSheetState();
+}
+
+class _ChangeRepManualSheetState extends State<ChangeRepManualSheet> {
   FocusNode _repFocusNode;
   TextEditingController _repController;
 
-  String _changeRepHint = "";
-  TextStyle _repAddressStyle;
+  bool _repAddressValid = false;
+  bool _showChangeRepHint = true;
   bool _showPasteButton = true;
   bool _addressValidAndUnfocused = false;
   bool _animationOpen = false;
 
-  AppChangeRepresentativeManualEntrySheet() {
-    _repFocusNode = new FocusNode();
-    _repController = new TextEditingController();
-  }
-
   StreamSubscription<AuthenticatedEvent> _authSub;
 
-  void _registerBus(BuildContext context) {
+  @override
+  void initState() {
+    super.initState();
+    _registerBus();
+    _repFocusNode = FocusNode();
+    _repController = TextEditingController();
+    // On address focus change
+    _repFocusNode.addListener(() {
+      if (_repFocusNode.hasFocus) {
+        setState(() {
+          _showChangeRepHint = false;
+          _addressValidAndUnfocused = false;
+        });
+        _repController.selection = TextSelection.fromPosition(
+            TextPosition(offset: _repController.text.length));
+      } else {
+        setState(() {
+          _showChangeRepHint = true;
+          if (Address(_repController.text).isValid()) {
+            _addressValidAndUnfocused = true;
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _destroyBus();
+    super.dispose();
+  }
+
+  void _registerBus() {
     _authSub = EventTaxiImpl.singleton()
         .registerTo<AuthenticatedEvent>()
         .listen((event) {
       if (event.authType == AUTH_EVENT_TYPE.CHANGE_MANUAL) {
-        doChange(context);
+        doChange();
       }
     });
   }
@@ -70,316 +102,276 @@ class AppChangeRepresentativeManualEntrySheet {
     }
   }
 
-  Future<bool> _onWillPop() async {
-    _destroyBus();
-    return true;
-  }
-
-  mainBottomSheet(BuildContext context) {
-    _changeRepHint = AppLocalization.of(context).changeRepHint;
-    _repAddressStyle = AppStyles.textStyleAddressText60(context);
-    AppSheets.showAppHeightEightSheet(
-        context: context,
-        builder: (BuildContext context) {
-          _registerBus(context);
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-            // On address focus change
-            _repFocusNode.addListener(() {
-              if (_repFocusNode.hasFocus) {
-                setState(() {
-                  _changeRepHint = "";
-                  _addressValidAndUnfocused = false;
-                });
-                _repController.selection = TextSelection.fromPosition(
-                    TextPosition(offset: _repController.text.length));
-              } else {
-                setState(() {
-                  _changeRepHint = AppLocalization.of(context).changeRepHint;
-                  if (Address(_repController.text).isValid()) {
-                    _addressValidAndUnfocused = true;
-                  }
-                });
-              }
-            });
-            return WillPopScope(
-                onWillPop: _onWillPop,
-                child: TapOutsideUnfocus(
-                  child: SafeArea(
-                    minimum: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height * 0.035,
+  @override
+  Widget build(BuildContext context) {
+    return TapOutsideUnfocus(
+        child: SafeArea(
+          minimum: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height * 0.035,
+          ),
+          child: Container(
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                //A container for the header
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(width: 60, height:60),
+                    //Container for the header
+                    Column(
+                      children: <Widget>[
+                        // Sheet handle
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          height: 5,
+                          width: MediaQuery.of(context).size.width *
+                              0.15,
+                          decoration: BoxDecoration(
+                            color: StateContainer.of(context)
+                                .curTheme
+                                .text10,
+                            borderRadius:
+                                BorderRadius.circular(100.0),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 15),
+                          constraints: BoxConstraints(
+                              maxWidth:
+                                  MediaQuery.of(context).size.width -
+                                      140),
+                          child: AutoSizeText(
+                            CaseChange.toUpperCase(
+                                AppLocalization.of(context)
+                                    .changeRepAuthenticate,
+                                context),
+                            style: AppStyles.textStyleHeader(context),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            stepGranularity: 0.1,
+                          ),
+                        ),
+                      ],
                     ),
-                    child: Container(
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: <Widget>[
-                          //A container for the header
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(width: 60, height:60),
-                              //Container for the header
-                              Column(
-                                children: <Widget>[
-                                  // Sheet handle
-                                  Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    height: 5,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.15,
-                                    decoration: BoxDecoration(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text10,
-                                      borderRadius:
-                                          BorderRadius.circular(100.0),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 15),
-                                    constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width -
-                                                140),
-                                    child: AutoSizeText(
-                                      CaseChange.toUpperCase(
-                                          AppLocalization.of(context)
-                                              .changeRepAuthenticate,
-                                          context),
-                                      style: AppStyles.textStyleHeader(context),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      stepGranularity: 0.1,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              // Empty sized box
-                              SizedBox(width: 60, height:60),
-                            ],
-                          ),
+                    // Empty sized box
+                    SizedBox(width: 60, height:60),
+                  ],
+                ),
 
-                          //A expanded section for current representative and new representative fields
-                          Expanded(
-                            child: KeyboardAvoider(
-                              duration: Duration(milliseconds: 0),
-                              autoScroll: true,
-                              focusPadding: 40,
-                              child: Column(
-                                children: <Widget>[
-                                  // New representative
-                                  AppTextField(
-                                    topMargin: MediaQuery.of(context).size.height * 0.05,
-                                    padding: _addressValidAndUnfocused
-                                        ? EdgeInsets.symmetric(
-                                            horizontal: 25.0, vertical: 15.0)
-                                        : EdgeInsets.zero,
-                                    focusNode: _repFocusNode,
-                                    controller: _repController,
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(
-                                          65),
-                                    ],
-                                    textInputAction: TextInputAction.done,
-                                    maxLines: null,
-                                    autocorrect: false,
-                                    hintText: _changeRepHint,
-                                    prefixButton: TextFieldButton(
-                                      icon: AppIcons.scan,
-                                      onPressed: () {
-                                        UIUtil.cancelLockEvent();
-                                          BarcodeScanner.scan(
-                                                  StateContainer.of(context)
-                                                      .curTheme
-                                                      .qrScanTheme)
-                                              .then((result) {
-                                            if (result == null) {
-                                              return;
-                                            }
-                                            Address address = new Address(result);
-                                            if (address.isValid()) {
-                                              setState(() {
-                                                _addressValidAndUnfocused = true;
-                                                _showPasteButton = false;
-                                                _repAddressStyle =
-                                                    AppStyles.textStyleAddressText60(
-                                                        context);
-                                              });
-                                              _repController.text = address.address;
-                                              _repFocusNode.unfocus();
-                                            } else {
-                                              UIUtil.showSnackbar(
-                                                  AppLocalization.of(context)
-                                                      .qrInvalidAddress,
-                                                  context);
-                                            }
-                                          });                                         
-                                      },
-                                    ),
-                                    fadePrefixOnCondition: true,
-                                    prefixShowFirstCondition: _showPasteButton,
-                                    suffixButton: TextFieldButton(
-                                      icon: AppIcons.paste,
-                                      onPressed: () {
-                                        if (!_showPasteButton) {
-                                          return;
-                                        }
-                                        Clipboard.getData("text/plain")
-                                            .then((ClipboardData
-                                                data) {
-                                          if (data == null ||
-                                              data.text ==
-                                                  null) {
-                                            return;
-                                          }
-                                          Address address =
-                                              new Address(
-                                                  data.text);
-                                          if (address
-                                              .isValid()) {
-                                            setState(() {
-                                              _addressValidAndUnfocused =
-                                                  true;
-                                              _showPasteButton =
-                                                  false;
-                                              _repAddressStyle =
-                                                  AppStyles
-                                                      .textStyleAddressText90(
-                                                          context);
-                                            });
-                                            _repController
-                                                    .text =
-                                                address.address;
-                                            _repFocusNode
-                                                .unfocus();
-                                          }
-                                        });
-                                      },
-                                    ),
-                                    fadeSuffixOnCondition: true,
-                                    suffixShowFirstCondition: _showPasteButton,
-                                    keyboardType: TextInputType.text,
-                                    style: _repAddressStyle,
-                                    onChanged: (text) {
-                                      if (Address(text).isValid()) {
-                                        _repFocusNode.unfocus();
-                                        setState(() {
-                                          _showPasteButton = false;
-                                          _repAddressStyle = AppStyles
-                                              .textStyleAddressText90(
-                                                  context);
-                                        });
-                                      } else {
-                                        setState(() {
-                                          _showPasteButton = true;
-                                          _repAddressStyle = AppStyles
-                                              .textStyleAddressText60(
-                                                  context);
-                                        });
-                                      }
-                                    },
-                                    overrideTextFieldWidget: _addressValidAndUnfocused ?
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _addressValidAndUnfocused =
-                                                false;
-                                          });
-                                          Future.delayed(
-                                              Duration(milliseconds: 50),
-                                              () {
-                                            FocusScope.of(context)
-                                                .requestFocus(
-                                                    _repFocusNode);
-                                          });
-                                        },
-                                        child:
-                                            UIUtil.threeLineAddressText(
-                                                context,
-                                                _repController.text),
-                                      )
-                                    : null,
-                                  ),
-                                ],
-                              ),
-                            ),
+                //A expanded section for current representative and new representative fields
+                Expanded(
+                  child: KeyboardAvoider(
+                    duration: Duration(milliseconds: 0),
+                    autoScroll: true,
+                    focusPadding: 40,
+                    child: Column(
+                      children: <Widget>[
+                        // New representative
+                        AppTextField(
+                          topMargin: MediaQuery.of(context).size.height * 0.05,
+                          padding: _addressValidAndUnfocused
+                              ? EdgeInsets.symmetric(
+                                  horizontal: 25.0, vertical: 15.0)
+                              : EdgeInsets.zero,
+                          focusNode: _repFocusNode,
+                          controller: _repController,
+                          textAlign: TextAlign.center,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(
+                                65),
+                          ],
+                          textInputAction: TextInputAction.done,
+                          maxLines: null,
+                          autocorrect: false,
+                          hintText: _showChangeRepHint ? AppLocalization.of(context).changeRepHint : "",
+                          prefixButton: TextFieldButton(
+                            icon: AppIcons.scan,
+                            onPressed: () {
+                              UIUtil.cancelLockEvent();
+                                BarcodeScanner.scan(
+                                        StateContainer.of(context)
+                                            .curTheme
+                                            .qrScanTheme)
+                                    .then((result) {
+                                  if (result == null) {
+                                    return;
+                                  }
+                                  Address address = new Address(result);
+                                  if (address.isValid()) {
+                                    setState(() {
+                                      _addressValidAndUnfocused = true;
+                                      _showPasteButton = false;
+                                      _repAddressValid = true;
+                                    });
+                                    _repController.text = address.address;
+                                    _repFocusNode.unfocus();
+                                  } else {
+                                    UIUtil.showSnackbar(
+                                        AppLocalization.of(context)
+                                            .qrInvalidAddress,
+                                        context);
+                                  }
+                                });                                         
+                            },
                           ),
-
-                          //A row with change and close button
-                          Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  AppButton.buildAppButton(
-                                    context,
-                                    AppButtonType.PRIMARY,
-                                    AppLocalization.of(context)
-                                        .changeRepButton
-                                        .toUpperCase(),
-                                    Dimens.BUTTON_TOP_DIMENS,
-                                    onPressed: () async {
-                                      if (!NanoAccounts.isValid(
-                                          NanoAccountType.NANO,
-                                          _repController.text)) {
-                                        return;
-                                      }
-                                      // Authenticate
-                                      AuthenticationMethod authMethod = await sl.get<SharedPrefsUtil>().getAuthMethod();
-                                      bool hasBiometrics = await sl.get<BiometricUtil>().hasBiometrics();
-                                      if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
-                                        try {
-                                          bool authenticated = await sl.get<BiometricUtil>()
-                                                      .authenticateWithBiometrics(
-                                                          context,
-                                                          AppLocalization.of(
-                                                                  context)
-                                                              .changeRepAuthenticate);
-                                          if (authenticated) {
-                                            sl.get<HapticUtil>().fingerprintSucess();
-                                            EventTaxiImpl.singleton()
-                                                .fire(AuthenticatedEvent(AUTH_EVENT_TYPE.CHANGE_MANUAL));                                               
-                                          }
-                                        } catch(e) {
-                                          await authenticateWithPin(context);
-                                        }
-                                      } else {
-                                        await authenticateWithPin(context);
-                                      }                        
-                                    },
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  AppButton.buildAppButton(
-                                    context,
-                                    AppButtonType.PRIMARY_OUTLINE,
-                                    CaseChange.toUpperCase(
-                                        AppLocalization.of(context).close,
+                          fadePrefixOnCondition: true,
+                          prefixShowFirstCondition: _showPasteButton,
+                          suffixButton: TextFieldButton(
+                            icon: AppIcons.paste,
+                            onPressed: () {
+                              if (!_showPasteButton) {
+                                return;
+                              }
+                              Clipboard.getData("text/plain")
+                                  .then((ClipboardData
+                                      data) {
+                                if (data == null ||
+                                    data.text ==
+                                        null) {
+                                  return;
+                                }
+                                Address address =
+                                    new Address(
+                                        data.text);
+                                if (address
+                                    .isValid()) {
+                                  setState(() {
+                                    _addressValidAndUnfocused =
+                                        true;
+                                    _showPasteButton =
+                                        false;
+                                    _repAddressValid = true;
+                                  });
+                                  _repController
+                                          .text =
+                                      address.address;
+                                  _repFocusNode
+                                      .unfocus();
+                                }
+                              });
+                            },
+                          ),
+                          fadeSuffixOnCondition: true,
+                          suffixShowFirstCondition: _showPasteButton,
+                          keyboardType: TextInputType.text,
+                          style: _repAddressValid ? AppStyles
+                                    .textStyleAddressText90(
+                                        context) : AppStyles
+                                    .textStyleAddressText60(
                                         context),
-                                    Dimens.BUTTON_BOTTOM_DIMENS,
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  )
-                )   
-            );
-          });
-        });
+                          onChanged: (text) {
+                            if (Address(text).isValid()) {
+                              _repFocusNode.unfocus();
+                              setState(() {
+                                _showPasteButton = false;
+                                _repAddressValid = true;
+                              });
+                            } else {
+                              setState(() {
+                                _showPasteButton = true;
+                                _repAddressValid = false;
+                              });
+                            }
+                          },
+                          overrideTextFieldWidget: _addressValidAndUnfocused ?
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _addressValidAndUnfocused =
+                                      false;
+                                });
+                                Future.delayed(
+                                    Duration(milliseconds: 50),
+                                    () {
+                                  FocusScope.of(context)
+                                      .requestFocus(
+                                          _repFocusNode);
+                                });
+                              },
+                              child:
+                                  UIUtil.threeLineAddressText(
+                                      context,
+                                      _repController.text),
+                            )
+                          : null,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                //A row with change and close button
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        AppButton.buildAppButton(
+                          context,
+                          AppButtonType.PRIMARY,
+                          AppLocalization.of(context)
+                              .changeRepButton
+                              .toUpperCase(),
+                          Dimens.BUTTON_TOP_DIMENS,
+                          onPressed: () async {
+                            if (!NanoAccounts.isValid(
+                                NanoAccountType.NANO,
+                                _repController.text)) {
+                              return;
+                            }
+                            // Authenticate
+                            AuthenticationMethod authMethod = await sl.get<SharedPrefsUtil>().getAuthMethod();
+                            bool hasBiometrics = await sl.get<BiometricUtil>().hasBiometrics();
+                            if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
+                              try {
+                                bool authenticated = await sl.get<BiometricUtil>()
+                                            .authenticateWithBiometrics(
+                                                context,
+                                                AppLocalization.of(
+                                                        context)
+                                                    .changeRepAuthenticate);
+                                if (authenticated) {
+                                  sl.get<HapticUtil>().fingerprintSucess();
+                                  EventTaxiImpl.singleton()
+                                      .fire(AuthenticatedEvent(AUTH_EVENT_TYPE.CHANGE_MANUAL));                                               
+                                }
+                              } catch(e) {
+                                await authenticateWithPin(context);
+                              }
+                            } else {
+                              await authenticateWithPin(context);
+                            }                        
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        AppButton.buildAppButton(
+                          context,
+                          AppButtonType.PRIMARY_OUTLINE,
+                          CaseChange.toUpperCase(
+                              AppLocalization.of(context).close,
+                              context),
+                          Dimens.BUTTON_BOTTOM_DIMENS,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )
+        )
+      );
   }
 
-  Future<void> doChange(BuildContext context) async {
+  Future<void> doChange() async {
     _animationOpen = true;
     Navigator.of(context).push(
         AnimationLoadingOverlay(

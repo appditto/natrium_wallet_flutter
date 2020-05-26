@@ -16,6 +16,7 @@ import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
@@ -567,8 +568,10 @@ class AppChangeRepresentativeSheet {
                                     AppLocalization.of(context).manualEntry,
                                     Dimens.BUTTON_BOTTOM_DIMENS,
                                     onPressed: () {
-                                      AppChangeRepresentativeManualEntrySheet()
-                                          .mainBottomSheet(context);
+                                      Sheets.showAppHeightEightSheet(
+                                          context: context,
+                                          widget: ChangeRepManualSheet()
+                                      );
                                     },
                                   ),
                                 ],
