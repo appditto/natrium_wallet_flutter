@@ -47,6 +47,7 @@ import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:natrium_wallet_flutter/ui/avatar/avatar.dart';
 
 class AppHomePage extends StatefulWidget {
   PriceConversion priceConversion;
@@ -1447,21 +1448,53 @@ class _AppHomePageState extends State<AppHomePage>
           AnimatedContainer(
             duration: Duration(milliseconds: 200),
             curve: Curves.easeInOut,
-            width: 80.0,
-            height: mainCardHeight,
+            width: mainCardHeight == 64 ? 60 : 74,
+            height: mainCardHeight == 64 ? 60 : 74,
+            margin: EdgeInsets.only(right: 2),
             alignment: Alignment(0, 0),
-            /* child: Container(
-              width: 70.0,
-              height: 70.0,
-              margin: EdgeInsetsDirectional.fromSTEB(0, 6, 10, 4),
-              child: SvgPicture.network(
-                'https://natricon-go-server.appditto.com/api/svg?address=' +
-                    StateContainer.of(context).wallet.address,
-                placeholderBuilder: (BuildContext context) => Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: const CircularProgressIndicator()),
-              ),
-            ), */
+            child: Stack(
+              children: <Widget>[
+                Center(
+                  child: Container(
+                    // nnnnn
+                    child: Hero(
+                      tag: "avatar",
+                      child: SvgPicture.network(
+                        'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                            StateContainer.of(context).selectedAccount.address,
+                        placeholderBuilder: (BuildContext context) => Container(
+                          child: FlareActor(
+                            "assets/ntr_placeholder_animation.flr",
+                            animation: "main",
+                            fit: BoxFit.contain,
+                            color: StateContainer.of(context).curTheme.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Container(
+                    color: Colors.transparent,
+                    child: FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/avatar_page');
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0)),
+                      highlightColor:
+                          StateContainer.of(context).curTheme.text15,
+                      splashColor: StateContainer.of(context).curTheme.text15,
+                      padding: EdgeInsets.all(0.0),
+                      child: Container(
+                        color: Colors.transparent,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -1666,7 +1699,7 @@ class _AppHomePageState extends State<AppHomePage>
                           Container(
                             constraints: BoxConstraints(
                                 maxWidth:
-                                    MediaQuery.of(context).size.width - 200),
+                                    MediaQuery.of(context).size.width - 205),
                             child: AutoSizeText.rich(
                               TextSpan(
                                 children: [

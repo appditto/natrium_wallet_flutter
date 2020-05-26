@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:natrium_wallet_flutter/model/available_language.dart';
+import 'package:natrium_wallet_flutter/ui/avatar/avatar.dart';
 import 'package:natrium_wallet_flutter/ui/before_scan_screen.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_backup_safety.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_password.dart';
@@ -88,7 +89,9 @@ class _AppState extends State<App> {
           GlobalCupertinoLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate
         ],
-        locale: StateContainer.of(context).curLanguage == null || StateContainer.of(context).curLanguage.language == AvailableLanguage.DEFAULT
+        locale: StateContainer.of(context).curLanguage == null ||
+                StateContainer.of(context).curLanguage.language ==
+                    AvailableLanguage.DEFAULT
             ? null
             : StateContainer.of(context).curLanguage.getLocale(),
         supportedLocales: [
@@ -192,12 +195,14 @@ class _AppState extends State<App> {
               );
             case '/home':
               return NoTransitionRoute(
-                builder: (_) => AppHomePage(priceConversion: settings.arguments),
+                builder: (_) =>
+                    AppHomePage(priceConversion: settings.arguments),
                 settings: settings,
               );
             case '/home_transition':
               return NoPopTransitionRoute(
-                builder: (_) => AppHomePage(priceConversion: settings.arguments),
+                builder: (_) =>
+                    AppHomePage(priceConversion: settings.arguments),
                 settings: settings,
               );
             case '/intro_welcome':
@@ -217,7 +222,8 @@ class _AppState extends State<App> {
               );
             case '/intro_backup':
               return MaterialPageRoute(
-                builder: (_) => IntroBackupSeedPage(encryptedSeed: settings.arguments),
+                builder: (_) =>
+                    IntroBackupSeedPage(encryptedSeed: settings.arguments),
                 settings: settings,
               );
             case '/intro_backup_safety':
@@ -250,6 +256,12 @@ class _AppState extends State<App> {
                 builder: (_) => AppPasswordLockScreen(),
                 settings: settings,
               );
+            case '/avatar_page':
+              return PageRouteBuilder(
+                  pageBuilder: (context, animationIn, animationOut) =>
+                      AvatarPage(),
+                  settings: settings,
+                  opaque: false);
             case '/before_scan_screen':
               return NoTransitionRoute(
                 builder: (_) => BeforeScanScreen(),
@@ -280,8 +292,8 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
       return false;
     }
     try {
-      String salted =
-          NanoHelpers.bytesToUtf8String(NanoHelpers.hexToBytes(seed.substring(0, 16)));
+      String salted = NanoHelpers.bytesToUtf8String(
+          NanoHelpers.hexToBytes(seed.substring(0, 16)));
       if (salted == "Salted__") {
         return true;
       }
@@ -353,8 +365,10 @@ class SplashState extends State<Splash> with WidgetsBindingObserver {
           Navigator.of(context).pushReplacementNamed('/lock_screen');
         } else {
           await NanoUtil().loginAccount(seed, context);
-          PriceConversion conversion = await sl.get<SharedPrefsUtil>().getPriceConversion();
-          Navigator.of(context).pushReplacementNamed('/home', arguments: conversion);
+          PriceConversion conversion =
+              await sl.get<SharedPrefsUtil>().getPriceConversion();
+          Navigator.of(context)
+              .pushReplacementNamed('/home', arguments: conversion);
         }
       } else {
         Navigator.of(context).pushReplacementNamed('/intro_welcome');

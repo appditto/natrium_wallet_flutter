@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
 import 'package:event_taxi/event_taxi.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
@@ -22,6 +21,8 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 class AppAccountsSheet {
   List<Account> accounts;
@@ -63,19 +64,22 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
     return true;
   }
 
-  @override void initState() {
+  @override
+  void initState() {
     super.initState();
     _registerBus();
     this._addingAccount = false;
     this._accountIsChanging = false;
   }
 
-  @override void dispose() {
+  @override
+  void dispose() {
     _destroyBus();
     super.dispose();
   }
 
-  Future<void> _handleAccountsBalancesResponse(AccountsBalancesResponse resp) async {
+  Future<void> _handleAccountsBalancesResponse(
+      AccountsBalancesResponse resp) async {
     // Handle balances event
     widget.accounts.forEach((account) {
       resp.balances.forEach((address, balance) {
@@ -104,9 +108,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
               widget.accounts
                   .where((a) =>
                       a.index ==
-                      StateContainer.of(context)
-                          .selectedAccount
-                          .index)
+                      StateContainer.of(context).selectedAccount.index)
                   .forEach((account) {
                 account.selected = true;
               });
@@ -114,14 +116,12 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
           });
         }
         setState(() {
-          widget.accounts
-              .removeWhere((a) => a.index == event.account.index);
+          widget.accounts.removeWhere((a) => a.index == event.account.index);
         });
       } else {
         // Name change
         setState(() {
-          widget.accounts
-              .removeWhere((a) => a.index == event.account.index);
+          widget.accounts.removeWhere((a) => a.index == event.account.index);
           widget.accounts.add(event.account);
           widget.accounts.sort((a, b) => a.index.compareTo(b.index));
         });
@@ -144,13 +144,13 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
       }
     });
     try {
-      AccountsBalancesResponse resp = await sl.get<AccountService>().requestAccountsBalances(addresses);
+      AccountsBalancesResponse resp =
+          await sl.get<AccountService>().requestAccountsBalances(addresses);
       await _handleAccountsBalancesResponse(resp);
     } catch (e) {
       sl.get<Logger>().e("Error", e);
     }
-}
-
+  }
 
   Future<void> _changeAccount(Account account, StateSetter setState) async {
     // Change account
@@ -185,12 +185,10 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
               Container(
                 margin: EdgeInsets.only(top: 30.0, bottom: 15),
                 constraints: BoxConstraints(
-                    maxWidth:
-                        MediaQuery.of(context).size.width - 140),
+                    maxWidth: MediaQuery.of(context).size.width - 140),
                 child: AutoSizeText(
                   CaseChange.toUpperCase(
-                      AppLocalization.of(context).accounts,
-                      context),
+                      AppLocalization.of(context).accounts, context),
                   style: AppStyles.textStyleHeader(context),
                   maxLines: 1,
                   stepGranularity: 0.1,
@@ -207,16 +205,12 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                               child: Text("Loading"),
                             )
                           : ListView.builder(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20),
+                              padding: EdgeInsets.symmetric(vertical: 20),
                               itemCount: widget.accounts.length,
                               controller: _scrollController,
-                              itemBuilder: (BuildContext context,
-                                  int index) {
+                              itemBuilder: (BuildContext context, int index) {
                                 return _buildAccountListItem(
-                                    context,
-                                    widget.accounts[index],
-                                    setState);
+                                    context, widget.accounts[index], setState);
                               },
                             ),
                       //List Top Gradient
@@ -286,43 +280,37 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                                 _addingAccount = true;
                               });
                               StateContainer.of(context).getSeed().then((seed) {
-                                sl.get<DBHelper>()
-                                    .addAccount(seed, 
-                                        nameBuilder: AppLocalization
-                                                .of(context)
+                                sl
+                                    .get<DBHelper>()
+                                    .addAccount(seed,
+                                        nameBuilder: AppLocalization.of(context)
                                             .defaultNewAccountName)
                                     .then((newAccount) {
-                                  _requestBalances(
-                                      context, [newAccount]);
+                                  _requestBalances(context, [newAccount]);
                                   StateContainer.of(context)
                                       .updateRecentlyUsedAccounts();
                                   widget.accounts.add(newAccount);
                                   setState(() {
                                     _addingAccount = false;
-                                    widget.accounts.sort((a, b) =>
-                                        a.index.compareTo(b.index));
+                                    widget.accounts.sort(
+                                        (a, b) => a.index.compareTo(b.index));
                                     // Scroll if list is full
-                                    if (expandedKey.currentContext !=
-                                        null) {
-                                      RenderBox box = expandedKey
-                                          .currentContext
+                                    if (expandedKey.currentContext != null) {
+                                      RenderBox box = expandedKey.currentContext
                                           .findRenderObject();
                                       if (widget.accounts.length * 72.0 >=
                                           box.size.height) {
                                         _scrollController.animateTo(
                                           newAccount.index * 72.0 >
                                                   _scrollController
-                                                      .position
-                                                      .maxScrollExtent
-                                              ? _scrollController
-                                                      .position
+                                                      .position.maxScrollExtent
+                                              ? _scrollController.position
                                                       .maxScrollExtent +
                                                   72.0
-                                              : newAccount.index *
-                                                  72.0,
+                                              : newAccount.index * 72.0,
                                           curve: Curves.easeOut,
-                                          duration: const Duration(
-                                              milliseconds: 200),
+                                          duration:
+                                              const Duration(milliseconds: 200),
                                         );
                                       }
                                     }
@@ -382,132 +370,155 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
               ),
               Container(
                 height: 70.0,
-                margin: new EdgeInsets.symmetric(horizontal: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        // Account Icon
-                        Container(
-                          child: Stack(
-                            children: <Widget>[
-                              Center(
-                                child: Icon(
-                                  AppIcons.accountwallet,
-                                  color: account.selected
-                                      ? StateContainer.of(context)
-                                          .curTheme
-                                          .success
-                                      : StateContainer.of(context)
-                                          .curTheme
-                                          .primary,
-                                  size: 30,
-                                ),
-                              ),
-                              Center(
-                                child: Container(
-                                  width: 40,
-                                  height: 30,
-                                  alignment: AlignmentDirectional(0, 0.3),
-                                  child: Text(account.getShortName().toUpperCase(),
-                                      style: TextStyle(
+                    // Selected indicator
+                    Container(
+                      height: 70,
+                      width: 6,
+                      color: account.selected
+                          ? StateContainer.of(context).curTheme.primary
+                          : Colors.transparent,
+                    ),
+                    // Icon, Account Name, Address and Amount
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsetsDirectional.only(start: 8, end: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                // nnnnnn
+                                Container(
+                                  width: 64.0,
+                                  height: 64.0,
+                                  child: SvgPicture.network(
+                                    'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                        account.address,
+                                    placeholderBuilder:
+                                        (BuildContext context) => Container(
+                                      child: FlareActor(
+                                        "assets/ntr_placeholder_animation.flr",
+                                        animation: "main",
+                                        fit: BoxFit.contain,
                                         color: StateContainer.of(context)
                                             .curTheme
-                                            .backgroundDark,
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w800,
-                                      )),
+                                            .primary,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        // Account name and address
-                        Container(
-                          width:
-                              (MediaQuery.of(context).size.width - 116) * 0.5,
-                          margin: EdgeInsetsDirectional.only(start: 16),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // Account name
-                              AutoSizeText(
-                                account.name,
-                                style: TextStyle(
-                                  fontFamily: "NunitoSans",
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16.0,
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .text,
+                                // Account name and address
+                                Container(
+                                  width: (MediaQuery.of(context).size.width -
+                                          116) *
+                                      0.5,
+                                  margin: EdgeInsetsDirectional.only(start: 8),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      // Account name
+                                      AutoSizeText(
+                                        account.name,
+                                        style: TextStyle(
+                                          fontFamily: "NunitoSans",
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16.0,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .text,
+                                        ),
+                                        minFontSize: 8.0,
+                                        stepGranularity: 0.1,
+                                        maxLines: 1,
+                                        textAlign: TextAlign.start,
+                                      ),
+                                      // Account address
+                                      AutoSizeText(
+                                        account.address.substring(0, 12) +
+                                            "...",
+                                        style: TextStyle(
+                                          fontFamily: "OverpassMono",
+                                          fontWeight: FontWeight.w100,
+                                          fontSize: 14.0,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .text60,
+                                        ),
+                                        minFontSize: 8.0,
+                                        stepGranularity: 0.1,
+                                        maxLines: 1,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                minFontSize: 8.0,
-                                stepGranularity: 0.1,
-                                maxLines: 1,
-                                textAlign: TextAlign.start,
-                              ),
-                              // Account address
-                              AutoSizeText(
-                                account.address.substring(0, 12) + "...",
-                                style: TextStyle(
-                                  fontFamily: "OverpassMono",
-                                  fontWeight: FontWeight.w100,
-                                  fontSize: 14.0,
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .text60,
-                                ),
-                                minFontSize: 8.0,
-                                stepGranularity: 0.1,
-                                maxLines: 1,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: (MediaQuery.of(context).size.width - 116) * 0.4,
-                      alignment: AlignmentDirectional(1, 0),
-                      child: AutoSizeText.rich(
-                        TextSpan(
-                          children: [
-                            // Currency Icon
-                            TextSpan(
-                              text: account.balance != null ? "": "",
-                              style: TextStyle(
-                                fontFamily: 'AppIcons',
-                                color:
-                                    StateContainer.of(context).curTheme.text,
-                                fontSize: 15.0,
-                              ),
+                              ],
                             ),
-                            // Main balance text
-                            TextSpan(
-                              text: account.balance != null && !account.selected
-                                  ? NumberUtil.getRawAsUsableString(account.balance)
-                                  : account.selected ? StateContainer.of(context).wallet.getAccountBalanceDisplay()
-                                  : "",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: "NunitoSans",
-                                  fontWeight: FontWeight.w900,
-                                  color:
-                                      StateContainer.of(context).curTheme.text),
+                            Container(
+                              width: (MediaQuery.of(context).size.width - 116) *
+                                  0.4,
+                              alignment: AlignmentDirectional(1, 0),
+                              child: AutoSizeText.rich(
+                                TextSpan(
+                                  children: [
+                                    // Currency Icon
+                                    TextSpan(
+                                      text: account.balance != null ? "" : "",
+                                      style: TextStyle(
+                                        fontFamily: 'AppIcons',
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .text,
+                                        fontSize: 15.0,
+                                      ),
+                                    ),
+                                    // Main balance text
+                                    TextSpan(
+                                      text: account.balance != null &&
+                                              !account.selected
+                                          ? NumberUtil.getRawAsUsableString(
+                                              account.balance)
+                                          : account.selected
+                                              ? StateContainer.of(context)
+                                                  .wallet
+                                                  .getAccountBalanceDisplay()
+                                              : "",
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          fontFamily: "NunitoSans",
+                                          fontWeight: FontWeight.w900,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .text),
+                                    ),
+                                  ],
+                                ),
+                                maxLines: 1,
+                                style: TextStyle(fontSize: 16.0),
+                                stepGranularity: 0.1,
+                                minFontSize: 1,
+                                textAlign: TextAlign.end,
+                              ),
                             ),
                           ],
                         ),
-                        maxLines: 1,
-                        style: TextStyle(fontSize: 16.0),
-                        stepGranularity: 0.1,
-                        minFontSize: 1,
-                        textAlign: TextAlign.end,
                       ),
+                    ),
+                    // Selected indicator
+                    Container(
+                      height: 70,
+                      width: 6,
+                      color: account.selected
+                          ? StateContainer.of(context).curTheme.primary
+                          : Colors.transparent,
                     ),
                   ],
                 ),

@@ -43,6 +43,8 @@ import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/util/ninja/api.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
@@ -161,12 +163,11 @@ class _SettingsSheetState extends State<SettingsSheet>
         .registerTo<TransferConfirmEvent>()
         .listen((event) {
       Sheets.showAppHeightNineSheet(
-        context: context,
-        widget: AppTransferConfirmSheet(
-          privKeyBalanceMap: event.balMap,
-          errorCallback: transferError,
-        )
-      );          
+          context: context,
+          widget: AppTransferConfirmSheet(
+            privKeyBalanceMap: event.balMap,
+            errorCallback: transferError,
+          ));
     });
     // Ready to go to transfer complete
     _transferCompleteSub = EventTaxiImpl.singleton()
@@ -654,56 +655,55 @@ class _SettingsSheetState extends State<SettingsSheet>
                           children: <Widget>[
                             Center(
                               child: Container(
-                                  width: 60,
-                                  height: 45,
-                                  alignment: AlignmentDirectional(-1, 0),
-                                  child: Icon(
-                                    AppIcons.accountwallet,
-                                    color: StateContainer.of(context)
-                                        .curTheme
-                                        .success,
-                                    size: 45,
-                                  )),
-                            ),
-                            Center(
-                              child: Container(
-                                width: 60,
-                                height: 45,
-                                alignment: AlignmentDirectional(0, 0.3),
-                                child: Text(
-                                  StateContainer.of(context)
-                                      .selectedAccount
-                                      .getShortName()
-                                      .toUpperCase(),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: StateContainer.of(context)
-                                        .curTheme
-                                        .backgroundDark,
-                                    fontSize: 16,
-                                    fontFamily: "NunitoSans",
-                                    fontWeight: FontWeight.w900,
+                                width: 64,
+                                height: 64,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100.0),
+                                  border: Border.all(
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                      width: 1.5),
+                                ),
+                                alignment: AlignmentDirectional(-1, 0),
+                                // nnnnn
+                                child: SvgPicture.network(
+                                  'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                      StateContainer.of(context)
+                                          .selectedAccount
+                                          .address,
+                                  placeholderBuilder: (BuildContext context) =>
+                                      Container(
+                                    child: FlareActor(
+                                      "assets/ntr_placeholder_animation.flr",
+                                      animation: "main",
+                                      fit: BoxFit.contain,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                             Center(
                               child: Container(
-                                width: 60,
-                                height: 45,
+                                width: 64,
+                                height: 64,
                                 child: FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(100.0)),
                                   highlightColor: StateContainer.of(context)
                                       .curTheme
-                                      .backgroundDark
-                                      .withOpacity(0.75),
+                                      .text15,
                                   splashColor: StateContainer.of(context)
                                       .curTheme
-                                      .backgroundDark
-                                      .withOpacity(0.75),
+                                      .text15,
                                   padding: EdgeInsets.all(0.0),
                                   child: SizedBox(
                                     width: 60,
-                                    height: 45,
+                                    height: 60,
                                   ),
                                   onPressed: () {
                                     AccountDetailsSheet(
@@ -723,43 +723,38 @@ class _SettingsSheetState extends State<SettingsSheet>
                           // Second Account
                           StateContainer.of(context).recentLast != null
                               ? Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 8.0),
                                   child: Stack(
                                     children: <Widget>[
                                       Center(
-                                        child: Icon(
-                                          AppIcons.accountwallet,
-                                          color: StateContainer.of(context)
-                                              .curTheme
-                                              .primary,
-                                          size: 36,
-                                        ),
-                                      ),
-                                      Center(
                                         child: Container(
-                                          width: 48,
-                                          height: 36,
-                                          alignment:
-                                              AlignmentDirectional(0, 0.3),
-                                          child: Text(
-                                              StateContainer.of(context)
-                                                  .recentLast
-                                                  .getShortName()
-                                                  .toUpperCase(),
-                                              style: TextStyle(
+                                          height: 52,
+                                          width: 52,
+                                          // nnnnn
+                                          child: SvgPicture.network(
+                                            'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                                StateContainer.of(context)
+                                                    .recentLast
+                                                    .address,
+                                            placeholderBuilder:
+                                                (BuildContext context) =>
+                                                    Container(
+                                              child: FlareActor(
+                                                "assets/ntr_placeholder_animation.flr",
+                                                animation: "main",
+                                                fit: BoxFit.contain,
                                                 color:
                                                     StateContainer.of(context)
                                                         .curTheme
-                                                        .backgroundDark,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.w800,
-                                              )),
+                                                        .primary,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       Center(
                                         child: Container(
-                                          width: 48,
-                                          height: 36,
+                                          width: 52,
+                                          height: 52,
                                           color: Colors.transparent,
                                           child: FlatButton(
                                             onPressed: () {
@@ -778,20 +773,22 @@ class _SettingsSheetState extends State<SettingsSheet>
                                                         delayPop: true));
                                               });
                                             },
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0)),
                                             highlightColor:
                                                 StateContainer.of(context)
                                                     .curTheme
-                                                    .backgroundDark
-                                                    .withOpacity(0.75),
+                                                    .text15,
                                             splashColor:
                                                 StateContainer.of(context)
                                                     .curTheme
-                                                    .backgroundDark
-                                                    .withOpacity(0.75),
+                                                    .text15,
                                             padding: EdgeInsets.all(0.0),
                                             child: Container(
-                                              width: 48,
-                                              height: 36,
+                                              width: 52,
+                                              height: 52,
                                               color: Colors.transparent,
                                             ),
                                           ),
@@ -804,43 +801,38 @@ class _SettingsSheetState extends State<SettingsSheet>
                           // Third Account
                           StateContainer.of(context).recentSecondLast != null
                               ? Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 8.0),
                                   child: Stack(
                                     children: <Widget>[
                                       Center(
-                                        child: Icon(
-                                          AppIcons.accountwallet,
-                                          color: StateContainer.of(context)
-                                              .curTheme
-                                              .primary,
-                                          size: 36,
-                                        ),
-                                      ),
-                                      Center(
                                         child: Container(
-                                          width: 48,
-                                          height: 36,
-                                          alignment:
-                                              AlignmentDirectional(0, 0.3),
-                                          child: Text(
-                                              StateContainer.of(context)
-                                                  .recentSecondLast
-                                                  .getShortName()
-                                                  .toUpperCase(),
-                                              style: TextStyle(
+                                          height: 52,
+                                          width: 52,
+                                          // nnnnn
+                                          child: SvgPicture.network(
+                                            'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                                StateContainer.of(context)
+                                                    .recentSecondLast
+                                                    .address,
+                                            placeholderBuilder:
+                                                (BuildContext context) =>
+                                                    Container(
+                                              child: FlareActor(
+                                                "assets/ntr_placeholder_animation.flr",
+                                                animation: "main",
+                                                fit: BoxFit.contain,
                                                 color:
                                                     StateContainer.of(context)
                                                         .curTheme
-                                                        .backgroundDark,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.w800,
-                                              )),
+                                                        .primary,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       Center(
                                         child: Container(
-                                          width: 48,
-                                          height: 36,
+                                          width: 52,
+                                          height: 52,
                                           color: Colors.transparent,
                                           child: FlatButton(
                                             onPressed: () {
@@ -858,20 +850,22 @@ class _SettingsSheetState extends State<SettingsSheet>
                                                         delayPop: true));
                                               });
                                             },
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        100.0)),
                                             highlightColor:
                                                 StateContainer.of(context)
                                                     .curTheme
-                                                    .backgroundDark
-                                                    .withOpacity(0.75),
+                                                    .text15,
                                             splashColor:
                                                 StateContainer.of(context)
                                                     .curTheme
-                                                    .backgroundDark
-                                                    .withOpacity(0.75),
+                                                    .text15,
                                             padding: EdgeInsets.all(0.0),
                                             child: Container(
-                                              width: 48,
-                                              height: 36,
+                                              width: 52,
+                                              height: 52,
                                               color: Colors.transparent,
                                             ),
                                           ),
@@ -935,7 +929,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 10),
+                    margin: EdgeInsets.only(top: 2),
                     child: FlatButton(
                       padding: EdgeInsets.all(4.0),
                       highlightColor:
@@ -1093,24 +1087,23 @@ class _SettingsSheetState extends State<SettingsSheet>
                         AppLocalization.of(context).backupSecretPhrase,
                         AppIcons.backupseed, onPressed: () async {
                       // Authenticate
-                      AuthenticationMethod authMethod = await sl.get<SharedPrefsUtil>().getAuthMethod();
-                      bool hasBiometrics = await sl.get<BiometricUtil>().hasBiometrics();
+                      AuthenticationMethod authMethod =
+                          await sl.get<SharedPrefsUtil>().getAuthMethod();
+                      bool hasBiometrics =
+                          await sl.get<BiometricUtil>().hasBiometrics();
                       if (authMethod.method == AuthMethod.BIOMETRICS &&
                           hasBiometrics) {
                         try {
                           bool authenticated = await sl
-                                .get<BiometricUtil>()
-                                .authenticateWithBiometrics(
-                                    context,
-                                    AppLocalization.of(context)
-                                        .fingerprintSeedBackup);
+                              .get<BiometricUtil>()
+                              .authenticateWithBiometrics(
+                                  context,
+                                  AppLocalization.of(context)
+                                      .fingerprintSeedBackup);
                           if (authenticated) {
                             sl.get<HapticUtil>().fingerprintSucess();
-                            StateContainer.of(context)
-                                .getSeed()
-                                .then((seed) {
-                              AppSeedBackupSheet(seed)
-                                  .mainBottomSheet(context);
+                            StateContainer.of(context).getSeed().then((seed) {
+                              AppSeedBackupSheet(seed).mainBottomSheet(context);
                             });
                           }
                         } catch (e) {
@@ -1118,14 +1111,15 @@ class _SettingsSheetState extends State<SettingsSheet>
                               context,
                               "Error",
                               e.toString(),
-                              "Copy to clipboard", () {
-                                Clipboard.setData(ClipboardData(text: e.toString()));
-                                  },
-                                  cancelText: "Close",
-                                  cancelAction: () {
-                                    Navigator.of(context).pop();
-                                  }
-                          );
+                              "Copy to clipboard",
+                              () {
+                                Clipboard.setData(
+                                    ClipboardData(text: e.toString()));
+                              },
+                              cancelText: "Close",
+                              cancelAction: () {
+                                Navigator.of(context).pop();
+                              });
                           await authenticateWithPin();
                         }
                       } else {
@@ -1471,24 +1465,20 @@ class _SettingsSheetState extends State<SettingsSheet>
   Future<void> authenticateWithPin() async {
     // PIN Authentication
     sl.get<Vault>().getPin().then((expectedPin) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (BuildContext context) {
         return new PinScreen(
           PinOverlayType.ENTER_PIN,
           (pin) {
             Navigator.of(context).pop();
-            StateContainer.of(context)
-                .getSeed()
-                .then((seed) {
-              AppSeedBackupSheet(seed)
-                  .mainBottomSheet(context);
+            StateContainer.of(context).getSeed().then((seed) {
+              AppSeedBackupSheet(seed).mainBottomSheet(context);
             });
           },
           expectedPin: expectedPin,
-          description:
-              AppLocalization.of(context).pinSeedBackup,
+          description: AppLocalization.of(context).pinSeedBackup,
         );
       }));
-    });    
+    });
   }
 }

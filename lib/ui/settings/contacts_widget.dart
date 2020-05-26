@@ -25,6 +25,7 @@ import 'package:natrium_wallet_flutter/ui/contacts/contact_details.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 class ContactsList extends StatefulWidget {
   final AnimationController contactsController;
@@ -299,7 +300,7 @@ class _ContactsListState extends State<ContactsList> {
                     // Contacts list
                     ListView.builder(
                       physics: const AlwaysScrollableScrollPhysics(),
-                      padding: EdgeInsets.only(top: 15.0),
+                      padding: EdgeInsets.only(top: 15.0, bottom: 15),
                       itemCount: _contacts.length,
                       itemBuilder: (context, index) {
                         // Some disaster recovery if monKey is in DB, but doesnt exist in filesystem
@@ -405,21 +406,25 @@ class _ContactsListState extends State<ContactsList> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               // nnnnn
-              /* Container(
+              Container(
                 width: 64.0,
                 height: 64.0,
                 child: SvgPicture.network(
-                  'https://natricon-go-server.appditto.com/api/svg?address=' +
-                      contact.address,
-                  placeholderBuilder: (BuildContext context) => Container(
-                      padding: const EdgeInsets.all(10.0),
-                      child: const CircularProgressIndicator()),
-                ),
-              ), */
+                    'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                        contact.address,
+                    placeholderBuilder: (BuildContext context) => Container(
+                          child: FlareActor(
+                            "assets/ntr_placeholder_animation.flr",
+                            animation: "main",
+                            fit: BoxFit.contain,
+                            color: StateContainer.of(context).curTheme.primary,
+                          ),
+                        )),
+              ),
               // Contact info
               Expanded(
                 child: Container(
-                  margin: EdgeInsetsDirectional.only(start: 16.0),
+                  margin: EdgeInsetsDirectional.only(start: 2.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,

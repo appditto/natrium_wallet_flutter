@@ -6,6 +6,8 @@ import 'package:flutter/rendering.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 class AppShareCard extends StatefulWidget {
   final GlobalKey key;
@@ -96,42 +98,82 @@ class _AppShareCardState extends State<AppShareCard> {
                     // Logo Background White
                     Center(
                       child: Container(
-                        width: 23.88,
-                        height: 23.88,
+                        width: 26.5,
+                        height: 26.5,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    // Logo Background Primary
-                    Center(
-                      child: Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: StateContainer.of(context).curTheme.primary,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                    // Logo
-                    Center(
-                      child: Container(
-                        height: 5.333333,
-                        child: AutoSizeText(
-                          "",
-                          style: TextStyle(
-                            fontFamily: "AppIcons",
-                            color: StateContainer.of(context)
-                                .curTheme
-                                .backgroundDark,
-                            fontWeight: FontWeight.w500,
+                          border: Border.all(
+                            width: (StateContainer.of(context).curTheme
+                                    is IndiumTheme)
+                                ? 1.44545
+                                : 1.06,
+                            color: (StateContainer.of(context).curTheme
+                                    is IndiumTheme)
+                                ? StateContainer.of(context)
+                                    .curTheme
+                                    .backgroundDark
+                                : StateContainer.of(context).curTheme.primary,
                           ),
-                          textAlign: TextAlign.center,
-                          minFontSize: 0.1,
-                          stepGranularity: 0.1,
-                          maxLines: 1,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              width: (StateContainer.of(context).curTheme
+                                      is IndiumTheme)
+                                  ? 1.06
+                                  : 1.44545,
+                              color: (StateContainer.of(context).curTheme
+                                      is IndiumTheme)
+                                  ? StateContainer.of(context).curTheme.primary
+                                  : StateContainer.of(context)
+                                      .curTheme
+                                      .backgroundDark,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // nnnnn
+                    Center(
+                      child: Container(
+                        width: 25.44,
+                        height: 25.44,
+                        margin: EdgeInsetsDirectional.only(top: 1.44545),
+                        child: SvgPicture.network(
+                          'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                              StateContainer.of(context)
+                                  .selectedAccount
+                                  .address,
+                          placeholderBuilder: (BuildContext context) =>
+                              // Logo
+                              Center(
+                            child: Container(
+                              height: 5.333333,
+                              margin:
+                                  EdgeInsetsDirectional.only(bottom: 1.44545),
+                              child: AutoSizeText(
+                                "",
+                                style: TextStyle(
+                                  fontFamily: "AppIcons",
+                                  color: StateContainer.of(context).curTheme
+                                          is IndiumTheme
+                                      ? StateContainer.of(context)
+                                          .curTheme
+                                          .primary
+                                      : StateContainer.of(context)
+                                          .curTheme
+                                          .backgroundDark,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.center,
+                                minFontSize: 0.1,
+                                stepGranularity: 0.1,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),

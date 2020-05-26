@@ -18,6 +18,7 @@ import 'package:natrium_wallet_flutter/ui/receive/share_card.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 class AppReceiveSheet {
   AppWallet _wallet;
@@ -148,8 +149,8 @@ class AppReceiveSheet {
                             // Actual QR part of the QR
                             Center(
                               child: Container(
-                                height: devicewidth/2.65,
-                                width: devicewidth/2.65,
+                                height: devicewidth / 2.65,
+                                width: devicewidth / 2.65,
                                 child: qrCode,
                               ),
                             ),
@@ -166,51 +167,78 @@ class AppReceiveSheet {
                                       color: StateContainer.of(context)
                                           .curTheme
                                           .primary,
-                                      width: devicewidth / 115),
+                                      width: devicewidth / 110),
                                 ),
                               ),
                             ),
                             // Logo Background White
                             Center(
                               child: Container(
-                                width: devicewidth / 6.7,
-                                height: devicewidth / 6.7,
+                                width: devicewidth / 6,
+                                height: devicewidth / 6,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.white,
+                                  border: Border.all(
+                                    width: (StateContainer.of(context).curTheme
+                                            is IndiumTheme)
+                                        ? devicewidth / 110
+                                        : devicewidth / 150,
+                                    color: (StateContainer.of(context).curTheme
+                                            is IndiumTheme)
+                                        ? StateContainer.of(context)
+                                            .curTheme
+                                            .backgroundDark
+                                        : StateContainer.of(context)
+                                            .curTheme
+                                            .primary,
+                                  ),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      width: (StateContainer.of(context)
+                                              .curTheme is IndiumTheme)
+                                          ? devicewidth / 150
+                                          : devicewidth / 110,
+                                      color: (StateContainer.of(context)
+                                              .curTheme is IndiumTheme)
+                                          ? StateContainer.of(context)
+                                              .curTheme
+                                              .primary
+                                          : StateContainer.of(context)
+                                              .curTheme
+                                              .backgroundDark,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                            // Logo Background Primary
+                            // nnnnn
                             Center(
                               child: Container(
-                                width: devicewidth / 8,
-                                height: devicewidth / 8,
-                                decoration: BoxDecoration(
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .primary,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                            ),
-                            // Logo
-                            Center(
-                              child: Container(
-                                height: devicewidth / 30,
-                                child: AutoSizeText(
-                                  "",
-                                  style: TextStyle(
-                                      fontFamily: "AppIcons",
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .backgroundDark,
-                                      fontWeight: FontWeight.w500),
-                                  textAlign: TextAlign.center,
-                                  minFontSize: 0.1,
-                                  stepGranularity: 0.1,
-                                  maxLines: 1,
-                                ),
+                                width: devicewidth / 6.25,
+                                height: devicewidth / 6.25,
+                                margin: EdgeInsetsDirectional.only(
+                                    top: devicewidth / 110),
+                                child: SvgPicture.network(
+                                    'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                        StateContainer.of(context)
+                                            .selectedAccount
+                                            .address,
+                                    placeholderBuilder:
+                                        (BuildContext context) => Container(
+                                              child: FlareActor(
+                                                "assets/ntr_placeholder_animation.flr",
+                                                animation: "main",
+                                                fit: BoxFit.contain,
+                                                color:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .primary,
+                                              ),
+                                            )),
                               ),
                             ),
                           ],
