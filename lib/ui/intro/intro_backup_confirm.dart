@@ -107,12 +107,15 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
                               context,
                               AppButtonType.PRIMARY,
                               AppLocalization.of(context).yes.toUpperCase(),
-                              Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
+                              Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                            String pin = await Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) {
                               return new PinScreen(PinOverlayType.NEW_PIN,
-                                  (_pinEnteredCallback));
+                                  );
                             }));
+                            if (pin != null && pin.length > 5) {
+                              _pinEnteredCallback(pin);
+                            }
                           }),
                         ],
                       ),
@@ -138,7 +141,6 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
   }
 
   void _pinEnteredCallback(String pin) async {
-    Navigator.of(context).pop();
     await sl.get<SharedPrefsUtil>().setSeedBackedUp(true);
     await sl.get<Vault>().writePin(pin);
     PriceConversion conversion = await sl.get<SharedPrefsUtil>().getPriceConversion();

@@ -961,10 +961,16 @@ class _SettingsSheetState extends State<SettingsSheet>
                           // Main account address
                           Container(
                             child: Text(
-                              StateContainer.of(context)
-                                  .wallet
-                                  ?.address
-                                  ?.substring(0, 12),
+                              StateContainer.of(context).wallet != null &&
+                                      StateContainer.of(context)
+                                              .wallet
+                                              .address !=
+                                          null
+                                  ? StateContainer.of(context)
+                                      .wallet
+                                      ?.address
+                                      ?.substring(0, 12)
+                                  : "",
                               style: TextStyle(
                                 fontFamily: "OverpassMono",
                                 fontWeight: FontWeight.w100,
@@ -1464,21 +1470,21 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   Future<void> authenticateWithPin() async {
     // PIN Authentication
-    sl.get<Vault>().getPin().then((expectedPin) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (BuildContext context) {
-        return new PinScreen(
-          PinOverlayType.ENTER_PIN,
-          (pin) {
-            Navigator.of(context).pop();
-            StateContainer.of(context).getSeed().then((seed) {
-              AppSeedBackupSheet(seed).mainBottomSheet(context);
-            });
-          },
-          expectedPin: expectedPin,
-          description: AppLocalization.of(context).pinSeedBackup,
-        );
-      }));
-    });
+    String expectedPin = await sl.get<Vault>().getPin();
+    bool auth = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return new PinScreen(
+        PinOverlayType.ENTER_PIN,
+        expectedPin: expectedPin,
+        description: AppLocalization.of(context).pinSeedBackup,
+      );
+    }));
+    if (auth != null && auth) {
+      await Future.delayed(Duration(milliseconds: 200));
+      Navigator.of(context).pop();
+      StateContainer.of(context).getSeed().then((seed) {
+        AppSeedBackupSheet(seed).mainBottomSheet(context);
+      });
+    }
   }
 }

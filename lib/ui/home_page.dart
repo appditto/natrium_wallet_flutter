@@ -28,7 +28,6 @@ import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/ui/contacts/add_contact.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
-import 'package:natrium_wallet_flutter/ui/send/send_complete_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/settings/settings_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
@@ -47,7 +46,6 @@ import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:natrium_wallet_flutter/ui/avatar/avatar.dart';
 
 class AppHomePage extends StatefulWidget {
   PriceConversion priceConversion;
@@ -76,7 +74,7 @@ class _AppHomePageState extends State<AppHomePage>
   bool mantaAnimationOpen;
 
   // Receive card instance
-  AppReceiveSheet receive;
+  ReceiveSheet receive;
 
   // A separate unfortunate instance of this list, is a little unfortunate
   // but seems the only way to handle the animations
@@ -679,8 +677,8 @@ class _AppHomePageState extends State<AppHomePage>
     );
     painter.toImageData(MediaQuery.of(context).size.width).then((byteData) {
       setState(() {
-        receive = AppReceiveSheet(
-          Container(
+        receive = ReceiveSheet(
+          qrWidget: Container(
               width: MediaQuery.of(context).size.width / 2.675,
               child: Image.memory(byteData.buffer.asUint8List())),
         );
@@ -836,7 +834,8 @@ class _AppHomePageState extends State<AppHomePage>
                             if (receive == null) {
                               return;
                             }
-                            receive.mainBottomSheet(context);
+                            Sheets.showAppHeightEightSheet(
+                                context: context, widget: receive);
                           },
                           highlightColor: receive != null
                               ? StateContainer.of(context).curTheme.background40

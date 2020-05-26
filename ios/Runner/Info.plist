@@ -50,9 +50,9 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>App needs to authenticate using faces.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+	<string>Photo library access is required for saving the account QR code.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+	<string>Photo library access is required for saving the account QR code.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

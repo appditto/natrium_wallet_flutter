@@ -104,7 +104,7 @@
   "settingsTransfer": "Ladda från pappersplånbok",
   "transferError": "Ett fel uppstod vid överföringen. Försök igen senare.",
   "paperWallet": "Pappersplånbok",
-  "kaliumWallet": "Natrium-plånbok",
+  "kaliumWallet": "Kaliumplånbok",
   "manualEntry": "Ange manuellt",
   "mnemonicPhrase": "Minnesfras",
   "rawSeed": "Seed",
@@ -202,6 +202,9 @@
   "goBackButton": "Tillbaka",
   "welcomeTextKal": "Välkommen till Kalium. För att fortsätta, behöver du skapa en ny plånbok eller importera en befintlig.",
   "sendAmountConfirmKal": "Skicka %1 Banano?",
+  "currency": "Valuta",
+  "shareKalium": "Dela Kalium",
+  "shareKaliumText": "Prova Kalium! Bananos officiella mobilplånbok",
   "logoutDetailKal": "Vid utloggning raderas din seed och all kaliumrelaterad data från denna enhet. Om du inte har säkerhetskopierat din seed, kommer du aldrig att kunna komma åt dina resurser igen.",
   "notificationTitleKal": "Mottog %1 BANANO",
   "notificationBodyKal": "Öppna Kalium för att visa transaktion.",
@@ -216,5 +219,7 @@
   "exampleCardIntroKal": "Välkommen till Kalium. Så snart du tar emot BANANO, visas transaktionerna på detta vis",
   "exampleCardToKal": "Till någon apa",
   "exampleCardFromKal": "Från någon apa",
-  "newAccountIntroKal": "Det här är ditt nya konto. Så snart du tar emot BANANO, kommer transaktioner att se ut så här:"
+  "newAccountIntroKal": "Det här är ditt nya konto. Så snart du tar emot BANANO, kommer transaktioner att se ut så här:",
+  "liveSupportButton": "Support",
+  "connectingHeader": "Ansluter"
 }

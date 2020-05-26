@@ -119,24 +119,22 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                     children: <Widget>[
                       // Skip Button
                       AppButton.buildAppButton(context, AppButtonType.PRIMARY,
-                          AppLocalization.of(context).noSkipButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                          AppLocalization.of(context).noSkipButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                         if (widget.seed != null) {
-                            sl.get<Vault>()
-                                .setSeed(widget.seed)
-                                .then((result) {
-                              sl.get<DBHelper>().dropAccounts().then((_) {
-                                NanoUtil().loginAccount(widget.seed, context).then((_) {
-                                  StateContainer.of(context).requestUpdate();
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(builder:
-                                          (BuildContext context) {
-                                    return PinScreen(
-                                        PinOverlayType.NEW_PIN,
-                                        (_pinEnteredCallback));
-                                  }));
-                                });
-                              });
-                            });
+                            await sl.get<Vault>().setSeed(widget.seed);
+                            await sl.get<DBHelper>().dropAccounts();
+                            await NanoUtil().loginAccount(widget.seed, context);
+                            StateContainer.of(context).requestUpdate();
+                            String pin = await Navigator.of(context).push(
+                                MaterialPageRoute(builder:
+                                    (BuildContext context) {
+                              return PinScreen(
+                                  PinOverlayType.NEW_PIN,
+                                  );
+                            }));
+                            if (pin != null && pin.length > 5) {
+                              _pinEnteredCallback(pin);
+                            }
                         } else {
                           sl.get<Vault>().setSeed(NanoSeeds.generateSeed()).then((result) {
                             // Update wallet
@@ -175,7 +173,6 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
   }
 
   void _pinEnteredCallback(String pin) async {
-    Navigator.of(context).pop();
     await sl.get<Vault>().writePin(pin);
     PriceConversion conversion = await sl.get<SharedPrefsUtil>().getPriceConversion();
     // Update wallet

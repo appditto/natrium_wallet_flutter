@@ -1,1 +1,4 @@
-- Bug fixes & performance improvements
+- Faster cryptography library
+- Nano V21 Compatibility
+- Reliability & Performance Improvements
+- Updated translations

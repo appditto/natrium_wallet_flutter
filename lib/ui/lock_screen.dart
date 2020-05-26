@@ -44,9 +44,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
   }
 
   Widget _buildPinScreen(BuildContext context, String expectedPin) {
-    return PinScreen(PinOverlayType.ENTER_PIN, (pin) {
-      _goHome();
-    },
+    return PinScreen(PinOverlayType.ENTER_PIN,
         expectedPin: expectedPin,
         description: AppLocalization.of(context).unlockPin,
         pinScreenBackgroundColor:
@@ -141,27 +139,30 @@ class _AppLockScreenState extends State<AppLockScreen> {
 
   Future<void> authenticateWithPin({bool transitions = false}) async {
     String expectedPin = await sl.get<Vault>().getPin();
+    bool auth = false;
     if (transitions) {
-      Navigator.of(context).push(
+      auth = await Navigator.of(context).push(
         MaterialPageRoute(builder: (BuildContext context) {
           return _buildPinScreen(context, expectedPin);
         }),
       );
     } else {
-      Navigator.of(context).push(
+      auth = await Navigator.of(context).push(
         NoPushTransitionRoute(builder: (BuildContext context) {
           return _buildPinScreen(context, expectedPin);
         }),
       );
     }
-    Future.delayed(Duration(milliseconds: 200), () {
-      if (mounted) {
-        setState(() {
-          _showUnlockButton = true;
-          _showLock = true;
-        });
-      }
-    });    
+    await Future.delayed(Duration(milliseconds: 200));
+    if (mounted) {
+      setState(() {
+        _showUnlockButton = true;
+        _showLock = true;
+      });
+    }
+    if (auth) {
+      _goHome();
+    }
   }
 
   Future<void> _authenticate({bool transitions = false}) async {

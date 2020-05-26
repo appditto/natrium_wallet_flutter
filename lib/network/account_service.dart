@@ -532,7 +532,6 @@ class AccountService {
     StateBlock previousBlock = StateBlock.fromJson(json.decode(previousInfo.contents));
 
     // Update data on our next pending request
-    chgBlock.representative = previousBlock.representative;
     chgBlock.setBalance(previousBlock.balance);
     await chgBlock.sign(privKey);
 
