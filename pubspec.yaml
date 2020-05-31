@@ -138,6 +138,9 @@ dependencies:
       url: https://github.com/bbedward/manta-dart.git
       ref: master
 
+  # Connectivity subscription
+  connectivity: ^0.4.8+6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
