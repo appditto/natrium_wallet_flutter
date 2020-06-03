@@ -172,7 +172,7 @@ class ContactDetailsSheet {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            // nnnnn
+                            // natricon
                             Expanded(
                               child: SvgPicture.network(
                                 'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +

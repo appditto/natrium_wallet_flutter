@@ -16,21 +16,16 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## Android
-### android test
+### android build_android
 ```
-fastlane android test
+fastlane android build_android
 ```
-Runs all the tests
-### android deploy
+Build android aab and apk
+### android deploy_android
 ```
-fastlane android deploy
+fastlane android deploy_android
 ```
-Clean, build, & upload to google play
-### android deploy_dirty
-```
-fastlane android deploy_dirty
-```
-Build & upload to google play, skip clean
+Deploy (Upload to play store)
 
 ----
 

@@ -394,7 +394,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                // nnnnnn
+                                // natricon
                                 Container(
                                   width: 64.0,
                                   height: 64.0,

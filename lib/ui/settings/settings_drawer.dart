@@ -666,7 +666,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                       width: 1.5),
                                 ),
                                 alignment: AlignmentDirectional(-1, 0),
-                                // nnnnn
+                                // natricon
                                 child: SvgPicture.network(
                                   'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
                                       StateContainer.of(context)
@@ -729,7 +729,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                         child: Container(
                                           height: 52,
                                           width: 52,
-                                          // nnnnn
+                                          // natricon
                                           child: SvgPicture.network(
                                             'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
                                                 StateContainer.of(context)
@@ -807,7 +807,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                         child: Container(
                                           height: 52,
                                           width: 52,
-                                          // nnnnn
+                                          // natricon
                                           child: SvgPicture.network(
                                             'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
                                                 StateContainer.of(context)

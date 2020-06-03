@@ -405,7 +405,7 @@ class _ContactsListState extends State<ContactsList> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              // nnnnn
+              // natricon
               Container(
                 width: 64.0,
                 height: 64.0,

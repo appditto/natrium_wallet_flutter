@@ -1443,7 +1443,7 @@ class _AppHomePageState extends State<AppHomePage>
             curve: Curves.easeInOut,
             child: _getBalanceWidget(),
           ),
-          // Nnnnn
+          // natricon
           AnimatedContainer(
             duration: Duration(milliseconds: 200),
             curve: Curves.easeInOut,
@@ -1455,7 +1455,7 @@ class _AppHomePageState extends State<AppHomePage>
               children: <Widget>[
                 Center(
                   child: Container(
-                    // nnnnn
+                    // natricon
                     child: Hero(
                       tag: "avatar",
                       child: SvgPicture.network(

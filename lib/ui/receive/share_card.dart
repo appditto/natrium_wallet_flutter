@@ -135,7 +135,7 @@ class _AppShareCardState extends State<AppShareCard> {
                         ),
                       ),
                     ),
-                    // nnnnn
+                    // natricon
                     Center(
                       child: Container(
                         width: 25.44,
