@@ -406,25 +406,33 @@ class _ContactsListState extends State<ContactsList> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               // natricon
-              Container(
-                width: 64.0,
-                height: 64.0,
-                child: SvgPicture.network(
-                    'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                        contact.address,
-                    placeholderBuilder: (BuildContext context) => Container(
-                          child: FlareActor(
-                            "assets/ntr_placeholder_animation.flr",
-                            animation: "main",
-                            fit: BoxFit.contain,
-                            color: StateContainer.of(context).curTheme.primary,
-                          ),
-                        )),
-              ),
+              StateContainer.of(context).natriconOn
+                  ? Container(
+                      width: 64.0,
+                      height: 64.0,
+                      child: SvgPicture.network(
+                          'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                              contact.address,
+                          placeholderBuilder: (BuildContext context) =>
+                              Container(
+                                child: FlareActor(
+                                  "assets/ntr_placeholder_animation.flr",
+                                  animation: "main",
+                                  fit: BoxFit.contain,
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .primary,
+                                ),
+                              )),
+                    )
+                  : SizedBox(),
               // Contact info
               Expanded(
                 child: Container(
-                  margin: EdgeInsetsDirectional.only(start: 2.0),
+                  height: 60,
+                  margin: EdgeInsetsDirectional.only(
+                      start:
+                          StateContainer.of(context).natriconOn ? 2.0 : 20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,

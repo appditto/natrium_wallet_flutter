@@ -40,9 +40,9 @@ import 'package:natrium_wallet_flutter/network/account_service.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 
 class _InheritedStateContainer extends InheritedWidget {
-   // Data is your entire state. In our case just 'User' 
+  // Data is your entire state. In our case just 'User'
   final StateContainerState data;
-   
+
   // You must pass through a child and your state.
   _InheritedStateContainer({
     Key key,
@@ -58,20 +58,20 @@ class _InheritedStateContainer extends InheritedWidget {
 }
 
 class StateContainer extends StatefulWidget {
-   // You must pass through a child. 
+  // You must pass through a child.
   final Widget child;
 
-  StateContainer({
-    @required this.child
-  });
+  StateContainer({@required this.child});
 
   // This is the secret sauce. Write your own 'of' method that will behave
   // Exactly like MediaQuery.of and Theme.of
   // It basically says 'get the data from the widget of this type.
   static StateContainerState of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<_InheritedStateContainer>().data;
+    return context
+        .dependOnInheritedWidgetOfExactType<_InheritedStateContainer>()
+        .data;
   }
-  
+
   @override
   StateContainerState createState() => StateContainerState();
 }
@@ -79,7 +79,7 @@ class StateContainer extends StatefulWidget {
 /// App InheritedWidget
 /// This is where we handle the global state and also where
 /// we interact with the server and make requests/handle+propagate responses
-/// 
+///
 /// Basically the central hub behind the entire app
 class StateContainerState extends State<StateContainer> {
   final Logger log = sl.get<Logger>();
@@ -94,10 +94,14 @@ class StateContainerState extends State<StateContainer> {
   LanguageSetting curLanguage = LanguageSetting(AvailableLanguage.DEFAULT);
   BaseTheme curTheme = NatriumTheme();
   // Currently selected account
-  Account selectedAccount = Account(id:1, name: "AB", index: 0, lastAccess: 0, selected: true);
+  Account selectedAccount =
+      Account(id: 1, name: "AB", index: 0, lastAccess: 0, selected: true);
   // Two most recently used accounts
   Account recentLast;
   Account recentSecondLast;
+
+  // Natricon true
+  bool natriconOn = true;
 
   // If callback is locked
   bool _locked = false;
@@ -165,7 +169,7 @@ class StateContainerState extends State<StateContainer> {
     // Get initial deep link
     getInitialLink().then((initialLink) {
       setState(() {
-       initialDeepLink = initialLink;
+        initialDeepLink = initialLink;
       });
     });
     // Cache ninja API if don't already have it
@@ -183,38 +187,50 @@ class StateContainerState extends State<StateContainer> {
 
   // Register RX event listenerss
   void _registerBus() {
-    _subscribeEventSub = EventTaxiImpl.singleton().registerTo<SubscribeEvent>().listen((event) {
+    _subscribeEventSub =
+        EventTaxiImpl.singleton().registerTo<SubscribeEvent>().listen((event) {
       handleSubscribeResponse(event.response);
     });
-    _priceEventSub = EventTaxiImpl.singleton().registerTo<PriceEvent>().listen((event) {
+    _priceEventSub =
+        EventTaxiImpl.singleton().registerTo<PriceEvent>().listen((event) {
       // PriceResponse's get pushed periodically, it wasn't a request we made so don't pop the queue
       setState(() {
         wallet.btcPrice = event.response.btcPrice.toString();
         wallet.localCurrencyPrice = event.response.price.toString();
       });
     });
-    _connStatusSub = EventTaxiImpl.singleton().registerTo<ConnStatusEvent>().listen((event) {
+    _connStatusSub =
+        EventTaxiImpl.singleton().registerTo<ConnStatusEvent>().listen((event) {
       if (event.status == ConnectionStatus.CONNECTED) {
         requestUpdate();
-      } else if (event.status == ConnectionStatus.DISCONNECTED && !sl.get<AccountService>().suspended) {
+      } else if (event.status == ConnectionStatus.DISCONNECTED &&
+          !sl.get<AccountService>().suspended) {
         sl.get<AccountService>().initCommunication();
       }
     });
-    _callbackSub = EventTaxiImpl.singleton().registerTo<CallbackEvent>().listen((event) {
+    _callbackSub =
+        EventTaxiImpl.singleton().registerTo<CallbackEvent>().listen((event) {
       handleCallbackResponse(event.response);
     });
-    _errorSub = EventTaxiImpl.singleton().registerTo<ErrorEvent>().listen((event) {
+    _errorSub =
+        EventTaxiImpl.singleton().registerTo<ErrorEvent>().listen((event) {
       handleErrorResponse(event.response);
     });
-    _fcmUpdateSub = EventTaxiImpl.singleton().registerTo<FcmUpdateEvent>().listen((event) {
+    _fcmUpdateSub =
+        EventTaxiImpl.singleton().registerTo<FcmUpdateEvent>().listen((event) {
       if (wallet != null) {
         sl.get<SharedPrefsUtil>().getNotificationsOn().then((enabled) {
-          sl.get<AccountService>().sendRequest(FcmUpdateRequest(account: wallet.address, fcmToken: event.token, enabled: enabled));
+          sl.get<AccountService>().sendRequest(FcmUpdateRequest(
+              account: wallet.address,
+              fcmToken: event.token,
+              enabled: enabled));
         });
       }
     });
     // Account has been deleted or name changed
-    _accountModifiedSub = EventTaxiImpl.singleton().registerTo<AccountModifiedEvent>().listen((event) {
+    _accountModifiedSub = EventTaxiImpl.singleton()
+        .registerTo<AccountModifiedEvent>()
+        .listen((event) {
       if (!event.deleted) {
         if (event.account.index == selectedAccount.index) {
           setState(() {
@@ -226,18 +242,22 @@ class StateContainerState extends State<StateContainer> {
       } else {
         // Remove account
         updateRecentlyUsedAccounts().then((_) {
-          if (event.account.index == selectedAccount.index && recentLast != null) {
+          if (event.account.index == selectedAccount.index &&
+              recentLast != null) {
             sl.get<DBHelper>().changeAccount(recentLast);
             setState(() {
               selectedAccount = recentLast;
             });
-            EventTaxiImpl.singleton().fire(AccountChangedEvent(account: recentLast, noPop: true));
-          } else if (event.account.index == selectedAccount.index && recentSecondLast != null) {
+            EventTaxiImpl.singleton()
+                .fire(AccountChangedEvent(account: recentLast, noPop: true));
+          } else if (event.account.index == selectedAccount.index &&
+              recentSecondLast != null) {
             sl.get<DBHelper>().changeAccount(recentSecondLast);
             setState(() {
               selectedAccount = recentSecondLast;
             });
-            EventTaxiImpl.singleton().fire(AccountChangedEvent(account: recentSecondLast, noPop: true));
+            EventTaxiImpl.singleton().fire(
+                AccountChangedEvent(account: recentSecondLast, noPop: true));
           } else if (event.account.index == selectedAccount.index) {
             getSeed().then((seed) {
               sl.get<DBHelper>().getMainAccount(seed).then((mainAccount) {
@@ -245,9 +265,10 @@ class StateContainerState extends State<StateContainer> {
                 setState(() {
                   selectedAccount = mainAccount;
                 });
-                EventTaxiImpl.singleton().fire(AccountChangedEvent(account: mainAccount, noPop: true)); 
-              });  
-            });       
+                EventTaxiImpl.singleton().fire(
+                    AccountChangedEvent(account: mainAccount, noPop: true));
+              });
+            });
           }
         });
         updateRecentlyUsedAccounts();
@@ -307,7 +328,8 @@ class StateContainerState extends State<StateContainer> {
   }
 
   Future<void> updateRecentlyUsedAccounts() async {
-    List<Account> otherAccounts = await sl.get<DBHelper>().getRecentlyUsedAccounts(await getSeed());
+    List<Account> otherAccounts =
+        await sl.get<DBHelper>().getRecentlyUsedAccounts(await getSeed());
     if (otherAccounts != null && otherAccounts.length > 0) {
       if (otherAccounts.length > 1) {
         setState(() {
@@ -338,7 +360,7 @@ class StateContainerState extends State<StateContainer> {
   // Set encrypted secret
   void setEncryptedSecret(String secret) {
     setState(() {
-      encryptedSecret = secret;      
+      encryptedSecret = secret;
     });
   }
 
@@ -377,10 +399,12 @@ class StateContainerState extends State<StateContainer> {
 
   ///
   /// When an error is returned from server
-  /// 
+  ///
   Future<void> handleErrorResponse(ErrorResponse errorResponse) async {
     sl.get<AccountService>().processQueue();
-    if (errorResponse.error == null) { return; }
+    if (errorResponse.error == null) {
+      return;
+    }
   }
 
   /// Handle account_subscribe response
@@ -419,7 +443,7 @@ class StateContainerState extends State<StateContainer> {
       sl.get<AccountService>().processQueue();
     });
   }
- 
+
   /// Handle callback response
   /// Typically this means we need to pocket transactions
   Future<void> handleCallbackResponse(CallbackResponse resp) async {
@@ -436,11 +460,10 @@ class StateContainerState extends State<StateContainer> {
     String receivedHash = await handlePendingItem(pendingItem);
     if (receivedHash != null) {
       AccountHistoryResponseItem histItem = AccountHistoryResponseItem(
-        type: BlockTypes.RECEIVE,
-        account: resp.account,
-        amount: resp.amount,
-        hash: receivedHash
-      );
+          type: BlockTypes.RECEIVE,
+          account: resp.account,
+          amount: resp.amount,
+          hash: receivedHash);
       if (!wallet.history.contains(histItem)) {
         setState(() {
           wallet.history.insert(0, histItem);
@@ -470,7 +493,8 @@ class StateContainerState extends State<StateContainer> {
       // Publish open
       sl.get<Logger>().d("Handling ${item.hash} as open");
       try {
-        ProcessResponse resp = await sl.get<AccountService>().requestOpen(item.amount, item.hash, wallet.address, await _getPrivKey());
+        ProcessResponse resp = await sl.get<AccountService>().requestOpen(
+            item.amount, item.hash, wallet.address, await _getPrivKey());
         wallet.openBlock = resp.hash;
         wallet.frontier = resp.hash;
         pendingRequests.remove(item.hash);
@@ -484,34 +508,46 @@ class StateContainerState extends State<StateContainer> {
       // Publish receive
       sl.get<Logger>().d("Handling ${item.hash} as receive");
       try {
-        ProcessResponse resp = await sl.get<AccountService>().requestReceive(wallet.representative, wallet.frontier, item.amount, item.hash, wallet.address, await _getPrivKey());
+        ProcessResponse resp = await sl.get<AccountService>().requestReceive(
+            wallet.representative,
+            wallet.frontier,
+            item.amount,
+            item.hash,
+            wallet.address,
+            await _getPrivKey());
         wallet.frontier = resp.hash;
         pendingRequests.remove(item.hash);
-        alreadyReceived.add(item.hash);        
+        alreadyReceived.add(item.hash);
         return resp.hash;
       } catch (e) {
         pendingRequests.remove(item.hash);
         sl.get<Logger>().e("Error creating receive", e);
-      }     
+      }
     }
     return null;
   }
 
   /// Request balances for accounts in our database
   Future<void> _requestBalances() async {
-    List<Account> accounts = await sl.get<DBHelper>().getAccounts(await getSeed());
+    List<Account> accounts =
+        await sl.get<DBHelper>().getAccounts(await getSeed());
     List<String> addressToRequest = List();
     accounts.forEach((account) {
       if (account.address != null) {
         addressToRequest.add(account.address);
       }
     });
-    AccountsBalancesResponse resp = await sl.get<AccountService>().requestAccountsBalances(addressToRequest);
+    AccountsBalancesResponse resp = await sl
+        .get<AccountService>()
+        .requestAccountsBalances(addressToRequest);
     sl.get<DBHelper>().getAccounts(await getSeed()).then((accounts) {
       accounts.forEach((account) {
         resp.balances.forEach((address, balance) {
-          String combinedBalance = (BigInt.tryParse(balance.balance) + BigInt.tryParse(balance.pending)).toString();
-          if (address == account.address && combinedBalance != account.balance) {
+          String combinedBalance = (BigInt.tryParse(balance.balance) +
+                  BigInt.tryParse(balance.pending))
+              .toString();
+          if (address == account.address &&
+              combinedBalance != account.balance) {
             sl.get<DBHelper>().updateAccountBalance(account, combinedBalance);
           }
         });
@@ -534,8 +570,9 @@ class StateContainerState extends State<StateContainer> {
           uuid: uuid,
           fcmToken: fcmToken,
           notificationEnabled: notificationsEnabled));
-      sl.get<AccountService>().queueRequest(
-          AccountHistoryRequest(account: wallet.address));
+      sl
+          .get<AccountService>()
+          .queueRequest(AccountHistoryRequest(account: wallet.address));
       sl.get<AccountService>().processQueue();
       // Request account history
 
@@ -547,7 +584,9 @@ class StateContainerState extends State<StateContainer> {
         count = 50;
       }
       try {
-        AccountHistoryResponse resp = await sl.get<AccountService>().requestAccountHistory(wallet.address, count: count);
+        AccountHistoryResponse resp = await sl
+            .get<AccountService>()
+            .requestAccountHistory(wallet.address, count: count);
         _requestBalances();
         bool postedToHome = false;
         // Iterate list in reverse (oldest to newest block)
@@ -555,14 +594,13 @@ class StateContainerState extends State<StateContainer> {
           // If current list doesn't contain this item, insert it and the rest of the items in list and exit loop
           if (!wallet.history.contains(item)) {
             int startIndex = 0; // Index to start inserting into the list
-            int lastIndex = resp.history.indexWhere((item) =>
-                wallet.history.contains(
+            int lastIndex = resp.history.indexWhere((item) => wallet.history
+                .contains(
                     item)); // Last index of historyResponse to insert to (first index where item exists in wallet history)
-            lastIndex =
-                lastIndex <= 0 ? resp.history.length : lastIndex;
+            lastIndex = lastIndex <= 0 ? resp.history.length : lastIndex;
             setState(() {
-              wallet.history.insertAll(
-                  0, resp.history.getRange(startIndex, lastIndex));
+              wallet.history
+                  .insertAll(0, resp.history.getRange(startIndex, lastIndex));
               // Send list to home screen
               EventTaxiImpl.singleton()
                   .fire(HistoryHomeEvent(items: wallet.history));
@@ -575,13 +613,17 @@ class StateContainerState extends State<StateContainer> {
           wallet.historyLoading = false;
         });
         if (!postedToHome) {
-          EventTaxiImpl.singleton().fire(HistoryHomeEvent(items: wallet.history));
+          EventTaxiImpl.singleton()
+              .fire(HistoryHomeEvent(items: wallet.history));
         }
         sl.get<AccountService>().pop();
         sl.get<AccountService>().processQueue();
         // Receive pendings
         if (pending) {
-          PendingResponse pendingResp = await sl.get<AccountService>().getPending(wallet.address, max(wallet.blockCount ?? 0, 10), threshold: receiveThreshold);
+          PendingResponse pendingResp = await sl
+              .get<AccountService>()
+              .getPending(wallet.address, max(wallet.blockCount ?? 0, 10),
+                  threshold: receiveThreshold);
           // Initiate receive/open request for each pending
           for (String hash in pendingResp.blocks.keys) {
             PendingResponseItem pendingResponseItem = pendingResp.blocks[hash];
@@ -589,15 +631,15 @@ class StateContainerState extends State<StateContainer> {
             String receivedHash = await handlePendingItem(pendingResponseItem);
             if (receivedHash != null) {
               AccountHistoryResponseItem histItem = AccountHistoryResponseItem(
-                type: BlockTypes.RECEIVE,
-                account: pendingResponseItem.source,
-                amount: pendingResponseItem.amount,
-                hash: receivedHash
-              );
+                  type: BlockTypes.RECEIVE,
+                  account: pendingResponseItem.source,
+                  amount: pendingResponseItem.amount,
+                  hash: receivedHash);
               if (!wallet.history.contains(histItem)) {
                 setState(() {
                   wallet.history.insert(0, histItem);
-                  wallet.accountBalance += BigInt.parse(pendingResponseItem.amount);
+                  wallet.accountBalance +=
+                      BigInt.parse(pendingResponseItem.amount);
                   // Send list to home screen
                   EventTaxiImpl.singleton()
                       .fire(HistoryHomeEvent(items: wallet.history));
@@ -614,12 +656,20 @@ class StateContainerState extends State<StateContainer> {
   }
 
   Future<void> requestSubscribe() async {
-    if (wallet != null && wallet.address != null && Address(wallet.address).isValid()) {
+    if (wallet != null &&
+        wallet.address != null &&
+        Address(wallet.address).isValid()) {
       String uuid = await sl.get<SharedPrefsUtil>().getUuid();
       String fcmToken = await FirebaseMessaging().getToken();
-      bool notificationsEnabled = await sl.get<SharedPrefsUtil>().getNotificationsOn();
+      bool notificationsEnabled =
+          await sl.get<SharedPrefsUtil>().getNotificationsOn();
       sl.get<AccountService>().removeSubscribeHistoryPendingFromQueue();
-      sl.get<AccountService>().queueRequest(SubscribeRequest(account:wallet.address, currency:curCurrency.getIso4217Code(), uuid:uuid, fcmToken: fcmToken, notificationEnabled: notificationsEnabled));
+      sl.get<AccountService>().queueRequest(SubscribeRequest(
+          account: wallet.address,
+          currency: curCurrency.getIso4217Code(),
+          uuid: uuid,
+          fcmToken: fcmToken,
+          notificationEnabled: notificationsEnabled));
       sl.get<AccountService>().processQueue();
     }
   }
@@ -640,8 +690,9 @@ class StateContainerState extends State<StateContainer> {
 
   Future<String> getSeed() async {
     String seed;
-    if (encryptedSecret != null)  {
-      seed = NanoHelpers.byteToHex(NanoCrypt.decrypt(encryptedSecret, await sl.get<Vault>().getSessionKey()));
+    if (encryptedSecret != null) {
+      seed = NanoHelpers.byteToHex(NanoCrypt.decrypt(
+          encryptedSecret, await sl.get<Vault>().getSessionKey()));
     } else {
       seed = await sl.get<Vault>().getSeed();
     }

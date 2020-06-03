@@ -162,70 +162,120 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                       ),
                     ),
                     // Logo Background White
-                    Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 6,
-                        height: MediaQuery.of(context).size.width / 6,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                          border: Border.all(
-                            width: (StateContainer.of(context).curTheme
-                                    is IndiumTheme)
-                                ? MediaQuery.of(context).size.width / 110
-                                : MediaQuery.of(context).size.width / 150,
-                            color: (StateContainer.of(context).curTheme
-                                    is IndiumTheme)
-                                ? StateContainer.of(context)
-                                    .curTheme
-                                    .backgroundDark
-                                : StateContainer.of(context).curTheme.primary,
-                          ),
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: (StateContainer.of(context).curTheme
-                                      is IndiumTheme)
-                                  ? MediaQuery.of(context).size.width / 150
-                                  : MediaQuery.of(context).size.width / 110,
-                              color: (StateContainer.of(context).curTheme
-                                      is IndiumTheme)
-                                  ? StateContainer.of(context).curTheme.primary
-                                  : StateContainer.of(context)
-                                      .curTheme
-                                      .backgroundDark,
+                    StateContainer.of(context).natriconOn
+                        ? Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 6,
+                              height: MediaQuery.of(context).size.width / 6,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                                border: Border.all(
+                                  width: (StateContainer.of(context).curTheme
+                                          is IndiumTheme)
+                                      ? MediaQuery.of(context).size.width / 110
+                                      : MediaQuery.of(context).size.width / 150,
+                                  color: (StateContainer.of(context).curTheme
+                                          is IndiumTheme)
+                                      ? StateContainer.of(context)
+                                          .curTheme
+                                          .backgroundDark
+                                      : StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                ),
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: (StateContainer.of(context).curTheme
+                                            is IndiumTheme)
+                                        ? MediaQuery.of(context).size.width /
+                                            150
+                                        : MediaQuery.of(context).size.width /
+                                            110,
+                                    color: (StateContainer.of(context).curTheme
+                                            is IndiumTheme)
+                                        ? StateContainer.of(context)
+                                            .curTheme
+                                            .primary
+                                        : StateContainer.of(context)
+                                            .curTheme
+                                            .backgroundDark,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 6.7,
+                              height: MediaQuery.of(context).size.width / 6.7,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
+                    StateContainer.of(context).natriconOn
+                        ? SizedBox()
+                        : // Logo Background Primary
+                        Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 8,
+                              height: MediaQuery.of(context).size.width / 8,
+                              decoration: BoxDecoration(
+                                color:
+                                    StateContainer.of(context).curTheme.primary,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
                     // natricon
-                    Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 6.25,
-                        height: MediaQuery.of(context).size.width / 6.25,
-                        margin: EdgeInsetsDirectional.only(
-                            top: MediaQuery.of(context).size.width / 110),
-                        child: SvgPicture.network(
-                            'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                StateContainer.of(context)
-                                    .selectedAccount
-                                    .address,
-                            placeholderBuilder: (BuildContext context) =>
-                                Container(
-                                  child: FlareActor(
-                                    "assets/ntr_placeholder_animation.flr",
-                                    animation: "main",
-                                    fit: BoxFit.contain,
+                    StateContainer.of(context).natriconOn
+                        ? Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 6.25,
+                              height: MediaQuery.of(context).size.width / 6.25,
+                              margin: EdgeInsetsDirectional.only(
+                                  top: MediaQuery.of(context).size.width / 110),
+                              child: SvgPicture.network(
+                                  'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                      StateContainer.of(context)
+                                          .selectedAccount
+                                          .address,
+                                  placeholderBuilder: (BuildContext context) =>
+                                      Container(
+                                        child: FlareActor(
+                                          "assets/ntr_placeholder_animation.flr",
+                                          animation: "main",
+                                          fit: BoxFit.contain,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .primary,
+                                        ),
+                                      )),
+                            ),
+                          )
+                        : Center(
+                            child: Container(
+                              height: MediaQuery.of(context).size.width / 30,
+                              child: AutoSizeText(
+                                "",
+                                style: TextStyle(
+                                    fontFamily: "AppIcons",
                                     color: StateContainer.of(context)
                                         .curTheme
-                                        .primary,
-                                  ),
-                                )),
-                      ),
-                    ),
+                                        .backgroundDark,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                                minFontSize: 0.1,
+                                stepGranularity: 0.1,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ),
                   ],
                 ),
               ),

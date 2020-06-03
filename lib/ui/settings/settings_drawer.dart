@@ -649,231 +649,467 @@ class _SettingsSheetState extends State<SettingsSheet>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       // Main Account
-                      Container(
-                        margin: EdgeInsetsDirectional.only(start: 4.0),
-                        child: Stack(
-                          children: <Widget>[
-                            Center(
-                              child: Container(
-                                width: 64,
-                                height: 64,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100.0),
-                                  border: Border.all(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .primary,
-                                      width: 1.5),
-                                ),
-                                alignment: AlignmentDirectional(-1, 0),
-                                // natricon
-                                child: SvgPicture.network(
-                                  'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                      StateContainer.of(context)
-                                          .selectedAccount
-                                          .address,
-                                  placeholderBuilder: (BuildContext context) =>
-                                      Container(
-                                    child: FlareActor(
-                                      "assets/ntr_placeholder_animation.flr",
-                                      animation: "main",
-                                      fit: BoxFit.contain,
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .primary,
+                      StateContainer.of(context).natriconOn
+                          ? Container(
+                              margin: EdgeInsetsDirectional.only(start: 4.0),
+                              child: Stack(
+                                children: <Widget>[
+                                  Center(
+                                    child: Container(
+                                      width: 64,
+                                      height: 64,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100.0),
+                                        border: Border.all(
+                                            color: StateContainer.of(context)
+                                                .curTheme
+                                                .primary,
+                                            width: 1.5),
+                                      ),
+                                      alignment: AlignmentDirectional(-1, 0),
+                                      // natricon
+                                      child: SvgPicture.network(
+                                        'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                            StateContainer.of(context)
+                                                .selectedAccount
+                                                .address,
+                                        placeholderBuilder:
+                                            (BuildContext context) => Container(
+                                          child: FlareActor(
+                                            "assets/ntr_placeholder_animation.flr",
+                                            animation: "main",
+                                            fit: BoxFit.contain,
+                                            color: StateContainer.of(context)
+                                                .curTheme
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
-                            Center(
-                              child: Container(
-                                width: 64,
-                                height: 64,
-                                child: FlatButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(100.0)),
-                                  highlightColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
-                                  splashColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
-                                  padding: EdgeInsets.all(0.0),
-                                  child: SizedBox(
-                                    width: 60,
-                                    height: 60,
-                                  ),
-                                  onPressed: () {
-                                    AccountDetailsSheet(
+                                  Center(
+                                    child: Container(
+                                      width: 64,
+                                      height: 64,
+                                      child: FlatButton(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(100.0)),
+                                        highlightColor:
                                             StateContainer.of(context)
-                                                .selectedAccount)
-                                        .mainBottomSheet(context);
-                                  },
-                                ),
+                                                .curTheme
+                                                .text15,
+                                        splashColor: StateContainer.of(context)
+                                            .curTheme
+                                            .text15,
+                                        padding: EdgeInsets.all(0.0),
+                                        child: SizedBox(
+                                          width: 60,
+                                          height: 60,
+                                        ),
+                                        onPressed: () {
+                                          AccountDetailsSheet(
+                                                  StateContainer.of(context)
+                                                      .selectedAccount)
+                                              .mainBottomSheet(context);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(
+                              margin: EdgeInsetsDirectional.only(start: 4.0),
+                              child: Stack(
+                                children: <Widget>[
+                                  Center(
+                                    child: Container(
+                                        width: 60,
+                                        height: 45,
+                                        alignment: AlignmentDirectional(-1, 0),
+                                        child: Icon(
+                                          AppIcons.accountwallet,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .success,
+                                          size: 45,
+                                        )),
+                                  ),
+                                  Center(
+                                    child: Container(
+                                      width: 60,
+                                      height: 45,
+                                      alignment: AlignmentDirectional(0, 0.3),
+                                      child: Text(
+                                        StateContainer.of(context)
+                                            .selectedAccount
+                                            .getShortName()
+                                            .toUpperCase(),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .backgroundDark,
+                                          fontSize: 16,
+                                          fontFamily: "NunitoSans",
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: Container(
+                                      width: 60,
+                                      height: 45,
+                                      child: FlatButton(
+                                        highlightColor:
+                                            StateContainer.of(context)
+                                                .curTheme
+                                                .backgroundDark
+                                                .withOpacity(0.75),
+                                        splashColor: StateContainer.of(context)
+                                            .curTheme
+                                            .backgroundDark
+                                            .withOpacity(0.75),
+                                        padding: EdgeInsets.all(0.0),
+                                        child: SizedBox(
+                                          width: 60,
+                                          height: 45,
+                                        ),
+                                        onPressed: () {
+                                          AccountDetailsSheet(
+                                                  StateContainer.of(context)
+                                                      .selectedAccount)
+                                              .mainBottomSheet(context);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
                       // A row for other accounts and account switcher
                       Row(
                         children: <Widget>[
                           // Second Account
                           StateContainer.of(context).recentLast != null
-                              ? Container(
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Center(
-                                        child: Container(
-                                          height: 52,
-                                          width: 52,
-                                          // natricon
-                                          child: SvgPicture.network(
-                                            'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                                StateContainer.of(context)
-                                                    .recentLast
-                                                    .address,
-                                            placeholderBuilder:
-                                                (BuildContext context) =>
-                                                    Container(
-                                              child: FlareActor(
-                                                "assets/ntr_placeholder_animation.flr",
-                                                animation: "main",
-                                                fit: BoxFit.contain,
-                                                color:
+                              ? StateContainer.of(context).natriconOn
+                                  ? Container(
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Center(
+                                            child: Container(
+                                              height: 52,
+                                              width: 52,
+                                              // natricon
+                                              child: SvgPicture.network(
+                                                'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
                                                     StateContainer.of(context)
+                                                        .recentLast
+                                                        .address,
+                                                placeholderBuilder:
+                                                    (BuildContext context) =>
+                                                        Container(
+                                                  child: FlareActor(
+                                                    "assets/ntr_placeholder_animation.flr",
+                                                    animation: "main",
+                                                    fit: BoxFit.contain,
+                                                    color: StateContainer.of(
+                                                            context)
                                                         .curTheme
                                                         .primary,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Container(
-                                          width: 52,
-                                          height: 52,
-                                          color: Colors.transparent,
-                                          child: FlatButton(
-                                            onPressed: () {
-                                              sl
-                                                  .get<DBHelper>()
-                                                  .changeAccount(
-                                                      StateContainer.of(context)
-                                                          .recentLast)
-                                                  .then((_) {
-                                                EventTaxiImpl.singleton().fire(
-                                                    AccountChangedEvent(
-                                                        account:
-                                                            StateContainer.of(
-                                                                    context)
-                                                                .recentLast,
-                                                        delayPop: true));
-                                              });
-                                            },
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        100.0)),
-                                            highlightColor:
-                                                StateContainer.of(context)
-                                                    .curTheme
-                                                    .text15,
-                                            splashColor:
-                                                StateContainer.of(context)
-                                                    .curTheme
-                                                    .text15,
-                                            padding: EdgeInsets.all(0.0),
+                                          Center(
                                             child: Container(
                                               width: 52,
                                               height: 52,
                                               color: Colors.transparent,
+                                              child: FlatButton(
+                                                onPressed: () {
+                                                  sl
+                                                      .get<DBHelper>()
+                                                      .changeAccount(
+                                                          StateContainer.of(
+                                                                  context)
+                                                              .recentLast)
+                                                      .then((_) {
+                                                    EventTaxiImpl.singleton()
+                                                        .fire(AccountChangedEvent(
+                                                            account:
+                                                                StateContainer.of(
+                                                                        context)
+                                                                    .recentLast,
+                                                            delayPop: true));
+                                                  });
+                                                },
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100.0)),
+                                                highlightColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .text15,
+                                                splashColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .text15,
+                                                padding: EdgeInsets.all(0.0),
+                                                child: Container(
+                                                  width: 52,
+                                                  height: 52,
+                                                  color: Colors.transparent,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                )
+                                    )
+                                  : Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Center(
+                                            child: Icon(
+                                              AppIcons.accountwallet,
+                                              color: StateContainer.of(context)
+                                                  .curTheme
+                                                  .primary,
+                                              size: 36,
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              width: 48,
+                                              height: 36,
+                                              alignment:
+                                                  AlignmentDirectional(0, 0.3),
+                                              child: Text(
+                                                  StateContainer.of(context)
+                                                      .recentLast
+                                                      .getShortName()
+                                                      .toUpperCase(),
+                                                  style: TextStyle(
+                                                    color: StateContainer.of(
+                                                            context)
+                                                        .curTheme
+                                                        .backgroundDark,
+                                                    fontSize: 12.0,
+                                                    fontWeight: FontWeight.w800,
+                                                  )),
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              width: 48,
+                                              height: 36,
+                                              color: Colors.transparent,
+                                              child: FlatButton(
+                                                onPressed: () {
+                                                  sl
+                                                      .get<DBHelper>()
+                                                      .changeAccount(
+                                                          StateContainer.of(
+                                                                  context)
+                                                              .recentLast)
+                                                      .then((_) {
+                                                    EventTaxiImpl.singleton()
+                                                        .fire(AccountChangedEvent(
+                                                            account:
+                                                                StateContainer.of(
+                                                                        context)
+                                                                    .recentLast,
+                                                            delayPop: true));
+                                                  });
+                                                },
+                                                highlightColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .backgroundDark
+                                                        .withOpacity(0.75),
+                                                splashColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .backgroundDark
+                                                        .withOpacity(0.75),
+                                                padding: EdgeInsets.all(0.0),
+                                                child: Container(
+                                                  width: 48,
+                                                  height: 36,
+                                                  color: Colors.transparent,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
                               : SizedBox(),
                           // Third Account
                           StateContainer.of(context).recentSecondLast != null
-                              ? Container(
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Center(
-                                        child: Container(
-                                          height: 52,
-                                          width: 52,
-                                          // natricon
-                                          child: SvgPicture.network(
-                                            'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                                StateContainer.of(context)
-                                                    .recentSecondLast
-                                                    .address,
-                                            placeholderBuilder:
-                                                (BuildContext context) =>
-                                                    Container(
-                                              child: FlareActor(
-                                                "assets/ntr_placeholder_animation.flr",
-                                                animation: "main",
-                                                fit: BoxFit.contain,
-                                                color:
+                              ? StateContainer.of(context).natriconOn
+                                  ? Container(
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Center(
+                                            child: Container(
+                                              height: 52,
+                                              width: 52,
+                                              // natricon
+                                              child: SvgPicture.network(
+                                                'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
                                                     StateContainer.of(context)
+                                                        .recentSecondLast
+                                                        .address,
+                                                placeholderBuilder:
+                                                    (BuildContext context) =>
+                                                        Container(
+                                                  child: FlareActor(
+                                                    "assets/ntr_placeholder_animation.flr",
+                                                    animation: "main",
+                                                    fit: BoxFit.contain,
+                                                    color: StateContainer.of(
+                                                            context)
                                                         .curTheme
                                                         .primary,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Container(
-                                          width: 52,
-                                          height: 52,
-                                          color: Colors.transparent,
-                                          child: FlatButton(
-                                            onPressed: () {
-                                              sl
-                                                  .get<DBHelper>()
-                                                  .changeAccount(
-                                                      StateContainer.of(context)
-                                                          .recentSecondLast)
-                                                  .then((_) {
-                                                EventTaxiImpl.singleton().fire(
-                                                    AccountChangedEvent(
-                                                        account: StateContainer
-                                                                .of(context)
-                                                            .recentSecondLast,
-                                                        delayPop: true));
-                                              });
-                                            },
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        100.0)),
-                                            highlightColor:
-                                                StateContainer.of(context)
-                                                    .curTheme
-                                                    .text15,
-                                            splashColor:
-                                                StateContainer.of(context)
-                                                    .curTheme
-                                                    .text15,
-                                            padding: EdgeInsets.all(0.0),
+                                          Center(
                                             child: Container(
                                               width: 52,
                                               height: 52,
                                               color: Colors.transparent,
+                                              child: FlatButton(
+                                                onPressed: () {
+                                                  sl
+                                                      .get<DBHelper>()
+                                                      .changeAccount(
+                                                          StateContainer.of(
+                                                                  context)
+                                                              .recentSecondLast)
+                                                      .then((_) {
+                                                    EventTaxiImpl.singleton()
+                                                        .fire(AccountChangedEvent(
+                                                            account: StateContainer
+                                                                    .of(context)
+                                                                .recentSecondLast,
+                                                            delayPop: true));
+                                                  });
+                                                },
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100.0)),
+                                                highlightColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .text15,
+                                                splashColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .text15,
+                                                padding: EdgeInsets.all(0.0),
+                                                child: Container(
+                                                  width: 52,
+                                                  height: 52,
+                                                  color: Colors.transparent,
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                )
+                                    )
+                                  : Container(
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Center(
+                                            child: Icon(
+                                              AppIcons.accountwallet,
+                                              color: StateContainer.of(context)
+                                                  .curTheme
+                                                  .primary,
+                                              size: 36,
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              width: 48,
+                                              height: 36,
+                                              alignment:
+                                                  AlignmentDirectional(0, 0.3),
+                                              child: Text(
+                                                  StateContainer.of(context)
+                                                      .recentSecondLast
+                                                      .getShortName()
+                                                      .toUpperCase(),
+                                                  style: TextStyle(
+                                                    color: StateContainer.of(
+                                                            context)
+                                                        .curTheme
+                                                        .backgroundDark,
+                                                    fontSize: 12.0,
+                                                    fontWeight: FontWeight.w800,
+                                                  )),
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Container(
+                                              width: 48,
+                                              height: 36,
+                                              color: Colors.transparent,
+                                              child: FlatButton(
+                                                onPressed: () {
+                                                  sl
+                                                      .get<DBHelper>()
+                                                      .changeAccount(
+                                                          StateContainer.of(
+                                                                  context)
+                                                              .recentSecondLast)
+                                                      .then((_) {
+                                                    EventTaxiImpl.singleton()
+                                                        .fire(AccountChangedEvent(
+                                                            account: StateContainer
+                                                                    .of(context)
+                                                                .recentSecondLast,
+                                                            delayPop: true));
+                                                  });
+                                                },
+                                                highlightColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .backgroundDark
+                                                        .withOpacity(0.75),
+                                                splashColor:
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .backgroundDark
+                                                        .withOpacity(0.75),
+                                                padding: EdgeInsets.all(0.0),
+                                                child: Container(
+                                                  width: 48,
+                                                  height: 36,
+                                                  color: Colors.transparent,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
                               : SizedBox(),
                           // Account switcher
                           Container(
@@ -1057,6 +1293,17 @@ class _SettingsSheetState extends State<SettingsSheet>
                       });
                       _securityController.forward();
                     }),
+                    Divider(
+                      height: 2,
+                      color: StateContainer.of(context).curTheme.text15,
+                    ),
+                    // Natricon on-off
+                    AppSettings.buildSettingsListItemDoubleLine(
+                        context,
+                        AppLocalization.of(context).natricon,
+                        _curNotificiationSetting,
+                        AppIcons.natricon,
+                        _notificationsDialog),
                     Divider(
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,

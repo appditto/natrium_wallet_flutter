@@ -1444,57 +1444,70 @@ class _AppHomePageState extends State<AppHomePage>
             child: _getBalanceWidget(),
           ),
           // natricon
-          AnimatedContainer(
-            duration: Duration(milliseconds: 200),
-            curve: Curves.easeInOut,
-            width: mainCardHeight == 64 ? 60 : 74,
-            height: mainCardHeight == 64 ? 60 : 74,
-            margin: EdgeInsets.only(right: 2),
-            alignment: Alignment(0, 0),
-            child: Stack(
-              children: <Widget>[
-                Center(
-                  child: Container(
-                    // natricon
-                    child: Hero(
-                      tag: "avatar",
-                      child: SvgPicture.network(
-                        'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                            StateContainer.of(context).selectedAccount.address,
-                        placeholderBuilder: (BuildContext context) => Container(
-                          child: FlareActor(
-                            "assets/ntr_placeholder_animation.flr",
-                            animation: "main",
-                            fit: BoxFit.contain,
-                            color: StateContainer.of(context).curTheme.primary,
+          StateContainer.of(context).natriconOn
+              ? AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.easeInOut,
+                  width: mainCardHeight == 64 ? 60 : 74,
+                  height: mainCardHeight == 64 ? 60 : 74,
+                  margin: EdgeInsets.only(right: 2),
+                  alignment: Alignment(0, 0),
+                  child: Stack(
+                    children: <Widget>[
+                      Center(
+                        child: Container(
+                          // natricon
+                          child: Hero(
+                            tag: "avatar",
+                            child: SvgPicture.network(
+                              'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                  StateContainer.of(context)
+                                      .selectedAccount
+                                      .address,
+                              placeholderBuilder: (BuildContext context) =>
+                                  Container(
+                                child: FlareActor(
+                                  "assets/ntr_placeholder_animation.flr",
+                                  animation: "main",
+                                  fit: BoxFit.contain,
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .primary,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Container(
-                    color: Colors.transparent,
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/avatar_page');
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100.0)),
-                      highlightColor:
-                          StateContainer.of(context).curTheme.text15,
-                      splashColor: StateContainer.of(context).curTheme.text15,
-                      padding: EdgeInsets.all(0.0),
-                      child: Container(
-                        color: Colors.transparent,
+                      Center(
+                        child: Container(
+                          color: Colors.transparent,
+                          child: FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/avatar_page');
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100.0)),
+                            highlightColor:
+                                StateContainer.of(context).curTheme.text15,
+                            splashColor:
+                                StateContainer.of(context).curTheme.text15,
+                            padding: EdgeInsets.all(0.0),
+                            child: Container(
+                              color: Colors.transparent,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+                )
+              : AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.easeInOut,
+                  width: 80.0,
+                  height: mainCardHeight,
                 ),
-              ],
-            ),
-          ),
         ],
       ),
     );
@@ -1704,7 +1717,7 @@ class _AppHomePageState extends State<AppHomePage>
                                 children: [
                                   // Currency Icon
                                   TextSpan(
-                                    text: "",
+                                    text: "",
                                     style: TextStyle(
                                       fontFamily: 'AppIcons',
                                       color: StateContainer.of(context)

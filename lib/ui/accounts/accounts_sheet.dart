@@ -375,17 +375,24 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     // Selected indicator
-                    Container(
-                      height: 70,
-                      width: 6,
-                      color: account.selected
-                          ? StateContainer.of(context).curTheme.primary
-                          : Colors.transparent,
-                    ),
+                    StateContainer.of(context).natriconOn
+                        ? Container(
+                            height: 70,
+                            width: 6,
+                            color: account.selected
+                                ? StateContainer.of(context).curTheme.primary
+                                : Colors.transparent,
+                          )
+                        : SizedBox(),
                     // Icon, Account Name, Address and Amount
                     Expanded(
                       child: Container(
-                        margin: EdgeInsetsDirectional.only(start: 8, end: 16),
+                        margin: EdgeInsetsDirectional.only(
+                            start:
+                                StateContainer.of(context).natriconOn ? 8 : 20,
+                            end: StateContainer.of(context).natriconOn
+                                ? 16
+                                : 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -395,31 +402,77 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 // natricon
-                                Container(
-                                  width: 64.0,
-                                  height: 64.0,
-                                  child: SvgPicture.network(
-                                    'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                        account.address,
-                                    placeholderBuilder:
-                                        (BuildContext context) => Container(
-                                      child: FlareActor(
-                                        "assets/ntr_placeholder_animation.flr",
-                                        animation: "main",
-                                        fit: BoxFit.contain,
-                                        color: StateContainer.of(context)
-                                            .curTheme
-                                            .primary,
+                                StateContainer.of(context).natriconOn
+                                    ? Container(
+                                        width: 64.0,
+                                        height: 64.0,
+                                        child: SvgPicture.network(
+                                          'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                              account.address,
+                                          placeholderBuilder:
+                                              (BuildContext context) =>
+                                                  Container(
+                                            child: FlareActor(
+                                              "assets/ntr_placeholder_animation.flr",
+                                              animation: "main",
+                                              fit: BoxFit.contain,
+                                              color: StateContainer.of(context)
+                                                  .curTheme
+                                                  .primary,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Center(
+                                              child: Icon(
+                                                AppIcons.accountwallet,
+                                                color: account.selected
+                                                    ? StateContainer.of(context)
+                                                        .curTheme
+                                                        .success
+                                                    : StateContainer.of(context)
+                                                        .curTheme
+                                                        .primary,
+                                                size: 30,
+                                              ),
+                                            ),
+                                            Center(
+                                              child: Container(
+                                                width: 40,
+                                                height: 30,
+                                                alignment: AlignmentDirectional(
+                                                    0, 0.3),
+                                                child: Text(
+                                                    account
+                                                        .getShortName()
+                                                        .toUpperCase(),
+                                                    style: TextStyle(
+                                                      color: StateContainer.of(
+                                                              context)
+                                                          .curTheme
+                                                          .backgroundDark,
+                                                      fontSize: 12.0,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                    )),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
                                 // Account name and address
                                 Container(
                                   width: (MediaQuery.of(context).size.width -
                                           116) *
                                       0.5,
-                                  margin: EdgeInsetsDirectional.only(start: 8),
+                                  margin: EdgeInsetsDirectional.only(
+                                      start:
+                                          StateContainer.of(context).natriconOn
+                                              ? 8.0
+                                              : 20.0),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -471,7 +524,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                                   children: [
                                     // Currency Icon
                                     TextSpan(
-                                      text: account.balance != null ? "" : "",
+                                      text: account.balance != null ? "" : "",
                                       style: TextStyle(
                                         fontFamily: 'AppIcons',
                                         color: StateContainer.of(context)
@@ -513,13 +566,15 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                       ),
                     ),
                     // Selected indicator
-                    Container(
-                      height: 70,
-                      width: 6,
-                      color: account.selected
-                          ? StateContainer.of(context).curTheme.primary
-                          : Colors.transparent,
-                    ),
+                    StateContainer.of(context).natriconOn
+                        ? Container(
+                            height: 70,
+                            width: 6,
+                            color: account.selected
+                                ? StateContainer.of(context).curTheme.primary
+                                : Colors.transparent,
+                          )
+                        : SizedBox()
                   ],
                 ),
               ),

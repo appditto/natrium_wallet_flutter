@@ -96,75 +96,126 @@ class _AppShareCardState extends State<AppShareCard> {
                       ),
                     ),
                     // Logo Background White
-                    Center(
-                      child: Container(
-                        width: 26.5,
-                        height: 26.5,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                          border: Border.all(
-                            width: (StateContainer.of(context).curTheme
-                                    is IndiumTheme)
-                                ? 1.44545
-                                : 1.06,
-                            color: (StateContainer.of(context).curTheme
-                                    is IndiumTheme)
-                                ? StateContainer.of(context)
-                                    .curTheme
-                                    .backgroundDark
-                                : StateContainer.of(context).curTheme.primary,
-                          ),
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: (StateContainer.of(context).curTheme
-                                      is IndiumTheme)
-                                  ? 1.06
-                                  : 1.44545,
-                              color: (StateContainer.of(context).curTheme
-                                      is IndiumTheme)
-                                  ? StateContainer.of(context).curTheme.primary
-                                  : StateContainer.of(context)
-                                      .curTheme
-                                      .backgroundDark,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    // natricon
-                    Center(
-                      child: Container(
-                        width: 25.44,
-                        height: 25.44,
-                        margin: EdgeInsetsDirectional.only(top: 1.44545),
-                        child: SvgPicture.network(
-                          'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                              StateContainer.of(context)
-                                  .selectedAccount
-                                  .address,
-                          placeholderBuilder: (BuildContext context) =>
-                              // Logo
-                              Center(
+                    StateContainer.of(context).natriconOn
+                        ? Center(
                             child: Container(
-                              height: 5.333333,
-                              margin:
-                                  EdgeInsetsDirectional.only(bottom: 1.44545),
-                              child: AutoSizeText(
-                                "",
-                                style: TextStyle(
-                                  fontFamily: "AppIcons",
-                                  color: StateContainer.of(context).curTheme
-                                          is IndiumTheme
+                              width: 26.5,
+                              height: 26.5,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                                border: Border.all(
+                                  width: (StateContainer.of(context).curTheme
+                                          is IndiumTheme)
+                                      ? 1.44545
+                                      : 1.06,
+                                  color: (StateContainer.of(context).curTheme
+                                          is IndiumTheme)
                                       ? StateContainer.of(context)
                                           .curTheme
-                                          .primary
+                                          .backgroundDark
                                       : StateContainer.of(context)
                                           .curTheme
-                                          .backgroundDark,
+                                          .primary,
+                                ),
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: (StateContainer.of(context).curTheme
+                                            is IndiumTheme)
+                                        ? 1.06
+                                        : 1.44545,
+                                    color: (StateContainer.of(context).curTheme
+                                            is IndiumTheme)
+                                        ? StateContainer.of(context)
+                                            .curTheme
+                                            .primary
+                                        : StateContainer.of(context)
+                                            .curTheme
+                                            .backgroundDark,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Center(
+                            child: Container(
+                              width: 23.88,
+                              height: 23.88,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                    StateContainer.of(context).natriconOn
+                        ? SizedBox()
+                        : Center(
+                            child: Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color:
+                                    StateContainer.of(context).curTheme.primary,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                    // natricon
+                    StateContainer.of(context).natriconOn
+                        ? Center(
+                            child: Container(
+                              width: 25.44,
+                              height: 25.44,
+                              margin: EdgeInsetsDirectional.only(top: 1.44545),
+                              child: SvgPicture.network(
+                                'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                    StateContainer.of(context)
+                                        .selectedAccount
+                                        .address,
+                                placeholderBuilder: (BuildContext context) =>
+                                    // Logo
+                                    Center(
+                                  child: Container(
+                                    height: 5.333333,
+                                    margin: EdgeInsetsDirectional.only(
+                                        bottom: 1.44545),
+                                    child: AutoSizeText(
+                                      "",
+                                      style: TextStyle(
+                                        fontFamily: "AppIcons",
+                                        color: StateContainer.of(context)
+                                                .curTheme is IndiumTheme
+                                            ? StateContainer.of(context)
+                                                .curTheme
+                                                .primary
+                                            : StateContainer.of(context)
+                                                .curTheme
+                                                .backgroundDark,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      minFontSize: 0.1,
+                                      stepGranularity: 0.1,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Center(
+                            child: Container(
+                              height: 5.333333,
+                              child: AutoSizeText(
+                                "",
+                                style: TextStyle(
+                                  fontFamily: "AppIcons",
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .backgroundDark,
                                   fontWeight: FontWeight.w500,
                                 ),
                                 textAlign: TextAlign.center,
@@ -174,9 +225,6 @@ class _AppShareCardState extends State<AppShareCard> {
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -198,7 +246,7 @@ class _AppShareCardState extends State<AppShareCard> {
                         Container(
                           width: 29,
                           child: AutoSizeText(
-                            "  ",
+                            "  ",
                             style: TextStyle(
                               color:
                                   StateContainer.of(context).curTheme.primary,

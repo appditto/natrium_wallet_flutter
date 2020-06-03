@@ -173,23 +173,25 @@ class ContactDetailsSheet {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             // natricon
-                            Expanded(
-                              child: SvgPicture.network(
-                                'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                    contact.address,
-                                placeholderBuilder: (BuildContext context) =>
-                                    Container(
-                                  child: FlareActor(
-                                    "assets/ntr_placeholder_animation.flr",
-                                    animation: "main",
-                                    fit: BoxFit.contain,
-                                    color: StateContainer.of(context)
-                                        .curTheme
-                                        .primary,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            StateContainer.of(context).natriconOn
+                                ? Expanded(
+                                    child: SvgPicture.network(
+                                      'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                          contact.address,
+                                      placeholderBuilder:
+                                          (BuildContext context) => Container(
+                                        child: FlareActor(
+                                          "assets/ntr_placeholder_animation.flr",
+                                          animation: "main",
+                                          fit: BoxFit.contain,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .primary,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(),
                             // Contact Name container
                             Container(
                               width: double.infinity,
