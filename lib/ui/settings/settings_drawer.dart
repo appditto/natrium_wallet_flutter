@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
+import 'package:natrium_wallet_flutter/model/natricon_option.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accounts_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/settings/disable_password_sheet.dart';
@@ -46,6 +47,9 @@ import 'package:natrium_wallet_flutter/util/ninja/api.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
+import '../../appstate_container.dart';
+import '../../util/sharedprefsutil.dart';
+
 class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
 }
@@ -65,6 +69,8 @@ class _SettingsSheetState extends State<SettingsSheet>
       AuthenticationMethod(AuthMethod.BIOMETRICS);
   NotificationSetting _curNotificiationSetting =
       NotificationSetting(NotificationOptions.ON);
+  NatriconSetting _curNatriconSetting =
+      NatriconSetting(NatriconOptions.ON);      
   UnlockSetting _curUnlockSetting = UnlockSetting(UnlockOption.NO);
   LockTimeoutSetting _curTimeoutSetting =
       LockTimeoutSetting(LockTimeoutOption.ONE);
@@ -120,6 +126,14 @@ class _SettingsSheetState extends State<SettingsSheet>
         _curNotificiationSetting = notificationsOn
             ? NotificationSetting(NotificationOptions.ON)
             : NotificationSetting(NotificationOptions.OFF);
+      });
+    });
+    // Get default natricon setting
+    sl.get<SharedPrefsUtil>().getUseNatricon().then((useNatricon) {
+      setState(() {
+        _curNatriconSetting = useNatricon
+          ? NatriconSetting(NatriconOptions.ON)
+          : NatriconSetting(NatriconOptions.OFF);
       });
     });
     // Get default theme settings
@@ -329,6 +343,64 @@ class _SettingsSheetState extends State<SettingsSheet>
           });
           FirebaseMessaging().getToken().then((fcmToken) {
             EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: fcmToken));
+          });
+        });
+        break;
+    }
+  }
+
+  Future<void> _natriconDialog() async {
+    switch (await showDialog<NatriconOptions>(
+        context: context,
+        builder: (BuildContext context) {
+          return AppSimpleDialog(
+            title: Text(
+              AppLocalization.of(context).natricon,
+              style: AppStyles.textStyleDialogHeader(context),
+            ),
+            children: <Widget>[
+              AppSimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, NatriconOptions.ON);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    AppLocalization.of(context).onStr,
+                    style: AppStyles.textStyleDialogOptions(context),
+                  ),
+                ),
+              ),
+              AppSimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context, NatriconOptions.OFF);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Text(
+                    AppLocalization.of(context).off,
+                    style: AppStyles.textStyleDialogOptions(context),
+                  ),
+                ),
+              ),
+            ],
+          );
+        })) {
+      case NatriconOptions.ON:
+        sl.get<SharedPrefsUtil>().setUseNatricon(true).then((result) {
+          setState(() {
+            StateContainer.of(context).setNatriconOn(true);
+            _curNatriconSetting =
+                NatriconSetting(NatriconOptions.ON);
+          });
+        });
+        break;
+      case NatriconOptions.OFF:
+        sl.get<SharedPrefsUtil>().setUseNatricon(false).then((result) {
+          setState(() {
+            StateContainer.of(context).setNatriconOn(false);
+            _curNatriconSetting =
+                NatriconSetting(NatriconOptions.OFF);
           });
         });
         break;
@@ -1301,9 +1373,9 @@ class _SettingsSheetState extends State<SettingsSheet>
                     AppSettings.buildSettingsListItemDoubleLine(
                         context,
                         AppLocalization.of(context).natricon,
-                        _curNotificiationSetting,
+                        _curNatriconSetting,
                         AppIcons.natricon,
-                        _notificationsDialog),
+                        _natriconDialog),
                     Divider(
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,

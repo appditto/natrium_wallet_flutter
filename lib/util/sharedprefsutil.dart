@@ -43,6 +43,8 @@ class SharedPrefsUtil {
   static const String use_legacy_storage = 'fkalium_legacy_storage';
   // Caching ninja API response
   static const String ninja_api_cache = 'fkalium_ninja_api_cache';
+  // Natricon setting
+  static const String use_natricon = 'natrium_use_natricon';
 
   // For plain-text data
   Future<void> set(String key, value) async {
@@ -302,6 +304,15 @@ class SharedPrefsUtil {
     await set(ninja_api_cache, data);
   }
 
+  Future<void> setUseNatricon(bool useNatricon) async {
+    return await set(use_natricon, useNatricon);
+  }
+
+  Future<bool> getUseNatricon() async {
+    return await get(use_natricon, defaultValue: true);
+  }
+
+
   // For logging out
   Future<void> deleteAll() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -317,5 +328,6 @@ class SharedPrefsUtil {
     await prefs.remove(pin_lock_until);
     await prefs.remove(kalium_lock_timeout);
     await prefs.remove(has_shown_root_warning);
+    await prefs.remove(use_natricon);
   }
 }

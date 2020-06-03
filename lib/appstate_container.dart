@@ -39,6 +39,8 @@ import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/network/account_service.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 
+import 'util/sharedprefsutil.dart';
+
 class _InheritedStateContainer extends InheritedWidget {
   // Data is your entire state. In our case just 'User'
   final StateContainerState data;
@@ -174,6 +176,10 @@ class StateContainerState extends State<StateContainer> {
     });
     // Cache ninja API if don't already have it
     checkAndCacheNinjaAPIResponse();
+    // Get natricon pref
+    sl.get<SharedPrefsUtil>().getUseNatricon().then((useNatricon) {
+      setNatriconOn(useNatricon);
+    });
   }
 
   // Subscriptions
@@ -379,6 +385,13 @@ class StateContainerState extends State<StateContainer> {
     if (setIcon) {
       AppIcon.setAppIcon(theme.getTheme().appIcon);
     }
+  }
+
+  // Change natricon setting
+  void setNatriconOn(bool natriconOn) {
+    setState(() {
+      this.natriconOn = natriconOn;
+    });
   }
 
   void disconnect() {
