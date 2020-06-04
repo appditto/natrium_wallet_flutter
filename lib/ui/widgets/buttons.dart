@@ -26,8 +26,8 @@ class AppButton {
               boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
             ),
             height: 55,
-            margin:
-                EdgeInsetsDirectional.fromSTEB(dimens[0], dimens[1], dimens[2], dimens[3]),
+            margin: EdgeInsetsDirectional.fromSTEB(
+                dimens[0], dimens[1], dimens[2], dimens[3]),
             child: FlatButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),
@@ -59,8 +59,8 @@ class AppButton {
               boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
             ),
             height: 55,
-            margin:
-                EdgeInsetsDirectional.fromSTEB(dimens[0], dimens[1], dimens[2], dimens[3]),
+            margin: EdgeInsetsDirectional.fromSTEB(
+                dimens[0], dimens[1], dimens[2], dimens[3]),
             child: OutlineButton(
               color: StateContainer.of(context).curTheme.backgroundDark,
               textColor: disabled
@@ -104,8 +104,8 @@ class AppButton {
               boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
             ),
             height: 55,
-            margin:
-                EdgeInsetsDirectional.fromSTEB(dimens[0], dimens[1], dimens[2], dimens[3]),
+            margin: EdgeInsetsDirectional.fromSTEB(
+                dimens[0], dimens[1], dimens[2], dimens[3]),
             child: FlatButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),
@@ -137,8 +137,8 @@ class AppButton {
               boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
             ),
             height: 55,
-            margin:
-                EdgeInsetsDirectional.fromSTEB(dimens[0], dimens[1], dimens[2], dimens[3]),
+            margin: EdgeInsetsDirectional.fromSTEB(
+                dimens[0], dimens[1], dimens[2], dimens[3]),
             child: OutlineButton(
               color: StateContainer.of(context).curTheme.backgroundDark,
               textColor: StateContainer.of(context).curTheme.success,
@@ -176,8 +176,8 @@ class AppButton {
               boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
             ),
             height: 55,
-            margin:
-                EdgeInsetsDirectional.fromSTEB(dimens[0], dimens[1], dimens[2], dimens[3]),
+            margin: EdgeInsetsDirectional.fromSTEB(
+                dimens[0], dimens[1], dimens[2], dimens[3]),
             child: OutlineButton(
               color: StateContainer.of(context).curTheme.backgroundDark,
               textColor: StateContainer.of(context).curTheme.text,

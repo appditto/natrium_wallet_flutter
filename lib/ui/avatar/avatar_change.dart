@@ -262,17 +262,20 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
               //A column with 2 buttons
               Column(
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      // I want this Button
-                      AppButton.buildAppButton(
-                          context,
-                          AppButtonType.PRIMARY,
-                          "I Want This One",
-                          Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                        return null;
-                      }),
-                    ],
+                  Opacity(
+                    opacity: nonce != null ? 1 : 0,
+                    child: Row(
+                      children: <Widget>[
+                        // I want this Button
+                        AppButton.buildAppButton(
+                            context,
+                            AppButtonType.PRIMARY,
+                            "I Want This One",
+                            Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                          return null;
+                        }, disabled: nonce == null),
+                      ],
+                    ),
                   ),
                   Row(
                     children: <Widget>[
