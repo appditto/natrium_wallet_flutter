@@ -61,6 +61,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                   StateContainer.of(context).curTheme.text15,
                               onPressed: () {
                                 Navigator.pop(context);
+                                Navigator.pop(context);
                               },
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50.0)),
@@ -81,7 +82,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                       ),
                       alignment: AlignmentDirectional(-1, 0),
                       child: AutoSizeText(
-                        "Change My Natricon",
+                        "Change Natricon",
                         maxLines: 3,
                         stepGranularity: 0.5,
                         style: AppStyles.textStyleHeaderColored(context),
@@ -96,7 +97,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                       child: AutoSizeText(
                         "You'll be asked to send 0.123~ Nano to the Natricon address to change your Natricon.",
                         style: AppStyles.textStyleParagraph(context),
-                        maxLines: 5,
+                        maxLines: 3,
                         stepGranularity: 0.5,
                       ),
                     ),
@@ -108,7 +109,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                       child: AutoSizeText(
                         "This amount will be automatically refunded completely.",
                         style: AppStyles.textStyleParagraphPrimary(context),
-                        maxLines: 4,
+                        maxLines: 2,
                         stepGranularity: 0.5,
                       ),
                     ),
@@ -281,6 +282,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).goBackButton,
                           Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                        Navigator.pop(context);
                         Navigator.pop(context);
                       }),
                     ],
