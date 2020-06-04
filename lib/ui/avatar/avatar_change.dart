@@ -245,7 +245,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                     ? () {
                                         if (nonce == null || this.loading) {
                                           return;
-                                        } else if (nonce == -1) {
+                                        } else if (nonce == -1 || (nonce == 0 && currentNonce == -1)) {
                                           setState(() {
                                             nonce = null;
                                           });
