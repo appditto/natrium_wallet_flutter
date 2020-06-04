@@ -146,7 +146,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                           end: smallScreen(context) ? 30 : 40,
                           top: 16.0),
                       child: AutoSizeText(
-                        "You'll be asked to send 0.123~ Nano to the Natricon address to change your Natricon.",
+                        "You'll be asked to send 0.001~ Nano to the Natricon address to change your Natricon.",
                         style: AppStyles.textStyleParagraph(context),
                         maxLines: 3,
                         stepGranularity: 0.5,
