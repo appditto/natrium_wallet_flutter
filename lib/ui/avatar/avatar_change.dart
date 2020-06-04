@@ -1,23 +1,20 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
-import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
-import 'package:natrium_wallet_flutter/service_locator.dart';
+import 'package:natrium_wallet_flutter/ui/avatar/nonce_response.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
-import 'package:natrium_wallet_flutter/util/nanoutil.dart';
-import 'package:natrium_wallet_flutter/model/vault.dart';
-import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'dart:math' as math;
 
 const String NATRICON_ADDRESS =
@@ -25,9 +22,9 @@ const String NATRICON_ADDRESS =
 const String NATRICON_BASE_RAW = "1234567891234567891234567891";
 
 class AvatarChangePage extends StatefulWidget {
-  final String seed;
+  final String curAddress;
 
-  AvatarChangePage({this.seed});
+  AvatarChangePage({this.curAddress});
   @override
   _AvatarChangePageState createState() => _AvatarChangePageState();
 }
@@ -35,6 +32,36 @@ class AvatarChangePage extends StatefulWidget {
 class _AvatarChangePageState extends State<AvatarChangePage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   int nonce;
+  int currentNonce;
+  bool loading;
+
+  @override
+  void initState() {
+    super.initState();
+    this.loading = true;
+    String url = 'https://natricon.com/api/v1/nano/nonce?address=${widget.curAddress}';
+    http.get(url, headers:  {}).then((response) {
+      if (mounted) {
+        if (response.statusCode != 200) {
+          setState(() {
+            this.loading = false;
+          });
+          return;
+        }
+        try {
+          NonceResponse resp = NonceResponse.fromJson(json.decode(response.body));
+          setState(() {
+            this.loading = false;
+            this.currentNonce = resp.nonce;
+          });
+        } catch (e) {
+          setState(() {
+            this.loading = false;
+          });
+        }
+      }
+    });
+  }
 
   void showSendConfirmSheet() {
     BigInt baseAmount = BigInt.parse(NATRICON_BASE_RAW);
@@ -147,12 +174,24 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                   MediaQuery.of(context).size.height * 0.5,
                               maxWidth:
                                   MediaQuery.of(context).size.width * 0.75),
-                          child: SvgPicture.network(
+                          child: this.loading ?
+                            Container(
+                              child: FlareActor(
+                                "assets/ntr_placeholder_animation.flr",
+                                animation: "main",
+                                fit: BoxFit.contain,
+                                color:
+                                    StateContainer.of(context).curTheme.primary,
+                              ),
+                            ) :                          
+                           SvgPicture.network(
                             UIUtil.getNatriconURL(
                                 StateContainer.of(context)
                                     .selectedAccount
                                     .address,
-                                nonce == null
+                                nonce == null && currentNonce != null ?
+                                    currentNonce.toString()
+                                    : nonce == null
                                     ? StateContainer.of(context)
                                         .getNatriconNonce(
                                             StateContainer.of(context)
@@ -204,17 +243,19 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                     StateContainer.of(context).curTheme.text15,
                                 onPressed: nonce != null
                                     ? () {
-                                        if (nonce == null) {
+                                        if (nonce == null || this.loading) {
                                           return;
                                         } else if (nonce == -1) {
                                           setState(() {
                                             nonce = null;
-                                            print(nonce);
                                           });
                                         } else {
                                           setState(() {
-                                            nonce--;
-                                            print(nonce);
+                                            if (nonce - 1 == currentNonce) {
+                                              nonce-=2;
+                                            } else {
+                                              nonce--;
+                                            }
                                           });
                                         }
                                       }
@@ -223,7 +264,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                     borderRadius: BorderRadius.circular(50.0)),
                                 padding: EdgeInsetsDirectional.only(end: 4),
                                 child: Icon(AppIcons.back,
-                                    color: nonce != null
+                                    color: nonce != null && !this.loading
                                         ? StateContainer.of(context)
                                             .curTheme
                                             .primary
@@ -252,15 +293,19 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                 splashColor:
                                     StateContainer.of(context).curTheme.text15,
                                 onPressed: () {
-                                  if (nonce == null) {
+                                  if (this.loading) {
+                                    return;
+                                  } else if (nonce == null) {
                                     setState(() {
-                                      nonce = -1;
-                                      print(nonce);
+                                      nonce = currentNonce == -1 ? 0 : -1;
                                     });
                                   } else {
                                     setState(() {
-                                      nonce++;
-                                      print(nonce);
+                                      if (nonce + 1 == currentNonce) {
+                                        nonce+=2;
+                                      } else {
+                                        nonce++;
+                                      }
                                     });
                                   }
                                 },
@@ -290,7 +335,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
               Column(
                 children: <Widget>[
                   Opacity(
-                    opacity: nonce != null ? 1 : 0,
+                    opacity: nonce != null && !this.loading ? 1 : 0,
                     child: Row(
                       children: <Widget>[
                         // I want this Button
@@ -300,7 +345,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                             "I Want This One",
                             Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                           showSendConfirmSheet();
-                        }, disabled: nonce == null),
+                        }, disabled: nonce == null || this.loading || nonce == currentNonce),
                       ],
                     ),
                   ),
@@ -324,15 +369,5 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
         ),
       ),
     );
-  }
-
-  void _pinEnteredCallback(String pin) async {
-    await sl.get<Vault>().writePin(pin);
-    PriceConversion conversion =
-        await sl.get<SharedPrefsUtil>().getPriceConversion();
-    // Update wallet
-    Navigator.of(context).pushNamedAndRemoveUntil(
-        '/home', (Route<dynamic> route) => false,
-        arguments: conversion);
   }
 }

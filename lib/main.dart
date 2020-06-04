@@ -265,7 +265,7 @@ class _AppState extends State<App> {
                   opaque: false);
             case '/avatar_change_page':
               return MaterialPageRoute(
-                builder: (_) => AvatarChangePage(),
+                builder: (_) => AvatarChangePage(curAddress: StateContainer.of(context).selectedAccount.address),
                 settings: settings,
               );
             case '/before_scan_screen':
