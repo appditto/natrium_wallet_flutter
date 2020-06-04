@@ -26,7 +26,7 @@ class _AvatarPageState extends State<AvatarPage>
   AnimationController _controller;
   Animation<Color> bgColorAnimation;
   Animation<Offset> offsetTween;
-  double accountBalance = 0;
+  bool hasEnoughFunds;
   NatriconSetting _curNatriconSetting = NatriconSetting(NatriconOptions.ON);
   @override
   void initState() {
@@ -46,6 +46,8 @@ class _AvatarPageState extends State<AvatarPage>
 
   @override
   Widget build(BuildContext context) {
+    hasEnoughFunds = StateContainer.of(context).wallet.accountBalance >
+        BigInt.parse("1234570000000000000000000000");
     bgColorAnimation = ColorTween(
       begin: Colors.transparent,
       end: StateContainer.of(context).curTheme.overlay70,
@@ -172,14 +174,14 @@ class _AvatarPageState extends State<AvatarPage>
                                                   .size
                                                   .height *
                                               0.035,
-                                          top: accountBalance > -1 ? 24 : 16),
+                                          top: hasEnoughFunds ? 24 : 16),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: <Widget>[
-                                          // If balance if below 0.13 Nano, don't display this button
-                                          accountBalance > -1
+                                          // If balance if below 0.0123457 Nano, don't display this button
+                                          hasEnoughFunds
                                               ? Row(
                                                   children: <Widget>[
                                                     AppButton.buildAppButton(
