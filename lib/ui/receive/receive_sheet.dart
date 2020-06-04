@@ -241,10 +241,8 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                               margin: EdgeInsetsDirectional.only(
                                   top: MediaQuery.of(context).size.width / 110),
                               child: SvgPicture.network(
-                                  'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                      StateContainer.of(context)
-                                          .selectedAccount
-                                          .address,
+                                  UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address)),
+                                  key: Key(UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address))),
                                   placeholderBuilder: (BuildContext context) =>
                                       Container(
                                         child: FlareActor(

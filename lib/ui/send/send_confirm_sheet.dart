@@ -41,6 +41,7 @@ class SendConfirmSheet extends StatefulWidget {
   final bool maxSend;
   final MantaWallet manta;
   final PaymentRequestMessage paymentRequest;
+  final int natriconNonce;
 
   SendConfirmSheet(
       {this.amountRaw,
@@ -49,6 +50,7 @@ class SendConfirmSheet extends StatefulWidget {
       this.localCurrency,
       this.manta,
       this.paymentRequest,
+      this.natriconNonce,
       this.maxSend = false})
       : super();
 
@@ -389,6 +391,11 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
       String contactName = contact == null ? null : contact.name;
       Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
       StateContainer.of(context).requestUpdate();
+      if (widget.natriconNonce != null) {
+        setState(() {
+          StateContainer.of(context).updateNatriconNonce(StateContainer.of(context).selectedAccount.address, widget.natriconNonce);
+        });
+      }
       Sheets.showAppHeightNineSheet(
           context: context,
           closeOnTap: true,
@@ -398,7 +405,8 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
               destination: destinationAltered,
               contactName: contactName,
               localAmount: widget.localCurrency,
-              paymentRequest: widget.paymentRequest));
+              paymentRequest: widget.paymentRequest,
+              natriconNonce: widget.natriconNonce));
     } catch (e) {
       // Send failed
       if (animationOpen) {

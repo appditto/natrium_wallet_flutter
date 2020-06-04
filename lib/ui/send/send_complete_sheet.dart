@@ -18,8 +18,9 @@ class SendCompleteSheet extends StatefulWidget {
   final String contactName;
   final String localAmount;
   final PaymentRequestMessage paymentRequest;
+  final int natriconNonce;
 
-  SendCompleteSheet({this.amountRaw, this.destination, this.contactName, this.localAmount, this.paymentRequest}) : super();  
+  SendCompleteSheet({this.amountRaw, this.destination, this.contactName, this.localAmount, this.paymentRequest, this.natriconNonce}) : super();  
 
   _SendCompleteSheetState createState() => _SendCompleteSheetState();
 }

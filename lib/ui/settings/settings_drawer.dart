@@ -742,10 +742,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                                       alignment: AlignmentDirectional(-1, 0),
                                       // natricon
                                       child: SvgPicture.network(
-                                        'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                            StateContainer.of(context)
-                                                .selectedAccount
-                                                .address,
+                                        UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address)),
+                                        key: Key(UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address))),
                                         placeholderBuilder:
                                             (BuildContext context) => Container(
                                           child: FlareActor(
@@ -877,10 +875,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                                               width: 52,
                                               // natricon
                                               child: SvgPicture.network(
-                                                'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                                    StateContainer.of(context)
-                                                        .recentLast
-                                                        .address,
+                                                UIUtil.getNatriconURL(StateContainer.of(context).recentLast.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).recentLast.address)),
+                                                key: Key(UIUtil.getNatriconURL(StateContainer.of(context).recentLast.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).recentLast.address))),
                                                 placeholderBuilder:
                                                     (BuildContext context) =>
                                                         Container(
@@ -1037,10 +1033,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                                               width: 52,
                                               // natricon
                                               child: SvgPicture.network(
-                                                'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                                    StateContainer.of(context)
-                                                        .recentSecondLast
-                                                        .address,
+                                                UIUtil.getNatriconURL(StateContainer.of(context).recentSecondLast.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).recentSecondLast.address)),
+                                                key: Key(UIUtil.getNatriconURL(StateContainer.of(context).recentSecondLast.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).recentSecondLast.address))),
                                                 placeholderBuilder:
                                                     (BuildContext context) =>
                                                         Container(

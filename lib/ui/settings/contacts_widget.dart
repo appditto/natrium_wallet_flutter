@@ -411,8 +411,8 @@ class _ContactsListState extends State<ContactsList> {
                       width: 64.0,
                       height: 64.0,
                       child: SvgPicture.network(
-                          'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                              contact.address,
+                          UIUtil.getNatriconURL(contact.address, StateContainer.of(context).getNatriconNonce(contact.address)),
+                          key: Key(UIUtil.getNatriconURL(contact.address, StateContainer.of(context).getNatriconNonce(contact.address))),
                           placeholderBuilder: (BuildContext context) =>
                               Container(
                                 child: FlareActor(

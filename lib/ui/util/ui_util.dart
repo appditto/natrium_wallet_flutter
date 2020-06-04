@@ -443,4 +443,9 @@ class UIUtil {
     else
       return false;
   }
+
+  static String getNatriconURL(String address, String nonce) {
+    String adjustedNonce = nonce == null || nonce == "" ? "-1" : nonce;
+    return "https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=$address&nonce=$adjustedNonce";
+  }
 }

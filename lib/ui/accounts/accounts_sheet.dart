@@ -14,6 +14,7 @@ import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
@@ -407,8 +408,8 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                                         width: 64.0,
                                         height: 64.0,
                                         child: SvgPicture.network(
-                                          'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                              account.address,
+                                          UIUtil.getNatriconURL(account.address, StateContainer.of(context).getNatriconNonce(account.address)),
+                                          key: Key(UIUtil.getNatriconURL(account.address, StateContainer.of(context).getNatriconNonce(account.address))),
                                           placeholderBuilder:
                                               (BuildContext context) =>
                                                   Container(

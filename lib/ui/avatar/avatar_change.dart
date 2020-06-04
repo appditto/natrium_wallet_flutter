@@ -10,12 +10,18 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
+import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'dart:math' as math;
+
+const String NATRICON_ADDRESS = "nano_3natricon9grnc8caqkht19f1fwpz39r3deeyef66m3d4fch3fau7x5q57cj";
+const String NATRICON_BASE_RAW = "1234567891234567891234567891";
 
 class AvatarChangePage extends StatefulWidget {
   final String seed;
@@ -28,6 +34,22 @@ class AvatarChangePage extends StatefulWidget {
 class _AvatarChangePageState extends State<AvatarChangePage> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   int nonce;
+
+  void showSendConfirmSheet() {
+    BigInt baseAmount = BigInt.parse(NATRICON_BASE_RAW);
+    BigInt sendAmount = baseAmount + BigInt.from(nonce);
+    if (StateContainer.of(context).wallet.accountBalance < sendAmount) {
+      UIUtil.showSnackbar(AppLocalization.of(context).insufficientBalance, context);
+      return;
+    }
+    Sheets.showAppHeightNineSheet(
+      context: context,
+      widget: SendConfirmSheet(
+          amountRaw: sendAmount.toString(),
+          destination: NATRICON_ADDRESS,
+          natriconNonce: nonce));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,12 +146,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                               maxWidth:
                                   MediaQuery.of(context).size.width * 0.75),
                           child: SvgPicture.network(
-                            'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                StateContainer.of(context)
-                                    .selectedAccount
-                                    .address +
-                                "&nonce=" +
-                                nonce.toString(),
+                              UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, nonce.toString()),    
                             placeholderBuilder: (BuildContext context) =>
                                 Container(
                               child: FlareActor(
@@ -140,13 +157,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                     StateContainer.of(context).curTheme.primary,
                               ),
                             ),
-                            key: Key(
-                                'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                    StateContainer.of(context)
-                                        .selectedAccount
-                                        .address +
-                                    "&nonce=" +
-                                    nonce.toString()),
+                            key: Key(UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, nonce.toString())),
                           ),
                         ),
                         Row(
@@ -272,7 +283,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                             AppButtonType.PRIMARY,
                             "I Want This One",
                             Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                          return null;
+                          showSendConfirmSheet();
                         }, disabled: nonce == null),
                       ],
                     ),

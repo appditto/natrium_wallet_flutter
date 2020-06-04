@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
+import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -171,10 +172,8 @@ class _AppShareCardState extends State<AppShareCard> {
                               height: 25.44,
                               margin: EdgeInsetsDirectional.only(top: 1.44545),
                               child: SvgPicture.network(
-                                'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                    StateContainer.of(context)
-                                        .selectedAccount
-                                        .address,
+                                UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address)),
+                                key: Key(UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address))),
                                 placeholderBuilder: (BuildContext context) =>
                                     // Logo
                                     Center(

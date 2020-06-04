@@ -104,6 +104,7 @@ class StateContainerState extends State<StateContainer> {
 
   // Natricon true
   bool natriconOn = true;
+  Map<String, String> natriconNonce = Map<String, String>();
 
   // If callback is locked
   bool _locked = false;
@@ -127,6 +128,19 @@ class StateContainerState extends State<StateContainer> {
     setState(() {
       nanoNinjaNodes = list;
     });
+  }
+
+  void updateNatriconNonce(String address, int nonce) {
+    setState(() {
+      this.natriconNonce[address] = nonce.toString();
+    });
+  }
+
+  String getNatriconNonce(String address) {
+    if (this.natriconNonce.containsKey(address)) {
+      return this.natriconNonce[address];
+    }
+    return "";
   }
 
   Future<void> checkAndCacheNinjaAPIResponse() async {
