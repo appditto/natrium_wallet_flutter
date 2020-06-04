@@ -20,7 +20,8 @@ import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'dart:math' as math;
 
-const String NATRICON_ADDRESS = "nano_3natricon9grnc8caqkht19f1fwpz39r3deeyef66m3d4fch3fau7x5q57cj";
+const String NATRICON_ADDRESS =
+    "nano_3natricon9grnc8caqkht19f1fwpz39r3deeyef66m3d4fch3fau7x5q57cj";
 const String NATRICON_BASE_RAW = "1234567891234567891234567891";
 
 class AvatarChangePage extends StatefulWidget {
@@ -39,15 +40,16 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
     BigInt baseAmount = BigInt.parse(NATRICON_BASE_RAW);
     BigInt sendAmount = baseAmount + BigInt.from(nonce);
     if (StateContainer.of(context).wallet.accountBalance < sendAmount) {
-      UIUtil.showSnackbar(AppLocalization.of(context).insufficientBalance, context);
+      UIUtil.showSnackbar(
+          AppLocalization.of(context).insufficientBalance, context);
       return;
     }
     Sheets.showAppHeightNineSheet(
-      context: context,
-      widget: SendConfirmSheet(
-          amountRaw: sendAmount.toString(),
-          destination: NATRICON_ADDRESS,
-          natriconNonce: nonce));
+        context: context,
+        widget: SendConfirmSheet(
+            amountRaw: sendAmount.toString(),
+            destination: NATRICON_ADDRESS,
+            natriconNonce: nonce));
   }
 
   @override
@@ -82,8 +84,8 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                               splashColor:
                                   StateContainer.of(context).curTheme.text15,
                               onPressed: () {
-                                Navigator.pop(context);
-                                Navigator.pop(context);
+                                Navigator.of(context)
+                                    .popUntil((route) => route.isFirst);
                               },
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50.0)),
@@ -146,7 +148,11 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                               maxWidth:
                                   MediaQuery.of(context).size.width * 0.75),
                           child: SvgPicture.network(
-                              UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, nonce.toString()),    
+                            UIUtil.getNatriconURL(
+                                StateContainer.of(context)
+                                    .selectedAccount
+                                    .address,
+                                nonce.toString()),
                             placeholderBuilder: (BuildContext context) =>
                                 Container(
                               child: FlareActor(
@@ -157,7 +163,11 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                     StateContainer.of(context).curTheme.primary,
                               ),
                             ),
-                            key: Key(UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, nonce.toString())),
+                            key: Key(UIUtil.getNatriconURL(
+                                StateContainer.of(context)
+                                    .selectedAccount
+                                    .address,
+                                nonce.toString())),
                           ),
                         ),
                         Row(
@@ -296,8 +306,8 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).goBackButton,
                           Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
                       }),
                     ],
                   ),
