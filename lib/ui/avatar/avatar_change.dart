@@ -152,7 +152,13 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                 StateContainer.of(context)
                                     .selectedAccount
                                     .address,
-                                nonce.toString()),
+                                nonce == null
+                                    ? StateContainer.of(context)
+                                        .getNatriconNonce(
+                                            StateContainer.of(context)
+                                                .selectedAccount
+                                                .address)
+                                    : nonce.toString()),
                             placeholderBuilder: (BuildContext context) =>
                                 Container(
                               child: FlareActor(
@@ -200,7 +206,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                     ? () {
                                         if (nonce == null) {
                                           return;
-                                        } else if (nonce == 0) {
+                                        } else if (nonce == -1) {
                                           setState(() {
                                             nonce = null;
                                             print(nonce);
@@ -248,7 +254,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                 onPressed: () {
                                   if (nonce == null) {
                                     setState(() {
-                                      nonce = 0;
+                                      nonce = -1;
                                       print(nonce);
                                     });
                                   } else {
