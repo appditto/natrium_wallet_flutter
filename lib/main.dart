@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:natrium_wallet_flutter/model/available_language.dart';
 import 'package:natrium_wallet_flutter/ui/avatar/avatar.dart';
+import 'package:natrium_wallet_flutter/ui/avatar/avatar_change.dart';
 import 'package:natrium_wallet_flutter/ui/before_scan_screen.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_backup_safety.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_password.dart';
@@ -262,6 +263,11 @@ class _AppState extends State<App> {
                       AvatarPage(),
                   settings: settings,
                   opaque: false);
+            case '/avatar_change_page':
+              return MaterialPageRoute(
+                builder: (_) => AvatarChangePage(),
+                settings: settings,
+              );
             case '/before_scan_screen':
               return NoTransitionRoute(
                 builder: (_) => BeforeScanScreen(),

@@ -7,6 +7,12 @@ import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:natrium_wallet_flutter/model/natricon_option.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
+import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
+
+import '../../app_icons.dart';
 
 class AvatarPage extends StatefulWidget {
   @override
@@ -18,6 +24,9 @@ class _AvatarPageState extends State<AvatarPage>
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
   AnimationController _controller;
   Animation<Color> bgColorAnimation;
+  Animation<Offset> offsetTween;
+  double accountBalance = 0;
+  NatriconSetting _curNatriconSetting = NatriconSetting(NatriconOptions.ON);
   @override
   void initState() {
     super.initState();
@@ -39,7 +48,15 @@ class _AvatarPageState extends State<AvatarPage>
     bgColorAnimation = ColorTween(
       begin: Colors.transparent,
       end: StateContainer.of(context).curTheme.overlay70,
-    ).animate(_controller);
+    ).animate(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOut,
+        reverseCurve: Curves.easeIn));
+    offsetTween = Tween<Offset>(begin: Offset(0, 200), end: Offset(0, 0))
+        .animate(CurvedAnimation(
+            parent: _controller,
+            curve: Curves.easeOut,
+            reverseCurve: Curves.easeIn));
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
@@ -49,10 +66,9 @@ class _AvatarPageState extends State<AvatarPage>
           key: _scaffoldKey,
           body: LayoutBuilder(
             builder: (context, constraints) => SafeArea(
+              bottom: false,
               minimum: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * 0.035,
-                top: MediaQuery.of(context).size.height * 0.10,
-              ),
+                  top: MediaQuery.of(context).size.height * 0.10),
               child: Column(
                 children: <Widget>[
                   Expanded(
@@ -68,54 +84,137 @@ class _AvatarPageState extends State<AvatarPage>
                         ),
                         // Avatar
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          height: MediaQuery.of(context).size.width * 0.8,
                           margin: EdgeInsetsDirectional.only(
-                              bottom: MediaQuery.of(context).size.height * 0.1),
+                              bottom: MediaQuery.of(context).size.height * 0.2),
                           child: ClipOval(
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                Hero(
-                                  tag: "avatar",
-                                  child: SvgPicture.network(
-                                    'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
-                                        StateContainer.of(context)
-                                            .selectedAccount
-                                            .address,
-                                    placeholderBuilder:
-                                        (BuildContext context) => Container(
-                                      child: FlareActor(
-                                        "assets/ntr_placeholder_animation.flr",
-                                        animation: "main",
-                                        fit: BoxFit.contain,
-                                        color: StateContainer.of(context)
-                                            .curTheme
-                                            .primary,
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              height: MediaQuery.of(context).size.width * 0.8,
+                              child: ClipOval(
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: <Widget>[
+                                    Hero(
+                                      tag: "avatar",
+                                      child: SvgPicture.network(
+                                        'https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=' +
+                                            StateContainer.of(context)
+                                                .selectedAccount
+                                                .address,
+                                        placeholderBuilder:
+                                            (BuildContext context) => Container(
+                                          child: FlareActor(
+                                            "assets/ntr_placeholder_animation.flr",
+                                            animation: "main",
+                                            fit: BoxFit.contain,
+                                            color: StateContainer.of(context)
+                                                .curTheme
+                                                .primary,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    /* // Button for the interaction
+                                    FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(2000.0)),
+                                      highlightColor:
+                                          StateContainer.of(context).curTheme.text15,
+                                      splashColor:
+                                          StateContainer.of(context).curTheme.text15,
+                                      padding: EdgeInsets.all(0.0),
+                                      child: Container(
+                                        color: Colors.transparent,
+                                      ),
+                                    ) */
+                                  ],
                                 ),
-                                /* // Button for the interaction
-                                FlatButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(2000.0)),
-                                  highlightColor:
-                                      StateContainer.of(context).curTheme.text15,
-                                  splashColor:
-                                      StateContainer.of(context).curTheme.text15,
-                                  padding: EdgeInsets.all(0.0),
-                                  child: Container(
-                                    color: Colors.transparent,
-                                  ),
-                                ) */
-                              ],
+                              ),
                             ),
                           ),
                         ),
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          child: AnimatedBuilder(
+                              animation: _controller,
+                              builder: (context, child) {
+                                return Transform.translate(
+                                  offset: offsetTween.value,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .backgroundDark,
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(30),
+                                            topRight: Radius.circular(30))),
+                                    child: SafeArea(
+                                      minimum: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.035,
+                                          top: accountBalance > -1 ? 24 : 16),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          // If balance if below 0.13 Nano, don't display this button
+                                          accountBalance > -1
+                                              ? Row(
+                                                  children: <Widget>[
+                                                    AppButton.buildAppButton(
+                                                        context,
+                                                        AppButtonType.PRIMARY,
+                                                        "Change My Natricon",
+                                                        Dimens
+                                                            .BUTTON_TOP_DIMENS,
+                                                        onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pushNamed(
+                                                              '/avatar_change_page');
+                                                    }),
+                                                  ],
+                                                )
+                                              : SizedBox(),
+                                          Row(
+                                            children: <Widget>[
+                                              AppButton.buildAppButton(
+                                                  context,
+                                                  // Share Address Button
+                                                  AppButtonType.PRIMARY_OUTLINE,
+                                                  "Turn Off Natricon",
+                                                  Dimens.BUTTON_BOTTOM_DIMENS,
+                                                  onPressed: () {
+                                                _controller.reverse();
+                                                sl
+                                                    .get<SharedPrefsUtil>()
+                                                    .setUseNatricon(false)
+                                                    .then((result) {
+                                                  setState(() {
+                                                    StateContainer.of(context)
+                                                        .setNatriconOn(false);
+                                                    _curNatriconSetting =
+                                                        NatriconSetting(
+                                                            NatriconOptions
+                                                                .OFF);
+                                                  });
+                                                });
+                                                Navigator.pop(context);
+                                              }),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                        )
                       ],
                     ),
                   ),
