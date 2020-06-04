@@ -146,7 +146,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                               maxWidth:
                                   MediaQuery.of(context).size.width * 0.75),
                           child: SvgPicture.network(
-                              UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, nonce.toString()),    
+                              UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, nonce == null ? StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address) : nonce.toString()),    
                             placeholderBuilder: (BuildContext context) =>
                                 Container(
                               child: FlareActor(
@@ -190,7 +190,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                     ? () {
                                         if (nonce == null) {
                                           return;
-                                        } else if (nonce == 0) {
+                                        } else if (nonce == -1) {
                                           setState(() {
                                             nonce = null;
                                             print(nonce);
@@ -238,7 +238,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                 onPressed: () {
                                   if (nonce == null) {
                                     setState(() {
-                                      nonce = 0;
+                                      nonce = -1;
                                       print(nonce);
                                     });
                                   } else {
