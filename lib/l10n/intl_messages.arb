@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2019-10-25T14:47:49.664174",
+  "@@last_modified": "2020-06-10T17:49:30.426050",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -366,6 +366,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "minimumSend": "Minimum send amount is %1 NANO",
+  "@minimumSend": {
+    "description": "send_minimum_error",
+    "type": "text",
+    "placeholders": {}
+  },
   "insufficientBalance": "Insufficient Balance",
   "@insufficientBalance": {
     "description": "send_insufficient_balance",
@@ -510,15 +516,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "changeCurrency": "Change Currency",
-  "@changeCurrency": {
-    "description": "settings_local_currency",
-    "type": "text",
-    "placeholders": {}
-  },
   "currency": "Currency",
   "@currency": {
     "description": "A settings menu item for changing currency",
+    "type": "text",
+    "placeholders": {}
+  },
+  "changeCurrency": "Change Currency",
+  "@changeCurrency": {
+    "description": "settings_local_currency",
     "type": "text",
     "placeholders": {}
   },
@@ -639,6 +645,12 @@
   "notifications": "Notifications",
   "@notifications": {
     "description": "notifications_settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "natricon": "Natricon",
+  "@natricon": {
+    "description": "natricon_settings",
     "type": "text",
     "placeholders": {}
   },

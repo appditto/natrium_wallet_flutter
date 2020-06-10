@@ -344,7 +344,7 @@ class AppLocalization {
 
   String get minimumSend {
     return Intl.message("Minimum send amount is %1 NANO",
-        desc: 'send_minimum_error', name: 'amountMinimumError');
+        desc: 'send_minimum_error', name: 'minimumSend');
   }
 
   String get insufficientBalance {
@@ -593,7 +593,7 @@ class AppLocalization {
 
   String get natricon {
     return Intl.message("Natricon",
-        desc: 'natricon_settings', name: 'Natricon');
+        desc: 'natricon_settings', name: 'natricon');
   }
 
   String get notificationTitle {
