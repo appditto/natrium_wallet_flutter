@@ -117,7 +117,7 @@
   "transferNoFunds": "Bu seedin içinde hiç NANO yok.",
   "transferConfirmInfo": "%1 NANO bakiyeye sahip bir cüzdan tespit edildi.\n",
   "transferConfirmInfoSecond": "Transfer işlemini başlatmak için onayla butonuna bas.\n",
-  "transferConfirmInfoKalThird": "Bu işlem birkaç saniye sürebilir.",
+  "transferConfirmInfoThird": "Bu işlem birkaç saniye sürebilir.",
   "transferLoading": "Aktarılıyor",
   "transferComplete": "%1 NANO başarıyla Natrium cüzdanına aktarıldı.",
   "transferClose": "Pencereyi kapatmak için herhangi bir yere dokun.",

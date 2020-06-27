@@ -204,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 NANO ay nalipat na sa iyong Natrium Wallet."),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("Ang wallet na may balanse na %1 NANO ay na-detect.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("I-tap ang confirm para ilipat ang pondo.\n"),
+    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("Ang paglipat ay maaring tumagal ng ilang segundo."),
     "transferError" : MessageLookupByLibrary.simpleMessage("Nagkaroon ng error sa paglipat. Pakiulit mamaya."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Transfer\nFunds"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Ang prosesong ito ay ang paglipat ng pondo galing sa paper wallet.\n\nI-tap ang \"%1\" button para umpisahan."),

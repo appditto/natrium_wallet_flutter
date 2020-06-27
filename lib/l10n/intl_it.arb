@@ -117,7 +117,7 @@
   "transferNoFunds": "Questo seed non contiene alcun NANO al suo interno.",
   "transferConfirmInfo": "Rilevato un portafoglio con un saldo di %1 NANO.\n",
   "transferConfirmInfoSecond": "Premi conferma per trasferire i fondi.\n",
-  "transferConfirmInfoKalThird": "Il trasferimento potrebbe richiedere parecchi secondi.",
+  "transferConfirmInfoThird": "Il trasferimento potrebbe richiedere parecchi secondi.",
   "transferLoading": "Trasferimento",
   "transferComplete": "%1 NANO trasferiti con successo sul tuo portafoglio Natrium.",
   "transferClose": "Premi dove vuoi per chiudere la finestra.",

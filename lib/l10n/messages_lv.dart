@@ -167,6 +167,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 NANO sekmīgi pārskaitīti uz jūsu Natrium maku.\n"),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("Maks ar %1 NANO bilanci ir atrasts.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("Pieskarieties, lai apstiprinātu līdzekļu pārskaitīšanu.\n"),
+    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("Pārskaitīšana var prasīt vairākas sekundes."),
     "transferError" : MessageLookupByLibrary.simpleMessage("Pārsūtīšanas laikā notika kļūda. Lūdzu vēlāk mēģiniet vēlreiz."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Pārsūtīt līdzekļus"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Šis process pārskaitīs jūsu papīra maka līdzekļus uz jūsu Natrium maku.\n\nPieskaries \"%1\" pogai, lai sāktu."),

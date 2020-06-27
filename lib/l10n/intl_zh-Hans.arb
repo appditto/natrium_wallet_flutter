@@ -117,7 +117,7 @@
   "transferNoFunds": "这个种子没有包含任何 NANO",
   "transferConfirmInfo": "检测到一个包含 %1 NANO 的钱包。\n",
   "transferConfirmInfoSecond": "按键确定传送钱币。\n",
-  "transferConfirmInfoKalThird": "传送需要几秒钟完成，请稍等一下。",
+  "transferConfirmInfoThird": "传送需要几秒钟完成，请稍等一下。",
   "transferLoading": "传送中",
   "transferComplete": "%1 NANO 成功传送到您的 Natrium 钱包。\n",
   "transferClose": "点击任意位置关闭窗口。",

@@ -117,7 +117,7 @@
   "transferNoFunds": "To nasiono nie zawiera żadnego NANO.",
   "transferConfirmInfo": "Portfel z saldem %1 NANO został wykryty.\n",
   "transferConfirmInfoSecond": "Naciśnij potwierdz aby transferować środki.\n",
-  "transferConfirmInfoKalThird": "Transfer może zająć kilka sekund żeby się zakończyć.",
+  "transferConfirmInfoThird": "Transfer może zająć kilka sekund żeby się zakończyć.",
   "transferLoading": "Transferuje",
   "transferComplete": "%1 NANO zostało z powodzeniem przesłane do twojego portfela Natrium.",
   "transferClose": "Naciśnij gdziekolwiek żeby zamknąć okno.",

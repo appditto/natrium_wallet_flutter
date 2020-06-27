@@ -204,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 NANO har överförts till din Natrium-plånbok."),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("En plånbok med ett saldo om %1 NANO har upptäckts.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("Tryck på bekräfta för att överföra medel.\n"),
+    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("Överföringen kan ta upp till flera sekunder att genomföras."),
     "transferError" : MessageLookupByLibrary.simpleMessage("Ett fel uppstod vid överföringen. Försök igen senare."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Överför\nmedel"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Den här processen kommer att överföra medel från en pappersplånbok till din Natrium-plånbok.\n\nTryck på \"%1\" knappen för att starta."),

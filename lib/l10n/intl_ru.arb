@@ -117,7 +117,7 @@
   "transferNoFunds": "На этом seed нет NANO.",
   "transferConfirmInfo": "Обнаружен кошелёк с балансом %1 NANO.\n",
   "transferConfirmInfoSecond": "Нажмите Подтвердить, чтобы перевести средства.\n",
-  "transferConfirmInfoKalThird": "Перевод может занять несколько секунд.",
+  "transferConfirmInfoThird": "Перевод может занять несколько секунд.",
   "transferLoading": "Перевод",
   "transferComplete": "%1 NANO успешно переведены в Natrium кошелёк.\n",
   "transferClose": "Нажмите в любом месте, чтобы закрыть окно.",
@@ -221,5 +221,7 @@
   "exampleCardFromKal": "От случайного человека",
   "newAccountIntroKal": "Это ваш новый аккаунт. Как только вы получите BANANO, транзакции будут выглядеть так:",
   "liveSupportButton": "Служба поддержки",
-  "connectingHeader": "Подключение"
+  "connectingHeader": "Подключение",
+  "minimumSend": "Минимум сумма отправки % 1 NANO ",
+  "natricon": "Natricon"
 }

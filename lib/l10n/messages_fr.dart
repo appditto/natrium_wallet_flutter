@@ -204,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 NANO ont été transférés avec succès vers votre portefeuille Natrium."),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("Un portefeuille avec un solde de %1 NANO a été détecté.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("Appuyer pour confirmer le transfert de fonds.\n"),
+    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("Le transfert pourrait prendre quelques secondes."),
     "transferError" : MessageLookupByLibrary.simpleMessage("Une erreur s’est produite durant le transfert. Veuillez réessayer plus tard."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Transférer"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Transférer le contenu d\'un portefeuille papier vers votre portefeuille Natrium."),

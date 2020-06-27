@@ -46,7 +46,7 @@
   "welcomeText": "Welkom bij Natrium. Creëer een nieuwe wallet of importeer een bestaande wallet om verder te gaan.",
   "newWallet": "Nieuwe wallet",
   "importWallet": "Importeer wallet",
-  "sentTo": "Verstuur naar",
+  "sentTo": "Verstuurd naar",
   "sending": "Versturen",
   "to": "Naar",
   "sendAmountConfirm": "Verstuur %1 Nano",
@@ -117,7 +117,7 @@
   "transferNoFunds": "Deze seed bevat geen Nano.",
   "transferConfirmInfo": "Een wallet met een saldo van %1 Nano is gedetecteerd.\n",
   "transferConfirmInfoSecond": "Tik op bevestigen om het saldo over te zetten.\n",
-  "transferConfirmInfoKalThird": "Het overzetten kan enkele seconden duren om te voltooien.",
+  "transferConfirmInfoThird": "Het overzetten kan enkele seconden duren om te voltooien.",
   "transferLoading": "Overzetten",
   "transferComplete": "%1 Nano succesvol overgezet naar jouw Natrium wallet.",
   "transferClose": "Tik ergens om het venster te sluiten.",
@@ -221,5 +221,7 @@
   "exampleCardFromKal": "van een willekeurige aap",
   "newAccountIntroKal": "Dit is jouw nieuwe account. Zodra je BANANO ontvangt, zullen transacties op deze manier verschijnen:",
   "liveSupportButton": "Ondersteuning",
-  "connectingHeader": "Verbinden"
+  "connectingHeader": "Verbinden",
+  "minimumSend": "Het minimum te verzenden bedrag is %1 NANO",
+  "natricon": "Natricon"
 }

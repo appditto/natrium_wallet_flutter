@@ -204,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 NANO se han transferido con éxito a su billetera de Natrium."),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("Se ha detectado una billetera con un balance de %1 NANO.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("Pulse confirmar para transferir los fondos.\n"),
+    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("La transferencia puede tardar varios segundos en completarse."),
     "transferError" : MessageLookupByLibrary.simpleMessage("Ha ocurrido un error durante la transferencia. Por favor, inténtelo de nuevo más tarde."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Transferir fondos"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Este proceso transferirá los fondos de una billetera de papel a su billetera en Natrium.\n\nPulse el botón \"%1\"  para empezar."),

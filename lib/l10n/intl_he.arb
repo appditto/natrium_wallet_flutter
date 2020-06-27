@@ -111,7 +111,7 @@
   "transferNoFunds": "אין שום נאנו בסיד המצורף.",
   "transferConfirmInfo": "\nארנק עם מאזן של %1 נאנו אותר.",
   "transferConfirmInfoSecond": "\nלחץ על אשר בכדי להעביר את הסכום.",
-  "transferConfirmInfoKalThird": "יתכן שיקחו כמה שניות עד תחילת ההעברה.",
+  "transferConfirmInfoThird": "יתכן שיקחו כמה שניות עד תחילת ההעברה.",
   "transferLoading": "מעביר",
   "transferComplete": "%1 נאנו הועברו לארנק נאטריום.",
   "transferClose": "לחץ בכל מקום בכדי לסגור את החלון.",

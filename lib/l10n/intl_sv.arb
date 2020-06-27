@@ -117,7 +117,7 @@
   "transferNoFunds": "Denna seed innehåller inga NANO.",
   "transferConfirmInfo": "En plånbok med ett saldo om %1 NANO har upptäckts.\n",
   "transferConfirmInfoSecond": "Tryck på bekräfta för att överföra medel.\n",
-  "transferConfirmInfoKalThird": "Överföringen kan ta upp till flera sekunder att genomföras.",
+  "transferConfirmInfoThird": "Överföringen kan ta upp till flera sekunder att genomföras.",
   "transferLoading": "Överför",
   "transferComplete": "%1 NANO har överförts till din Natrium-plånbok.",
   "transferClose": "Tryck någonstans för att stänga fönstret.",

@@ -117,7 +117,7 @@
   "transferNoFunds": "Hạt giống này không chứa bất kỳ BANANO bên trong.",
   "transferConfirmInfo": "Một ví có số dư là %1 BANANO đã được tìm thấy. \n",
   "transferConfirmInfoSecond": "Nhấn xác nhận để chuyển quỹ.\n",
-  "transferConfirmInfoKalThird": "Chuyển giao có thể mất vài giây để hoàn thành.",
+  "transferConfirmInfoThird": "Chuyển giao có thể mất vài giây để hoàn thành.",
   "transferLoading": "Đang chuyển",
   "transferComplete": "%1 BANANO đã được chuyển thành công vào ví Kalium của bạn.\n",
   "transferClose": "Nhấn vào bất kỳ đâu để đóng cửa sổ.",

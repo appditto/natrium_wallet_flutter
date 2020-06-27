@@ -117,7 +117,7 @@
   "transferNoFunds": "Acest seed nu conține NANO.",
   "transferConfirmInfo": "Un portofel cu un sold de %1 NANO a fost găsit.\n",
   "transferConfirmInfoSecond": "Apăsați pentru a confirma transferul.\n",
-  "transferConfirmInfoKalThird": "Transferul poate dura câteva secunde.",
+  "transferConfirmInfoThird": "Transferul poate dura câteva secunde.",
   "transferLoading": "Se transferă...",
   "transferComplete": "%1 NANO au fost transferate cu succes în portofelul dvs. Natrium.",
   "transferClose": "Apăsați oriunde pentru a închide această fereastră.",

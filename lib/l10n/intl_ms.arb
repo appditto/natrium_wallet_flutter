@@ -117,7 +117,7 @@
   "transferNoFunds": "Benih ini tidak mempunyai sebarang NANO di atasnya",
   "transferConfirmInfo": "Satu dompet dengan keseimbangan %1 NANO telah dikesan. \n",
   "transferConfirmInfoSecond": "Ketik Sahkan untuk memindahkan dana. \n",
-  "transferConfirmInfoKalThird": "Pemindahan mungkin mengambil masa beberapa saat untuk disiapkan.",
+  "transferConfirmInfoThird": "Pemindahan mungkin mengambil masa beberapa saat untuk disiapkan.",
   "transferLoading": "Memindahkan",
   "transferComplete": "%1 NANO berjaya dipindahkan ke Dompet Natrium anda. <Newline>",
   "transferClose": "Ketuk mana-mana sahaja untuk menutup tetingkap.",
@@ -221,5 +221,7 @@
   "exampleCardFromKal": "daripada seseorang",
   "newAccountIntroKal": "Ini adalah akaun baru anda. Setelah anda menerima BANANO, transaksi akan muncul seperti ini:",
   "liveSupportButton": "Sokongan",
-  "connectingHeader": "Menyambung"
+  "connectingHeader": "Menyambung",
+  "minimumSend": "Jumlah minimum penghantaran adalah %1 NANO",
+  "natricon": "Natricon"
 }

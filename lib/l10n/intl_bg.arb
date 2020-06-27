@@ -117,7 +117,7 @@
   "transferNoFunds": "Този Seed не съдържа NANO на него.",
   "transferConfirmInfo": "Портфейл с баланс от %1 NANO е открит.\n",
   "transferConfirmInfoSecond": "Натиснете да потвърдите прехвърлянето на средствата.\n",
-  "transferConfirmInfoKalThird": "Прехвърлянето може да отнеме няколко секунди.",
+  "transferConfirmInfoThird": "Прехвърлянето може да отнеме няколко секунди.",
   "transferLoading": "Прехвърляне",
   "transferComplete": "%1 NANO успешно прехвърлени към вашият Natrium Портфейл.\n",
   "transferClose": "Докоснете някъде, за да затворите прозореца.",

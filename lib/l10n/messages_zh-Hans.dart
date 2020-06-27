@@ -204,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 NANO 成功传送到您的 Natrium 钱包。\n"),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("检测到一个包含 %1 NANO 的钱包。\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("按键确定传送钱币。\n"),
+    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("传送需要几秒钟完成，请稍等一下。"),
     "transferError" : MessageLookupByLibrary.simpleMessage("传送出现了问题，请稍后再尝试。"),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("传送钱币"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("这个过程会将纸钱包的钱币转移到您的 Natrium 钱包。\n\n请按 \"%1\" 键开始。"),

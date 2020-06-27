@@ -204,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 NANO успешно прехвърлени към вашият Natrium Портфейл.\n"),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("Портфейл с баланс от %1 NANO е открит.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("Натиснете да потвърдите прехвърлянето на средствата.\n"),
+    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("Прехвърлянето може да отнеме няколко секунди."),
     "transferError" : MessageLookupByLibrary.simpleMessage("Възникна грешка по време на прехвърлянето. Моля опитайте по-късно."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Прехвърли Средства"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Този процес ще прехвърли вашите средства от Хартиен Портфейл към Natrium Портфейл.\n\nНатиснете \"%1\" бутона за Старт."),

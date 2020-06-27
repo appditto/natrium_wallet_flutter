@@ -204,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 BANANO đã được chuyển thành công vào ví Kalium của bạn.\n"),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("Một ví có số dư là %1 BANANO đã được tìm thấy. \n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("Nhấn xác nhận để chuyển quỹ.\n"),
+    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("Chuyển giao có thể mất vài giây để hoàn thành."),
     "transferError" : MessageLookupByLibrary.simpleMessage("Một lỗi đã xảy ra trong quá trình chuyển giao. Hãy thử lại sau."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Chuyển tiền"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Quá trình này sẽ chuyển quỹ từ ví giấy sang ví Kalium của bạn.\n\nNhấn nút \"%1\" để bắt đầu."),

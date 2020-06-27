@@ -117,7 +117,7 @@
   "transferNoFunds": "Não há nenhuma NANO nesta seed.",
   "transferConfirmInfo": "Uma carteira com saldo de %1 NANO foi detectada.\n",
   "transferConfirmInfoSecond": "Toque em confirmar para transferir os fundos.\n",
-  "transferConfirmInfoKalThird": "A transferência pode levar vários segundos para concluir.",
+  "transferConfirmInfoThird": "A transferência pode levar vários segundos para concluir.",
   "transferLoading": "Transferindo",
   "transferComplete": "%1 NANO transferido com sucesso para sua carteira Natrium.",
   "transferClose": "Toque em qualquer lugar para fechar a janela.",

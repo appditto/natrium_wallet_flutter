@@ -117,7 +117,7 @@
   "transferNoFunds": "Tidak ada NANO di dalam benih ini.",
   "transferConfirmInfo": "Dompet dengan saldo %1 NANO telah terdeteksi.\n",
   "transferConfirmInfoSecond": "Ketuk konfirmasi untuk mentransfer dana.\n",
-  "transferConfirmInfoKalThird": "Transfer membutuhkan beberapa detik.",
+  "transferConfirmInfoThird": "Transfer membutuhkan beberapa detik.",
   "transferLoading": "Mentransfer",
   "transferComplete": "%1 NANO berhasil ditransfer ke Dompet Natrium Anda.",
   "transferClose": "Ketuk di mana saja untuk melanjutkan.",
@@ -221,5 +221,7 @@
   "exampleCardFromKal": "dari monkey lain",
   "newAccountIntroKal": "Ini adalah akun baru anda. Setelah menerima BANANO, transaksi akan muncul seperti ini",
   "liveSupportButton": "Bantuan",
-  "connectingHeader": "Menghubungkan"
+  "connectingHeader": "Menghubungkan",
+  "minimumSend": "Jumlah minimal pengiriman adalah %1 NANO",
+  "natricon": "Natricon"
 }

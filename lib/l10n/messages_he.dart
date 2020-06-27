@@ -143,6 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 נאנו הועברו לארנק נאטריום."),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("\nארנק עם מאזן של %1 נאנו אותר."),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("\nלחץ על אשר בכדי להעביר את הסכום."),
+    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("יתכן שיקחו כמה שניות עד תחילת ההעברה."),
     "transferError" : MessageLookupByLibrary.simpleMessage("חלה תקלה במהלך ההעברה. בבקשה נסה מאוחר יותר."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("העברת\nסכום"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("התהליך יעביר את הסכום שברשותך מארנק הנייר לארנק נאטריום\n\nלחץ על כפתור ה \"%1\" בכדי להתחיל."),

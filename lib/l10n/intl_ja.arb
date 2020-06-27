@@ -117,7 +117,7 @@
   "transferNoFunds": "このシードにはナノが含まれていません",
   "transferConfirmInfo": "残高％1 ナノのウォレットが検出されました。\n",
   "transferConfirmInfoSecond": "確認をタップして資金を転送します。\n",
-  "transferConfirmInfoKalThird": "転送が完了するまでに数秒かかる場合があります。",
+  "transferConfirmInfoThird": "転送が完了するまでに数秒かかる場合があります。",
   "transferLoading": "転送中",
   "transferComplete": "％1 ナノがナトリアムウォレットに正常に転送されました。\n",
   "transferClose": "任意の場所をタップしてウィンドウを閉じます。",

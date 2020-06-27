@@ -116,7 +116,7 @@
   "transferNoFunds": "Ključ ne vsebuje nobenega NANO zneska.",
   "transferConfirmInfo": "Denarnica z zneskom %1 NANO je bila zaznana.\n",
   "transferConfirmInfoSecond": "Pritisni za prenos zneska.\n",
-  "transferConfirmInfoKalThird": "Prenos lahko traja nekaj sekund.",
+  "transferConfirmInfoThird": "Prenos lahko traja nekaj sekund.",
   "transferLoading": "Prenašam",
   "transferComplete": "%1 NANO uspešno prenešenih v vašo Natrium denarnico.\n",
   "transferClose": "Pritisni kjerkoli za izhod.",

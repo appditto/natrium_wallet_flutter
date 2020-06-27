@@ -117,7 +117,7 @@
   "transferNoFunds": "Ang seed na ito ay walang NANO.",
   "transferConfirmInfo": "Ang wallet na may balanse na %1 NANO ay na-detect.\n",
   "transferConfirmInfoSecond": "I-tap ang confirm para ilipat ang pondo.\n",
-  "transferConfirmInfoKalThird": "Ang paglipat ay maaring tumagal ng ilang segundo.",
+  "transferConfirmInfoThird": "Ang paglipat ay maaring tumagal ng ilang segundo.",
   "transferLoading": "Nililipat na",
   "transferComplete": "%1 NANO ay nalipat na sa iyong Natrium Wallet.",
   "transferClose": "I-tap kahit saan para isara itong window.",

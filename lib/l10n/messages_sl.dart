@@ -169,6 +169,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "transferComplete" : MessageLookupByLibrary.simpleMessage("%1 NANO uspešno prenešenih v vašo Natrium denarnico.\n"),
     "transferConfirmInfo" : MessageLookupByLibrary.simpleMessage("Denarnica z zneskom %1 NANO je bila zaznana.\n"),
     "transferConfirmInfoSecond" : MessageLookupByLibrary.simpleMessage("Pritisni za prenos zneska.\n"),
+    "transferConfirmInfoThird" : MessageLookupByLibrary.simpleMessage("Prenos lahko traja nekaj sekund."),
     "transferError" : MessageLookupByLibrary.simpleMessage("Napaka med prenosom. Poskusite kasneje."),
     "transferHeader" : MessageLookupByLibrary.simpleMessage("Prenesi znesek"),
     "transferIntro" : MessageLookupByLibrary.simpleMessage("Postopek bo prenesel znesek iz papirnate denarnice v vašo Natrium denarnico.\n\nPritisnite \"%1\" gumb za začetek."),

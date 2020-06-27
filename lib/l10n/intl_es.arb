@@ -117,7 +117,7 @@
   "transferNoFunds": "Esta semilla no contiene ningún NANO.",
   "transferConfirmInfo": "Se ha detectado una billetera con un balance de %1 NANO.\n",
   "transferConfirmInfoSecond": "Pulse confirmar para transferir los fondos.\n",
-  "transferConfirmInfoKalThird": "La transferencia puede tardar varios segundos en completarse.",
+  "transferConfirmInfoThird": "La transferencia puede tardar varios segundos en completarse.",
   "transferLoading": "Transfiriendo",
   "transferComplete": "%1 NANO se han transferido con éxito a su billetera de Natrium.",
   "transferClose": "Pulse en cualquier lugar para cerrar esta ventana.",

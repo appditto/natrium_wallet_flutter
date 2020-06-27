@@ -306,7 +306,7 @@ class AppLocalization {
   }
 
   String get sendError {
-    return Intl.message("An error occured. Try again later.",
+    return Intl.message("An error occurred. Try again later.",
         desc: 'send_generic_error', name: 'sendError');
   }
 

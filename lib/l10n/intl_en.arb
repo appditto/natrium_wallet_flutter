@@ -312,7 +312,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "sendError": "An error occured. Try again later.",
+  "sendError": "An error occurred. Try again later.",
   "@sendError": {
     "description": "send_generic_error",
     "type": "text",

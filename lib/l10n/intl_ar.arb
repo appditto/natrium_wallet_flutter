@@ -117,7 +117,7 @@
   "transferNoFunds": "هذا المفتاح الخاص لا يحتوي على NANO",
   "transferConfirmInfo": "تم كشف محفظة برصيد %1 NANO.\n",
   "transferConfirmInfoSecond": "إضغط لتأكيد تحويل الرصيد.\n",
-  "transferConfirmInfoKalThird": "قد يستغرق النقل عدة ثوانيٍ.",
+  "transferConfirmInfoThird": "قد يستغرق النقل عدة ثوانيٍ.",
   "transferLoading": "بصدد التحويل",
   "transferComplete": "تم تحويل %1 NANO إلى محفظة نتريوم.\n",
   "transferClose": "اضغط في أي مكان لغلق النافذة.",

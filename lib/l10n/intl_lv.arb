@@ -112,7 +112,7 @@
   "transferNoFunds": "Šai sēklai nav piesaistīti līdzekļi",
   "transferConfirmInfo": "Maks ar %1 NANO bilanci ir atrasts.\n",
   "transferConfirmInfoSecond": "Pieskarieties, lai apstiprinātu līdzekļu pārskaitīšanu.\n",
-  "transferConfirmInfoKalThird": "Pārskaitīšana var prasīt vairākas sekundes.",
+  "transferConfirmInfoThird": "Pārskaitīšana var prasīt vairākas sekundes.",
   "transferLoading": "Pārsūta",
   "transferComplete": "%1 NANO sekmīgi pārskaitīti uz jūsu Natrium maku.\n",
   "transferClose": "Pieskarieties jebkur, lai aizvērtu.",
