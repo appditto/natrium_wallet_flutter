@@ -13,10 +13,6 @@
 default_platform(:android)
 
 platform :android do
-  before_all  do |lane, options|
-    update_fastlane
-  end
-
   desc "Build android aab and apk"
   lane :build_android do |options|
     sh "./flutter_build.sh --clean"

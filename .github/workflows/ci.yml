@@ -70,7 +70,7 @@ jobs:
           echo keyAlias=${{ secrets.ANDROID_KEY_ALIAS }} >> key.properties
           echo keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }} >> key.properties
           echo storePassword=${{ secrets.ANDROID_KEY_STORE_PASSWORD }} >> key.properties
-          fastlane build_android production:true
+          /usr/local/bin/fastlane build_android production:true
           rm -f key.properties
 
       - name: Upload APK
@@ -105,7 +105,7 @@ jobs:
           GEM_HOME: ~/.gems
         run: |
           echo "::add-path::~/.gems/bin"
-          fastlane build_ios
+          /usr/local/bin/fastlane build_ios
 
       - name: Upload IPA
         if: success()

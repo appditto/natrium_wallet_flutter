@@ -37,10 +37,6 @@ def ensure_temp_keychain(name, password)
 end
 
 platform :ios do
-  before_all  do |lane, options|
-    update_fastlane
-  end
-
   desc "Build & sign iOS app"
   lane :build_ios do |options|
     begin
