@@ -28,7 +28,7 @@ def ensure_temp_keychain(name, password)
     name: name,
     password: password,
     unlock: true,
-    timeout: 3600
+    timeout: false
   )  
 end
 
