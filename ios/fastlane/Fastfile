@@ -67,6 +67,10 @@ platform :ios do
         code_sign_identity: "iPhone Distribution"
       )
       sh "./flutter_build.sh --clean"
+      unlock_keychain(
+        path: "~/Library/Keychains/#{keychain_name}-db",
+        password: keychain_password
+      )      
       build_ios_app(
         export_options: {
             method: "app-store",
