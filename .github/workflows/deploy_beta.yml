@@ -83,7 +83,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: android-aab
-          path: build/app/outputs/bundle/release/app.aab
+          path: build/app/outputs/bundle/release/app-release.aab
 
   build_ios:
     name: Build iOS app
@@ -130,7 +130,7 @@ jobs:
         if: success()
         working-directory: android
         env:
-          AAB_PATH: ${{ env.workspace }}/app.aab
+          AAB_PATH: ${{ env.workspace }}/app-release.aab
           GEM_HOME: ~/.gems
         run: |
           echo "::add-path::~/.gems/bin"

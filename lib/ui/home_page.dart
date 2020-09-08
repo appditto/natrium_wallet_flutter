@@ -31,8 +31,6 @@ import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/settings/settings_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/app_drawer.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/app_scaffold.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/list_slidable.dart';
@@ -61,8 +59,8 @@ class _AppHomePageState extends State<AppHomePage>
         WidgetsBindingObserver,
         SingleTickerProviderStateMixin,
         FlareController {
-  final GlobalKey<AppScaffoldState> _scaffoldKey =
-      new GlobalKey<AppScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey =
+      new GlobalKey<ScaffoldState>();
   final Logger log = sl.get<Logger>();
 
   // Controller for placeholder card animations
@@ -693,13 +691,14 @@ class _AppHomePageState extends State<AppHomePage>
       paintQrCode();
     }
 
-    return AppScaffold(
+    return Scaffold(
+      drawerEdgeDragWidth: 200,
       resizeToAvoidBottomPadding: false,
       key: _scaffoldKey,
       backgroundColor: StateContainer.of(context).curTheme.background,
       drawer: SizedBox(
         width: UIUtil.drawerWidth(context),
-        child: AppDrawer(
+        child: Drawer(
           child: SettingsSheet(),
         ),
       ),

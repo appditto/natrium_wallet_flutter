@@ -11,8 +11,8 @@ fi
 if [ "$1" == "--apk" ]
 then
    echo "Building APK..."
-   flutter build apk --release
+   flutter build apk --release --no-tree-shake-icons
 else
    echo "Building AAB..."
-   flutter build appbundle --release
+   flutter build appbundle --release --no-tree-shake-icons
 fi

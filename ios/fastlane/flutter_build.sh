@@ -8,4 +8,4 @@ then
 else
    echo "Skipping clean..."
 fi
-flutter build ios --release --no-codesign
+flutter build ios --release --no-codesign --no-tree-shake-icons
