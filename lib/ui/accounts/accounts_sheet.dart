@@ -49,7 +49,7 @@ class AppAccountsWidget extends StatefulWidget {
 }
 
 class _AppAccountsWidgetState extends State<AppAccountsWidget> {
-  static const int MAX_ACCOUNTS = 20;
+  static const int MAX_ACCOUNTS = 50;
   final GlobalKey expandedKey = GlobalKey();
 
   bool _addingAccount;
