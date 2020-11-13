@@ -644,7 +644,12 @@ class _SendSheetState extends State<SendSheet> {
                           }
                           // If amount is present, fill it and go to SendConfirm
                           if (address.amount != null) {
-                            if (_localCurrencyMode && mounted) {
+                            bool hasError = false;
+                            BigInt amountBigInt = BigInt.tryParse(address.amount);
+                            if (amountBigInt != null && amountBigInt < BigInt.from(10).pow(24)) {
+                              hasError = true;
+                              UIUtil.showSnackbar(AppLocalization.of(context).minimumSend.replaceAll("%1", "0.000001"), context);                            
+                            } else if (_localCurrencyMode && mounted) {
                               toggleLocalCurrency();
                               _sendAmountController.text =
                                   NumberUtil.getRawAsUsableString(
@@ -666,26 +671,28 @@ class _SendSheetState extends State<SendSheet> {
                               });
                               _sendAddressFocusNode.unfocus();
                             }
-                            // Go to confirm sheet
-                            Sheets.showAppHeightNineSheet(
-                                context: context,
-                                widget: SendConfirmSheet(
-                                    amountRaw: _localCurrencyMode
-                                        ? NumberUtil.getAmountAsRaw(
-                                            _convertLocalCurrencyToCrypto())
-                                        : _rawAmount == null
-                                            ? NumberUtil.getAmountAsRaw(
-                                                _sendAmountController.text)
-                                            : _rawAmount,
-                                    destination: contact != null
-                                        ? contact.address
-                                        : address.address,
-                                    contactName:
-                                        contact != null ? contact.name : null,
-                                    maxSend: _isMaxSend(),
-                                    localCurrency: _localCurrencyMode
-                                        ? _sendAmountController.text
-                                        : null));
+                            if (!hasError) {
+                              // Go to confirm sheet
+                              Sheets.showAppHeightNineSheet(
+                                  context: context,
+                                  widget: SendConfirmSheet(
+                                      amountRaw: _localCurrencyMode
+                                          ? NumberUtil.getAmountAsRaw(
+                                              _convertLocalCurrencyToCrypto())
+                                          : _rawAmount == null
+                                              ? NumberUtil.getAmountAsRaw(
+                                                  _sendAmountController.text)
+                                              : _rawAmount,
+                                      destination: contact != null
+                                          ? contact.address
+                                          : address.address,
+                                      contactName:
+                                          contact != null ? contact.name : null,
+                                      maxSend: _isMaxSend(),
+                                      localCurrency: _localCurrencyMode
+                                          ? _sendAmountController.text
+                                          : null));
+                            }
                           }
                         }
                       })
