@@ -104,7 +104,7 @@ jobs:
           TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
           GEM_HOME: ~/.gems
         run: |
-          echo "::add-path::~/.gems/bin"
+          echo "~/.gems/bin" >> $GITHUB_PATH
           /usr/local/bin/fastlane build_ios
 
       - name: Upload IPA
