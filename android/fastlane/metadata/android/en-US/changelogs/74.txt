@@ -1,0 +1,2 @@
+- Bug fixes
+- Android 11 support

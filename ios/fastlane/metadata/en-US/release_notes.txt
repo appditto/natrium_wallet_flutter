@@ -1,2 +1,2 @@
-- Numerous bug fixes and improvements
-- Increase maximum accounts from 20 to 50
+- Bug fixes
+- iOS 14 Support
