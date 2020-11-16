@@ -60,7 +60,7 @@ jobs:
           ANDROID_SDK_PATH: /Users/adapps/Library/Android/Sdk
           GEM_HOME: ~/.gems
         run: |
-          echo "::add-path::~/.gems/bin"
+          echo "~/.gems/bin" >> $GITHUB_PATH
           echo flutter.sdk=${{ env.FLUTTER_PATH }} > local.properties
           echo sdk.dir=${{ env.ANDROID_SDK_PATH }} >> local.properties
           echo flutter.buildMode=release >> local.properties
@@ -102,7 +102,7 @@ jobs:
           TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
           GEM_HOME: ~/.gems
         run: |
-          echo "::add-path::~/.gems/bin"
+          echo "~/.gems/bin" >> $GITHUB_PATH
           /usr/local/bin/fastlane build_ios
 
       - name: Upload IPA
@@ -133,7 +133,7 @@ jobs:
           AAB_PATH: ${{ env.workspace }}/app-release.aab
           GEM_HOME: ~/.gems
         run: |
-          echo "::add-path::~/.gems/bin"
+          echo "~/.gems/bin" >> $GITHUB_PATH
           /usr/local/bin/fastlane deploy_android production:true
 
   deploy_ios:
@@ -159,5 +159,5 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}   
           GEM_HOME: ~/.gems
         run: |
-          echo "::add-path::~/.gems/bin"
+          echo "~/.gems/bin" >> $GITHUB_PATH
           /usr/local/bin/fastlane deploy_ios

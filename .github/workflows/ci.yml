@@ -62,7 +62,7 @@ jobs:
           ANDROID_SDK_PATH: /Users/adapps/Library/Android/Sdk
           GEM_HOME: ~/.gems
         run: |
-          echo "::add-path::~/.gems/bin"
+          echo "~/.gems/bin" >> $GITHUB_PATH
           echo flutter.sdk=${{ env.FLUTTER_PATH }} > local.properties
           echo sdk.dir=${{ env.ANDROID_SDK_PATH }} >> local.properties
           echo flutter.buildMode=release >> local.properties
