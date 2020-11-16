@@ -38,7 +38,7 @@ jobs:
         uses: actions/download-artifact@v2
 
       - name: Set workspace in env
-        run: echo ::set-env name=workspace::$GITHUB_WORKSPACE
+        run: echo "workspace=$GITHUB_WORKSPACE" >> $GITHUB_ENV
 
       - name: Run tests
         env:
@@ -62,7 +62,6 @@ jobs:
           ANDROID_SDK_PATH: /Users/adapps/Library/Android/Sdk
           GEM_HOME: ~/.gems
         run: |
-          echo "~/.gems/bin" >> $GITHUB_PATH
           echo flutter.sdk=${{ env.FLUTTER_PATH }} > local.properties
           echo sdk.dir=${{ env.ANDROID_SDK_PATH }} >> local.properties
           echo flutter.buildMode=release >> local.properties
@@ -104,7 +103,6 @@ jobs:
           TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
           GEM_HOME: ~/.gems
         run: |
-          echo "~/.gems/bin" >> $GITHUB_PATH
           /usr/local/bin/fastlane build_ios
 
       - name: Upload IPA
