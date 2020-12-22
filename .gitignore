@@ -1,7 +1,3 @@
-android/.project
-android/.settings
-android/key.properties
-android/app/release
 # Miscellaneous
 *.class
 *.lock
@@ -34,9 +30,12 @@ android/app/release
 .pub-cache/
 .pub/
 build/
-.flutter-plugins-dependencies
 
 # Android related
+android/.project
+android/.settings
+android/key.properties
+android/app/release
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
 **/android/captures/
