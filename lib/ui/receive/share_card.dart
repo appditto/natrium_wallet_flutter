@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,7 +6,6 @@ import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flare_flutter/flare_actor.dart';
 
 class AppShareCard extends StatefulWidget {
   final GlobalKey key;

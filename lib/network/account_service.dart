@@ -1,23 +1,13 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
-import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:logger/logger.dart';
-import 'package:natrium_wallet_flutter/model/wallet.dart';
-import 'package:natrium_wallet_flutter/network/model/block_types.dart';
-import 'package:natrium_wallet_flutter/network/model/request/account_info_request.dart';
-import 'package:natrium_wallet_flutter/network/model/request/block_info_request.dart';
-import 'package:natrium_wallet_flutter/network/model/response/account_info_response.dart';
-import 'package:natrium_wallet_flutter/service_locator.dart';
-
 import 'package:web_socket_channel/io.dart';
 import 'package:package_info/package_info.dart';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/network/model/base_request.dart';
 import 'package:natrium_wallet_flutter/network/model/request_item.dart';
@@ -29,13 +19,18 @@ import 'package:natrium_wallet_flutter/network/model/request/process_request.dar
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/block_info_item.dart';
 import 'package:natrium_wallet_flutter/network/model/response/error_response.dart';
-import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:natrium_wallet_flutter/network/model/response/accounts_balances_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/callback_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/price_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/pending_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/process_response.dart';
+import 'package:natrium_wallet_flutter/network/model/block_types.dart';
+import 'package:natrium_wallet_flutter/network/model/request/account_info_request.dart';
+import 'package:natrium_wallet_flutter/network/model/request/block_info_request.dart';
+import 'package:natrium_wallet_flutter/network/model/response/account_info_response.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
+import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
 
 // Server Connection String

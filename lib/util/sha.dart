@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:pointycastle/pointycastle.dart';
 
 class Sha {

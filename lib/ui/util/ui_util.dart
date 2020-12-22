@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:event_taxi/event_taxi.dart';
-import 'package:http/http.dart' as http;
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';

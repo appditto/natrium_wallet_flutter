@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:logger/logger.dart';
 import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';
@@ -9,7 +8,6 @@ import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:natrium_wallet_flutter/network/model/response/accounts_balances_response.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
@@ -26,6 +24,7 @@ import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 import 'package:natrium_wallet_flutter/network/model/request/account_history_request.dart';
 import 'package:natrium_wallet_flutter/network/model/request/fcm_update_request.dart';
 import 'package:natrium_wallet_flutter/network/model/request/subscribe_request.dart';
+import 'package:natrium_wallet_flutter/network/model/response/accounts_balances_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
 import 'package:natrium_wallet_flutter/network/model/response/callback_response.dart';
@@ -38,7 +37,6 @@ import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/network/account_service.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
-
 import 'util/sharedprefsutil.dart';
 
 class _InheritedStateContainer extends InheritedWidget {

@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:decimal/decimal.dart';
 
 part 'ninja_node.g.dart';
 

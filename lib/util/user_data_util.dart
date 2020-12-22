@@ -10,7 +10,6 @@ import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
-
 import 'package:quiver/strings.dart';
 import 'package:validators/validators.dart';
 import 'package:barcode_scan/barcode_scan.dart';

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -19,7 +18,6 @@ import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
-
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';

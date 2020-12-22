@@ -1,8 +1,6 @@
 import 'package:flutter/services.dart';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:natrium_wallet_flutter/util/random_util.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/util/encrypt.dart';

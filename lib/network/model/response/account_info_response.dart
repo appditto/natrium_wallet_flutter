@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
-
 part 'account_info_response.g.dart';
 
 int _toInt(String v) => v == null ? 0 : int.tryParse(v);

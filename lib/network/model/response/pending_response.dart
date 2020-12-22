@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-
 import 'package:natrium_wallet_flutter/network/model/response/pending_response_item.dart';
 
 part 'pending_response.g.dart';
