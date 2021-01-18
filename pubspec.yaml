@@ -67,7 +67,7 @@ dependencies:
   event_taxi: ^0.1.5
 
   # SVG
-  flutter_svg: ^0.19.2+1
+  flutter_svg: ^0.18.1
     
   # QR Codes
   qr_flutter: ^2.0.1 # Generator

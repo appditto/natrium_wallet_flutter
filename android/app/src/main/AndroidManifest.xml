@@ -23,6 +23,9 @@
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false">
         <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />        
+        <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_status_bar" />
         <activity
@@ -36,9 +39,6 @@
                  until Flutter renders its first frame. It can be removed if
                  there is no splash screen (such as the default splash screen
                  defined in @style/LaunchTheme). -->
-            <meta-data
-                android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
-                android:value="true" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
