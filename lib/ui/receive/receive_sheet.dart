@@ -497,9 +497,13 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
     if (_localCurrencyMode) {
       _lastLocalCurrencyAmount = _receiveAmountController.text;
       _lastCryptoAmount = _convertLocalCurrencyToCrypto();
-      raw = _lastCryptoAmount.length > 0 ? NumberUtil.getAmountAsRaw(_lastCryptoAmount) : '';
+      raw = _lastCryptoAmount.length > 0
+          ? NumberUtil.getAmountAsRaw(_lastCryptoAmount)
+          : '';
     } else {
-      raw = _receiveAmountController.text.length > 0 ? NumberUtil.getAmountAsRaw(_receiveAmountController.text) : '';
+      raw = _receiveAmountController.text.length > 0
+          ? NumberUtil.getAmountAsRaw(_receiveAmountController.text)
+          : '';
     }
     this.paintQrCode(address: widget.address, amount: raw);
   }
@@ -556,7 +560,8 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
       maxLines: null,
       autocorrect: false,
       hintText:
-      _amountHint == null ? "" : AppLocalization.of(context).enterAmount + (_localCurrencyMode ?' (' + _localCurrencyFormat.currencySymbol +')' : ' (NANO)'),
+      _amountHint == null ? "" : AppLocalization.of(context).enterAmount +
+          (_localCurrencyMode ?' (' + _localCurrencyFormat.currencySymbol +')' : ' (NANO)'),
       prefixButton: TextFieldButton(
         icon: AppIcons.swapcurrency,
         onPressed: () {
