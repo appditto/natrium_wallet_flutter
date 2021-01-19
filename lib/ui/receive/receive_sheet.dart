@@ -51,12 +51,11 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
   // Timer reference so we can cancel repeated events
   Timer _addressCopiedTimer;
 
-  FocusNode _sendAmountFocusNode;
-  String _rawAmount;
-  TextEditingController _sendAmountController;
+  // New vars
+  FocusNode _receiveAmountFocusNode;
+  TextEditingController _receiveAmountController;
   NumberFormat _localCurrencyFormat;
   bool _localCurrencyMode = false;
-  String _amountValidationText = "";
   String _amountHint = "";
   String _lastLocalCurrencyAmount = "";
   String _lastCryptoAmount = "";
@@ -86,25 +85,16 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
     shareCardKey = GlobalKey();
     _showShareCard = false;
 
-    _sendAmountFocusNode = FocusNode();
-    _sendAmountController = TextEditingController();
+    // Set initial state of QR widget
+    qrWidget = widget.qrWidget;
+
+    // Set up amount input
+    _receiveAmountFocusNode = FocusNode();
+    _receiveAmountController = TextEditingController();
 
     // On amount focus change
-    _sendAmountFocusNode.addListener(() {
-      if (_sendAmountFocusNode.hasFocus) {
-        if (_rawAmount != null) {
-          setState(() {
-            _sendAmountController.text =
-                NumberUtil.getRawAsUsableString(_rawAmount).replaceAll(",", "");
-            _rawAmount = null;
-          });
-        }
-        // if (quickSendAmount != null) {
-        //   _sendAmountController.text = "";
-        //   setState(() {
-        //     quickSendAmount = null;
-        //   });
-        // }
+    _receiveAmountFocusNode.addListener(() {
+      if (_receiveAmountFocusNode.hasFocus) {
         setState(() {
           _amountHint = null;
         });
@@ -112,25 +102,13 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
         setState(() {
           _amountHint = "";
         });
-
-        // // Redraw QR?
-        // String raw;
-        // if (_localCurrencyMode) {
-        //   _lastLocalCurrencyAmount = _sendAmountController.text;
-        //   _lastCryptoAmount = _convertLocalCurrencyToCrypto();
-        //   raw = NumberUtil.getAmountAsRaw(_lastCryptoAmount);
-        // } else {
-        //   raw = _sendAmountController.text.length > 0 ? NumberUtil.getAmountAsRaw(_sendAmountController.text) : '';
-        // }
-        // this.paintQrCode(address: widget.address, amount: raw);
       }
     });
+
     // Set initial currency format
     _localCurrencyFormat = NumberFormat.currency(
         locale: widget.localCurrency.getLocale().toString(),
         symbol: widget.localCurrency.getCurrencySymbol());
-
-    qrWidget = widget.qrWidget;
   }
 
   @override
@@ -179,28 +157,10 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
               ],
             ),
 
-            // Column for Balance Text, Enter Amount container + Enter Amount Error container WIP
+            // Column for Enter Amount container
             Column(
               children: <Widget>[
-                // ******* Enter Amount Container ******* //
                 getEnterAmountContainer(),
-                // ******* Enter Amount Container End ******* //
-
-                // ******* Enter Amount Error Container ******* //
-                Container(
-                  alignment: AlignmentDirectional(0, 0),
-                  margin: EdgeInsets.only(top: 3),
-                  child: Text(_amountValidationText,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        color: StateContainer.of(context)
-                            .curTheme
-                            .primary,
-                        fontFamily: 'NunitoSans',
-                        fontWeight: FontWeight.w600,
-                      )),
-                ),
-                // ******* Enter Amount Error Container End ******* //
               ],
             ),
 
@@ -458,7 +418,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
   }
 
   String _convertLocalCurrencyToCrypto() {
-    String convertedAmt = _sendAmountController.text.replaceAll(",", ".");
+    String convertedAmt = _receiveAmountController.text.replaceAll(",", ".");
     convertedAmt = NumberUtil.sanitizeNumber(convertedAmt);
     if (convertedAmt.isEmpty) {
       return "";
@@ -470,7 +430,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
   }
 
   String _convertCryptoToLocalCurrency() {
-    String convertedAmt = NumberUtil.sanitizeNumber(_sendAmountController.text,
+    String convertedAmt = NumberUtil.sanitizeNumber(_receiveAmountController.text,
         maxDecimalDigits: 2);
     if (convertedAmt.isEmpty) {
       return "";
@@ -494,10 +454,10 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
       // Switching to crypto-mode
       String cryptoAmountStr;
       // Check out previous state
-      if (_sendAmountController.text == _lastLocalCurrencyAmount) {
+      if (_receiveAmountController.text == _lastLocalCurrencyAmount) {
         cryptoAmountStr = _lastCryptoAmount;
       } else {
-        _lastLocalCurrencyAmount = _sendAmountController.text;
+        _lastLocalCurrencyAmount = _receiveAmountController.text;
         _lastCryptoAmount = _convertLocalCurrencyToCrypto();
         cryptoAmountStr = _lastCryptoAmount;
       }
@@ -505,18 +465,18 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
         _localCurrencyMode = false;
       });
       Future.delayed(Duration(milliseconds: 50), () {
-        _sendAmountController.text = cryptoAmountStr;
-        _sendAmountController.selection = TextSelection.fromPosition(
+        _receiveAmountController.text = cryptoAmountStr;
+        _receiveAmountController.selection = TextSelection.fromPosition(
             TextPosition(offset: cryptoAmountStr.length));
       });
     } else {
       // Switching to local-currency mode
       String localAmountStr;
       // Check our previous state
-      if (_sendAmountController.text == _lastCryptoAmount) {
+      if (_receiveAmountController.text == _lastCryptoAmount) {
         localAmountStr = _lastLocalCurrencyAmount;
       } else {
-        _lastCryptoAmount = _sendAmountController.text;
+        _lastCryptoAmount = _receiveAmountController.text;
         _lastLocalCurrencyAmount = _convertCryptoToLocalCurrency();
         localAmountStr = _lastLocalCurrencyAmount;
       }
@@ -524,21 +484,21 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
         _localCurrencyMode = true;
       });
       Future.delayed(Duration(milliseconds: 50), () {
-        _sendAmountController.text = localAmountStr;
-        _sendAmountController.selection = TextSelection.fromPosition(
+        _receiveAmountController.text = localAmountStr;
+        _receiveAmountController.selection = TextSelection.fromPosition(
             TextPosition(offset: localAmountStr.length));
       });
     }
   }
 
-  void redrawQrCode() {
+  void redrawQr() {
     String raw;
     if (_localCurrencyMode) {
-      _lastLocalCurrencyAmount = _sendAmountController.text;
+      _lastLocalCurrencyAmount = _receiveAmountController.text;
       _lastCryptoAmount = _convertLocalCurrencyToCrypto();
       raw = NumberUtil.getAmountAsRaw(_lastCryptoAmount);
     } else {
-      raw = _sendAmountController.text.length > 0 ? NumberUtil.getAmountAsRaw(_sendAmountController.text) : '';
+      raw = _receiveAmountController.text.length > 0 ? NumberUtil.getAmountAsRaw(_receiveAmountController.text) : '';
     }
     this.paintQrCode(address: widget.address, amount: raw);
   }
@@ -564,8 +524,8 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
   //*******************************************************//
   getEnterAmountContainer() {
     return AppTextField(
-      focusNode: _sendAmountFocusNode,
-      controller: _sendAmountController,
+      focusNode: _receiveAmountFocusNode,
+      controller: _receiveAmountController,
       topMargin: 30,
       cursorColor: StateContainer.of(context).curTheme.primary,
       style: TextStyle(
@@ -574,8 +534,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
         color: StateContainer.of(context).curTheme.primary,
         fontFamily: 'NunitoSans',
       ),
-      inputFormatters: _rawAmount == null
-          ? [
+      inputFormatters: [
         LengthLimitingTextInputFormatter(13),
         _localCurrencyMode
             ? CurrencyFormatter(
@@ -588,40 +547,30 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
         LocalCurrencyFormatter(
             active: _localCurrencyMode,
             currencyFormat: _localCurrencyFormat)
-      ]
-          : [LengthLimitingTextInputFormatter(13)],
+      ],
       onChanged: (text) {
-        // Always reset the error message to be less annoying
-        setState(() {
-          _amountValidationText = "";
-          // Reset the raw amount
-          _rawAmount = null;
-        });
-
-        this.redrawQrCode();
+        this.redrawQr();
       },
       textInputAction: TextInputAction.next,
       maxLines: null,
       autocorrect: false,
       hintText:
       _amountHint == null ? "" : AppLocalization.of(context).enterAmount,
-      prefixButton: _rawAmount == null
-          ? TextFieldButton(
+      prefixButton: TextFieldButton(
         icon: AppIcons.swapcurrency,
         onPressed: () {
           toggleLocalCurrency();
         },
-      )
-          : null,
+      ),
       fadeSuffixOnCondition: true,
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       textAlign: TextAlign.center,
-      onSubmitted: (text) {
-        FocusScope.of(context).unfocus();
-        // if (!Address(_sendAddressController.text).isValid()) {
-        //   FocusScope.of(context).requestFocus(_sendAddressFocusNode);
-        // }
-      },
+      // onSubmitted: (text) {
+      //   // FocusScope.of(context).unfocus();
+      //   // if (!Address(_sendAddressController.text).isValid()) {
+      //   //   FocusScope.of(context).requestFocus(_sendAddressFocusNode);
+      //   // }
+      // },
     );
   } //************ Enter Address Container Method End ************//
     //*************************************************************//
