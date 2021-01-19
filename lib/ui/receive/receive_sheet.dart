@@ -6,22 +6,36 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
+import 'package:intl/intl.dart';
+import 'package:decimal/decimal.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
+import 'package:natrium_wallet_flutter/model/available_currency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
+import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/app_text_field.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/receive/share_card.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/util/numberutil.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
 class ReceiveSheet extends StatefulWidget {
+  final AvailableCurrency localCurrency;
   final Widget qrWidget;
+  final String address;
 
-  ReceiveSheet({this.qrWidget}) : super();
+  ReceiveSheet({
+    @required this.localCurrency,
+    this.address,
+    this.qrWidget}
+    ) : super();
 
   _ReceiveSheetStateState createState() => _ReceiveSheetStateState();
 }
@@ -36,6 +50,18 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
   bool _addressCopied;
   // Timer reference so we can cancel repeated events
   Timer _addressCopiedTimer;
+
+  FocusNode _sendAmountFocusNode;
+  String _rawAmount;
+  TextEditingController _sendAmountController;
+  NumberFormat _localCurrencyFormat;
+  bool _localCurrencyMode = false;
+  String _amountValidationText = "";
+  String _amountHint = "";
+  String _lastLocalCurrencyAmount = "";
+  String _lastCryptoAmount = "";
+
+  Widget qrWidget;
 
   Future<Uint8List> _capturePng() async {
     if (shareCardKey != null && shareCardKey.currentContext != null) {
@@ -59,6 +85,52 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
     // Share card initialization
     shareCardKey = GlobalKey();
     _showShareCard = false;
+
+    _sendAmountFocusNode = FocusNode();
+    _sendAmountController = TextEditingController();
+
+    // On amount focus change
+    _sendAmountFocusNode.addListener(() {
+      if (_sendAmountFocusNode.hasFocus) {
+        if (_rawAmount != null) {
+          setState(() {
+            _sendAmountController.text =
+                NumberUtil.getRawAsUsableString(_rawAmount).replaceAll(",", "");
+            _rawAmount = null;
+          });
+        }
+        // if (quickSendAmount != null) {
+        //   _sendAmountController.text = "";
+        //   setState(() {
+        //     quickSendAmount = null;
+        //   });
+        // }
+        setState(() {
+          _amountHint = null;
+        });
+      } else {
+        setState(() {
+          _amountHint = "";
+        });
+
+        // // Redraw QR?
+        // String raw;
+        // if (_localCurrencyMode) {
+        //   _lastLocalCurrencyAmount = _sendAmountController.text;
+        //   _lastCryptoAmount = _convertLocalCurrencyToCrypto();
+        //   raw = NumberUtil.getAmountAsRaw(_lastCryptoAmount);
+        // } else {
+        //   raw = _sendAmountController.text.length > 0 ? NumberUtil.getAmountAsRaw(_sendAmountController.text) : '';
+        // }
+        // this.paintQrCode(address: widget.address, amount: raw);
+      }
+    });
+    // Set initial currency format
+    _localCurrencyFormat = NumberFormat.currency(
+        locale: widget.localCurrency.getLocale().toString(),
+        symbol: widget.localCurrency.getCurrencySymbol());
+
+    qrWidget = widget.qrWidget;
   }
 
   @override
@@ -107,6 +179,31 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
               ],
             ),
 
+            // Column for Balance Text, Enter Amount container + Enter Amount Error container WIP
+            Column(
+              children: <Widget>[
+                // ******* Enter Amount Container ******* //
+                getEnterAmountContainer(),
+                // ******* Enter Amount Container End ******* //
+
+                // ******* Enter Amount Error Container ******* //
+                Container(
+                  alignment: AlignmentDirectional(0, 0),
+                  margin: EdgeInsets.only(top: 3),
+                  child: Text(_amountValidationText,
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: StateContainer.of(context)
+                            .curTheme
+                            .primary,
+                        fontFamily: 'NunitoSans',
+                        fontWeight: FontWeight.w600,
+                      )),
+                ),
+                // ******* Enter Amount Error Container End ******* //
+              ],
+            ),
+
             // QR which takes all the available space left from the buttons & address text
             Expanded(
               child: Center(
@@ -142,7 +239,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                       child: Container(
                         height: MediaQuery.of(context).size.width / 2.65,
                         width: MediaQuery.of(context).size.width / 2.65,
-                        child: widget.qrWidget,
+                        child: this.qrWidget,
                       ),
                     ),
                     // Outer ring
@@ -359,4 +456,173 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
           ],
         ));
   }
+
+  String _convertLocalCurrencyToCrypto() {
+    String convertedAmt = _sendAmountController.text.replaceAll(",", ".");
+    convertedAmt = NumberUtil.sanitizeNumber(convertedAmt);
+    if (convertedAmt.isEmpty) {
+      return "";
+    }
+    Decimal valueLocal = Decimal.parse(convertedAmt);
+    Decimal conversion = Decimal.parse(
+        StateContainer.of(context).wallet.localCurrencyConversion);
+    return NumberUtil.truncateDecimal(valueLocal / conversion).toString();
+  }
+
+  String _convertCryptoToLocalCurrency() {
+    String convertedAmt = NumberUtil.sanitizeNumber(_sendAmountController.text,
+        maxDecimalDigits: 2);
+    if (convertedAmt.isEmpty) {
+      return "";
+    }
+    Decimal valueCrypto = Decimal.parse(convertedAmt);
+    Decimal conversion = Decimal.parse(
+        StateContainer.of(context).wallet.localCurrencyConversion);
+    convertedAmt =
+        NumberUtil.truncateDecimal(valueCrypto * conversion, digits: 2)
+            .toString();
+    convertedAmt =
+        convertedAmt.replaceAll(".", _localCurrencyFormat.symbols.DECIMAL_SEP);
+    convertedAmt = _localCurrencyFormat.currencySymbol + convertedAmt;
+    return convertedAmt;
+  }
+
+  void toggleLocalCurrency() {
+    // Keep a cache of previous amounts because, it's kinda nice to see approx what nano is worth
+    // this way you can tap button and tap back and not end up with X.9993451 NANO
+    if (_localCurrencyMode) {
+      // Switching to crypto-mode
+      String cryptoAmountStr;
+      // Check out previous state
+      if (_sendAmountController.text == _lastLocalCurrencyAmount) {
+        cryptoAmountStr = _lastCryptoAmount;
+      } else {
+        _lastLocalCurrencyAmount = _sendAmountController.text;
+        _lastCryptoAmount = _convertLocalCurrencyToCrypto();
+        cryptoAmountStr = _lastCryptoAmount;
+      }
+      setState(() {
+        _localCurrencyMode = false;
+      });
+      Future.delayed(Duration(milliseconds: 50), () {
+        _sendAmountController.text = cryptoAmountStr;
+        _sendAmountController.selection = TextSelection.fromPosition(
+            TextPosition(offset: cryptoAmountStr.length));
+      });
+    } else {
+      // Switching to local-currency mode
+      String localAmountStr;
+      // Check our previous state
+      if (_sendAmountController.text == _lastCryptoAmount) {
+        localAmountStr = _lastLocalCurrencyAmount;
+      } else {
+        _lastCryptoAmount = _sendAmountController.text;
+        _lastLocalCurrencyAmount = _convertCryptoToLocalCurrency();
+        localAmountStr = _lastLocalCurrencyAmount;
+      }
+      setState(() {
+        _localCurrencyMode = true;
+      });
+      Future.delayed(Duration(milliseconds: 50), () {
+        _sendAmountController.text = localAmountStr;
+        _sendAmountController.selection = TextSelection.fromPosition(
+            TextPosition(offset: localAmountStr.length));
+      });
+    }
+  }
+
+  void redrawQrCode() {
+    String raw;
+    if (_localCurrencyMode) {
+      _lastLocalCurrencyAmount = _sendAmountController.text;
+      _lastCryptoAmount = _convertLocalCurrencyToCrypto();
+      raw = NumberUtil.getAmountAsRaw(_lastCryptoAmount);
+    } else {
+      raw = _sendAmountController.text.length > 0 ? NumberUtil.getAmountAsRaw(_sendAmountController.text) : '';
+    }
+    this.paintQrCode(address: widget.address, amount: raw);
+  }
+
+  void paintQrCode({String address, String amount}) {
+    QrPainter painter = QrPainter(
+      data: amount != '' ? 'nano:' + address + '?amount=' + amount : address,
+      version: amount != '' ? 9 : 6,
+      gapless: false,
+      errorCorrectionLevel: QrErrorCorrectLevel.Q,
+    );
+    painter.toImageData(MediaQuery.of(context).size.width).then((byteData) {
+      setState(() {
+        this.qrWidget = Container(
+              width: MediaQuery.of(context).size.width / 2.675,
+              child: Image.memory(byteData.buffer.asUint8List())
+        );
+      });
+    });
+  }
+
+  //************ Enter Amount Container Method ************//
+  //*******************************************************//
+  getEnterAmountContainer() {
+    return AppTextField(
+      focusNode: _sendAmountFocusNode,
+      controller: _sendAmountController,
+      topMargin: 30,
+      cursorColor: StateContainer.of(context).curTheme.primary,
+      style: TextStyle(
+        fontWeight: FontWeight.w700,
+        fontSize: 16.0,
+        color: StateContainer.of(context).curTheme.primary,
+        fontFamily: 'NunitoSans',
+      ),
+      inputFormatters: _rawAmount == null
+          ? [
+        LengthLimitingTextInputFormatter(13),
+        _localCurrencyMode
+            ? CurrencyFormatter(
+            decimalSeparator:
+            _localCurrencyFormat.symbols.DECIMAL_SEP,
+            commaSeparator: _localCurrencyFormat.symbols.GROUP_SEP,
+            maxDecimalDigits: 2)
+            : CurrencyFormatter(
+            maxDecimalDigits: NumberUtil.maxDecimalDigits),
+        LocalCurrencyFormatter(
+            active: _localCurrencyMode,
+            currencyFormat: _localCurrencyFormat)
+      ]
+          : [LengthLimitingTextInputFormatter(13)],
+      onChanged: (text) {
+        // Always reset the error message to be less annoying
+        setState(() {
+          _amountValidationText = "";
+          // Reset the raw amount
+          _rawAmount = null;
+        });
+
+        this.redrawQrCode();
+      },
+      textInputAction: TextInputAction.next,
+      maxLines: null,
+      autocorrect: false,
+      hintText:
+      _amountHint == null ? "" : AppLocalization.of(context).enterAmount,
+      prefixButton: _rawAmount == null
+          ? TextFieldButton(
+        icon: AppIcons.swapcurrency,
+        onPressed: () {
+          toggleLocalCurrency();
+        },
+      )
+          : null,
+      fadeSuffixOnCondition: true,
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      textAlign: TextAlign.center,
+      onSubmitted: (text) {
+        FocusScope.of(context).unfocus();
+        // if (!Address(_sendAddressController.text).isValid()) {
+        //   FocusScope.of(context).requestFocus(_sendAddressFocusNode);
+        // }
+      },
+    );
+  } //************ Enter Address Container Method End ************//
+    //*************************************************************//
 }

@@ -676,6 +676,8 @@ class _AppHomePageState extends State<AppHomePage>
     painter.toImageData(MediaQuery.of(context).size.width).then((byteData) {
       setState(() {
         receive = ReceiveSheet(
+          localCurrency: StateContainer.of(context).curCurrency,
+          address: StateContainer.of(context).wallet.address,
           qrWidget: Container(
               width: MediaQuery.of(context).size.width / 2.675,
               child: Image.memory(byteData.buffer.asUint8List())),
@@ -833,7 +835,7 @@ class _AppHomePageState extends State<AppHomePage>
                             if (receive == null) {
                               return;
                             }
-                            Sheets.showAppHeightEightSheet(
+                            Sheets.showAppHeightNineSheet(
                                 context: context, widget: receive);
                           },
                           highlightColor: receive != null
