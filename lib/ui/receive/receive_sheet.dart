@@ -28,14 +28,14 @@ import 'package:flare_flutter/flare_actor.dart';
 
 class ReceiveSheet extends StatefulWidget {
   final AvailableCurrency localCurrency;
-  final Widget qrWidget;
   final String address;
+  final Widget qrWidget;
 
-  ReceiveSheet({
-    @required this.localCurrency,
-    this.address,
-    this.qrWidget}
-    ) : super();
+  ReceiveSheet(
+      {@required this.localCurrency,
+      this.address,
+      this.qrWidget})
+      : super();
 
   _ReceiveSheetStateState createState() => _ReceiveSheetStateState();
 }
@@ -51,12 +51,13 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
   // Timer reference so we can cancel repeated events
   Timer _addressCopiedTimer;
 
-  // New vars
   FocusNode _receiveAmountFocusNode;
   TextEditingController _receiveAmountController;
+
   NumberFormat _localCurrencyFormat;
   bool _localCurrencyMode = false;
   String _amountHint = "";
+
   String _lastLocalCurrencyAmount = "";
   String _lastCryptoAmount = "";
 
@@ -555,7 +556,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
       maxLines: null,
       autocorrect: false,
       hintText:
-      _amountHint == null ? "" : AppLocalization.of(context).enterAmount,
+      _amountHint == null ? "" : AppLocalization.of(context).enterAmount + (_localCurrencyMode ?' (' + _localCurrencyFormat.currencySymbol +')' : ' (NANO)'),
       prefixButton: TextFieldButton(
         icon: AppIcons.swapcurrency,
         onPressed: () {
@@ -565,12 +566,6 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
       fadeSuffixOnCondition: true,
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       textAlign: TextAlign.center,
-      // onSubmitted: (text) {
-      //   // FocusScope.of(context).unfocus();
-      //   // if (!Address(_sendAddressController.text).isValid()) {
-      //   //   FocusScope.of(context).requestFocus(_sendAddressFocusNode);
-      //   // }
-      // },
     );
   } //************ Enter Address Container Method End ************//
     //*************************************************************//
