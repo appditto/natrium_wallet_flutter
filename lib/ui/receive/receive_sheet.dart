@@ -497,7 +497,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
     if (_localCurrencyMode) {
       _lastLocalCurrencyAmount = _receiveAmountController.text;
       _lastCryptoAmount = _convertLocalCurrencyToCrypto();
-      raw = NumberUtil.getAmountAsRaw(_lastCryptoAmount);
+      raw = _lastCryptoAmount.length > 0 ? NumberUtil.getAmountAsRaw(_lastCryptoAmount) : '';
     } else {
       raw = _receiveAmountController.text.length > 0 ? NumberUtil.getAmountAsRaw(_receiveAmountController.text) : '';
     }
