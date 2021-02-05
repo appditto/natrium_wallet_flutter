@@ -91,7 +91,7 @@ class _ChangeRepManualSheetState extends State<ChangeRepManualSheet> {
         .registerTo<AuthenticatedEvent>()
         .listen((event) {
       if (event.authType == AUTH_EVENT_TYPE.CHANGE_MANUAL) {
-        doChange();
+        doChange(context);
       }
     });
   }
@@ -371,7 +371,7 @@ class _ChangeRepManualSheetState extends State<ChangeRepManualSheet> {
       );
   }
 
-  Future<void> doChange() async {
+  Future<void> doChange(BuildContext context) async {
     _animationOpen = true;
     Navigator.of(context).push(
         AnimationLoadingOverlay(
