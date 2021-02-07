@@ -95,13 +95,20 @@ platform :ios do
 
   desc "Upload iOS app to app store"
   lane :deploy_ios do |options|
+    api_key = app_store_connect_api_key(
+      key_id:  ENV['FASTLANE_API_KEY_ID'],
+      issuer: ENV['FASTLANE_API_KEY_ISSUER'],
+      key_content: ENV['FASTLANE_API_KEY']
+    )
     if options[:testflight]
       upload_to_testflight(
+        api_key: api_key,
         skip_submission: true,
         ipa: ENV['IPA_PATH']
       )
     else
       deliver(
+        api_key: api_key,
         skip_metadata: false,
         skip_screenshots: true,
         submit_for_review: true,
