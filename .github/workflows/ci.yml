@@ -101,6 +101,7 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           TEMP_KEYCHAIN_NAME: ${{ secrets.TEMP_KEYCHAIN_NAME }}
           TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
+          FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}  
           GEM_HOME: ~/.gems
         run: |
           /usr/local/bin/fastlane build_ios
