@@ -94,7 +94,10 @@ jobs:
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}   
           FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}  
-          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: $ {{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+          FASTLANE_API_KEY_ID: ${{ secrets.FASTLANE_API_KEY_ID }}
+          FASTLANE_API_KEY_ISSUER: ${{ secrets.'FASTLANE_API_KEY_ISSUER }},
+          FASTLANE_API_KEY: ${{ secrets.FASTLANE_API_KEY'}}          
           GEM_HOME: ~/.gems
         run: |
           /usr/local/bin/fastlane deploy_ios
