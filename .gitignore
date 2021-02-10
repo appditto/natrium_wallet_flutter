@@ -30,11 +30,11 @@ android/app/release
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+ios/Flutter/.last_build_id
 .packages
 .pub-cache/
 .pub/
 build/
-.flutter-plugins-dependencies
 
 # Android related
 **/android/**/gradle-wrapper.jar

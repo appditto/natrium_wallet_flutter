@@ -7,7 +7,7 @@ description: Natrium - Fast, Robust & Secure NANO Wallet.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 2.3.6+76
+version: 2.3.7+77
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -90,8 +90,8 @@ dependencies:
   #uni_links: ^0.2.0
   uni_links:
     git:
-      url: https://github.com/CathalT/uni_links.git
-      ref: nfc_android
+      url: https://github.com/bbedward/uni_links.git
+      ref: master
 
   # HTTP client
   http: ^0.12.2

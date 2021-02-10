@@ -89,6 +89,7 @@ class _AppHomePageState extends State<AppHomePage>
   bool _isRefreshing = false;
 
   bool _lockDisabled = false; // whether we should avoid locking the app
+  bool _lockTriggered = false;
 
   // Main card height
   double mainCardHeight;
@@ -392,7 +393,8 @@ class _AppHomePageState extends State<AppHomePage>
         cancelLockEvent();
         StateContainer.of(context).reconnect();
         if (!StateContainer.of(context).wallet.loading &&
-            StateContainer.of(context).initialDeepLink != null) {
+            StateContainer.of(context).initialDeepLink != null &&
+            !_lockTriggered) {
           handleDeepLink(StateContainer.of(context).initialDeepLink);
           StateContainer.of(context).initialDeepLink = null;
         }
@@ -426,8 +428,9 @@ class _AppHomePageState extends State<AppHomePage>
           log.w(
               "Failed to reset encrypted secret when locking ${e.toString()}");
         } finally {
+          _lockTriggered = true;
           Navigator.of(context)
-              .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+            .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
         }
       });
     }
