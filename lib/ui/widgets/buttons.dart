@@ -27,7 +27,7 @@ class AppButton {
             ),
             height: 55,
             margin: EdgeInsetsDirectional.fromSTEB(
-                dimens[0], dimens[1], dimens[2], dimens[3]),
+                dimens[0], dimens[2], dimens[2], dimens[0]),
             child: FlatButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),

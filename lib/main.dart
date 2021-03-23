@@ -14,6 +14,8 @@ import 'package:natrium_wallet_flutter/ui/before_scan_screen.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_backup_safety.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_password.dart';
 import 'package:natrium_wallet_flutter/ui/intro/intro_password_on_launch.dart';
+import 'package:natrium_wallet_flutter/ui/intro/signin.dart';
+import 'package:natrium_wallet_flutter/ui/intro/signup.dart';
 import 'package:natrium_wallet_flutter/ui/password_lock_screen.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
@@ -200,18 +202,26 @@ class _AppState extends State<App> {
                     AppHomePage(priceConversion: settings.arguments),
                 settings: settings,
               );
-            case '/home_transition':
-              return NoPopTransitionRoute(
-                builder: (_) =>
-                    AppHomePage(priceConversion: settings.arguments),
-                settings: settings,
-              );
+
             case '/intro_welcome':
               return NoTransitionRoute(
-                builder: (_) => IntroWelcomePage(),
+                builder: (_) =>
+                    IntroWelcomePage(priceConversion: settings.arguments),
                 settings: settings,
               );
-            case '/intro_password_on_launch':
+            case '/signin':
+              return NoTransitionRoute(
+                builder: (_) =>
+                    SignIn(),
+                settings: settings,
+              );
+            case '/signup':
+              return NoTransitionRoute(
+                builder: (_) =>
+                    SignUp(),
+                settings: settings,
+              );
+           /* case '/intro_password_on_launch':
               return MaterialPageRoute(
                 builder: (_) => IntroPasswordOnLaunch(seed: settings.arguments),
                 settings: settings,
@@ -256,7 +266,7 @@ class _AppState extends State<App> {
               return NoTransitionRoute(
                 builder: (_) => AppPasswordLockScreen(),
                 settings: settings,
-              );
+              );*/
             case '/avatar_page':
               return PageRouteBuilder(
                   pageBuilder: (context, animationIn, animationOut) =>

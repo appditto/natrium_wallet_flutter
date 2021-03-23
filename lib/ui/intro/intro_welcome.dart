@@ -6,8 +6,12 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 
 class IntroWelcomePage extends StatefulWidget {
+  PriceConversion priceConversion;
+
+  IntroWelcomePage({this.priceConversion}) : super();
   @override
   _IntroWelcomePageState createState() => _IntroWelcomePageState();
 }
@@ -77,7 +81,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                               AppLocalization.of(context).newWallet,
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                                 Navigator.of(context)
-                                    .pushNamed('/intro_password_on_launch');
+                                    .pushNamed('/signin');
                           }),
                         ],
                       ),
@@ -87,9 +91,9 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
                           AppButton.buildAppButton(
                               context,
                               AppButtonType.PRIMARY_OUTLINE,
-                              AppLocalization.of(context).importWallet,
+                              AppLocalization.of(context).signUp,
                               Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                            Navigator.of(context).pushNamed('/intro_import');
+                            Navigator.of(context).pushNamed('/');
                           }),
                         ],
                       ),

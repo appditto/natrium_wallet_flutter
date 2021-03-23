@@ -52,9 +52,9 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                           width: 50,
                           child: FlatButton(
                               highlightColor:
-                                  StateContainer.of(context).curTheme.text15,
+                              StateContainer.of(context).curTheme.text15,
                               splashColor:
-                                  StateContainer.of(context).curTheme.text15,
+                              StateContainer.of(context).curTheme.text15,
                               onPressed: () {
                                 Navigator.pop(context);
                               },
@@ -63,7 +63,7 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                               padding: EdgeInsets.all(0.0),
                               child: Icon(AppIcons.back,
                                   color:
-                                      StateContainer.of(context).curTheme.text,
+                                  StateContainer.of(context).curTheme.text,
                                   size: 24)),
                         ),
                       ],
@@ -120,34 +120,34 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                       // Skip Button
                       AppButton.buildAppButton(context, AppButtonType.PRIMARY,
                           AppLocalization.of(context).noSkipButton, Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
-                        if (widget.seed != null) {
-                            await sl.get<Vault>().setSeed(widget.seed);
-                            await sl.get<DBHelper>().dropAccounts();
-                            await NanoUtil().loginAccount(widget.seed, context);
-                            StateContainer.of(context).requestUpdate();
-                            String pin = await Navigator.of(context).push(
-                                MaterialPageRoute(builder:
-                                    (BuildContext context) {
-                              return PinScreen(
-                                  PinOverlayType.NEW_PIN,
-                                  );
-                            }));
-                            if (pin != null && pin.length > 5) {
-                              _pinEnteredCallback(pin);
-                            }
-                        } else {
-                          sl.get<Vault>().setSeed(NanoSeeds.generateSeed()).then((result) {
-                            // Update wallet
-                            StateContainer.of(context).getSeed().then((seed) {
-                              NanoUtil().loginAccount(seed, context).then((_) {
-                                StateContainer.of(context).requestUpdate();
-                                Navigator.of(context)
-                                    .pushNamed('/intro_backup_safety');
+                            if (widget.seed != null) {
+                              await sl.get<Vault>().setSeed(widget.seed);
+                              await sl.get<DBHelper>().dropAccounts();
+                              await NanoUtil().loginAccount(widget.seed, context);
+                              StateContainer.of(context).requestUpdate();
+                              String pin = await Navigator.of(context).push(
+                                  MaterialPageRoute(builder:
+                                      (BuildContext context) {
+                                    return PinScreen(
+                                      PinOverlayType.NEW_PIN,
+                                    );
+                                  }));
+                              if (pin != null && pin.length > 5) {
+                                _pinEnteredCallback(pin);
+                              }
+                            } else {
+                              sl.get<Vault>().setSeed(NanoSeeds.generateSeed()).then((result) {
+                                // Update wallet
+                                StateContainer.of(context).getSeed().then((seed) {
+                                  NanoUtil().loginAccount(seed, context).then((_) {
+                                    StateContainer.of(context).requestUpdate();
+                                    Navigator.of(context)
+                                        .pushNamed('/intro_backup_safety');
+                                  });
+                                });
                               });
-                            });
-                          });
-                        }
-                      }),
+                            }
+                          }),
                     ],
                   ),
                   Row(
@@ -159,7 +159,7 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                           AppLocalization.of(context).yesButton,
                           Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                         Navigator.of(context)
-                                .pushNamed('/intro_password', arguments: widget.seed);
+                            .pushNamed('/intro_password', arguments: widget.seed);
                       }),
                     ],
                   ),

@@ -270,15 +270,24 @@ class AppLocalization {
         desc: 'intro_welcome_title',
         name: 'welcomeText');
   }
-
+  String get loginText {
+    return Intl.message(
+        "Login",
+        desc: 'intro_welcome_title',
+        name: 'loginText');
+  }
   String get newWallet {
-    return Intl.message("New Wallet",
-        desc: 'intro_welcome_new_wallet', name: 'newWallet');
+    return Intl.message("Se connecté",
+        desc: 'Se connecté', name: 'newWallet');
+  }
+  String get signIn {
+    return Intl.message("Se connecter",
+        desc: 'Se connecté', name: 'signIn');
   }
 
-  String get importWallet {
-    return Intl.message("Import Wallet",
-        desc: 'intro_welcome_have_wallet', name: 'importWallet');
+  String get signUp {
+    return Intl.message("Créer un compte!",
+        desc: 'intro_welcome_have_wallet', name: 'signUp');
   }
 
   /// -- END INTRO ITEMS
@@ -1133,7 +1142,7 @@ class AppLocalization {
   }
 
   String get requireAPasswordToOpenHeader {
-    return Intl.message("Require a password to open Natrium?",
+    return Intl.message("Login",
         desc:
             'A paragraph that asks the users if they would like a password to be required to open Natrium.',
         name: 'requireAPasswordToOpenHeader');

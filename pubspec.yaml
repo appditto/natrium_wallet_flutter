@@ -29,10 +29,12 @@ dependencies:
 
   # Flare for animations
   flare_flutter: ^2.0.6
-
+  # Url launcher
+  url_launcher: ^5.7.5
   # Websockets
   web_socket_channel: ^1.1.0
-
+  #Linkify
+  flutter_linkify: ^3.1.3
   # Platform-specific build info
   package_info: ^0.4.3
 
