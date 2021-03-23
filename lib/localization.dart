@@ -72,6 +72,10 @@ class AppLocalization {
     return Intl.message('Received', desc: 'history_received', name: 'received');
   }
 
+  String get pending {
+    return Intl.message('pending', desc: 'history_pending', name: 'pending');
+  }
+
   String get transactions {
     return Intl.message('Transactions',
         desc: 'transaction_header', name: 'transactions');

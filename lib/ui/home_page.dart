@@ -32,11 +32,13 @@ import 'package:natrium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/settings/settings_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/remote_message_modal.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/list_slidable.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/reactive_refresh.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/transaction_state_tag.dart';
 import 'package:natrium_wallet_flutter/util/manta.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
@@ -59,8 +61,7 @@ class _AppHomePageState extends State<AppHomePage>
         WidgetsBindingObserver,
         SingleTickerProviderStateMixin,
         FlareController {
-  final GlobalKey<ScaffoldState> _scaffoldKey =
-      new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final Logger log = sl.get<Logger>();
 
   // Controller for placeholder card animations
@@ -430,7 +431,7 @@ class _AppHomePageState extends State<AppHomePage>
         } finally {
           _lockTriggered = true;
           Navigator.of(context)
-            .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+              .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
         }
       });
     }
@@ -723,6 +724,19 @@ class _AppHomePageState extends State<AppHomePage>
                       _buildMainCard(context, _scaffoldKey),
                       //Main Card End
 
+                      // REMOTE MESSAGE MODAL
+                      Container(
+                        margin: EdgeInsetsDirectional.fromSTEB(10, 16, 10, 16),
+                        child: RemoteMessageModal(
+                          title: "Regarding Nano Network",
+                          paragraph:
+                              "Due to ongoing spam on Nano network, your transactions might take a while to arrive.",
+                          callToActionButtonText: "Read More",
+                          onCallToActionPressed: () {},
+                          onClosePressed: () {},
+                        ),
+                      ),
+
                       //Transactions Text
                       Container(
                         margin: EdgeInsetsDirectional.fromSTEB(
@@ -1009,10 +1023,26 @@ class _AppHomePageState extends State<AppHomePage>
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 2.4,
-                      child: Text(
-                        displayName,
-                        textAlign: TextAlign.end,
-                        style: AppStyles.textStyleTransactionAddress(context),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            displayName,
+                            textAlign: TextAlign.end,
+                            style:
+                                AppStyles.textStyleTransactionAddress(context),
+                          ),
+
+                          // TRANSACTION STATE TAG
+                          Container(
+                            margin: EdgeInsetsDirectional.only(
+                              top: 4,
+                            ),
+                            child: TransactionStateTag(
+                              transactionState: TransactionStateOptions.PENDING,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -1462,8 +1492,22 @@ class _AppHomePageState extends State<AppHomePage>
                           child: Hero(
                             tag: "avatar",
                             child: SvgPicture.network(
-                              UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address)),    
-                              key: Key(UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address))),
+                              UIUtil.getNatriconURL(
+                                  StateContainer.of(context)
+                                      .selectedAccount
+                                      .address,
+                                  StateContainer.of(context).getNatriconNonce(
+                                      StateContainer.of(context)
+                                          .selectedAccount
+                                          .address)),
+                              key: Key(UIUtil.getNatriconURL(
+                                  StateContainer.of(context)
+                                      .selectedAccount
+                                      .address,
+                                  StateContainer.of(context).getNatriconNonce(
+                                      StateContainer.of(context)
+                                          .selectedAccount
+                                          .address))),
                               placeholderBuilder: (BuildContext context) =>
                                   Container(
                                 child: FlareActor(

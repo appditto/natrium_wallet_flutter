@@ -512,6 +512,7 @@ class AppStyles {
       fontWeight: FontWeight.w100,
     );
   }
+
   // Text style for numbers of mnemonic
   static TextStyle headerPrimary(BuildContext context) {
     return TextStyle(
@@ -521,6 +522,7 @@ class AppStyles {
       fontWeight: FontWeight.w700,
     );
   }
+
   static TextStyle headerSuccess(BuildContext context) {
     return TextStyle(
       fontSize: 16,
@@ -529,12 +531,49 @@ class AppStyles {
       fontWeight: FontWeight.w700,
     );
   }
+
   static TextStyle addressText(BuildContext context) {
     return TextStyle(
       fontSize: 12,
       color: StateContainer.of(context).curTheme.text,
       fontFamily: 'NunitoSans',
       fontWeight: FontWeight.w400,
+    );
+  }
+
+  static TextStyle tagText(BuildContext context) {
+    return TextStyle(
+      fontSize: 12,
+      color: StateContainer.of(context).curTheme.text60,
+      fontFamily: 'NunitoSans',
+      fontWeight: FontWeight.w400,
+    );
+  }
+
+  static TextStyle remoteMessageModalTitle(BuildContext context) {
+    return TextStyle(
+      fontSize: 20,
+      color: StateContainer.of(context).curTheme.success,
+      fontFamily: 'NunitoSans',
+      fontWeight: FontWeight.w700,
+    );
+  }
+
+  static TextStyle remoteMessageModalParagraph(BuildContext context) {
+    return TextStyle(
+      fontSize: 14,
+      color: StateContainer.of(context).curTheme.text,
+      fontFamily: 'NunitoSans',
+      fontWeight: FontWeight.w400,
+    );
+  }
+
+  static TextStyle buttonTextBg(BuildContext context) {
+    return TextStyle(
+      fontSize: 18,
+      color: StateContainer.of(context).curTheme.background,
+      fontFamily: 'NunitoSans',
+      fontWeight: FontWeight.w700,
     );
   }
 }
