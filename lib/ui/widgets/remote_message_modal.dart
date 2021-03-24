@@ -35,8 +35,8 @@ class _RemoteMessageModalState extends State<RemoteMessageModal> {
         ),
         boxShadow: [
           BoxShadow(
-            color: StateContainer.of(context).curTheme.success30,
-            blurRadius: 24,
+            color: StateContainer.of(context).curTheme.success.withOpacity(0.3),
+            blurRadius: 36,
             offset: Offset(0, 12),
           ),
         ],
@@ -54,21 +54,27 @@ class _RemoteMessageModalState extends State<RemoteMessageModal> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        child: Text(
-                          widget.title,
-                          style: AppStyles.remoteMessageModalTitle(context),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsetsDirectional.only(
-                          top: 4,
-                        ),
-                        child: Text(
-                          widget.paragraph,
-                          style: AppStyles.remoteMessageModalParagraph(context),
-                        ),
-                      ),
+                      widget.title != null
+                          ? Container(
+                              child: Text(
+                                widget.title,
+                                style:
+                                    AppStyles.remoteMessageModalTitle(context),
+                              ),
+                            )
+                          : SizedBox(),
+                      widget.paragraph != null
+                          ? Container(
+                              margin: EdgeInsetsDirectional.only(
+                                top: 4,
+                              ),
+                              child: Text(
+                                widget.paragraph,
+                                style: AppStyles.remoteMessageModalParagraph(
+                                    context),
+                              ),
+                            )
+                          : SizedBox(),
                     ],
                   ),
                 ),
@@ -94,33 +100,37 @@ class _RemoteMessageModalState extends State<RemoteMessageModal> {
               ),
             ],
           ),
-          Container(
-            padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-            width: double.infinity,
-            child: FlatButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(400)),
-              ),
-              color: StateContainer.of(context).curTheme.success,
-              splashColor: StateContainer.of(context)
-                  .curTheme
-                  .background
-                  .withOpacity(0.3),
-              highlightColor: StateContainer.of(context)
-                  .curTheme
-                  .background
-                  .withOpacity(0.3),
-              onPressed: widget.onCallToActionPressed,
-              minWidth: double.infinity,
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(24, 12, 24, 12),
-                child: Text(
-                  widget.callToActionButtonText,
-                  style: AppStyles.buttonTextBg(context),
-                ),
-              ),
-            ),
-          ),
+          widget.callToActionButtonText != null
+              ? Container(
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 18),
+                  width: double.infinity,
+                  child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(400)),
+                    ),
+                    color: StateContainer.of(context).curTheme.success,
+                    splashColor: StateContainer.of(context)
+                        .curTheme
+                        .background
+                        .withOpacity(0.3),
+                    highlightColor: StateContainer.of(context)
+                        .curTheme
+                        .background
+                        .withOpacity(0.3),
+                    onPressed: widget.onCallToActionPressed,
+                    minWidth: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(24, 12, 24, 12),
+                      child: Text(
+                        widget.callToActionButtonText,
+                        style: AppStyles.buttonTextBg(context),
+                      ),
+                    ),
+                  ),
+                )
+              : SizedBox(
+                  height: 18,
+                )
         ],
       ),
     );
