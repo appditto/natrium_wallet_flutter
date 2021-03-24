@@ -35,61 +35,53 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
         splashColor:
             StateContainer.of(context).curTheme.success.withOpacity(0.15),
         onPressed: widget.onPressed,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  widget.alert.timestamp != null
-                      ? Container(
-                          margin: EdgeInsetsDirectional.only(
-                            top: 2,
-                            bottom: 2,
-                          ),
-                          child: Text(
-                            DateTime.fromMillisecondsSinceEpoch(
-                                        widget.alert.timestamp)
-                                    .toUtc()
-                                    .toString()
-                                    .substring(0, 16) +
-                                " UTC",
-                            style:
-                                AppStyles.remoteMessageCardTimestamp(context),
-                          ),
-                        )
-                      : SizedBox(),
-                  widget.alert.title != null
-                      ? Container(
-                          margin: EdgeInsetsDirectional.only(
-                            top: 2,
-                            bottom: 2,
-                          ),
-                          child: Text(
-                            widget.alert.title,
-                            style: AppStyles.remoteMessageCardTitle(context),
-                          ),
-                        )
-                      : SizedBox(),
-                  widget.alert.shortDescription != null
-                      ? Container(
-                          margin: EdgeInsetsDirectional.only(
-                            top: 2,
-                            bottom: 2,
-                          ),
-                          child: Text(
-                            widget.alert.shortDescription,
-                            style: AppStyles.remoteMessageCardShortDescription(
-                                context),
-                          ),
-                        )
-                      : SizedBox(),
-                ],
-              ),
-            ),
-          ],
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              widget.alert.timestamp != null
+                  ? Container(
+                      margin: EdgeInsetsDirectional.only(
+                        bottom: 4,
+                      ),
+                      child: Text(
+                        DateTime.fromMillisecondsSinceEpoch(
+                                    widget.alert.timestamp)
+                                .toUtc()
+                                .toString()
+                                .substring(0, 16) +
+                            " UTC",
+                        style: AppStyles.remoteMessageCardTimestamp(context),
+                      ),
+                    )
+                  : SizedBox(),
+              widget.alert.title != null
+                  ? Container(
+                      margin: EdgeInsetsDirectional.only(
+                        bottom: widget.alert.shortDescription != null ? 4 : 0,
+                      ),
+                      child: Text(
+                        widget.alert.title,
+                        style: AppStyles.remoteMessageCardTitle(context),
+                      ),
+                    )
+                  : SizedBox(),
+              widget.alert.shortDescription != null
+                  ? Container(
+                      margin: EdgeInsetsDirectional.only(
+                        bottom: 4,
+                      ),
+                      child: Text(
+                        widget.alert.shortDescription,
+                        style: AppStyles.remoteMessageCardShortDescription(
+                            context),
+                      ),
+                    )
+                  : SizedBox(),
+            ],
+          ),
         ),
       ),
     );

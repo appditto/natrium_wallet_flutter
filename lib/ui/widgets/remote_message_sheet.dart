@@ -91,50 +91,59 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            margin:
-                                EdgeInsetsDirectional.only(top: 2, bottom: 6),
-                            padding: EdgeInsetsDirectional.only(
-                                start: 6, end: 6, top: 2, bottom: 2),
-                            decoration: BoxDecoration(
-                                color:
-                                    StateContainer.of(context).curTheme.text05,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(4),
-                                ),
-                                border: Border.all(
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .text10,
-                                )),
-                            child: Text(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                          widget.alert.timestamp)
-                                      .toUtc()
-                                      .toString()
-                                      .substring(0, 16) +
-                                  " UTC",
-                              style:
-                                  AppStyles.remoteMessageCardTimestamp(context),
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsetsDirectional.only(top: 2, bottom: 2),
-                            child: Text(
-                              widget.alert.title,
-                              style: AppStyles.remoteMessageCardTitle(context),
-                            ),
-                          ),
-                          Container(
-                            margin:
-                                EdgeInsetsDirectional.only(top: 2, bottom: 2),
-                            child: Text(
-                              widget.alert.longDescription != null
-                                  ? widget.alert.longDescription
-                                  : widget.alert.shortDescription,
-                            ),
-                          ),
+                          widget.alert.timestamp != null
+                              ? Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      top: 2, bottom: 6),
+                                  padding: EdgeInsetsDirectional.only(
+                                      start: 6, end: 6, top: 2, bottom: 2),
+                                  decoration: BoxDecoration(
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .text05,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(4),
+                                      ),
+                                      border: Border.all(
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .text10,
+                                      )),
+                                  child: Text(
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                                widget.alert.timestamp)
+                                            .toUtc()
+                                            .toString()
+                                            .substring(0, 16) +
+                                        " UTC",
+                                    style: AppStyles.remoteMessageCardTimestamp(
+                                        context),
+                                  ),
+                                )
+                              : SizedBox(),
+                          widget.alert.title != null
+                              ? Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      top: 2, bottom: 2),
+                                  child: Text(
+                                    widget.alert.title,
+                                    style: AppStyles.remoteMessageCardTitle(
+                                        context),
+                                  ),
+                                )
+                              : SizedBox(),
+                          widget.alert.longDescription != null ||
+                                  widget.alert.shortDescription != null
+                              ? Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      top: 2, bottom: 2),
+                                  child: Text(
+                                    widget.alert.longDescription != null
+                                        ? widget.alert.longDescription
+                                        : widget.alert.shortDescription,
+                                  ),
+                                )
+                              : SizedBox(),
                         ],
                       ),
                     ),
@@ -192,10 +201,7 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                               context,
                               AppButtonType.PRIMARY,
                               AppLocalization.of(context).readMore,
-                              widget.hasDismissButton
-                                  ? Dimens.BUTTON_TOP_DIMENS
-                                  : Dimens.BUTTON_BOTTOM_DIMENS,
-                              onPressed: () async {
+                              Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                             if (await canLaunch(widget.alert.link)) {
                               await launch(widget.alert.link);
                             }
@@ -220,7 +226,17 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                           }),
                         ],
                       )
-                    : SizedBox()
+                    : Row(
+                        children: <Widget>[
+                          AppButton.buildAppButton(
+                              context,
+                              AppButtonType.PRIMARY_OUTLINE,
+                              AppLocalization.of(context).close,
+                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                        ],
+                      )
               ],
             ),
           ],

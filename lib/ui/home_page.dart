@@ -447,33 +447,29 @@ class _AppHomePageState extends State<AppHomePage>
 
   // Used to build list items that haven't been removed.
   Widget _buildItem(
-    BuildContext context, int index, Animation<double> animation) {
+      BuildContext context, int index, Animation<double> animation) {
     if (index == 0 && StateContainer.of(context).activeAlert != null) {
       return _buildRemoteMessageCard(StateContainer.of(context).activeAlert);
     }
     int localIndex = index;
     if (StateContainer.of(context).activeAlert != null) {
-      localIndex-=1;
+      localIndex -= 1;
     }
     String displayName = smallScreen(context)
-        ? _historyListMap[StateContainer.of(context).wallet.address]
-                [localIndex]
+        ? _historyListMap[StateContainer.of(context).wallet.address][localIndex]
             .getShorterString()
-        : _historyListMap[StateContainer.of(context).wallet.address]
-                [localIndex]
+        : _historyListMap[StateContainer.of(context).wallet.address][localIndex]
             .getShortString();
     _contacts.forEach((contact) {
       if (contact.address ==
-          _historyListMap[StateContainer.of(context).wallet.address]
-                  [localIndex]
+          _historyListMap[StateContainer.of(context).wallet.address][localIndex]
               .account
               .replaceAll("xrb_", "nano_")) {
         displayName = contact.name;
       }
     });
     return _buildTransactionCard(
-        _historyListMap[StateContainer.of(context).wallet.address]
-            [localIndex],
+        _historyListMap[StateContainer.of(context).wallet.address][localIndex],
         animation,
         displayName,
         context);
@@ -546,14 +542,17 @@ class _AppHomePageState extends State<AppHomePage>
     }
     if (StateContainer.of(context).activeAlert != null) {
       // Setup history list
-      if (!_listKeyMap.containsKey("${StateContainer.of(context).wallet.address}alert")) {
-        _listKeyMap.putIfAbsent("${StateContainer.of(context).wallet.address}alert",
+      if (!_listKeyMap
+          .containsKey("${StateContainer.of(context).wallet.address}alert")) {
+        _listKeyMap.putIfAbsent(
+            "${StateContainer.of(context).wallet.address}alert",
             () => GlobalKey<AnimatedListState>());
         setState(() {
           _historyListMap.putIfAbsent(
             StateContainer.of(context).wallet.address,
             () => ListModel<AccountHistoryResponseItem>(
-              listKey: _listKeyMap["${StateContainer.of(context).wallet.address}alert"],
+              listKey: _listKeyMap[
+                  "${StateContainer.of(context).wallet.address}alert"],
               initialItems: StateContainer.of(context).wallet.history,
             ),
           );
@@ -564,7 +563,10 @@ class _AppHomePageState extends State<AppHomePage>
         child: AnimatedList(
           key: _listKeyMap["${StateContainer.of(context).wallet.address}alert"],
           padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
-          initialItemCount: _historyListMap[StateContainer.of(context).wallet.address].length + 1,
+          initialItemCount:
+              _historyListMap[StateContainer.of(context).wallet.address]
+                      .length +
+                  1,
           itemBuilder: _buildItem,
         ),
         onRefresh: _refresh,
@@ -572,14 +574,16 @@ class _AppHomePageState extends State<AppHomePage>
       );
     }
     // Setup history list
-    if (!_listKeyMap.containsKey("${StateContainer.of(context).wallet.address}")) {
+    if (!_listKeyMap
+        .containsKey("${StateContainer.of(context).wallet.address}")) {
       _listKeyMap.putIfAbsent("${StateContainer.of(context).wallet.address}",
           () => GlobalKey<AnimatedListState>());
       setState(() {
         _historyListMap.putIfAbsent(
           StateContainer.of(context).wallet.address,
           () => ListModel<AccountHistoryResponseItem>(
-            listKey: _listKeyMap["${StateContainer.of(context).wallet.address}"],
+            listKey:
+                _listKeyMap["${StateContainer.of(context).wallet.address}"],
             initialItems: StateContainer.of(context).wallet.history,
           ),
         );
@@ -596,7 +600,7 @@ class _AppHomePageState extends State<AppHomePage>
       ),
       onRefresh: _refresh,
       isRefreshing: _isRefreshing,
-    );    
+    );
   }
 
   // Refresh list
@@ -1510,17 +1514,46 @@ class _AppHomePageState extends State<AppHomePage>
               height: 50,
               width: 50,
               child: FlatButton(
-                  highlightColor: StateContainer.of(context).curTheme.text15,
-                  splashColor: StateContainer.of(context).curTheme.text15,
-                  onPressed: () {
-                    _scaffoldKey.currentState.openDrawer();
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0)),
-                  padding: EdgeInsets.all(0.0),
-                  child: Icon(AppIcons.settings,
+                highlightColor: StateContainer.of(context).curTheme.text15,
+                splashColor: StateContainer.of(context).curTheme.text15,
+                onPressed: () {
+                  _scaffoldKey.currentState.openDrawer();
+                },
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50.0)),
+                padding: EdgeInsets.all(0.0),
+                child: Stack(
+                  children: [
+                    Icon(
+                      AppIcons.settings,
                       color: StateContainer.of(context).curTheme.text,
-                      size: 24)),
+                      size: 24,
+                    ),
+                    // Unread message dot
+                    Positioned(
+                      top: -3,
+                      right: -3,
+                      child: Container(
+                        padding: EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                          color: StateContainer.of(context)
+                              .curTheme
+                              .backgroundDark,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: StateContainer.of(context).curTheme.success,
+                            shape: BoxShape.circle,
+                          ),
+                          height: 11,
+                          width: 11,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
           AnimatedContainer(
