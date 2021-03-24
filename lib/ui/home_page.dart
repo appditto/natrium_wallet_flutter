@@ -590,7 +590,8 @@ class _AppHomePageState extends State<AppHomePage>
       child: AnimatedList(
         key: _listKeyMap[StateContainer.of(context).wallet.address],
         padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
-        initialItemCount: _historyListMap[StateContainer.of(context).wallet.address].length,
+        initialItemCount:
+            _historyListMap[StateContainer.of(context).wallet.address].length,
         itemBuilder: _buildItem,
       ),
       onRefresh: _refresh,
@@ -1082,7 +1083,10 @@ class _AppHomePageState extends State<AppHomePage>
                           ),
 
                           // TRANSACTION STATE TAG
-                          (StateContainer.of(context).wallet.confirmationHeight < item.height)
+                          (StateContainer.of(context)
+                                      .wallet
+                                      .confirmationHeight <
+                                  item.height)
                               ? Container(
                                   margin: EdgeInsetsDirectional.only(
                                     top: 4,

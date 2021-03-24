@@ -6,7 +6,6 @@ import 'package:natrium_wallet_flutter/styles.dart';
 
 class RemoteMessageCard extends StatefulWidget {
   final AlertResponseItem alert;
-
   final Function onPressed;
 
   RemoteMessageCard({
