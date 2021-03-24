@@ -144,10 +144,9 @@ class StateContainerState extends State<StateContainer> {
   }
 
   void updateActiveAlert(AlertResponseItem active, AlertResponseItem highPrio) {
-    print(highPrio.priority);
     setState(() {
       this.activeAlert = active;
-      if (highPrio != null && highPrio.priority == "high") {
+      if (highPrio != null) {
         this.highPriorityAlert = highPrio;
       } else {
         this.highPriorityAlert = null;

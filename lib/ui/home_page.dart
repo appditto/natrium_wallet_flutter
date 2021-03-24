@@ -447,35 +447,36 @@ class _AppHomePageState extends State<AppHomePage>
 
   // Used to build list items that haven't been removed.
   Widget _buildItem(
-      BuildContext context, int index, Animation<double> animation) {
-    if (StateContainer.of(context).activeAlert != null && index == 0) {
+    BuildContext context, int index, Animation<double> animation) {
+    if (index == 0 && StateContainer.of(context).activeAlert != null) {
       return _buildRemoteMessageCard(StateContainer.of(context).activeAlert);
-    } else {
-      int localIndex =
-          StateContainer.of(context).activeAlert != null ? index - 1 : index;
-      String displayName = smallScreen(context)
-          ? _historyListMap[StateContainer.of(context).wallet.address]
-                  [localIndex]
-              .getShorterString()
-          : _historyListMap[StateContainer.of(context).wallet.address]
-                  [localIndex]
-              .getShortString();
-      _contacts.forEach((contact) {
-        if (contact.address ==
-            _historyListMap[StateContainer.of(context).wallet.address]
-                    [localIndex]
-                .account
-                .replaceAll("xrb_", "nano_")) {
-          displayName = contact.name;
-        }
-      });
-      return _buildTransactionCard(
-          _historyListMap[StateContainer.of(context).wallet.address]
-              [localIndex],
-          animation,
-          displayName,
-          context);
     }
+    int localIndex = index;
+    if (StateContainer.of(context).activeAlert != null) {
+      localIndex-=1;
+    }
+    String displayName = smallScreen(context)
+        ? _historyListMap[StateContainer.of(context).wallet.address]
+                [localIndex]
+            .getShorterString()
+        : _historyListMap[StateContainer.of(context).wallet.address]
+                [localIndex]
+            .getShortString();
+    _contacts.forEach((contact) {
+      if (contact.address ==
+          _historyListMap[StateContainer.of(context).wallet.address]
+                  [localIndex]
+              .account
+              .replaceAll("xrb_", "nano_")) {
+        displayName = contact.name;
+      }
+    });
+    return _buildTransactionCard(
+        _historyListMap[StateContainer.of(context).wallet.address]
+            [localIndex],
+        animation,
+        displayName,
+        context);
   }
 
   // Return widget for list
@@ -543,15 +544,42 @@ class _AppHomePageState extends State<AppHomePage>
     } else {
       _disposeAnimation();
     }
+    if (StateContainer.of(context).activeAlert != null) {
+      // Setup history list
+      if (!_listKeyMap.containsKey("${StateContainer.of(context).wallet.address}alert")) {
+        _listKeyMap.putIfAbsent("${StateContainer.of(context).wallet.address}alert",
+            () => GlobalKey<AnimatedListState>());
+        setState(() {
+          _historyListMap.putIfAbsent(
+            StateContainer.of(context).wallet.address,
+            () => ListModel<AccountHistoryResponseItem>(
+              listKey: _listKeyMap["${StateContainer.of(context).wallet.address}alert"],
+              initialItems: StateContainer.of(context).wallet.history,
+            ),
+          );
+        });
+      }
+      return ReactiveRefreshIndicator(
+        backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
+        child: AnimatedList(
+          key: _listKeyMap["${StateContainer.of(context).wallet.address}alert"],
+          padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
+          initialItemCount: _historyListMap[StateContainer.of(context).wallet.address].length + 1,
+          itemBuilder: _buildItem,
+        ),
+        onRefresh: _refresh,
+        isRefreshing: _isRefreshing,
+      );
+    }
     // Setup history list
-    if (!_listKeyMap.containsKey(StateContainer.of(context).wallet.address)) {
-      _listKeyMap.putIfAbsent(StateContainer.of(context).wallet.address,
+    if (!_listKeyMap.containsKey("${StateContainer.of(context).wallet.address}")) {
+      _listKeyMap.putIfAbsent("${StateContainer.of(context).wallet.address}",
           () => GlobalKey<AnimatedListState>());
       setState(() {
         _historyListMap.putIfAbsent(
           StateContainer.of(context).wallet.address,
           () => ListModel<AccountHistoryResponseItem>(
-            listKey: _listKeyMap[StateContainer.of(context).wallet.address],
+            listKey: _listKeyMap["${StateContainer.of(context).wallet.address}"],
             initialItems: StateContainer.of(context).wallet.history,
           ),
         );
@@ -562,16 +590,12 @@ class _AppHomePageState extends State<AppHomePage>
       child: AnimatedList(
         key: _listKeyMap[StateContainer.of(context).wallet.address],
         padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
-        initialItemCount: StateContainer.of(context).activeAlert != null
-            ? _historyListMap[StateContainer.of(context).wallet.address]
-                    .length +
-                1
-            : _historyListMap[StateContainer.of(context).wallet.address].length,
+        initialItemCount: _historyListMap[StateContainer.of(context).wallet.address].length,
         itemBuilder: _buildItem,
       ),
       onRefresh: _refresh,
       isRefreshing: _isRefreshing,
-    );
+    );    
   }
 
   // Refresh list
