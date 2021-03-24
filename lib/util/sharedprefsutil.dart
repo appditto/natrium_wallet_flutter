@@ -366,7 +366,7 @@ class SharedPrefsUtil {
   }
 
   Future<void> dismissAlert(AlertResponseItem alert) async {
-    if (alert.priority == "HIGH") {
+    if (alert.priority == "high") {
       await setWithExpiry("alert_${alert.id}", alert.id, 300);// TODO - change me back 86400);
     } else {
       await setWithExpiry("alert_${alert.id}", alert.id, -1);

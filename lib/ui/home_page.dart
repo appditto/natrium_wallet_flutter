@@ -1515,7 +1515,7 @@ class _AppHomePageState extends State<AppHomePage>
                           // natricon
                           child: Hero(
                             tag: "avatar",
-                            child: SvgPicture.network(
+                            child: StateContainer.of(context).selectedAccount.address != null ? SvgPicture.network(
                               UIUtil.getNatriconURL(
                                   StateContainer.of(context)
                                       .selectedAccount
@@ -1543,7 +1543,7 @@ class _AppHomePageState extends State<AppHomePage>
                                       .primary,
                                 ),
                               ),
-                            ),
+                            ) : SizedBox(),
                           ),
                         ),
                       ),
