@@ -13,9 +13,14 @@ class RemoteMessageSheet extends StatefulWidget {
   final String shortDescription;
   final String longDescription;
   final String link;
+  final String timestamp;
 
   RemoteMessageSheet(
-      {this.title, this.shortDescription, this.longDescription, this.link})
+      {this.title,
+      this.shortDescription,
+      this.longDescription,
+      this.link,
+      this.timestamp})
       : super();
 
   _RemoteMessageSheetStateState createState() =>

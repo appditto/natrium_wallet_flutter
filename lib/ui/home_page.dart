@@ -451,7 +451,8 @@ class _AppHomePageState extends State<AppHomePage>
     if (StateContainer.of(context).activeAlert != null && index == 0) {
       return _buildRemoteMessageCard(StateContainer.of(context).activeAlert);
     } else {
-      int localIndex = StateContainer.of(context).activeAlert != null ? index - 1 : index;
+      int localIndex =
+          StateContainer.of(context).activeAlert != null ? index - 1 : index;
       String displayName = smallScreen(context)
           ? _historyListMap[StateContainer.of(context).wallet.address]
                   [localIndex]
@@ -519,7 +520,10 @@ class _AppHomePageState extends State<AppHomePage>
           padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
           children: <Widget>[
             // REMOTE MESSAGE CARD
-            StateContainer.of(context).activeAlert != null ? _buildRemoteMessageCard(StateContainer.of(context).activeAlert) : SizedBox(),
+            StateContainer.of(context).activeAlert != null
+                ? _buildRemoteMessageCard(
+                    StateContainer.of(context).activeAlert)
+                : SizedBox(),
             _buildWelcomeTransactionCard(context),
             _buildDummyTransactionCard(
                 AppLocalization.of(context).sent,
@@ -879,6 +883,7 @@ class _AppHomePageState extends State<AppHomePage>
       child: RemoteMessageCard(
         title: alert.title,
         shortDescription: alert.shortDescription,
+        timestamp: "1616611423",
         onPressed: () {
           Sheets.showAppHeightEightSheet(
             context: context,
@@ -887,6 +892,7 @@ class _AppHomePageState extends State<AppHomePage>
               shortDescription: alert.shortDescription,
               longDescription: alert.longDescription,
               link: alert.link,
+              timestamp: "1616611423",
             ),
           );
         },
@@ -1063,7 +1069,7 @@ class _AppHomePageState extends State<AppHomePage>
                                   ),
                                   child: TransactionStateTag(
                                       transactionState:
-                                          TransactionStateOptions.PENDING),
+                                          TransactionStateOptions.UNCONFIRMED),
                                 )
                               : SizedBox()
                         ],

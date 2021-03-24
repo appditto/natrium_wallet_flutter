@@ -7,11 +7,13 @@ class RemoteMessageCard extends StatefulWidget {
   final String title;
   final String shortDescription;
   final Function onPressed;
+  final String timestamp;
 
   RemoteMessageCard({
     this.title,
     this.shortDescription,
-    @required this.onPressed,
+    this.timestamp,
+    this.onPressed,
   });
 
   _RemoteMessageCardState createState() => _RemoteMessageCardState();
@@ -44,6 +46,13 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      Text(DateTime.fromMicrosecondsSinceEpoch(
+                              int.parse(widget.timestamp) * 1000)
+                          .toIso8601String()),
+                    ],
+                  ),
                   widget.title != null
                       ? Container(
                           child: Text(

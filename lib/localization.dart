@@ -77,6 +77,11 @@ class AppLocalization {
     return Intl.message('pending', desc: 'history_pending', name: 'pending');
   }
 
+  String get unconfirmed {
+    return Intl.message('unconfirmed',
+        desc: 'history_unconfirmed', name: 'unconfirmed');
+  }
+
   String get messageHeader {
     return Intl.message('Message',
         desc: 'message_header', name: 'messageHeader');

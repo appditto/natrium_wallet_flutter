@@ -3,10 +3,7 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 
-enum TransactionStateOptions {
-  PENDING,
-  CONFIRMED
-}
+enum TransactionStateOptions { UNCONFIRMED, CONFIRMED }
 
 class TransactionStateTag extends StatelessWidget {
   final TransactionStateOptions transactionState;
@@ -18,9 +15,9 @@ class TransactionStateTag extends StatelessWidget {
     return Container(
       padding: EdgeInsetsDirectional.fromSTEB(6, 2, 6, 2),
       child: Text(
-        this.transactionState == TransactionStateOptions.PENDING
-            ? AppLocalization.of(context).pending
-            : "Tag",
+        this.transactionState == TransactionStateOptions.UNCONFIRMED
+            ? AppLocalization.of(context).unconfirmed
+            : "tag",
         style: AppStyles.tagText(context),
       ),
       decoration: BoxDecoration(
