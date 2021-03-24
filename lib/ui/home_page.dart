@@ -874,6 +874,9 @@ class _AppHomePageState extends State<AppHomePage>
   }
 
   Widget _buildRemoteMessageCard(AlertResponseItem alert) {
+    if (alert == null) {
+      return SizedBox();
+    }
     return Container(
       margin: EdgeInsetsDirectional.fromSTEB(14, 4, 14, 4),
       child: RemoteMessageCard(
@@ -883,10 +886,7 @@ class _AppHomePageState extends State<AppHomePage>
           Sheets.showAppHeightEightSheet(
             context: context,
             widget: RemoteMessageSheet(
-              title: alert.title,
-              shortDescription: alert.shortDescription,
-              longDescription: alert.longDescription,
-              link: alert.link,
+              alert: alert,
             ),
           );
         },

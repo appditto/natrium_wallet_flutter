@@ -131,6 +131,9 @@ dependencies:
   # Avoid keyboard from overlapping text fields
   keyboard_avoider: ^0.1.2
 
+  # Launch external URLs
+  url_launcher: ^6.0.2
+
   # Manta dart implementation
   manta_dart:
     git:

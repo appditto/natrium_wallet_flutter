@@ -1,4 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:natrium_wallet_flutter/network/model/response/alerts_response_item.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
@@ -7,15 +9,14 @@ import 'package:flutter/rendering.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RemoteMessageSheet extends StatefulWidget {
-  final String title;
-  final String shortDescription;
-  final String longDescription;
-  final String link;
+  final AlertResponseItem alert;
 
   RemoteMessageSheet(
-      {this.title, this.shortDescription, this.longDescription, this.link})
+      {this.alert})
       : super();
 
   _RemoteMessageSheetStateState createState() =>
@@ -93,15 +94,15 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.title,
+                            widget.alert.title,
                             style: AppStyles.remoteMessageCardTitle(context),
                           ),
                           Container(
                             margin: EdgeInsetsDirectional.only(top: 4),
                             child: Text(
-                              widget.longDescription != null
-                                  ? widget.longDescription
-                                  : widget.shortDescription,
+                              widget.alert.longDescription != null
+                                  ? widget.alert.longDescription
+                                  : widget.alert.shortDescription,
                             ),
                           ),
                         ],
@@ -161,7 +162,11 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                         AppButtonType.PRIMARY,
                         AppLocalization.of(context).readMore,
                         Dimens.BUTTON_TOP_DIMENS,
-                        onPressed: () {}),
+                        onPressed: () async {
+                          if (await canLaunch(widget.alert.link)) {
+                            await launch(widget.alert.link);
+                          }
+                        }),
                   ],
                 ),
                 Row(
@@ -172,7 +177,11 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                         AppButtonType.PRIMARY_OUTLINE,
                         AppLocalization.of(context).ignore,
                         Dimens.BUTTON_BOTTOM_DIMENS,
-                        onPressed: () {}),
+                        onPressed: () {
+                          sl.get<SharedPrefsUtil>().dismissAlert(widget.alert);
+                          StateContainer.of(context).updateActiveAlert(null);
+                          Navigator.pop(context);
+                        }),
                   ],
                 ),
               ],
