@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:logger/logger.dart';
 import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
+import 'package:natrium_wallet_flutter/model/available_block_explorer.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/foundation.dart';
@@ -94,6 +95,7 @@ class StateContainerState extends State<StateContainer> {
   Locale deviceLocale = Locale('en', 'US');
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
   LanguageSetting curLanguage = LanguageSetting(AvailableLanguage.DEFAULT);
+  AvailableBlockExplorer curBlockExplorer = AvailableBlockExplorer(AvailableBlockExplorerEnum.NANOCRAWLER);
   BaseTheme curTheme = NatriumTheme();
   // Currently selected account
   Account selectedAccount =
@@ -182,6 +184,12 @@ class StateContainerState extends State<StateContainer> {
     sl.get<SharedPrefsUtil>().getTheme().then((theme) {
       updateTheme(theme, setIcon: false);
     });
+    // Get default block explorer
+    sl.get<SharedPrefsUtil>().getBlockExplorer().then((explorer) {
+      setState(() {
+        curBlockExplorer = explorer;
+      });
+    });    
     // Get initial deep link
     getInitialLink().then((initialLink) {
       setState(() {
@@ -374,6 +382,13 @@ class StateContainerState extends State<StateContainer> {
   void updateLanguage(LanguageSetting language) {
     setState(() {
       curLanguage = language;
+    });
+  }
+
+  // Change block explorer
+  void updateBlockExplorer(AvailableBlockExplorer explorer) {
+    setState(() {
+      curBlockExplorer = explorer;
     });
   }
 

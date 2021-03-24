@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
+import 'package:natrium_wallet_flutter/model/available_block_explorer.dart';
 import 'package:natrium_wallet_flutter/model/natricon_option.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accounts_sheet.dart';
@@ -550,6 +551,52 @@ class _SettingsSheetState extends State<SettingsSheet>
       if (StateContainer.of(context).curLanguage.language != selection) {
         setState(() {
           StateContainer.of(context).updateLanguage(LanguageSetting(selection));
+        });
+      }
+    });
+  }
+
+  List<Widget> _buildExplorerOptions() {
+    List<Widget> ret = new List();
+    AvailableBlockExplorerEnum.values.forEach((AvailableBlockExplorerEnum value) {
+      ret.add(SimpleDialogOption(
+        onPressed: () {
+          Navigator.pop(context, value);
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            AvailableBlockExplorer(value).getDisplayName(context),
+            style: AppStyles.textStyleDialogOptions(context),
+          ),
+        ),
+      ));
+    });
+    return ret;
+  }
+
+  Future<void> _explorerDialog() async {
+    AvailableBlockExplorerEnum selection = await showAppDialog<AvailableBlockExplorerEnum>(
+        context: context,
+        builder: (BuildContext context) {
+          return AppSimpleDialog(
+            title: Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Text(
+                AppLocalization.of(context).blockExplorer,
+                style: AppStyles.textStyleDialogHeader(context),
+              ),
+            ),
+            children: _buildExplorerOptions(),
+          );
+        });
+    sl
+        .get<SharedPrefsUtil>()
+        .setBlockExplorer(AvailableBlockExplorer(selection))
+        .then((result) {
+      if (StateContainer.of(context).curBlockExplorer.explorer != selection) {
+        setState(() {
+          StateContainer.of(context).updateBlockExplorer(AvailableBlockExplorer(selection));
         });
       }
     });
@@ -1359,6 +1406,17 @@ class _SettingsSheetState extends State<SettingsSheet>
                       });
                       _securityController.forward();
                     }),
+                    Divider(
+                      height: 2,
+                      color: StateContainer.of(context).curTheme.text15,
+                    ),
+                    AppSettings.buildSettingsListItemDoubleLine(
+                        context,
+                        AppLocalization.of(context).blockExplorer,
+                        StateContainer.of(context).curBlockExplorer,
+                        AppIcons.search,
+                        _explorerDialog,
+                    ),
                     Divider(
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,

@@ -10,6 +10,7 @@ import 'package:natrium_wallet_flutter/model/available_themes.dart';
 import 'package:natrium_wallet_flutter/model/authentication_method.dart';
 import 'package:natrium_wallet_flutter/model/available_currency.dart';
 import 'package:natrium_wallet_flutter/model/available_language.dart';
+import 'package:natrium_wallet_flutter/model/available_block_explorer.dart';
 import 'package:natrium_wallet_flutter/model/device_lock_timeout.dart';
 import 'package:natrium_wallet_flutter/model/vault.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';
@@ -28,6 +29,7 @@ class SharedPrefsUtil {
   static const String cur_currency = 'fkalium_currency_pref';
   static const String cur_language = 'fkalium_language_pref';
   static const String cur_theme = 'fkalium_theme_pref';
+  static const String cur_explorer = 'fkalium_cur_explorer_pref';
   static const String user_representative =
       'fkalium_user_rep'; // For when non-opened accounts have set a representative
   static const String firstcontact_added = 'fkalium_first_c_added';
@@ -175,6 +177,15 @@ class SharedPrefsUtil {
 
   Future<void> setTheme(ThemeSetting theme) async {
     return await set(cur_theme, theme.getIndex());
+  }
+
+  Future<void> setBlockExplorer(AvailableBlockExplorer explorer) async {
+    return await set(cur_explorer, explorer.getIndex());
+  }
+
+  Future<AvailableBlockExplorer> getBlockExplorer() async {
+    return AvailableBlockExplorer(AvailableBlockExplorerEnum.values[await get(cur_explorer,
+        defaultValue: AvailableBlockExplorerEnum.NANOCRAWLER.index)]);
   }
 
   Future<ThemeSetting> getTheme() async {

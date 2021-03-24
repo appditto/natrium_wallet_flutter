@@ -352,7 +352,7 @@ class UIUtil {
   static Widget showBlockExplorerWebview(BuildContext context, String hash) {
     cancelLockEvent();
     return WebviewScaffold(
-      url: AppLocalization.of(context).getBlockExplorerUrl(hash),
+      url: AppLocalization.of(context).getBlockExplorerUrl(hash, StateContainer.of(context).curBlockExplorer),
       appBar: new AppBar(
         backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
         brightness: StateContainer.of(context).curTheme.brightness,
@@ -364,7 +364,7 @@ class UIUtil {
   static Widget showAccountWebview(BuildContext context, String account) {
     cancelLockEvent();
     return WebviewScaffold(
-      url: AppLocalization.of(context).getAccountExplorerUrl(account),
+      url: AppLocalization.of(context).getAccountExplorerUrl(account, StateContainer.of(context).curBlockExplorer),
       appBar: new AppBar(
         backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
         brightness: StateContainer.of(context).curTheme.brightness,
