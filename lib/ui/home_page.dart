@@ -447,35 +447,29 @@ class _AppHomePageState extends State<AppHomePage>
 
   // Used to build list items that haven't been removed.
   Widget _buildItem(
-      BuildContext context, int index, Animation<double> animation) {
-    if (StateContainer.of(context).activeAlert != null && index == 0) {
-      return _buildRemoteMessageCard(StateContainer.of(context).activeAlert);
-    } else {
-      int localIndex =
-          StateContainer.of(context).activeAlert != null ? index - 1 : index;
-      String displayName = smallScreen(context)
-          ? _historyListMap[StateContainer.of(context).wallet.address]
-                  [localIndex]
-              .getShorterString()
-          : _historyListMap[StateContainer.of(context).wallet.address]
-                  [localIndex]
-              .getShortString();
-      _contacts.forEach((contact) {
-        if (contact.address ==
-            _historyListMap[StateContainer.of(context).wallet.address]
-                    [localIndex]
-                .account
-                .replaceAll("xrb_", "nano_")) {
-          displayName = contact.name;
-        }
-      });
-      return _buildTransactionCard(
+    BuildContext context, int index, Animation<double> animation) {
+    String displayName = smallScreen(context)
+        ? _historyListMap[StateContainer.of(context).wallet.address]
+                [index]
+            .getShorterString()
+        : _historyListMap[StateContainer.of(context).wallet.address]
+                [index]
+            .getShortString();
+    _contacts.forEach((contact) {
+      if (contact.address ==
           _historyListMap[StateContainer.of(context).wallet.address]
-              [localIndex],
-          animation,
-          displayName,
-          context);
-    }
+                  [index]
+              .account
+              .replaceAll("xrb_", "nano_")) {
+        displayName = contact.name;
+      }
+    });
+    return _buildTransactionCard(
+        _historyListMap[StateContainer.of(context).wallet.address]
+            [index],
+        animation,
+        displayName,
+        context);
   }
 
   // Return widget for list
@@ -562,11 +556,7 @@ class _AppHomePageState extends State<AppHomePage>
       child: AnimatedList(
         key: _listKeyMap[StateContainer.of(context).wallet.address],
         padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
-        initialItemCount: StateContainer.of(context).activeAlert != null
-            ? _historyListMap[StateContainer.of(context).wallet.address]
-                    .length +
-                1
-            : _historyListMap[StateContainer.of(context).wallet.address].length,
+        initialItemCount: _historyListMap[StateContainer.of(context).wallet.address].length,
         itemBuilder: _buildItem,
       ),
       onRefresh: _refresh,
@@ -763,6 +753,9 @@ class _AppHomePageState extends State<AppHomePage>
                           ],
                         ),
                       ), //Transactions Text End
+                           StateContainer.of(context).activeAlert != null ?
+                            _buildRemoteMessageCard(StateContainer.of(context).activeAlert)
+                            :SizedBox(),                      
                       //Transactions List
                       Expanded(
                         child: Stack(
