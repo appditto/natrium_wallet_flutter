@@ -37,7 +37,7 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
         onPressed: widget.onPressed,
         child: Container(
           width: double.infinity,
-          padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 16),
+          padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -60,7 +60,7 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
               widget.alert.title != null
                   ? Container(
                       margin: EdgeInsetsDirectional.only(
-                        bottom: widget.alert.shortDescription != null ? 4 : 0,
+                        bottom: 4,
                       ),
                       child: Text(
                         widget.alert.title,
