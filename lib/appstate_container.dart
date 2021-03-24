@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:natrium_wallet_flutter/network/model/response/accounts_balances_response.dart';
+import 'package:natrium_wallet_flutter/network/model/response/alerts_response_item.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
@@ -108,6 +109,9 @@ class StateContainerState extends State<StateContainer> {
   bool natriconOn = true;
   Map<String, String> natriconNonce = Map<String, String>();
 
+  // Active alert
+  AlertResponseItem activeAlert;
+
   // If callback is locked
   bool _locked = false;
 
@@ -138,11 +142,34 @@ class StateContainerState extends State<StateContainer> {
     });
   }
 
+  void updateActiveAlert(AlertResponseItem item) {
+    setState(() {
+      this.activeAlert = item;
+    });
+  }
+
   String getNatriconNonce(String address) {
     if (this.natriconNonce.containsKey(address)) {
       return this.natriconNonce[address];
     }
     return "";
+  }
+
+  Future<void> checkAndUpdateAlerts() async {
+    // Get active alert
+    try {
+      AlertResponseItem alert = await sl.get<AccountService>().getAlert(curLanguage.getLocaleString());
+      if (alert == null) {
+        updateActiveAlert(null);
+        return;
+      } else if (await sl.get<SharedPrefsUtil>().shouldShowAlert(alert)) {
+        // See if we should display this one again
+        updateActiveAlert(alert);
+      }
+    } catch (e) {
+      log.e("Error retrieving alert", e);
+      return;
+    }
   }
 
   Future<void> checkAndCacheNinjaAPIResponse() async {
@@ -198,6 +225,8 @@ class StateContainerState extends State<StateContainer> {
     });
     // Cache ninja API if don't already have it
     checkAndCacheNinjaAPIResponse();
+    // Update alert
+    checkAndUpdateAlerts();
     // Get natricon pref
     sl.get<SharedPrefsUtil>().getUseNatricon().then((useNatricon) {
       setNatriconOn(useNatricon);

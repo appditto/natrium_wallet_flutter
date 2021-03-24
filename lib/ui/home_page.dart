@@ -12,6 +12,7 @@ import 'package:logger/logger.dart';
 import 'package:manta_dart/manta_wallet.dart';
 import 'package:manta_dart/messages.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
+import 'package:natrium_wallet_flutter/network/model/response/alerts_response_item.dart';
 import 'package:natrium_wallet_flutter/ui/popup_button.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -104,9 +105,6 @@ class _AppHomePageState extends State<AppHomePage>
   ActorAnimation _sendSlideReleaseAnimation;
   double _fanimationPosition;
   bool releaseAnimation = false;
-
-  // For the remote message
-  bool hasRemoteMessage = true;
 
   void initialize(FlutterActorArtboard actor) {
     _fanimationPosition = 0.0;
@@ -450,10 +448,10 @@ class _AppHomePageState extends State<AppHomePage>
   // Used to build list items that haven't been removed.
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
-    if (hasRemoteMessage && index == 0) {
-      return _buildRemoteMessageCard();
+    if (StateContainer.of(context).activeAlert != null && index == 0) {
+      return _buildRemoteMessageCard(StateContainer.of(context).activeAlert);
     } else {
-      int localIndex = hasRemoteMessage ? index - 1 : index;
+      int localIndex = StateContainer.of(context).activeAlert != null ? index - 1 : index;
       String displayName = smallScreen(context)
           ? _historyListMap[StateContainer.of(context).wallet.address]
                   [localIndex]
@@ -521,7 +519,7 @@ class _AppHomePageState extends State<AppHomePage>
           padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
           children: <Widget>[
             // REMOTE MESSAGE CARD
-            hasRemoteMessage ? _buildRemoteMessageCard() : SizedBox(),
+            StateContainer.of(context).activeAlert != null ? _buildRemoteMessageCard(StateContainer.of(context).activeAlert) : SizedBox(),
             _buildWelcomeTransactionCard(context),
             _buildDummyTransactionCard(
                 AppLocalization.of(context).sent,
@@ -560,7 +558,7 @@ class _AppHomePageState extends State<AppHomePage>
       child: AnimatedList(
         key: _listKeyMap[StateContainer.of(context).wallet.address],
         padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
-        initialItemCount: hasRemoteMessage
+        initialItemCount: StateContainer.of(context).activeAlert != null
             ? _historyListMap[StateContainer.of(context).wallet.address]
                     .length +
                 1
@@ -875,26 +873,20 @@ class _AppHomePageState extends State<AppHomePage>
     );
   }
 
-  Widget _buildRemoteMessageCard() {
-    String title = "Regarding Nano Network";
-    String shortDescription =
-        "Due to ongoing spam on Nano network, your transactions might take a while to arrive.";
-    String longDescription =
-        "Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. \n\nDue to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive.\n\nDue to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive.\n\nDue to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive.";
-    String link = "https://appditto.com/blog";
+  Widget _buildRemoteMessageCard(AlertResponseItem alert) {
     return Container(
       margin: EdgeInsetsDirectional.fromSTEB(14, 4, 14, 4),
       child: RemoteMessageCard(
-        title: title,
-        shortDescription: shortDescription,
+        title: alert.title,
+        shortDescription: alert.shortDescription,
         onPressed: () {
           Sheets.showAppHeightEightSheet(
             context: context,
             widget: RemoteMessageSheet(
-              title: title,
-              shortDescription: shortDescription,
-              longDescription: longDescription,
-              link: link,
+              title: alert.title,
+              shortDescription: alert.shortDescription,
+              longDescription: alert.longDescription,
+              link: alert.link,
             ),
           );
         },

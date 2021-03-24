@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'dart:io';
 import 'dart:async';
 import 'package:intl/intl.dart';
+import 'package:natrium_wallet_flutter/network/model/response/alerts_response_item.dart';
 import 'package:natrium_wallet_flutter/util/random_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
@@ -65,6 +67,46 @@ class SharedPrefsUtil {
   Future<dynamic> get(String key, {dynamic defaultValue}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return await sharedPreferences.get(key) ?? defaultValue;
+  }
+
+  /// Set a key with an expiry, expiry is in seconds
+  Future<void> setWithExpiry(String key, dynamic value, int expiry) async {
+    int expiryVal;
+    if (expiry != -1) {
+      DateTime now = DateTime.now().toUtc();
+      DateTime expired = now.add(Duration(seconds: expiry));
+      expiryVal = expired.millisecondsSinceEpoch;
+    } else {
+      expiryVal = expiry;
+    }
+    Map<String, dynamic> msg = {
+      'data':value,
+      'expiry':expiryVal
+    };
+    String serialized = json.encode(msg);
+    await set(key, serialized);
+  }
+
+  /// Get a key that has an expiry
+  Future<dynamic> getWithExpiry(String key) async {
+    String val = await get(key, defaultValue: null);
+    if (val == null) {
+      return null;
+    }
+    Map<String, dynamic> msg = json.decode(val);
+    if (msg['expiry'] != -1) {
+      DateTime expired = DateTime.fromMillisecondsSinceEpoch(msg['expiry']);
+      if (DateTime.now().toUtc().difference(expired).inMinutes > 0) {
+        await remove(key);
+        return null;
+      }
+    }
+    return msg['data'];
+  }
+
+  Future<void> remove(String key) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return await sharedPreferences.remove(key);
   }
 
   // For encrypted data
@@ -323,6 +365,18 @@ class SharedPrefsUtil {
     return await get(use_natricon, defaultValue: true);
   }
 
+  Future<void> dismissAlert(AlertResponseItem alert) async {
+    if (alert.priority == "HIGH") {
+      await setWithExpiry("alert_${alert.id}", alert.id, 300);// TODO - change me back 86400);
+    } else {
+      await setWithExpiry("alert_${alert.id}", alert.id, -1);
+    }
+  }
+
+  Future<bool> shouldShowAlert(AlertResponseItem alert) async {
+    int exists = await getWithExpiry("alert_${alert.id}");
+    return exists == null ? true: false;
+  }
 
   // For logging out
   Future<void> deleteAll() async {
