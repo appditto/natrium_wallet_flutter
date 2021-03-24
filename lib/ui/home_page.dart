@@ -878,6 +878,9 @@ class _AppHomePageState extends State<AppHomePage>
   }
 
   Widget _buildRemoteMessageCard(AlertResponseItem alert) {
+    if (alert == null) {
+      return SizedBox();
+    }
     return Container(
       margin: EdgeInsetsDirectional.fromSTEB(14, 4, 14, 4),
       child: RemoteMessageCard(
@@ -888,11 +891,7 @@ class _AppHomePageState extends State<AppHomePage>
           Sheets.showAppHeightEightSheet(
             context: context,
             widget: RemoteMessageSheet(
-              title: alert.title,
-              shortDescription: alert.shortDescription,
-              longDescription: alert.longDescription,
-              link: alert.link,
-              timestamp: "1616611423",
+              alert: alert,
             ),
           );
         },
@@ -1521,35 +1520,42 @@ class _AppHomePageState extends State<AppHomePage>
                           // natricon
                           child: Hero(
                             tag: "avatar",
-                            child: SvgPicture.network(
-                              UIUtil.getNatriconURL(
-                                  StateContainer.of(context)
-                                      .selectedAccount
-                                      .address,
-                                  StateContainer.of(context).getNatriconNonce(
-                                      StateContainer.of(context)
-                                          .selectedAccount
-                                          .address)),
-                              key: Key(UIUtil.getNatriconURL(
-                                  StateContainer.of(context)
-                                      .selectedAccount
-                                      .address,
-                                  StateContainer.of(context).getNatriconNonce(
-                                      StateContainer.of(context)
-                                          .selectedAccount
-                                          .address))),
-                              placeholderBuilder: (BuildContext context) =>
-                                  Container(
-                                child: FlareActor(
-                                  "assets/ntr_placeholder_animation.flr",
-                                  animation: "main",
-                                  fit: BoxFit.contain,
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .primary,
-                                ),
-                              ),
-                            ),
+                            child: StateContainer.of(context)
+                                        .selectedAccount
+                                        .address !=
+                                    null
+                                ? SvgPicture.network(
+                                    UIUtil.getNatriconURL(
+                                        StateContainer.of(context)
+                                            .selectedAccount
+                                            .address,
+                                        StateContainer.of(context)
+                                            .getNatriconNonce(
+                                                StateContainer.of(context)
+                                                    .selectedAccount
+                                                    .address)),
+                                    key: Key(UIUtil.getNatriconURL(
+                                        StateContainer.of(context)
+                                            .selectedAccount
+                                            .address,
+                                        StateContainer.of(context)
+                                            .getNatriconNonce(
+                                                StateContainer.of(context)
+                                                    .selectedAccount
+                                                    .address))),
+                                    placeholderBuilder:
+                                        (BuildContext context) => Container(
+                                      child: FlareActor(
+                                        "assets/ntr_placeholder_animation.flr",
+                                        animation: "main",
+                                        fit: BoxFit.contain,
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .primary,
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(),
                           ),
                         ),
                       ),
