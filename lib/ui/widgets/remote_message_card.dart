@@ -7,10 +7,12 @@ import 'package:natrium_wallet_flutter/styles.dart';
 class RemoteMessageCard extends StatefulWidget {
   final AlertResponseItem alert;
   final Function onPressed;
+  final bool showDesc;
 
   RemoteMessageCard({
     this.alert,
     this.onPressed,
+    this.showDesc = true,
   });
 
   _RemoteMessageCardState createState() => _RemoteMessageCardState();
@@ -68,7 +70,8 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
                       ),
                     )
                   : SizedBox(),
-              widget.alert.shortDescription != null
+              widget.alert.shortDescription != null &&
+                      (widget.showDesc || widget.alert.title == null)
                   ? Container(
                       margin: EdgeInsetsDirectional.only(
                         bottom: 4,

@@ -10,6 +10,7 @@ import 'package:natrium_wallet_flutter/ui/settings/disable_password_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/settings/set_password_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/remote_message_card.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/remote_message_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:package_info/package_info.dart';
@@ -1396,6 +1397,27 @@ class _SettingsSheetState extends State<SettingsSheet>
                 ListView(
                   padding: EdgeInsets.only(top: 15.0),
                   children: <Widget>[
+                    // Active Alerts, Remote Message Card
+                    StateContainer.of(context).settingsAlert != null
+                        ? Container(
+                            padding: EdgeInsetsDirectional.only(
+                                start: 12, end: 12, bottom: 20),
+                            child: RemoteMessageCard(
+                              alert: StateContainer.of(context).settingsAlert,
+                              showDesc: false,
+                              onPressed: () {
+                                Sheets.showAppHeightEightSheet(
+                                  context: context,
+                                  widget: RemoteMessageSheet(
+                                    alert: StateContainer.of(context)
+                                        .settingsAlert,
+                                    hasDismissButton: false,
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                        : null,
                     Container(
                       margin:
                           EdgeInsetsDirectional.only(start: 30.0, bottom: 10),
@@ -1406,31 +1428,6 @@ class _SettingsSheetState extends State<SettingsSheet>
                               color:
                                   StateContainer.of(context).curTheme.text60)),
                     ),
-                    // Active Alerts
-                    StateContainer.of(context).settingsAlert != null
-                        ? Divider(
-                            height: 2,
-                            color: StateContainer.of(context).curTheme.text15,
-                          )
-                        : null,
-                    StateContainer.of(context).settingsAlert != null
-                        ? AppSettings.buildSettingsListItemDoubleLineTwo(
-                            context,
-                            AppLocalization.of(context).activeMessageHeader,
-                            StateContainer.of(context).settingsAlert.title,
-                            AppIcons.info,
-                            () => {
-                              Sheets.showAppHeightEightSheet(
-                                context: context,
-                                widget: RemoteMessageSheet(
-                                  alert: StateContainer.of(context)
-                                      .settingsAlert,
-                                  hasDismissButton: false,
-                                ),
-                              )
-                            },
-                          )
-                        : null,
                     Divider(
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,
