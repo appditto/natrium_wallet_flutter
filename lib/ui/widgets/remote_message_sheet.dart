@@ -184,19 +184,21 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
             //A column with Copy Address and Share Address buttons
             Column(
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    AppButton.buildAppButton(
-                        context,
-                        AppButtonType.PRIMARY,
-                        AppLocalization.of(context).readMore,
-                        Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
-                      if (await canLaunch(widget.alert.link)) {
-                        await launch(widget.alert.link);
-                      }
-                    }),
-                  ],
-                ),
+                widget.alert.link != null
+                    ? Row(
+                        children: <Widget>[
+                          AppButton.buildAppButton(
+                              context,
+                              AppButtonType.PRIMARY,
+                              AppLocalization.of(context).readMore,
+                              Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                            if (await canLaunch(widget.alert.link)) {
+                              await launch(widget.alert.link);
+                            }
+                          }),
+                        ],
+                      )
+                    : SizedBox(),
                 Row(
                   children: <Widget>[
                     AppButton.buildAppButton(
