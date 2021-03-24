@@ -32,7 +32,7 @@ import 'package:natrium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/settings/settings_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/remote_message_modal.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/remote_message_card.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/list_slidable.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
@@ -103,6 +103,9 @@ class _AppHomePageState extends State<AppHomePage>
   ActorAnimation _sendSlideReleaseAnimation;
   double _fanimationPosition;
   bool releaseAnimation = false;
+
+  // For the remote message
+  bool hasRemoteMessage = true;
 
   void initialize(FlutterActorArtboard actor) {
     _fanimationPosition = 0.0;
@@ -446,24 +449,28 @@ class _AppHomePageState extends State<AppHomePage>
   // Used to build list items that haven't been removed.
   Widget _buildItem(
       BuildContext context, int index, Animation<double> animation) {
-    String displayName = smallScreen(context)
-        ? _historyListMap[StateContainer.of(context).wallet.address][index]
-            .getShorterString()
-        : _historyListMap[StateContainer.of(context).wallet.address][index]
-            .getShortString();
-    _contacts.forEach((contact) {
-      if (contact.address ==
-          _historyListMap[StateContainer.of(context).wallet.address][index]
-              .account
-              .replaceAll("xrb_", "nano_")) {
-        displayName = contact.name;
-      }
-    });
-    return _buildTransactionCard(
-        _historyListMap[StateContainer.of(context).wallet.address][index],
-        animation,
-        displayName,
-        context);
+    if (hasRemoteMessage && index == 0) {
+      return _buildRemoteMessageCard();
+    } else {
+      String displayName = smallScreen(context)
+          ? _historyListMap[StateContainer.of(context).wallet.address][index]
+              .getShorterString()
+          : _historyListMap[StateContainer.of(context).wallet.address][index]
+              .getShortString();
+      _contacts.forEach((contact) {
+        if (contact.address ==
+            _historyListMap[StateContainer.of(context).wallet.address][index]
+                .account
+                .replaceAll("xrb_", "nano_")) {
+          displayName = contact.name;
+        }
+      });
+      return _buildTransactionCard(
+          _historyListMap[StateContainer.of(context).wallet.address][index],
+          animation,
+          displayName,
+          context);
+    }
   }
 
   // Return widget for list
@@ -507,6 +514,8 @@ class _AppHomePageState extends State<AppHomePage>
         child: ListView(
           padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
           children: <Widget>[
+            // REMOTE MESSAGE CARD
+            hasRemoteMessage ? _buildRemoteMessageCard() : SizedBox(),
             _buildWelcomeTransactionCard(context),
             _buildDummyTransactionCard(
                 AppLocalization.of(context).sent,
@@ -532,12 +541,12 @@ class _AppHomePageState extends State<AppHomePage>
           () => GlobalKey<AnimatedListState>());
       setState(() {
         _historyListMap.putIfAbsent(
-            StateContainer.of(context).wallet.address,
-            () => ListModel<AccountHistoryResponseItem>(
-                  listKey:
-                      _listKeyMap[StateContainer.of(context).wallet.address],
-                  initialItems: StateContainer.of(context).wallet.history,
-                ));
+          StateContainer.of(context).wallet.address,
+          () => ListModel<AccountHistoryResponseItem>(
+            listKey: _listKeyMap[StateContainer.of(context).wallet.address],
+            initialItems: StateContainer.of(context).wallet.history,
+          ),
+        );
       });
     }
     return ReactiveRefreshIndicator(
@@ -545,8 +554,11 @@ class _AppHomePageState extends State<AppHomePage>
       child: AnimatedList(
         key: _listKeyMap[StateContainer.of(context).wallet.address],
         padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
-        initialItemCount:
-            _historyListMap[StateContainer.of(context).wallet.address].length,
+        initialItemCount: hasRemoteMessage
+            ? _historyListMap[StateContainer.of(context).wallet.address]
+                    .length +
+                1
+            : _historyListMap[StateContainer.of(context).wallet.address].length,
         itemBuilder: _buildItem,
       ),
       onRefresh: _refresh,
@@ -723,20 +735,6 @@ class _AppHomePageState extends State<AppHomePage>
                       //Main Card
                       _buildMainCard(context, _scaffoldKey),
                       //Main Card End
-
-                      // REMOTE MESSAGE MODAL
-                      Container(
-                        margin: EdgeInsetsDirectional.fromSTEB(10, 16, 10, 16),
-                        child: RemoteMessageModal(
-                          title: "Regarding Nano Network",
-                          paragraph:
-                              "Due to ongoing spam on Nano network, your transactions might take a while to arrive.",
-                          callToActionButtonText: "Read More",
-                          onCallToActionPressed: () {},
-                          onClosePressed: () {},
-                        ),
-                      ),
-
                       //Transactions Text
                       Container(
                         margin: EdgeInsetsDirectional.fromSTEB(
@@ -757,7 +755,6 @@ class _AppHomePageState extends State<AppHomePage>
                           ],
                         ),
                       ), //Transactions Text End
-
                       //Transactions List
                       Expanded(
                         child: Stack(
@@ -785,7 +782,6 @@ class _AppHomePageState extends State<AppHomePage>
                                 ),
                               ),
                             ), // List Top Gradient End
-
                             //List Bottom Gradient
                             Align(
                               alignment: Alignment.bottomCenter,
@@ -869,6 +865,18 @@ class _AppHomePageState extends State<AppHomePage>
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildRemoteMessageCard() {
+    return Container(
+      margin: EdgeInsetsDirectional.fromSTEB(14, 4, 14, 4),
+      child: RemoteMessageCard(
+        title: "Regarding Nano Network",
+        paragraph:
+            "Due to ongoing spam on Nano network, your transactions might take a while to arrive.",
+        onPressed: () {},
       ),
     );
   }

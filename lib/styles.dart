@@ -550,16 +550,16 @@ class AppStyles {
     );
   }
 
-  static TextStyle remoteMessageModalTitle(BuildContext context) {
+  static TextStyle remoteMessageCardTitle(BuildContext context) {
     return TextStyle(
-      fontSize: 20,
+      fontSize: 18,
       color: StateContainer.of(context).curTheme.success,
       fontFamily: 'NunitoSans',
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w800,
     );
   }
 
-  static TextStyle remoteMessageModalParagraph(BuildContext context) {
+  static TextStyle remoteMessageCardParagraph(BuildContext context) {
     return TextStyle(
       fontSize: 14,
       color: StateContainer.of(context).curTheme.text,
