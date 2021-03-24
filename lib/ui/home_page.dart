@@ -1058,8 +1058,7 @@ class _AppHomePageState extends State<AppHomePage>
                           ),
 
                           // TRANSACTION STATE TAG
-                          StateContainer.of(context).wallet.confirmationHeight <
-                                  item.height
+                          (StateContainer.of(context).wallet.confirmationHeight < item.height)
                               ? Container(
                                   margin: EdgeInsetsDirectional.only(
                                     top: 4,

@@ -111,6 +111,7 @@ class StateContainerState extends State<StateContainer> {
 
   // Active alert
   AlertResponseItem activeAlert;
+  AlertResponseItem highPriorityAlert;
 
   // If callback is locked
   bool _locked = false;
@@ -142,9 +143,15 @@ class StateContainerState extends State<StateContainer> {
     });
   }
 
-  void updateActiveAlert(AlertResponseItem item) {
+  void updateActiveAlert(AlertResponseItem active, AlertResponseItem highPrio) {
+    print(highPrio.priority);
     setState(() {
-      this.activeAlert = item;
+      this.activeAlert = active;
+      if (highPrio != null && highPrio.priority == "high") {
+        this.highPriorityAlert = highPrio;
+      } else {
+        this.highPriorityAlert = null;
+      }
     });
   }
 
@@ -160,11 +167,13 @@ class StateContainerState extends State<StateContainer> {
     try {
       AlertResponseItem alert = await sl.get<AccountService>().getAlert(curLanguage.getLocaleString());
       if (alert == null) {
-        updateActiveAlert(null);
+        updateActiveAlert(null, null);
         return;
       } else if (await sl.get<SharedPrefsUtil>().shouldShowAlert(alert)) {
         // See if we should display this one again
-        updateActiveAlert(alert);
+        updateActiveAlert(alert, alert);
+      } else {
+        updateActiveAlert(null, alert);
       }
     } catch (e) {
       log.e("Error retrieving alert", e);

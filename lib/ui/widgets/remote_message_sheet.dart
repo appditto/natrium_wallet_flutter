@@ -206,7 +206,7 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                         AppLocalization.of(context).dismiss,
                         Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                       sl.get<SharedPrefsUtil>().dismissAlert(widget.alert);
-                      StateContainer.of(context).updateActiveAlert(null);
+                      StateContainer.of(context).updateActiveAlert(null, widget.alert);
                       Navigator.pop(context);
                     }),
                   ],

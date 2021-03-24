@@ -415,6 +415,10 @@ class AppLocalization {
 
   /// -- SETTINGS ITEMS
 
+  String get activeMessageHeader {
+    return Intl.message("Active Message", desc: 'active_message', name: 'activeMessageHeader');
+  }
+
   String get themeHeader {
     return Intl.message("Theme", desc: 'theme_header', name: 'themeHeader');
   }

@@ -78,6 +78,77 @@ class AppSettings {
     );
   }
 
+  //Settings item with direct functionality and two lines
+  static Widget buildSettingsListItemDoubleLineTwo(
+      BuildContext context,
+      String heading,
+      String text,
+      IconData icon,
+      Function onPressed,
+      {bool disabled = false}) {
+    return IgnorePointer(
+      ignoring: disabled,
+      child: FlatButton(
+        highlightColor: StateContainer.of(context).curTheme.text15,
+        splashColor: StateContainer.of(context).curTheme.text15,
+        onPressed: () {
+          onPressed();
+        },
+        padding: EdgeInsets.all(0.0),
+        child: Container(
+          height: 60.0,
+          margin: EdgeInsetsDirectional.only(start: 30.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsetsDirectional.only(end: 13.0),
+                child: Container(
+                  child: Icon(icon,
+                      color: disabled
+                          ? StateContainer.of(context).curTheme.primary45
+                          : StateContainer.of(context).curTheme.primary,
+                      size: 24),
+                  margin: EdgeInsets.only(top: 3, left: 3, bottom: 3, right: 3),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: UIUtil.drawerWidth(context) - 100,
+                    child: AutoSizeText(
+                      heading,
+                      style: disabled
+                          ? AppStyles.textStyleSettingItemHeader45(context)
+                          : AppStyles.textStyleSettingItemHeader(context),
+                      maxLines: 1,
+                      stepGranularity: 0.1,
+                      minFontSize: 8,
+                    ),
+                  ),
+                  Container(
+                    width: UIUtil.drawerWidth(context) - 100,
+                    child: AutoSizeText(
+                      text,
+                      style: disabled
+                          ? AppStyles.textStyleSettingItemSubheader30(context)
+                          : AppStyles.textStyleSettingItemSubheader(context),
+                      maxLines: 1,
+                      stepGranularity: 0.1,
+                      minFontSize: 8,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   //Settings item without any dropdown option but rather a direct functionality
   static Widget buildSettingsListItemSingleLine(
       BuildContext context, String heading, IconData settingIcon,

@@ -10,6 +10,7 @@ import 'package:natrium_wallet_flutter/ui/settings/disable_password_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/settings/set_password_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/remote_message_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:package_info/package_info.dart';
 import 'package:flutter/material.dart';
@@ -1353,6 +1354,27 @@ class _SettingsSheetState extends State<SettingsSheet>
                               color:
                                   StateContainer.of(context).curTheme.text60)),
                     ),
+                    // Active Alerts
+                    StateContainer.of(context).highPriorityAlert != null ?
+                      Divider(
+                        height: 2,
+                        color: StateContainer.of(context).curTheme.text15,
+                      ): null,
+                    StateContainer.of(context).highPriorityAlert != null ?
+                      AppSettings.buildSettingsListItemDoubleLineTwo(
+                        context,
+                        AppLocalization.of(context).activeMessageHeader,
+                        StateContainer.of(context).highPriorityAlert.title,
+                        AppIcons.info,
+                        () => {
+                          Sheets.showAppHeightEightSheet(
+                            context: context,
+                            widget: RemoteMessageSheet(
+                              alert: StateContainer.of(context).highPriorityAlert,
+                            ),
+                          )
+                        },
+                      ): null,                      
                     Divider(
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,
@@ -1732,7 +1754,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               fontWeight: FontWeight.w100,
                               color:
                                   StateContainer.of(context).curTheme.text60)),
-                    ),
+                    ),                  
                     // Authentication Method
                     _hasBiometrics
                         ? Divider(
