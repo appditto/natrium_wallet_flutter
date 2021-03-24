@@ -552,7 +552,7 @@ class AppStyles {
 
   static TextStyle remoteMessageCardTitle(BuildContext context) {
     return TextStyle(
-      fontSize: 18,
+      fontSize: 20,
       color: StateContainer.of(context).curTheme.success,
       fontFamily: 'NunitoSans',
       fontWeight: FontWeight.w800,

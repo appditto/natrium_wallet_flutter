@@ -85,65 +85,57 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                 padding: EdgeInsetsDirectional.fromSTEB(24, 8, 24, 8),
                 child: Stack(
                   children: [
-                    // List Top Gradient End
-                    Column(
-                      children: [
-                        SingleChildScrollView(
-                          padding:
-                              EdgeInsetsDirectional.only(top: 12, bottom: 36),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    top: 2, bottom: 6),
-                                padding: EdgeInsetsDirectional.only(
-                                    start: 6, end: 6, top: 2, bottom: 2),
-                                decoration: BoxDecoration(
-                                    color: StateContainer.of(context)
-                                        .curTheme
-                                        .text05,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(4),
-                                    ),
-                                    border: Border.all(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text10,
-                                    )),
-                                child: Text(
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                              widget.alert.timestamp)
-                                          .toUtc()
-                                          .toString()
-                                          .substring(0, 16) +
-                                      " UTC",
-                                  style: AppStyles.remoteMessageCardTimestamp(
-                                      context),
+                    SingleChildScrollView(
+                      padding: EdgeInsetsDirectional.only(top: 12, bottom: 36),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin:
+                                EdgeInsetsDirectional.only(top: 2, bottom: 6),
+                            padding: EdgeInsetsDirectional.only(
+                                start: 6, end: 6, top: 2, bottom: 2),
+                            decoration: BoxDecoration(
+                                color:
+                                    StateContainer.of(context).curTheme.text05,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(4),
                                 ),
-                              ),
-                              Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    top: 2, bottom: 2),
-                                child: Text(
-                                  widget.alert.title,
-                                  style:
-                                      AppStyles.remoteMessageCardTitle(context),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    top: 2, bottom: 2),
-                                child: Text(
-                                  widget.alert.longDescription != null
-                                      ? widget.alert.longDescription
-                                      : widget.alert.shortDescription,
-                                ),
-                              ),
-                            ],
+                                border: Border.all(
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .text10,
+                                )),
+                            child: Text(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                          widget.alert.timestamp)
+                                      .toUtc()
+                                      .toString()
+                                      .substring(0, 16) +
+                                  " UTC",
+                              style:
+                                  AppStyles.remoteMessageCardTimestamp(context),
+                            ),
                           ),
-                        ),
-                      ],
+                          Container(
+                            margin:
+                                EdgeInsetsDirectional.only(top: 2, bottom: 2),
+                            child: Text(
+                              widget.alert.title,
+                              style: AppStyles.remoteMessageCardTitle(context),
+                            ),
+                          ),
+                          Container(
+                            margin:
+                                EdgeInsetsDirectional.only(top: 2, bottom: 2),
+                            child: Text(
+                              widget.alert.longDescription != null
+                                  ? widget.alert.longDescription
+                                  : widget.alert.shortDescription,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     //List Top Gradient End
                     Align(
