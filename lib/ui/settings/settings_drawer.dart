@@ -1407,24 +1407,24 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   StateContainer.of(context).curTheme.text60)),
                     ),
                     // Active Alerts
-                    StateContainer.of(context).highPriorityAlert != null
+                    StateContainer.of(context).settingsAlert != null
                         ? Divider(
                             height: 2,
                             color: StateContainer.of(context).curTheme.text15,
                           )
                         : null,
-                    StateContainer.of(context).highPriorityAlert != null
+                    StateContainer.of(context).settingsAlert != null
                         ? AppSettings.buildSettingsListItemDoubleLineTwo(
                             context,
                             AppLocalization.of(context).activeMessageHeader,
-                            StateContainer.of(context).highPriorityAlert.title,
+                            StateContainer.of(context).settingsAlert.title,
                             AppIcons.info,
                             () => {
                               Sheets.showAppHeightEightSheet(
                                 context: context,
                                 widget: RemoteMessageSheet(
                                   alert: StateContainer.of(context)
-                                      .highPriorityAlert,
+                                      .settingsAlert,
                                   hasDismissButton: false,
                                 ),
                               )

@@ -111,7 +111,7 @@ class StateContainerState extends State<StateContainer> {
 
   // Active alert
   AlertResponseItem activeAlert;
-  AlertResponseItem highPriorityAlert;
+  AlertResponseItem settingsAlert;
 
   // If callback is locked
   bool _locked = false;
@@ -143,13 +143,13 @@ class StateContainerState extends State<StateContainer> {
     });
   }
 
-  void updateActiveAlert(AlertResponseItem active, AlertResponseItem highPrio) {
+  void updateActiveAlert(AlertResponseItem active, AlertResponseItem settingsAlert) {
     setState(() {
       this.activeAlert = active;
-      if (highPrio != null) {
-        this.highPriorityAlert = highPrio;
+      if (settingsAlert != null) {
+        this.settingsAlert = settingsAlert;
       } else {
-        this.highPriorityAlert = null;
+        this.settingsAlert = null;
       }
     });
   }
