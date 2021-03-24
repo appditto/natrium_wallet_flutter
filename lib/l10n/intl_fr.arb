@@ -221,5 +221,7 @@
   "exampleCardFromKal": "d'un monKey aléatoire",
   "newAccountIntroKal": "Ceci est votre nouveau compte. Lorsque vous recevrez des BANANO, les transactions apparaîtront comme ci-dessous.:",
   "liveSupportButton": "Support",
-  "connectingHeader": "Connexion"
+  "connectingHeader": "Connexion",
+  "minimumSend": "Le minimum d'envoi est %1 NANO",
+  "natricon": "Natricône"
 }
