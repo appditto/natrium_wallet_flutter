@@ -447,26 +447,22 @@ class _AppHomePageState extends State<AppHomePage>
 
   // Used to build list items that haven't been removed.
   Widget _buildItem(
-    BuildContext context, int index, Animation<double> animation) {
+      BuildContext context, int index, Animation<double> animation) {
     String displayName = smallScreen(context)
-        ? _historyListMap[StateContainer.of(context).wallet.address]
-                [index]
+        ? _historyListMap[StateContainer.of(context).wallet.address][index]
             .getShorterString()
-        : _historyListMap[StateContainer.of(context).wallet.address]
-                [index]
+        : _historyListMap[StateContainer.of(context).wallet.address][index]
             .getShortString();
     _contacts.forEach((contact) {
       if (contact.address ==
-          _historyListMap[StateContainer.of(context).wallet.address]
-                  [index]
+          _historyListMap[StateContainer.of(context).wallet.address][index]
               .account
               .replaceAll("xrb_", "nano_")) {
         displayName = contact.name;
       }
     });
     return _buildTransactionCard(
-        _historyListMap[StateContainer.of(context).wallet.address]
-            [index],
+        _historyListMap[StateContainer.of(context).wallet.address][index],
         animation,
         displayName,
         context);
@@ -556,7 +552,8 @@ class _AppHomePageState extends State<AppHomePage>
       child: AnimatedList(
         key: _listKeyMap[StateContainer.of(context).wallet.address],
         padding: EdgeInsetsDirectional.fromSTEB(0, 5.0, 0, 15.0),
-        initialItemCount: _historyListMap[StateContainer.of(context).wallet.address].length,
+        initialItemCount:
+            _historyListMap[StateContainer.of(context).wallet.address].length,
         itemBuilder: _buildItem,
       ),
       onRefresh: _refresh,
@@ -753,9 +750,10 @@ class _AppHomePageState extends State<AppHomePage>
                           ],
                         ),
                       ), //Transactions Text End
-                           StateContainer.of(context).activeAlert != null ?
-                            _buildRemoteMessageCard(StateContainer.of(context).activeAlert)
-                            :SizedBox(),                      
+                      StateContainer.of(context).activeAlert != null
+                          ? _buildRemoteMessageCard(
+                              StateContainer.of(context).activeAlert)
+                          : SizedBox(),
                       //Transactions List
                       Expanded(
                         child: Stack(
@@ -1051,7 +1049,10 @@ class _AppHomePageState extends State<AppHomePage>
                           ),
 
                           // TRANSACTION STATE TAG
-                          (StateContainer.of(context).wallet.confirmationHeight < item.height)
+                          (StateContainer.of(context)
+                                      .wallet
+                                      .confirmationHeight <
+                                  item.height)
                               ? Container(
                                   margin: EdgeInsetsDirectional.only(
                                     top: 4,

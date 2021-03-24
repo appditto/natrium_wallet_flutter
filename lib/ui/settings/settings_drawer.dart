@@ -71,8 +71,7 @@ class _SettingsSheetState extends State<SettingsSheet>
       AuthenticationMethod(AuthMethod.BIOMETRICS);
   NotificationSetting _curNotificiationSetting =
       NotificationSetting(NotificationOptions.ON);
-  NatriconSetting _curNatriconSetting =
-      NatriconSetting(NatriconOptions.ON);      
+  NatriconSetting _curNatriconSetting = NatriconSetting(NatriconOptions.ON);
   UnlockSetting _curUnlockSetting = UnlockSetting(UnlockOption.NO);
   LockTimeoutSetting _curTimeoutSetting =
       LockTimeoutSetting(LockTimeoutOption.ONE);
@@ -134,8 +133,8 @@ class _SettingsSheetState extends State<SettingsSheet>
     sl.get<SharedPrefsUtil>().getUseNatricon().then((useNatricon) {
       setState(() {
         _curNatriconSetting = useNatricon
-          ? NatriconSetting(NatriconOptions.ON)
-          : NatriconSetting(NatriconOptions.OFF);
+            ? NatriconSetting(NatriconOptions.ON)
+            : NatriconSetting(NatriconOptions.OFF);
       });
     });
     // Get default theme settings
@@ -392,8 +391,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         sl.get<SharedPrefsUtil>().setUseNatricon(true).then((result) {
           setState(() {
             StateContainer.of(context).setNatriconOn(true);
-            _curNatriconSetting =
-                NatriconSetting(NatriconOptions.ON);
+            _curNatriconSetting = NatriconSetting(NatriconOptions.ON);
           });
         });
         break;
@@ -401,8 +399,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         sl.get<SharedPrefsUtil>().setUseNatricon(false).then((result) {
           setState(() {
             StateContainer.of(context).setNatriconOn(false);
-            _curNatriconSetting =
-                NatriconSetting(NatriconOptions.OFF);
+            _curNatriconSetting = NatriconSetting(NatriconOptions.OFF);
           });
         });
         break;
@@ -559,7 +556,8 @@ class _SettingsSheetState extends State<SettingsSheet>
 
   List<Widget> _buildExplorerOptions() {
     List<Widget> ret = new List();
-    AvailableBlockExplorerEnum.values.forEach((AvailableBlockExplorerEnum value) {
+    AvailableBlockExplorerEnum.values
+        .forEach((AvailableBlockExplorerEnum value) {
       ret.add(SimpleDialogOption(
         onPressed: () {
           Navigator.pop(context, value);
@@ -577,27 +575,29 @@ class _SettingsSheetState extends State<SettingsSheet>
   }
 
   Future<void> _explorerDialog() async {
-    AvailableBlockExplorerEnum selection = await showAppDialog<AvailableBlockExplorerEnum>(
-        context: context,
-        builder: (BuildContext context) {
-          return AppSimpleDialog(
-            title: Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
-              child: Text(
-                AppLocalization.of(context).blockExplorer,
-                style: AppStyles.textStyleDialogHeader(context),
-              ),
-            ),
-            children: _buildExplorerOptions(),
-          );
-        });
+    AvailableBlockExplorerEnum selection =
+        await showAppDialog<AvailableBlockExplorerEnum>(
+            context: context,
+            builder: (BuildContext context) {
+              return AppSimpleDialog(
+                title: Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Text(
+                    AppLocalization.of(context).blockExplorer,
+                    style: AppStyles.textStyleDialogHeader(context),
+                  ),
+                ),
+                children: _buildExplorerOptions(),
+              );
+            });
     sl
         .get<SharedPrefsUtil>()
         .setBlockExplorer(AvailableBlockExplorer(selection))
         .then((result) {
       if (StateContainer.of(context).curBlockExplorer.explorer != selection) {
         setState(() {
-          StateContainer.of(context).updateBlockExplorer(AvailableBlockExplorer(selection));
+          StateContainer.of(context)
+              .updateBlockExplorer(AvailableBlockExplorer(selection));
         });
       }
     });
@@ -790,8 +790,24 @@ class _SettingsSheetState extends State<SettingsSheet>
                                       alignment: AlignmentDirectional(-1, 0),
                                       // natricon
                                       child: SvgPicture.network(
-                                        UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address)),
-                                        key: Key(UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address))),
+                                        UIUtil.getNatriconURL(
+                                            StateContainer.of(context)
+                                                .selectedAccount
+                                                .address,
+                                            StateContainer.of(context)
+                                                .getNatriconNonce(
+                                                    StateContainer.of(context)
+                                                        .selectedAccount
+                                                        .address)),
+                                        key: Key(UIUtil.getNatriconURL(
+                                            StateContainer.of(context)
+                                                .selectedAccount
+                                                .address,
+                                            StateContainer.of(context)
+                                                .getNatriconNonce(
+                                                    StateContainer.of(context)
+                                                        .selectedAccount
+                                                        .address))),
                                         placeholderBuilder:
                                             (BuildContext context) => Container(
                                           child: FlareActor(
@@ -923,8 +939,26 @@ class _SettingsSheetState extends State<SettingsSheet>
                                               width: 52,
                                               // natricon
                                               child: SvgPicture.network(
-                                                UIUtil.getNatriconURL(StateContainer.of(context).recentLast.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).recentLast.address)),
-                                                key: Key(UIUtil.getNatriconURL(StateContainer.of(context).recentLast.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).recentLast.address))),
+                                                UIUtil.getNatriconURL(
+                                                    StateContainer.of(context)
+                                                        .recentLast
+                                                        .address,
+                                                    StateContainer.of(context)
+                                                        .getNatriconNonce(
+                                                            StateContainer.of(
+                                                                    context)
+                                                                .recentLast
+                                                                .address)),
+                                                key: Key(UIUtil.getNatriconURL(
+                                                    StateContainer.of(context)
+                                                        .recentLast
+                                                        .address,
+                                                    StateContainer.of(context)
+                                                        .getNatriconNonce(
+                                                            StateContainer.of(
+                                                                    context)
+                                                                .recentLast
+                                                                .address))),
                                                 placeholderBuilder:
                                                     (BuildContext context) =>
                                                         Container(
@@ -1081,8 +1115,26 @@ class _SettingsSheetState extends State<SettingsSheet>
                                               width: 52,
                                               // natricon
                                               child: SvgPicture.network(
-                                                UIUtil.getNatriconURL(StateContainer.of(context).recentSecondLast.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).recentSecondLast.address)),
-                                                key: Key(UIUtil.getNatriconURL(StateContainer.of(context).recentSecondLast.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).recentSecondLast.address))),
+                                                UIUtil.getNatriconURL(
+                                                    StateContainer.of(context)
+                                                        .recentSecondLast
+                                                        .address,
+                                                    StateContainer.of(context)
+                                                        .getNatriconNonce(
+                                                            StateContainer.of(
+                                                                    context)
+                                                                .recentSecondLast
+                                                                .address)),
+                                                key: Key(UIUtil.getNatriconURL(
+                                                    StateContainer.of(context)
+                                                        .recentSecondLast
+                                                        .address,
+                                                    StateContainer.of(context)
+                                                        .getNatriconNonce(
+                                                            StateContainer.of(
+                                                                    context)
+                                                                .recentSecondLast
+                                                                .address))),
                                                 placeholderBuilder:
                                                     (BuildContext context) =>
                                                         Container(
@@ -1355,26 +1407,30 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   StateContainer.of(context).curTheme.text60)),
                     ),
                     // Active Alerts
-                    StateContainer.of(context).highPriorityAlert != null ?
-                      Divider(
-                        height: 2,
-                        color: StateContainer.of(context).curTheme.text15,
-                      ): null,
-                    StateContainer.of(context).highPriorityAlert != null ?
-                      AppSettings.buildSettingsListItemDoubleLineTwo(
-                        context,
-                        AppLocalization.of(context).activeMessageHeader,
-                        StateContainer.of(context).highPriorityAlert.title,
-                        AppIcons.info,
-                        () => {
-                          Sheets.showAppHeightEightSheet(
-                            context: context,
-                            widget: RemoteMessageSheet(
-                              alert: StateContainer.of(context).highPriorityAlert,
-                            ),
+                    StateContainer.of(context).highPriorityAlert != null
+                        ? Divider(
+                            height: 2,
+                            color: StateContainer.of(context).curTheme.text15,
                           )
-                        },
-                      ): null,                      
+                        : null,
+                    StateContainer.of(context).highPriorityAlert != null
+                        ? AppSettings.buildSettingsListItemDoubleLineTwo(
+                            context,
+                            AppLocalization.of(context).activeMessageHeader,
+                            StateContainer.of(context).highPriorityAlert.title,
+                            AppIcons.info,
+                            () => {
+                              Sheets.showAppHeightEightSheet(
+                                context: context,
+                                widget: RemoteMessageSheet(
+                                  alert: StateContainer.of(context)
+                                      .highPriorityAlert,
+                                  hasDismissButton: false,
+                                ),
+                              )
+                            },
+                          )
+                        : null,
                     Divider(
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,
@@ -1433,11 +1489,11 @@ class _SettingsSheetState extends State<SettingsSheet>
                       color: StateContainer.of(context).curTheme.text15,
                     ),
                     AppSettings.buildSettingsListItemDoubleLine(
-                        context,
-                        AppLocalization.of(context).blockExplorer,
-                        StateContainer.of(context).curBlockExplorer,
-                        AppIcons.search,
-                        _explorerDialog,
+                      context,
+                      AppLocalization.of(context).blockExplorer,
+                      StateContainer.of(context).curBlockExplorer,
+                      AppIcons.search,
+                      _explorerDialog,
                     ),
                     Divider(
                       height: 2,
@@ -1754,7 +1810,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                               fontWeight: FontWeight.w100,
                               color:
                                   StateContainer.of(context).curTheme.text60)),
-                    ),                  
+                    ),
                     // Authentication Method
                     _hasBiometrics
                         ? Divider(

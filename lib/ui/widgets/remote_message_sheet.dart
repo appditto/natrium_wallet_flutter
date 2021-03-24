@@ -14,8 +14,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 class RemoteMessageSheet extends StatefulWidget {
   final AlertResponseItem alert;
+  final bool hasDismissButton;
 
-  RemoteMessageSheet({this.alert}) : super();
+  RemoteMessageSheet({this.alert, this.hasDismissButton = true}) : super();
 
   _RemoteMessageSheetStateState createState() =>
       _RemoteMessageSheetStateState();
@@ -191,7 +192,10 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                               context,
                               AppButtonType.PRIMARY,
                               AppLocalization.of(context).readMore,
-                              Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                              widget.hasDismissButton
+                                  ? Dimens.BUTTON_TOP_DIMENS
+                                  : Dimens.BUTTON_BOTTOM_DIMENS,
+                              onPressed: () async {
                             if (await canLaunch(widget.alert.link)) {
                               await launch(widget.alert.link);
                             }
@@ -199,20 +203,24 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                         ],
                       )
                     : SizedBox(),
-                Row(
-                  children: <Widget>[
-                    AppButton.buildAppButton(
-                        context,
-                        // Share Address Button
-                        AppButtonType.PRIMARY_OUTLINE,
-                        AppLocalization.of(context).dismiss,
-                        Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
-                      sl.get<SharedPrefsUtil>().dismissAlert(widget.alert);
-                      StateContainer.of(context).updateActiveAlert(null, widget.alert);
-                      Navigator.pop(context);
-                    }),
-                  ],
-                ),
+                widget.hasDismissButton
+                    ? Row(
+                        children: <Widget>[
+                          AppButton.buildAppButton(
+                              context,
+                              AppButtonType.PRIMARY_OUTLINE,
+                              AppLocalization.of(context).dismiss,
+                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                            sl
+                                .get<SharedPrefsUtil>()
+                                .dismissAlert(widget.alert);
+                            StateContainer.of(context)
+                                .updateActiveAlert(null, widget.alert);
+                            Navigator.pop(context);
+                          }),
+                        ],
+                      )
+                    : SizedBox()
               ],
             ),
           ],
