@@ -884,9 +884,7 @@ class _AppHomePageState extends State<AppHomePage>
     return Container(
       margin: EdgeInsetsDirectional.fromSTEB(14, 4, 14, 4),
       child: RemoteMessageCard(
-        title: alert.title,
-        shortDescription: alert.shortDescription,
-        timestamp: "1616611423",
+        alert: alert,
         onPressed: () {
           Sheets.showAppHeightEightSheet(
             context: context,

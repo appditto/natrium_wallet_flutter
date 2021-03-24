@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/network/model/response/alerts_response_item.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 
 class RemoteMessageCard extends StatefulWidget {
-  final String title;
-  final String shortDescription;
+  final AlertResponseItem alert;
+
   final Function onPressed;
-  final String timestamp;
 
   RemoteMessageCard({
-    this.title,
-    this.shortDescription,
-    this.timestamp,
+    this.alert,
     this.onPressed,
   });
 
@@ -49,25 +47,25 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
                   Row(
                     children: [
                       Text(DateTime.fromMicrosecondsSinceEpoch(
-                              int.parse(widget.timestamp) * 1000)
+                              int.parse("123123123123123") * 1000)
                           .toIso8601String()),
                     ],
                   ),
-                  widget.title != null
+                  widget.alert.title != null
                       ? Container(
                           child: Text(
-                            widget.title,
+                            widget.alert.title,
                             style: AppStyles.remoteMessageCardTitle(context),
                           ),
                         )
                       : SizedBox(),
-                  widget.shortDescription != null
+                  widget.alert.shortDescription != null
                       ? Container(
                           margin: EdgeInsetsDirectional.only(
                             top: 4,
                           ),
                           child: Text(
-                            widget.shortDescription,
+                            widget.alert.shortDescription,
                             style: AppStyles.remoteMessageCardShortDescription(
                                 context),
                           ),
