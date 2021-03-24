@@ -1529,6 +1529,7 @@ class _AppHomePageState extends State<AppHomePage>
                       color: StateContainer.of(context).curTheme.text,
                       size: 24,
                     ),
+                    !StateContainer.of(context).activeAlertIsRead ?
                     // Unread message dot
                     Positioned(
                       top: -3,
@@ -1550,7 +1551,7 @@ class _AppHomePageState extends State<AppHomePage>
                           width: 11,
                         ),
                       ),
-                    )
+                    ) : SizedBox()
                   ],
                 ),
               ),
