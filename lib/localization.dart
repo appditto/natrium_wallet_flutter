@@ -110,6 +110,10 @@ class AppLocalization {
     return Intl.message('Ignore', desc: 'ignore', name: 'ignore');
   }
 
+  String get dismiss {
+    return Intl.message('Dismiss', desc: 'dismiss', name: 'dismiss');
+  }
+
   String get addressShare {
     return Intl.message('Share Address',
         desc: 'receive_share_cta', name: 'addressShare');

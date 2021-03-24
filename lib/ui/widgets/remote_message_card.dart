@@ -52,10 +52,13 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
                           ),
                           child: Text(
                             DateTime.fromMillisecondsSinceEpoch(
-                                    widget.alert.timestamp)
-                                .toString(),
-                            style: AppStyles.remoteMessageCardShortDescription(
-                                context),
+                                        widget.alert.timestamp)
+                                    .toUtc()
+                                    .toString()
+                                    .substring(0, 16) +
+                                " UTC",
+                            style:
+                                AppStyles.remoteMessageCardTimestamp(context),
                           ),
                         )
                       : SizedBox(),

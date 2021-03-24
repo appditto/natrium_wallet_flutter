@@ -568,6 +568,15 @@ class AppStyles {
     );
   }
 
+  static TextStyle remoteMessageCardTimestamp(BuildContext context) {
+    return TextStyle(
+      fontSize: 12,
+      color: StateContainer.of(context).curTheme.text60,
+      fontFamily: 'NunitoSans',
+      fontWeight: FontWeight.w400,
+    );
+  }
+
   static TextStyle buttonTextBg(BuildContext context) {
     return TextStyle(
       fontSize: 18,
