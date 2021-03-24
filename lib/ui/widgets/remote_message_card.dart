@@ -44,6 +44,21 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  widget.alert.timestamp != null
+                      ? Container(
+                          margin: EdgeInsetsDirectional.only(
+                            top: 2,
+                            bottom: 2,
+                          ),
+                          child: Text(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                    widget.alert.timestamp)
+                                .toString(),
+                            style: AppStyles.remoteMessageCardShortDescription(
+                                context),
+                          ),
+                        )
+                      : SizedBox(),
                   widget.alert.title != null
                       ? Container(
                           margin: EdgeInsetsDirectional.only(

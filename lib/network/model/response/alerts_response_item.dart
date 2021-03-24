@@ -4,30 +4,43 @@ part 'alerts_response_item.g.dart';
 
 @JsonSerializable()
 class AlertResponseItem {
-  @JsonKey(name:'id')
+  @JsonKey(name: 'id')
   int id;
 
-  @JsonKey(name:'active')
+  @JsonKey(name: 'active')
   bool active;
 
-  @JsonKey(name:'priority')
+  @JsonKey(name: 'priority')
   String priority;
 
-  @JsonKey(name:'title')
+  @JsonKey(name: 'title')
   String title;
 
-  @JsonKey(name:'short_description')
+  @JsonKey(name: 'short_description')
   String shortDescription;
 
-  @JsonKey(name:'long_description')
+  @JsonKey(name: 'long_description')
   String longDescription;
 
-  @JsonKey(name:'link')
+  @JsonKey(name: 'link')
   String link;
 
-  AlertResponseItem({this.id, this.active, this.priority, this.title, this.shortDescription, this.longDescription, this.link});
+  @JsonKey(name: 'timestamp')
+  int timestamp;
 
-  factory AlertResponseItem.fromJson(Map<String, dynamic> json) => _$AlertResponseItemFromJson(json);
+  AlertResponseItem({
+    this.id,
+    this.active,
+    this.priority,
+    this.title,
+    this.shortDescription,
+    this.longDescription,
+    this.link,
+    this.timestamp,
+  });
+
+  factory AlertResponseItem.fromJson(Map<String, dynamic> json) =>
+      _$AlertResponseItemFromJson(json);
   Map<String, dynamic> toJson() => _$AlertResponseItemToJson(this);
 
   bool operator ==(o) => o is AlertResponseItem && o.id == id;
