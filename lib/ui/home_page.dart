@@ -33,6 +33,7 @@ import 'package:natrium_wallet_flutter/ui/settings/settings_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/remote_message_card.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/remote_message_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/list_slidable.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
@@ -452,21 +453,26 @@ class _AppHomePageState extends State<AppHomePage>
     if (hasRemoteMessage && index == 0) {
       return _buildRemoteMessageCard();
     } else {
+      int localIndex = hasRemoteMessage ? index - 1 : index;
       String displayName = smallScreen(context)
-          ? _historyListMap[StateContainer.of(context).wallet.address][index]
+          ? _historyListMap[StateContainer.of(context).wallet.address]
+                  [localIndex]
               .getShorterString()
-          : _historyListMap[StateContainer.of(context).wallet.address][index]
+          : _historyListMap[StateContainer.of(context).wallet.address]
+                  [localIndex]
               .getShortString();
       _contacts.forEach((contact) {
         if (contact.address ==
-            _historyListMap[StateContainer.of(context).wallet.address][index]
+            _historyListMap[StateContainer.of(context).wallet.address]
+                    [localIndex]
                 .account
                 .replaceAll("xrb_", "nano_")) {
           displayName = contact.name;
         }
       });
       return _buildTransactionCard(
-          _historyListMap[StateContainer.of(context).wallet.address][index],
+          _historyListMap[StateContainer.of(context).wallet.address]
+              [localIndex],
           animation,
           displayName,
           context);
@@ -870,13 +876,28 @@ class _AppHomePageState extends State<AppHomePage>
   }
 
   Widget _buildRemoteMessageCard() {
+    String title = "Regarding Nano Network";
+    String shortDescription =
+        "Due to ongoing spam on Nano network, your transactions might take a while to arrive.";
+    String longDescription =
+        "Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. \n\nDue to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive.\n\nDue to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive.\n\nDue to ongoing spam on Nano network, your transactions might take a while to arrive. Due to ongoing spam on Nano network, your transactions might take a while to arrive.";
+    String link = "https://appditto.com/blog";
     return Container(
       margin: EdgeInsetsDirectional.fromSTEB(14, 4, 14, 4),
       child: RemoteMessageCard(
-        title: "Regarding Nano Network",
-        paragraph:
-            "Due to ongoing spam on Nano network, your transactions might take a while to arrive.",
-        onPressed: () {},
+        title: title,
+        shortDescription: shortDescription,
+        onPressed: () {
+          Sheets.showAppHeightEightSheet(
+            context: context,
+            widget: RemoteMessageSheet(
+              title: title,
+              shortDescription: shortDescription,
+              longDescription: longDescription,
+              link: link,
+            ),
+          );
+        },
       ),
     );
   }
@@ -1042,14 +1063,17 @@ class _AppHomePageState extends State<AppHomePage>
                           ),
 
                           // TRANSACTION STATE TAG
-                          Container(
-                            margin: EdgeInsetsDirectional.only(
-                              top: 4,
-                            ),
-                            child: TransactionStateTag(
-                              transactionState: StateContainer.of(context).wallet.confirmationHeight < item.height ? TransactionStateOptions.PENDING : TransactionStateOptions.CONFIRMED
-                            ),
-                          ),
+                          StateContainer.of(context).wallet.confirmationHeight <
+                                  item.height
+                              ? Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                    top: 4,
+                                  ),
+                                  child: TransactionStateTag(
+                                      transactionState:
+                                          TransactionStateOptions.PENDING),
+                                )
+                              : SizedBox()
                         ],
                       ),
                     ),

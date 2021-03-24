@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 
 class RemoteMessageCard extends StatefulWidget {
   final String title;
-  final String paragraph;
+  final String shortDescription;
   final Function onPressed;
 
   RemoteMessageCard({
     this.title,
-    this.paragraph,
+    this.shortDescription,
     @required this.onPressed,
   });
 
@@ -53,15 +52,15 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
                           ),
                         )
                       : SizedBox(),
-                  widget.paragraph != null
+                  widget.shortDescription != null
                       ? Container(
                           margin: EdgeInsetsDirectional.only(
                             top: 4,
                           ),
                           child: Text(
-                            widget.paragraph,
-                            style:
-                                AppStyles.remoteMessageCardParagraph(context),
+                            widget.shortDescription,
+                            style: AppStyles.remoteMessageCardShortDescription(
+                                context),
                           ),
                         )
                       : SizedBox(),

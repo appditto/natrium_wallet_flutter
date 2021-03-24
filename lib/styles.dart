@@ -559,7 +559,7 @@ class AppStyles {
     );
   }
 
-  static TextStyle remoteMessageCardParagraph(BuildContext context) {
+  static TextStyle remoteMessageCardShortDescription(BuildContext context) {
     return TextStyle(
       fontSize: 14,
       color: StateContainer.of(context).curTheme.text,

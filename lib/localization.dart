@@ -77,6 +77,11 @@ class AppLocalization {
     return Intl.message('pending', desc: 'history_pending', name: 'pending');
   }
 
+  String get messageHeader {
+    return Intl.message('Message',
+        desc: 'message_header', name: 'messageHeader');
+  }
+
   String get transactions {
     return Intl.message('Transactions',
         desc: 'transaction_header', name: 'transactions');
@@ -90,6 +95,14 @@ class AppLocalization {
   String get copyAddress {
     return Intl.message('Copy Address',
         desc: 'receive_copy_cta', name: 'copyAddress');
+  }
+
+  String get readMore {
+    return Intl.message('Read More', desc: 'read_more', name: 'readMore');
+  }
+
+  String get ignore {
+    return Intl.message('Ignore', desc: 'ignore', name: 'ignore');
   }
 
   String get addressShare {
@@ -495,7 +508,7 @@ class AppLocalization {
 
   String get blockExplorer {
     return Intl.message("Block Explorer",
-      desc: 'settings_change_block_explorer', name: 'blockExplorer');
+        desc: 'settings_change_block_explorer', name: 'blockExplorer');
   }
 
   String get shareNatrium {
@@ -1205,7 +1218,8 @@ class AppLocalization {
     return 'https://nanocrawler.cc/explorer/block/$hash';
   }
 
-  String getAccountExplorerUrl(String account, AvailableBlockExplorer explorer) {
+  String getAccountExplorerUrl(
+      String account, AvailableBlockExplorer explorer) {
     if (explorer.explorer == AvailableBlockExplorerEnum.NANOLOOKER) {
       return 'https://nanolooker.com/account/$account';
     }
