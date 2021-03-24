@@ -204,6 +204,8 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                             if (await canLaunch(widget.alert.link)) {
                               await launch(widget.alert.link);
+                              await sl.get<SharedPrefsUtil>().markAlertRead(widget.alert);
+                              StateContainer.of(context).setAlertRead();
                             }
                           }),
                         ],

@@ -373,6 +373,15 @@ class SharedPrefsUtil {
     }
   }
 
+  Future<void> markAlertRead(AlertResponseItem alert) async {
+    await setWithExpiry("alertread_${alert.id}", alert.id, 30);
+  }
+
+  Future<bool> alertIsRead(AlertResponseItem alert) async {
+    int exists = await getWithExpiry("alertread_${alert.id}");
+    return exists == null ? false : true;
+  }
+
   Future<bool> shouldShowAlert(AlertResponseItem alert) async {
     int exists = await getWithExpiry("alert_${alert.id}");
     return exists == null ? true: false;

@@ -112,6 +112,7 @@ class StateContainerState extends State<StateContainer> {
   // Active alert
   AlertResponseItem activeAlert;
   AlertResponseItem settingsAlert;
+  bool activeAlertIsRead = true;
 
   // If callback is locked
   bool _locked = false;
@@ -150,7 +151,20 @@ class StateContainerState extends State<StateContainer> {
         this.settingsAlert = settingsAlert;
       } else {
         this.settingsAlert = null;
+        this.activeAlertIsRead = true;
       }
+    });
+  }
+
+  void setAlertRead() {
+    setState(() {
+      this.activeAlertIsRead = true;
+    });
+  }
+
+  void setAlertUnread() {
+    setState(() {
+      this.activeAlertIsRead = false;
     });
   }
 
@@ -164,14 +178,24 @@ class StateContainerState extends State<StateContainer> {
   Future<void> checkAndUpdateAlerts() async {
     // Get active alert
     try {
-      AlertResponseItem alert = await sl.get<AccountService>().getAlert(curLanguage.getLocaleString());
+      AlertResponseItem alert = await sl.get<AccountService>().getAlert((await sl.get<SharedPrefsUtil>().getLanguage()).getLocaleString());
       if (alert == null) {
         updateActiveAlert(null, null);
         return;
       } else if (await sl.get<SharedPrefsUtil>().shouldShowAlert(alert)) {
         // See if we should display this one again
+        if (alert.link == null || await sl.get<SharedPrefsUtil>().alertIsRead(alert)) {
+          setAlertRead();
+        } else {
+          setAlertUnread();
+        }
         updateActiveAlert(alert, alert);
       } else {
+        if (alert.link == null || await sl.get<SharedPrefsUtil>().alertIsRead(alert)) {
+          setAlertRead();
+        } else {
+          setAlertUnread();
+        }
         updateActiveAlert(null, alert);
       }
     } catch (e) {
