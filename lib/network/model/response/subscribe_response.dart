@@ -50,6 +50,9 @@ class SubscribeResponse {
   @JsonKey(name:'pending_count')
   int pendingCount;
 
+  @JsonKey(name: 'confirmation_height', nullable: false, fromJson: _toInt)
+  int confirmationHeight;
+
   SubscribeResponse();
 
   factory SubscribeResponse.fromJson(Map<String, dynamic> json) => _$SubscribeResponseFromJson(json);

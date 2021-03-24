@@ -474,6 +474,7 @@ class StateContainerState extends State<StateContainer> {
       wallet.representativeBlock = response.representativeBlock;
       wallet.openBlock = response.openBlock;
       wallet.blockCount = response.blockCount;
+      wallet.confirmationHeight = response.confirmationHeight;
       if (response.balance == null) {
         wallet.accountBalance = BigInt.from(0);
       } else {

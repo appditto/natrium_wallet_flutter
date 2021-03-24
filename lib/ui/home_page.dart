@@ -1047,7 +1047,7 @@ class _AppHomePageState extends State<AppHomePage>
                               top: 4,
                             ),
                             child: TransactionStateTag(
-                              transactionState: TransactionStateOptions.PENDING,
+                              transactionState: StateContainer.of(context).wallet.confirmationHeight < item.height ? TransactionStateOptions.PENDING : TransactionStateOptions.CONFIRMED
                             ),
                           ),
                         ],

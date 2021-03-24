@@ -5,6 +5,7 @@ import 'package:natrium_wallet_flutter/styles.dart';
 
 enum TransactionStateOptions {
   PENDING,
+  CONFIRMED
 }
 
 class TransactionStateTag extends StatelessWidget {

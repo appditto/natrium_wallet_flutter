@@ -19,12 +19,13 @@ class AppWallet {
   String _localCurrencyPrice;
   String _btcPrice;
   int _blockCount;
+  int confirmationHeight;
   List<AccountHistoryResponseItem> _history;
 
 
   AppWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
                 String representative, String localCurrencyPrice,String btcPrice, int blockCount,
-                List<AccountHistoryResponseItem> history, bool loading, bool historyLoading}) {
+                List<AccountHistoryResponseItem> history, bool loading, bool historyLoading, this.confirmationHeight = 0}) {
     this._address = address;
     this._accountBalance = accountBalance ?? BigInt.zero;
     this._frontier = frontier;
