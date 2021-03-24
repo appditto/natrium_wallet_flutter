@@ -27,7 +27,7 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       body: LayoutBuilder(

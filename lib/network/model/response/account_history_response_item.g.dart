@@ -13,6 +13,7 @@ AccountHistoryResponseItem _$AccountHistoryResponseItemFromJson(
     account: json['account'] as String,
     amount: json['amount'] as String,
     hash: json['hash'] as String,
+    height: _toInt(json['height'] as String),
   );
 }
 
@@ -23,4 +24,5 @@ Map<String, dynamic> _$AccountHistoryResponseItemToJson(
       'account': instance.account,
       'amount': instance.amount,
       'hash': instance.hash,
+      'height': instance.height,
     };

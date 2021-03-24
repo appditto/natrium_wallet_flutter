@@ -18,7 +18,7 @@ class _IntroWelcomePageState extends State<IntroWelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       body: LayoutBuilder(

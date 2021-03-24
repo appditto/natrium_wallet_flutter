@@ -47,7 +47,7 @@ class _IntroPasswordState extends State<IntroPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       body: TapOutsideUnfocus(
         child: LayoutBuilder(

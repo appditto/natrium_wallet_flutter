@@ -82,7 +82,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       body: LayoutBuilder(

@@ -277,7 +277,7 @@ class _PinScreenState extends State<PinScreen>
     }
 
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: Container(
         constraints: BoxConstraints.expand(),
         child: Material(

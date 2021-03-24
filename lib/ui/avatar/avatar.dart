@@ -64,7 +64,7 @@ class _AvatarPageState extends State<AvatarPage>
       animation: _controller,
       builder: (context, child) {
         return Scaffold(
-          resizeToAvoidBottomPadding: false,
+          resizeToAvoidBottomInset: false,
           backgroundColor: bgColorAnimation.value,
           key: _scaffoldKey,
           body: LayoutBuilder(

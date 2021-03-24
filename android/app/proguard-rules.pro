@@ -16,3 +16,5 @@
 -keep class io.realm.** { *; }
 ## Vault
 -keep class com.bottlerocketstudios.** { *; }
+## File picker
+-keep class androidx.lifecycle.DefaultLifecycleObserver

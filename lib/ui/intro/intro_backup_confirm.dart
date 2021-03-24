@@ -21,7 +21,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       body: LayoutBuilder(
         builder: (context, constraints) => SafeArea(

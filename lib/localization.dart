@@ -1207,7 +1207,7 @@ class AppLocalization {
 
   String getAccountExplorerUrl(String account, AvailableBlockExplorer explorer) {
     if (explorer.explorer == AvailableBlockExplorerEnum.NANOLOOKER) {
-      return 'https://nanolooker.com/account/$account'
+      return 'https://nanolooker.com/account/$account';
     }
     return 'https://nanocrawler.cc/explorer/account/$account';
   }

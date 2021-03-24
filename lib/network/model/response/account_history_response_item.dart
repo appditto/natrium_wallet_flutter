@@ -5,6 +5,8 @@ import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
 part 'account_history_response_item.g.dart';
 
+int _toInt(String v) => v == null ? 0 : int.tryParse(v);
+
 @JsonSerializable()
 class AccountHistoryResponseItem {
   @JsonKey(name:'type')
@@ -19,11 +21,15 @@ class AccountHistoryResponseItem {
   @JsonKey(name:'hash')
   String hash;
 
-  AccountHistoryResponseItem({String type, String account, String amount, String hash}) {
+  @JsonKey(name:'height', fromJson: _toInt)
+  int height;
+
+  AccountHistoryResponseItem({String type, String account, String amount, String hash, int height}) {
     this.type = type;
     this.account = account;
     this.amount = amount;
     this.hash = hash;
+    this.height = height;
   }
 
   String getShortString() {

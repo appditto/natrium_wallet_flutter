@@ -134,55 +134,66 @@ class _ContactsListState extends State<ContactsList> {
 
   Future<void> _importContacts() async {
     UIUtil.cancelLockEvent();
-    String filePath = await FilePicker.getFilePath(
-        type: FileType.custom, allowedExtensions: ["txt"]);
-    File f = File(filePath);
-    if (!await f.exists()) {
-      UIUtil.showSnackbar(
-          AppLocalization.of(context).contactsImportErr, context);
-      return;
-    }
-    try {
-      String contents = await f.readAsString();
-      Iterable contactsJson = json.decode(contents);
-      List<Contact> contacts = List();
-      List<Contact> contactsToAdd = List();
-      contactsJson.forEach((contact) {
-        contacts.add(Contact.fromJson(contact));
-      });
-      for (Contact contact in contacts) {
-        if (!await sl.get<DBHelper>().contactExistsWithName(contact.name) &&
-            !await sl
-                .get<DBHelper>()
-                .contactExistsWithAddress(contact.address)) {
-          // Contact doesnt exist, make sure name and address are valid
-          if (Address(contact.address).isValid()) {
-            if (contact.name.startsWith("@") && contact.name.length <= 20) {
-              contactsToAdd.add(contact);
+    FilePickerResult result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ["txt"]
+    );
+    if (result != null) {
+      File f = File(result.files.single.path);
+      if (!await f.exists()) {
+        UIUtil.showSnackbar(
+            AppLocalization.of(context).contactsImportErr, context);
+        return;
+      }
+      try {
+        String contents = await f.readAsString();
+        Iterable contactsJson = json.decode(contents);
+        List<Contact> contacts = List();
+        List<Contact> contactsToAdd = List();
+        contactsJson.forEach((contact) {
+          contacts.add(Contact.fromJson(contact));
+        });
+        for (Contact contact in contacts) {
+          if (!await sl.get<DBHelper>().contactExistsWithName(contact.name) &&
+              !await sl
+                  .get<DBHelper>()
+                  .contactExistsWithAddress(contact.address)) {
+            // Contact doesnt exist, make sure name and address are valid
+            if (Address(contact.address).isValid()) {
+              if (contact.name.startsWith("@") && contact.name.length <= 20) {
+                contactsToAdd.add(contact);
+              }
             }
           }
         }
-      }
-      // Save all the new contacts and update states
-      int numSaved = await sl.get<DBHelper>().saveContacts(contactsToAdd);
-      if (numSaved > 0) {
-        _updateContacts();
-        EventTaxiImpl.singleton().fire(
-            ContactModifiedEvent(contact: Contact(name: "", address: "")));
+        // Save all the new contacts and update states
+        int numSaved = await sl.get<DBHelper>().saveContacts(contactsToAdd);
+        if (numSaved > 0) {
+          _updateContacts();
+          EventTaxiImpl.singleton().fire(
+              ContactModifiedEvent(contact: Contact(name: "", address: "")));
+          UIUtil.showSnackbar(
+              AppLocalization.of(context)
+                  .contactsImportSuccess
+                  .replaceAll("%1", numSaved.toString()),
+              context);
+        } else {
+          UIUtil.showSnackbar(
+              AppLocalization.of(context).noContactsImport, context);
+        }
+      } catch (e) {
+        log.e(e.toString(), e);
         UIUtil.showSnackbar(
-            AppLocalization.of(context)
-                .contactsImportSuccess
-                .replaceAll("%1", numSaved.toString()),
-            context);
-      } else {
-        UIUtil.showSnackbar(
-            AppLocalization.of(context).noContactsImport, context);
+            AppLocalization.of(context).contactsImportErr, context);
+        return;
       }
-    } catch (e) {
-      log.e(e.toString(), e);
+    } else {
+      // Cancelled by user
+      log.e("FilePicker cancelled by user");
       UIUtil.showSnackbar(
           AppLocalization.of(context).contactsImportErr, context);
-      return;
+      return;        
     }
   }
 

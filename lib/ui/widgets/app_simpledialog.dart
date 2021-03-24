@@ -290,10 +290,11 @@ class AppAlertDialog extends StatelessWidget {
     }
 
     if (actions != null) {
-      children.add(ButtonTheme.bar(
+      children.add(ButtonBarTheme(
         child: ButtonBar(
           children: actions,
         ),
+        data: ButtonBarTheme.of(context)
       ));
     }
 
@@ -630,7 +631,7 @@ Future<T> showAppDialog<T>({
   return showGeneralDialog(
     context: context,
     pageBuilder: (BuildContext buildContext, Animation<double> animation, Animation<double> secondaryAnimation) {
-      final ThemeData theme = Theme.of(context, shadowThemeOnly: true);
+      final ThemeData theme = Theme.of(context);
       final Widget pageChild =  child ?? Builder(builder: builder);
       return SafeArea(
         child: Builder(

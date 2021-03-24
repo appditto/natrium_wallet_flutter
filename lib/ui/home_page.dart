@@ -709,7 +709,7 @@ class _AppHomePageState extends State<AppHomePage>
 
     return Scaffold(
       drawerEdgeDragWidth: 200,
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       backgroundColor: StateContainer.of(context).curTheme.background,
       drawer: SizedBox(
