@@ -50,7 +50,7 @@
   "sending": "Versturen",
   "to": "Naar",
   "sendAmountConfirm": "Verstuur %1 Nano",
-  "sendError": "Er ging iets fout. Probeer het a.u.b. nog een keer.",
+  "sendError": "Er is een fout opgetreden. Probeer het later nog eens.",
   "enterAmount": "Vul bedrag in",
   "enterAddress": "Vul adres in",
   "invalidAddress": "Ongeldige ontvanger",
@@ -223,5 +223,13 @@
   "liveSupportButton": "Ondersteuning",
   "connectingHeader": "Verbinden",
   "minimumSend": "Het minimum te verzenden bedrag is %1 NANO",
-  "natricon": "Natricon"
+  "natricon": "Natricon",
+  "pending": "in afwachting",
+  "unconfirmed": "onbevestigd",
+  "messageHeader": "Bericht",
+  "readMore": "Lees meer",
+  "ignore": "Negeren",
+  "dismiss": "Afwijzen",
+  "activeMessageHeader": "Actief bericht",
+  "blockExplorer": "Blok verkenner"
 }

@@ -223,5 +223,13 @@
   "liveSupportButton": "Bantuan",
   "connectingHeader": "Menghubungkan",
   "minimumSend": "Jumlah minimal pengiriman adalah %1 NANO",
-  "natricon": "Natricon"
+  "natricon": "Natricon",
+  "pending": "tertunda",
+  "unconfirmed": "belum dikonfirmasi",
+  "messageHeader": "Pesan",
+  "readMore": "Baca Selengkapnya",
+  "ignore": "Abaikan",
+  "dismiss": "Memberhentikan",
+  "activeMessageHeader": "Pesan Aktif",
+  "blockExplorer": "Penjelajah Blok"
 }

@@ -50,7 +50,7 @@
   "sending": "Sende",
   "to": "An",
   "sendAmountConfirm": "%1 NANO senden?",
-  "sendError": "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.",
+  "sendError": "Ein Fehler ist aufgetreten. Versuche es später erneut.",
   "enterAmount": "Betrag eingeben",
   "enterAddress": "Adresse eingeben",
   "invalidAddress": "Ungültige Empfänger-Adresse",
@@ -223,5 +223,13 @@
   "liveSupportButton": "Support",
   "connectingHeader": "Verbindet",
   "minimumSend": "Der Mindest-Sendebetrag beträgt %1 NANO",
-  "natricon": "Natricon"
+  "natricon": "Natricon",
+  "pending": "ausstehend",
+  "unconfirmed": "unbestätigt",
+  "messageHeader": "Nachricht",
+  "readMore": "Mehr Infos",
+  "ignore": "Ignorieren",
+  "dismiss": "Schließen",
+  "activeMessageHeader": "Aktive Nachricht",
+  "blockExplorer": "Block Explorer"
 }

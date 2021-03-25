@@ -50,7 +50,7 @@
   "sending": "Sender",
   "to": "Til",
   "sendAmountConfirm": "Insend %1 NANO",
-  "sendError": "Der opstod en fejl. Prøv igen senere.",
+  "sendError": "En fejl opstod. Prøv igen senere.",
   "enterAmount": "Indtast beløb",
   "enterAddress": "Indtast adresse",
   "invalidAddress": "Den indtastede adresse er ugyldig",
@@ -223,5 +223,13 @@
   "liveSupportButton": "Support",
   "connectingHeader": "Tilslutning",
   "minimumSend": "Mindste overførsel er %1 NANO",
-  "natricon": "Natricon"
+  "natricon": "Natricon",
+  "pending": "afventer",
+  "unconfirmed": "ubekræftet",
+  "messageHeader": "Besked",
+  "readMore": "Læs mere",
+  "ignore": "Ignorere",
+  "dismiss": "Afskedige",
+  "activeMessageHeader": "Aktiv besked",
+  "blockExplorer": "Bloker Explorer"
 }

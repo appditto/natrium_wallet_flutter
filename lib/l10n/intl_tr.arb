@@ -50,7 +50,7 @@
   "sending": "Miktar",
   "to": "Adres",
   "sendAmountConfirm": "%1 Nano gönder?",
-  "sendError": "Bir hata oluştu. Daha sonra tekrar deneyin.",
+  "sendError": "Bir hata oluştu. Daha sonra tekrar dene.",
   "enterAmount": "Miktar Gir",
   "enterAddress": "Adres Gir",
   "invalidAddress": "Geçersiz bir adres girdiniz",
@@ -221,5 +221,15 @@
   "exampleCardFromKal": "rastgele bir maymundan",
   "newAccountIntroKal": "Bu senin yeni hesabın. Hesabına BANANO geldiğinde işlemlerin aşağıdaki gibi görünecek.",
   "liveSupportButton": "Destek",
-  "connectingHeader": "Bağlanıyor"
+  "connectingHeader": "Bağlanıyor",
+  "minimumSend": "Minimumu Nano yollama miktarı %1",
+  "natricon": "Natricon",
+  "pending": "beklemede",
+  "unconfirmed": "onaylanmamış",
+  "messageHeader": "Mesaj",
+  "readMore": "Detaylı Bilgi",
+  "ignore": "Yoksay",
+  "dismiss": "Yoksay",
+  "activeMessageHeader": "Aktif Mesaj",
+  "blockExplorer": "Blok Tarayacı"
 }

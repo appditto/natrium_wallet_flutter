@@ -50,7 +50,7 @@
   "sending": "Sedang dihantarkan",
   "to": "Ke",
   "sendAmountConfirm": "Hantar %1 Nano?",
-  "sendError": "Sesuatu kesilapan telah berlaku. Sila cuba lagi.",
+  "sendError": "Berlaku ralat. Cuba lagi nanti.",
   "enterAmount": "Masukan Amaun",
   "enterAddress": "Masukan Alamat",
   "invalidAddress": "Alamat destinasi tidak sah",
@@ -223,5 +223,13 @@
   "liveSupportButton": "Sokongan",
   "connectingHeader": "Menyambung",
   "minimumSend": "Jumlah minimum penghantaran adalah %1 NANO",
-  "natricon": "Natricon"
+  "natricon": "Natricon",
+  "pending": "belum selesai",
+  "unconfirmed": "tidak disahkan",
+  "messageHeader": "Mesej",
+  "readMore": "Baca Lagi",
+  "ignore": "Abai",
+  "dismiss": "Ketepikan",
+  "activeMessageHeader": "Mesej Aktif",
+  "blockExplorer": "Blok Penjelajah"
 }
