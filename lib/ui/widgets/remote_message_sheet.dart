@@ -83,11 +83,11 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsetsDirectional.fromSTEB(24, 8, 24, 8),
+                padding: EdgeInsetsDirectional.fromSTEB(28, 8, 28, 8),
                 child: Stack(
                   children: [
                     SingleChildScrollView(
-                      padding: EdgeInsetsDirectional.only(top: 12, bottom: 48),
+                      padding: EdgeInsetsDirectional.only(top: 12, bottom: 36),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -172,7 +172,7 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        height: 48.0,
+                        height: 36.0,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(

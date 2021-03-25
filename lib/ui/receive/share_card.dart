@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
@@ -172,8 +173,22 @@ class _AppShareCardState extends State<AppShareCard> {
                               height: 25.44,
                               margin: EdgeInsetsDirectional.only(top: 1.44545),
                               child: SvgPicture.network(
-                                UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address)),
-                                key: Key(UIUtil.getNatriconURL(StateContainer.of(context).selectedAccount.address, StateContainer.of(context).getNatriconNonce(StateContainer.of(context).selectedAccount.address))),
+                                UIUtil.getNatriconURL(
+                                    StateContainer.of(context)
+                                        .selectedAccount
+                                        .address,
+                                    StateContainer.of(context).getNatriconNonce(
+                                        StateContainer.of(context)
+                                            .selectedAccount
+                                            .address)),
+                                key: Key(UIUtil.getNatriconURL(
+                                    StateContainer.of(context)
+                                        .selectedAccount
+                                        .address,
+                                    StateContainer.of(context).getNatriconNonce(
+                                        StateContainer.of(context)
+                                            .selectedAccount
+                                            .address))),
                                 placeholderBuilder: (BuildContext context) =>
                                     // Logo
                                     Center(
@@ -244,17 +259,10 @@ class _AppShareCardState extends State<AppShareCard> {
                         // Currency Icon
                         Container(
                           width: 29,
-                          child: AutoSizeText(
-                            "  ",
-                            style: TextStyle(
-                              color:
-                                  StateContainer.of(context).curTheme.primary,
-                              fontFamily: "AppIcons",
-                              fontWeight: FontWeight.w500,
-                            ),
-                            minFontSize: 0.1,
-                            stepGranularity: 0.1,
-                            maxLines: 1,
+                          child: Icon(
+                            AppIcons.nanohorizontal,
+                            color: StateContainer.of(context).curTheme.primary,
+                            size: 13,
                           ),
                         ),
                         Container(
