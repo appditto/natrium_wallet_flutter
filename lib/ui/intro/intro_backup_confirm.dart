@@ -144,7 +144,7 @@ class _IntroBackupConfirmState extends State<IntroBackupConfirm> {
     await sl.get<SharedPrefsUtil>().setSeedBackedUp(true);
     await sl.get<Vault>().writePin(pin);
     PriceConversion conversion = await sl.get<SharedPrefsUtil>().getPriceConversion();
-
+    StateContainer.of(context).requestSubscribe();
     Navigator.of(context)
         .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false, arguments: conversion);
   }

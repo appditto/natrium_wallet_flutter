@@ -175,6 +175,7 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
   void _pinEnteredCallback(String pin) async {
     await sl.get<Vault>().writePin(pin);
     PriceConversion conversion = await sl.get<SharedPrefsUtil>().getPriceConversion();
+    StateContainer.of(context).requestSubscribe();
     // Update wallet
     Navigator.of(context)
         .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false, arguments: conversion);
