@@ -307,7 +307,7 @@ class _AppHomePageState extends State<AppHomePage>
     });
   }
 
-  StreamSubscription<SubscribeEvent> _subscribeEventSub;
+  StreamSubscription<ConfirmationHeightChangedEvent> _confirmEventSub;
   StreamSubscription<HistoryHomeEvent> _historySub;
   StreamSubscription<ContactModifiedEvent> _contactModifiedSub;
   StreamSubscription<DisableLockTimeoutEvent> _disableLockSub;
@@ -349,6 +349,7 @@ class _AppHomePageState extends State<AppHomePage>
         StateContainer.of(context).wallet.historyLoading = true;
         _startAnimation();
         StateContainer.of(context).updateWallet(account: event.account);
+        currentConfHeight = -1;
       });
       paintQrCode(address: event.account.address);
       if (event.delayPop) {
@@ -360,9 +361,9 @@ class _AppHomePageState extends State<AppHomePage>
       }
     });
     // Handle subscribe
-    _subscribeEventSub =
-        EventTaxiImpl.singleton().registerTo<SubscribeEvent>().listen((event) {
-      handleSubscribeResponse(event.response);
+    _confirmEventSub =
+        EventTaxiImpl.singleton().registerTo<ConfirmationHeightChangedEvent>().listen((event) {
+      updateConfirmationHeights(event.confirmationHeight);
     });    
   }
 
@@ -387,25 +388,26 @@ class _AppHomePageState extends State<AppHomePage>
     if (_switchAccountSub != null) {
       _switchAccountSub.cancel();
     }
-    if (_subscribeEventSub != null) {
-      _subscribeEventSub.cancel();
+    if (_confirmEventSub != null) {
+      _confirmEventSub.cancel();
     }
   }
 
-  void handleSubscribeResponse(SubscribeResponse resp) {
-    updateConfirmationHeights(resp.confirmationHeight);
-  }
+  int currentConfHeight = -1;
 
   void updateConfirmationHeights(int confirmationHeight) {
+    setState(() {
+      currentConfHeight = confirmationHeight;
+    });
     if (!_historyListMap.containsKey(StateContainer.of(context).wallet.address)) {
       return;
     }
     List<int> unconfirmedUpdate = List();
     List<int> confirmedUpdate = List();
     for (int i = 0; i < _historyListMap[StateContainer.of(context).wallet.address].items.length; i++) {
-      if (_historyListMap[StateContainer.of(context).wallet.address][i].confirmed && confirmationHeight < _historyListMap[StateContainer.of(context).wallet.address][i].height) {
+      if ((_historyListMap[StateContainer.of(context).wallet.address][i].confirmed == null || _historyListMap[StateContainer.of(context).wallet.address][i].confirmed) && _historyListMap[StateContainer.of(context).wallet.address][i].height != null && confirmationHeight < _historyListMap[StateContainer.of(context).wallet.address][i].height) {
         unconfirmedUpdate.add(i);
-      } else if (!_historyListMap[StateContainer.of(context).wallet.address][i].confirmed && confirmationHeight >= _historyListMap[StateContainer.of(context).wallet.address][i].height) {
+      } else if ((_historyListMap[StateContainer.of(context).wallet.address][i].confirmed == null || !_historyListMap[StateContainer.of(context).wallet.address][i].confirmed) && _historyListMap[StateContainer.of(context).wallet.address][i].height != null && confirmationHeight >= _historyListMap[StateContainer.of(context).wallet.address][i].height) {
         confirmedUpdate.add(i);
       }
     }
@@ -1129,7 +1131,7 @@ class _AppHomePageState extends State<AppHomePage>
                           ),
 
                           // TRANSACTION STATE TAG
-                          !item.confirmed
+                          (item.confirmed != null && !item.confirmed) || (currentConfHeight > -1 && item.height != null && item.height > currentConfHeight)
                               ? Container(
                                   margin: EdgeInsetsDirectional.only(
                                     top: 4,

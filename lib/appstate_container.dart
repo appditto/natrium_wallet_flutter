@@ -528,6 +528,8 @@ class StateContainerState extends State<StateContainer> {
     if (response.uuid != null) {
       sl.get<SharedPrefsUtil>().setUuid(response.uuid);
     }
+    EventTaxiImpl.singleton()
+        .fire(ConfirmationHeightChangedEvent(confirmationHeight: response.confirmationHeight));
     setState(() {
       wallet.loading = false;
       wallet.frontier = response.frontier;

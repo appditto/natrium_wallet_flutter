@@ -27,7 +27,7 @@ class AccountHistoryResponseItem {
   @JsonKey(ignore: true)
   bool confirmed;
 
-  AccountHistoryResponseItem({String type, String account, String amount, String hash, int height, this.confirmed = true}) {
+  AccountHistoryResponseItem({String type, String account, String amount, String hash, int height, this.confirmed}) {
     this.type = type;
     this.account = account;
     this.amount = amount;
