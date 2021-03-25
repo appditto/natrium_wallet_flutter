@@ -24,7 +24,10 @@ class AccountHistoryResponseItem {
   @JsonKey(name:'height', fromJson: _toInt)
   int height;
 
-  AccountHistoryResponseItem({String type, String account, String amount, String hash, int height}) {
+  @JsonKey(ignore: true)
+  bool confirmed;
+
+  AccountHistoryResponseItem({String type, String account, String amount, String hash, int height, this.confirmed = true}) {
     this.type = type;
     this.account = account;
     this.amount = amount;

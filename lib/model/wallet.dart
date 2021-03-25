@@ -25,7 +25,7 @@ class AppWallet {
 
   AppWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
                 String representative, String localCurrencyPrice,String btcPrice, int blockCount,
-                List<AccountHistoryResponseItem> history, bool loading, bool historyLoading, this.confirmationHeight = 0}) {
+                List<AccountHistoryResponseItem> history, bool loading, bool historyLoading, this.confirmationHeight = -1}) {
     this._address = address;
     this._accountBalance = accountBalance ?? BigInt.zero;
     this._frontier = frontier;
