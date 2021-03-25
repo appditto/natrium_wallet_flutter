@@ -441,6 +441,9 @@ class StateContainerState extends State<StateContainer> {
 
   // Change language
   void updateLanguage(LanguageSetting language) {
+    if (language != null && curLanguage != null && curLanguage.language != language.language) {
+      checkAndUpdateAlerts();
+    }
     setState(() {
       curLanguage = language;
     });

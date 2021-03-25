@@ -51,7 +51,7 @@ class LanguageSetting extends SettingSelectionItem {
       case AvailableLanguage.FRENCH:
         return "Français (fr)";
       case AvailableLanguage.DANISH:
-        return "Dansk (dk)";        
+        return "Dansk (da)";        
       case AvailableLanguage.GERMAN:
         return "Deutsch (de)";
       case AvailableLanguage.SPANISH:
