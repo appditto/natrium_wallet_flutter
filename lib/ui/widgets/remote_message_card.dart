@@ -62,7 +62,10 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
               widget.alert.title != null
                   ? Container(
                       margin: EdgeInsetsDirectional.only(
-                        bottom: 4,
+                        bottom: widget.alert.shortDescription != null &&
+                                (widget.showDesc || widget.alert.title == null)
+                            ? 4
+                            : 0,
                       ),
                       child: Text(
                         widget.alert.title,
