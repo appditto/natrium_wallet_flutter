@@ -8,11 +8,15 @@ class RemoteMessageCard extends StatefulWidget {
   final AlertResponseItem alert;
   final Function onPressed;
   final bool showDesc;
+  final bool showTimestamp;
+  final bool hasBg;
 
   RemoteMessageCard({
     this.alert,
     this.onPressed,
     this.showDesc = true,
+    this.showTimestamp = true,
+    this.hasBg = true,
   });
 
   _RemoteMessageCardState createState() => _RemoteMessageCardState();
@@ -23,7 +27,9 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: StateContainer.of(context).curTheme.success.withOpacity(0.1),
+        color: widget.hasBg
+            ? StateContainer.of(context).curTheme.success.withOpacity(0.06)
+            : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           width: 2,
@@ -43,22 +49,6 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              widget.alert.timestamp != null
-                  ? Container(
-                      margin: EdgeInsetsDirectional.only(
-                        bottom: 4,
-                      ),
-                      child: Text(
-                        DateTime.fromMillisecondsSinceEpoch(
-                                    widget.alert.timestamp)
-                                .toUtc()
-                                .toString()
-                                .substring(0, 16) +
-                            " UTC",
-                        style: AppStyles.remoteMessageCardTimestamp(context),
-                      ),
-                    )
-                  : SizedBox(),
               widget.alert.title != null
                   ? Container(
                       margin: EdgeInsetsDirectional.only(
@@ -83,6 +73,34 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
                         widget.alert.shortDescription,
                         style: AppStyles.remoteMessageCardShortDescription(
                             context),
+                      ),
+                    )
+                  : SizedBox(),
+              widget.alert.timestamp != null && widget.showTimestamp
+                  ? Container(
+                      margin: EdgeInsetsDirectional.only(
+                        top: 6,
+                        bottom: 2,
+                      ),
+                      padding: EdgeInsetsDirectional.only(
+                          start: 10, end: 10, top: 2, bottom: 2),
+                      decoration: BoxDecoration(
+                        color: StateContainer.of(context).curTheme.text05,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(100),
+                        ),
+                        border: Border.all(
+                          color: StateContainer.of(context).curTheme.text10,
+                        ),
+                      ),
+                      child: Text(
+                        DateTime.fromMillisecondsSinceEpoch(
+                                    widget.alert.timestamp)
+                                .toUtc()
+                                .toString()
+                                .substring(0, 16) +
+                            " UTC",
+                        style: AppStyles.remoteMessageCardTimestamp(context),
                       ),
                     )
                   : SizedBox(),

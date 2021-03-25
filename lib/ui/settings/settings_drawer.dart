@@ -1401,10 +1401,12 @@ class _SettingsSheetState extends State<SettingsSheet>
                     StateContainer.of(context).settingsAlert != null
                         ? Container(
                             padding: EdgeInsetsDirectional.only(
-                                start: 12, end: 12, bottom: 20),
+                              start: 12,
+                              end: 12,
+                              bottom: 20,
+                            ),
                             child: RemoteMessageCard(
                               alert: StateContainer.of(context).settingsAlert,
-                              showDesc: false,
                               onPressed: () {
                                 Sheets.showAppHeightEightSheet(
                                   context: context,

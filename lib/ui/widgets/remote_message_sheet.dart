@@ -87,7 +87,7 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                 child: Stack(
                   children: [
                     SingleChildScrollView(
-                      padding: EdgeInsetsDirectional.only(top: 12, bottom: 36),
+                      padding: EdgeInsetsDirectional.only(top: 12, bottom: 48),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -96,19 +96,20 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                                   margin: EdgeInsetsDirectional.only(
                                       top: 2, bottom: 6),
                                   padding: EdgeInsetsDirectional.only(
-                                      start: 6, end: 6, top: 2, bottom: 2),
+                                      start: 10, end: 10, top: 2, bottom: 2),
                                   decoration: BoxDecoration(
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .text05,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(100),
+                                    ),
+                                    border: Border.all(
                                       color: StateContainer.of(context)
                                           .curTheme
-                                          .text05,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(4),
-                                      ),
-                                      border: Border.all(
-                                        color: StateContainer.of(context)
-                                            .curTheme
-                                            .text10,
-                                      )),
+                                          .text10,
+                                    ),
+                                  ),
                                   child: Text(
                                     DateTime.fromMillisecondsSinceEpoch(
                                                 widget.alert.timestamp)
@@ -171,7 +172,7 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
-                        height: 36.0,
+                        height: 48.0,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -204,7 +205,9 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                               Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                             if (await canLaunch(widget.alert.link)) {
                               await launch(widget.alert.link);
-                              await sl.get<SharedPrefsUtil>().markAlertRead(widget.alert);
+                              await sl
+                                  .get<SharedPrefsUtil>()
+                                  .markAlertRead(widget.alert);
                               StateContainer.of(context).setAlertRead();
                             }
                           }),
