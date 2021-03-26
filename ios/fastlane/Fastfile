@@ -113,7 +113,8 @@ platform :ios do
         skip_screenshots: true,
         submit_for_review: true,
         force: true,
-        ipa: ENV['IPA_PATH']
+        ipa: ENV['IPA_PATH'],
+        precheck_include_in_app_purchases: false
       )
     end
   end

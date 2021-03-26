@@ -1,0 +1,4 @@
+- Indicate whether a transaction is unconfirmed or not
+- Allow changing default block explorer
+- Show relevant alerts regarding Nano or Natrium
+- Add Danish Translation
