@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:devicelocale/devicelocale.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
+import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/model/available_block_explorer.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';
 import 'package:event_taxi/event_taxi.dart';
@@ -96,7 +98,8 @@ class StateContainerState extends State<StateContainer> {
   Locale deviceLocale = Locale('en', 'US');
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
   LanguageSetting curLanguage = LanguageSetting(AvailableLanguage.DEFAULT);
-  AvailableBlockExplorer curBlockExplorer = AvailableBlockExplorer(AvailableBlockExplorerEnum.NANOCRAWLER);
+  AvailableBlockExplorer curBlockExplorer =
+      AvailableBlockExplorer(AvailableBlockExplorerEnum.NANOCRAWLER);
   BaseTheme curTheme = NatriumTheme();
   // Currently selected account
   Account selectedAccount =
@@ -144,7 +147,8 @@ class StateContainerState extends State<StateContainer> {
     });
   }
 
-  void updateActiveAlert(AlertResponseItem active, AlertResponseItem settingsAlert) {
+  void updateActiveAlert(
+      AlertResponseItem active, AlertResponseItem settingsAlert) {
     setState(() {
       this.activeAlert = active;
       if (settingsAlert != null) {
@@ -178,20 +182,32 @@ class StateContainerState extends State<StateContainer> {
   Future<void> checkAndUpdateAlerts() async {
     // Get active alert
     try {
-      AlertResponseItem alert = await sl.get<AccountService>().getAlert((await sl.get<SharedPrefsUtil>().getLanguage()).getLocaleString());
+      String localeString =
+          (await sl.get<SharedPrefsUtil>().getLanguage()).getLocaleString();
+      if (localeString == "DEFAULT") {
+        List<Locale> languageLocales =
+            await Devicelocale.preferredLanguagesAsLocales;
+        if (languageLocales.length > 0) {
+          localeString = languageLocales[0].languageCode;
+        }
+      }
+      AlertResponseItem alert =
+          await sl.get<AccountService>().getAlert(localeString);
       if (alert == null) {
         updateActiveAlert(null, null);
         return;
       } else if (await sl.get<SharedPrefsUtil>().shouldShowAlert(alert)) {
         // See if we should display this one again
-        if (alert.link == null || await sl.get<SharedPrefsUtil>().alertIsRead(alert)) {
+        if (alert.link == null ||
+            await sl.get<SharedPrefsUtil>().alertIsRead(alert)) {
           setAlertRead();
         } else {
           setAlertUnread();
         }
         updateActiveAlert(alert, alert);
       } else {
-        if (alert.link == null || await sl.get<SharedPrefsUtil>().alertIsRead(alert)) {
+        if (alert.link == null ||
+            await sl.get<SharedPrefsUtil>().alertIsRead(alert)) {
           setAlertRead();
         } else {
           setAlertUnread();
@@ -248,7 +264,7 @@ class StateContainerState extends State<StateContainer> {
       setState(() {
         curBlockExplorer = explorer;
       });
-    });    
+    });
     // Get initial deep link
     getInitialLink().then((initialLink) {
       setState(() {
@@ -441,7 +457,9 @@ class StateContainerState extends State<StateContainer> {
 
   // Change language
   void updateLanguage(LanguageSetting language) {
-    if (language != null && curLanguage != null && curLanguage.language != language.language) {
+    if (language != null &&
+        curLanguage != null &&
+        curLanguage.language != language.language) {
       checkAndUpdateAlerts();
     }
     setState(() {
@@ -531,8 +549,8 @@ class StateContainerState extends State<StateContainer> {
     if (response.uuid != null) {
       sl.get<SharedPrefsUtil>().setUuid(response.uuid);
     }
-    EventTaxiImpl.singleton()
-        .fire(ConfirmationHeightChangedEvent(confirmationHeight: response.confirmationHeight));
+    EventTaxiImpl.singleton().fire(ConfirmationHeightChangedEvent(
+        confirmationHeight: response.confirmationHeight));
     setState(() {
       wallet.loading = false;
       wallet.frontier = response.frontier;
