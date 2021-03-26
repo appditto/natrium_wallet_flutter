@@ -142,6 +142,9 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                                     widget.alert.longDescription != null
                                         ? widget.alert.longDescription
                                         : widget.alert.shortDescription,
+                                    style: AppStyles
+                                        .remoteMessageCardShortDescription(
+                                            context),
                                   ),
                                 )
                               : SizedBox(),
