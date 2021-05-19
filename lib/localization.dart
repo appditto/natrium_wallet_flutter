@@ -344,6 +344,11 @@ class AppLocalization {
         name: 'mantaError');
   }
 
+  String get handoffPaymentFailed {
+    return Intl.message("Handoff payment failed or rejected by the service",
+        desc: 'Payment has failed or been rejected', name: 'handoffPaymentFailed');
+  }
+
   String get handoffAlreadyCompleted {
     return Intl.message("Payment has already been made",
         desc: '(Error) one-time handoff payment has already been made', name: 'handoffAlreadyCompleted');

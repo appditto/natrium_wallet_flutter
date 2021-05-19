@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-05-19T19:32:02.181328",
+  "@@last_modified": "2021-05-19T20:51:40.125321",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -369,6 +369,12 @@
   "mantaError": "Couldn't Verify Request",
   "@mantaError": {
     "description": "Was unable to verify the manta/appia payment request (from scanning QR code, etc.)",
+    "type": "text",
+    "placeholders": {}
+  },
+  "handoffPaymentFailed": "Handoff payment failed or rejected by the service",
+  "@handoffPaymentFailed": {
+    "description": "Payment has failed or been rejected",
     "type": "text",
     "placeholders": {}
   },

@@ -51,7 +51,7 @@ extension HandoffStatusExt on HandoffStatus {
       case HandoffStatus.block_already_associated:
         return localization.handoffAlreadyCompleted;
       default:
-        return localization.sendError;
+        return localization.handoffPaymentFailed;
     }
   }
 }
