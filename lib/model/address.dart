@@ -1,17 +1,22 @@
 import 'dart:core';
+
 import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
+import 'package:logger/logger.dart';
+import 'package:natrium_wallet_flutter/model/handoff/handoff_spec.dart';
+
+import '../service_locator.dart';
 
 // Object to represent an account address or address URI, and provide useful utilities
 class Address {
   String _address;
   String _amount;
+  String _handoffData;
 
   Address(String value) {
     _parseAddressString(value);
   }
 
   String get address => _address;
-
   String get amount => _amount;
 
   String getShortString() {
@@ -28,6 +33,19 @@ class Address {
         _address.substring(_address.length - 4);
   }
 
+  /// Returns the handoff payment spec encoded in the URI, or null if not
+  /// provided or if the spec/data is invalid.
+  HandoffPaymentSpec getHandoffPaymentSpec() {
+    if (_handoffData == null) return null;
+    try {
+      return HandoffPaymentSpec.fromBase64(_handoffData,
+          altAddr: address, altAmount: amount);
+    } catch (e) {
+      sl.get<Logger>().w("Invalid handoff spec in nano URI", e);
+      return null;
+    }
+  }
+
   bool isValid() {
     return _address == null
         ? false
@@ -36,17 +54,19 @@ class Address {
 
   void _parseAddressString(String value) {
     if (value != null) {
-      value = value.toLowerCase();
       _address = NanoAccounts.findAccountInString(
-          NanoAccountType.NANO, value.replaceAll("\n", ""));
+          NanoAccountType.NANO, value.toLowerCase().replaceAll("\n", ""));
       var split = value.split(':');
       if (split.length > 1) {
         Uri uri = Uri.tryParse(value);
-        if (uri != null && uri.queryParameters['amount'] != null) {
-          BigInt amount = BigInt.tryParse(uri.queryParameters['amount']);
-          if (amount != null) {
-            _amount = amount.toString();
+        if (uri != null) {
+          if (uri.queryParameters['amount'] != null) {
+            BigInt amount = BigInt.tryParse(uri.queryParameters['amount']);
+            if (amount != null) {
+              _amount = amount.toString();
+            }
           }
+          _handoffData = uri.queryParameters['handoff'];
         }
       }
     }

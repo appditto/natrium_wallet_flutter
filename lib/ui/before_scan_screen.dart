@@ -14,7 +14,7 @@ class _BeforeScanScreenState extends State<BeforeScanScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 150), () async {
-      String scanResult = await UserDataUtil.getQRData(DataType.MANTA_ADDRESS, context);
+      String scanResult = await UserDataUtil.getQRData(DataType.PAYMENT_DESTINATION, context);
       Navigator.pop(context, scanResult);
     });
   }

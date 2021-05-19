@@ -344,6 +344,26 @@ class AppLocalization {
         name: 'mantaError');
   }
 
+  String get handoffFailure {
+    return Intl.message("Payment handoff failed",
+        desc: 'Handoff payment failed or rejected', name: 'handoffFailure');
+  }
+
+  String get handoffAlreadyCompleted {
+    return Intl.message("Handoff already completed",
+        desc: '(Error) one-time handoff payment has already been made', name: 'handoffAlreadyCompleted');
+  }
+
+  String get handoffExpired {
+    return Intl.message("Payment expired",
+        desc: 'Handoff payment has expired', name: 'handoffExpired');
+  }
+
+  String get usingHandoffNotice {
+    return Intl.message("via %1 handoff",
+        desc: 'Payment will be processed "via {https} handoff"', name: 'usingHandoffNotice');
+  }
+
   String get enterAmount {
     return Intl.message("Enter Amount",
         desc: 'send_amount_hint', name: 'enterAmount');

@@ -11,6 +11,16 @@ class AppStyles {
         color: StateContainer.of(context).curTheme.text);
   }
 
+  // Text style for paragraph text with italics.
+  static TextStyle textStyleParagraphQuote(BuildContext context) {
+    return TextStyle(
+        fontFamily: "NunitoSans",
+        fontSize: AppFontSizes.medium,
+        fontWeight: FontWeight.w300,
+        fontStyle: FontStyle.italic,
+        color: StateContainer.of(context).curTheme.text);
+  }
+
   // Text style for paragraph text with primary color.
   static TextStyle textStyleParagraphPrimary(BuildContext context) {
     return TextStyle(

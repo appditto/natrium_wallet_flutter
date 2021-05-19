@@ -2,42 +2,38 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-import 'package:natrium_wallet_flutter/network/model/response/alerts_response_item.dart';
-import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
-import 'package:logger/logger.dart';
-import 'package:natrium_wallet_flutter/model/wallet.dart';
-import 'package:natrium_wallet_flutter/network/model/block_types.dart';
-import 'package:natrium_wallet_flutter/network/model/request/account_info_request.dart';
-import 'package:natrium_wallet_flutter/network/model/request/block_info_request.dart';
-import 'package:natrium_wallet_flutter/network/model/response/account_info_response.dart';
-import 'package:natrium_wallet_flutter/service_locator.dart';
-
-import 'package:web_socket_channel/io.dart';
-import 'package:package_info/package_info.dart';
 import 'package:event_taxi/event_taxi.dart';
-import 'package:synchronized/synchronized.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:logger/logger.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/model/state_block.dart';
 import 'package:natrium_wallet_flutter/network/model/base_request.dart';
-import 'package:natrium_wallet_flutter/network/model/request_item.dart';
-import 'package:natrium_wallet_flutter/network/model/request/subscribe_request.dart';
+import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 import 'package:natrium_wallet_flutter/network/model/request/account_history_request.dart';
+import 'package:natrium_wallet_flutter/network/model/request/account_info_request.dart';
 import 'package:natrium_wallet_flutter/network/model/request/accounts_balances_request.dart';
+import 'package:natrium_wallet_flutter/network/model/request/block_info_request.dart';
 import 'package:natrium_wallet_flutter/network/model/request/pending_request.dart';
 import 'package:natrium_wallet_flutter/network/model/request/process_request.dart';
+import 'package:natrium_wallet_flutter/network/model/request/subscribe_request.dart';
+import 'package:natrium_wallet_flutter/network/model/request_item.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response.dart';
-import 'package:natrium_wallet_flutter/network/model/response/block_info_item.dart';
-import 'package:natrium_wallet_flutter/network/model/response/error_response.dart';
-import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
+import 'package:natrium_wallet_flutter/network/model/response/account_info_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/accounts_balances_response.dart';
+import 'package:natrium_wallet_flutter/network/model/response/alerts_response_item.dart';
+import 'package:natrium_wallet_flutter/network/model/response/block_info_item.dart';
 import 'package:natrium_wallet_flutter/network/model/response/callback_response.dart';
-import 'package:natrium_wallet_flutter/network/model/response/subscribe_response.dart';
-import 'package:natrium_wallet_flutter/network/model/response/price_response.dart';
+import 'package:natrium_wallet_flutter/network/model/response/error_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/pending_response.dart';
+import 'package:natrium_wallet_flutter/network/model/response/price_response.dart';
 import 'package:natrium_wallet_flutter/network/model/response/process_response.dart';
-import 'package:natrium_wallet_flutter/bus/events.dart';
+import 'package:natrium_wallet_flutter/network/model/response/subscribe_response.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
+import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:package_info/package_info.dart';
+import 'package:synchronized/synchronized.dart';
+import 'package:web_socket_channel/io.dart';
 
 // Server Connection String
 const String _SERVER_ADDRESS = "wss://app.natrium.io";
@@ -465,7 +461,7 @@ class AccountService {
     return await requestProcess(processRequest);
   }
 
-  Future<ProcessResponse> requestSend(String representative, String previous,
+  Future<StateBlock> constructSendBlock(String representative, String previous,
       String sendAmount, String link, String account, String privKey,
       {bool max = false}) async {
     StateBlock sendBlock = StateBlock(
@@ -485,6 +481,14 @@ class AccountService {
     sendBlock.representative = previousBlock.representative;
     sendBlock.setBalance(previousBlock.balance);
     await sendBlock.sign(privKey);
+    return sendBlock;
+  }
+
+  Future<ProcessResponse> requestSend(String representative, String previous,
+      String sendAmount, String link, String account, String privKey,
+      {bool max = false}) async {
+    StateBlock sendBlock = await constructSendBlock(
+        representative, previous, sendAmount, link, account, privKey);
 
     // Process
     ProcessRequest processRequest = ProcessRequest(

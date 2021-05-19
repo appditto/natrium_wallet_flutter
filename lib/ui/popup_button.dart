@@ -15,6 +15,7 @@ import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
+import 'package:natrium_wallet_flutter/util/handoff.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/manta.dart';
 import 'package:natrium_wallet_flutter/util/user_data_util.dart';
@@ -55,53 +56,72 @@ class _AppPopupButtonState extends State<AppPopupButton> {
     // Parse scan data and route appropriately
     if (scanResult == null) {
       UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
-    } else if (!QRScanErrs.ERROR_LIST.contains(scanResult) &&  MantaWallet.parseUrl(scanResult) != null) {
-      try {
-        _showMantaAnimation();
-        // Get manta payment request
-        MantaWallet manta = MantaWallet(scanResult);
-        PaymentRequestMessage paymentRequest = await MantaUtil.getPaymentDetails(manta);
-        if (animationOpen) {
-          Navigator.of(context).pop();
-        }
-        MantaUtil.processPaymentRequest(context, manta, paymentRequest);
-      } catch (e) {
-        if (animationOpen) {
-          Navigator.of(context).pop();
-        }
-        UIUtil.showSnackbar(AppLocalization.of(context).mantaError, context);
-      }
     } else if (!QRScanErrs.ERROR_LIST.contains(scanResult)) {
-      // Is a URI
-      Address address = Address(scanResult);
-      if (address.address == null) {
-        UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
-      } else {
-        // See if this address belongs to a contact
-        Contact contact = await sl.get<DBHelper>().getContactWithAddress(address.address);
-        // If amount is present, fill it and go to SendConfirm
-        BigInt amountBigInt = address.amount != null ? BigInt.tryParse(address.amount) : null;
-        if (amountBigInt != null && amountBigInt < BigInt.from(10).pow(24)) {
-          UIUtil.showSnackbar(AppLocalization.of(context).minimumSend.replaceAll("%1", "0.000001"), context);
-        } else if (amountBigInt != null && StateContainer.of(context).wallet.accountBalance > amountBigInt) {
-          // Go to confirm sheet
-          Sheets.showAppHeightNineSheet(
-            context: context,
-            widget: SendConfirmSheet(
-                      amountRaw: address.amount,
-                      destination: contact != null ? contact.address : address.address,
-                      contactName: contact != null ? contact.name : null)
-          );
+      if (MantaWallet.parseUrl(scanResult) != null) {
+        // Manta URI scheme
+        try {
+          _showMantaAnimation();
+          // Get manta payment request
+          MantaWallet manta = MantaWallet(scanResult);
+          PaymentRequestMessage paymentRequest = await MantaUtil.getPaymentDetails(manta);
+          if (animationOpen) {
+            Navigator.of(context).pop();
+          }
+          MantaUtil.processPaymentRequest(context, manta, paymentRequest);
+        } catch (e) {
+          if (animationOpen) {
+            Navigator.of(context).pop();
+          }
+          UIUtil.showSnackbar(AppLocalization.of(context).mantaError, context);
+        }
+      } else if (HandoffUtil.matchesUri(scanResult)) {
+        // Handoff URI scheme
+        var handoffSpec = HandoffUtil.parseUri(scanResult);
+        var handoffChannel = handoffSpec?.getPreferredChannel();
+        if (handoffChannel != null) {
+          // Valid handoff spec with supported channel
+          HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
         } else {
-          // Go to send sheet
-          Sheets.showAppHeightNineSheet(
-            context: context,
-            widget: SendSheet(
-              localCurrency: StateContainer.of(context).curCurrency,
-              contact: contact,
-              address: contact != null ? contact.address : address.address
-            )
-          );            
+          UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+        }
+      } else {
+        // Address (may have handoff encoded in URI)
+        var address = Address(scanResult);
+        var handoffSpec = address.getHandoffPaymentSpec();
+        var handoffChannel = handoffSpec?.getPreferredChannel();
+        if (handoffChannel != null) {
+          // Valid handoff spec with supported channel
+          HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
+        } else if (address.address != null) {
+          // Address (fallback if handoff invalid or unsupported)
+          // See if this address belongs to a contact
+          Contact contact = await sl.get<DBHelper>().getContactWithAddress(address.address);
+          // If amount is present, fill it and go to SendConfirm
+          BigInt amountBigInt = address.amount != null ? BigInt.tryParse(address.amount) : null;
+          if (amountBigInt != null && amountBigInt < BigInt.from(10).pow(24)) {
+            UIUtil.showSnackbar(AppLocalization.of(context).minimumSend.replaceAll("%1", "0.000001"), context);
+          } else if (amountBigInt != null && StateContainer.of(context).wallet.accountBalance > amountBigInt) {
+            // Go to confirm sheet
+            Sheets.showAppHeightNineSheet(
+              context: context,
+              widget: SendConfirmSheet(
+                        amountRaw: address.amount,
+                        destination: contact != null ? contact.address : address.address,
+                        contactName: contact != null ? contact.name : null)
+            );
+          } else {
+            // Go to send sheet
+            Sheets.showAppHeightNineSheet(
+              context: context,
+              widget: SendSheet(
+                localCurrency: StateContainer.of(context).curCurrency,
+                contact: contact,
+                address: contact != null ? contact.address : address.address
+              )
+            );
+          }
+        } else {
+          UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
         }
       }
     }

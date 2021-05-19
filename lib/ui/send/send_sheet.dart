@@ -14,6 +14,8 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/model/available_currency.dart';
+import 'package:natrium_wallet_flutter/model/handoff/handoff_channels.dart';
+import 'package:natrium_wallet_flutter/model/handoff/handoff_spec.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
@@ -28,6 +30,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/one_or_three_address_text.dart
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
+import 'package:natrium_wallet_flutter/util/handoff.dart';
 import 'package:natrium_wallet_flutter/util/manta.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
@@ -39,12 +42,16 @@ class SendSheet extends StatefulWidget {
   final Contact contact;
   final String address;
   final String quickSendAmount;
+  final HandoffPaymentSpec handoffPaymentSpec;
+  final HandoffChannel handoffChannel;
 
   SendSheet(
       {@required this.localCurrency,
       this.contact,
       this.address,
-      this.quickSendAmount})
+      this.quickSendAmount,
+      this.handoffPaymentSpec,
+      this.handoffChannel})
       : super();
 
   _SendSheetState createState() => _SendSheetState();
@@ -76,11 +83,16 @@ class _SendSheetState extends State<SendSheet> {
   // Buttons States (Used because we hide the buttons under certain conditions)
   bool _pasteButtonVisible = true;
   bool _showContactButton = true;
+  // Disallow editing of address field when using special payment scheme (handoff)
+  bool _sendAddressEditable = true;
   // Local currency mode/fiat conversion
   bool _localCurrencyMode = false;
   String _lastLocalCurrencyAmount = "";
   String _lastCryptoAmount = "";
   NumberFormat _localCurrencyFormat;
+  // Payment handoff objects (null if not using handoff)
+  HandoffPaymentSpec _handoffPaymentSpec;
+  HandoffChannel _handoffChannel;
 
   String _rawAmount;
 
@@ -95,20 +107,19 @@ class _SendSheetState extends State<SendSheet> {
     _contacts = List();
     quickSendAmount = widget.quickSendAmount;
     this.animationOpen = false;
-    if (widget.contact != null) {
+    if (widget.handoffPaymentSpec != null) {
+      // Handoff state
+      _updateStateFromEntry(
+        handoffSpec: widget.handoffPaymentSpec,
+        handoffChannel: widget.handoffChannel,
+        doSetState: false
+      );
+    } else if (widget.contact != null) {
       // Setup initial state for contact pre-filled
-      _sendAddressController.text = widget.contact.name;
-      _isContact = true;
-      _showContactButton = false;
-      _pasteButtonVisible = false;
-      _sendAddressStyle = AddressStyle.PRIMARY;
+      _updateStateFromEntry(contact: widget.contact, doSetState: false);
     } else if (widget.address != null) {
       // Setup initial state with prefilled address
-      _sendAddressController.text = widget.address;
-      _showContactButton = false;
-      _pasteButtonVisible = false;
-      _sendAddressStyle = AddressStyle.TEXT90;
-      _addressValidAndUnfocused = true;
+      _updateStateFromEntry(address: widget.address, doSetState: false);
     }
     // On amount focus change
     _sendAmountFocusNode.addListener(() {
@@ -138,21 +149,23 @@ class _SendSheetState extends State<SendSheet> {
     // On address focus change
     _sendAddressFocusNode.addListener(() {
       if (_sendAddressFocusNode.hasFocus) {
-        setState(() {
-          _addressHint = null;
-          _addressValidAndUnfocused = false;
-        });
-        _sendAddressController.selection = TextSelection.fromPosition(
-            TextPosition(offset: _sendAddressController.text.length));
-        if (_sendAddressController.text.startsWith("@")) {
-          sl
-              .get<DBHelper>()
-              .getContactsWithNameLike(_sendAddressController.text)
-              .then((contactList) {
-            setState(() {
-              _contacts = contactList;
-            });
+        if (_sendAddressEditable) {
+          setState(() {
+            _addressHint = null;
+            _addressValidAndUnfocused = false;
           });
+          _sendAddressController.selection = TextSelection.fromPosition(
+              TextPosition(offset: _sendAddressController.text.length));
+          if (_sendAddressController.text.startsWith("@")) {
+            sl
+                .get<DBHelper>()
+                .getContactsWithNameLike(_sendAddressController.text)
+                .then((contactList) {
+              setState(() {
+                _contacts = contactList;
+              });
+            });
+          }
         }
       } else {
         setState(() {
@@ -192,6 +205,13 @@ class _SendSheetState extends State<SendSheet> {
 
   @override
   Widget build(BuildContext context) {
+    // Preprocess state
+    if (!_sendAddressEditable) {
+      _pasteButtonVisible = false;
+      _showContactButton = false;
+      _addressValidAndUnfocused = true;
+    }
+
     // The main column that holds everything
     return SafeArea(
         minimum:
@@ -513,57 +533,29 @@ class _SendSheetState extends State<SendSheet> {
                           context,
                           AppButtonType.PRIMARY,
                           AppLocalization.of(context).send,
-                          Dimens.BUTTON_TOP_DIMENS, onPressed: () {
-                        bool validRequest = _validateRequest();
-                        if (_sendAddressController.text.startsWith("@") &&
-                            validRequest) {
-                          // Need to make sure its a valid contact
-                          sl
-                              .get<DBHelper>()
-                              .getContactWithName(_sendAddressController.text)
-                              .then((contact) {
-                            if (contact == null) {
-                              setState(() {
-                                _addressValidationText =
-                                    AppLocalization.of(context).contactInvalid;
-                              });
-                            } else {
-                              Sheets.showAppHeightNineSheet(
-                                  context: context,
-                                  widget: SendConfirmSheet(
-                                      amountRaw: _localCurrencyMode
-                                          ? NumberUtil.getAmountAsRaw(
-                                              _convertLocalCurrencyToCrypto())
-                                          : _rawAmount == null
-                                              ? NumberUtil.getAmountAsRaw(
-                                                  _sendAmountController.text)
-                                              : _rawAmount,
-                                      destination: contact.address,
-                                      contactName: contact.name,
-                                      maxSend: _isMaxSend(),
-                                      localCurrency: _localCurrencyMode
-                                          ? _sendAmountController.text
-                                          : null));
+                          Dimens.BUTTON_TOP_DIMENS,
+                          onPressed: () {
+                            if (_validateRequest()) {
+                              if (_sendAddressController.text.startsWith("@")) {
+                                // Need to make sure its a valid contact
+                                sl
+                                    .get<DBHelper>()
+                                    .getContactWithName(_sendAddressController.text)
+                                    .then((contact) {
+                                  if (contact == null) {
+                                    setState(() {
+                                      _addressValidationText =
+                                          AppLocalization.of(context).contactInvalid;
+                                    });
+                                  } else {
+                                    _showSendConfirmSheet(contact: contact);
+                                  }
+                                });
+                              } else {
+                                _showSendConfirmSheet();
+                              }
                             }
-                          });
-                        } else if (validRequest) {
-                          Sheets.showAppHeightNineSheet(
-                              context: context,
-                              widget: SendConfirmSheet(
-                                  amountRaw: _localCurrencyMode
-                                      ? NumberUtil.getAmountAsRaw(
-                                          _convertLocalCurrencyToCrypto())
-                                      : _rawAmount == null
-                                          ? NumberUtil.getAmountAsRaw(
-                                              _sendAmountController.text)
-                                          : _rawAmount,
-                                  destination: _sendAddressController.text,
-                                  maxSend: _isMaxSend(),
-                                  localCurrency: _localCurrencyMode
-                                      ? _sendAmountController.text
-                                      : null));
-                        }
-                      }),
+                          }),
                     ],
                   ),
                   Row(
@@ -576,7 +568,7 @@ class _SendSheetState extends State<SendSheet> {
                           Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () async {
                         UIUtil.cancelLockEvent();
                         String scanResult = await UserDataUtil.getQRData(
-                            DataType.MANTA_ADDRESS, context);
+                            DataType.PAYMENT_DESTINATION, context);
                         if (scanResult == null) {
                           UIUtil.showSnackbar(
                               AppLocalization.of(context).qrInvalidAddress,
@@ -599,99 +591,76 @@ class _SendSheetState extends State<SendSheet> {
                             if (animationOpen) {
                               Navigator.of(context).pop();
                             }
-                            log.e(
-                                'Failed to make manta request ${e.toString()}',
-                                e);
+                            log.e('Failed to make manta request ${e.toString()}', e);
                             UIUtil.showSnackbar(
                                 AppLocalization.of(context).mantaError,
                                 context);
                           }
-                        } else {
-                          // Is a URI
-                          Address address = Address(scanResult);
-                          // See if this address belongs to a contact
-                          Contact contact = await sl
-                              .get<DBHelper>()
-                              .getContactWithAddress(address.address);
-                          if (contact == null) {
-                            // Not a contact
-                            if (mounted) {
-                              setState(() {
-                                _isContact = false;
-                                _addressValidationText = "";
-                                _sendAddressStyle = AddressStyle.TEXT90;
-                                _pasteButtonVisible = false;
-                                _showContactButton = false;
-                              });
-                              _sendAddressController.text = address.address;
-                              _sendAddressFocusNode.unfocus();
-                              setState(() {
-                                _addressValidAndUnfocused = true;
-                              });
-                            }
+                        } else if (HandoffUtil.matchesUri(scanResult)) {
+                          // Handoff URI scheme
+                          var handoffSpec = HandoffUtil.parseUri(scanResult);
+                          var handoffChannel = handoffSpec?.getPreferredChannel();
+                          if (handoffChannel != null) {
+                            _handleHandoffEntry(handoffSpec, handoffChannel);
                           } else {
-                            // Is a contact
-                            if (mounted) {
-                              setState(() {
-                                _isContact = true;
-                                _addressValidationText = "";
-                                _sendAddressStyle = AddressStyle.PRIMARY;
-                                _pasteButtonVisible = false;
-                                _showContactButton = false;
-                              });
-                              _sendAddressController.text = contact.name;
-                            }
+                            UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
                           }
-                          // If amount is present, fill it and go to SendConfirm
-                          if (address.amount != null) {
-                            bool hasError = false;
-                            BigInt amountBigInt = BigInt.tryParse(address.amount);
-                            if (amountBigInt != null && amountBigInt < BigInt.from(10).pow(24)) {
-                              hasError = true;
-                              UIUtil.showSnackbar(AppLocalization.of(context).minimumSend.replaceAll("%1", "0.000001"), context);                            
-                            } else if (_localCurrencyMode && mounted) {
-                              toggleLocalCurrency();
-                              _sendAmountController.text =
-                                  NumberUtil.getRawAsUsableString(
-                                      address.amount);
-                            } else if (mounted) {
-                              setState(() {
-                                _rawAmount = address.amount;
-                                // If raw amount has more precision than we support show a special indicator
-                                if (NumberUtil.getRawAsUsableString(_rawAmount).replaceAll(",", "") ==
-                                    NumberUtil.getRawAsUsableDecimal(_rawAmount).toString()) {
-                                  _sendAmountController.text = NumberUtil.getRawAsUsableString(_rawAmount).replaceAll(",", "");
-                                } else {
-                                  _sendAmountController.text = 
-                                    NumberUtil.truncateDecimal(
-                                      NumberUtil.getRawAsUsableDecimal(address.amount),
-                                      digits: 6
-                                    ).toStringAsFixed(6) + "~";
-                                }
-                              });
-                              _sendAddressFocusNode.unfocus();
+                        } else {
+                          // Address (may have handoff encoded in URI)
+                          var address = Address(scanResult);
+                          var handoffSpec = address.getHandoffPaymentSpec();
+                          var handoffChannel = handoffSpec?.getPreferredChannel();
+                          if (handoffChannel != null) {
+                            // Valid handoff spec with supported channel
+                            _handleHandoffEntry(handoffSpec, handoffChannel);
+                          } else {
+                            // Address (fallback if handoff invalid or unsupported)
+                            // See if this address belongs to a contact
+                            Contact contact = await sl
+                                .get<DBHelper>()
+                                .getContactWithAddress(address.address);
+                            if (contact == null) {
+                              // Not a contact
+                              _updateStateFromEntry(address: address.address);
+                            } else {
+                              // Is a contact
+                              _updateStateFromEntry(contact: contact);
                             }
-                            if (!hasError) {
-                              // Go to confirm sheet
-                              Sheets.showAppHeightNineSheet(
-                                  context: context,
-                                  widget: SendConfirmSheet(
-                                      amountRaw: _localCurrencyMode
-                                          ? NumberUtil.getAmountAsRaw(
-                                              _convertLocalCurrencyToCrypto())
-                                          : _rawAmount == null
-                                              ? NumberUtil.getAmountAsRaw(
-                                                  _sendAmountController.text)
-                                              : _rawAmount,
-                                      destination: contact != null
-                                          ? contact.address
-                                          : address.address,
-                                      contactName:
-                                          contact != null ? contact.name : null,
-                                      maxSend: _isMaxSend(),
-                                      localCurrency: _localCurrencyMode
-                                          ? _sendAmountController.text
-                                          : null));
+                            // If amount is present, fill it and go to SendConfirm
+                            if (address.amount != null) {
+                              bool hasError = false;
+                              BigInt amountBigInt = BigInt.tryParse(address.amount);
+                              if (amountBigInt != null && amountBigInt < BigInt.from(10).pow(24)) {
+                                hasError = true;
+                                UIUtil.showSnackbar(AppLocalization.of(context).minimumSend.replaceAll("%1", "0.000001"), context);
+                              } else if (_localCurrencyMode && mounted) {
+                                toggleLocalCurrency();
+                                _sendAmountController.text =
+                                    NumberUtil.getRawAsUsableString(
+                                        address.amount);
+                              } else if (mounted) {
+                                setState(() {
+                                  _rawAmount = address.amount;
+                                  // If raw amount has more precision than we support show a special indicator
+                                  if (NumberUtil.getRawAsUsableString(_rawAmount).replaceAll(",", "") ==
+                                      NumberUtil.getRawAsUsableDecimal(_rawAmount).toString()) {
+                                    _sendAmountController.text = NumberUtil.getRawAsUsableString(_rawAmount).replaceAll(",", "");
+                                  } else {
+                                    _sendAmountController.text =
+                                      NumberUtil.truncateDecimal(
+                                        NumberUtil.getRawAsUsableDecimal(address.amount),
+                                        digits: 6
+                                      ).toStringAsFixed(6) + "~";
+                                  }
+                                });
+                                _sendAddressFocusNode.unfocus();
+                              }
+                              if (!hasError) {
+                                _showSendConfirmSheet(
+                                  destination: address.address,
+                                  contact: contact
+                                );
+                              }
                             }
                           }
                         }
@@ -703,6 +672,72 @@ class _SendSheetState extends State<SendSheet> {
             ),
           ],
         ));
+  }
+
+
+  /// Update state from QR scan entry
+  void _updateStateFromEntry({Contact contact, String address,
+        HandoffPaymentSpec handoffSpec, HandoffChannel handoffChannel,
+        bool doSetState = true}) {
+    // Preprocess
+    address ??= handoffSpec?.destinationAddress ?? contact?.address;
+    bool isHandoff = handoffSpec != null;
+    bool isContact = contact != null;
+    bool isEmpty = contact == null && address == null;
+
+    // Update state values
+    _isContact = isContact;
+    _sendAddressStyle = _isContact ? AddressStyle.PRIMARY : AddressStyle.TEXT90;
+    _pasteButtonVisible = isEmpty;
+    _showContactButton = isEmpty;
+    _rawAmount = null;
+    _sendAddressEditable = !isHandoff;
+    _handoffPaymentSpec = handoffSpec;
+    _handoffChannel = handoffChannel;
+    _addressValidationText = "";
+    _amountValidationText = "";
+    _sendAmountController.text = "";
+    _sendAddressController.text = contact?.name ?? address ?? "";
+    if (mounted && doSetState) setState(() {});
+    _sendAddressFocusNode.unfocus();
+    _addressValidAndUnfocused = !isContact;
+    if (mounted && doSetState) setState(() {});
+  }
+
+  /// Update the state to use the handoff (or jump directly to confirm sheet)
+  void _handleHandoffEntry(HandoffPaymentSpec paymentSpec, HandoffChannel channel) {
+    if (paymentSpec.reusable) {
+      _updateStateFromEntry(
+        handoffSpec: paymentSpec,
+        handoffChannel: channel
+      );
+    } else {
+      // Fixed amount, jump directly to confirm sheet
+      HandoffUtil.handlePayment(context, paymentSpec, channel);
+    }
+  }
+
+  /// Show the confirmation sheet. Must validate inputs before calling.
+  void _showSendConfirmSheet({String destination, Contact contact}) {
+    Sheets.showAppHeightNineSheet(
+        context: context,
+        widget: SendConfirmSheet(
+            amountRaw: _localCurrencyMode
+                ? NumberUtil.getAmountAsRaw(_convertLocalCurrencyToCrypto())
+                : _rawAmount
+                ?? NumberUtil.getAmountAsRaw(_sendAmountController.text),
+            destination:
+                _handoffPaymentSpec?.destinationAddress
+                ?? contact?.address
+                ?? destination
+                ?? _sendAddressController.text,
+            contactName: contact?.name,
+            maxSend: _isMaxSend(),
+            localCurrency: _localCurrencyMode
+                ? _sendAmountController.text
+                : null,
+            handoffPaymentSpec: _handoffPaymentSpec,
+            handoffChannel: _handoffChannel));
   }
 
   String _convertLocalCurrencyToCrypto() {
@@ -895,6 +930,12 @@ class _SendSheetState extends State<SendSheet> {
           _amountValidationText =
               AppLocalization.of(context).insufficientBalance;
         });
+      } else if (_handoffPaymentSpec != null && sendAmount < _handoffPaymentSpec.amount) {
+        isValid = false;
+        setState(() {
+          _amountValidationText = AppLocalization.of(context).minimumSend
+              .replaceAll("%1", NumberUtil.getRawAsUsableString(_handoffPaymentSpec.amount.toString()));
+        });
       }
     }
     // Validate address
@@ -1078,28 +1119,10 @@ class _SendSheetState extends State<SendSheet> {
                     .getContactWithAddress(address.address)
                     .then((contact) {
                   if (contact == null) {
-                    setState(() {
-                      _isContact = false;
-                      _addressValidationText = "";
-                      _sendAddressStyle = AddressStyle.TEXT90;
-                      _pasteButtonVisible = false;
-                      _showContactButton = false;
-                    });
-                    _sendAddressController.text = address.address;
-                    _sendAddressFocusNode.unfocus();
-                    setState(() {
-                      _addressValidAndUnfocused = true;
-                    });
+                    _updateStateFromEntry(address: address.address);
                   } else {
                     // Is a contact
-                    setState(() {
-                      _isContact = true;
-                      _addressValidationText = "";
-                      _sendAddressStyle = AddressStyle.PRIMARY;
-                      _pasteButtonVisible = false;
-                      _showContactButton = false;
-                    });
-                    _sendAddressController.text = contact.name;
+                    _updateStateFromEntry(contact: contact);
                   }
                 });
               }

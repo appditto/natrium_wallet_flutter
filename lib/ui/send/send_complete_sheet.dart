@@ -17,10 +17,11 @@ class SendCompleteSheet extends StatefulWidget {
   final String destination;
   final String contactName;
   final String localAmount;
+  final String message;
   final PaymentRequestMessage paymentRequest;
   final int natriconNonce;
 
-  SendCompleteSheet({this.amountRaw, this.destination, this.contactName, this.localAmount, this.paymentRequest, this.natriconNonce}) : super();  
+  SendCompleteSheet({this.amountRaw, this.destination, this.contactName, this.localAmount, this.message, this.paymentRequest, this.natriconNonce});
 
   _SendCompleteSheetState createState() => _SendCompleteSheetState();
 }
@@ -80,6 +81,25 @@ class _SendCompleteSheetState extends State<SendCompleteSheet> {
                             .curTheme
                             .success),
                   ),
+                  // Container for the (optional) message
+                  if (widget.message != null)
+                    Container(
+                      margin: EdgeInsets.only(
+                          bottom: 35,
+                          left: MediaQuery.of(context).size.width * 0.1,
+                          right: MediaQuery.of(context).size.width * 0.1),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                              widget.message,
+                              style: AppStyles.textStyleParagraphQuote(context),
+                              textAlign: TextAlign.center,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis
+                          ),
+                        ],
+                      ),
+                    ),
                   // Container for the Amount Text
                   Container(
                     margin: EdgeInsets.only(

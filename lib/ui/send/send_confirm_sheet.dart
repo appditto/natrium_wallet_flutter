@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:manta_dart/manta_wallet.dart';
 import 'package:manta_dart/messages.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
@@ -12,6 +13,9 @@ import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
+import 'package:natrium_wallet_flutter/model/handoff/handoff_channels.dart';
+import 'package:natrium_wallet_flutter/model/handoff/handoff_response.dart';
+import 'package:natrium_wallet_flutter/model/handoff/handoff_spec.dart';
 import 'package:natrium_wallet_flutter/network/account_service.dart';
 import 'package:natrium_wallet_flutter/network/model/response/process_response.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
@@ -41,6 +45,8 @@ class SendConfirmSheet extends StatefulWidget {
   final bool maxSend;
   final MantaWallet manta;
   final PaymentRequestMessage paymentRequest;
+  final HandoffPaymentSpec handoffPaymentSpec;
+  final HandoffChannel handoffChannel;
   final int natriconNonce;
 
   SendConfirmSheet(
@@ -50,6 +56,8 @@ class SendConfirmSheet extends StatefulWidget {
       this.localCurrency,
       this.manta,
       this.paymentRequest,
+      this.handoffPaymentSpec,
+      this.handoffChannel,
       this.natriconNonce,
       this.maxSend = false})
       : super();
@@ -62,6 +70,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
   String destinationAltered;
   bool animationOpen;
   bool isMantaTransaction;
+  bool isHandoff;
 
   StreamSubscription<AuthenticatedEvent> _authSub;
 
@@ -87,6 +96,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
     _registerBus();
     this.animationOpen = false;
     this.isMantaTransaction = widget.manta != null && widget.paymentRequest != null;
+    this.isHandoff = widget.handoffPaymentSpec != null && widget.handoffChannel != null;
     // Derive amount from raw amount
     if (NumberUtil.getRawAsUsableString(widget.amountRaw).replaceAll(",", "") ==
         NumberUtil.getRawAsUsableDecimal(widget.amountRaw).toString()) {
@@ -301,6 +311,22 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                           : UIUtil.threeLineAddressText(
                               context, destinationAltered,
                               contactName: widget.contactName)),
+                  // "via handoff" text
+                  if (isHandoff)
+                    Container(
+                      margin: EdgeInsets.only(top: 20.0, bottom: 10),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            CaseChange.toUpperCase(
+                                AppLocalization.of(context).usingHandoffNotice
+                                    .replaceAll("%1", widget.handoffChannel.type.friendlyName),
+                                context),
+                            style: AppStyles.textStyleParagraphThinPrimary(context),
+                          ),
+                        ],
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -369,53 +395,102 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
   }
 
   Future<void> _doSend() async {
+    _showSendingAnimation(context);
     try {
-      _showSendingAnimation(context);
-      ProcessResponse resp = await sl.get<AccountService>().requestSend(
+      if (isHandoff) {
+        await _doSendHandoff();
+      } else {
+        await _doSendStandard();
+      }
+    } catch (e) {
+      sl.get<Logger>().e("Error sending funds", e);
+      _showError(AppLocalization.of(context).sendError);
+    }
+  }
+
+  /// Send as standard nano transaction
+  Future<void> _doSendStandard() async {
+    ProcessResponse resp = await sl.get<AccountService>().requestSend(
+      StateContainer.of(context).wallet.representative,
+      StateContainer.of(context).wallet.frontier,
+      widget.amountRaw,
+      destinationAltered,
+      StateContainer.of(context).wallet.address,
+      NanoUtil.seedToPrivate(await StateContainer.of(context).getSeed(), StateContainer.of(context).selectedAccount.index),
+      max: widget.maxSend
+    );
+    if (widget.manta != null) {
+      widget.manta.sendPayment(
+          transactionHash: resp.hash, cryptoCurrency: "NANO");
+    }
+    StateContainer.of(context).wallet.frontier = resp.hash;
+    StateContainer.of(context).wallet.accountBalance += BigInt.parse(widget.amountRaw);
+    await _showSuccess();
+  }
+
+  /// Send using handoff
+  Future<void> _doSendHandoff() async {
+    // Construct block
+    var block = await sl.get<AccountService>().constructSendBlock(
         StateContainer.of(context).wallet.representative,
         StateContainer.of(context).wallet.frontier,
         widget.amountRaw,
         destinationAltered,
         StateContainer.of(context).wallet.address,
-        NanoUtil.seedToPrivate(await StateContainer.of(context).getSeed(), StateContainer.of(context).selectedAccount.index),
+        NanoUtil.seedToPrivate(await StateContainer.of(context).getSeed(),
+            StateContainer.of(context).selectedAccount.index),
         max: widget.maxSend
-      );
-      if (widget.manta != null) {
-        widget.manta.sendPayment(
-            transactionHash: resp.hash, cryptoCurrency: "NANO");        
-      }
-      StateContainer.of(context).wallet.frontier = resp.hash;
-      StateContainer.of(context).wallet.accountBalance += BigInt.parse(widget.amountRaw);
-      // Show complete
-      Contact contact = await sl.get<DBHelper>().getContactWithAddress(widget.destination);
-      String contactName = contact == null ? null : contact.name;
-      Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-      StateContainer.of(context).requestUpdate();
-      if (widget.natriconNonce != null) {
-        setState(() {
-          StateContainer.of(context).updateNatriconNonce(StateContainer.of(context).selectedAccount.address, widget.natriconNonce);
-        });
-      }
-      Sheets.showAppHeightNineSheet(
-          context: context,
-          closeOnTap: true,
-          removeUntilHome: true,
-          widget: SendCompleteSheet(
-              amountRaw: widget.amountRaw,
-              destination: destinationAltered,
-              contactName: contactName,
-              localAmount: widget.localCurrency,
-              paymentRequest: widget.paymentRequest,
-              natriconNonce: widget.natriconNonce));
-    } catch (e) {
-      // Send failed
-      if (animationOpen) {
-        Navigator.of(context).pop();
-      }
-      UIUtil.showSnackbar(AppLocalization.of(context).sendError, context);
-      Navigator.of(context).pop();
+    );
+
+    // Process handoff
+    var result = await widget.handoffChannel.handoffBlock(
+        widget.handoffPaymentSpec.paymentId, block.toJson());
+
+    if (result.status.isSuccessful()) {
+      StateContainer.of(context).wallet.frontier = block.hash;
+      StateContainer.of(context).wallet.accountBalance = BigInt.parse(block.balance);
+      await _showSuccess(message: result.message);
+    } else {
+      //todo: if incorrect_state, force-refresh account state/frontier?
+      _showError(result.formatMessage(AppLocalization.of(context)));
     }
   }
+
+  Future<void> _showSuccess({String message}) async {
+    // Show complete
+    Contact contact = await sl.get<DBHelper>().getContactWithAddress(widget.destination);
+    String contactName = contact == null ? null : contact.name;
+    Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
+    StateContainer.of(context).requestUpdate();
+    if (widget.natriconNonce != null) {
+      setState(() {
+        StateContainer.of(context).updateNatriconNonce(StateContainer.of(context).selectedAccount.address, widget.natriconNonce);
+      });
+    }
+    Sheets.showAppHeightNineSheet(
+        context: context,
+        closeOnTap: true,
+        removeUntilHome: true,
+        widget: SendCompleteSheet(
+            amountRaw: widget.amountRaw,
+            destination: destinationAltered,
+            contactName: contactName,
+            localAmount: widget.localCurrency,
+            paymentRequest: widget.paymentRequest,
+            natriconNonce: widget.natriconNonce,
+            message: message
+        )
+    );
+  }
+
+  void _showError(String message) {
+    if (animationOpen) {
+      Navigator.of(context).pop();
+    }
+    UIUtil.showSnackbar(message, context);
+    Navigator.of(context).pop();
+  }
+
 
   Future<void> authenticateWithPin() async {
     // PIN Authentication

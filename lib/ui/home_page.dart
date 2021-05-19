@@ -1,54 +1,55 @@
 import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flare_flutter/flare.dart';
+import 'package:event_taxi/event_taxi.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flare_dart/math/mat2d.dart';
+import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:event_taxi/event_taxi.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 import 'package:manta_dart/manta_wallet.dart';
 import 'package:manta_dart/messages.dart';
-import 'package:natrium_wallet_flutter/model/db/account.dart';
-import 'package:natrium_wallet_flutter/network/model/response/alerts_response_item.dart';
-import 'package:natrium_wallet_flutter/network/model/response/subscribe_response.dart';
-import 'package:natrium_wallet_flutter/ui/popup_button.dart';
+import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
+import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
-import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
-import 'package:natrium_wallet_flutter/model/list_model.dart';
-import 'package:natrium_wallet_flutter/model/db/contact.dart';
+import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
+import 'package:natrium_wallet_flutter/model/db/contact.dart';
+import 'package:natrium_wallet_flutter/model/list_model.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
+import 'package:natrium_wallet_flutter/network/model/response/alerts_response_item.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
-import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/ui/contacts/add_contact.dart';
-import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
-import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/popup_button.dart';
 import 'package:natrium_wallet_flutter/ui/receive/receive_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/settings/settings_drawer.dart';
+import 'package:natrium_wallet_flutter/ui/util/routes.dart';
+import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/list_slidable.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/reactive_refresh.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/remote_message_card.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/remote_message_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/list_slidable.dart';
-import 'package:natrium_wallet_flutter/ui/util/routes.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/reactive_refresh.dart';
-import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/transaction_state_tag.dart';
+import 'package:natrium_wallet_flutter/util/caseconverter.dart';
+import 'package:natrium_wallet_flutter/util/handoff.dart';
+import 'package:natrium_wallet_flutter/util/hapticutil.dart';
 import 'package:natrium_wallet_flutter/util/manta.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
-import 'package:natrium_wallet_flutter/util/hapticutil.dart';
-import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:natrium_wallet_flutter/bus/events.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class AppHomePage extends StatefulWidget {
   PriceConversion priceConversion;
@@ -694,52 +695,14 @@ class _AppHomePageState extends State<AppHomePage>
   }
 
   Future<void> handleDeepLink(link) async {
-    Address address = Address(link);
-    if (address.isValid()) {
-      String amount;
-      String contactName;
-      if (address.amount != null) {
-        BigInt amountBigInt = BigInt.tryParse(address.amount);
-        // Require minimum 1 rai to send, and make sure sufficient balance
-        if (amountBigInt != null &&
-            StateContainer.of(context).wallet.accountBalance > amountBigInt &&
-            amountBigInt >= BigInt.from(10).pow(24)) {
-          amount = address.amount;
-        }
-      }
-      // See if a contact
-      Contact contact =
-          await sl.get<DBHelper>().getContactWithAddress(address.address);
-      if (contact != null) {
-        contactName = contact.name;
-      }
-      // Remove any other screens from stack
-      Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-      if (amount != null) {
-        // Go to send confirm with amount
-        Sheets.showAppHeightNineSheet(
-            context: context,
-            widget: SendConfirmSheet(
-                amountRaw: amount,
-                destination: address.address,
-                contactName: contactName));
-      } else {
-        // Go to send with address
-        Sheets.showAppHeightNineSheet(
-            context: context,
-            widget: SendSheet(
-                localCurrency: StateContainer.of(context).curCurrency,
-                contact: contact,
-                address: address.address));
-      }
-    } else if (MantaWallet.parseUrl(link) != null) {
+    if (MantaWallet.parseUrl(link) != null) {
       // Manta URI handling
       try {
         _showMantaAnimation();
         // Get manta payment request
         MantaWallet manta = MantaWallet(link);
         PaymentRequestMessage paymentRequest =
-            await MantaUtil.getPaymentDetails(manta);
+        await MantaUtil.getPaymentDetails(manta);
         if (mantaAnimationOpen) {
           Navigator.of(context).pop();
         }
@@ -749,6 +712,65 @@ class _AppHomePageState extends State<AppHomePage>
           Navigator.of(context).pop();
         }
         UIUtil.showSnackbar(AppLocalization.of(context).mantaError, context);
+      }
+    } else if (HandoffUtil.matchesUri(link)) {
+      // Handoff URI scheme
+      var handoffSpec = HandoffUtil.parseUri(link);
+      var handoffChannel = handoffSpec?.getPreferredChannel();
+      if (handoffChannel != null) {
+        HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
+      } else {
+        //todo: probably could use a better non-qr message
+        UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+      }
+    } else {
+      // Address (may have handoff encoded in URI)
+      var address = Address(link);
+      var handoffSpec = address.getHandoffPaymentSpec();
+      var handoffChannel = handoffSpec?.getPreferredChannel();
+      if (handoffChannel != null) {
+        // Valid handoff spec with supported channel
+        HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
+      } else {
+        // Address (fallback if handoff invalid or unsupported)
+        if (address.isValid()) {
+          String amount;
+          String contactName;
+          if (address.amount != null) {
+            BigInt amountBigInt = BigInt.tryParse(address.amount);
+            // Require minimum 1 rai to send, and make sure sufficient balance
+            if (amountBigInt != null &&
+                StateContainer.of(context).wallet.accountBalance > amountBigInt &&
+                amountBigInt >= BigInt.from(10).pow(24)) {
+              amount = address.amount;
+            }
+          }
+          // See if a contact
+          Contact contact =
+          await sl.get<DBHelper>().getContactWithAddress(address.address);
+          if (contact != null) {
+            contactName = contact.name;
+          }
+          // Remove any other screens from stack
+          Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
+          if (amount != null) {
+            // Go to send confirm with amount
+            Sheets.showAppHeightNineSheet(
+                context: context,
+                widget: SendConfirmSheet(
+                    amountRaw: amount,
+                    destination: address.address,
+                    contactName: contactName));
+          } else {
+            // Go to send with address
+            Sheets.showAppHeightNineSheet(
+                context: context,
+                widget: SendSheet(
+                    localCurrency: StateContainer.of(context).curCurrency,
+                    contact: contact,
+                    address: address.address));
+          }
+        }
       }
     }
   }

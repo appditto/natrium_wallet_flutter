@@ -10,12 +10,13 @@ import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/util/handoff.dart';
 
 import 'package:quiver/strings.dart';
 import 'package:validators/validators.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 
-enum DataType { RAW, URL, ADDRESS, MANTA_ADDRESS, SEED }
+enum DataType { RAW, URL, ADDRESS, PAYMENT_DESTINATION, SEED }
 
 class QRScanErrs {
   static const String PERMISSION_DENIED = "qr_denied";
@@ -35,9 +36,7 @@ class UserDataUtil {
     if (type == DataType.RAW) {
       return data;
     } else if (type == DataType.URL) {
-      if (isIP(data)) {
-        return data;
-      } else if (isURL(data)) {
+      if (isIP(data) || isURL(data)) {
         return data;
       }
     } else if (type == DataType.ADDRESS) {
@@ -45,12 +44,11 @@ class UserDataUtil {
       if (address.isValid()) {
         return address.address;
       }
-    } else if (type == DataType.MANTA_ADDRESS) {
-      // Check if an address or manta result
-      Address address = Address(data);
-      if (address.isValid()) {
-        return data;
-      } else if (MantaWallet.parseUrl(data) != null) {
+    } else if (type == DataType.PAYMENT_DESTINATION) {
+      // Allow either address, handoff URI, or Manta payment
+      if (Address(data).isValid()
+          || HandoffUtil.matchesUri(data)
+          || MantaWallet.parseUrl(data) != null) {
         return data;
       }
     } else if (type == DataType.SEED) {
