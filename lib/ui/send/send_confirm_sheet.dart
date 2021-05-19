@@ -319,7 +319,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                         children: <Widget>[
                           Text(
                             CaseChange.toUpperCase(
-                                AppLocalization.of(context).usingHandoffNotice
+                                AppLocalization.of(context).viaHandoff
                                     .replaceAll("%1", widget.handoffChannel.type.friendlyName),
                                 context),
                             style: AppStyles.textStyleParagraphThinPrimary(context),

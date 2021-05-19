@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-03-24T20:45:02.422993",
+  "@@last_modified": "2021-05-19T19:32:02.181328",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -369,6 +369,24 @@
   "mantaError": "Couldn't Verify Request",
   "@mantaError": {
     "description": "Was unable to verify the manta/appia payment request (from scanning QR code, etc.)",
+    "type": "text",
+    "placeholders": {}
+  },
+  "handoffAlreadyCompleted": "Payment has already been made",
+  "@handoffAlreadyCompleted": {
+    "description": "(Error) one-time handoff payment has already been made",
+    "type": "text",
+    "placeholders": {}
+  },
+  "handoffExpired": "Payment expired",
+  "@handoffExpired": {
+    "description": "Handoff payment has expired",
+    "type": "text",
+    "placeholders": {}
+  },
+  "viaHandoff": "via %1 handoff",
+  "@viaHandoff": {
+    "description": "Payment will be processed \"via {https} handoff\"",
     "type": "text",
     "placeholders": {}
   },
