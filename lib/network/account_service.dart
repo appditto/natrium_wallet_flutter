@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:event_taxi/event_taxi.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:natrium_wallet_flutter/bus/events.dart';
@@ -469,7 +470,7 @@ class AccountService {
         previous: previous,
         representative: representative,
         balance: max ? "0" : sendAmount,
-        link: link,
+        link: link.contains('_') ? NanoAccounts.extractPublicKey(link) : link,
         account: account,
         privKey: privKey);
 
