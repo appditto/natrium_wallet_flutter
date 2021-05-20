@@ -41,14 +41,15 @@ class HandoffPaymentSpec {
     amount ??= altAddr != null ? BigInt.tryParse(altAmount) : null;
     destinationAddress ??= altAddr;
 
-    if (amount == null) {
+    if (amount == null || amount == BigInt.zero) {
       // No amount specified, assume any amount may be sent (>= 1 raw)
       amount = BigInt.one;
       variableAmount = true;
     }
 
     if (paymentId == null || channels.isEmpty || destinationAddress == null
-        || !Address(destinationAddress).isValid())
+        || !Address(destinationAddress).isValid()
+        || (amount != null && amount <= BigInt.zero))
       throw 'Invalid handoff specification';
     if (requiresWork) //todo handoff implement work gen
       throw "Wallet doesn't support handoff work generation";
