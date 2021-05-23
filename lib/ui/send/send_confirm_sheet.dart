@@ -463,8 +463,10 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
       // Save in database
       sl.get<DBHelper>().saveSendTransaction(SendTransaction(
           block.hash, result.reference, SendTxnOrigin.HANDOFF,
-          originData: widget.handoffPaymentSpec.reusable
-              ? json.encode(widget.handoffPaymentSpec.toJson()) : null
+          originData:
+              widget.handoffPaymentSpec.reusable
+                  ? json.encode(widget.handoffPaymentSpec.toJson())
+                  : null
       ));
       await _showSuccess(message: result.message);
     } else {

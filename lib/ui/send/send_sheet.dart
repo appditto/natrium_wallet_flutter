@@ -83,7 +83,7 @@ class _SendSheetState extends State<SendSheet> {
   // Buttons States (Used because we hide the buttons under certain conditions)
   bool _pasteButtonVisible = true;
   bool _showContactButton = true;
-  // Disallow editing of address field when using special payment scheme (handoff)
+  // Disallow editing of address field when using URI with state data or payment protocol
   bool _sendAddressEditable = true;
   // Local currency mode/fiat conversion
   bool _localCurrencyMode = false;
@@ -111,15 +111,14 @@ class _SendSheetState extends State<SendSheet> {
       // Handoff state
       _updateStateFromEntry(
         handoffSpec: widget.handoffPaymentSpec,
-        handoffChannel: widget.handoffChannel,
-        doSetState: false
+        handoffChannel: widget.handoffChannel
       );
     } else if (widget.contact != null) {
       // Setup initial state for contact pre-filled
-      _updateStateFromEntry(contact: widget.contact, doSetState: false);
+      _updateStateFromEntry(contact: widget.contact);
     } else if (widget.address != null) {
       // Setup initial state with prefilled address
-      _updateStateFromEntry(address: widget.address, doSetState: false);
+      _updateStateFromEntry(address: widget.address);
     }
     // On amount focus change
     _sendAmountFocusNode.addListener(() {
@@ -616,14 +615,11 @@ class _SendSheetState extends State<SendSheet> {
                           } else {
                             // Address (fallback if handoff invalid or unsupported)
                             // See if this address belongs to a contact
-                            Contact contact = await sl
-                                .get<DBHelper>()
+                            Contact contact = await sl.get<DBHelper>()
                                 .getContactWithAddress(address.address);
                             if (contact == null) {
-                              // Not a contact
                               _updateStateFromEntry(address: address.address);
                             } else {
-                              // Is a contact
                               _updateStateFromEntry(contact: contact);
                             }
                             // If amount is present, fill it and go to SendConfirm
@@ -676,37 +672,39 @@ class _SendSheetState extends State<SendSheet> {
 
 
   /// Update state from QR scan entry
-  void _updateStateFromEntry({Contact contact, String address,
-        HandoffPaymentSpec handoffSpec, HandoffChannel handoffChannel,
-        bool doSetState = true}) {
+  Future<void> _updateStateFromEntry({String address, Contact contact,
+      HandoffPaymentSpec handoffSpec, HandoffChannel handoffChannel}) async {
     // Preprocess
-    address ??= handoffSpec?.destinationAddress ?? contact?.address;
-    bool isHandoff = handoffSpec != null;
-    bool isContact = contact != null;
-    bool isEmpty = contact == null && address == null;
+    if (handoffSpec != null) {
+      address = handoffSpec.destinationAddress;
+    } else if (contact != null) {
+      address = contact.address;
+    } else if (contact == null && address != null) {
+      contact = await sl.get<DBHelper>().getContactWithAddress(address);
+    }
 
     // Update state values
-    _isContact = isContact;
-    _sendAddressStyle = _isContact ? AddressStyle.PRIMARY : AddressStyle.TEXT90;
-    _pasteButtonVisible = isEmpty;
-    _showContactButton = isEmpty;
+    _isContact = contact != null;
+    _sendAddressStyle = contact != null
+        ? AddressStyle.PRIMARY : AddressStyle.TEXT90;
+    _pasteButtonVisible = address == null;
+    _showContactButton = address == null;
     _rawAmount = null;
-    _sendAddressEditable = !isHandoff;
+    _sendAddressEditable = handoffSpec == null;
     _handoffPaymentSpec = handoffSpec;
     _handoffChannel = handoffChannel;
     _addressValidationText = "";
     _amountValidationText = "";
     _sendAmountController.text = "";
     _sendAddressController.text = contact?.name ?? address ?? "";
-    if (mounted && doSetState) setState(() {});
     _sendAddressFocusNode.unfocus();
-    _addressValidAndUnfocused = !isContact;
-    if (mounted && doSetState) setState(() {});
+    _addressValidAndUnfocused = contact == null && address != null;
+    if (mounted) setState(() {});
   }
 
   /// Update the state to use the handoff (or jump directly to confirm sheet)
   void _handleHandoffEntry(HandoffPaymentSpec paymentSpec, HandoffChannel channel) {
-    if (paymentSpec.reusable) {
+    if (paymentSpec.variableAmount) {
       _updateStateFromEntry(
         handoffSpec: paymentSpec,
         handoffChannel: channel
@@ -1112,19 +1110,26 @@ class _SendSheetState extends State<SendSheet> {
               if (data == null || data.text == null) {
                 return;
               }
-              Address address = Address(data.text);
-              if (address.isValid()) {
-                sl
-                    .get<DBHelper>()
-                    .getContactWithAddress(address.address)
-                    .then((contact) {
-                  if (contact == null) {
-                    _updateStateFromEntry(address: address.address);
-                  } else {
-                    // Is a contact
-                    _updateStateFromEntry(contact: contact);
-                  }
-                });
+
+              if (HandoffUtil.matchesUri(data.text)) {
+                // Handoff URI scheme
+                var handoffSpec = HandoffUtil.parseUri(data.text);
+                var handoffChannel = handoffSpec?.getPreferredChannel();
+                if (handoffChannel != null) {
+                  _handleHandoffEntry(handoffSpec, handoffChannel);
+                }
+              } else {
+                // Try parse address (or integrated handoff)
+                var address = Address(data.text);
+                var handoffSpec = address.getHandoffPaymentSpec();
+                var handoffChannel = handoffSpec?.getPreferredChannel();
+                if (handoffChannel != null) {
+                  // Valid handoff spec with supported channel
+                  _handleHandoffEntry(handoffSpec, handoffChannel);
+                } else if (address.isValid()) {
+                  // Standard address
+                  _updateStateFromEntry(address: address.address);
+                }
               }
             });
           },
