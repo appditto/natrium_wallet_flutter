@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-05-19T20:51:40.125321",
+  "@@last_modified": "2021-05-23T16:53:14.174516",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -372,27 +372,27 @@
     "type": "text",
     "placeholders": {}
   },
-  "handoffPaymentFailed": "Handoff payment failed or rejected by the service",
+  "handoffPaymentFailed": "Payment failed or rejected by the service",
   "@handoffPaymentFailed": {
-    "description": "Payment has failed or been rejected",
+    "description": "Payment failed or was rejected (may be followed by colon with details)",
     "type": "text",
     "placeholders": {}
   },
-  "handoffAlreadyCompleted": "Payment has already been made",
-  "@handoffAlreadyCompleted": {
-    "description": "(Error) one-time handoff payment has already been made",
+  "handoffPaymentAlreadyComplete": "You have already made this payment.",
+  "@handoffPaymentAlreadyComplete": {
+    "description": "One-time handoff payment has already been made",
     "type": "text",
     "placeholders": {}
   },
-  "handoffExpired": "Payment expired",
+  "handoffExpired": "This payment has expired",
   "@handoffExpired": {
-    "description": "Handoff payment has expired",
+    "description": "Handoff payment has expired (may be followed by colon with details)",
     "type": "text",
     "placeholders": {}
   },
-  "viaHandoff": "via %1 handoff",
-  "@viaHandoff": {
-    "description": "Payment will be processed \"via {https} handoff\"",
+  "usingHandoff": "Using block handoff",
+  "@usingHandoff": {
+    "description": "Payment will be processed \"using block handoff\"",
     "type": "text",
     "placeholders": {}
   },
@@ -441,6 +441,18 @@
   "sendFrom": "Send From",
   "@sendFrom": {
     "description": "send_title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "paymentCannotReplay": "This payment cannot be replayed directly from the app. Return to the website or store to make another payment.",
+  "@paymentCannotReplay": {
+    "description": "Payment cannot be replayed (was a one-time payment)",
+    "type": "text",
+    "placeholders": {}
+  },
+  "sendDestinationCheckWarning": "If you are making a payment to a website, exchange or business, you should verify that the destination address is still correct before sending.",
+  "@sendDestinationCheckWarning": {
+    "description": "Hint user that destination address should be checked first.",
     "type": "text",
     "placeholders": {}
   },

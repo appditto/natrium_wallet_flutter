@@ -1,15 +1,17 @@
 import 'dart:async';
 import 'dart:io' as io;
-import 'package:flutter/foundation.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
+
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
+import 'package:natrium_wallet_flutter/model/db/send_transaction.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
-  static const int DB_VERSION = 3;
+  static const int DB_VERSION = 4;
+
   static const String CONTACTS_SQL = """CREATE TABLE Contacts( 
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
         name TEXT, 
@@ -23,9 +25,14 @@ class DBHelper {
         last_accessed INTEGER,
         private_key TEXT,
         balance TEXT)""";
-  static const String ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL = """
-    ALTER TABLE Accounts ADD address TEXT
-    """;
+  static const String SEND_TX_SQL = """CREATE TABLE SendTransactions( 
+        block_hash TEXT PRIMARY KEY,
+        reference TEXT,
+        origin INTEGER,
+        origin_data TEXT)""";
+  static const String ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL =
+      "ALTER TABLE Accounts ADD address TEXT";
+
   static Database _db;
 
   NanoUtil _nanoUtil;
@@ -53,6 +60,7 @@ class DBHelper {
     await db.execute(CONTACTS_SQL);
     await db.execute(ACCOUNTS_SQL);
     await db.execute(ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL);
+    await db.execute(SEND_TX_SQL);
   }
 
   void _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -62,8 +70,11 @@ class DBHelper {
       await db.execute(ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL);
     } else if (oldVersion == 2) {
       await db.execute(ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL);
+    } else if (oldVersion == 3) {
+      await db.execute(SEND_TX_SQL);
     }
   }
+
 
   // Contacts
   Future<List<Contact>> getContacts() async {
@@ -337,6 +348,50 @@ class DBHelper {
 
   Future<void> dropAccounts() async {
     var dbClient = await db;
-    return await dbClient.rawDelete('DELETE FROM ACCOUNTS');
+    await dbClient.rawDelete('DELETE FROM ACCOUNTS');
+    await dropSendTransactions();
   }
+
+
+  // SEND TRANSACTIONS
+  Future<SendTransaction> getSendTransaction(String hash) async {
+    var dbClient = await db;
+    List<Map> list = await dbClient.rawQuery(
+        "SELECT * FROM SendTransactions WHERE block_hash='${hash.toUpperCase()}'");
+    if (list.length > 0) {
+      return SendTransaction(
+          list[0]["block_hash"],
+          list[0]["reference"],
+          SendTransaction.methodFromInt(list[0]["origin"]),
+          originData: list[0]["origin_data"]);
+    }
+    return null;
+  }
+
+  Future<int> saveSendTransaction(SendTransaction txn) async {
+    var dbClient = await db;
+    return await dbClient.rawInsert(
+        'REPLACE INTO SendTransactions values(?, ?, ?, ?)',
+        [
+          txn.blockHash.toUpperCase(),
+          (txn.reference != null && txn.reference.length > 100)
+              ? txn.reference.substring(0, 100)
+              : txn.reference,
+          SendTransaction.methodToInt(txn.origin),
+          txn.originData
+        ]);
+  }
+
+  Future<void> dropSendTransactions() async {
+    var dbClient = await db;
+    await dbClient.rawDelete('DELETE FROM SendTransactions');
+  }
+
+
+
+  // block_hash TEXT PRIMARY KEY
+  // reference TEXT
+  // method INTEGER
+  // method_data BLOB
+
 }

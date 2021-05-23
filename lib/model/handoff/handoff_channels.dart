@@ -15,14 +15,6 @@ extension HandoffChannelHelper on ChannelType {
     throw AssertionError();
   }
 
-  /// Returns a friendly name of this type (to be displayed to the user)
-  String get friendlyName {
-    switch (this) {
-      case ChannelType.https: return 'https';
-    }
-    throw AssertionError();
-  }
-
   /// Parses the specified channel object from the given properties object
   HandoffChannel parse(dynamic properties) {
     switch (this) {

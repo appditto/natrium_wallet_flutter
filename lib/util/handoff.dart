@@ -34,7 +34,8 @@ class HandoffUtil {
   }
 
   /// Handles a payment request, showing the payment screen.
-  static void handlePayment(BuildContext context, HandoffPaymentSpec spec, HandoffChannel channel) {
+  static void handlePayment(BuildContext context, HandoffPaymentSpec spec,
+      HandoffChannel channel, {String quickSendAmount}) {
     if (!StateContainer.of(context).wallet.loading
         && spec.amount > StateContainer.of(context).wallet.accountBalance) {
       UIUtil.showSnackbar(AppLocalization.of(context).insufficientBalance, context);
@@ -47,10 +48,11 @@ class HandoffUtil {
                 localCurrency: StateContainer.of(context).curCurrency,
                 handoffPaymentSpec: spec,
                 handoffChannel: channel,
+                quickSendAmount: quickSendAmount,
             )
         );
       } else {
-        // Send exact amount, show confirmation sheet
+        // Exact amount, show confirmation sheet
         Sheets.showAppHeightNineSheet(
             context: context,
             widget: SendConfirmSheet(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:event_taxi/event_taxi.dart';
@@ -22,6 +23,8 @@ import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
+import 'package:natrium_wallet_flutter/model/db/send_transaction.dart';
+import 'package:natrium_wallet_flutter/model/handoff/handoff_spec.dart';
 import 'package:natrium_wallet_flutter/model/list_model.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
@@ -992,6 +995,71 @@ class _AppHomePageState extends State<AppHomePage>
     );
   }
 
+  /// Replay a transaction from an existing log (left swipe)
+  Future<void> _replayTransaction(String blockHash, String address,
+                                  String amount, bool isSend) async {
+    if (isSend) {
+      // Check if original payment transaction required special handling or
+      // protocol (eg. handoff or Manta)
+      var txInfo = await sl.get<DBHelper>().getSendTransaction(blockHash);
+      var txOrigin = txInfo?.origin;
+
+      bool handled = false;
+      if (txOrigin == SendTxnOrigin.STANDARD) {
+        // Use standard send
+        handled = true;
+        _showSendSheet(address, amount);
+      } else if (txOrigin == SendTxnOrigin.HANDOFF) {
+        // Using handoff protocol, check if spec data is available, payment is
+        // reusable and a handoff channel is supported.
+        if (txInfo.originData != null) {
+          var handoffSpec = HandoffPaymentSpec.fromJson(
+              json.decode(txInfo.originData));
+          var handoffChannel = handoffSpec.getPreferredChannel();
+          if (handoffChannel != null && handoffSpec.reusable) {
+            handled = true;
+            HandoffUtil.handlePayment(context, handoffSpec, handoffChannel,
+                quickSendAmount: amount);
+          }
+        }
+      } else if (txOrigin == SendTxnOrigin.MANTA) {
+        // Unsupported
+      } else {
+        // Unknown transaction source, show warning dialog first
+        handled = true;
+        AppDialogs.showConfirmDialog(
+            context,
+            CaseChange.toUpperCase(
+                AppLocalization.of(context).warning, context),
+            AppLocalization.of(context).sendDestinationCheckWarning,
+            CaseChange.toUpperCase(
+                AppLocalization.of(context).gotItButton, context),
+                () => _showSendSheet(address, amount)
+        );
+      }
+      // Show error message if not permitted
+      if (!handled) {
+        UIUtil.showSnackbar(
+            AppLocalization.of(context).paymentCannotReplay, context);
+      }
+    } else {
+      _showSendSheet(address, amount);
+    }
+  }
+
+  /// Show send sheet (from an existing transaction)
+  Future<void> _showSendSheet(String address, String amount) async {
+    var contact = await sl.get<DBHelper>().getContactWithAddress(address);
+    Sheets.showAppHeightNineSheet(
+        context: context,
+        widget: SendSheet(
+          localCurrency: StateContainer.of(context).curCurrency,
+          contact: contact,
+          address: address,
+          quickSendAmount: amount,
+        ));
+  }
+
   // Transaction Card/List Item
   Widget _buildTransactionCard(AccountHistoryResponseItem item,
       Animation<double> animation, String displayName, BuildContext context) {
@@ -1019,21 +1087,8 @@ class _AppHomePageState extends State<AppHomePage>
             releaseAnimation = true;
           });
         } else {
-          // See if a contact
-          sl
-              .get<DBHelper>()
-              .getContactWithAddress(item.account)
-              .then((contact) {
-            // Go to send with address
-            Sheets.showAppHeightNineSheet(
-                context: context,
-                widget: SendSheet(
-                  localCurrency: StateContainer.of(context).curCurrency,
-                  contact: contact,
-                  address: item.account,
-                  quickSendAmount: item.amount,
-                ));
-          });
+          _replayTransaction(item.hash, item.account, item.amount,
+              item.type == BlockTypes.SEND);
         }
       },
       onAnimationChanged: (animation) {

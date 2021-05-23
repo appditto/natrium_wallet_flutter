@@ -18,3 +18,14 @@ HandoffPaymentSpec _$HandoffPaymentSpecFromJson(Map<String, dynamic> json) {
     json['re'] as bool ?? false,
   );
 }
+
+Map<String, dynamic> _$HandoffPaymentSpecToJson(HandoffPaymentSpec instance) =>
+    <String, dynamic>{
+      'id': instance.paymentId,
+      'c': instance.channels,
+      'd': instance.destinationAddress,
+      'a': _bigIntToString(instance.amount),
+      'va': instance.variableAmount,
+      'wk': instance.requiresWork,
+      're': instance.reusable,
+    };

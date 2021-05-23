@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:logger/logger.dart';
 import 'package:natrium_wallet_flutter/model/handoff/handoff_channels.dart';
+import 'package:natrium_wallet_flutter/service_locator.dart';
 
 import '../address.dart';
 
@@ -9,7 +11,7 @@ part 'handoff_spec.g.dart';
 
 /// Represents a payment specification, containing payment and handoff
 /// information.
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class HandoffPaymentSpec {
 
   @JsonKey(name:'id', required: true)
@@ -21,7 +23,7 @@ class HandoffPaymentSpec {
   @JsonKey(name:'d')
   String destinationAddress;
 
-  @JsonKey(name:'a', fromJson: _parseBigInt)
+  @JsonKey(name:'a', fromJson: _parseBigInt, toJson: _bigIntToString)
   BigInt amount;
 
   @JsonKey(name:'va', defaultValue: false)
@@ -51,7 +53,7 @@ class HandoffPaymentSpec {
         || !Address(destinationAddress).isValid()
         || (amount != null && amount <= BigInt.zero))
       throw 'Invalid handoff specification';
-    if (requiresWork) //todo handoff implement work gen
+    if (requiresWork) //todo handoff implement wallet-provided work gen
       throw "Wallet doesn't support handoff work generation";
   }
 
@@ -59,8 +61,13 @@ class HandoffPaymentSpec {
   /// or null if the channel type isn't available.
   HandoffChannel getChannel(ChannelType type) {
     var properties = channels[type.name];
-    if (properties != null)
-      return type.parse(properties);
+    if (properties != null) {
+      try {
+        return type.parse(properties);
+      } catch (e) {
+        sl.get<Logger>().w("Failed to parse handoff channel ${type.name} from spec", e);
+      }
+    }
     return null;
   }
 
@@ -80,9 +87,8 @@ class HandoffPaymentSpec {
   factory HandoffPaymentSpec.fromBase64(String data,
       {String altAmount, String altAddr}) {
     var jsonVal = utf8.decode(base64.decode(base64.normalize(data)));
-    dynamic jsonObj = json.decode(jsonVal);
-    return HandoffPaymentSpec.fromJson(jsonObj, altAmount: altAmount,
-        altAddr: altAddr);
+    return HandoffPaymentSpec.fromJson(json.decode(jsonVal),
+        altAmount: altAmount, altAddr: altAddr);
   }
 
   factory HandoffPaymentSpec.fromJson(Map<String, dynamic> json,
@@ -91,6 +97,9 @@ class HandoffPaymentSpec {
     spec._processParams(altAmount, altAddr);
     return spec;
   }
+
+  Map<String, dynamic> toJson() => _$HandoffPaymentSpecToJson(this);
 }
 
 BigInt _parseBigInt(val) => val != null ? BigInt.parse(val) : null;
+String _bigIntToString(BigInt val) => val != null ? val.toString() : null;

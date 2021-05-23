@@ -23,9 +23,13 @@ class HandoffResponse {
   String formatMessage(AppLocalization localization) {
     var errorMsg = status.getErrorMessage(localization);
     if (errorMsg != null) {
-      return errorMsg + (message != null ? ": $message" : "");
+      if (message != null && status != HandoffStatus.block_already_associated) {
+        return "$errorMsg: $message";
+      } else {
+        return errorMsg;
+      }
     } else {
-      return message;
+      return message ?? "";
     }
   }
 }
@@ -49,7 +53,7 @@ extension HandoffStatusExt on HandoffStatus {
       case HandoffStatus.expired:
         return localization.handoffExpired;
       case HandoffStatus.block_already_associated:
-        return localization.handoffAlreadyCompleted;
+        return localization.handoffPaymentAlreadyComplete;
       default:
         return localization.handoffPaymentFailed;
     }

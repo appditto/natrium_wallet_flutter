@@ -345,23 +345,27 @@ class AppLocalization {
   }
 
   String get handoffPaymentFailed {
-    return Intl.message("Handoff payment failed or rejected by the service",
-        desc: 'Payment has failed or been rejected', name: 'handoffPaymentFailed');
+    return Intl.message("Payment failed or rejected by the service",
+        desc: 'Payment failed or was rejected (may be followed by colon with details)',
+        name: 'handoffPaymentFailed');
   }
 
-  String get handoffAlreadyCompleted {
-    return Intl.message("Payment has already been made",
-        desc: '(Error) one-time handoff payment has already been made', name: 'handoffAlreadyCompleted');
+  String get handoffPaymentAlreadyComplete {
+    return Intl.message("You have already made this payment.",
+        desc: 'One-time handoff payment has already been made',
+        name: 'handoffPaymentAlreadyComplete');
   }
 
   String get handoffExpired {
-    return Intl.message("Payment expired",
-        desc: 'Handoff payment has expired', name: 'handoffExpired');
+    return Intl.message("This payment has expired",
+        desc: 'Handoff payment has expired (may be followed by colon with details)',
+        name: 'handoffExpired');
   }
 
-  String get viaHandoff {
-    return Intl.message("via %1 handoff",
-        desc: 'Payment will be processed "via {https} handoff"', name: 'viaHandoff');
+  String get usingHandoff {
+    return Intl.message("Using block handoff",
+        desc: 'Payment will be processed "using block handoff"',
+        name: 'usingHandoff');
   }
 
   String get enterAmount {
@@ -401,6 +405,18 @@ class AppLocalization {
 
   String get sendFrom {
     return Intl.message("Send From", desc: 'send_title', name: 'sendFrom');
+  }
+
+  String get paymentCannotReplay {
+    return Intl.message("This payment cannot be replayed directly from the app. Return to the website or store to make another payment.",
+        desc: 'Payment cannot be replayed (was a one-time payment)',
+        name: 'paymentCannotReplay');
+  }
+
+  String get sendDestinationCheckWarning {
+    return Intl.message("If you are making a payment to a website, exchange or business, you should verify that the destination address is still correct before sending.",
+        desc: 'Hint user that destination address should be checked first.',
+        name: 'sendDestinationCheckWarning');
   }
 
   /// -- END SEND ITEMS

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:event_taxi/event_taxi.dart';
@@ -13,6 +14,7 @@ import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
+import 'package:natrium_wallet_flutter/model/db/send_transaction.dart';
 import 'package:natrium_wallet_flutter/model/handoff/handoff_channels.dart';
 import 'package:natrium_wallet_flutter/model/handoff/handoff_response.dart';
 import 'package:natrium_wallet_flutter/model/handoff/handoff_spec.dart';
@@ -319,8 +321,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                         children: <Widget>[
                           Text(
                             CaseChange.toUpperCase(
-                                AppLocalization.of(context).viaHandoff
-                                    .replaceAll("%1", widget.handoffChannel.type.friendlyName),
+                                AppLocalization.of(context).usingHandoff,
                                 context),
                             style: AppStyles.textStyleParagraphThinPrimary(context),
                           ),
@@ -419,12 +420,17 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
       NanoUtil.seedToPrivate(await StateContainer.of(context).getSeed(), StateContainer.of(context).selectedAccount.index),
       max: widget.maxSend
     );
-    if (widget.manta != null) {
+    if (isMantaTransaction) {
       widget.manta.sendPayment(
           transactionHash: resp.hash, cryptoCurrency: "NANO");
     }
+    // Update state
     StateContainer.of(context).wallet.frontier = resp.hash;
     StateContainer.of(context).wallet.accountBalance += BigInt.parse(widget.amountRaw);
+    // Save in database
+    sl.get<DBHelper>().saveSendTransaction(SendTransaction(
+        resp.hash, null,
+        isMantaTransaction ? SendTxnOrigin.MANTA : SendTxnOrigin.STANDARD));
     await _showSuccess();
   }
 
@@ -443,12 +449,23 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
     );
 
     // Process handoff
+    sl.get<Logger>().i("Processing handoff of block ${block.hash} using "
+        "channel ${widget.handoffChannel.type.name}...");
     var result = await widget.handoffChannel.handoffBlock(
         widget.handoffPaymentSpec.paymentId, block.toJson());
+    sl.get<Logger>().i("Handoff processed, returned status: ${result.status}, "
+        "message: ${result.message}");
 
     if (result.status.isSuccessful()) {
+      // Update state
       StateContainer.of(context).wallet.frontier = block.hash;
       StateContainer.of(context).wallet.accountBalance = BigInt.parse(block.balance);
+      // Save in database
+      sl.get<DBHelper>().saveSendTransaction(SendTransaction(
+          block.hash, result.reference, SendTxnOrigin.HANDOFF,
+          originData: widget.handoffPaymentSpec.reusable
+              ? json.encode(widget.handoffPaymentSpec.toJson()) : null
+      ));
       await _showSuccess(message: result.message);
     } else {
       //todo: if incorrect_state, force-refresh account state/frontier?
@@ -458,13 +475,16 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
 
   Future<void> _showSuccess({String message}) async {
     // Show complete
-    Contact contact = await sl.get<DBHelper>().getContactWithAddress(widget.destination);
+    Contact contact = await sl.get<DBHelper>()
+        .getContactWithAddress(widget.destination);
     String contactName = contact == null ? null : contact.name;
     Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
     StateContainer.of(context).requestUpdate();
     if (widget.natriconNonce != null) {
       setState(() {
-        StateContainer.of(context).updateNatriconNonce(StateContainer.of(context).selectedAccount.address, widget.natriconNonce);
+        StateContainer.of(context).updateNatriconNonce(
+            StateContainer.of(context).selectedAccount.address,
+            widget.natriconNonce);
       });
     }
     Sheets.showAppHeightNineSheet(
