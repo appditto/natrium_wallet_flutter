@@ -430,7 +430,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
     // Save in database
     sl.get<DBHelper>().saveSendTransaction(SendTransaction(
         resp.hash, null,
-        isMantaTransaction ? SendTxnOrigin.MANTA : SendTxnOrigin.STANDARD));
+        isMantaTransaction ? SendProtocol.MANTA : SendProtocol.NONE));
     await _showSuccess();
   }
 
@@ -462,8 +462,8 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
       StateContainer.of(context).wallet.accountBalance = BigInt.parse(block.balance);
       // Save in database
       sl.get<DBHelper>().saveSendTransaction(SendTransaction(
-          block.hash, result.reference, SendTxnOrigin.HANDOFF,
-          originData:
+          block.hash, result.reference, SendProtocol.HANDOFF,
+          protocolData:
               widget.handoffPaymentSpec.reusable
                   ? json.encode(widget.handoffPaymentSpec.toJson())
                   : null

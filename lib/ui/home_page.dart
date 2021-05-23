@@ -1002,19 +1002,19 @@ class _AppHomePageState extends State<AppHomePage>
       // Check if original payment transaction required special handling or
       // protocol (eg. handoff or Manta)
       var txInfo = await sl.get<DBHelper>().getSendTransaction(blockHash);
-      var txOrigin = txInfo?.origin;
+      var txOrigin = txInfo?.protocol;
 
       bool handled = false;
-      if (txOrigin == SendTxnOrigin.STANDARD) {
+      if (txOrigin == SendProtocol.NONE) {
         // Use standard send
         handled = true;
         _showSendSheet(address, amount);
-      } else if (txOrigin == SendTxnOrigin.HANDOFF) {
+      } else if (txOrigin == SendProtocol.HANDOFF) {
         // Using handoff protocol, check if spec data is available, payment is
         // reusable and a handoff channel is supported.
-        if (txInfo.originData != null) {
+        if (txInfo.protocolData != null) {
           var handoffSpec = HandoffPaymentSpec.fromJson(
-              json.decode(txInfo.originData));
+              json.decode(txInfo.protocolData));
           var handoffChannel = handoffSpec.getPreferredChannel();
           if (handoffChannel != null && handoffSpec.reusable) {
             handled = true;
@@ -1022,7 +1022,7 @@ class _AppHomePageState extends State<AppHomePage>
                 quickSendAmount: amount);
           }
         }
-      } else if (txOrigin == SendTxnOrigin.MANTA) {
+      } else if (txOrigin == SendProtocol.MANTA) {
         // Unsupported
       } else {
         // Unknown transaction source, show warning dialog first

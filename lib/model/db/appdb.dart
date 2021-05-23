@@ -26,10 +26,10 @@ class DBHelper {
         private_key TEXT,
         balance TEXT)""";
   static const String SEND_TX_SQL = """CREATE TABLE SendTransactions( 
-        block_hash TEXT PRIMARY KEY,
+        hash TEXT PRIMARY KEY,
         reference TEXT,
-        origin INTEGER,
-        origin_data TEXT)""";
+        protocol INTEGER,
+        protocol_data TEXT)""";
   static const String ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL =
       "ALTER TABLE Accounts ADD address TEXT";
 
@@ -357,13 +357,13 @@ class DBHelper {
   Future<SendTransaction> getSendTransaction(String hash) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery(
-        "SELECT * FROM SendTransactions WHERE block_hash='${hash.toUpperCase()}'");
+        "SELECT * FROM SendTransactions WHERE hash='${hash.toUpperCase()}'");
     if (list.length > 0) {
       return SendTransaction(
-          list[0]["block_hash"],
+          list[0]["hash"],
           list[0]["reference"],
-          SendTransaction.methodFromInt(list[0]["origin"]),
-          originData: list[0]["origin_data"]);
+          SendTransaction.methodFromInt(list[0]["protocol"]),
+          protocolData: list[0]["protocol_data"]);
     }
     return null;
   }
@@ -377,8 +377,8 @@ class DBHelper {
           (txn.reference != null && txn.reference.length > 100)
               ? txn.reference.substring(0, 100)
               : txn.reference,
-          SendTransaction.methodToInt(txn.origin),
-          txn.originData
+          SendTransaction.methodToInt(txn.protocol),
+          txn.protocolData
         ]);
   }
 
