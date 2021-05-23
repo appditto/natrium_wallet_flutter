@@ -186,11 +186,6 @@ class _SendSheetState extends State<SendSheet> {
     _localCurrencyFormat = NumberFormat.currency(
         locale: widget.localCurrency.getLocale().toString(),
         symbol: widget.localCurrency.getCurrencySymbol());
-    // Set quick send amount
-    if (quickSendAmount != null) {
-      _sendAmountController.text =
-          NumberUtil.getRawAsUsableString(quickSendAmount).replaceAll(",", "");
-    }
   }
 
   void _showMantaAnimation() {
@@ -684,22 +679,31 @@ class _SendSheetState extends State<SendSheet> {
     }
 
     // Update state values
-    _isContact = contact != null;
-    _sendAddressStyle = contact != null
-        ? AddressStyle.PRIMARY : AddressStyle.TEXT90;
-    _pasteButtonVisible = address == null;
-    _showContactButton = address == null;
-    _rawAmount = null;
-    _sendAddressEditable = handoffSpec == null;
-    _handoffPaymentSpec = handoffSpec;
-    _handoffChannel = handoffChannel;
-    _addressValidationText = "";
-    _amountValidationText = "";
-    _sendAmountController.text = "";
-    _sendAddressController.text = contact?.name ?? address ?? "";
-    _sendAddressFocusNode.unfocus();
-    _addressValidAndUnfocused = contact == null && address != null;
-    if (mounted) setState(() {});
+    setState(() {
+      _isContact = contact != null;
+      _sendAddressStyle = contact != null
+          ? AddressStyle.PRIMARY : AddressStyle.TEXT90;
+      _pasteButtonVisible = address == null;
+      _showContactButton = address == null;
+      _rawAmount = null;
+      _sendAddressEditable = handoffSpec == null;
+      _handoffPaymentSpec = handoffSpec;
+      _handoffChannel = handoffChannel;
+      _addressValidationText = "";
+      _amountValidationText = "";
+      _sendAddressController.text = contact?.name ?? address ?? "";
+
+      if (quickSendAmount != null) {
+        _sendAmountController.text =
+            NumberUtil.getRawAsUsableString(quickSendAmount)
+                .replaceAll(",", "");
+      } else {
+        _sendAmountController.text = "";
+      }
+
+      _sendAddressFocusNode.unfocus();
+      _addressValidAndUnfocused = contact == null && address != null;
+    });
   }
 
   /// Update the state to use the handoff (or jump directly to confirm sheet)
