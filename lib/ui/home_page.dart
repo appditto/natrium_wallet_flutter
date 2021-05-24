@@ -23,7 +23,7 @@ import 'package:natrium_wallet_flutter/model/address.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
-import 'package:natrium_wallet_flutter/model/db/send_transaction.dart';
+import 'package:natrium_wallet_flutter/model/db/payment.dart';
 import 'package:natrium_wallet_flutter/model/handoff/handoff_spec.dart';
 import 'package:natrium_wallet_flutter/model/list_model.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
@@ -1001,15 +1001,15 @@ class _AppHomePageState extends State<AppHomePage>
     if (isSend) {
       // Check if original payment transaction required special handling or
       // protocol (eg. handoff or Manta)
-      var txInfo = await sl.get<DBHelper>().getSendTransaction(blockHash);
+      var txInfo = await sl.get<DBHelper>().getPayment(blockHash);
       var txOrigin = txInfo?.protocol;
 
       bool handled = false;
-      if (txOrigin == SendProtocol.NONE) {
+      if (txOrigin == PaymentProtocol.NONE) {
         // Use standard send
         handled = true;
         _showSendSheet(address, amount);
-      } else if (txOrigin == SendProtocol.HANDOFF) {
+      } else if (txOrigin == PaymentProtocol.HANDOFF) {
         // Using handoff protocol, check if spec data is available, payment is
         // reusable and a handoff channel is supported.
         if (txInfo.protocolData != null) {
@@ -1022,7 +1022,7 @@ class _AppHomePageState extends State<AppHomePage>
                 quickSendAmount: amount);
           }
         }
-      } else if (txOrigin == SendProtocol.MANTA) {
+      } else if (txOrigin == PaymentProtocol.MANTA) {
         // Unsupported
       } else {
         // Unknown transaction source, show warning dialog first

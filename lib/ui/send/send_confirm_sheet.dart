@@ -14,7 +14,7 @@ import 'package:natrium_wallet_flutter/bus/events.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
-import 'package:natrium_wallet_flutter/model/db/send_transaction.dart';
+import 'package:natrium_wallet_flutter/model/db/payment.dart';
 import 'package:natrium_wallet_flutter/model/handoff/handoff_channels.dart';
 import 'package:natrium_wallet_flutter/model/handoff/handoff_response.dart';
 import 'package:natrium_wallet_flutter/model/handoff/handoff_spec.dart';
@@ -428,9 +428,9 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
     StateContainer.of(context).wallet.frontier = resp.hash;
     StateContainer.of(context).wallet.accountBalance += BigInt.parse(widget.amountRaw);
     // Save in database
-    sl.get<DBHelper>().saveSendTransaction(SendTransaction(
+    sl.get<DBHelper>().savePayment(PaymentTxn(
         resp.hash, null,
-        isMantaTransaction ? SendProtocol.MANTA : SendProtocol.NONE));
+        isMantaTransaction ? PaymentProtocol.MANTA : PaymentProtocol.NONE));
     await _showSuccess();
   }
 
@@ -461,8 +461,8 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
       StateContainer.of(context).wallet.frontier = block.hash;
       StateContainer.of(context).wallet.accountBalance = BigInt.parse(block.balance);
       // Save in database
-      sl.get<DBHelper>().saveSendTransaction(SendTransaction(
-          block.hash, result.reference, SendProtocol.HANDOFF,
+      sl.get<DBHelper>().savePayment(PaymentTxn(
+          block.hash, result.reference, PaymentProtocol.HANDOFF,
           protocolData:
               widget.handoffPaymentSpec.reusable
                   ? json.encode(widget.handoffPaymentSpec.toJson())

@@ -3,7 +3,7 @@ import 'dart:io' as io;
 
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
-import 'package:natrium_wallet_flutter/model/db/send_transaction.dart';
+import 'package:natrium_wallet_flutter/model/db/payment.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,8 +25,8 @@ class DBHelper {
         last_accessed INTEGER,
         private_key TEXT,
         balance TEXT)""";
-  static const String SEND_TX_SQL = """CREATE TABLE SendTransactions( 
-        hash TEXT PRIMARY KEY,
+  static const String PAYMENTS_SQL = """CREATE TABLE Payments( 
+        block_hash TEXT PRIMARY KEY,
         reference TEXT,
         protocol INTEGER,
         protocol_data TEXT)""";
@@ -60,7 +60,7 @@ class DBHelper {
     await db.execute(CONTACTS_SQL);
     await db.execute(ACCOUNTS_SQL);
     await db.execute(ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL);
-    await db.execute(SEND_TX_SQL);
+    await db.execute(PAYMENTS_SQL);
   }
 
   void _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -71,7 +71,7 @@ class DBHelper {
     } else if (oldVersion == 2) {
       await db.execute(ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL);
     } else if (oldVersion == 3) {
-      await db.execute(SEND_TX_SQL);
+      await db.execute(PAYMENTS_SQL);
     }
   }
 
@@ -349,42 +349,42 @@ class DBHelper {
   Future<void> dropAccounts() async {
     var dbClient = await db;
     await dbClient.rawDelete('DELETE FROM ACCOUNTS');
-    await dropSendTransactions();
+    await dropPayments();
   }
 
 
-  // SEND TRANSACTIONS
-  Future<SendTransaction> getSendTransaction(String hash) async {
+  // Payments
+  Future<PaymentTxn> getPayment(String hash) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery(
-        "SELECT * FROM SendTransactions WHERE hash='${hash.toUpperCase()}'");
+        "SELECT * FROM Payments WHERE block_hash='${hash.toUpperCase()}'");
     if (list.length > 0) {
-      return SendTransaction(
-          list[0]["hash"],
+      return PaymentTxn(
+          list[0]["block_hash"],
           list[0]["reference"],
-          SendTransaction.methodFromInt(list[0]["protocol"]),
+          PaymentTxn.methodFromInt(list[0]["protocol"]),
           protocolData: list[0]["protocol_data"]);
     }
     return null;
   }
 
-  Future<int> saveSendTransaction(SendTransaction txn) async {
+  Future<int> savePayment(PaymentTxn txn) async {
     var dbClient = await db;
     return await dbClient.rawInsert(
-        'REPLACE INTO SendTransactions values(?, ?, ?, ?)',
+        'REPLACE INTO Payments values(?, ?, ?, ?)',
         [
           txn.blockHash.toUpperCase(),
           (txn.reference != null && txn.reference.length > 100)
               ? txn.reference.substring(0, 100)
               : txn.reference,
-          SendTransaction.methodToInt(txn.protocol),
+          PaymentTxn.methodToInt(txn.protocol),
           txn.protocolData
         ]);
   }
 
-  Future<void> dropSendTransactions() async {
+  Future<void> dropPayments() async {
     var dbClient = await db;
-    await dbClient.rawDelete('DELETE FROM SendTransactions');
+    await dbClient.rawDelete('DELETE FROM Payments');
   }
 
 
