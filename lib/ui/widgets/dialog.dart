@@ -64,6 +64,51 @@ class AppDialogs {
     );
   }
 
+  static void showWarningDialog(var context, var content,
+      {String title, String buttonText, Function onPressed}) {
+    if (title == null) {
+      title = CaseChange.toUpperCase(
+          AppLocalization.of(context).warning, context);
+    }
+    if (buttonText == null) {
+      buttonText = CaseChange.toUpperCase(
+          AppLocalization.of(context).gotItButton, context);
+    }
+
+    showAppDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AppAlertDialog(
+          title: Text(
+            title,
+            style: AppStyles.textStyleButtonPrimaryOutline(context),
+          ),
+          content: Text(content, style: AppStyles.textStyleParagraph(context)),
+          actions: <Widget>[
+            FlatButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.0)),
+              padding: EdgeInsets.all(12),
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 100),
+                child: Text(
+                  buttonText,
+                  style: AppStyles.textStyleDialogButtonText(context),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                if (onPressed != null) {
+                  onPressed();
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   static void showInfoDialog(var context, var title, var content) {
     showDialog(
       context: context,

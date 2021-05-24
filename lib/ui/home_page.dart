@@ -1026,14 +1026,10 @@ class _AppHomePageState extends State<AppHomePage>
       } else {
         // Unknown transaction source, show warning dialog first
         handled = true;
-        AppDialogs.showConfirmDialog(
+        AppDialogs.showWarningDialog(
             context,
-            CaseChange.toUpperCase(
-                AppLocalization.of(context).warning, context),
-            AppLocalization.of(context).sendDestinationCheckWarning,
-            CaseChange.toUpperCase(
-                AppLocalization.of(context).gotItButton, context),
-                () => _showSendSheet(address, amount)
+            AppLocalization.of(context).sendDestinationWarning,
+            onPressed: () => _showSendSheet(address, amount)
         );
       }
       // Show error message if not permitted

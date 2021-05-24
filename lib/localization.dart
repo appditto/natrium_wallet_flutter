@@ -420,11 +420,11 @@ class AppLocalization {
         name: 'paymentCannotReplay');
   }
 
-  String get sendDestinationCheckWarning {
+  String get sendDestinationWarning {
     return Intl.message(
-        "The protocol used to make this payment could not be detected.\n\nIf you are making a payment to a website, exchange or business, you should verify that the destination address is correct before sending.",
+        "The protocol used to make this payment could not be detected. If you are sending funds to a website, exchange or business, you should verify that the destination address is correct before sending.",
         desc: 'Hint user that destination address should be checked first.',
-        name: 'sendDestinationCheckWarning');
+        name: 'sendDestinationWarning');
   }
 
   /// -- END SEND ITEMS

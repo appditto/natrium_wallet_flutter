@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-05-24T12:48:55.904252",
+  "@@last_modified": "2021-05-24T16:02:37.820626",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -456,8 +456,8 @@
     "type": "text",
     "placeholders": {}
   },
-  "sendDestinationCheckWarning": "The protocol used to make this payment could not be detected.\n\nIf you are making a payment to a website, exchange or business, you should verify that the destination address is correct before sending.",
-  "@sendDestinationCheckWarning": {
+  "sendDestinationWarning": "The protocol used to make this payment could not be detected. If you are sending funds to a website, exchange or business, you should verify that the destination address is correct before sending.",
+  "@sendDestinationWarning": {
     "description": "Hint user that destination address should be checked first.",
     "type": "text",
     "placeholders": {}
