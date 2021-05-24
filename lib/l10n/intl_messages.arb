@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-05-23T16:53:14.174516",
+  "@@last_modified": "2021-05-24T12:48:55.904252",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -192,6 +192,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "handoffSpecInvalid": "The requested payment type isn't supported by Natrium, or contains invalid data.",
+  "@handoffSpecInvalid": {
+    "description": "Handoff payment spec error (unsupported/invalid)",
+    "type": "text",
+    "placeholders": {}
+  },
   "removeContact": "Remove Contact",
   "@removeContact": {
     "description": "contact_remove_btn",
@@ -374,11 +380,11 @@
   },
   "handoffPaymentFailed": "Payment failed or rejected by the service",
   "@handoffPaymentFailed": {
-    "description": "Payment failed or was rejected (may be followed by colon with details)",
+    "description": "Payment failed or was rejected (sometimes followed by colon with details)",
     "type": "text",
     "placeholders": {}
   },
-  "handoffPaymentAlreadyComplete": "You have already made this payment.",
+  "handoffPaymentAlreadyComplete": "You have already sent this payment.",
   "@handoffPaymentAlreadyComplete": {
     "description": "One-time handoff payment has already been made",
     "type": "text",
@@ -386,13 +392,13 @@
   },
   "handoffExpired": "This payment has expired",
   "@handoffExpired": {
-    "description": "Handoff payment has expired (may be followed by colon with details)",
+    "description": "Handoff payment has expired (sometimes followed by colon with details)",
     "type": "text",
     "placeholders": {}
   },
   "usingHandoff": "Using block handoff",
   "@usingHandoff": {
-    "description": "Payment will be processed \"using block handoff\"",
+    "description": "Payment will be processed \"using block handoff\" protocol",
     "type": "text",
     "placeholders": {}
   },
@@ -450,7 +456,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "sendDestinationCheckWarning": "If you are making a payment to a website, exchange or business, you should verify that the destination address is still correct before sending.",
+  "sendDestinationCheckWarning": "The protocol used to make this payment could not be detected.\n\nIf you are making a payment to a website, exchange or business, you should verify that the destination address is correct before sending.",
   "@sendDestinationCheckWarning": {
     "description": "Hint user that destination address should be checked first.",
     "type": "text",

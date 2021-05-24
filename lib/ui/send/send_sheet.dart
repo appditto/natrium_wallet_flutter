@@ -597,7 +597,9 @@ class _SendSheetState extends State<SendSheet> {
                           if (handoffChannel != null) {
                             _handleHandoffEntry(handoffSpec, handoffChannel);
                           } else {
-                            UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+                            UIUtil.showSnackbar(
+                                AppLocalization.of(context).handoffSpecInvalid,
+                                context);
                           }
                         } else {
                           // Address (may have handoff encoded in URI)
@@ -1121,6 +1123,9 @@ class _SendSheetState extends State<SendSheet> {
                 var handoffChannel = handoffSpec?.getPreferredChannel();
                 if (handoffChannel != null) {
                   _handleHandoffEntry(handoffSpec, handoffChannel);
+                } else {
+                  UIUtil.showSnackbar(
+                      AppLocalization.of(context).handoffSpecInvalid, context);
                 }
               } else {
                 // Try parse address (or integrated handoff)

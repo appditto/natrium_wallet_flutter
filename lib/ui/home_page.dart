@@ -723,8 +723,7 @@ class _AppHomePageState extends State<AppHomePage>
       if (handoffChannel != null) {
         HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
       } else {
-        //todo: probably could use a better non-qr message
-        UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+        UIUtil.showSnackbar(AppLocalization.of(context).handoffSpecInvalid, context);
       }
     } else {
       // Address (may have handoff encoded in URI)

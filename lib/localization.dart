@@ -178,6 +178,13 @@ class AppLocalization {
         name: "qrUnknownError");
   }
 
+  String get handoffSpecInvalid {
+    return Intl.message(
+        "The requested payment type isn't supported by Natrium, or contains invalid data.",
+        desc: "Handoff payment spec error (unsupported/invalid)",
+        name: 'handoffSpecInvalid');
+  }
+
   /// -- END GENERIC ITEMS
 
   /// -- CONTACT ITEMS
@@ -346,25 +353,25 @@ class AppLocalization {
 
   String get handoffPaymentFailed {
     return Intl.message("Payment failed or rejected by the service",
-        desc: 'Payment failed or was rejected (may be followed by colon with details)',
+        desc: 'Payment failed or was rejected (sometimes followed by colon with details)',
         name: 'handoffPaymentFailed');
   }
 
   String get handoffPaymentAlreadyComplete {
-    return Intl.message("You have already made this payment.",
+    return Intl.message("You have already sent this payment.",
         desc: 'One-time handoff payment has already been made',
         name: 'handoffPaymentAlreadyComplete');
   }
 
   String get handoffExpired {
     return Intl.message("This payment has expired",
-        desc: 'Handoff payment has expired (may be followed by colon with details)',
+        desc: 'Handoff payment has expired (sometimes followed by colon with details)',
         name: 'handoffExpired');
   }
 
   String get usingHandoff {
     return Intl.message("Using block handoff",
-        desc: 'Payment will be processed "using block handoff"',
+        desc: 'Payment will be processed "using block handoff" protocol',
         name: 'usingHandoff');
   }
 
@@ -414,7 +421,8 @@ class AppLocalization {
   }
 
   String get sendDestinationCheckWarning {
-    return Intl.message("If you are making a payment to a website, exchange or business, you should verify that the destination address is still correct before sending.",
+    return Intl.message(
+        "The protocol used to make this payment could not be detected.\n\nIf you are making a payment to a website, exchange or business, you should verify that the destination address is correct before sending.",
         desc: 'Hint user that destination address should be checked first.',
         name: 'sendDestinationCheckWarning');
   }
