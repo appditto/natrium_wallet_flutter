@@ -6,7 +6,7 @@ import 'handoff_response.dart';
 
 enum ChannelType { https }
 
-extension HandoffChannelHelper on ChannelType {
+extension ChannelTypeExt on ChannelType {
   /// Returns the protocol name of this type
   String get name {
     switch (this) {
@@ -28,7 +28,6 @@ extension HandoffChannelHelper on ChannelType {
 
 abstract class HandoffChannel {
   final ChannelType type;
-
   HandoffChannel(this.type);
 
   Future<HandoffResponse> handoffBlock(String paymentId, Map<String, dynamic> blockContents);
@@ -37,7 +36,6 @@ abstract class HandoffChannel {
 /// HTTPS
 class HttpsHandoffChannel extends HandoffChannel {
   final Uri url;
-
   HttpsHandoffChannel(this.url) : super(ChannelType.https);
 
   factory HttpsHandoffChannel.fromProperties(dynamic properties) {
@@ -46,10 +44,9 @@ class HttpsHandoffChannel extends HandoffChannel {
 
   @override
   Future<HandoffResponse> handoffBlock(String paymentId, Map<String, dynamic> blockContents) async {
-    String handoffRequest = _createRequestJson(paymentId, blockContents);
-    http.Response response = await http.post(url,
-        body: handoffRequest,
-        headers: {'content-type': 'application/json'})
+    var response = await http.post(url,
+        body: _createRequestJson(paymentId, blockContents),
+        headers: {'Content-type': 'application/json'})
         .timeout(Duration(seconds: 15));
     return HandoffResponse.fromJson(json.decode(response.body));
   }
