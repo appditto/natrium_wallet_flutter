@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:natrium_wallet_flutter/model/setting_item.dart';
 
-enum AvailableCurrencyEnum { USD, ARS, AUD, BRL, CAD, CHF, CLP, CNY, CZK, DKK,
-                  EUR, GBP, HKD, HUF, IDR, ILS, INR, JPY, KRW, KWD,
-                  MXN, MYR, NOK, NZD, PHP, PKR, PLN, RUB, SAR, SEK,
+enum AvailableCurrencyEnum { USD, ARS, AUD, BRL, CAD, CHF, CLP, CNY, COP,
+                  CZK, DKK, EUR, GBP, HKD, HUF, IDR, ILS, INR, JPY, KRW,
+                  KWD, MXN, MYR, NOK, NZD, PHP, PKR, PLN, RUB, SAR, SEK,
                   SGD, THB, TRY, TWD, AED, VES, ZAR }
 
 /// Represent the available authentication methods our app supports
@@ -37,6 +37,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return "Chilean Peso";
       case "CNY":
           return "Chinese Yuan";
+      case "COP":
+          return "Colombian Peso";
       case "CZK":
           return "Czech Koruna";
       case "DKK":
@@ -117,6 +119,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return "\$";
       case "CNY":
           return "¥";
+      case "COP":
+          return "\$";
       case "CZK":
           return "Kč";
       case "DKK":
@@ -197,6 +201,8 @@ class AvailableCurrency extends SettingSelectionItem {
           return Locale("es", "CL");
       case "CNY":
           return Locale("zh", "CN");
+      case "COP":
+          return Locale("es", "CO");
       case "CZK":
           return Locale("cs", "CZ");
       case "DKK":
