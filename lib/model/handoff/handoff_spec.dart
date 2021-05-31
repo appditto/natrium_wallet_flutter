@@ -9,8 +9,8 @@ import '../address.dart';
 
 part 'handoff_spec.g.dart';
 
-/// Represents a payment specification, containing payment and handoff
-/// information.
+/// Represents a payment request specification, containing payment and handoff
+/// information. Entered into the app externally through QR or URI.
 @JsonSerializable()
 class HandoffPaymentSpec {
 
@@ -38,7 +38,7 @@ class HandoffPaymentSpec {
   HandoffPaymentSpec(this.paymentId, this.channels, this.destinationAddress,
       this.amount, this.variableAmount, this.requiresWork, this.reusable);
 
-  /// Infers, populates and validates properties after construction
+  /// Infers, populates and validates properties post-construction
   void _processParams(String altAmount, String altAddr) {
     amount ??= altAddr != null ? BigInt.tryParse(altAmount) : null;
     destinationAddress ??= altAddr;
@@ -57,26 +57,27 @@ class HandoffPaymentSpec {
       throw "Wallet doesn't support handoff work generation";
   }
 
-  /// Returns the handoff channel object for the given [type] if supported,
-  /// or null if the channel type isn't available.
-  HandoffChannel getChannel(ChannelType type) {
-    var properties = channels[type.name];
+
+  /// Returns the handoff channel processor object for the given [channel] if
+  /// supported, or null if the channel type isn't available.
+  HandoffChannelProcessor getChannel(HandoffChannel channel) {
+    var properties = channels[channel.name];
     if (properties != null) {
       try {
-        return type.parse(properties);
+        return channel.parse(properties);
       } catch (e) {
-        sl.get<Logger>().w("Failed to parse handoff channel ${type.name} from spec", e);
+        sl.get<Logger>().w("Failed to parse handoff channel ${channel.name} from spec", e);
       }
     }
     return null;
   }
 
-  /// Returns the handoff channel object for the first of the given channel
-  /// [types] that are available, or null if none of the requested
-  /// channels are available.
-  HandoffChannel getPreferredChannel({List<ChannelType> types = ChannelType.values}) {
-    for (var type in types) {
-      var channel = getChannel(type);
+  /// Returns the handoff channel object for the first of the given [channels]
+  /// that are available, or null if none of the requested channels are
+  /// available.
+  HandoffChannelProcessor selectChannel({List<HandoffChannel> channels = HandoffChannel.values}) {
+    for (var cType in channels) {
+      var channel = getChannel(cType);
       if (channel != null)
         return channel;
     }

@@ -354,21 +354,21 @@ class DBHelper {
 
 
   // Payments
-  Future<PaymentTxn> getPayment(String hash) async {
+  Future<PaymentTransaction> getPayment(String hash) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery(
         "SELECT * FROM Payments WHERE block_hash='${hash.toUpperCase()}'");
     if (list.length > 0) {
-      return PaymentTxn(
+      return PaymentTransaction(
           list[0]["block_hash"],
           list[0]["reference"],
-          PaymentTxn.methodFromInt(list[0]["protocol"]),
+          PaymentProtocolExt.fromInt(list[0]["protocol"]),
           protocolData: list[0]["protocol_data"]);
     }
     return null;
   }
 
-  Future<int> savePayment(PaymentTxn txn) async {
+  Future<int> savePayment(PaymentTransaction txn) async {
     var dbClient = await db;
     return await dbClient.rawInsert(
         'REPLACE INTO Payments values(?, ?, ?, ?)',
@@ -377,7 +377,7 @@ class DBHelper {
           (txn.reference != null && txn.reference.length > 100)
               ? txn.reference.substring(0, 100)
               : txn.reference,
-          PaymentTxn.methodToInt(txn.protocol),
+          txn.protocol.intVal,
           txn.protocolData
         ]);
   }

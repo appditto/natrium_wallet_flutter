@@ -43,7 +43,7 @@ class SendSheet extends StatefulWidget {
   final String address;
   final String quickSendAmount;
   final HandoffPaymentSpec handoffPaymentSpec;
-  final HandoffChannel handoffChannel;
+  final HandoffChannelProcessor handoffChannel;
 
   SendSheet(
       {@required this.localCurrency,
@@ -92,7 +92,7 @@ class _SendSheetState extends State<SendSheet> {
   NumberFormat _localCurrencyFormat;
   // Payment handoff objects (null if not using handoff)
   HandoffPaymentSpec _handoffPaymentSpec;
-  HandoffChannel _handoffChannel;
+  HandoffChannelProcessor _handoffChannel;
 
   String _rawAmount;
 
@@ -593,7 +593,7 @@ class _SendSheetState extends State<SendSheet> {
                         } else if (HandoffUtil.matchesUri(scanResult)) {
                           // Handoff URI scheme
                           var handoffSpec = HandoffUtil.parseUri(scanResult);
-                          var handoffChannel = handoffSpec?.getPreferredChannel();
+                          var handoffChannel = handoffSpec?.selectChannel();
                           if (handoffChannel != null) {
                             _handleHandoffEntry(handoffSpec, handoffChannel);
                           } else {
@@ -605,7 +605,7 @@ class _SendSheetState extends State<SendSheet> {
                           // Address (may have handoff encoded in URI)
                           var address = Address(scanResult);
                           var handoffSpec = address.getHandoffPaymentSpec();
-                          var handoffChannel = handoffSpec?.getPreferredChannel();
+                          var handoffChannel = handoffSpec?.selectChannel();
                           if (handoffChannel != null) {
                             // Valid handoff spec with supported channel
                             _handleHandoffEntry(handoffSpec, handoffChannel);
@@ -670,7 +670,7 @@ class _SendSheetState extends State<SendSheet> {
 
   /// Update state from QR scan entry
   Future<void> _updateStateFromEntry({String address, Contact contact,
-      HandoffPaymentSpec handoffSpec, HandoffChannel handoffChannel}) async {
+      HandoffPaymentSpec handoffSpec, HandoffChannelProcessor handoffChannel}) async {
     // Preprocess
     if (handoffSpec != null) {
       address = handoffSpec.destinationAddress;
@@ -709,7 +709,7 @@ class _SendSheetState extends State<SendSheet> {
   }
 
   /// Update the state to use the handoff (or jump directly to confirm sheet)
-  void _handleHandoffEntry(HandoffPaymentSpec paymentSpec, HandoffChannel channel) {
+  void _handleHandoffEntry(HandoffPaymentSpec paymentSpec, HandoffChannelProcessor channel) {
     if (paymentSpec.variableAmount) {
       _updateStateFromEntry(
         handoffSpec: paymentSpec,
@@ -1120,7 +1120,7 @@ class _SendSheetState extends State<SendSheet> {
               if (HandoffUtil.matchesUri(data.text)) {
                 // Handoff URI scheme
                 var handoffSpec = HandoffUtil.parseUri(data.text);
-                var handoffChannel = handoffSpec?.getPreferredChannel();
+                var handoffChannel = handoffSpec?.selectChannel();
                 if (handoffChannel != null) {
                   _handleHandoffEntry(handoffSpec, handoffChannel);
                 } else {
@@ -1131,7 +1131,7 @@ class _SendSheetState extends State<SendSheet> {
                 // Try parse address (or integrated handoff)
                 var address = Address(data.text);
                 var handoffSpec = address.getHandoffPaymentSpec();
-                var handoffChannel = handoffSpec?.getPreferredChannel();
+                var handoffChannel = handoffSpec?.selectChannel();
                 if (handoffChannel != null) {
                   // Valid handoff spec with supported channel
                   _handleHandoffEntry(handoffSpec, handoffChannel);

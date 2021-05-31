@@ -35,7 +35,7 @@ class HandoffUtil {
 
   /// Handles a payment request, showing the payment screen.
   static void handlePayment(BuildContext context, HandoffPaymentSpec spec,
-      HandoffChannel channel, {String quickSendAmount}) {
+      HandoffChannelProcessor channel, {String quickSendAmount}) {
     if (!StateContainer.of(context).wallet.loading
         && spec.amount > StateContainer.of(context).wallet.accountBalance) {
       UIUtil.showSnackbar(AppLocalization.of(context).insufficientBalance, context);

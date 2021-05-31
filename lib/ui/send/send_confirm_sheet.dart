@@ -48,7 +48,7 @@ class SendConfirmSheet extends StatefulWidget {
   final MantaWallet manta;
   final PaymentRequestMessage paymentRequest;
   final HandoffPaymentSpec handoffPaymentSpec;
-  final HandoffChannel handoffChannel;
+  final HandoffChannelProcessor handoffChannel;
   final int natriconNonce;
 
   SendConfirmSheet(
@@ -428,7 +428,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
     StateContainer.of(context).wallet.frontier = resp.hash;
     StateContainer.of(context).wallet.accountBalance += BigInt.parse(widget.amountRaw);
     // Save in database
-    sl.get<DBHelper>().savePayment(PaymentTxn(
+    sl.get<DBHelper>().savePayment(PaymentTransaction(
         resp.hash, null,
         isMantaTransaction ? PaymentProtocol.MANTA : PaymentProtocol.NONE));
     await _showSuccess();
@@ -461,7 +461,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
       StateContainer.of(context).wallet.frontier = block.hash;
       StateContainer.of(context).wallet.accountBalance = BigInt.parse(block.balance);
       // Save in database
-      sl.get<DBHelper>().savePayment(PaymentTxn(
+      sl.get<DBHelper>().savePayment(PaymentTransaction(
           block.hash, result.reference, PaymentProtocol.HANDOFF,
           protocolData:
               widget.handoffPaymentSpec.reusable

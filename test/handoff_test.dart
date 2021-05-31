@@ -16,9 +16,9 @@ void _testSpecDecode() {
   expect(spec.destinationAddress, 'nano_38rkxdc6dr4wap9kamsu7k8cqy8bj1ougrx8fifwuzeydzch9dtcmt66mrcc');
   expect(spec.amount.toString(), '123400000000000000000000000000');
   expect(spec.channels.length, 2);
-  expect(spec.getChannel(ChannelType.https), isNotNull);
-  expect(
-      (spec.getChannel(ChannelType.https) as HttpsHandoffChannel).url.toString(),
+  var httpsChannel = spec.getChannel(HandoffChannel.https);
+  expect(httpsChannel, isNotNull);
+  expect((httpsChannel as HttpsChannelProcessor).url.toString(),
       'https://example.com/handoff');
   expect(spec.variableAmount, true);
   expect(spec.requiresWork, false);

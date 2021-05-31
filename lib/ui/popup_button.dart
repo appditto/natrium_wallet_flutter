@@ -77,7 +77,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
       } else if (HandoffUtil.matchesUri(scanResult)) {
         // Handoff URI scheme
         var handoffSpec = HandoffUtil.parseUri(scanResult);
-        var handoffChannel = handoffSpec?.getPreferredChannel();
+        var handoffChannel = handoffSpec?.selectChannel();
         if (handoffChannel != null) {
           // Valid handoff spec with supported channel
           HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
@@ -88,7 +88,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
         // Address (may have handoff encoded in URI)
         var address = Address(scanResult);
         var handoffSpec = address.getHandoffPaymentSpec();
-        var handoffChannel = handoffSpec?.getPreferredChannel();
+        var handoffChannel = handoffSpec?.selectChannel();
         if (handoffChannel != null) {
           // Valid handoff spec with supported channel
           HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);

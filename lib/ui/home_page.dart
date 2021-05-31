@@ -719,7 +719,7 @@ class _AppHomePageState extends State<AppHomePage>
     } else if (HandoffUtil.matchesUri(link)) {
       // Handoff URI scheme
       var handoffSpec = HandoffUtil.parseUri(link);
-      var handoffChannel = handoffSpec?.getPreferredChannel();
+      var handoffChannel = handoffSpec?.selectChannel();
       if (handoffChannel != null) {
         HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
       } else {
@@ -729,7 +729,7 @@ class _AppHomePageState extends State<AppHomePage>
       // Address (may have handoff encoded in URI)
       var address = Address(link);
       var handoffSpec = address.getHandoffPaymentSpec();
-      var handoffChannel = handoffSpec?.getPreferredChannel();
+      var handoffChannel = handoffSpec?.selectChannel();
       if (handoffChannel != null) {
         // Valid handoff spec with supported channel
         HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
@@ -1014,7 +1014,7 @@ class _AppHomePageState extends State<AppHomePage>
         if (txInfo.protocolData != null) {
           var handoffSpec = HandoffPaymentSpec.fromJson(
               json.decode(txInfo.protocolData));
-          var handoffChannel = handoffSpec.getPreferredChannel();
+          var handoffChannel = handoffSpec.selectChannel();
           if (handoffChannel != null && handoffSpec.reusable) {
             handled = true;
             HandoffUtil.handlePayment(context, handoffSpec, handoffChannel,

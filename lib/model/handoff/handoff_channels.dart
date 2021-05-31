@@ -4,48 +4,49 @@ import 'package:http/http.dart' as http;
 
 import 'handoff_response.dart';
 
-enum ChannelType { https }
+enum HandoffChannel { https }
 
-extension ChannelTypeExt on ChannelType {
+extension HandoffChannelExt on HandoffChannel {
   /// Returns the protocol name of this type
   String get name {
     switch (this) {
-      case ChannelType.https: return 'https';
+      case HandoffChannel.https:
+        return 'https';
+      default: throw AssertionError();
     }
-    throw AssertionError();
   }
 
   /// Parses the specified channel object from the given properties object
-  HandoffChannel parse(dynamic properties) {
+  HandoffChannelProcessor parse(dynamic properties) {
     switch (this) {
-      case ChannelType.https:
-        return HttpsHandoffChannel.fromProperties(properties);
+      case HandoffChannel.https:
+        return HttpsChannelProcessor.fromSpec(properties);
+      default: throw AssertionError();
     }
-    throw AssertionError();
   }
 }
 
 
-abstract class HandoffChannel {
-  final ChannelType type;
-  HandoffChannel(this.type);
+abstract class HandoffChannelProcessor {
+  final HandoffChannel type;
+  HandoffChannelProcessor(this.type);
 
   Future<HandoffResponse> handoffBlock(String paymentId, Map<String, dynamic> blockContents);
 }
 
 /// HTTPS
-class HttpsHandoffChannel extends HandoffChannel {
+class HttpsChannelProcessor extends HandoffChannelProcessor {
   final Uri url;
-  HttpsHandoffChannel(this.url) : super(ChannelType.https);
+  HttpsChannelProcessor(this.url) : super(HandoffChannel.https);
 
-  factory HttpsHandoffChannel.fromProperties(dynamic properties) {
-    return HttpsHandoffChannel(Uri.parse("https://" + properties['url']));
+  factory HttpsChannelProcessor.fromSpec(dynamic properties) {
+    return HttpsChannelProcessor(Uri.parse("https://" + properties['url']));
   }
 
   @override
-  Future<HandoffResponse> handoffBlock(String paymentId, Map<String, dynamic> blockContents) async {
+  Future<HandoffResponse> handoffBlock(String paymentId, Map<String, dynamic> block) async {
     var response = await http.post(url,
-        body: _createRequestJson(paymentId, blockContents),
+        body: _createRequestJson(paymentId, block),
         headers: {'Content-type': 'application/json'})
         .timeout(Duration(seconds: 15));
     return HandoffResponse.fromJson(json.decode(response.body));
@@ -54,6 +55,6 @@ class HttpsHandoffChannel extends HandoffChannel {
 
 
 /// Creates a request using the generic JSON model
-String _createRequestJson(String paymentId, Map<String, dynamic> blockContents) {
-  return json.encode({'id': paymentId, 'block': blockContents});
+String _createRequestJson(String paymentId, Map<String, dynamic> block) {
+  return json.encode({'id': paymentId, 'block': block});
 }
