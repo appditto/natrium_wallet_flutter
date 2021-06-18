@@ -17,7 +17,7 @@ import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/payment.dart';
 import 'package:natrium_wallet_flutter/model/handoff/handoff_channels.dart';
 import 'package:natrium_wallet_flutter/model/handoff/handoff_response.dart';
-import 'package:natrium_wallet_flutter/model/handoff/handoff_spec.dart';
+import 'package:natrium_wallet_flutter/model/handoff/handoff_payment_req.dart';
 import 'package:natrium_wallet_flutter/network/account_service.dart';
 import 'package:natrium_wallet_flutter/network/model/response/process_response.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
@@ -47,8 +47,8 @@ class SendConfirmSheet extends StatefulWidget {
   final bool maxSend;
   final MantaWallet manta;
   final PaymentRequestMessage paymentRequest;
-  final HandoffPaymentSpec handoffPaymentSpec;
-  final HandoffChannelProcessor handoffChannel;
+  final HOPaymentRequest handoffPaymentSpec;
+  final HOChannelDispatcher handoffChannel;
   final int natriconNonce;
 
   SendConfirmSheet(
@@ -451,23 +451,29 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
     // Process handoff
     sl.get<Logger>().i("Processing handoff of block ${block.hash} using "
         "channel ${widget.handoffChannel.type.name}...");
-    var result = await widget.handoffChannel.handoffBlock(
+    var result = await widget.handoffChannel.dispatchBlock(
         widget.handoffPaymentSpec.paymentId, block.toJson());
     sl.get<Logger>().i("Handoff processed, returned status: ${result.status}, "
         "message: ${result.message}");
 
     if (result.status.isSuccessful()) {
-      // Update state
+      // Update cached state
       StateContainer.of(context).wallet.frontier = block.hash;
       StateContainer.of(context).wallet.accountBalance = BigInt.parse(block.balance);
+
       // Save in database
+      String nextPaymentData;
+      if (result.nextId != null) {
+        var nextPaymentReq = widget.handoffPaymentSpec;
+        nextPaymentReq.paymentId = result.nextId;
+        nextPaymentData = json.encode(nextPaymentReq.toJson());
+      }
       sl.get<DBHelper>().savePayment(PaymentTransaction(
           block.hash, result.reference, PaymentProtocol.HANDOFF,
-          protocolData:
-              widget.handoffPaymentSpec.reusable
-                  ? json.encode(widget.handoffPaymentSpec.toJson())
-                  : null
+          protocolData: nextPaymentData
       ));
+
+      // Show success screen
       await _showSuccess(message: result.message);
     } else {
       //todo: if incorrect_state, force-refresh account state/frontier?

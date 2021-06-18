@@ -25,13 +25,13 @@ class DBHelper {
         last_accessed INTEGER,
         private_key TEXT,
         balance TEXT)""";
+  static const String ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL =
+      "ALTER TABLE Accounts ADD address TEXT";
   static const String PAYMENTS_SQL = """CREATE TABLE Payments( 
         block_hash TEXT PRIMARY KEY,
         reference TEXT,
         protocol INTEGER,
         protocol_data TEXT)""";
-  static const String ACCOUNTS_ADD_ACCOUNT_COLUMN_SQL =
-      "ALTER TABLE Accounts ADD address TEXT";
 
   static Database _db;
 

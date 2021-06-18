@@ -7,12 +7,12 @@ import 'package:natrium_wallet_flutter/service_locator.dart';
 
 import '../address.dart';
 
-part 'handoff_spec.g.dart';
+part 'handoff_payment_req.g.dart';
 
 /// Represents a payment request specification, containing payment and handoff
 /// information. Entered into the app externally through QR or URI.
 @JsonSerializable()
-class HandoffPaymentSpec {
+class HOPaymentRequest {
 
   @JsonKey(name:'id', required: true)
   String paymentId;
@@ -26,17 +26,16 @@ class HandoffPaymentSpec {
   @JsonKey(name:'a', fromJson: _parseBigInt, toJson: _bigIntToString)
   BigInt amount;
 
-  @JsonKey(name:'va', defaultValue: false)
+  @JsonKey(name:'v', defaultValue: false)
   bool variableAmount;
 
-  @JsonKey(name:'wk', defaultValue: false)
+  @JsonKey(name:'w', defaultValue: false)
   bool requiresWork;
 
-  @JsonKey(name:'re', defaultValue: false)
-  bool reusable;
 
-  HandoffPaymentSpec(this.paymentId, this.channels, this.destinationAddress,
-      this.amount, this.variableAmount, this.requiresWork, this.reusable);
+  HOPaymentRequest(this.paymentId, this.channels, this.destinationAddress,
+      this.amount, this.variableAmount, this.requiresWork);
+
 
   /// Infers, populates and validates properties post-construction
   void _processParams(String altAmount, String altAddr) {
@@ -60,7 +59,7 @@ class HandoffPaymentSpec {
 
   /// Returns the handoff channel processor object for the given [channel] if
   /// supported, or null if the channel type isn't available.
-  HandoffChannelProcessor getChannel(HandoffChannel channel) {
+  HOChannelDispatcher getChannel(HOChannel channel) {
     var properties = channels[channel.name];
     if (properties != null) {
       try {
@@ -75,7 +74,7 @@ class HandoffPaymentSpec {
   /// Returns the handoff channel object for the first of the given [channels]
   /// that are available, or null if none of the requested channels are
   /// available.
-  HandoffChannelProcessor selectChannel({List<HandoffChannel> channels = HandoffChannel.values}) {
+  HOChannelDispatcher selectChannel({List<HOChannel> channels = HOChannel.values}) {
     for (var cType in channels) {
       var channel = getChannel(cType);
       if (channel != null)
@@ -85,14 +84,14 @@ class HandoffPaymentSpec {
   }
 
 
-  factory HandoffPaymentSpec.fromBase64(String data,
+  factory HOPaymentRequest.fromBase64(String data,
       {String altAmount, String altAddr}) {
     var jsonVal = utf8.decode(base64.decode(base64.normalize(data)));
-    return HandoffPaymentSpec.fromJson(json.decode(jsonVal),
+    return HOPaymentRequest.fromJson(json.decode(jsonVal),
         altAmount: altAmount, altAddr: altAddr);
   }
 
-  factory HandoffPaymentSpec.fromJson(Map<String, dynamic> json,
+  factory HOPaymentRequest.fromJson(Map<String, dynamic> json,
       {String altAmount, String altAddr}) {
     var spec = _$HandoffPaymentSpecFromJson(json);
     spec._processParams(altAmount, altAddr);

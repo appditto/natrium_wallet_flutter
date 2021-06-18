@@ -4,52 +4,52 @@ import 'package:http/http.dart' as http;
 
 import 'handoff_response.dart';
 
-enum HandoffChannel { https }
+enum HOChannel { https }
 
-extension HandoffChannelExt on HandoffChannel {
+extension HOChannelExt on HOChannel {
   /// Returns the protocol name of this type
   String get name {
     switch (this) {
-      case HandoffChannel.https:
+      case HOChannel.https:
         return 'https';
       default: throw AssertionError();
     }
   }
 
   /// Parses the specified channel object from the given properties object
-  HandoffChannelProcessor parse(dynamic properties) {
+  HOChannelDispatcher parse(dynamic properties) {
     switch (this) {
-      case HandoffChannel.https:
-        return HttpsChannelProcessor.fromSpec(properties);
+      case HOChannel.https:
+        return HttpsChannelDispatcher.fromSpec(properties);
       default: throw AssertionError();
     }
   }
 }
 
+abstract class HOChannelDispatcher {
+  final HOChannel type;
+  HOChannelDispatcher(this.type);
 
-abstract class HandoffChannelProcessor {
-  final HandoffChannel type;
-  HandoffChannelProcessor(this.type);
-
-  Future<HandoffResponse> handoffBlock(String paymentId, Map<String, dynamic> blockContents);
+  Future<HOResponse> dispatchBlock(String paymentId, Map<String, dynamic> blockContents);
 }
 
-/// HTTPS
-class HttpsChannelProcessor extends HandoffChannelProcessor {
-  final Uri url;
-  HttpsChannelProcessor(this.url) : super(HandoffChannel.https);
 
-  factory HttpsChannelProcessor.fromSpec(dynamic properties) {
-    return HttpsChannelProcessor(Uri.parse("https://" + properties['url']));
+/// HTTPS
+class HttpsChannelDispatcher extends HOChannelDispatcher {
+  final Uri url;
+  HttpsChannelDispatcher(this.url) : super(HOChannel.https);
+
+  factory HttpsChannelDispatcher.fromSpec(dynamic properties) {
+    return HttpsChannelDispatcher(Uri.parse("https://" + properties['url']));
   }
 
   @override
-  Future<HandoffResponse> handoffBlock(String paymentId, Map<String, dynamic> block) async {
+  Future<HOResponse> dispatchBlock(String paymentId, Map<String, dynamic> block) async {
     var response = await http.post(url,
         body: _createRequestJson(paymentId, block),
         headers: {'Content-type': 'application/json'})
         .timeout(Duration(seconds: 15));
-    return HandoffResponse.fromJson(json.decode(response.body));
+    return HOResponse.fromJson(json.decode(response.body));
   }
 }
 

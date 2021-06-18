@@ -2,7 +2,7 @@ import 'dart:core';
 
 import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
 import 'package:logger/logger.dart';
-import 'package:natrium_wallet_flutter/model/handoff/handoff_spec.dart';
+import 'package:natrium_wallet_flutter/model/handoff/handoff_payment_req.dart';
 
 import '../service_locator.dart';
 
@@ -35,10 +35,10 @@ class Address {
 
   /// Returns the handoff payment spec encoded in the URI, or null if not
   /// provided or if the spec/data is invalid.
-  HandoffPaymentSpec getHandoffPaymentSpec() {
+  HOPaymentRequest getHandoffPaymentSpec() {
     if (_handoffData == null) return null;
     try {
-      return HandoffPaymentSpec.fromBase64(_handoffData,
+      return HOPaymentRequest.fromBase64(_handoffData,
           altAddr: address, altAmount: amount);
     } catch (e) {
       sl.get<Logger>().w("Invalid handoff spec in nano URI", e);

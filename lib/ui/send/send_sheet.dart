@@ -15,7 +15,7 @@ import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/model/available_currency.dart';
 import 'package:natrium_wallet_flutter/model/handoff/handoff_channels.dart';
-import 'package:natrium_wallet_flutter/model/handoff/handoff_spec.dart';
+import 'package:natrium_wallet_flutter/model/handoff/handoff_payment_req.dart';
 import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/model/address.dart';
@@ -42,8 +42,8 @@ class SendSheet extends StatefulWidget {
   final Contact contact;
   final String address;
   final String quickSendAmount;
-  final HandoffPaymentSpec handoffPaymentSpec;
-  final HandoffChannelProcessor handoffChannel;
+  final HOPaymentRequest handoffPaymentSpec;
+  final HOChannelDispatcher handoffChannel;
 
   SendSheet(
       {@required this.localCurrency,
@@ -91,8 +91,8 @@ class _SendSheetState extends State<SendSheet> {
   String _lastCryptoAmount = "";
   NumberFormat _localCurrencyFormat;
   // Payment handoff objects (null if not using handoff)
-  HandoffPaymentSpec _handoffPaymentSpec;
-  HandoffChannelProcessor _handoffChannel;
+  HOPaymentRequest _handoffPaymentSpec;
+  HOChannelDispatcher _handoffChannel;
 
   String _rawAmount;
 
@@ -670,7 +670,7 @@ class _SendSheetState extends State<SendSheet> {
 
   /// Update state from QR scan entry
   Future<void> _updateStateFromEntry({String address, Contact contact,
-      HandoffPaymentSpec handoffSpec, HandoffChannelProcessor handoffChannel}) async {
+      HOPaymentRequest handoffSpec, HOChannelDispatcher handoffChannel}) async {
     // Preprocess
     if (handoffSpec != null) {
       address = handoffSpec.destinationAddress;
@@ -709,7 +709,7 @@ class _SendSheetState extends State<SendSheet> {
   }
 
   /// Update the state to use the handoff (or jump directly to confirm sheet)
-  void _handleHandoffEntry(HandoffPaymentSpec paymentSpec, HandoffChannelProcessor channel) {
+  void _handleHandoffEntry(HOPaymentRequest paymentSpec, HOChannelDispatcher channel) {
     if (paymentSpec.variableAmount) {
       _updateStateFromEntry(
         handoffSpec: paymentSpec,

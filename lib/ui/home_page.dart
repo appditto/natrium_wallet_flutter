@@ -24,7 +24,7 @@ import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/model/db/payment.dart';
-import 'package:natrium_wallet_flutter/model/handoff/handoff_spec.dart';
+import 'package:natrium_wallet_flutter/model/handoff/handoff_payment_req.dart';
 import 'package:natrium_wallet_flutter/model/list_model.dart';
 import 'package:natrium_wallet_flutter/network/model/block_types.dart';
 import 'package:natrium_wallet_flutter/network/model/response/account_history_response_item.dart';
@@ -1012,10 +1012,10 @@ class _AppHomePageState extends State<AppHomePage>
         // Using handoff protocol, check if spec data is available, payment is
         // reusable and a handoff channel is supported.
         if (txInfo.protocolData != null) {
-          var handoffSpec = HandoffPaymentSpec.fromJson(
+          var handoffSpec = HOPaymentRequest.fromJson(
               json.decode(txInfo.protocolData));
-          var handoffChannel = handoffSpec.selectChannel();
-          if (handoffChannel != null && handoffSpec.reusable) {
+          var handoffChannel = handoffSpec?.selectChannel();
+          if (handoffChannel != null) {
             handled = true;
             HandoffUtil.handlePayment(context, handoffSpec, handoffChannel,
                 quickSendAmount: amount);
