@@ -598,7 +598,7 @@ class _SendSheetState extends State<SendSheet> {
                             _handleHandoffEntry(handoffSpec, handoffChannel);
                           } else {
                             UIUtil.showSnackbar(
-                                AppLocalization.of(context).handoffSpecInvalid,
+                                AppLocalization.of(context).handoffInvalid,
                                 context);
                           }
                         } else {
@@ -1125,7 +1125,7 @@ class _SendSheetState extends State<SendSheet> {
                   _handleHandoffEntry(handoffSpec, handoffChannel);
                 } else {
                   UIUtil.showSnackbar(
-                      AppLocalization.of(context).handoffSpecInvalid, context);
+                      AppLocalization.of(context).handoffInvalid, context);
                 }
               } else {
                 // Try parse address (or integrated handoff)

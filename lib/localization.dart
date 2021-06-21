@@ -178,11 +178,11 @@ class AppLocalization {
         name: "qrUnknownError");
   }
 
-  String get handoffSpecInvalid {
+  String get handoffInvalid {
     return Intl.message(
-        "The requested payment type isn't supported by Natrium, or contains invalid data.",
-        desc: "Handoff payment spec error (unsupported/invalid)",
-        name: 'handoffSpecInvalid');
+        "The entered payment request isn't supported by Natrium, or contains invalid data.",
+        desc: "Handoff payment request error (unsupported/invalid)",
+        name: 'handoffInvalid');
   }
 
   /// -- END GENERIC ITEMS

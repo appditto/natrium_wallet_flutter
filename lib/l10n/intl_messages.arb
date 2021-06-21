@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2021-05-24T16:02:37.820626",
+  "@@last_modified": "2021-06-21T16:53:07.653251",
   "cancel": "Cancel",
   "@cancel": {
     "description": "dialog_cancel",
@@ -192,9 +192,9 @@
     "type": "text",
     "placeholders": {}
   },
-  "handoffSpecInvalid": "The requested payment type isn't supported by Natrium, or contains invalid data.",
-  "@handoffSpecInvalid": {
-    "description": "Handoff payment spec error (unsupported/invalid)",
+  "handoffInvalid": "The entered payment request isn't supported by Natrium, or contains invalid data.",
+  "@handoffInvalid": {
+    "description": "Handoff payment request error (unsupported/invalid)",
     "type": "text",
     "placeholders": {}
   },

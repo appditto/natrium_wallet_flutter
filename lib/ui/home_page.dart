@@ -723,7 +723,7 @@ class _AppHomePageState extends State<AppHomePage>
       if (handoffChannel != null) {
         HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
       } else {
-        UIUtil.showSnackbar(AppLocalization.of(context).handoffSpecInvalid, context);
+        UIUtil.showSnackbar(AppLocalization.of(context).handoffInvalid, context);
       }
     } else {
       // Address (may have handoff encoded in URI)

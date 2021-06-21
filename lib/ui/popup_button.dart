@@ -82,7 +82,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
           // Valid handoff spec with supported channel
           HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
         } else {
-          UIUtil.showSnackbar(AppLocalization.of(context).handoffSpecInvalid, context);
+          UIUtil.showSnackbar(AppLocalization.of(context).handoffInvalid, context);
         }
       } else {
         // Address (may have handoff encoded in URI)
