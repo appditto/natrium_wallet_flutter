@@ -38,8 +38,7 @@ class Address {
   HOPaymentRequest getHandoffPaymentSpec() {
     if (_handoffData == null) return null;
     try {
-      return HOPaymentRequest.fromBase64(_handoffData,
-          altAddr: address, altAmount: amount);
+      return HOPaymentRequest.fromBase64(_handoffData);
     } catch (e) {
       sl.get<Logger>().w("Invalid handoff spec in nano URI", e);
       return null;

@@ -21,7 +21,7 @@ class HOResponse {
 
   HOResponse(this.status, {this.message, this.reference, this.nextId});
 
-  factory HOResponse.fromJson(Map<String, dynamic> json) => _$HandoffResponseFromJson(json);
+  factory HOResponse.fromJson(Map<String, dynamic> json) => _$HOResponseFromJson(json);
 
 
   String formatMessage(AppLocalization localization) {

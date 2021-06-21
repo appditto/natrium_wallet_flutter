@@ -6,7 +6,7 @@ part of 'handoff_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-HOResponse _$HandoffResponseFromJson(Map<String, dynamic> json) {
+HOResponse _$HOResponseFromJson(Map<String, dynamic> json) {
   return HOResponse(
     _statusFromCode(json['status'] as int),
     message: json['msg'] as String,

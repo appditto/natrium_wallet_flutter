@@ -20,39 +20,33 @@ class HOPaymentRequest {
   @JsonKey(name:'c', required: true)
   Map<String, dynamic> channels;
 
-  @JsonKey(name:'d')
+  @JsonKey(name:'d', required: true)
   String destinationAddress;
 
   @JsonKey(name:'a', fromJson: _parseBigInt, toJson: _bigIntToString)
   BigInt amount;
 
-  @JsonKey(name:'v', defaultValue: false)
+  @JsonKey(name:'va', defaultValue: false)
   bool variableAmount;
 
-  @JsonKey(name:'w', defaultValue: false)
+  @JsonKey(name:'wk', defaultValue: false)
   bool requiresWork;
 
 
   HOPaymentRequest(this.paymentId, this.channels, this.destinationAddress,
-      this.amount, this.variableAmount, this.requiresWork);
-
-
-  /// Infers, populates and validates properties post-construction
-  void _processParams(String altAmount, String altAddr) {
-    amount ??= altAddr != null ? BigInt.tryParse(altAmount) : null;
-    destinationAddress ??= altAddr;
-
+      this.amount, this.variableAmount, this.requiresWork) {
     if (amount == null || amount == BigInt.zero) {
       // No amount specified, assume any amount may be sent (>= 1 raw)
       amount = BigInt.one;
       variableAmount = true;
     }
 
+    // Validate properties
     if (paymentId == null || channels.isEmpty || destinationAddress == null
         || !Address(destinationAddress).isValid()
         || (amount != null && amount <= BigInt.zero))
       throw 'Invalid handoff specification';
-    if (requiresWork) //todo handoff implement wallet-provided work gen
+    if (requiresWork) //todo: support wallet-provided work generation
       throw "Wallet doesn't support handoff work generation";
   }
 
@@ -84,21 +78,16 @@ class HOPaymentRequest {
   }
 
 
-  factory HOPaymentRequest.fromBase64(String data,
-      {String altAmount, String altAddr}) {
+  factory HOPaymentRequest.fromBase64(String data) {
     var jsonVal = utf8.decode(base64.decode(base64.normalize(data)));
-    return HOPaymentRequest.fromJson(json.decode(jsonVal),
-        altAmount: altAmount, altAddr: altAddr);
+    return HOPaymentRequest.fromJson(json.decode(jsonVal));
   }
 
-  factory HOPaymentRequest.fromJson(Map<String, dynamic> json,
-      {String altAmount, String altAddr}) {
-    var spec = _$HandoffPaymentSpecFromJson(json);
-    spec._processParams(altAmount, altAddr);
-    return spec;
+  factory HOPaymentRequest.fromJson(Map<String, dynamic> json) {
+    return _$HOPaymentRequestFromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$HandoffPaymentSpecToJson(this);
+  Map<String, dynamic> toJson() => _$HOPaymentRequestToJson(this);
 }
 
 BigInt _parseBigInt(val) => val != null ? BigInt.parse(val) : null;
