@@ -515,7 +515,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
     if (animationOpen) {
       Navigator.of(context).pop();
     }
-    UIUtil.showSnackbar(message, context);
+    UIUtil.showSnackbar(message, context, durationMillis: 6000);
     Navigator.of(context).pop();
   }
 

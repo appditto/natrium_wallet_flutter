@@ -393,7 +393,7 @@ class UIUtil {
       return MediaQuery.of(context).size.width * 0.85;
   }
 
-  static void showSnackbar(String content, BuildContext context) {
+  static void showSnackbar(String content, BuildContext context, {int durationMillis = 3000}) {
     showToastWidget(
       Align(
         alignment: Alignment.topCenter,
@@ -416,7 +416,7 @@ class UIUtil {
         ),
       ),
       dismissOtherToast: true,
-      duration: Duration(milliseconds: 2500),
+      duration: Duration(milliseconds: durationMillis),
     );
   }
 
