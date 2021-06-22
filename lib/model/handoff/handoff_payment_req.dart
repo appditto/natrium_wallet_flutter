@@ -45,7 +45,7 @@ class HOPaymentRequest {
     if (paymentId == null || channels.isEmpty || destinationAddress == null
         || !Address(destinationAddress).isValid()
         || (amount != null && amount <= BigInt.zero))
-      throw 'Invalid handoff specification';
+      throw 'Invalid handoff request';
     if (requiresWork) //todo: support wallet-provided work generation
       throw "Wallet doesn't support handoff work generation";
   }

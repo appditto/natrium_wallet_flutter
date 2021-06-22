@@ -349,18 +349,18 @@ class DBHelper {
   Future<void> dropAccounts() async {
     var dbClient = await db;
     await dbClient.rawDelete('DELETE FROM ACCOUNTS');
-    await dropPayments();
   }
 
 
   // Payments
-  Future<PaymentTransaction> getPayment(String hash) async {
+  Future<PaymentInfo> getPayment(String hash) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery(
-        "SELECT * FROM Payments WHERE block_hash='${hash.toUpperCase()}'");
-    if (list.length > 0) {
-      return PaymentTransaction(
-          list[0]["block_hash"],
+        "SELECT * FROM Payments WHERE block_hash=UPPER(?)",
+        [hash]);
+
+    if (list.length == 1) {
+      return PaymentInfo(
           list[0]["reference"],
           PaymentProtocolExt.fromInt(list[0]["protocol"]),
           protocolData: list[0]["protocol_data"]);
@@ -368,17 +368,17 @@ class DBHelper {
     return null;
   }
 
-  Future<int> savePayment(PaymentTransaction txn) async {
+  Future<int> savePayment(String blockHash, PaymentInfo payment) async {
     var dbClient = await db;
     return await dbClient.rawInsert(
-        'REPLACE INTO Payments values(?, ?, ?, ?)',
+        'REPLACE INTO Payments values(UPPER(?), ?, ?, ?)',
         [
-          txn.blockHash.toUpperCase(),
-          (txn.reference != null && txn.reference.length > 100)
-              ? txn.reference.substring(0, 100)
-              : txn.reference,
-          txn.protocol.intVal,
-          txn.protocolData
+          blockHash,
+          (payment.reference != null && payment.reference.length > 100)
+              ? payment.reference.substring(0, 100)
+              : payment.reference,
+          payment.protocol.intVal,
+          payment.protocolData
         ]);
   }
 

@@ -718,21 +718,21 @@ class _AppHomePageState extends State<AppHomePage>
       }
     } else if (HandoffUtil.matchesUri(link)) {
       // Handoff URI scheme
-      var handoffSpec = HandoffUtil.parseUri(link);
-      var handoffChannel = handoffSpec?.selectChannel();
+      var handoffReq = HandoffUtil.parseUri(link);
+      var handoffChannel = handoffReq?.selectChannel();
       if (handoffChannel != null) {
-        HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
+        HandoffUtil.handlePayment(context, handoffReq, handoffChannel);
       } else {
         UIUtil.showSnackbar(AppLocalization.of(context).handoffInvalid, context);
       }
     } else {
       // Address (may have handoff encoded in URI)
       var address = Address(link);
-      var handoffSpec = address.getHandoffPaymentSpec();
-      var handoffChannel = handoffSpec?.selectChannel();
+      var handoffReq = address.getHandoffPaymentReq();
+      var handoffChannel = handoffReq?.selectChannel();
       if (handoffChannel != null) {
-        // Valid handoff spec with supported channel
-        HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
+        // Valid handoff request with supported channel
+        HandoffUtil.handlePayment(context, handoffReq, handoffChannel);
       } else {
         // Address (fallback if handoff invalid or unsupported)
         if (address.isValid()) {
@@ -1012,12 +1012,12 @@ class _AppHomePageState extends State<AppHomePage>
         // Using handoff protocol, check if spec data is available, payment is
         // reusable and a handoff channel is supported.
         if (txInfo.protocolData != null) {
-          var handoffSpec = HOPaymentRequest.fromJson(
+          var handoffReq = HOPaymentRequest.fromJson(
               json.decode(txInfo.protocolData));
-          var handoffChannel = handoffSpec?.selectChannel();
+          var handoffChannel = handoffReq?.selectChannel();
           if (handoffChannel != null) {
             handled = true;
-            HandoffUtil.handlePayment(context, handoffSpec, handoffChannel,
+            HandoffUtil.handlePayment(context, handoffReq, handoffChannel,
                 quickSendAmount: amount);
           }
         }

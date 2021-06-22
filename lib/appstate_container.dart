@@ -808,6 +808,7 @@ class StateContainerState extends State<StateContainer> {
       encryptedSecret = null;
     });
     sl.get<DBHelper>().dropAccounts();
+    sl.get<DBHelper>().dropPayments();
     sl.get<AccountService>().clearQueue();
   }
 

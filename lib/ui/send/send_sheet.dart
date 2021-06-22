@@ -110,7 +110,7 @@ class _SendSheetState extends State<SendSheet> {
     if (widget.handoffPaymentSpec != null) {
       // Handoff state
       _updateStateFromEntry(
-        handoffSpec: widget.handoffPaymentSpec,
+        handoffReq: widget.handoffPaymentSpec,
         handoffChannel: widget.handoffChannel
       );
     } else if (widget.contact != null) {
@@ -592,10 +592,10 @@ class _SendSheetState extends State<SendSheet> {
                           }
                         } else if (HandoffUtil.matchesUri(scanResult)) {
                           // Handoff URI scheme
-                          var handoffSpec = HandoffUtil.parseUri(scanResult);
-                          var handoffChannel = handoffSpec?.selectChannel();
+                          var handoffReq = HandoffUtil.parseUri(scanResult);
+                          var handoffChannel = handoffReq?.selectChannel();
                           if (handoffChannel != null) {
-                            _handleHandoffEntry(handoffSpec, handoffChannel);
+                            _handleHandoffEntry(handoffReq, handoffChannel);
                           } else {
                             UIUtil.showSnackbar(
                                 AppLocalization.of(context).handoffInvalid,
@@ -604,11 +604,11 @@ class _SendSheetState extends State<SendSheet> {
                         } else {
                           // Address (may have handoff encoded in URI)
                           var address = Address(scanResult);
-                          var handoffSpec = address.getHandoffPaymentSpec();
-                          var handoffChannel = handoffSpec?.selectChannel();
+                          var handoffReq = address.getHandoffPaymentReq();
+                          var handoffChannel = handoffReq?.selectChannel();
                           if (handoffChannel != null) {
-                            // Valid handoff spec with supported channel
-                            _handleHandoffEntry(handoffSpec, handoffChannel);
+                            // Valid handoff request with supported channel
+                            _handleHandoffEntry(handoffReq, handoffChannel);
                           } else {
                             // Address (fallback if handoff invalid or unsupported)
                             // See if this address belongs to a contact
@@ -670,10 +670,10 @@ class _SendSheetState extends State<SendSheet> {
 
   /// Update state from QR scan entry
   Future<void> _updateStateFromEntry({String address, Contact contact,
-      HOPaymentRequest handoffSpec, HOChannelDispatcher handoffChannel}) async {
+      HOPaymentRequest handoffReq, HOChannelDispatcher handoffChannel}) async {
     // Preprocess
-    if (handoffSpec != null) {
-      address = handoffSpec.destinationAddress;
+    if (handoffReq != null) {
+      address = handoffReq.destinationAddress;
     } else if (contact != null) {
       address = contact.address;
     } else if (contact == null && address != null) {
@@ -688,8 +688,8 @@ class _SendSheetState extends State<SendSheet> {
       _pasteButtonVisible = address == null;
       _showContactButton = address == null;
       _rawAmount = null;
-      _sendAddressEditable = handoffSpec == null;
-      _handoffPaymentSpec = handoffSpec;
+      _sendAddressEditable = handoffReq == null;
+      _handoffPaymentSpec = handoffReq;
       _handoffChannel = handoffChannel;
       _addressValidationText = "";
       _amountValidationText = "";
@@ -712,7 +712,7 @@ class _SendSheetState extends State<SendSheet> {
   void _handleHandoffEntry(HOPaymentRequest paymentSpec, HOChannelDispatcher channel) {
     if (paymentSpec.variableAmount) {
       _updateStateFromEntry(
-        handoffSpec: paymentSpec,
+        handoffReq: paymentSpec,
         handoffChannel: channel
       );
     } else {
@@ -1119,10 +1119,10 @@ class _SendSheetState extends State<SendSheet> {
 
               if (HandoffUtil.matchesUri(data.text)) {
                 // Handoff URI scheme
-                var handoffSpec = HandoffUtil.parseUri(data.text);
-                var handoffChannel = handoffSpec?.selectChannel();
+                var handoffReq = HandoffUtil.parseUri(data.text);
+                var handoffChannel = handoffReq?.selectChannel();
                 if (handoffChannel != null) {
-                  _handleHandoffEntry(handoffSpec, handoffChannel);
+                  _handleHandoffEntry(handoffReq, handoffChannel);
                 } else {
                   UIUtil.showSnackbar(
                       AppLocalization.of(context).handoffInvalid, context);
@@ -1130,11 +1130,11 @@ class _SendSheetState extends State<SendSheet> {
               } else {
                 // Try parse address (or integrated handoff)
                 var address = Address(data.text);
-                var handoffSpec = address.getHandoffPaymentSpec();
-                var handoffChannel = handoffSpec?.selectChannel();
+                var handoffReq = address.getHandoffPaymentReq();
+                var handoffChannel = handoffReq?.selectChannel();
                 if (handoffChannel != null) {
-                  // Valid handoff spec with supported channel
-                  _handleHandoffEntry(handoffSpec, handoffChannel);
+                  // Valid handoff request with supported channel
+                  _handleHandoffEntry(handoffReq, handoffChannel);
                 } else if (address.isValid()) {
                   // Standard address
                   _updateStateFromEntry(address: address.address);

@@ -21,14 +21,14 @@ class HandoffUtil {
     return _uriRegex.hasMatch(val);
   }
 
-  /// Parses a handoff URI string, returning null if not a URI or invalid
+  /// Parses a nanohandoff URI string, returning null if not a URI or invalid
   static HOPaymentRequest parseUri(String uri) {
     var match = _uriRegex.firstMatch(uri);
     if (match == null) return null;
     try {
       return HOPaymentRequest.fromBase64(match.group(1));
     } catch (e) {
-      sl.get<Logger>().w("Invalid handoff spec in nanohandoff URI", e);
+      sl.get<Logger>().w("Invalid handoff request in nanohandoff URI", e);
       return null;
     }
   }

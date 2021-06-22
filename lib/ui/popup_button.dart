@@ -76,22 +76,22 @@ class _AppPopupButtonState extends State<AppPopupButton> {
         }
       } else if (HandoffUtil.matchesUri(scanResult)) {
         // Handoff URI scheme
-        var handoffSpec = HandoffUtil.parseUri(scanResult);
-        var handoffChannel = handoffSpec?.selectChannel();
+        var handoffReq = HandoffUtil.parseUri(scanResult);
+        var handoffChannel = handoffReq?.selectChannel();
         if (handoffChannel != null) {
-          // Valid handoff spec with supported channel
-          HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
+          // Valid handoff request with supported channel
+          HandoffUtil.handlePayment(context, handoffReq, handoffChannel);
         } else {
           UIUtil.showSnackbar(AppLocalization.of(context).handoffInvalid, context);
         }
       } else {
         // Address (may have handoff encoded in URI)
         var address = Address(scanResult);
-        var handoffSpec = address.getHandoffPaymentSpec();
-        var handoffChannel = handoffSpec?.selectChannel();
+        var handoffReq = address.getHandoffPaymentReq();
+        var handoffChannel = handoffReq?.selectChannel();
         if (handoffChannel != null) {
-          // Valid handoff spec with supported channel
-          HandoffUtil.handlePayment(context, handoffSpec, handoffChannel);
+          // Valid handoff request with supported channel
+          HandoffUtil.handlePayment(context, handoffReq, handoffChannel);
         } else if (address.address != null) {
           // Address (fallback if handoff invalid or unsupported)
           // See if this address belongs to a contact

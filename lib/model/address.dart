@@ -33,14 +33,15 @@ class Address {
         _address.substring(_address.length - 4);
   }
 
-  /// Returns the handoff payment spec encoded in the URI, or null if not
-  /// provided or if the spec/data is invalid.
-  HOPaymentRequest getHandoffPaymentSpec() {
-    if (_handoffData == null) return null;
+  /// Returns the handoff payment request encoded in the URI, or null if not
+  /// provided, unsupported or invalid.
+  HOPaymentRequest getHandoffPaymentReq() {
+    if (_handoffData == null)
+      return null;
     try {
       return HOPaymentRequest.fromBase64(_handoffData);
     } catch (e) {
-      sl.get<Logger>().w("Invalid handoff spec in nano URI", e);
+      sl.get<Logger>().w("Invalid or unsupported handoff request in nano URI", e);
       return null;
     }
   }

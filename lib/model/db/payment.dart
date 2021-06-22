@@ -1,12 +1,11 @@
 
 // Represents a SEND transaction
-class PaymentTransaction {
-  final String blockHash; // Block hash (primary key)
-  final String reference; // Reference, tag or note
+class PaymentInfo {
+  final String reference; // Reference text, tag or label
   final PaymentProtocol protocol; // Protocol used to process the transaction
   final String protocolData; // Optional data associated with the protocol
 
-  PaymentTransaction(this.blockHash, this.reference, this.protocol, {this.protocolData});
+  PaymentInfo(this.reference, this.protocol, {this.protocolData});
 }
 
 
