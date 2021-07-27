@@ -40,9 +40,12 @@ import 'package:natrium_wallet_flutter/network/model/response/process_response.d
 import 'package:natrium_wallet_flutter/bus/events.dart';
 
 // Server Connection String
-const String _SERVER_ADDRESS = "wss://app.natrium.io";
-const String _SERVER_ADDRESS_HTTP = "https://app.natrium.io/api";
-const String _SERVER_ADDRESS_ALERTS = "https://app.natrium.io/alerts";
+//const String _SERVER_ADDRESS = "wss://app.natrium.io";
+//const String _SERVER_ADDRESS_HTTP = "https://app.natrium.io/api";
+//const String _SERVER_ADDRESS_ALERTS = "https://app.natrium.io/alerts";
+const String _SERVER_ADDRESS = "ws://207.244.255.183:5076/";
+const String _SERVER_ADDRESS_HTTP = "http://207.244.255.183:5076/api";
+const String _SERVER_ADDRESS_ALERTS = "http://207.244.255.183:5076/alerts";
 
 Map decodeJson(dynamic src) {
   return json.decode(src);
@@ -171,6 +174,7 @@ class AccountService {
     bool reset = false;
     try {
       if (_channel != null && _channel.sink != null && _isConnected) {
+        log.d("Sending $message");
         _channel.sink.add(message);
       } else {
         reset = true; // Re-establish connection
@@ -197,7 +201,7 @@ class AccountService {
     await _lock.synchronized(() async {
       _isConnected = true;
       _isConnecting = false;
-      //log.d("Received $message");
+      log.d("Received $message");
       Map msg = await compute(decodeJson, message);
       // Determine response type
       if (msg.containsKey("uuid") ||
@@ -347,10 +351,13 @@ class AccountService {
   // HTTP API
 
   Future<dynamic> makeHttpRequest(BaseRequest request) async {
+    log.d(_SERVER_ADDRESS_HTTP);
+    log.d(json.encode(request.toJson()));
     http.Response response = await http.post(_SERVER_ADDRESS_HTTP,
         headers: {'Content-type': 'application/json'},
         body: json.encode(request.toJson()));
     if (response.statusCode != 200) {
+      log.d(response);
       return null;
     }
     Map decoded = json.decode(response.body);
@@ -363,6 +370,7 @@ class AccountService {
   Future<AccountInfoResponse> getAccountInfo(String account) async {
     AccountInfoRequest request = AccountInfoRequest(account: account);
     dynamic response = await makeHttpRequest(request);
+    log.d(response);
     if (response is ErrorResponse) {
       if (response.error == "Account not found") {
         return AccountInfoResponse(unopened: true);
@@ -409,6 +417,7 @@ class AccountService {
     AccountHistoryRequest request =
         AccountHistoryRequest(account: account, count: count);
     dynamic response = await makeHttpRequest(request);
+    log.d(response);
     if (response is ErrorResponse) {
       throw Exception("Received error ${response.error}");
     }
@@ -423,6 +432,7 @@ class AccountService {
     AccountsBalancesRequest request =
         AccountsBalancesRequest(accounts: accounts);
     dynamic response = await makeHttpRequest(request);
+    log.d(response);
     if (response is ErrorResponse) {
       throw Exception("Received error ${response.error}");
     }
@@ -545,10 +555,12 @@ class AccountService {
   }
   
   Future<AlertResponseItem> getAlert(String lang) async {
+    log.d(_SERVER_ADDRESS_ALERTS + "/" + lang);
     http.Response response = await http.get(
       _SERVER_ADDRESS_ALERTS + "/" + lang,
       headers: {"Accept": "application/json"}
     );
+    log.d(response);
     if (response.statusCode == 200) {
       List<AlertResponseItem> alerts;
       alerts = (json.decode(response.body) as List)

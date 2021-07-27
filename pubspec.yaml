@@ -1,5 +1,5 @@
 name: natrium_wallet_flutter
-description: Natrium - Fast, Robust & Secure NANO Wallet.
+description: BTCOW - Fast, Robust & Secure BTCO Wallet.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -22,7 +22,8 @@ dependencies:
   flutter_secure_storage: ^4.1.0
 
   # Nano core functions
-  flutter_nano_ffi: ^2.0.0
+  flutter_nano_ffi:
+    path: ../flutter_nano_ffi
 
   # Shared prefs
   shared_preferences: ^2.0.5
@@ -66,7 +67,7 @@ dependencies:
   event_taxi: ^1.0.0
 
   # SVG
-  flutter_svg: ^0.19.3
+  flutter_svg: ^0.22.0
     
   # QR Codes
   qr_flutter: ^2.0.1 # Generator

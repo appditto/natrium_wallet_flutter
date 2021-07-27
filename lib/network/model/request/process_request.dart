@@ -12,7 +12,7 @@ class ProcessRequest extends BaseRequest {
   @JsonKey(name:'block')
   String block;
 
-  // Kalium/Natrium server accepts an optional do_work parameter. If true server will add work to this block for us
+  // BTCO Wallet server accepts an optional do_work parameter. If true server will add work to this block for us
   @JsonKey(name:'do_work')
   bool doWork;
 

@@ -84,7 +84,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
     // Handle balances event
     widget.accounts.forEach((account) {
       resp.balances.forEach((address, balance) {
-        address = address.replaceAll("xrb_", "nano_");
+        address = address.replaceAll("xrb_", "nano_").replaceAll("nano_", "btco_");
         String combinedBalance = (BigInt.tryParse(balance.balance) +
                 BigInt.tryParse(balance.pending))
             .toString();

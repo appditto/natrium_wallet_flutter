@@ -75,7 +75,7 @@ class DBHelper {
       contacts.add(new Contact(
           id: list[i]["id"],
           name: list[i]["name"],
-          address: list[i]["address"].replaceAll("xrb_", "nano_"),
+          address: list[i]["address"].replaceAll("xrb_", "nano_").replaceAll("nano_", "btco_"),
           monkeyPath: list[i]["monkey_path"]));
     }
     return contacts;
@@ -99,7 +99,7 @@ class DBHelper {
   Future<Contact> getContactWithAddress(String address) async {
     var dbClient = await db;
     List<Map> list = await dbClient.rawQuery(
-        'SELECT * FROM Contacts WHERE address like \'%${address.replaceAll("xrb_", "").replaceAll("nano_", "")}\'');
+        'SELECT * FROM Contacts WHERE address like \'%${address.replaceAll("xrb_", "").replaceAll("nano_", "").replaceAll("btco_", "")}\'');
     if (list.length > 0) {
       return Contact(
           id: list[0]["id"],
@@ -143,7 +143,7 @@ class DBHelper {
     var dbClient = await db;
     return await dbClient.rawInsert(
         'INSERT INTO Contacts (name, address) values(?, ?)',
-        [contact.name, contact.address.replaceAll("xrb_", "nano_")]);
+        [contact.name, contact.address.replaceAll("xrb_", "nano_").replaceAll("nano_", "btco_")]);
   }
 
   Future<int> saveContacts(List<Contact> contacts) async {
@@ -159,7 +159,7 @@ class DBHelper {
   Future<bool> deleteContact(Contact contact) async {
     var dbClient = await db;
     return await dbClient.rawDelete(
-            "DELETE FROM Contacts WHERE lower(address) like \'%${contact.address.toLowerCase().replaceAll("xrb_", "").replaceAll("nano_", "")}\'") >
+            "DELETE FROM Contacts WHERE lower(address) like \'%${contact.address.toLowerCase().replaceAll("xrb_", "").replaceAll("nano_", "").replaceAll("btco_", "")}\'") >
         0;
   }
 

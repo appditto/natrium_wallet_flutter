@@ -318,7 +318,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "welcomeText": "Welcome to Natrium. To begin, you may create a new wallet or import an existing one.",
+  "welcomeText": "Welcome to BTCO Wallet. To begin, you may create a new wallet or import an existing one.",
   "@welcomeText": {
     "description": "intro_welcome_title",
     "type": "text",
@@ -354,7 +354,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "sendAmountConfirm": "Send %1 NANO",
+  "sendAmountConfirm": "Send %1 BTCO",
   "@sendAmountConfirm": {
     "description": "send_pin_description",
     "type": "text",
@@ -402,7 +402,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "minimumSend": "Minimum send amount is %1 NANO",
+  "minimumSend": "Minimum send amount is %1 BTCO",
   "@minimumSend": {
     "description": "send_minimum_error",
     "type": "text",
@@ -582,13 +582,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "shareNatrium": "Share Natrium",
+  "shareNatrium": "Share BTCO Wallet",
   "@shareNatrium": {
     "description": "settings_share",
     "type": "text",
     "placeholders": {}
   },
-  "shareNatriumText": "Check out Natrium! A premier NANO mobile wallet!",
+  "shareNatriumText": "Check out BTCO Wallet! A premier BTCO mobile wallet!",
   "@shareNatriumText": {
     "description": "share_extra",
     "type": "text",
@@ -624,7 +624,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "logoutDetail": "Logging out will remove your seed and all Natrium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
+  "logoutDetail": "Logging out will remove your seed and all BTCO Wallet-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
   "@logoutDetail": {
     "description": "settings_logout_alert_message",
     "type": "text",
@@ -702,13 +702,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "notificationTitle": "Received %1 NANO",
+  "notificationTitle": "Received %1 BTCO",
   "@notificationTitle": {
     "description": "notification_title",
     "type": "text",
     "placeholders": {}
   },
-  "notificationBody": "Open Natrium to view this transaction",
+  "notificationBody": "Open BTCO Wallet to view this transaction",
   "@notificationBody": {
     "description": "notification_body",
     "type": "text",
@@ -738,7 +738,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "kaliumWallet": "Natrium Wallet",
+  "kaliumWallet": "BTCO Wallet Wallet",
   "@kaliumWallet": {
     "description": "kalium_wallet",
     "type": "text",
@@ -780,13 +780,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "transferIntro": "This process will transfer the funds from a paper wallet to your Natrium wallet.\n\nTap the \"%1\" button to start.",
+  "transferIntro": "This process will transfer the funds from a paper wallet to your BTCO Wallet wallet.\n\nTap the \"%1\" button to start.",
   "@transferIntro": {
     "description": "transfer_intro",
     "type": "text",
     "placeholders": {}
   },
-  "transferQrScanHint": "Scan a Nano \nseed or private key",
+  "transferQrScanHint": "Scan a BTCO \nseed or private key",
   "@transferQrScanHint": {
     "description": "transfer_qr_scan_hint",
     "type": "text",
@@ -798,13 +798,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "transferNoFunds": "This seed does not have any NANO on it",
+  "transferNoFunds": "This seed does not have any BTCO on it",
   "@transferNoFunds": {
     "description": "transfer_no_funds_toast",
     "type": "text",
     "placeholders": {}
   },
-  "transferConfirmInfo": "A wallet with a balance of %1 NANO has been detected.\n",
+  "transferConfirmInfo": "A wallet with a balance of %1 BTCO has been detected.\n",
   "@transferConfirmInfo": {
     "description": "transfer_confirm_info_first",
     "type": "text",
@@ -828,7 +828,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "transferComplete": "%1 NANO successfully transferred to your Natrium Wallet.\n",
+  "transferComplete": "%1 BTCO successfully transferred to your BTCO Wallet Wallet.\n",
   "@transferComplete": {
     "description": "transfer_complete_text",
     "type": "text",
@@ -840,19 +840,19 @@
     "type": "text",
     "placeholders": {}
   },
-  "scanInstructions": "Scan a Nano \naddress QR code",
+  "scanInstructions": "Scan a BTCO \naddress QR code",
   "@scanInstructions": {
     "description": "scan_send_instruction_label",
     "type": "text",
     "placeholders": {}
   },
-  "unlockPin": "Enter PIN to Unlock Natrium",
+  "unlockPin": "Enter PIN to Unlock BTCO Wallet",
   "@unlockPin": {
     "description": "unlock_kalium_pin",
     "type": "text",
     "placeholders": {}
   },
-  "unlockBiometrics": "Authenticate to Unlock Natrium",
+  "unlockBiometrics": "Authenticate to Unlock BTCO Wallet",
   "@unlockBiometrics": {
     "description": "unlock_kalium_bio",
     "type": "text",
@@ -948,7 +948,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "exampleCardIntro": "Welcome to Natrium. Once you receive NANO, transactions will show up like this:",
+  "exampleCardIntro": "Welcome to BTCO Wallet. Once you receive BTCO, transactions will show up like this:",
   "@exampleCardIntro": {
     "description": "example_card_intro",
     "type": "text",
@@ -990,7 +990,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "newAccountIntro": "This is your new account. Once you receive NANO, transactions will show up like this:",
+  "newAccountIntro": "This is your new account. Once you receive BTCO, transactions will show up like this:",
   "@newAccountIntro": {
     "description": "Alternate account intro card",
     "type": "text",
@@ -1200,15 +1200,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "passwordWillBeRequiredToOpenParagraph": "This password will be required to open Natrium.",
+  "passwordWillBeRequiredToOpenParagraph": "This password will be required to open BTCO Wallet.",
   "@passwordWillBeRequiredToOpenParagraph": {
-    "description": "A paragraph that tells the users that the created password will be required to open Natrium.",
+    "description": "A paragraph that tells the users that the created password will be required to open BTCO Wallet.",
     "type": "text",
     "placeholders": {}
   },
-  "passwordNoLongerRequiredToOpenParagraph": "You will not need a password to open Natrium anymore.",
+  "passwordNoLongerRequiredToOpenParagraph": "You will not need a password to open BTCO Wallet anymore.",
   "@passwordNoLongerRequiredToOpenParagraph": {
-    "description": "An info paragraph that tells the user a password will no longer be needed to open Natrium",
+    "description": "An info paragraph that tells the user a password will no longer be needed to open BTCO Wallet",
     "type": "text",
     "placeholders": {}
   },
@@ -1242,9 +1242,9 @@
     "type": "text",
     "placeholders": {}
   },
-  "requireAPasswordToOpenHeader": "Require a password to open Natrium?",
+  "requireAPasswordToOpenHeader": "Require a password to open BTCO Wallet?",
   "@requireAPasswordToOpenHeader": {
-    "description": "A paragraph that asks the users if they would like a password to be required to open Natrium.",
+    "description": "A paragraph that asks the users if they would like a password to be required to open BTCO Wallet.",
     "type": "text",
     "placeholders": {}
   },
@@ -1286,7 +1286,7 @@
   },
   "connectingHeader": "Connecting",
   "@connectingHeader": {
-    "description": "A header to let the user now that Natrium is currently connecting to (or loading) live chat.",
+    "description": "A header to let the user now that BTCO Wallet is currently connecting to (or loading) live chat.",
     "type": "text",
     "placeholders": {}
   }

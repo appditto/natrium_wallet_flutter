@@ -105,7 +105,7 @@ class StateBlock {
   Future<String> sign(String privateKey) async {
     if (this.balance == null) { return null; }
     this.hash = NanoBlocks.computeStateHash(
-                      NanoAccountType.NANO,
+                      NanoAccountType.BTCO,
                       this.account,
                       this.previous,
                       this.representative,

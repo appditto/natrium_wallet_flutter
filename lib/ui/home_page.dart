@@ -87,7 +87,7 @@ class _AppHomePageState extends State<AppHomePage>
   // List of contacts (Store it so we only have to query the DB once for transaction cards)
   List<Contact> _contacts = List();
 
-  // Price conversion state (BTC, NANO, NONE)
+  // Price conversion state (BTC, BTCO, NONE)
   PriceConversion _priceConversion;
 
   bool _isRefreshing = false;
@@ -281,20 +281,20 @@ class _AppHomePageState extends State<AppHomePage>
     bool contactAdded = await sl.get<SharedPrefsUtil>().getFirstContactAdded();
     if (!contactAdded) {
       bool addressExists = await sl.get<DBHelper>().contactExistsWithAddress(
-          "nano_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd");
+          "btco_1p473uf1g3dii6imtg5mdj1ond3xi6ffungn18n8uyrrunjqtgjufg7hrc8y");
       if (addressExists) {
         return;
       }
       bool nameExists =
-          await sl.get<DBHelper>().contactExistsWithName("@NatriumDonations");
+          await sl.get<DBHelper>().contactExistsWithName("@BitcoinNanoDonations");
       if (nameExists) {
         return;
       }
       await sl.get<SharedPrefsUtil>().setFirstContactAdded(true);
       Contact c = Contact(
-          name: "@NatriumDonations",
+          name: "@BitcoinNanoDonations",
           address:
-              "nano_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd");
+              "btco_1p473uf1g3dii6imtg5mdj1ond3xi6ffungn18n8uyrrunjqtgjufg7hrc8y");
       await sl.get<DBHelper>().saveContact(c);
     }
   }
@@ -505,7 +505,8 @@ class _AppHomePageState extends State<AppHomePage>
       if (contact.address ==
           _historyListMap[StateContainer.of(context).wallet.address][localIndex]
               .account
-              .replaceAll("xrb_", "nano_")) {
+              .replaceAll("xrb_", "nano_")
+              .replaceAll("nano_", "btco_")) {
         displayName = contact.name;
       }
     });
@@ -1106,7 +1107,7 @@ class _AppHomePageState extends State<AppHomePage>
                                               context),
                                     ),
                                     TextSpan(
-                                      text: " NANO",
+                                      text: " BTCO",
                                       style: AppStyles.textStyleTransactionUnit(
                                           context),
                                     ),
@@ -1219,7 +1220,7 @@ class _AppHomePageState extends State<AppHomePage>
                                       context),
                                 ),
                                 TextSpan(
-                                  text: " NANO",
+                                  text: " BTCO",
                                   style: AppStyles.textStyleTransactionUnit(
                                       context),
                                 ),
@@ -1256,14 +1257,14 @@ class _AppHomePageState extends State<AppHomePage>
     } else {
       workingStr = AppLocalization.of(context).newAccountIntro;
     }
-    if (!workingStr.contains("NANO")) {
+    if (!workingStr.contains("BTCO")) {
       return TextSpan(
         text: workingStr,
         style: AppStyles.textStyleTransactionWelcome(context),
       );
     }
-    // Colorize NANO
-    List<String> splitStr = workingStr.split("NANO");
+    // Colorize BTCO
+    List<String> splitStr = workingStr.split("BTCO");
     if (splitStr.length != 2) {
       return TextSpan(
         text: workingStr,
@@ -1278,7 +1279,7 @@ class _AppHomePageState extends State<AppHomePage>
           style: AppStyles.textStyleTransactionWelcome(context),
         ),
         TextSpan(
-          text: "NANO",
+          text: "BTCO",
           style: AppStyles.textStyleTransactionWelcomePrimary(context),
         ),
         TextSpan(

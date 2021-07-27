@@ -90,7 +90,7 @@ class StateContainer extends StatefulWidget {
 class StateContainerState extends State<StateContainer> {
   final Logger log = sl.get<Logger>();
 
-  // Minimum receive = 0.000001 NANO
+  // Minimum receive = 0.000001 BTCO
   String receiveThreshold = BigInt.from(10).pow(24).toString();
 
   AppWallet wallet;
@@ -99,7 +99,7 @@ class StateContainerState extends State<StateContainer> {
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
   LanguageSetting curLanguage = LanguageSetting(AvailableLanguage.DEFAULT);
   AvailableBlockExplorer curBlockExplorer =
-      AvailableBlockExplorer(AvailableBlockExplorerEnum.NANOCRAWLER);
+      AvailableBlockExplorer(AvailableBlockExplorerEnum.BTCOBLOCK);
   BaseTheme curTheme = NatriumTheme();
   // Currently selected account
   Account selectedAccount =
@@ -535,7 +535,7 @@ class StateContainerState extends State<StateContainer> {
   void handleSubscribeResponse(SubscribeResponse response) {
     // Combat spam by raising minimum receive if pending block count is large enough
     if (response.pendingCount != null && response.pendingCount > 50) {
-      // Bump min receive to 0.05 NANO
+      // Bump min receive to 0.05 BTCO
       receiveThreshold = BigInt.from(5).pow(28).toString();
     }
     // Set currency locale here for the UI to access

@@ -114,7 +114,7 @@ class AppChangeRepresentativeSheet {
             highlightColor: StateContainer.of(context).curTheme.text15,
             splashColor: StateContainer.of(context).curTheme.text15,
             onPressed: () async {
-              if (!NanoAccounts.isValid(NanoAccountType.NANO, rep.account)) {
+              if (!NanoAccounts.isValid(NanoAccountType.BTCO, rep.account)) {
                   return;
               }
               _rep = rep;

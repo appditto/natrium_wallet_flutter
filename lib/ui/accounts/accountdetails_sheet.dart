@@ -225,7 +225,7 @@ class AccountDetailsSheet {
                                             ),
                                           ),
                                           TextSpan(
-                                            text: " NANO)",
+                                            text: " BTCO)",
                                             style: TextStyle(
                                               color: StateContainer.of(context)
                                                   .curTheme

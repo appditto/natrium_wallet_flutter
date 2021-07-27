@@ -1,4 +1,4 @@
-package co.banano.natriumwallet;
+package com.bitcoinnano.btcowallet;
 
 import android.util.Base64;
 

@@ -41,7 +41,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "co.banano.natriumwallet"
+        applicationId "com.bitcoinnano.btcowallet"
         minSdkVersion 18
         targetSdkVersion 30
         multiDexEnabled true
@@ -52,31 +52,18 @@ android {
 
     signingConfigs {
         release {
-            if (keystorePropertiesFile.exists()) {
-                keyAlias keystoreProperties['keyAlias']
-                keyPassword keystoreProperties['keyPassword']
-                storeFile file(keystoreProperties['storeFile'])
-                storePassword keystoreProperties['storePassword']
-            }
+           keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
         }
     }
-
     buildTypes {
         release {
-            if (keystorePropertiesFile.exists()) {
-                signingConfig signingConfigs.release
-                minifyEnabled true
-                useProguard true
-
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            } else {
-                signingConfig signingConfigs.debug
-            }
-            ndk {
-                abiFilters 'armeabi-v7a','arm64-v8a','x86_64'
-            }            
+           signingConfig signingConfigs.release
         }
     }
+
 }
 
 flutter {

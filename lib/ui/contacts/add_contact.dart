@@ -361,7 +361,7 @@ class _AddContactSheetState extends State<AddContactSheet> {
                                   ? _addressController.text
                                   : widget.address);
                           await sl.get<DBHelper>().saveContact(newContact);
-                          newContact.address = newContact.address.replaceAll("xrb_", "nano_");
+                          newContact.address = newContact.address.replaceAll("xrb_", "nano_").replaceAll("nano_", "btco_");
                           EventTaxiImpl.singleton().fire(
                               ContactAddedEvent(contact: newContact));
                           UIUtil.showSnackbar(

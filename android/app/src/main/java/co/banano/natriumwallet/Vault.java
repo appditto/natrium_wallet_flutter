@@ -1,4 +1,4 @@
-package co.banano.natriumwallet;
+package com.bitcoinnano.btcowallet;
 
 import android.content.Context;
 
@@ -12,9 +12,9 @@ import java.security.SecureRandom;
 public class Vault {
     public static final String ENCRYPTION_KEY_NAME = "key";
     private static final String TAG = Vault.class.getSimpleName();
-    private static final String AUTOMATICALLY_KEYED_PREF_FILE_NAME = "co.banano.natriumwallet.automaticallyKeyedPref";
-    private static final String AUTOMATICALLY_KEYED_KEY_FILE_NAME = "co.banano.natriumwallet.automaticallyKeyedKey";
-    private static final String AUTOMATICALLY_KEYED_KEY_ALIAS = "co.banano.natriumwallet.automaticallyKeyed";
+    private static final String AUTOMATICALLY_KEYED_PREF_FILE_NAME = "com.bitcoinnano.btcowallet.automaticallyKeyedPref";
+    private static final String AUTOMATICALLY_KEYED_KEY_FILE_NAME = "com.bitcoinnano.btcowallet.automaticallyKeyedKey";
+    private static final String AUTOMATICALLY_KEYED_KEY_ALIAS = "com.bitcoinnano.btcowallet.automaticallyKeyed";
     private static final int AUTOMATICALLY_KEYED_KEY_INDEX = 3;
     private static final String AUTOMATICALLY_KEYED_PRESHARED_SECRET = "FI>O<_BU4C,33rjUd1V[-H]7";
 

@@ -31,14 +31,14 @@ class Address {
   bool isValid() {
     return _address == null
         ? false
-        : NanoAccounts.isValid(NanoAccountType.NANO, _address);
+        : NanoAccounts.isValid(NanoAccountType.BTCO, _address);
   }
 
   void _parseAddressString(String value) {
     if (value != null) {
       value = value.toLowerCase();
       _address = NanoAccounts.findAccountInString(
-          NanoAccountType.NANO, value.replaceAll("\n", ""));
+          NanoAccountType.getType(value), value.replaceAll("\n", ""));
       var split = value.split(':');
       if (split.length > 1) {
         Uri uri = Uri.tryParse(value);

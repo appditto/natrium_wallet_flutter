@@ -293,7 +293,7 @@ class AppLocalization {
 
   String get welcomeText {
     return Intl.message(
-        "Welcome to Natrium. To begin, you may create a new wallet or import an existing one.",
+        "Welcome to BTCO Wallet. To begin, you may create a new wallet or import an existing one.",
         desc: 'intro_welcome_title',
         name: 'welcomeText');
   }
@@ -324,7 +324,7 @@ class AppLocalization {
   }
 
   String get sendAmountConfirm {
-    return Intl.message("Send %1 NANO",
+    return Intl.message("Send %1 BTCO",
         desc: 'send_pin_description', name: 'sendAmountConfirm');
   }
 
@@ -370,7 +370,7 @@ class AppLocalization {
   }
 
   String get minimumSend {
-    return Intl.message("Minimum send amount is %1 NANO",
+    return Intl.message("Minimum send amount is %1 BTCO",
         desc: 'send_minimum_error', name: 'minimumSend');
   }
 
@@ -525,12 +525,12 @@ class AppLocalization {
   }
 
   String get shareNatrium {
-    return Intl.message("Share Natrium",
+    return Intl.message("Share BTCO Wallet",
         desc: 'settings_share', name: 'shareNatrium');
   }
 
   String get shareNatriumText {
-    return Intl.message("Check out Natrium! A premier NANO mobile wallet!",
+    return Intl.message("Check out BTCO Wallet! A premier BTCO mobile wallet!",
         desc: 'share_extra', name: 'shareNatriumText');
   }
 
@@ -565,7 +565,7 @@ class AppLocalization {
 
   String get logoutDetail {
     return Intl.message(
-        "Logging out will remove your seed and all Natrium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
+        "Logging out will remove your seed and all BTCO Wallet-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
         desc: 'settings_logout_alert_message',
         name: 'logoutDetail');
   }
@@ -633,12 +633,12 @@ class AppLocalization {
   }
 
   String get notificationTitle {
-    return Intl.message("Received %1 NANO",
+    return Intl.message("Received %1 BTCO",
         desc: 'notification_title', name: 'notificationTitle');
   }
 
   String get notificationBody {
-    return Intl.message("Open Natrium to view this transaction",
+    return Intl.message("Open BTCO Wallet to view this transaction",
         desc: 'notification_body', name: 'notificationBody');
   }
 
@@ -670,7 +670,7 @@ class AppLocalization {
   }
 
   String get kaliumWallet {
-    return Intl.message("Natrium Wallet",
+    return Intl.message("BTCO Wallet Wallet",
         desc: 'kalium_wallet', name: 'kaliumWallet');
   }
 
@@ -706,7 +706,7 @@ class AppLocalization {
 
   String get transferIntro {
     return Intl.message(
-        "This process will transfer the funds from a paper wallet to your Natrium wallet.\n\nTap the \"%1\" button to start.",
+        "This process will transfer the funds from a paper wallet to your BTCO Wallet.\n\nTap the \"%1\" button to start.",
         desc: 'transfer_intro',
         name: 'transferIntro');
   }
@@ -722,7 +722,7 @@ class AppLocalization {
   }
 
   String get transferNoFunds {
-    return Intl.message("This seed does not have any NANO on it",
+    return Intl.message("This seed does not have any BTCO on it",
         desc: 'transfer_no_funds_toast', name: 'transferNoFunds');
   }
 
@@ -730,7 +730,7 @@ class AppLocalization {
 
   String get transferConfirmInfo {
     return Intl.message(
-        "A wallet with a balance of %1 NANO has been detected.\n",
+        "A wallet with a balance of %1 BTCO has been detected.\n",
         desc: 'transfer_confirm_info_first',
         name: 'transferConfirmInfo');
   }
@@ -755,7 +755,7 @@ class AppLocalization {
 
   String get transferComplete {
     return Intl.message(
-        "%1 NANO successfully transferred to your Natrium Wallet.\n",
+        "%1 BTCO successfully transferred to your BTCO Wallet.\n",
         desc: 'transfer_complete_text',
         name: 'transferComplete');
   }
@@ -777,12 +777,12 @@ class AppLocalization {
   /// -- LOCK SCREEN
 
   String get unlockPin {
-    return Intl.message("Enter PIN to Unlock Natrium",
+    return Intl.message("Enter PIN to Unlock BTCO Wallet",
         desc: 'unlock_kalium_pin', name: 'unlockPin');
   }
 
   String get unlockBiometrics {
-    return Intl.message("Authenticate to Unlock Natrium",
+    return Intl.message("Authenticate to Unlock BTCO Wallet",
         desc: 'unlock_kalium_bio', name: 'unlockBiometrics');
   }
 
@@ -873,7 +873,7 @@ class AppLocalization {
 
   String get exampleCardIntro {
     return Intl.message(
-        "Welcome to Natrium. Once you receive NANO, transactions will show up like this:",
+        "Welcome to BTCO Wallet. Once you receive BTCO, transactions will show up like this:",
         desc: 'example_card_intro',
         name: 'exampleCardIntro');
   }
@@ -915,7 +915,7 @@ class AppLocalization {
 
   String get newAccountIntro {
     return Intl.message(
-        "This is your new account. Once you receive NANO, transactions will show up like this:",
+        "This is your new account. Once you receive BTCO, transactions will show up like this:",
         desc: 'Alternate account intro card',
         name: 'newAccountIntro');
   }
@@ -1118,16 +1118,16 @@ class AppLocalization {
 
   /// PARAGRAPS
   String get passwordWillBeRequiredToOpenParagraph {
-    return Intl.message("This password will be required to open Natrium.",
+    return Intl.message("This password will be required to open BTCO Wallet.",
         desc:
-            'A paragraph that tells the users that the created password will be required to open Natrium.',
+            'A paragraph that tells the users that the created password will be required to open BTCO Wallet.',
         name: 'passwordWillBeRequiredToOpenParagraph');
   }
 
   String get passwordNoLongerRequiredToOpenParagraph {
-    return Intl.message("You will not need a password to open Natrium anymore.",
+    return Intl.message("You will not need a password to open BTCO Wallet anymore.",
         desc:
-            'An info paragraph that tells the user a password will no longer be needed to open Natrium',
+            'An info paragraph that tells the user a password will no longer be needed to open BTCO Wallet',
         name: 'passwordNoLongerRequiredToOpenParagraph');
   }
 
@@ -1169,9 +1169,9 @@ class AppLocalization {
   }
 
   String get requireAPasswordToOpenHeader {
-    return Intl.message("Require a password to open Natrium?",
+    return Intl.message("Require a password to open BTCO Wallet?",
         desc:
-            'A paragraph that asks the users if they would like a password to be required to open Natrium.',
+            'A paragraph that asks the users if they would like a password to be required to open BTCO Wallet.',
         name: 'requireAPasswordToOpenHeader');
   }
 
@@ -1219,32 +1219,32 @@ class AppLocalization {
   String get connectingHeader {
     return Intl.message("Connecting",
         desc:
-            'A header to let the user now that Natrium is currently connecting to (or loading) live chat.',
+            'A header to let the user now that BTCO Wallet is currently connecting to (or loading) live chat.',
         name: 'connectingHeader');
   }
 
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash, AvailableBlockExplorer explorer) {
-    if (explorer.explorer == AvailableBlockExplorerEnum.NANOLOOKER) {
-      return 'https://nanolooker.com/block/$hash';
+    if (explorer.explorer == AvailableBlockExplorerEnum.BTCOEXPLORE) {
+      return 'https://explore.bitcoinnano.org/block/$hash';
     }
-    return 'https://nanocrawler.cc/explorer/block/$hash';
+    return 'https://block.bitcoinnano.org/explorer/block/$hash';
   }
 
   String getAccountExplorerUrl(
       String account, AvailableBlockExplorer explorer) {
-    if (explorer.explorer == AvailableBlockExplorerEnum.NANOLOOKER) {
-      return 'https://nanolooker.com/account/$account';
+    if (explorer.explorer == AvailableBlockExplorerEnum.BTCOEXPLORE) {
+      return 'https://explore.bitcoinnano.org/account/$account';
     }
-    return 'https://nanocrawler.cc/explorer/account/$account';
+    return 'https://block.bitcoinnano.org/explorer/account/$account';
   }
 
   String get eulaUrl {
-    return 'https://avengemedia.github.io/kalium/eula_natrium.html';
+    return 'https://bitcoinnano.org/eula_btco.html';
   }
 
   String get privacyUrl {
-    return 'https://avengemedia.github.io/kalium/privacy.html';
+    return 'https://bitcoinnano.org/privacy.html';
   }
 
   /// -- END NON-TRANSLATABLE ITEMS
