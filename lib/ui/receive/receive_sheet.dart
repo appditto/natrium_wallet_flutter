@@ -106,7 +106,6 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                 ),
               ],
             ),
-
             // QR which takes all the available space left from the buttons & address text
             Expanded(
               child: Center(
@@ -133,15 +132,16 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                     // Background/border part the QR
                     Center(
                       child: Container(
-                        width: MediaQuery.of(context).size.width / 1.74,
+                        width: MediaQuery.of(context).size.width / 1.55,
+                        height: MediaQuery.of(context).size.width / 1.55,
                         child: SvgPicture.asset('assets/QR.svg'),
                       ),
                     ),
                     // Actual QR part of the QR
                     Center(
                       child: Container(
-                        height: MediaQuery.of(context).size.width / 2.65,
-                        width: MediaQuery.of(context).size.width / 2.65,
+                        height: MediaQuery.of(context).size.width / 2.44,
+                        width: MediaQuery.of(context).size.width / 2.44,
                         child: widget.qrWidget,
                       ),
                     ),
@@ -150,8 +150,8 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                       child: Container(
                         width:
                             (StateContainer.of(context).curTheme is IndiumTheme)
-                                ? MediaQuery.of(context).size.width / 1.68
-                                : MediaQuery.of(context).size.width / 1.6,
+                                ? MediaQuery.of(context).size.width / 1.51
+                                : MediaQuery.of(context).size.width / 1.43,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
@@ -165,8 +165,8 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                     StateContainer.of(context).natriconOn
                         ? Center(
                             child: Container(
-                              width: MediaQuery.of(context).size.width / 6,
-                              height: MediaQuery.of(context).size.width / 6,
+                              width: MediaQuery.of(context).size.width / 7,
+                              height: MediaQuery.of(context).size.width / 7,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
@@ -210,8 +210,8 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                           )
                         : Center(
                             child: Container(
-                              width: MediaQuery.of(context).size.width / 6.7,
-                              height: MediaQuery.of(context).size.width / 6.7,
+                              width: MediaQuery.of(context).size.width / 7.2,
+                              height: MediaQuery.of(context).size.width / 7.2,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
@@ -223,8 +223,8 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                         : // Logo Background Primary
                         Center(
                             child: Container(
-                              width: MediaQuery.of(context).size.width / 8,
-                              height: MediaQuery.of(context).size.width / 8,
+                              width: MediaQuery.of(context).size.width / 8.25,
+                              height: MediaQuery.of(context).size.width / 8.25,
                               decoration: BoxDecoration(
                                 color:
                                     StateContainer.of(context).curTheme.primary,
@@ -236,8 +236,8 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                     StateContainer.of(context).natriconOn
                         ? Center(
                             child: Container(
-                              width: MediaQuery.of(context).size.width / 6.25,
-                              height: MediaQuery.of(context).size.width / 6.25,
+                              width: MediaQuery.of(context).size.width / 7.2,
+                              height: MediaQuery.of(context).size.width / 7.2,
                               margin: EdgeInsetsDirectional.only(
                                   top: MediaQuery.of(context).size.width / 110),
                               child: SvgPicture.network(
@@ -274,7 +274,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                           )
                         : Center(
                             child: Container(
-                              height: MediaQuery.of(context).size.width / 30,
+                              height: MediaQuery.of(context).size.width / 33,
                               child: AutoSizeText(
                                 "",
                                 style: TextStyle(

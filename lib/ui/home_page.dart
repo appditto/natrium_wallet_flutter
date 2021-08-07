@@ -361,10 +361,11 @@ class _AppHomePageState extends State<AppHomePage>
       }
     });
     // Handle subscribe
-    _confirmEventSub =
-        EventTaxiImpl.singleton().registerTo<ConfirmationHeightChangedEvent>().listen((event) {
+    _confirmEventSub = EventTaxiImpl.singleton()
+        .registerTo<ConfirmationHeightChangedEvent>()
+        .listen((event) {
       updateConfirmationHeights(event.confirmationHeight);
-    });    
+    });
   }
 
   @override
@@ -399,26 +400,54 @@ class _AppHomePageState extends State<AppHomePage>
     setState(() {
       currentConfHeight = confirmationHeight;
     });
-    if (!_historyListMap.containsKey(StateContainer.of(context).wallet.address)) {
+    if (!_historyListMap
+        .containsKey(StateContainer.of(context).wallet.address)) {
       return;
     }
     List<int> unconfirmedUpdate = List();
     List<int> confirmedUpdate = List();
-    for (int i = 0; i < _historyListMap[StateContainer.of(context).wallet.address].items.length; i++) {
-      if ((_historyListMap[StateContainer.of(context).wallet.address][i].confirmed == null || _historyListMap[StateContainer.of(context).wallet.address][i].confirmed) && _historyListMap[StateContainer.of(context).wallet.address][i].height != null && confirmationHeight < _historyListMap[StateContainer.of(context).wallet.address][i].height) {
+    for (int i = 0;
+        i <
+            _historyListMap[StateContainer.of(context).wallet.address]
+                .items
+                .length;
+        i++) {
+      if ((_historyListMap[StateContainer.of(context).wallet.address][i]
+                      .confirmed ==
+                  null ||
+              _historyListMap[StateContainer.of(context).wallet.address][i]
+                  .confirmed) &&
+          _historyListMap[StateContainer.of(context).wallet.address][i]
+                  .height !=
+              null &&
+          confirmationHeight <
+              _historyListMap[StateContainer.of(context).wallet.address][i]
+                  .height) {
         unconfirmedUpdate.add(i);
-      } else if ((_historyListMap[StateContainer.of(context).wallet.address][i].confirmed == null || !_historyListMap[StateContainer.of(context).wallet.address][i].confirmed) && _historyListMap[StateContainer.of(context).wallet.address][i].height != null && confirmationHeight >= _historyListMap[StateContainer.of(context).wallet.address][i].height) {
+      } else if ((_historyListMap[StateContainer.of(context).wallet.address][i]
+                      .confirmed ==
+                  null ||
+              !_historyListMap[StateContainer.of(context).wallet.address][i]
+                  .confirmed) &&
+          _historyListMap[StateContainer.of(context).wallet.address][i]
+                  .height !=
+              null &&
+          confirmationHeight >=
+              _historyListMap[StateContainer.of(context).wallet.address][i]
+                  .height) {
         confirmedUpdate.add(i);
       }
     }
     unconfirmedUpdate.forEach((element) {
-      setState((){
-        _historyListMap[StateContainer.of(context).wallet.address][element].confirmed = false;
+      setState(() {
+        _historyListMap[StateContainer.of(context).wallet.address][element]
+            .confirmed = false;
       });
     });
     confirmedUpdate.forEach((element) {
-      setState((){
-        _historyListMap[StateContainer.of(context).wallet.address][element].confirmed = true;
+      setState(() {
+        _historyListMap[StateContainer.of(context).wallet.address][element]
+            .confirmed = true;
       });
     });
   }
@@ -509,7 +538,7 @@ class _AppHomePageState extends State<AppHomePage>
         displayName = contact.name;
       }
     });
-    
+
     return _buildTransactionCard(
         _historyListMap[StateContainer.of(context).wallet.address][localIndex],
         animation,
@@ -689,7 +718,8 @@ class _AppHomePageState extends State<AppHomePage>
     if (StateContainer.of(context).wallet.loading) {
       StateContainer.of(context).requestSubscribe();
     } else {
-      updateConfirmationHeights(StateContainer.of(context).wallet.confirmationHeight);
+      updateConfirmationHeights(
+          StateContainer.of(context).wallet.confirmationHeight);
     }
   }
 
@@ -774,7 +804,7 @@ class _AppHomePageState extends State<AppHomePage>
       setState(() {
         receive = ReceiveSheet(
           qrWidget: Container(
-              width: MediaQuery.of(context).size.width / 2.675,
+              width: MediaQuery.of(context).size.width / 2.5,
               child: Image.memory(byteData.buffer.asUint8List())),
         );
       });
@@ -1131,7 +1161,10 @@ class _AppHomePageState extends State<AppHomePage>
                           ),
 
                           // TRANSACTION STATE TAG
-                          (item.confirmed != null && !item.confirmed) || (currentConfHeight > -1 && item.height != null && item.height > currentConfHeight)
+                          (item.confirmed != null && !item.confirmed) ||
+                                  (currentConfHeight > -1 &&
+                                      item.height != null &&
+                                      item.height > currentConfHeight)
                               ? Container(
                                   margin: EdgeInsetsDirectional.only(
                                     top: 4,
@@ -1570,29 +1603,33 @@ class _AppHomePageState extends State<AppHomePage>
                       color: StateContainer.of(context).curTheme.text,
                       size: 24,
                     ),
-                    !StateContainer.of(context).activeAlertIsRead ?
-                    // Unread message dot
-                    Positioned(
-                      top: -3,
-                      right: -3,
-                      child: Container(
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          color: StateContainer.of(context)
-                              .curTheme
-                              .backgroundDark,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: StateContainer.of(context).curTheme.success,
-                            shape: BoxShape.circle,
-                          ),
-                          height: 11,
-                          width: 11,
-                        ),
-                      ),
-                    ) : SizedBox()
+                    !StateContainer.of(context).activeAlertIsRead
+                        ?
+                        // Unread message dot
+                        Positioned(
+                            top: -3,
+                            right: -3,
+                            child: Container(
+                              padding: EdgeInsets.all(3),
+                              decoration: BoxDecoration(
+                                color: StateContainer.of(context)
+                                    .curTheme
+                                    .backgroundDark,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .success,
+                                  shape: BoxShape.circle,
+                                ),
+                                height: 11,
+                                width: 11,
+                              ),
+                            ),
+                          )
+                        : SizedBox()
                   ],
                 ),
               ),

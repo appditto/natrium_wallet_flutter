@@ -66,8 +66,8 @@ class _AppShareCardState extends State<AppShareCard> {
                     // Actual QR part of the QR
                     Center(
                       child: Container(
-                        height: 60,
-                        width: 60,
+                        height: 58.5,
+                        width: 58.5,
                         child: QrImage(
                           padding: EdgeInsets.all(0.0),
                           data: StateContainer.of(context).wallet.address,
@@ -101,8 +101,8 @@ class _AppShareCardState extends State<AppShareCard> {
                     StateContainer.of(context).natriconOn
                         ? Center(
                             child: Container(
-                              width: 26.5,
-                              height: 26.5,
+                              width: 21,
+                              height: 21,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
@@ -144,8 +144,8 @@ class _AppShareCardState extends State<AppShareCard> {
                           )
                         : Center(
                             child: Container(
-                              width: 23.88,
-                              height: 23.88,
+                              width: 21,
+                              height: 21,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors.white,
@@ -156,8 +156,8 @@ class _AppShareCardState extends State<AppShareCard> {
                         ? SizedBox()
                         : Center(
                             child: Container(
-                              width: 20,
-                              height: 20,
+                              width: 18,
+                              height: 18,
                               decoration: BoxDecoration(
                                 color:
                                     StateContainer.of(context).curTheme.primary,
@@ -169,8 +169,8 @@ class _AppShareCardState extends State<AppShareCard> {
                     StateContainer.of(context).natriconOn
                         ? Center(
                             child: Container(
-                              width: 25.44,
-                              height: 25.44,
+                              width: 20.5,
+                              height: 20.5,
                               margin: EdgeInsetsDirectional.only(top: 1.44545),
                               child: SvgPicture.network(
                                 UIUtil.getNatriconURL(
@@ -193,9 +193,9 @@ class _AppShareCardState extends State<AppShareCard> {
                                     // Logo
                                     Center(
                                   child: Container(
-                                    height: 5.333333,
+                                    height: 4.9,
                                     margin: EdgeInsetsDirectional.only(
-                                        bottom: 1.44545),
+                                        bottom: 1.42),
                                     child: AutoSizeText(
                                       "",
                                       style: TextStyle(
@@ -222,7 +222,8 @@ class _AppShareCardState extends State<AppShareCard> {
                           )
                         : Center(
                             child: Container(
-                              height: 5.333333,
+                              height: 4.9,
+                              margin: EdgeInsetsDirectional.only(bottom: 1.42),
                               child: AutoSizeText(
                                 "",
                                 style: TextStyle(
