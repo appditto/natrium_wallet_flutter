@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'dart:math' as Math;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:path_provider/path_provider.dart';
@@ -108,190 +109,203 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
             ),
             // QR which takes all the available space left from the buttons & address text
             Expanded(
-              child: Center(
-                child: Stack(
-                  children: <Widget>[
-                    _showShareCard
-                        ? Container(
-                            child: AppShareCard(
-                                shareCardKey,
-                                SvgPicture.asset('assets/QR.svg'),
-                                SvgPicture.asset('assets/sharecard_logo.svg')),
-                            alignment: AlignmentDirectional(0.0, 0.0),
-                          )
-                        : SizedBox(),
-                    // This is for hiding the share card
-                    Center(
-                      child: Container(
-                        width: 260,
-                        height: 150,
-                        color:
-                            StateContainer.of(context).curTheme.backgroundDark,
-                      ),
-                    ),
-                    // Background/border part the QR
-                    Center(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 1.55,
-                        height: MediaQuery.of(context).size.width / 1.55,
-                        child: SvgPicture.asset('assets/QR.svg'),
-                      ),
-                    ),
-                    // Actual QR part of the QR
-                    Center(
-                      child: Container(
-                        height: MediaQuery.of(context).size.width / 2.44,
-                        width: MediaQuery.of(context).size.width / 2.44,
-                        child: widget.qrWidget,
-                      ),
-                    ),
-                    // Outer ring
-                    Center(
-                      child: Container(
-                        width:
-                            (StateContainer.of(context).curTheme is IndiumTheme)
-                                ? MediaQuery.of(context).size.width / 1.51
-                                : MediaQuery.of(context).size.width / 1.43,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              color:
-                                  StateContainer.of(context).curTheme.primary,
-                              width: MediaQuery.of(context).size.width / 110),
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: LayoutBuilder(builder: (context, constraints) {
+                  double availableWidth = constraints.maxWidth;
+                  double availableHeight = constraints.maxHeight;
+                  double widthDivideFactor = 1.4;
+                  double computedMaxSize = Math.min(
+                      availableWidth / widthDivideFactor, availableHeight);
+                  return Center(
+                    child: Stack(
+                      children: <Widget>[
+                        _showShareCard
+                            ? Container(
+                                child: AppShareCard(
+                                    shareCardKey,
+                                    SvgPicture.asset('assets/QR.svg'),
+                                    SvgPicture.asset(
+                                        'assets/sharecard_logo.svg')),
+                                alignment: AlignmentDirectional(0.0, 0.0),
+                              )
+                            : SizedBox(),
+                        // This is for hiding the share card
+                        Center(
+                          child: Container(
+                            width: 260,
+                            height: 150,
+                            color: StateContainer.of(context)
+                                .curTheme
+                                .backgroundDark,
+                          ),
                         ),
-                      ),
-                    ),
-                    // Logo Background White
-                    StateContainer.of(context).natriconOn
-                        ? Center(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 7,
-                              height: MediaQuery.of(context).size.width / 7,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                                border: Border.all(
-                                  width: (StateContainer.of(context).curTheme
-                                          is IndiumTheme)
-                                      ? MediaQuery.of(context).size.width / 110
-                                      : MediaQuery.of(context).size.width / 150,
-                                  color: (StateContainer.of(context).curTheme
-                                          is IndiumTheme)
-                                      ? StateContainer.of(context)
-                                          .curTheme
-                                          .backgroundDark
-                                      : StateContainer.of(context)
-                                          .curTheme
-                                          .primary,
+                        // Background/border part the QR
+                        Center(
+                          child: Container(
+                            width: computedMaxSize / 1.07,
+                            height: computedMaxSize / 1.07,
+                            child: SvgPicture.asset('assets/QR.svg'),
+                          ),
+                        ),
+                        // Actual QR part of the QR
+                        Center(
+                          child: Container(
+                            height: computedMaxSize / 1.68,
+                            width: computedMaxSize / 1.68,
+                            child: widget.qrWidget,
+                          ),
+                        ),
+                        // Outer ring
+                        Center(
+                          child: Container(
+                            width: (StateContainer.of(context).curTheme
+                                    is IndiumTheme)
+                                ? computedMaxSize / 1.05
+                                : computedMaxSize,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .primary,
+                                  width: computedMaxSize / 90),
+                            ),
+                          ),
+                        ),
+                        // Logo Background White
+                        StateContainer.of(context).natriconOn
+                            ? Center(
+                                child: Container(
+                                  width: computedMaxSize / 5.5,
+                                  height: computedMaxSize / 5.5,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      width: (StateContainer.of(context)
+                                              .curTheme is IndiumTheme)
+                                          ? computedMaxSize / 85
+                                          : computedMaxSize / 110,
+                                      color: (StateContainer.of(context)
+                                              .curTheme is IndiumTheme)
+                                          ? StateContainer.of(context)
+                                              .curTheme
+                                              .backgroundDark
+                                          : StateContainer.of(context)
+                                              .curTheme
+                                              .primary,
+                                    ),
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        width: (StateContainer.of(context)
+                                                .curTheme is IndiumTheme)
+                                            ? computedMaxSize / 110
+                                            : computedMaxSize / 85,
+                                        color: (StateContainer.of(context)
+                                                .curTheme is IndiumTheme)
+                                            ? StateContainer.of(context)
+                                                .curTheme
+                                                .primary
+                                            : StateContainer.of(context)
+                                                .curTheme
+                                                .backgroundDark,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: (StateContainer.of(context).curTheme
-                                            is IndiumTheme)
-                                        ? MediaQuery.of(context).size.width /
-                                            150
-                                        : MediaQuery.of(context).size.width /
-                                            110,
-                                    color: (StateContainer.of(context).curTheme
-                                            is IndiumTheme)
-                                        ? StateContainer.of(context)
-                                            .curTheme
-                                            .primary
-                                        : StateContainer.of(context)
-                                            .curTheme
-                                            .backgroundDark,
+                              )
+                            : Center(
+                                child: Container(
+                                  width: computedMaxSize / 5.5,
+                                  height: computedMaxSize / 5.5,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
-                            ),
-                          )
-                        : Center(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 7.2,
-                              height: MediaQuery.of(context).size.width / 7.2,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                    StateContainer.of(context).natriconOn
-                        ? SizedBox()
-                        : // Logo Background Primary
-                        Center(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 8.25,
-                              height: MediaQuery.of(context).size.width / 8.25,
-                              decoration: BoxDecoration(
-                                color:
-                                    StateContainer.of(context).curTheme.primary,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          ),
-                    // natricon
-                    StateContainer.of(context).natriconOn
-                        ? Center(
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 7.2,
-                              height: MediaQuery.of(context).size.width / 7.2,
-                              margin: EdgeInsetsDirectional.only(
-                                  top: MediaQuery.of(context).size.width / 110),
-                              child: SvgPicture.network(
-                                  UIUtil.getNatriconURL(
-                                      StateContainer.of(context)
-                                          .selectedAccount
-                                          .address,
-                                      StateContainer.of(context)
-                                          .getNatriconNonce(
-                                              StateContainer.of(context)
-                                                  .selectedAccount
-                                                  .address)),
-                                  key: Key(UIUtil.getNatriconURL(
-                                      StateContainer.of(context)
-                                          .selectedAccount
-                                          .address,
-                                      StateContainer.of(context)
-                                          .getNatriconNonce(
-                                              StateContainer.of(context)
-                                                  .selectedAccount
-                                                  .address))),
-                                  placeholderBuilder: (BuildContext context) =>
-                                      Container(
-                                        child: FlareActor(
-                                          "assets/ntr_placeholder_animation.flr",
-                                          animation: "main",
-                                          fit: BoxFit.contain,
-                                          color: StateContainer.of(context)
-                                              .curTheme
-                                              .primary,
-                                        ),
-                                      )),
-                            ),
-                          )
-                        : Center(
-                            child: Container(
-                              height: MediaQuery.of(context).size.width / 33,
-                              child: AutoSizeText(
-                                "",
-                                style: TextStyle(
-                                    fontFamily: "AppIcons",
+                        StateContainer.of(context).natriconOn
+                            ? SizedBox()
+                            : // Logo Background Primary
+                            Center(
+                                child: Container(
+                                  width: computedMaxSize / 6.5,
+                                  height: computedMaxSize / 6.5,
+                                  decoration: BoxDecoration(
                                     color: StateContainer.of(context)
                                         .curTheme
-                                        .backgroundDark,
-                                    fontWeight: FontWeight.w500),
-                                textAlign: TextAlign.center,
-                                minFontSize: 0.1,
-                                stepGranularity: 0.1,
-                                maxLines: 1,
+                                        .primary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                  ],
-                ),
+                        // natricon
+                        StateContainer.of(context).natriconOn
+                            ? Center(
+                                child: Container(
+                                  width: computedMaxSize / 6.5,
+                                  height: computedMaxSize / 6.5,
+                                  margin: EdgeInsetsDirectional.only(
+                                      top: computedMaxSize / 170),
+                                  child: SvgPicture.network(
+                                      UIUtil.getNatriconURL(
+                                          StateContainer.of(context)
+                                              .selectedAccount
+                                              .address,
+                                          StateContainer.of(context)
+                                              .getNatriconNonce(
+                                                  StateContainer.of(context)
+                                                      .selectedAccount
+                                                      .address)),
+                                      key: Key(UIUtil.getNatriconURL(
+                                          StateContainer.of(context)
+                                              .selectedAccount
+                                              .address,
+                                          StateContainer.of(context)
+                                              .getNatriconNonce(
+                                                  StateContainer.of(context)
+                                                      .selectedAccount
+                                                      .address))),
+                                      placeholderBuilder:
+                                          (BuildContext context) => Container(
+                                                child: FlareActor(
+                                                  "assets/ntr_placeholder_animation.flr",
+                                                  animation: "main",
+                                                  fit: BoxFit.contain,
+                                                  color:
+                                                      StateContainer.of(context)
+                                                          .curTheme
+                                                          .primary,
+                                                ),
+                                              )),
+                                ),
+                              )
+                            : Center(
+                                child: Container(
+                                  height: computedMaxSize / 25,
+                                  child: AutoSizeText(
+                                    "",
+                                    style: TextStyle(
+                                        fontFamily: "AppIcons",
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .backgroundDark,
+                                        fontWeight: FontWeight.w500),
+                                    textAlign: TextAlign.center,
+                                    minFontSize: 0.1,
+                                    stepGranularity: 0.1,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ),
+                      ],
+                    ),
+                  );
+                }),
               ),
             ),
 

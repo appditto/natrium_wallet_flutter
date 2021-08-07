@@ -169,8 +169,8 @@ class _AppShareCardState extends State<AppShareCard> {
                     StateContainer.of(context).natriconOn
                         ? Center(
                             child: Container(
-                              width: 20.5,
-                              height: 20.5,
+                              width: 18.5,
+                              height: 18.5,
                               margin: EdgeInsetsDirectional.only(top: 1.44545),
                               child: SvgPicture.network(
                                 UIUtil.getNatriconURL(
