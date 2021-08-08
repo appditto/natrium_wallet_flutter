@@ -446,6 +446,7 @@ class UIUtil {
 
   static String getNatriconURL(String address, String nonce) {
     String adjustedNonce = nonce == null || nonce == "" ? "" : "&nonce=$nonce";
+    address = address.replaceFirst('btco','nano');
     return "https://natricon.com/api/v1/nano?svc=natrium&outline=true&outlineColor=white&address=$address$adjustedNonce";
   }
 }

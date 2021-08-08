@@ -6,7 +6,7 @@ import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
 /// Main wallet object that's passed around the app via state
 class AppWallet {
-  static const String defaultRepresentative = 'btco_1p473uf1g3dii6imtg5mdj1ond3xi6ffungn18n8uyrrunjqtgjufg7hrc8y';
+  static const String defaultRepresentative = 'btco_36u6rwcg9us6wwrgcdt7xyqz4wm4e9y48goahfup6zuqabhfrx5x7g1xdddi'; 
 
   bool _loading; // Whether or not app is initially loading
   bool _historyLoading; // Whether or not we have received initial account history response

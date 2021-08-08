@@ -43,6 +43,7 @@ import 'package:natrium_wallet_flutter/bus/events.dart';
 //const String _SERVER_ADDRESS = "wss://app.natrium.io";
 //const String _SERVER_ADDRESS_HTTP = "https://app.natrium.io/api";
 //const String _SERVER_ADDRESS_ALERTS = "https://app.natrium.io/alerts";
+
 const String _SERVER_ADDRESS = "ws://207.244.255.183:5076/";
 const String _SERVER_ADDRESS_HTTP = "http://207.244.255.183:5076/api";
 const String _SERVER_ADDRESS_ALERTS = "http://207.244.255.183:5076/alerts";
