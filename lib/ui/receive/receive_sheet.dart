@@ -153,8 +153,10 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                         // Actual QR part of the QR
                         Center(
                           child: Container(
-                            height: computedMaxSize / 1.68,
-                            width: computedMaxSize / 1.68,
+                            color: Colors.white,
+                            padding: EdgeInsets.all(computedMaxSize / 51),
+                            height: computedMaxSize / 1.52,
+                            width: computedMaxSize / 1.52,
                             child: widget.qrWidget,
                           ),
                         ),

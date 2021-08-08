@@ -66,8 +66,10 @@ class _AppShareCardState extends State<AppShareCard> {
                     // Actual QR part of the QR
                     Center(
                       child: Container(
-                        height: 58.5,
-                        width: 58.5,
+                        color: Colors.white,
+                        height: 65,
+                        width: 65,
+                        padding: EdgeInsets.all(2),
                         child: QrImage(
                           padding: EdgeInsets.all(0.0),
                           data: StateContainer.of(context).wallet.address,
