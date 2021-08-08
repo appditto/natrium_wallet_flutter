@@ -194,26 +194,15 @@ class _AppShareCardState extends State<AppShareCard> {
                                     Center(
                                   child: Container(
                                     height: 4.9,
-                                    margin: EdgeInsetsDirectional.only(
-                                        bottom: 1.42),
-                                    child: AutoSizeText(
-                                      "",
-                                      style: TextStyle(
-                                        fontFamily: "AppIcons",
-                                        color: StateContainer.of(context)
-                                                .curTheme is IndiumTheme
-                                            ? StateContainer.of(context)
-                                                .curTheme
-                                                .primary
-                                            : StateContainer.of(context)
-                                                .curTheme
-                                                .backgroundDark,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      minFontSize: 0.1,
-                                      stepGranularity: 0.1,
-                                      maxLines: 1,
+                                    padding: EdgeInsetsDirectional.only(
+                                      end: 8,
+                                    ),
+                                    child: Icon(
+                                      AppIcons.natriumhorizontal,
+                                      size: 4.9,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .backgroundDark,
                                     ),
                                   ),
                                 ),
@@ -223,20 +212,15 @@ class _AppShareCardState extends State<AppShareCard> {
                         : Center(
                             child: Container(
                               height: 4.9,
-                              margin: EdgeInsetsDirectional.only(bottom: 1.42),
-                              child: AutoSizeText(
-                                "",
-                                style: TextStyle(
-                                  fontFamily: "AppIcons",
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .backgroundDark,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                textAlign: TextAlign.center,
-                                minFontSize: 0.1,
-                                stepGranularity: 0.1,
-                                maxLines: 1,
+                              padding: EdgeInsetsDirectional.only(
+                                end: 8,
+                              ),
+                              child: Icon(
+                                AppIcons.natriumhorizontal,
+                                size: 4.9,
+                                color: StateContainer.of(context)
+                                    .curTheme
+                                    .backgroundDark,
                               ),
                             ),
                           ),

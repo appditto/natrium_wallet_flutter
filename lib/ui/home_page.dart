@@ -804,7 +804,7 @@ class _AppHomePageState extends State<AppHomePage>
       setState(() {
         receive = ReceiveSheet(
           qrWidget: Container(
-              width: MediaQuery.of(context).size.width / 2.5,
+              width: MediaQuery.of(context).size.width / 1,
               child: Image.memory(byteData.buffer.asUint8List())),
         );
       });

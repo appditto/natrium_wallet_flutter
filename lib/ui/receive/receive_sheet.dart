@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'dart:math' as Math;
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:natrium_wallet_flutter/app_icons.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
@@ -110,11 +111,12 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
             // QR which takes all the available space left from the buttons & address text
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsetsDirectional.only(
+                    top: 20, bottom: 28, start: 20, end: 20),
                 child: LayoutBuilder(builder: (context, constraints) {
                   double availableWidth = constraints.maxWidth;
                   double availableHeight = constraints.maxHeight;
-                  double widthDivideFactor = 1.4;
+                  double widthDivideFactor = 1.3;
                   double computedMaxSize = Math.min(
                       availableWidth / widthDivideFactor, availableHeight);
                   return Center(
@@ -252,53 +254,50 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                                   margin: EdgeInsetsDirectional.only(
                                       top: computedMaxSize / 170),
                                   child: SvgPicture.network(
-                                      UIUtil.getNatriconURL(
-                                          StateContainer.of(context)
-                                              .selectedAccount
-                                              .address,
-                                          StateContainer.of(context)
-                                              .getNatriconNonce(
-                                                  StateContainer.of(context)
-                                                      .selectedAccount
-                                                      .address)),
-                                      key: Key(UIUtil.getNatriconURL(
-                                          StateContainer.of(context)
-                                              .selectedAccount
-                                              .address,
-                                          StateContainer.of(context)
-                                              .getNatriconNonce(
-                                                  StateContainer.of(context)
-                                                      .selectedAccount
-                                                      .address))),
-                                      placeholderBuilder:
-                                          (BuildContext context) => Container(
-                                                child: FlareActor(
-                                                  "assets/ntr_placeholder_animation.flr",
-                                                  animation: "main",
-                                                  fit: BoxFit.contain,
-                                                  color:
-                                                      StateContainer.of(context)
-                                                          .curTheme
-                                                          .primary,
-                                                ),
-                                              )),
+                                    UIUtil.getNatriconURL(
+                                        StateContainer.of(context)
+                                            .selectedAccount
+                                            .address,
+                                        StateContainer.of(context)
+                                            .getNatriconNonce(
+                                                StateContainer.of(context)
+                                                    .selectedAccount
+                                                    .address)),
+                                    key: Key(UIUtil.getNatriconURL(
+                                        StateContainer.of(context)
+                                            .selectedAccount
+                                            .address,
+                                        StateContainer.of(context)
+                                            .getNatriconNonce(
+                                                StateContainer.of(context)
+                                                    .selectedAccount
+                                                    .address))),
+                                    placeholderBuilder:
+                                        (BuildContext context) => Container(
+                                      child: FlareActor(
+                                        "assets/ntr_placeholder_animation.flr",
+                                        animation: "main",
+                                        fit: BoxFit.contain,
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .primary,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               )
                             : Center(
                                 child: Container(
                                   height: computedMaxSize / 25,
-                                  child: AutoSizeText(
-                                    "",
-                                    style: TextStyle(
-                                        fontFamily: "AppIcons",
-                                        color: StateContainer.of(context)
-                                            .curTheme
-                                            .backgroundDark,
-                                        fontWeight: FontWeight.w500),
-                                    textAlign: TextAlign.center,
-                                    minFontSize: 0.1,
-                                    stepGranularity: 0.1,
-                                    maxLines: 1,
+                                  padding: EdgeInsetsDirectional.only(
+                                    end: computedMaxSize / 16,
+                                  ),
+                                  child: Icon(
+                                    AppIcons.natriumhorizontal,
+                                    size: computedMaxSize / 25,
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .backgroundDark,
                                   ),
                                 ),
                               ),
