@@ -59,15 +59,15 @@ dependencies:
 
   # Android/iOS path provider
   path_provider: ^2.0.1
-  
+
   # TouchID/FaceID
   local_auth: ^1.0.0-nullsafety.3
   # Eventbus
   event_taxi: ^1.0.0
 
   # SVG
-  flutter_svg: ^0.19.3
-    
+  flutter_svg: ^0.22.0
+
   # QR Codes
   qr_flutter: ^2.0.1 # Generator
   barcode_scan:
@@ -213,7 +213,7 @@ flutter:
     - assets/pulltosend_animation.flr
     - assets/sheethandle_animation.flr
     - assets/ntr_placeholder_animation.flr
-    
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
