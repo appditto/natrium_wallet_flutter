@@ -416,7 +416,8 @@ class AppLocalization {
   /// -- SETTINGS ITEMS
 
   String get activeMessageHeader {
-    return Intl.message("Active Message", desc: 'active_message', name: 'activeMessageHeader');
+    return Intl.message("Active Message",
+        desc: 'active_message', name: 'activeMessageHeader');
   }
 
   String get themeHeader {
@@ -1227,6 +1228,8 @@ class AppLocalization {
   String getBlockExplorerUrl(String hash, AvailableBlockExplorer explorer) {
     if (explorer.explorer == AvailableBlockExplorerEnum.NANOLOOKER) {
       return 'https://nanolooker.com/block/$hash';
+    } else if (explorer.explorer == AvailableBlockExplorerEnum.NANOCAFE) {
+      return 'https://nanocafe.cc/$hash';
     }
     return 'https://nanocrawler.cc/explorer/block/$hash';
   }
@@ -1235,6 +1238,8 @@ class AppLocalization {
       String account, AvailableBlockExplorer explorer) {
     if (explorer.explorer == AvailableBlockExplorerEnum.NANOLOOKER) {
       return 'https://nanolooker.com/account/$account';
+    } else if (explorer.explorer == AvailableBlockExplorerEnum.NANOCAFE) {
+      return 'https://nanocafe.cc/$account';
     }
     return 'https://nanocrawler.cc/explorer/account/$account';
   }
