@@ -1,4 +1,5 @@
 - Improve QR Scannability
 - Add Catalan, Norwegian, and Ukrainian translations
 - Add UAH currency conversion
+- Add nanocafe block explorer option
 - Misc bug fixes & improvements
