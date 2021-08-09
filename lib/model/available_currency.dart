@@ -2,10 +2,46 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:natrium_wallet_flutter/model/setting_item.dart';
 
-enum AvailableCurrencyEnum { USD, ARS, AUD, BRL, CAD, CHF, CLP, CNY, CZK, DKK,
-                  EUR, GBP, HKD, HUF, IDR, ILS, INR, JPY, KRW, KWD,
-                  MXN, MYR, NOK, NZD, PHP, PKR, PLN, RUB, SAR, SEK,
-                  SGD, THB, TRY, TWD, AED, VES, ZAR }
+enum AvailableCurrencyEnum {
+  USD,
+  ARS,
+  AUD,
+  BRL,
+  CAD,
+  CHF,
+  CLP,
+  CNY,
+  CZK,
+  DKK,
+  EUR,
+  GBP,
+  HKD,
+  HUF,
+  IDR,
+  ILS,
+  INR,
+  JPY,
+  KRW,
+  KWD,
+  MXN,
+  MYR,
+  NOK,
+  NZD,
+  PHP,
+  PKR,
+  PLN,
+  RUB,
+  SAR,
+  SEK,
+  SGD,
+  THB,
+  TRY,
+  TWD,
+  AED,
+  VES,
+  ZAR,
+  UAH
+}
 
 /// Represent the available authentication methods our app supports
 class AvailableCurrency extends SettingSelectionItem {
@@ -24,240 +60,246 @@ class AvailableCurrency extends SettingSelectionItem {
   String getDisplayNameNoSymbol() {
     switch (getIso4217Code()) {
       case "ARS":
-          return "Argentine Peso";
+        return "Argentine Peso";
       case "AUD":
-          return "Australian Dollar";
+        return "Australian Dollar";
       case "BRL":
-          return "Brazilian Real";
+        return "Brazilian Real";
       case "CAD":
-          return "Canadian Dollar";
+        return "Canadian Dollar";
       case "CHF":
-          return "Swiss Franc";
+        return "Swiss Franc";
       case "CLP":
-          return "Chilean Peso";
+        return "Chilean Peso";
       case "CNY":
-          return "Chinese Yuan";
+        return "Chinese Yuan";
       case "CZK":
-          return "Czech Koruna";
+        return "Czech Koruna";
       case "DKK":
-          return "Danish Krone";
+        return "Danish Krone";
       case "EUR":
-          return "Euro";
+        return "Euro";
       case "GBP":
-          return "Great Britain Pound";
+        return "Great Britain Pound";
       case "HKD":
-          return "Hong Kong Dollar";
+        return "Hong Kong Dollar";
       case "HUF":
-          return "Hungarian Forint";
+        return "Hungarian Forint";
       case "IDR":
-          return "Indonesian Rupiah";
+        return "Indonesian Rupiah";
       case "ILS":
-          return "Israeli Shekel";
+        return "Israeli Shekel";
       case "INR":
-          return "Indian Rupee";
+        return "Indian Rupee";
       case "JPY":
-          return "Japanese Yen";
+        return "Japanese Yen";
       case "KRW":
-          return "South Korean Won";
+        return "South Korean Won";
       case "KWD":
-          return "Kuwaiti Dinar";
+        return "Kuwaiti Dinar";
       case "MXN":
-          return "Mexican Peso";
+        return "Mexican Peso";
       case "MYR":
-          return "Malaysian Ringgit";
+        return "Malaysian Ringgit";
       case "NOK":
-          return "Norwegian Krone";
+        return "Norwegian Krone";
       case "NZD":
-          return "New Zealand Dollar";
+        return "New Zealand Dollar";
       case "PHP":
-          return "Philippine Peso";
+        return "Philippine Peso";
       case "PKR":
-          return "Pakistani Rupee";
+        return "Pakistani Rupee";
       case "PLN":
-          return "Polish Zloty";
+        return "Polish Zloty";
       case "RUB":
-          return "Russian Ruble";
+        return "Russian Ruble";
       case "SAR":
-          return "Saudi Riyal";
+        return "Saudi Riyal";
       case "SEK":
-          return "Swedish Krona";
+        return "Swedish Krona";
       case "SGD":
-          return "Singapore Dollar";
+        return "Singapore Dollar";
       case "THB":
-          return "Thai Baht";
+        return "Thai Baht";
       case "TRY":
-          return "Turkish Lira";
+        return "Turkish Lira";
       case "TWD":
-          return "Taiwan Dollar";
+        return "Taiwan Dollar";
       case "AED":
-          return "UAE Dirham";
+        return "UAE Dirham";
       case "VES":
-          return "Venezuelan Bolivar";
+        return "Venezuelan Bolivar";
       case "ZAR":
-          return "South African Rand";
+        return "South African Rand";
+      case "UAH":
+        return "Ukraine hryvnia";
       case "USD":
       default:
-          return "US Dollar";
-      }
+        return "US Dollar";
+    }
   }
 
   String getCurrencySymbol() {
     switch (getIso4217Code()) {
       case "ARS":
-          return "\$";
+        return "\$";
       case "AUD":
-          return "\$";
+        return "\$";
       case "BRL":
-          return "R\$";
+        return "R\$";
       case "CAD":
-          return "\$";
+        return "\$";
       case "CHF":
-          return "CHF";
+        return "CHF";
       case "CLP":
-          return "\$";
+        return "\$";
       case "CNY":
-          return "¥";
+        return "¥";
       case "CZK":
-          return "Kč";
+        return "Kč";
       case "DKK":
-          return "kr.";
+        return "kr.";
       case "EUR":
-          return "€";
+        return "€";
       case "GBP":
-          return "£";
+        return "£";
       case "HKD":
-          return "HK\$";
+        return "HK\$";
       case "HUF":
-          return "Ft";
+        return "Ft";
       case "IDR":
-          return "Rp";
+        return "Rp";
       case "ILS":
-          return "₪";
+        return "₪";
       case "INR":
-          return "₹";
+        return "₹";
       case "JPY":
-          return "¥";
+        return "¥";
       case "KRW":
-          return "₩";
+        return "₩";
       case "KWD":
-          return "KD";
+        return "KD";
       case "MXN":
-          return "\$";
+        return "\$";
       case "MYR":
-          return "RM";
+        return "RM";
       case "NOK":
-          return "kr";
+        return "kr";
       case "NZD":
-          return "\$";
+        return "\$";
       case "PHP":
-          return "₱";
+        return "₱";
       case "PKR":
-          return "Rs";
+        return "Rs";
       case "PLN":
-          return "zł";
+        return "zł";
       case "RUB":
-          return "\u20BD";
+        return "\u20BD";
       case "SAR":
-          return "SR";
+        return "SR";
       case "SEK":
-          return "kr";
+        return "kr";
       case "SGD":
-          return "\$";
+        return "\$";
       case "THB":
-          return "THB";
+        return "THB";
       case "TRY":
-          return "₺";
+        return "₺";
       case "TWD":
-          return "NT\$";
+        return "NT\$";
       case "AED":
-          return "د.إ";
+        return "د.إ";
       case "VES":
-          return "VES";
+        return "VES";
       case "ZAR":
-          return "R\$";
+        return "R\$";
+      case "UAH":
+        return "₴";
       case "USD":
       default:
-          return "\$";
+        return "\$";
     }
   }
 
   Locale getLocale() {
     switch (getIso4217Code()) {
       case "ARS":
-          return Locale("es", "AR");
+        return Locale("es", "AR");
       case "AUD":
-          return Locale("en", "AU");
+        return Locale("en", "AU");
       case "BRL":
-          return Locale("pt", "BR");
+        return Locale("pt", "BR");
       case "CAD":
-          return Locale("en", "CA");
+        return Locale("en", "CA");
       case "CHF":
-          return Locale("de", "CH");
+        return Locale("de", "CH");
       case "CLP":
-          return Locale("es", "CL");
+        return Locale("es", "CL");
       case "CNY":
-          return Locale("zh", "CN");
+        return Locale("zh", "CN");
       case "CZK":
-          return Locale("cs", "CZ");
+        return Locale("cs", "CZ");
       case "DKK":
-          return Locale("da", "DK");
+        return Locale("da", "DK");
       case "EUR":
-          return Locale("fr", "FR");
+        return Locale("fr", "FR");
       case "GBP":
-          return Locale("en", "GB");
+        return Locale("en", "GB");
       case "HKD":
-          return Locale("zh", "HK");
+        return Locale("zh", "HK");
       case "HUF":
-          return Locale("hu", "HU");
+        return Locale("hu", "HU");
       case "IDR":
-          return Locale("id", "ID");
+        return Locale("id", "ID");
       case "ILS":
-          return Locale("he", "IL");
+        return Locale("he", "IL");
       case "INR":
-          return Locale("hi", "IN");
+        return Locale("hi", "IN");
       case "JPY":
-          return Locale("ja", "JP");
+        return Locale("ja", "JP");
       case "KRW":
-          return Locale("ko", "KR");
+        return Locale("ko", "KR");
       case "KWD":
-          return Locale("ar", "KW");
+        return Locale("ar", "KW");
       case "MXN":
-          return Locale("es", "MX");
+        return Locale("es", "MX");
       case "MYR":
-          return Locale("ta", "MY");
+        return Locale("ta", "MY");
       case "NOK":
-          return Locale("no", "NO");
+        return Locale("no", "NO");
       case "NZD":
-          return Locale("en", "NZ");
+        return Locale("en", "NZ");
       case "PHP":
-          return Locale("tl", "PH");
+        return Locale("tl", "PH");
       case "PKR":
-          return Locale("ur", "PK");
+        return Locale("ur", "PK");
       case "PLN":
-          return Locale("pl", "PL");
+        return Locale("pl", "PL");
       case "RUB":
-          return Locale("ru", "RU");
+        return Locale("ru", "RU");
       case "SAR":
-          return Locale("ar", "SA");
+        return Locale("ar", "SA");
       case "SEK":
-          return Locale("sv", "SE");
+        return Locale("sv", "SE");
       case "SGD":
-          return Locale("zh", "SG");
+        return Locale("zh", "SG");
       case "THB":
-          return Locale("th", "TH");
+        return Locale("th", "TH");
       case "TRY":
-          return Locale("tr", "TR");
+        return Locale("tr", "TR");
       case "TWD":
-          return Locale("en", "TW");
+        return Locale("en", "TW");
       case "AED":
-          return Locale("ar", "AE");
+        return Locale("ar", "AE");
       case "VES":
-          return Locale("es", "VE");
+        return Locale("es", "VE");
       case "ZAR":
-          return Locale("en", "ZA");
+        return Locale("en", "ZA");
+      case "UAH":
+        return Locale("uk", "UA");
       case "USD":
       default:
-          return Locale("en", "US");
+        return Locale("en", "US");
     }
   }
 
@@ -273,9 +315,30 @@ class AvailableCurrency extends SettingSelectionItem {
       AvailableCurrency currency = AvailableCurrency(value);
       if (locale != null && locale.countryCode != null) {
         // Special cases
-        if (['AT', 'BE', 'CY', 'EE', 'FI', 'FR', 'DE', 'GR', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PT', 'SK', 'SI', 'ES'].contains(locale.countryCode)) {
+        if ([
+          'AT',
+          'BE',
+          'CY',
+          'EE',
+          'FI',
+          'FR',
+          'DE',
+          'GR',
+          'IE',
+          'IT',
+          'LV',
+          'LT',
+          'LU',
+          'MT',
+          'NL',
+          'PT',
+          'SK',
+          'SI',
+          'ES'
+        ].contains(locale.countryCode)) {
           return AvailableCurrency(AvailableCurrencyEnum.EUR);
-        } else if (currency.getLocale().countryCode.toUpperCase() == locale.countryCode.toUpperCase()) {
+        } else if (currency.getLocale().countryCode.toUpperCase() ==
+            locale.countryCode.toUpperCase()) {
           return currency;
         }
       }

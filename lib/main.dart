@@ -120,6 +120,9 @@ class _AppState extends State<App> {
           const Locale('tl'), // Tagalog
           const Locale('tr'), // Turkish
           const Locale('vi'), // Vietnamese
+          const Locale('ca'), // Catalan
+          const Locale('uk'), // Ukrainian
+          const Locale('no'), // Norwegian
           const Locale.fromSubtags(
               languageCode: 'zh', scriptCode: 'Hans'), // Chinese Simplified
           const Locale.fromSubtags(
@@ -186,6 +189,8 @@ class _AppState extends State<App> {
           const Locale("ar", "AE"), // UAE
           const Locale("ar", "SA"), // Saudi Arabia
           const Locale("ar", "KW"), // Kuwait
+          const Locale("uk", "UA"), // Ukraine
+          const Locale("no", "NO"), // Norway
         ],
         initialRoute: '/',
         onGenerateRoute: (RouteSettings settings) {
@@ -266,7 +271,9 @@ class _AppState extends State<App> {
                   opaque: false);
             case '/avatar_change_page':
               return MaterialPageRoute(
-                builder: (_) => AvatarChangePage(curAddress: StateContainer.of(context).selectedAccount.address),
+                builder: (_) => AvatarChangePage(
+                    curAddress:
+                        StateContainer.of(context).selectedAccount.address),
                 settings: settings,
               );
             case '/before_scan_screen':

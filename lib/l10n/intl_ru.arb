@@ -223,5 +223,13 @@
   "liveSupportButton": "Служба поддержки",
   "connectingHeader": "Подключение",
   "minimumSend": "Минимум сумма отправки % 1 NANO ",
-  "natricon": "Natricon"
+  "natricon": "Natricon",
+  "pending": "в ожидании",
+  "unconfirmed": "неподтвержденный",
+  "messageHeader": "Сообщение",
+  "readMore": "Подробнее",
+  "ignore": "Игнорировать",
+  "dismiss": "Отклонить",
+  "activeMessageHeader": "Активное сообщение",
+  "blockExplorer": "Блок-обозреватель"
 }

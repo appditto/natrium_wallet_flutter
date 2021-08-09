@@ -17,6 +17,7 @@ import 'package:intl/src/intl_helpers.dart';
 
 import 'messages_ar.dart' as messages_ar;
 import 'messages_bg.dart' as messages_bg;
+import 'messages_ca.dart' as messages_ca;
 import 'messages_cs.dart' as messages_cs;
 import 'messages_da.dart' as messages_da;
 import 'messages_de.dart' as messages_de;
@@ -34,6 +35,7 @@ import 'messages_lv.dart' as messages_lv;
 import 'messages_messages.dart' as messages_messages;
 import 'messages_ms.dart' as messages_ms;
 import 'messages_nl.dart' as messages_nl;
+import 'messages_no.dart' as messages_no;
 import 'messages_pl.dart' as messages_pl;
 import 'messages_pt.dart' as messages_pt;
 import 'messages_ro.dart' as messages_ro;
@@ -42,6 +44,7 @@ import 'messages_sl.dart' as messages_sl;
 import 'messages_sv.dart' as messages_sv;
 import 'messages_tl.dart' as messages_tl;
 import 'messages_tr.dart' as messages_tr;
+import 'messages_uk.dart' as messages_uk;
 import 'messages_vi.dart' as messages_vi;
 import 'messages_zh-Hans.dart' as messages_zh_hans;
 import 'messages_zh-Hant.dart' as messages_zh_hant;
@@ -50,6 +53,7 @@ typedef Future<dynamic> LibraryLoader();
 Map<String, LibraryLoader> _deferredLibraries = {
   'ar': () => new Future.value(null),
   'bg': () => new Future.value(null),
+  'ca': () => new Future.value(null),
   'cs': () => new Future.value(null),
   'da': () => new Future.value(null),
   'de': () => new Future.value(null),
@@ -67,6 +71,7 @@ Map<String, LibraryLoader> _deferredLibraries = {
   'messages': () => new Future.value(null),
   'ms': () => new Future.value(null),
   'nl': () => new Future.value(null),
+  'no': () => new Future.value(null),
   'pl': () => new Future.value(null),
   'pt': () => new Future.value(null),
   'ro': () => new Future.value(null),
@@ -75,6 +80,7 @@ Map<String, LibraryLoader> _deferredLibraries = {
   'sv': () => new Future.value(null),
   'tl': () => new Future.value(null),
   'tr': () => new Future.value(null),
+  'uk': () => new Future.value(null),
   'vi': () => new Future.value(null),
   'zh_Hans': () => new Future.value(null),
   'zh_Hant': () => new Future.value(null),
@@ -86,6 +92,8 @@ MessageLookupByLibrary _findExact(String localeName) {
       return messages_ar.messages;
     case 'bg':
       return messages_bg.messages;
+    case 'ca':
+      return messages_ca.messages;
     case 'cs':
       return messages_cs.messages;
     case 'da':
@@ -120,6 +128,8 @@ MessageLookupByLibrary _findExact(String localeName) {
       return messages_ms.messages;
     case 'nl':
       return messages_nl.messages;
+    case 'no':
+      return messages_no.messages;
     case 'pl':
       return messages_pl.messages;
     case 'pt':
@@ -136,6 +146,8 @@ MessageLookupByLibrary _findExact(String localeName) {
       return messages_tl.messages;
     case 'tr':
       return messages_tr.messages;
+    case 'uk':
+      return messages_uk.messages;
     case 'vi':
       return messages_vi.messages;
     case 'zh_Hans':

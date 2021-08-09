@@ -50,7 +50,7 @@
   "sending": "Odesílání",
   "to": "Pro",
   "sendAmountConfirm": "Odeslat %1 NANO",
-  "sendError": "Nastala chyba. Zkuste to později znovu.",
+  "sendError": "Došlo k chybě. Zkuste to později.",
   "enterAmount": "Zadejte částku",
   "enterAddress": "Zadejte adresu",
   "invalidAddress": "Zadaná adresa není platná",
@@ -223,5 +223,13 @@
   "liveSupportButton": "Podpora",
   "connectingHeader": "Připojování",
   "minimumSend": "Minimální částka pro odeslání je% 1 NANO",
-  "natricon": "Natricon"
+  "natricon": "Natricon",
+  "pending": "nevyřízený",
+  "unconfirmed": "nepotvrzený",
+  "messageHeader": "Zpráva",
+  "readMore": "Více",
+  "ignore": "Ignorovat",
+  "dismiss": "Zavrhnout",
+  "activeMessageHeader": "Aktivní zpráva",
+  "blockExplorer": "Průzkumník bloků"
 }

@@ -50,7 +50,7 @@
   "sending": "Envoi en cours",
   "to": "À",
   "sendAmountConfirm": "Envoyer les Nanos?",
-  "sendError": "Une erreur est survenue. Veuillez réessayer plus tard.",
+  "sendError": "Une erreur s'est produite. Veuillez réessayer plus tard.",
   "enterAmount": "Saisir le montant",
   "enterAddress": "Saisir l’adresse",
   "invalidAddress": "Adresse du destinataire invalide",
@@ -223,5 +223,13 @@
   "liveSupportButton": "Support",
   "connectingHeader": "Connexion",
   "minimumSend": "Le minimum d'envoi est %1 NANO",
-  "natricon": "Natricône"
+  "natricon": "Natricône",
+  "pending": "En attente",
+  "unconfirmed": "non confirmé",
+  "messageHeader": "Message",
+  "readMore": "Lire plus",
+  "ignore": "Ignorer",
+  "dismiss": "Annuler",
+  "activeMessageHeader": "Message actif",
+  "blockExplorer": "Explorateur de blocs"
 }
