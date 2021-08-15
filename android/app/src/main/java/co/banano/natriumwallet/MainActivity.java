@@ -1,4 +1,4 @@
-package com.bitcoinnano.btcowallet;
+package com.bitcoinnano.infinitum;
 
 import android.os.Bundle;
 

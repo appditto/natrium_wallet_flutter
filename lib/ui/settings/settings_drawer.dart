@@ -1617,7 +1617,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                         AppLocalization.of(context).shareNatrium,
                         AppIcons.share, onPressed: () {
                       Share.share(
-                          "Check out BTCO Wallet - BTCO Wallet for iOS and Android" +
+                          "Check out Infinitum - Infinitum for iOS and Android" +
                               " http://bitcoinnano.org");
                     }),
                     Divider(

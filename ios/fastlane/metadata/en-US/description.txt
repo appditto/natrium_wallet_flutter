@@ -1,7 +1,7 @@
-BTCO Wallet is a fast, robust & secure wallet for the BTCO cryptocurrency. BTCO Wallet has been thoroughly audited by Red4Sec, a security firm with extensive experience in cryptocurrency and blockchain projects.
+Infinitum is a fast, robust & secure wallet for the BTCO cryptocurrency. Infinitum has been thoroughly audited by Red4Sec, a security firm with extensive experience in cryptocurrency and blockchain projects.
 
 Features:
-- Create a new BTCO wallet or import an existing one.
+- Create a new Infinitum or import an existing one.
 - Secure pin and biometric authentication
 - Send BTCO instantly to anyone, anywhere in the world.
 - Manage contacts in an intuitive easy-to-use address book
@@ -19,7 +19,7 @@ IMPORTANT:
 
 Remember to backup your wallet seed and store it in a safe place. It is the only way to recover your funds if you sign out of the wallet or lose your device! If someone else gets your seed, they will be able to control your funds!
 
-BTCO Wallet is open source and available on GitHub.
+Infinitum is open source and available on GitHub.
 
 For support:
 https://help.natrium.io

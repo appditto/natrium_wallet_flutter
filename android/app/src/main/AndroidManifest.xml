@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bitcoinnano.btcowallet">
+    package="com.bitcoinnano.infinitum">
 
     <!-- The INTERNET permission is required for development. Specifically,
          flutter needs it to communicate with the running application
@@ -19,7 +19,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name=".MultidexApplication"
-        android:label="BTCO Wallet"
+        android:label="Infinitum"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false">
         <meta-data

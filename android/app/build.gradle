@@ -41,7 +41,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.bitcoinnano.btcowallet"
+        applicationId "com.bitcoinnano.infinitum"
         minSdkVersion 18
         targetSdkVersion 30
         multiDexEnabled true

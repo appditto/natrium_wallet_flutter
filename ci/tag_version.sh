@@ -26,7 +26,7 @@ GH_PUBLISH="$GH_REPO/releases"
 #    exit 1
 #fi
 
-pubresponse=$(curl -u "$GITHUB_OAUTH_BASIC" -sH "$AUTH" --data '{"tag_name":"'"$VERSION"'", "name":"BTCO Wallet '"${VERSION}"'", "draft":false, "prerelease":false}' $GH_PUBLISH)
+pubresponse=$(curl -u "$GITHUB_OAUTH_BASIC" -sH "$AUTH" --data '{"tag_name":"'"$VERSION"'", "name":"Infinitum '"${VERSION}"'", "draft":false, "prerelease":false}' $GH_PUBLISH)
 if [[ "$pubresponse" == *"already_exists"* ]]; then
   echo "Tag already exists, skipping"
    exit 0

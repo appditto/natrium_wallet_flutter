@@ -270,7 +270,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "welcomeText": "Welcome to BTCO Wallet. To begin, you may create a new wallet or import an existing one.",
+  "welcomeText": "Welcome to Infinitum. To begin, you may create a new wallet or import an existing one.",
   "@welcomeText": {
     "description": "intro_welcome_title",
     "type": "text",
@@ -480,13 +480,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "shareNatrium": "Share BTCO Wallet",
+  "shareNatrium": "Share Infinitum",
   "@shareNatrium": {
     "description": "settings_share",
     "type": "text",
     "placeholders": {}
   },
-  "shareNatriumText": "Check out BTCO Wallet! A premier BTCO mobile wallet!",
+  "shareNatriumText": "Check out Infinitum! A premier BTCO mobile wallet!",
   "@shareNatriumText": {
     "description": "share_extra",
     "type": "text",
@@ -504,7 +504,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "logoutDetail": "Logging out will remove your seed and all BTCO Wallet-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
+  "logoutDetail": "Logging out will remove your seed and all Infinitum-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
   "@logoutDetail": {
     "description": "settings_logout_alert_message",
     "type": "text",
@@ -582,7 +582,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "notificationBody": "Open BTCO Wallet to view this transaction",
+  "notificationBody": "Open Infinitum to view this transaction",
   "@notificationBody": {
     "description": "notification_body",
     "type": "text",
@@ -612,7 +612,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "kaliumWallet": "BTCO Wallet Wallet",
+  "kaliumWallet": "Infinitum Wallet",
   "@kaliumWallet": {
     "description": "kalium_wallet",
     "type": "text",
@@ -654,7 +654,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "transferIntro": "This process will transfer the funds from a paper wallet to your BTCO Wallet wallet.\n\nTap the \"%1\" button to start.",
+  "transferIntro": "This process will transfer the funds from a paper wallet to your Infinitum wallet.\n\nTap the \"%1\" button to start.",
   "@transferIntro": {
     "description": "transfer_intro",
     "type": "text",
@@ -702,7 +702,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "transferComplete": "%1 BTCO successfully transferred to your BTCO Wallet Wallet.\n",
+  "transferComplete": "%1 BTCO successfully transferred to your Infinitum Wallet.\n",
   "@transferComplete": {
     "description": "transfer_complete_text",
     "type": "text",
@@ -720,13 +720,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "unlockPin": "Enter PIN to Unlock BTCO Wallet",
+  "unlockPin": "Enter PIN to Unlock Infinitum",
   "@unlockPin": {
     "description": "unlock_kalium_pin",
     "type": "text",
     "placeholders": {}
   },
-  "unlockBiometrics": "Authenticate to Unlock BTCO Wallet",
+  "unlockBiometrics": "Authenticate to Unlock Infinitum",
   "@unlockBiometrics": {
     "description": "unlock_kalium_bio",
     "type": "text",
@@ -786,7 +786,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "exampleCardIntro": "Welcome to BTCO Wallet. Once you receive BTCO, transactions will show up like this:",
+  "exampleCardIntro": "Welcome to Infinitum. Once you receive BTCO, transactions will show up like this:",
   "@exampleCardIntro": {
     "description": "example_card_intro",
     "type": "text",

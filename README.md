@@ -1,24 +1,24 @@
-# BTCO Wallet - Fast, Robust & Secure BTCO Wallet
+# Infinitum - Fast, Robust & Secure Infinitum
 
 [![GitHub release (latest)](https://img.shields.io/github/v/release/appditto/natrium_wallet_flutter)](https://github.com/appditto/natrium_wallet_flutter/releases) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/appditto/natrium_wallet_flutter/blob/master/LICENSE) [![Asset License](https://img.shields.io/badge/asset%20license-proprietary-orange)](https://github.com/appditto/natrium_wallet_flutter/blob/master/LICENSE) [![CI](https://github.com/appditto/natrium_wallet_flutter/workflows/CI/badge.svg)](https://github.com/appditto/natrium_wallet_flutter/actions?query=workflow%3ACI) [![Twitter Follow](https://img.shields.io/twitter/follow/NatriumIO?style=social)](https://twitter.com/intent/follow?screen_name=NatriumIO)
 
 
-## What is BTCO Wallet?
+## What is Infinitum?
 
-BTCO Wallet is a cross-platform mobile wallet for the BTCO cryptocurrency. It is written in Dart using [Flutter](https://flutter.io).
+Infinitum is a cross-platform mobile wallet for the BTCO cryptocurrency. It is written in Dart using [Flutter](https://flutter.io).
 
 | Link | Description |
 | :----- | :------ |
-[natrium.io](https://natrium.io) | BTCO Wallet Homepage
+[natrium.io](https://natrium.io) | Infinitum Homepage
 [nano.org](https://nano.org) | BTCO Cryptocurrency Homepage
 
-![BTCO Wallet Themes](https://natrium.io/assets/natrium-themes.jpg)
+![Infinitum Themes](https://natrium.io/assets/natrium-themes.jpg)
 
-![BTCO Wallet Quick Send](https://natrium.io/assets/natrium-qt-1.gif) ![BTCO Wallet Add to Contacts](https://natrium.io/assets/natrium-qt-2.gif) ![BTCO Wallet Change Representative](https://natrium.io/assets/natrium-qt-4.gif)
+![Infinitum Quick Send](https://natrium.io/assets/natrium-qt-1.gif) ![Infinitum Add to Contacts](https://natrium.io/assets/natrium-qt-2.gif) ![Infinitum Change Representative](https://natrium.io/assets/natrium-qt-4.gif)
 
 ## Server
 
-BTCO Wallet's backend server can be found [here](https://github.com/appditto/natrium-wallet-server)
+Infinitum's backend server can be found [here](https://github.com/appditto/natrium-wallet-server)
 
 ## Contributing
 
@@ -40,7 +40,7 @@ If you need any help, feel free to file an issue if you do not manage to find a 
 
 ## License
 
-BTCO Wallet is released under the MIT License
+Infinitum is released under the MIT License
 
 ### Update translations:
 
