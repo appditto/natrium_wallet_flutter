@@ -438,15 +438,13 @@ class ThoriumTheme extends BaseTheme {
 }
 
 class ObsidiumTheme extends BaseTheme {
-  static const brightBlue = Color(0xFFA3CDFF);
+  static const lightBlue = Color(0xFF5C9be5);
 
-  static const green = Color(0xFF4AFFAE);
+  static const lightGrey = Color(0xFFC7C6CB);
 
   static const greenDark = Color(0xFF18A264);
 
-  static const blueishGreyDark = Color(0xFF1E2C3D);
-
-  static const blueishGreyLight = Color(0xFF2A3A4D);
+  static const grey = Color(0xFF1C1C1E);
 
   static const blueishGreyDarkest = Color(0xFF1E2C3D);
 
@@ -454,28 +452,28 @@ class ObsidiumTheme extends BaseTheme {
 
   static const black = Color(0xFF000000);
 
-  Color primary = brightBlue;
-  Color primary60 = brightBlue.withOpacity(0.6);
-  Color primary45 = brightBlue.withOpacity(0.45);
-  Color primary30 = brightBlue.withOpacity(0.3);
-  Color primary20 = brightBlue.withOpacity(0.2);
-  Color primary15 = brightBlue.withOpacity(0.15);
-  Color primary10 = brightBlue.withOpacity(0.1);
+  Color primary = lightBlue;
+  Color primary60 = lightBlue.withOpacity(0.6);
+  Color primary45 = lightBlue.withOpacity(0.45);
+  Color primary30 = lightBlue.withOpacity(0.3);
+  Color primary20 = lightBlue.withOpacity(0.2);
+  Color primary15 = lightBlue.withOpacity(0.15);
+  Color primary10 = lightBlue.withOpacity(0.1);
 
-  Color success = green;
-  Color success60 = green.withOpacity(0.6);
-  Color success30 = green.withOpacity(0.3);
-  Color success15 = green.withOpacity(0.15);
+  Color success = greenDark;
+  Color success60 = greenDark.withOpacity(0.6);
+  Color success30 = greenDark.withOpacity(0.3);
+  Color success15 = greenDark.withOpacity(0.15);
 
-  Color successDark = greenDark;
-  Color successDark30 = greenDark.withOpacity(0.3);
+  Color successDark = black;
+  Color successDark30 = black.withOpacity(0.3);
 
-  Color background = blueishGreyDark;
-  Color background40 = blueishGreyDark.withOpacity(0.4);
-  Color background00 = blueishGreyDark.withOpacity(0.0);
+  Color background = black;
+  Color background40 = black.withOpacity(0.4);
+  Color background00 = black.withOpacity(0.0);
 
-  Color backgroundDark = blueishGreyLight;
-  Color backgroundDark00 = blueishGreyLight.withOpacity(0.0);
+  Color backgroundDark = grey;
+  Color backgroundDark00 = grey.withOpacity(0.0);
 
   Color backgroundDarkest = blueishGreyDarkest;
 
