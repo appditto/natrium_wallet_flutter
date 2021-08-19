@@ -7,7 +7,7 @@ description: BTCOW - Fast, Robust & Secure Infinitum.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 2.4.1+81
+version: 2.4.1+82
 
 environment:
   sdk: ">=2.11.99 <3.0.0"
