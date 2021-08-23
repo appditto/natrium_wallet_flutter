@@ -506,10 +506,10 @@ class ObsidiumTheme extends BaseTheme {
   BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
 
   OverlayTheme qrScanTheme = OverlayTheme.OBSIDIUM;
-  AppIconEnum appIcon = AppIconEnum.OBSIDIUM;
+  AppIconEnum appIcon = AppIconEnum.NATRIUM;
 }
 
-enum AppIconEnum { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM, OBSIDIUM }
+enum AppIconEnum { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM }
 
 class AppIcon {
   static const _channel = const MethodChannel('fappchannel');
@@ -520,9 +520,6 @@ class AppIcon {
     }
     String iconStr = "natrium";
     switch (iconToChange) {
-      case AppIconEnum.OBSIDIUM:
-        iconStr = "obsidium";
-        break;
       case AppIconEnum.THORIUM:
         iconStr = "thorium";
         break;
