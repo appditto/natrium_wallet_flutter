@@ -10,211 +10,211 @@ description: Natrium - Fast, Robust & Secure NANO Wallet.
 version: 2.4.2+80
 
 environment:
-  sdk: ">=2.11.99 <3.0.0"
+    sdk: ">=2.11.99 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
-  flutter_localizations:
-    sdk: flutter
+    flutter:
+        sdk: flutter
+    flutter_localizations:
+        sdk: flutter
 
-  # Securley store data in a keystore
-  flutter_secure_storage: ^4.1.0
+    # Securley store data in a keystore
+    flutter_secure_storage: ^4.1.0
 
-  # Nano core functions
-  flutter_nano_ffi: ^2.0.0
+    # Nano core functions
+    flutter_nano_ffi: ^2.0.0
 
-  # Shared prefs
-  shared_preferences: ^2.0.5
+    # Shared prefs
+    shared_preferences: ^2.0.5
 
-  # Flare for animations
-  flare_flutter: ^2.0.6
+    # Flare for animations
+    flare_flutter: ^2.0.6
 
-  # Websockets
-  web_socket_channel: ^1.0.9
+    # Websockets
+    web_socket_channel: ^1.0.9
 
-  # Platform-specific build info
-  package_info: ^2.0.0
+    # Platform-specific build info
+    package_info: ^2.0.0
 
-  # Device-specific info
-  device_info: ^2.0.0
+    # Device-specific info
+    device_info: ^2.0.0
 
-  # JSON Serialization
-  json_annotation: ^3.1.1
+    # JSON Serialization
+    json_annotation: ^3.1.1
 
-  # Localization
-  intl: ^0.17.0
+    # Localization
+    intl: ^0.17.0
 
-  # BigDecimal alternative
-  decimal: ^1.0.0
+    # BigDecimal alternative
+    decimal: ^1.0.0
 
-  # Logger
-  logger: ^1.0.0
+    # Logger
+    logger: ^1.0.0
 
-  # Native webview plugin
-  flutter_webview_plugin: ^0.3.11
+    # Native webview plugin
+    flutter_webview_plugin: ^0.3.11
 
-  # SQLite
-  sqflite: ^2.0.0+3
+    # SQLite
+    sqflite: ^2.0.0+3
 
-  # Android/iOS path provider
-  path_provider: ^2.0.1
+    # Android/iOS path provider
+    path_provider: ^2.0.1
 
-  # TouchID/FaceID
-  local_auth: ^1.0.0-nullsafety.3
-  # Eventbus
-  event_taxi: ^1.0.0
+    # TouchID/FaceID
+    local_auth: ^1.0.0-nullsafety.3
+    # Eventbus
+    event_taxi: ^1.0.0
 
-  # SVG
-  flutter_svg: ^0.22.0
+    # SVG
+    flutter_svg: ^0.22.0
 
-  # QR Codes
-  qr_flutter: ^2.0.1 # Generator
-  barcode_scan:
-    git:
-      url: https://github.com/bbedward/flutter_barcode_reader.git
-      ref: master
+    # QR Codes
+    qr_flutter: ^2.0.1 # Generator
+    barcode_scan:
+        git:
+            url: https://github.com/tlietz/flutter_barcode_reader.git
+            ref: master
 
-  # Share files
-  share:
-    git:
-      url: https://github.com/bbedward/plugins.git
-      path: packages/share
-      ref: master
+    # Share files
+    share:
+        git:
+            url: https://github.com/bbedward/plugins.git
+            path: packages/share
+            ref: master
 
-  # File picker
-  file_picker: ^3.0.0-nullsafety.0
+    # File picker
+    file_picker: ^3.0.0-nullsafety.0
 
-  # Deep link support
-  #uni_links: ^0.2.0
-  uni_links:
-    git:
-      url: https://github.com/bbedward/uni_links.git
-      ref: master
+    # Deep link support
+    #uni_links: ^0.2.0
+    uni_links:
+        git:
+            url: https://github.com/bbedward/uni_links.git
+            ref: master
 
-  # HTTP client
-  http: ^0.12.1
+    # HTTP client
+    http: ^0.12.1
 
-  # Vibrate
-  vibrate:
-    git:
-      url: https://github.com/bbedward/flutter_vibrate.git
-      ref: master
+    # Vibrate
+    vibrate:
+        git:
+            url: https://github.com/bbedward/flutter_vibrate.git
+            ref: master
 
-  # Toast
-  oktoast: ^3.0.0
+    # Toast
+    oktoast: ^3.0.0
 
-  # Push notifications
-  firebase_messaging: ^7.0.3
+    # Push notifications
+    firebase_messaging: ^7.0.3
 
-  # Slidable list actions
-  flutter_slidable: ^0.5.7
+    # Slidable list actions
+    flutter_slidable: ^0.5.7
 
-  # Lock helper
-  synchronized: ^3.0.0
+    # Lock helper
+    synchronized: ^3.0.0
 
-  # Service provider
-  get_it: ^6.0.0
+    # Service provider
+    get_it: ^6.0.0
 
-  # Root/Jailbreak detection
-  root_checker:
-    git:
-      url: https://github.com/bbedward/root_checker.git
-      ref: master
+    # Root/Jailbreak detection
+    root_checker:
+        git:
+            url: https://github.com/bbedward/root_checker.git
+            ref: master
 
-  # Validation utilities
-  validators: 2.0.0
+    # Validation utilities
+    validators: 2.0.0
 
-  # Auto resize text widget
-  auto_size_text: ^2.1.0
+    # Auto resize text widget
+    auto_size_text: ^2.1.0
 
-  # Avoid keyboard from overlapping text fields
-  keyboard_avoider: ^0.1.2
+    # Avoid keyboard from overlapping text fields
+    keyboard_avoider: ^0.1.2
 
-  # Launch external URLs
-  url_launcher: ^6.0.2
+    # Launch external URLs
+    url_launcher: ^6.0.2
 
-  # Manta dart implementation
-  manta_dart:
-    git:
-      url: https://github.com/bbedward/manta-dart.git
-      ref: master
+    # Manta dart implementation
+    manta_dart:
+        git:
+            url: https://github.com/bbedward/manta-dart.git
+            ref: master
 
-  devicelocale: ^0.4.1
+    devicelocale: ^0.4.1
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  build_runner: 1.11.1
-  json_serializable: ^3.5.1
-  intl_translation:
-    git:
-      url: https://github.com/bbedward/intl_translation.git
-      ref: master
+    flutter_test:
+        sdk: flutter
+    build_runner: 1.11.1
+    json_serializable: ^3.5.1
+    intl_translation:
+        git:
+            url: https://github.com/bbedward/intl_translation.git
+            ref: master
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-  fonts:
-    - family: NunitoSans
-      fonts:
-        - asset: fonts/NunitoSans-Regular.ttf
-          weight: 600
-        - asset: fonts/NunitoSans-ExtraLight.ttf
-          weight: 100
-        - asset: fonts/NunitoSans-Light.ttf
-          weight: 200
-        - asset: fonts/NunitoSans-SemiBold.ttf
-          weight: 700
-        - asset: fonts/NunitoSans-Bold.ttf
-          weight: 800
-        - asset: fonts/NunitoSans-ExtraBold.ttf
-          weight: 900
-    - family: OverpassMono
-      fonts:
-        - asset: fonts/OverpassMono-Regular.ttf
-          weight: 600
-        - asset: fonts/OverpassMono-Light.ttf
-          weight: 100
-    - family: AppIcons
-      fonts:
-        - asset: fonts/AppIcons.ttf
-          weight: 500
-    - family: Comfortaa
-      fonts:
-        - asset: fonts/Comfortaa-Bold.ttf
-          weight: 700
-        - asset: fonts/Comfortaa-Regular.ttf
-          weight: 400
-        - asset: fonts/Comfortaa-Light.ttf
-          weight: 300
-  assets:
-    - assets/QR.svg
-    - assets/welcome_animation.flr
-    - assets/send_animation.flr
-    - assets/manta_animation.flr
-    - assets/transfer_animation_natriumwalletonly.flr
-    - assets/transfer_animation_paperwalletonly.flr
-    - assets/searchseedqr_animation_magnifyingglassonly.flr
-    - assets/searchseedqr_animation_glassonly.flr
-    - assets/searchseedqr_animation_qronly.flr
-    - assets/searchseedmanual_animation_magnifyingglassonly.flr
-    - assets/searchseedmanual_animation_glassonly.flr
-    - assets/searchseedmanual_animation_seedonly.flr
-    - assets/threedot_animation.flr
-    - assets/offline_animation.flr
-    - assets/sharecard_logo.svg
-    - assets/transferfunds_illustration_start_natriumwalletonly.svg
-    - assets/transferfunds_illustration_start_paperwalletonly.svg
-    - assets/transferfunds_illustration_end_natriumwalletonly.svg
-    - assets/transferfunds_illustration_end_paperwalletonly.svg
-    - assets/pulltosend_animation.flr
-    - assets/sheethandle_animation.flr
-    - assets/ntr_placeholder_animation.flr
+    fonts:
+        - family: NunitoSans
+          fonts:
+              - asset: fonts/NunitoSans-Regular.ttf
+                weight: 600
+              - asset: fonts/NunitoSans-ExtraLight.ttf
+                weight: 100
+              - asset: fonts/NunitoSans-Light.ttf
+                weight: 200
+              - asset: fonts/NunitoSans-SemiBold.ttf
+                weight: 700
+              - asset: fonts/NunitoSans-Bold.ttf
+                weight: 800
+              - asset: fonts/NunitoSans-ExtraBold.ttf
+                weight: 900
+        - family: OverpassMono
+          fonts:
+              - asset: fonts/OverpassMono-Regular.ttf
+                weight: 600
+              - asset: fonts/OverpassMono-Light.ttf
+                weight: 100
+        - family: AppIcons
+          fonts:
+              - asset: fonts/AppIcons.ttf
+                weight: 500
+        - family: Comfortaa
+          fonts:
+              - asset: fonts/Comfortaa-Bold.ttf
+                weight: 700
+              - asset: fonts/Comfortaa-Regular.ttf
+                weight: 400
+              - asset: fonts/Comfortaa-Light.ttf
+                weight: 300
+    assets:
+        - assets/QR.svg
+        - assets/welcome_animation.flr
+        - assets/send_animation.flr
+        - assets/manta_animation.flr
+        - assets/transfer_animation_natriumwalletonly.flr
+        - assets/transfer_animation_paperwalletonly.flr
+        - assets/searchseedqr_animation_magnifyingglassonly.flr
+        - assets/searchseedqr_animation_glassonly.flr
+        - assets/searchseedqr_animation_qronly.flr
+        - assets/searchseedmanual_animation_magnifyingglassonly.flr
+        - assets/searchseedmanual_animation_glassonly.flr
+        - assets/searchseedmanual_animation_seedonly.flr
+        - assets/threedot_animation.flr
+        - assets/offline_animation.flr
+        - assets/sharecard_logo.svg
+        - assets/transferfunds_illustration_start_natriumwalletonly.svg
+        - assets/transferfunds_illustration_start_paperwalletonly.svg
+        - assets/transferfunds_illustration_end_natriumwalletonly.svg
+        - assets/transferfunds_illustration_end_paperwalletonly.svg
+        - assets/pulltosend_animation.flr
+        - assets/sheethandle_animation.flr
+        - assets/ntr_placeholder_animation.flr
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
-  uses-material-design: true
+    # The following line ensures that the Material Icons font is
+    # included with your application, so that you can use the icons in
+    # the material Icons class.
+    uses-material-design: true
