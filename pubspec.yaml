@@ -72,7 +72,7 @@ dependencies:
     qr_flutter: ^2.0.1 # Generator
     barcode_scan:
         git:
-            url: https://github.com/tlietz/flutter_barcode_reader.git
+            url: https://github.com/bbedward/flutter_barcode_reader.git
             ref: master
 
     # Share files
