@@ -438,7 +438,7 @@ class ThoriumTheme extends BaseTheme {
 }
 
 class ObsidiumTheme extends BaseTheme {
-  static const lightBlue = Color(0xFF5C9be5);
+  static const lightBlue = Color(0xFF5C9BE5);
 
   static const lightGrey = Color(0xFFC7C6CB);
 
