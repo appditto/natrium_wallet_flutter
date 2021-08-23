@@ -398,7 +398,7 @@ class _AppHomePageState extends State<AppHomePage>
 
   void updateConfirmationHeights(int confirmationHeight) {
     setState(() {
-      currentConfHeight = confirmationHeight;
+      currentConfHeight = confirmationHeight + 1;
     });
     if (!_historyListMap
         .containsKey(StateContainer.of(context).wallet.address)) {
