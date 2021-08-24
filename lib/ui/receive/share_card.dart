@@ -67,8 +67,8 @@ class _AppShareCardState extends State<AppShareCard> {
                     Center(
                       child: Container(
                         color: Colors.white,
-                        height: 64.7,
-                        width: 64.7,
+                        height: 64.6,
+                        width: 64.6,
                         padding: EdgeInsets.all(2),
                         child: QrImage(
                           padding: EdgeInsets.all(0.0),

@@ -12,7 +12,7 @@ class AppSheets {
       @required WidgetBuilder builder,
       Color color,
       double radius = 30.0,
-      Color bgColor,
+      Color barrier,
       int animationDurationMs = 250,
       bool removeUntilHome = false,
       bool closeOnTap = false,
@@ -23,8 +23,8 @@ class AppSheets {
     if (color == null) {
       color = StateContainer.of(context).curTheme.backgroundDark;
     }
-    if (bgColor == null) {
-      bgColor = StateContainer.of(context).curTheme.overlay70;
+    if (barrier == null) {
+      barrier = StateContainer.of(context).curTheme.barrier;
     }
     var route = _AppHeightNineModalRoute<T>(
         builder: builder,
@@ -32,7 +32,7 @@ class AppSheets {
         radius: radius,
         barrierLabel:
             MaterialLocalizations.of(context).modalBarrierDismissLabel,
-        bgColor: bgColor,
+        barrier: barrier,
         animationDurationMs: animationDurationMs,
         closeOnTap: closeOnTap,
         onDisposed: onDisposed);
@@ -49,7 +49,7 @@ class AppSheets {
       @required WidgetBuilder builder,
       Color color,
       double radius = 30.0,
-      Color bgColor,
+      Color barrier,
       int animationDurationMs = 225}) {
     assert(context != null);
     assert(builder != null);
@@ -57,8 +57,8 @@ class AppSheets {
     if (color == null) {
       color = StateContainer.of(context).curTheme.backgroundDark;
     }
-    if (bgColor == null) {
-      bgColor = StateContainer.of(context).curTheme.overlay70;
+    if (barrier == null) {
+      barrier = StateContainer.of(context).curTheme.barrier;
     }
     return Navigator.push<T>(
         context,
@@ -68,7 +68,7 @@ class AppSheets {
             radius: radius,
             barrierLabel:
                 MaterialLocalizations.of(context).modalBarrierDismissLabel,
-            bgColor: bgColor,
+            barrier: barrier,
             animationDurationMs: animationDurationMs));
   }
 }
@@ -120,7 +120,7 @@ class _AppHeightNineModalRoute<T> extends PopupRoute<T> {
       this.color,
       this.radius,
       RouteSettings settings,
-      this.bgColor,
+      this.barrier,
       this.animationDurationMs,
       this.closeOnTap,
       this.onDisposed})
@@ -129,13 +129,13 @@ class _AppHeightNineModalRoute<T> extends PopupRoute<T> {
   final WidgetBuilder builder;
   final double radius;
   final Color color;
-  final Color bgColor;
+  final Color barrier;
   final int animationDurationMs;
   final bool closeOnTap;
   final Function onDisposed;
 
   @override
-  Color get barrierColor => bgColor;
+  Color get barrierColor => barrier;
 
   @override
   bool get barrierDismissible => true;
@@ -161,9 +161,9 @@ class _AppHeightNineModalRoute<T> extends PopupRoute<T> {
         BottomSheet.createAnimationController(navigator.overlay);
     _animationController.duration = Duration(milliseconds: animationDurationMs);
     this.appSheetAnimation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-      reverseCurve: Curves.linear)
+        parent: _animationController,
+        curve: Curves.easeOut,
+        reverseCurve: Curves.linear)
       ..addStatusListener((animationStatus) {
         if (animationStatus == AnimationStatus.completed) {
           appSheetAnimation.curve = Curves.linear;
@@ -190,22 +190,22 @@ class _AppHeightNineModalRoute<T> extends PopupRoute<T> {
           child: AnimatedBuilder(
             animation: appSheetAnimation,
             builder: (context, child) => CustomSingleChildLayout(
-                  delegate: _AppHeightNineSheetLayout(appSheetAnimation.value),
-                  child: BottomSheet(
-                    animationController: _animationController,
-                    onClosing: () => Navigator.pop(context),
-                    builder: (context) => Container(
-                          decoration: BoxDecoration(
-                            color: this.color,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(this.radius),
-                              topRight: Radius.circular(this.radius),
-                            ),
-                          ),
-                          child: Builder(builder: this.builder),
-                        ),
+              delegate: _AppHeightNineSheetLayout(appSheetAnimation.value),
+              child: BottomSheet(
+                animationController: _animationController,
+                onClosing: () => Navigator.pop(context),
+                builder: (context) => Container(
+                  decoration: BoxDecoration(
+                    color: this.color,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(this.radius),
+                      topRight: Radius.circular(this.radius),
+                    ),
                   ),
+                  child: Builder(builder: this.builder),
                 ),
+              ),
+            ),
           ),
         ),
       ),
@@ -269,18 +269,18 @@ class _AppHeightEightModalRoute<T> extends PopupRoute<T> {
       this.color,
       this.radius,
       RouteSettings settings,
-      this.bgColor,
+      this.barrier,
       this.animationDurationMs})
       : super(settings: settings);
 
   final WidgetBuilder builder;
   final double radius;
   final Color color;
-  final Color bgColor;
+  final Color barrier;
   final int animationDurationMs;
 
   @override
-  Color get barrierColor => bgColor;
+  Color get barrierColor => barrier;
 
   @override
   bool get barrierDismissible => true;
@@ -298,9 +298,9 @@ class _AppHeightEightModalRoute<T> extends PopupRoute<T> {
         BottomSheet.createAnimationController(navigator.overlay);
     _animationController.duration = Duration(milliseconds: animationDurationMs);
     this.appSheetAnimation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-      reverseCurve: Curves.linear)
+        parent: _animationController,
+        curve: Curves.easeOut,
+        reverseCurve: Curves.linear)
       ..addStatusListener((animationStatus) {
         if (animationStatus == AnimationStatus.completed) {
           appSheetAnimation.curve = Curves.linear;
@@ -320,22 +320,22 @@ class _AppHeightEightModalRoute<T> extends PopupRoute<T> {
         child: AnimatedBuilder(
           animation: appSheetAnimation,
           builder: (context, child) => CustomSingleChildLayout(
-                delegate: _AppHeightEightSheetLayout(appSheetAnimation.value),
-                child: BottomSheet(
-                  animationController: _animationController,
-                  onClosing: () => Navigator.pop(context),
-                  builder: (context) => Container(
-                        decoration: BoxDecoration(
-                          color: this.color,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(this.radius),
-                            topRight: Radius.circular(this.radius),
-                          ),
-                        ),
-                        child: Builder(builder: this.builder),
-                      ),
+            delegate: _AppHeightEightSheetLayout(appSheetAnimation.value),
+            child: BottomSheet(
+              animationController: _animationController,
+              onClosing: () => Navigator.pop(context),
+              builder: (context) => Container(
+                decoration: BoxDecoration(
+                  color: this.color,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(this.radius),
+                    topRight: Radius.circular(this.radius),
+                  ),
                 ),
+                child: Builder(builder: this.builder),
               ),
+            ),
+          ),
         ),
       ),
     );

@@ -8,6 +8,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:natrium_wallet_flutter/appstate_container.dart';
 
 // Examples can assume:
 // enum Department { treasury, state }
@@ -74,12 +75,14 @@ class Dialog extends StatelessWidget {
 
   // TODO(johnsonmh): Update default dialog border radius to 4.0 to match material spec.
   static const RoundedRectangleBorder _defaultDialogShape =
-    RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0)));
+      RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)));
   @override
   Widget build(BuildContext context) {
     final DialogTheme dialogTheme = DialogTheme.of(context);
     return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets + const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+      padding: MediaQuery.of(context).viewInsets +
+          const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
       duration: insetAnimationDuration,
       curve: insetAnimationCurve,
       child: MediaQuery.removeViewInsets(
@@ -90,7 +93,11 @@ class Dialog extends StatelessWidget {
         context: context,
         child: Center(
           child: ConstrainedBox(
-            constraints: BoxConstraints(minWidth: 280.0, maxHeight: _getHeight(context)<667?_getHeight(context)* 0.75:_getHeight(context)* 0.65),
+            constraints: BoxConstraints(
+                minWidth: 280.0,
+                maxHeight: _getHeight(context) < 667
+                    ? _getHeight(context) * 0.75
+                    : _getHeight(context) * 0.65),
             child: Material(
               elevation: 24.0,
               color: _getColor(context),
@@ -182,12 +189,13 @@ class AppAlertDialog extends StatelessWidget {
     this.title,
     this.titlePadding,
     this.content,
-    this.contentPadding = const EdgeInsetsDirectional.fromSTEB(24.0, 20.0, 24.0, 24.0),
+    this.contentPadding =
+        const EdgeInsetsDirectional.fromSTEB(24.0, 20.0, 24.0, 24.0),
     this.actions,
     this.semanticLabel,
     this.shape,
-  }) : assert(contentPadding != null),
-       super(key: key);
+  })  : assert(contentPadding != null),
+        super(key: key);
 
   /// The (optional) title of the dialog is displayed in a large font at the top
   /// of the dialog.
@@ -260,7 +268,9 @@ class AppAlertDialog extends StatelessWidget {
 
     if (title != null) {
       children.add(Padding(
-        padding: titlePadding ?? EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, content == null ? 20.0 : 0.0),
+        padding: titlePadding ??
+            EdgeInsetsDirectional.fromSTEB(
+                24.0, 24.0, 24.0, content == null ? 20.0 : 0.0),
         child: DefaultTextStyle(
           style: Theme.of(context).textTheme.title,
           child: Semantics(child: title, namesRoute: true),
@@ -273,7 +283,8 @@ class AppAlertDialog extends StatelessWidget {
           break;
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
-          label = semanticLabel ?? MaterialLocalizations.of(context)?.alertDialogLabel;
+          label = semanticLabel ??
+              MaterialLocalizations.of(context)?.alertDialogLabel;
       }
     }
 
@@ -291,11 +302,10 @@ class AppAlertDialog extends StatelessWidget {
 
     if (actions != null) {
       children.add(ButtonBarTheme(
-        child: ButtonBar(
-          children: actions,
-        ),
-        data: ButtonBarTheme.of(context)
-      ));
+          child: ButtonBar(
+            children: actions,
+          ),
+          data: ButtonBarTheme.of(context)));
     }
 
     Widget dialogChild = IntrinsicWidth(
@@ -307,11 +317,8 @@ class AppAlertDialog extends StatelessWidget {
     );
 
     if (label != null)
-      dialogChild = Semantics(
-        namesRoute: true,
-        label: label,
-        child: dialogChild
-      );
+      dialogChild =
+          Semantics(namesRoute: true, label: label, child: dialogChild);
 
     return Dialog(child: dialogChild, shape: shape);
   }
@@ -373,9 +380,8 @@ class AppSimpleDialogOption extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
-        child: child
-      ),
+          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24.0),
+          child: child),
     );
   }
 }
@@ -456,14 +462,16 @@ class AppSimpleDialog extends StatelessWidget {
   const AppSimpleDialog({
     Key key,
     this.title,
-    this.titlePadding = const EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 0.0),
+    this.titlePadding =
+        const EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 0.0),
     this.children,
-    this.contentPadding = const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 16.0),
+    this.contentPadding =
+        const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 16.0),
     this.semanticLabel,
     this.shape,
-  }) : assert(titlePadding != null),
-       assert(contentPadding != null),
-       super(key: key);
+  })  : assert(titlePadding != null),
+        assert(contentPadding != null),
+        super(key: key);
 
   /// The (optional) title of the dialog is displayed in a large font at the top
   /// of the dialog.
@@ -526,12 +534,11 @@ class AppSimpleDialog extends StatelessWidget {
 
     if (title != null) {
       body.add(Padding(
-        padding: titlePadding,
-        child: DefaultTextStyle(
-          style: Theme.of(context).textTheme.title,
-          child: Semantics(namesRoute: true, child: title),
-        )
-      ));
+          padding: titlePadding,
+          child: DefaultTextStyle(
+            style: Theme.of(context).textTheme.title,
+            child: Semantics(namesRoute: true, child: title),
+          )));
     } else {
       switch (defaultTargetPlatform) {
         case TargetPlatform.iOS:
@@ -539,17 +546,17 @@ class AppSimpleDialog extends StatelessWidget {
           break;
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
-          label = semanticLabel ?? MaterialLocalizations.of(context)?.dialogLabel;
+          label =
+              semanticLabel ?? MaterialLocalizations.of(context)?.dialogLabel;
       }
     }
 
     if (children != null) {
       body.add(Flexible(
-        child: SingleChildScrollView(
-          padding: contentPadding,
-          child: ListBody(children: children),
-        )
-      ));
+          child: SingleChildScrollView(
+        padding: contentPadding,
+        child: ListBody(children: children),
+      )));
     }
 
     Widget dialogChild = IntrinsicWidth(
@@ -574,7 +581,11 @@ class AppSimpleDialog extends StatelessWidget {
   }
 }
 
-Widget _buildMaterialDialogTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+Widget _buildMaterialDialogTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child) {
   return FadeTransition(
     opacity: CurvedAnimation(
       parent: animation,
@@ -617,35 +628,35 @@ Widget _buildMaterialDialogTransitions(BuildContext context, Animation<double> a
 ///  * [showGeneralDialog], which allows for customization of the dialog popup.
 ///  * <https://material.google.com/components/dialogs.html>
 Future<T> showAppDialog<T>({
-  @required BuildContext context,
+  @required
+      BuildContext context,
   bool barrierDismissible = true,
   @Deprecated(
-    'Instead of using the "child" argument, return the child from a closure '
-    'provided to the "builder" argument. This will ensure that the BuildContext '
-    'is appropriate for widgets built in the dialog.'
-  ) Widget child,
+      'Instead of using the "child" argument, return the child from a closure '
+      'provided to the "builder" argument. This will ensure that the BuildContext '
+      'is appropriate for widgets built in the dialog.')
+      Widget child,
   WidgetBuilder builder,
 }) {
   assert(child == null || builder == null);
   assert(debugCheckHasMaterialLocalizations(context));
   return showGeneralDialog(
     context: context,
-    pageBuilder: (BuildContext buildContext, Animation<double> animation, Animation<double> secondaryAnimation) {
+    pageBuilder: (BuildContext buildContext, Animation<double> animation,
+        Animation<double> secondaryAnimation) {
       final ThemeData theme = Theme.of(context);
-      final Widget pageChild =  child ?? Builder(builder: builder);
+      final Widget pageChild = child ?? Builder(builder: builder);
       return SafeArea(
-        child: Builder(
-          builder: (BuildContext context) {
-            return theme != null
-                ? Theme(data: theme, child: pageChild)
-                : pageChild;
-          }
-        ),
+        child: Builder(builder: (BuildContext context) {
+          return theme != null
+              ? Theme(data: theme, child: pageChild)
+              : pageChild;
+        }),
       );
     },
     barrierDismissible: barrierDismissible,
     barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-    barrierColor: Colors.black54,
+    barrierColor: StateContainer.of(context).curTheme.barrier,
     transitionDuration: const Duration(milliseconds: 150),
     transitionBuilder: _buildMaterialDialogTransitions,
   );

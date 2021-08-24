@@ -50,7 +50,7 @@ class _AvatarPageState extends State<AvatarPage>
         BigInt.parse("1234570000000000000000000000");
     bgColorAnimation = ColorTween(
       begin: Colors.transparent,
-      end: StateContainer.of(context).curTheme.overlay70,
+      end: StateContainer.of(context).curTheme.barrier,
     ).animate(CurvedAnimation(
         parent: _controller,
         curve: Curves.easeOut,

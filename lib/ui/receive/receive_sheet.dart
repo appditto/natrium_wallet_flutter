@@ -155,8 +155,8 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                           child: Container(
                             color: Colors.white,
                             padding: EdgeInsets.all(computedMaxSize / 51),
-                            height: computedMaxSize / 1.52,
-                            width: computedMaxSize / 1.52,
+                            height: computedMaxSize / 1.53,
+                            width: computedMaxSize / 1.53,
                             child: widget.qrWidget,
                           ),
                         ),

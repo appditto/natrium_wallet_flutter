@@ -1742,7 +1742,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         color: StateContainer.of(context).curTheme.backgroundDark,
         boxShadow: [
           BoxShadow(
-              color: StateContainer.of(context).curTheme.overlay30,
+              color: StateContainer.of(context).curTheme.barrierWeaker,
               offset: Offset(-5, 0),
               blurRadius: 20),
         ],

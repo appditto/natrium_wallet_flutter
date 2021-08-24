@@ -46,6 +46,10 @@ abstract class BaseTheme {
   Color overlay85;
   Color overlay90;
 
+  Color barrier;
+  Color barrierWeaker;
+  Color barrierStronger;
+
   Color animationOverlayMedium;
   Color animationOverlayStrong;
 
@@ -121,6 +125,10 @@ class NatriumTheme extends BaseTheme {
   Color overlay85 = black.withOpacity(0.85);
   Color overlay90 = black.withOpacity(0.9);
 
+  Color barrier = black.withOpacity(0.7);
+  Color barrierWeaker = black.withOpacity(0.3);
+  Color barrierStronger = black.withOpacity(0.85);
+
   Color animationOverlayMedium = black.withOpacity(0.7);
   Color animationOverlayStrong = black.withOpacity(0.85);
 
@@ -195,6 +203,10 @@ class TitaniumTheme extends BaseTheme {
   Color overlay30 = black.withOpacity(0.3);
   Color overlay20 = black.withOpacity(0.2);
 
+  Color barrier = black.withOpacity(0.7);
+  Color barrierWeaker = black.withOpacity(0.3);
+  Color barrierStronger = black.withOpacity(0.85);
+
   Color animationOverlayMedium = black.withOpacity(0.7);
   Color animationOverlayStrong = black.withOpacity(0.85);
 
@@ -268,6 +280,10 @@ class IndiumTheme extends BaseTheme {
   Color overlay50 = black.withOpacity(0.5);
   Color overlay30 = black.withOpacity(0.3);
   Color overlay20 = black.withOpacity(0.2);
+
+  Color barrier = black.withOpacity(0.7);
+  Color barrierWeaker = black.withOpacity(0.3);
+  Color barrierStronger = black.withOpacity(0.85);
 
   Color animationOverlayMedium = white.withOpacity(0.7);
   Color animationOverlayStrong = white.withOpacity(0.85);
@@ -349,6 +365,10 @@ class NeptuniumTheme extends BaseTheme {
   Color overlay30 = black.withOpacity(0.3);
   Color overlay20 = black.withOpacity(0.2);
 
+  Color barrier = black.withOpacity(0.7);
+  Color barrierWeaker = black.withOpacity(0.3);
+  Color barrierStronger = black.withOpacity(0.85);
+
   Color animationOverlayMedium = black.withOpacity(0.7);
   Color animationOverlayStrong = black.withOpacity(0.85);
 
@@ -423,6 +443,10 @@ class ThoriumTheme extends BaseTheme {
   Color overlay30 = black.withOpacity(0.3);
   Color overlay20 = black.withOpacity(0.2);
 
+  Color barrier = black.withOpacity(0.7);
+  Color barrierWeaker = black.withOpacity(0.3);
+  Color barrierStronger = black.withOpacity(0.85);
+
   Color animationOverlayMedium = black.withOpacity(0.7);
   Color animationOverlayStrong = black.withOpacity(0.85);
 
@@ -437,45 +461,43 @@ class ThoriumTheme extends BaseTheme {
   AppIconEnum appIcon = AppIconEnum.THORIUM;
 }
 
-class ObsidiumTheme extends BaseTheme {
-  static const lightBlue = Color(0xFF5C9BE5);
+class RadiumTheme extends BaseTheme {
+  static const tealishGreen = Color(0xFF7EE5B2);
+  static const tealishGreenDesaturated = Color(0xFFACE5C9);
 
-  static const lightGrey = Color(0xFFC7C6CB);
+  static const yellowishGreen = Color(0xFFBFE573);
 
-  static const greenDark = Color(0xFF18A264);
-
-  static const grey = Color(0xFF1C1C1E);
-
-  static const blueishGreyDarkest = Color(0xFF1E2C3D);
+  static const yellowishGreenDark = Color(0xFF6A803F);
 
   static const white = Color(0xFFFFFFFF);
 
   static const black = Color(0xFF000000);
+  static const blackLighter = Color(0xFF161617);
 
-  Color primary = lightBlue;
-  Color primary60 = lightBlue.withOpacity(0.6);
-  Color primary45 = lightBlue.withOpacity(0.45);
-  Color primary30 = lightBlue.withOpacity(0.3);
-  Color primary20 = lightBlue.withOpacity(0.2);
-  Color primary15 = lightBlue.withOpacity(0.15);
-  Color primary10 = lightBlue.withOpacity(0.1);
+  Color primary = tealishGreen;
+  Color primary60 = tealishGreen.withOpacity(0.6);
+  Color primary45 = tealishGreen.withOpacity(0.45);
+  Color primary30 = tealishGreen.withOpacity(0.3);
+  Color primary20 = tealishGreen.withOpacity(0.2);
+  Color primary15 = tealishGreen.withOpacity(0.15);
+  Color primary10 = tealishGreen.withOpacity(0.1);
 
-  Color success = greenDark;
-  Color success60 = greenDark.withOpacity(0.6);
-  Color success30 = greenDark.withOpacity(0.3);
-  Color success15 = greenDark.withOpacity(0.15);
+  Color success = yellowishGreen;
+  Color success60 = yellowishGreen.withOpacity(0.6);
+  Color success30 = yellowishGreen.withOpacity(0.3);
+  Color success15 = yellowishGreen.withOpacity(0.15);
 
-  Color successDark = black;
-  Color successDark30 = black.withOpacity(0.3);
+  Color successDark = yellowishGreenDark;
+  Color successDark30 = yellowishGreenDark.withOpacity(0.3);
 
   Color background = black;
   Color background40 = black.withOpacity(0.4);
   Color background00 = black.withOpacity(0.0);
 
-  Color backgroundDark = grey;
-  Color backgroundDark00 = grey.withOpacity(0.0);
+  Color backgroundDark = black;
+  Color backgroundDark00 = black.withOpacity(0.0);
 
-  Color backgroundDarkest = blueishGreyDarkest;
+  Color backgroundDarkest = blackLighter;
 
   Color text = white.withOpacity(0.9);
   Color text60 = white.withOpacity(0.6);
@@ -487,29 +509,43 @@ class ObsidiumTheme extends BaseTheme {
   Color text05 = white.withOpacity(0.05);
   Color text03 = white.withOpacity(0.03);
 
-  Color overlay20 = black.withOpacity(0.2);
-  Color overlay30 = black.withOpacity(0.3);
-  Color overlay50 = black.withOpacity(0.5);
-  Color overlay70 = black.withOpacity(0.7);
-  Color overlay80 = black.withOpacity(0.8);
-  Color overlay85 = black.withOpacity(0.85);
-  Color overlay90 = black.withOpacity(0.9);
+  Color overlay90 = blackLighter.withOpacity(0.9);
+  Color overlay85 = blackLighter.withOpacity(0.85);
+  Color overlay80 = blackLighter.withOpacity(0.8);
+  Color overlay70 = blackLighter.withOpacity(0.7);
+  Color overlay50 = blackLighter.withOpacity(0.5);
+  Color overlay30 = blackLighter.withOpacity(0.3);
+  Color overlay20 = blackLighter.withOpacity(0.2);
 
-  Color animationOverlayMedium = black.withOpacity(0.7);
-  Color animationOverlayStrong = black.withOpacity(0.85);
+  Color barrier = tealishGreenDesaturated.withOpacity(0.08);
+  Color barrierStronger = tealishGreenDesaturated.withOpacity(0.1);
+  Color barrierWeaker = tealishGreenDesaturated.withOpacity(0.05);
+
+  Color animationOverlayMedium = tealishGreenDesaturated.withOpacity(0.08);
+  Color animationOverlayStrong = tealishGreenDesaturated.withOpacity(0.1);
 
   Brightness brightness = Brightness.dark;
   SystemUiOverlayStyle statusBar =
       SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent);
 
-  BoxShadow boxShadow = BoxShadow(color: Colors.transparent);
-  BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
+  BoxShadow boxShadow = BoxShadow(
+    color: white.withOpacity(0.16),
+    offset: Offset(0, 0),
+    blurRadius: 0,
+    spreadRadius: 1,
+  );
+  BoxShadow boxShadowButton = BoxShadow(
+    color: tealishGreen.withOpacity(0.28),
+    offset: Offset(0, 0),
+    blurRadius: 0,
+    spreadRadius: 0,
+  );
 
-  OverlayTheme qrScanTheme = OverlayTheme.OBSIDIUM;
-  AppIconEnum appIcon = AppIconEnum.NATRIUM;
+  OverlayTheme qrScanTheme = OverlayTheme.THORIUM;
+  AppIconEnum appIcon = AppIconEnum.THORIUM;
 }
 
-enum AppIconEnum { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM }
+enum AppIconEnum { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM, RADIUM }
 
 class AppIcon {
   static const _channel = const MethodChannel('fappchannel');
@@ -531,6 +567,9 @@ class AppIcon {
         break;
       case AppIconEnum.TITANIUM:
         iconStr = "titanium";
+        break;
+      case AppIconEnum.RADIUM:
+        iconStr = "radium";
         break;
       case AppIconEnum.NATRIUM:
       default:

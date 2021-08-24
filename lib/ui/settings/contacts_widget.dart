@@ -135,10 +135,9 @@ class _ContactsListState extends State<ContactsList> {
   Future<void> _importContacts() async {
     UIUtil.cancelLockEvent();
     FilePickerResult result = await FilePicker.platform.pickFiles(
-      allowMultiple: false,
-      type: FileType.custom,
-      allowedExtensions: ["txt"]
-    );
+        allowMultiple: false,
+        type: FileType.custom,
+        allowedExtensions: ["txt"]);
     if (result != null) {
       File f = File(result.files.single.path);
       if (!await f.exists()) {
@@ -193,7 +192,7 @@ class _ContactsListState extends State<ContactsList> {
       log.e("FilePicker cancelled by user");
       UIUtil.showSnackbar(
           AppLocalization.of(context).contactsImportErr, context);
-      return;        
+      return;
     }
   }
 
@@ -204,7 +203,7 @@ class _ContactsListState extends State<ContactsList> {
           color: StateContainer.of(context).curTheme.backgroundDark,
           boxShadow: [
             BoxShadow(
-                color: StateContainer.of(context).curTheme.overlay30,
+                color: StateContainer.of(context).curTheme.barrierWeaker,
                 offset: Offset(-5, 0),
                 blurRadius: 20),
           ],
@@ -422,8 +421,14 @@ class _ContactsListState extends State<ContactsList> {
                       width: 64.0,
                       height: 64.0,
                       child: SvgPicture.network(
-                          UIUtil.getNatriconURL(contact.address, StateContainer.of(context).getNatriconNonce(contact.address)),
-                          key: Key(UIUtil.getNatriconURL(contact.address, StateContainer.of(context).getNatriconNonce(contact.address))),
+                          UIUtil.getNatriconURL(
+                              contact.address,
+                              StateContainer.of(context)
+                                  .getNatriconNonce(contact.address)),
+                          key: Key(UIUtil.getNatriconURL(
+                              contact.address,
+                              StateContainer.of(context)
+                                  .getNatriconNonce(contact.address))),
                           placeholderBuilder: (BuildContext context) =>
                               Container(
                                 child: FlareActor(
