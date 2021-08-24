@@ -36,12 +36,11 @@ class _AppPopupButtonState extends State<AppPopupButton> {
 
   void _showMantaAnimation() {
     animationOpen = true;
-    Navigator.of(context).push(
-        AnimationLoadingOverlay(
-            AnimationType.MANTA,
-            StateContainer.of(context).curTheme.animationOverlayStrong,
-            StateContainer.of(context).curTheme.animationOverlayMedium,
-            onPoppedCallback: () => animationOpen = false));
+    Navigator.of(context).push(AnimationLoadingOverlay(
+        AnimationType.MANTA,
+        StateContainer.of(context).curTheme.animationOverlayStrong,
+        StateContainer.of(context).curTheme.animationOverlayMedium,
+        onPoppedCallback: () => animationOpen = false));
   }
 
   @override
@@ -51,16 +50,20 @@ class _AppPopupButtonState extends State<AppPopupButton> {
   }
 
   Future<void> scanAndHandlResult() async {
-    dynamic scanResult = await Navigator.pushNamed(context, '/before_scan_screen');
+    dynamic scanResult =
+        await Navigator.pushNamed(context, '/before_scan_screen');
     // Parse scan data and route appropriately
     if (scanResult == null) {
-      UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
-    } else if (!QRScanErrs.ERROR_LIST.contains(scanResult) &&  MantaWallet.parseUrl(scanResult) != null) {
+      UIUtil.showSnackbar(
+          AppLocalization.of(context).qrInvalidAddress, context);
+    } else if (!QRScanErrs.ERROR_LIST.contains(scanResult) &&
+        MantaWallet.parseUrl(scanResult) != null) {
       try {
         _showMantaAnimation();
         // Get manta payment request
         MantaWallet manta = MantaWallet(scanResult);
-        PaymentRequestMessage paymentRequest = await MantaUtil.getPaymentDetails(manta);
+        PaymentRequestMessage paymentRequest =
+            await MantaUtil.getPaymentDetails(manta);
         if (animationOpen) {
           Navigator.of(context).pop();
         }
@@ -75,33 +78,45 @@ class _AppPopupButtonState extends State<AppPopupButton> {
       // Is a URI
       Address address = Address(scanResult);
       if (address.address == null) {
-        UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidAddress, context);
+        UIUtil.showSnackbar(
+            AppLocalization.of(context).qrInvalidAddress, context);
       } else {
         // See if this address belongs to a contact
-        Contact contact = await sl.get<DBHelper>().getContactWithAddress(address.address);
+        Contact contact =
+            await sl.get<DBHelper>().getContactWithAddress(address.address);
         // If amount is present, fill it and go to SendConfirm
-        BigInt amountBigInt = address.amount != null ? BigInt.tryParse(address.amount) : null;
+        BigInt amountBigInt =
+            address.amount != null ? BigInt.tryParse(address.amount) : null;
+        bool sufficientBalance = false;
         if (amountBigInt != null && amountBigInt < BigInt.from(10).pow(24)) {
-          UIUtil.showSnackbar(AppLocalization.of(context).minimumSend.replaceAll("%1", "0.000001"), context);
-        } else if (amountBigInt != null && StateContainer.of(context).wallet.accountBalance > amountBigInt) {
+          UIUtil.showSnackbar(
+              AppLocalization.of(context)
+                  .minimumSend
+                  .replaceAll("%1", "0.000001"),
+              context);
+        } else if (amountBigInt != null &&
+            StateContainer.of(context).wallet.accountBalance > amountBigInt) {
+          sufficientBalance = true;
+        }
+        if (amountBigInt != null && sufficientBalance) {
           // Go to confirm sheet
           Sheets.showAppHeightNineSheet(
-            context: context,
-            widget: SendConfirmSheet(
-                      amountRaw: address.amount,
-                      destination: contact != null ? contact.address : address.address,
-                      contactName: contact != null ? contact.name : null)
-          );
+              context: context,
+              widget: SendConfirmSheet(
+                  amountRaw: address.amount,
+                  destination:
+                      contact != null ? contact.address : address.address,
+                  contactName: contact != null ? contact.name : null));
         } else {
           // Go to send sheet
           Sheets.showAppHeightNineSheet(
-            context: context,
-            widget: SendSheet(
-              localCurrency: StateContainer.of(context).curCurrency,
-              contact: contact,
-              address: contact != null ? contact.address : address.address
-            )
-          );            
+              context: context,
+              widget: SendSheet(
+                  localCurrency: StateContainer.of(context).curCurrency,
+                  contact: contact,
+                  address: contact != null ? contact.address : address.address,
+                  quickSendAmount:
+                      amountBigInt != null ? address.amount : null));
         }
       }
     }
