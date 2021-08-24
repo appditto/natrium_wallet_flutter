@@ -52,6 +52,8 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
                 [self lc_setAlternateIconName:@"neptunium"];
             } else if ([@"thorium" isEqualToString:icon]) {
                 [self lc_setAlternateIconName:@"thorium"];
+            } else if ([@"radium" isEqualToString:icon]) {
+                [self lc_setAlternateIconName:@"radium"];
             }
         } else if ([@"setSecureClipboardItem" isEqualToString:call.method]) {
             NSDictionary *arguments = [call arguments];

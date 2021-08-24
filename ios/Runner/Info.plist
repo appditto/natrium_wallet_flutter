@@ -103,6 +103,15 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
+			<key>radium</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Ra-Icon-App</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
 			<key>indium</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -126,6 +135,15 @@
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>Th-Icon-App</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>radium</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Ra-Icon-App</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>

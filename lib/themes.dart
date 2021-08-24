@@ -549,8 +549,8 @@ class RadiumTheme extends BaseTheme {
     spreadRadius: 0,
   );
 
-  OverlayTheme qrScanTheme = OverlayTheme.THORIUM;
-  AppIconEnum appIcon = AppIconEnum.THORIUM;
+  OverlayTheme qrScanTheme = OverlayTheme.RADIUM;
+  AppIconEnum appIcon = AppIconEnum.RADIUM;
 }
 
 enum AppIconEnum { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM, RADIUM }
