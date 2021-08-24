@@ -728,12 +728,14 @@ class _AppHomePageState extends State<AppHomePage>
     if (address.isValid()) {
       String amount;
       String contactName;
+      bool sufficientBalance = false;
       if (address.amount != null) {
         BigInt amountBigInt = BigInt.tryParse(address.amount);
         // Require minimum 1 rai to send, and make sure sufficient balance
-        if (amountBigInt != null &&
-            StateContainer.of(context).wallet.accountBalance > amountBigInt &&
-            amountBigInt >= BigInt.from(10).pow(24)) {
+        if (amountBigInt != null && amountBigInt >= BigInt.from(10).pow(24)) {
+          if (StateContainer.of(context).wallet.accountBalance > amountBigInt) {
+            sufficientBalance = true;
+          }
           amount = address.amount;
         }
       }
@@ -745,7 +747,7 @@ class _AppHomePageState extends State<AppHomePage>
       }
       // Remove any other screens from stack
       Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
-      if (amount != null) {
+      if (amount != null && sufficientBalance) {
         // Go to send confirm with amount
         Sheets.showAppHeightNineSheet(
             context: context,
@@ -760,7 +762,8 @@ class _AppHomePageState extends State<AppHomePage>
             widget: SendSheet(
                 localCurrency: StateContainer.of(context).curCurrency,
                 contact: contact,
-                address: address.address));
+                address: address.address,
+                quickSendAmount: amount != null ? amount : null));
       }
     } else if (MantaWallet.parseUrl(link) != null) {
       // Manta URI handling

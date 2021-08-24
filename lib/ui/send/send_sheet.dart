@@ -645,10 +645,16 @@ class _SendSheetState extends State<SendSheet> {
                           // If amount is present, fill it and go to SendConfirm
                           if (address.amount != null) {
                             bool hasError = false;
-                            BigInt amountBigInt = BigInt.tryParse(address.amount);
-                            if (amountBigInt != null && amountBigInt < BigInt.from(10).pow(24)) {
+                            BigInt amountBigInt =
+                                BigInt.tryParse(address.amount);
+                            if (amountBigInt != null &&
+                                amountBigInt < BigInt.from(10).pow(24)) {
                               hasError = true;
-                              UIUtil.showSnackbar(AppLocalization.of(context).minimumSend.replaceAll("%1", "0.000001"), context);                            
+                              UIUtil.showSnackbar(
+                                  AppLocalization.of(context)
+                                      .minimumSend
+                                      .replaceAll("%1", "0.000001"),
+                                  context);
                             } else if (_localCurrencyMode && mounted) {
                               toggleLocalCurrency();
                               _sendAmountController.text =
@@ -658,20 +664,32 @@ class _SendSheetState extends State<SendSheet> {
                               setState(() {
                                 _rawAmount = address.amount;
                                 // If raw amount has more precision than we support show a special indicator
-                                if (NumberUtil.getRawAsUsableString(_rawAmount).replaceAll(",", "") ==
-                                    NumberUtil.getRawAsUsableDecimal(_rawAmount).toString()) {
-                                  _sendAmountController.text = NumberUtil.getRawAsUsableString(_rawAmount).replaceAll(",", "");
+                                if (NumberUtil.getRawAsUsableString(_rawAmount)
+                                        .replaceAll(",", "") ==
+                                    NumberUtil.getRawAsUsableDecimal(_rawAmount)
+                                        .toString()) {
+                                  _sendAmountController.text =
+                                      NumberUtil.getRawAsUsableString(
+                                              _rawAmount)
+                                          .replaceAll(",", "");
                                 } else {
-                                  _sendAmountController.text = 
-                                    NumberUtil.truncateDecimal(
-                                      NumberUtil.getRawAsUsableDecimal(address.amount),
-                                      digits: 6
-                                    ).toStringAsFixed(6) + "~";
+                                  _sendAmountController
+                                      .text = NumberUtil.truncateDecimal(
+                                              NumberUtil.getRawAsUsableDecimal(
+                                                  address.amount),
+                                              digits: 6)
+                                          .toStringAsFixed(6) +
+                                      "~";
                                 }
                               });
                               _sendAddressFocusNode.unfocus();
                             }
-                            if (!hasError) {
+                            // If balance is sufficient go to SendConfirm
+                            if (!hasError &&
+                                StateContainer.of(context)
+                                        .wallet
+                                        .accountBalance >
+                                    amountBigInt) {
                               // Go to confirm sheet
                               Sheets.showAppHeightNineSheet(
                                   context: context,
