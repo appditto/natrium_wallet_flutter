@@ -468,18 +468,18 @@ class ThoriumTheme extends BaseTheme {
 }
 
 class RadiumTheme extends BaseTheme {
-  static const tealishGreen = Color(0xFF7EE5B2);
-  static const tealishGreenDesaturated = Color(0xFFACE5C9);
+  static const tealishGreen = Color(0xFF77D9A8);
 
-  static const yellowishGreen = Color(0xFFBFE573);
+  static const yellowishGreen = Color(0xFFB5D96C);
 
-  static const yellowishGreenDark = Color(0xFF6A803F);
+  static const yellowishGreenDark = Color(0xFF5F7338);
 
   static const white = Color(0xFFFFFFFF);
+  static const whiteish = Color(0xFFE9E9F2);
 
   static const black = Color(0xFF000000);
   static const blackGreenish = Color(0xFF0E1411);
-  static const blackLighter = Color(0xFF161617);
+  static const blackLighter = Color(0xFF111112);
 
   Color primary = tealishGreen;
   Color primary60 = tealishGreen.withOpacity(0.6);
@@ -506,15 +506,15 @@ class RadiumTheme extends BaseTheme {
 
   Color backgroundDarkest = blackLighter;
 
-  Color text = white.withOpacity(0.9);
-  Color text60 = white.withOpacity(0.6);
-  Color text45 = white.withOpacity(0.45);
-  Color text30 = white.withOpacity(0.3);
-  Color text20 = white.withOpacity(0.2);
-  Color text15 = white.withOpacity(0.15);
-  Color text10 = white.withOpacity(0.1);
-  Color text05 = white.withOpacity(0.05);
-  Color text03 = white.withOpacity(0.03);
+  Color text = whiteish.withOpacity(0.9);
+  Color text60 = whiteish.withOpacity(0.6);
+  Color text45 = whiteish.withOpacity(0.45);
+  Color text30 = whiteish.withOpacity(0.3);
+  Color text20 = whiteish.withOpacity(0.2);
+  Color text15 = whiteish.withOpacity(0.15);
+  Color text10 = whiteish.withOpacity(0.1);
+  Color text05 = whiteish.withOpacity(0.05);
+  Color text03 = whiteish.withOpacity(0.03);
 
   Color overlay90 = blackLighter.withOpacity(0.9);
   Color overlay85 = blackLighter.withOpacity(0.85);
@@ -537,13 +537,13 @@ class RadiumTheme extends BaseTheme {
       SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent);
 
   BoxShadow boxShadow = BoxShadow(
-    color: white.withOpacity(0.16),
+    color: white.withOpacity(0.14),
     offset: Offset(0, 0),
     blurRadius: 0,
     spreadRadius: 1,
   );
   BoxShadow boxShadowButton = BoxShadow(
-    color: tealishGreen.withOpacity(0.28),
+    color: tealishGreen.withOpacity(0.24),
     offset: Offset(0, 0),
     blurRadius: 0,
     spreadRadius: 0,
