@@ -467,35 +467,35 @@ class ThoriumTheme extends BaseTheme {
   AppIconEnum appIcon = AppIconEnum.THORIUM;
 }
 
-class RadiumTheme extends BaseTheme {
-  static const tealishGreen = Color(0xFF77D9A8);
+class CarbonTheme extends BaseTheme {
+  static const brightBlue = Color(0xFF99C1F0);
 
-  static const yellowishGreen = Color(0xFFB5D96C);
+  static const green = Color(0xFF41E099);
 
-  static const yellowishGreenDark = Color(0xFF5F7338);
+  static const greenDark = Color(0xFF148A55);
 
   static const white = Color(0xFFFFFFFF);
   static const whiteish = Color(0xFFE9E9F2);
 
   static const black = Color(0xFF000000);
-  static const blackGreenish = Color(0xFF0E1411);
-  static const blackLighter = Color(0xFF111112);
+  static const blackBlueish = Color(0xFF0D1014);
+  static const blackLighter = Color(0xFF0E0F0F);
 
-  Color primary = tealishGreen;
-  Color primary60 = tealishGreen.withOpacity(0.6);
-  Color primary45 = tealishGreen.withOpacity(0.45);
-  Color primary30 = tealishGreen.withOpacity(0.3);
-  Color primary20 = tealishGreen.withOpacity(0.2);
-  Color primary15 = tealishGreen.withOpacity(0.15);
-  Color primary10 = tealishGreen.withOpacity(0.1);
+  Color primary = brightBlue;
+  Color primary60 = brightBlue.withOpacity(0.6);
+  Color primary45 = brightBlue.withOpacity(0.45);
+  Color primary30 = brightBlue.withOpacity(0.3);
+  Color primary20 = brightBlue.withOpacity(0.2);
+  Color primary15 = brightBlue.withOpacity(0.15);
+  Color primary10 = brightBlue.withOpacity(0.1);
 
-  Color success = yellowishGreen;
-  Color success60 = yellowishGreen.withOpacity(0.6);
-  Color success30 = yellowishGreen.withOpacity(0.3);
-  Color success15 = yellowishGreen.withOpacity(0.15);
+  Color success = green;
+  Color success60 = green.withOpacity(0.6);
+  Color success30 = green.withOpacity(0.3);
+  Color success15 = green.withOpacity(0.15);
 
-  Color successDark = yellowishGreenDark;
-  Color successDark30 = yellowishGreenDark.withOpacity(0.3);
+  Color successDark = greenDark;
+  Color successDark30 = greenDark.withOpacity(0.3);
 
   Color background = black;
   Color background40 = black.withOpacity(0.4);
@@ -524,13 +524,13 @@ class RadiumTheme extends BaseTheme {
   Color overlay30 = blackLighter.withOpacity(0.3);
   Color overlay20 = blackLighter.withOpacity(0.2);
 
-  Color barrier = blackGreenish.withOpacity(0.8);
-  Color barrierWeaker = blackGreenish.withOpacity(0.7);
-  Color barrierWeakest = blackGreenish.withOpacity(0.35);
-  Color barrierStronger = blackGreenish.withOpacity(0.9);
+  Color barrier = blackBlueish.withOpacity(0.8);
+  Color barrierWeaker = blackBlueish.withOpacity(0.7);
+  Color barrierWeakest = blackBlueish.withOpacity(0.35);
+  Color barrierStronger = blackBlueish.withOpacity(0.9);
 
-  Color animationOverlayMedium = blackGreenish.withOpacity(0.8);
-  Color animationOverlayStrong = blackGreenish.withOpacity(0.9);
+  Color animationOverlayMedium = blackBlueish.withOpacity(0.8);
+  Color animationOverlayStrong = blackBlueish.withOpacity(0.9);
 
   Brightness brightness = Brightness.dark;
   SystemUiOverlayStyle statusBar =
@@ -543,17 +543,17 @@ class RadiumTheme extends BaseTheme {
     spreadRadius: 1,
   );
   BoxShadow boxShadowButton = BoxShadow(
-    color: tealishGreen.withOpacity(0.24),
+    color: brightBlue.withOpacity(0.24),
     offset: Offset(0, 0),
     blurRadius: 0,
     spreadRadius: 0,
   );
 
-  OverlayTheme qrScanTheme = OverlayTheme.RADIUM;
-  AppIconEnum appIcon = AppIconEnum.RADIUM;
+  OverlayTheme qrScanTheme = OverlayTheme.CARBON;
+  AppIconEnum appIcon = AppIconEnum.CARBON;
 }
 
-enum AppIconEnum { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM, RADIUM }
+enum AppIconEnum { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM, CARBON }
 
 class AppIcon {
   static const _channel = const MethodChannel('fappchannel');
@@ -576,8 +576,8 @@ class AppIcon {
       case AppIconEnum.TITANIUM:
         iconStr = "titanium";
         break;
-      case AppIconEnum.RADIUM:
-        iconStr = "radium";
+      case AppIconEnum.CARBON:
+        iconStr = "carbon";
         break;
       case AppIconEnum.NATRIUM:
       default:

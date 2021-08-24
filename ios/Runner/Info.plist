@@ -103,11 +103,11 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>radium</key>
+			<key>carbon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>Ra-Icon-App</string>
+					<string>C-Icon-App</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -139,11 +139,11 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
-			<key>radium</key>
+			<key>carbon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>Ra-Icon-App</string>
+					<string>C-Icon-App</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>

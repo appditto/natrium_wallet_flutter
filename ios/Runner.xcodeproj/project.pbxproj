@@ -20,9 +20,9 @@
 		39167ED322219A75008D1855 /* In-Icon-App@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39167ED022219A74008D1855 /* In-Icon-App@1x.png */; };
 		39167ED422219A75008D1855 /* In-Icon-App@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39167ED122219A74008D1855 /* In-Icon-App@3x.png */; };
 		39167ED522219A75008D1855 /* In-Icon-App@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39167ED222219A74008D1855 /* In-Icon-App@2x.png */; };
-		3967CCD426D5518E0038BF52 /* Ra-Icon-App@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3967CCD126D5518E0038BF52 /* Ra-Icon-App@1x.png */; };
-		3967CCD526D5518E0038BF52 /* Ra-Icon-App@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3967CCD226D5518E0038BF52 /* Ra-Icon-App@2x.png */; };
-		3967CCD626D5518E0038BF52 /* Ra-Icon-App@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3967CCD326D5518E0038BF52 /* Ra-Icon-App@3x.png */; };
+		39A26A7226D5621E00977C6C /* C-Icon-App@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A26A6F26D5621D00977C6C /* C-Icon-App@1x.png */; };
+		39A26A7326D5621E00977C6C /* C-Icon-App@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A26A7026D5621D00977C6C /* C-Icon-App@2x.png */; };
+		39A26A7426D5621E00977C6C /* C-Icon-App@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A26A7126D5621E00977C6C /* C-Icon-App@3x.png */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		766334D722C3E7DC008DDB1D /* empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766334D622C3E7DC008DDB1D /* empty.swift */; };
 		766B58B8221AFEB4009C8264 /* Icon-App@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 766B58A8221AFEB4009C8264 /* Icon-App@3x.png */; };
@@ -66,9 +66,9 @@
 		39167ED022219A74008D1855 /* In-Icon-App@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "In-Icon-App@1x.png"; sourceTree = "<group>"; };
 		39167ED122219A74008D1855 /* In-Icon-App@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "In-Icon-App@3x.png"; sourceTree = "<group>"; };
 		39167ED222219A74008D1855 /* In-Icon-App@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "In-Icon-App@2x.png"; sourceTree = "<group>"; };
-		3967CCD126D5518E0038BF52 /* Ra-Icon-App@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Ra-Icon-App@1x.png"; path = "../../../../Desktop/Ra-Icon-App@1x.png"; sourceTree = "<group>"; };
-		3967CCD226D5518E0038BF52 /* Ra-Icon-App@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Ra-Icon-App@2x.png"; path = "../../../../Desktop/Ra-Icon-App@2x.png"; sourceTree = "<group>"; };
-		3967CCD326D5518E0038BF52 /* Ra-Icon-App@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Ra-Icon-App@3x.png"; path = "../../../../Desktop/Ra-Icon-App@3x.png"; sourceTree = "<group>"; };
+		39A26A6F26D5621D00977C6C /* C-Icon-App@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "C-Icon-App@1x.png"; sourceTree = "<group>"; };
+		39A26A7026D5621D00977C6C /* C-Icon-App@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "C-Icon-App@2x.png"; sourceTree = "<group>"; };
+		39A26A7126D5621E00977C6C /* C-Icon-App@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "C-Icon-App@3x.png"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		552E09CE27D49778F805B244 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		766334D522C3E7DC008DDB1D /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -121,9 +121,9 @@
 		766B589C221AFEB4009C8264 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				3967CCD126D5518E0038BF52 /* Ra-Icon-App@1x.png */,
-				3967CCD226D5518E0038BF52 /* Ra-Icon-App@2x.png */,
-				3967CCD326D5518E0038BF52 /* Ra-Icon-App@3x.png */,
+				39A26A6F26D5621D00977C6C /* C-Icon-App@1x.png */,
+				39A26A7026D5621D00977C6C /* C-Icon-App@2x.png */,
+				39A26A7126D5621E00977C6C /* C-Icon-App@3x.png */,
 				39167ED022219A74008D1855 /* In-Icon-App@1x.png */,
 				39167ED222219A74008D1855 /* In-Icon-App@2x.png */,
 				39167ED122219A74008D1855 /* In-Icon-App@3x.png */,
@@ -300,15 +300,16 @@
 				39167EC122218469008D1855 /* Th-Icon-App@3x.png in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
+				39A26A7426D5621E00977C6C /* C-Icon-App@3x.png in Resources */,
 				39167EBB22218469008D1855 /* Np-Icon-App@3x.png in Resources */,
+				39A26A7326D5621E00977C6C /* C-Icon-App@2x.png in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
-				3967CCD426D5518E0038BF52 /* Ra-Icon-App@1x.png in Resources */,
+				39A26A7226D5621E00977C6C /* C-Icon-App@1x.png in Resources */,
 				766B58BA221AFEB4009C8264 /* Icon-App@1x.png in Resources */,
 				39167ED422219A75008D1855 /* In-Icon-App@3x.png in Resources */,
 				766B58B9221AFEB4009C8264 /* Icon-App@2x.png in Resources */,
 				766B58B8221AFEB4009C8264 /* Icon-App@3x.png in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
-				3967CCD626D5518E0038BF52 /* Ra-Icon-App@3x.png in Resources */,
 				39167ED522219A75008D1855 /* In-Icon-App@2x.png in Resources */,
 				39167EB922218469008D1855 /* Np-Icon-App@1x.png in Resources */,
 				39167EC222218469008D1855 /* Ti-Icon-App@1x.png in Resources */,
@@ -317,7 +318,6 @@
 				39167EBE22218469008D1855 /* Th-Icon-App@2x.png in Resources */,
 				39167EC022218469008D1855 /* Ti-Icon-App@2x.png in Resources */,
 				39167EBF22218469008D1855 /* Ti-Icon-App@3x.png in Resources */,
-				3967CCD526D5518E0038BF52 /* Ra-Icon-App@2x.png in Resources */,
 				39167ED322219A75008D1855 /* In-Icon-App@1x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

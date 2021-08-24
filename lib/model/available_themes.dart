@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/model/setting_item.dart';
 
-enum ThemeOptions { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM, RADIUM }
+enum ThemeOptions { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM, CARBON }
 
 /// Represent notification on/off setting
 class ThemeSetting extends SettingSelectionItem {
@@ -12,8 +12,8 @@ class ThemeSetting extends SettingSelectionItem {
 
   String getDisplayName(BuildContext context) {
     switch (theme) {
-      case ThemeOptions.RADIUM:
-        return "Radium";
+      case ThemeOptions.CARBON:
+        return "Carbon";
       case ThemeOptions.THORIUM:
         return "Thorium";
       case ThemeOptions.NEPTUNIUM:
@@ -30,8 +30,8 @@ class ThemeSetting extends SettingSelectionItem {
 
   BaseTheme getTheme() {
     switch (theme) {
-      case ThemeOptions.RADIUM:
-        return RadiumTheme();
+      case ThemeOptions.CARBON:
+        return CarbonTheme();
       case ThemeOptions.THORIUM:
         return ThoriumTheme();
       case ThemeOptions.NEPTUNIUM:
