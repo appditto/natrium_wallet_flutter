@@ -231,6 +231,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   Future<void> _authMethodDialog() async {
     switch (await showDialog<AuthMethod>(
         context: context,
+        barrierColor: StateContainer.of(context).curTheme.barrier,
         builder: (BuildContext context) {
           return AppSimpleDialog(
             title: Text(
@@ -291,6 +292,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   Future<void> _notificationsDialog() async {
     switch (await showDialog<NotificationOptions>(
         context: context,
+        barrierColor: StateContainer.of(context).curTheme.barrier,
         builder: (BuildContext context) {
           return AppSimpleDialog(
             title: Text(
@@ -354,6 +356,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   Future<void> _natriconDialog() async {
     switch (await showDialog<NatriconOptions>(
         context: context,
+        barrierColor: StateContainer.of(context).curTheme.barrier,
         builder: (BuildContext context) {
           return AppSimpleDialog(
             title: Text(
@@ -410,6 +413,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   Future<void> _lockDialog() async {
     switch (await showDialog<UnlockOption>(
         context: context,
+        barrierColor: StateContainer.of(context).curTheme.barrier,
         builder: (BuildContext context) {
           return AppSimpleDialog(
             title: Text(
@@ -1742,7 +1746,7 @@ class _SettingsSheetState extends State<SettingsSheet>
         color: StateContainer.of(context).curTheme.backgroundDark,
         boxShadow: [
           BoxShadow(
-              color: StateContainer.of(context).curTheme.barrierWeaker,
+              color: StateContainer.of(context).curTheme.barrierWeakest,
               offset: Offset(-5, 0),
               blurRadius: 20),
         ],

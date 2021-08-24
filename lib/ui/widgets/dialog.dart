@@ -66,6 +66,7 @@ class AppDialogs {
 
   static void showInfoDialog(var context, var title, var content) {
     showDialog(
+      barrierColor: StateContainer.of(context).curTheme.barrier,
       context: context,
       builder: (BuildContext context) {
         return AppAlertDialog(

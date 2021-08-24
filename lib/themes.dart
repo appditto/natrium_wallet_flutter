@@ -48,6 +48,7 @@ abstract class BaseTheme {
 
   Color barrier;
   Color barrierWeaker;
+  Color barrierWeakest;
   Color barrierStronger;
 
   Color animationOverlayMedium;
@@ -126,7 +127,8 @@ class NatriumTheme extends BaseTheme {
   Color overlay90 = black.withOpacity(0.9);
 
   Color barrier = black.withOpacity(0.7);
-  Color barrierWeaker = black.withOpacity(0.3);
+  Color barrierWeaker = black.withOpacity(0.4);
+  Color barrierWeakest = black.withOpacity(0.3);
   Color barrierStronger = black.withOpacity(0.85);
 
   Color animationOverlayMedium = black.withOpacity(0.7);
@@ -204,7 +206,8 @@ class TitaniumTheme extends BaseTheme {
   Color overlay20 = black.withOpacity(0.2);
 
   Color barrier = black.withOpacity(0.7);
-  Color barrierWeaker = black.withOpacity(0.3);
+  Color barrierWeaker = black.withOpacity(0.4);
+  Color barrierWeakest = black.withOpacity(0.3);
   Color barrierStronger = black.withOpacity(0.85);
 
   Color animationOverlayMedium = black.withOpacity(0.7);
@@ -282,7 +285,8 @@ class IndiumTheme extends BaseTheme {
   Color overlay20 = black.withOpacity(0.2);
 
   Color barrier = black.withOpacity(0.7);
-  Color barrierWeaker = black.withOpacity(0.3);
+  Color barrierWeaker = black.withOpacity(0.4);
+  Color barrierWeakest = black.withOpacity(0.3);
   Color barrierStronger = black.withOpacity(0.85);
 
   Color animationOverlayMedium = white.withOpacity(0.7);
@@ -365,12 +369,13 @@ class NeptuniumTheme extends BaseTheme {
   Color overlay30 = black.withOpacity(0.3);
   Color overlay20 = black.withOpacity(0.2);
 
-  Color barrier = black.withOpacity(0.7);
-  Color barrierWeaker = black.withOpacity(0.3);
-  Color barrierStronger = black.withOpacity(0.85);
+  Color barrier = black.withOpacity(0.75);
+  Color barrierWeaker = black.withOpacity(0.45);
+  Color barrierWeakest = black.withOpacity(0.35);
+  Color barrierStronger = black.withOpacity(0.9);
 
-  Color animationOverlayMedium = black.withOpacity(0.7);
-  Color animationOverlayStrong = black.withOpacity(0.85);
+  Color animationOverlayMedium = black.withOpacity(0.75);
+  Color animationOverlayStrong = black.withOpacity(0.9);
 
   Brightness brightness = Brightness.dark;
   SystemUiOverlayStyle statusBar =
@@ -444,7 +449,8 @@ class ThoriumTheme extends BaseTheme {
   Color overlay20 = black.withOpacity(0.2);
 
   Color barrier = black.withOpacity(0.7);
-  Color barrierWeaker = black.withOpacity(0.3);
+  Color barrierWeaker = black.withOpacity(0.4);
+  Color barrierWeakest = black.withOpacity(0.3);
   Color barrierStronger = black.withOpacity(0.85);
 
   Color animationOverlayMedium = black.withOpacity(0.7);
@@ -472,6 +478,7 @@ class RadiumTheme extends BaseTheme {
   static const white = Color(0xFFFFFFFF);
 
   static const black = Color(0xFF000000);
+  static const blackGreenish = Color(0xFF0E1411);
   static const blackLighter = Color(0xFF161617);
 
   Color primary = tealishGreen;
@@ -517,12 +524,13 @@ class RadiumTheme extends BaseTheme {
   Color overlay30 = blackLighter.withOpacity(0.3);
   Color overlay20 = blackLighter.withOpacity(0.2);
 
-  Color barrier = tealishGreenDesaturated.withOpacity(0.08);
-  Color barrierStronger = tealishGreenDesaturated.withOpacity(0.1);
-  Color barrierWeaker = tealishGreenDesaturated.withOpacity(0.05);
+  Color barrier = blackGreenish.withOpacity(0.8);
+  Color barrierWeaker = blackGreenish.withOpacity(0.7);
+  Color barrierWeakest = blackGreenish.withOpacity(0.35);
+  Color barrierStronger = blackGreenish.withOpacity(0.9);
 
-  Color animationOverlayMedium = tealishGreenDesaturated.withOpacity(0.08);
-  Color animationOverlayStrong = tealishGreenDesaturated.withOpacity(0.1);
+  Color animationOverlayMedium = blackGreenish.withOpacity(0.8);
+  Color animationOverlayStrong = blackGreenish.withOpacity(0.9);
 
   Brightness brightness = Brightness.dark;
   SystemUiOverlayStyle statusBar =

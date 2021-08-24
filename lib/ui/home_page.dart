@@ -823,6 +823,7 @@ class _AppHomePageState extends State<AppHomePage>
       resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
       backgroundColor: StateContainer.of(context).curTheme.background,
+      drawerScrimColor: StateContainer.of(context).curTheme.barrierWeaker,
       drawer: SizedBox(
         width: UIUtil.drawerWidth(context),
         child: Drawer(

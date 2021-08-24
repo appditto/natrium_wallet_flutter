@@ -203,7 +203,7 @@ class _ContactsListState extends State<ContactsList> {
           color: StateContainer.of(context).curTheme.backgroundDark,
           boxShadow: [
             BoxShadow(
-                color: StateContainer.of(context).curTheme.barrierWeaker,
+                color: StateContainer.of(context).curTheme.barrierWeakest,
                 offset: Offset(-5, 0),
                 blurRadius: 20),
           ],

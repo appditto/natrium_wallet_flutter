@@ -547,6 +547,10 @@ class AppChangeRepresentativeSheet {
                                         null,
                                     onPressed: () {
                                       showDialog(
+                                          barrierColor:
+                                              StateContainer.of(context)
+                                                  .curTheme
+                                                  .barrier,
                                           context: context,
                                           builder: (BuildContext context) {
                                             return _buildRepresenativeDialog(
