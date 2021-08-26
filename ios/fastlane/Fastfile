@@ -14,7 +14,7 @@ default_platform(:ios)
 
 TEMP_KEYCHAIN_NAME_DEFAULT = "fastlane_flutter"
 TEMP_KEYCHAN_PASSWORD_DEFAULT = "temppassword"
-SIGH_PROVISIONING_PROFILE_NAME = "com.avengemedia.natrium AppStore"
+SIGH_PROVISIONING_PROFILE_NAME = "com.bitcoinnano.infinitum AppStore"
 
 def delete_temp_keychain(name)
   delete_keychain(
@@ -75,7 +75,7 @@ platform :ios do
         export_options: {
             method: "app-store",
             provisioningProfiles: { 
-              "com.avengemedia.natrium" => ENV['SIGH_PROVISIONING_PROFILE_NAME'],
+              "com.bitcoinnano.infinitum" => ENV['SIGH_PROVISIONING_PROFILE_NAME'],
             }
         }
       )

@@ -30,7 +30,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.avengemedia.natrium</string>
+			<string>com.bitcoinnano.infinitum</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>xrb</string>

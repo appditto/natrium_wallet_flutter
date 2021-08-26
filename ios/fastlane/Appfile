@@ -1,4 +1,4 @@
-app_identifier("com.avengemedia.natrium") # The bundle identifier of your app
+app_identifier("com.bitcoinnano.infinitum") # The bundle identifier of your app
 apple_id("appdittoapps@gmail.com") # Your Apple email address
 
 itc_team_id("119652752") # App Store Connect Team ID
