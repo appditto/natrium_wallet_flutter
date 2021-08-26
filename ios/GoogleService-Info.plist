@@ -2,18 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
-	<string>ca-app-pub-3940256099942544/2934735716</string>
-	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
-	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>firebase-adminsdk-gete3@infinitum-4d88d.iam.gserviceaccount.com</string>
+	<string>895700624438-3v4l5jvs2bfpftpn5a9t8k43cjed5b32.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>firebase-adminsdk-gete3@infinitum-4d88d.iam.gserviceaccount.com</string>
+	<string>com.googleusercontent.apps.895700624438-3v4l5jvs2bfpftpn5a9t8k43cjed5b32</string>
 	<key>API_KEY</key>
-	<string>b622f13107fe1fbc3bb55abe33402dfc24024ebc</string>
+	<string>AIzaSyBF5FGl2r_wBg9L7JoD7yBmATAr3gbHccU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>716870170992</string>
+	<string>895700624438</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
@@ -23,7 +19,7 @@
 	<key>STORAGE_BUCKET</key>
 	<string>infinitum-4d88d.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true></true>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
 	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
@@ -33,8 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:895700624438:android:703780e67e8aaceb30a497</string>
-	<key>DATABASE_URL</key>
-	<string>https://infinitum-4d88d.firebaseio.com</string>
+	<string>1:895700624438:ios:74986fbb26cdb63130a497</string>
 </dict>
 </plist>
