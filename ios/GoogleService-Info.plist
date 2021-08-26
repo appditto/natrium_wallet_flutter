@@ -7,11 +7,11 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>716870170992-uke8jjre8p1nlscfam7igdidpe0foppl.apps.googleusercontent.com</string>
+	<string>firebase-adminsdk-gete3@infinitum-4d88d.iam.gserviceaccount.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.716870170992-uke8jjre8p1nlscfam7igdidpe0foppl</string>
+	<string>firebase-adminsdk-gete3@infinitum-4d88d.iam.gserviceaccount.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyB5HtyFdGqSpixSTybYHLoxv5tJ_30nrCQ</string>
+	<string>b622f13107fe1fbc3bb55abe33402dfc24024ebc</string>
 	<key>GCM_SENDER_ID</key>
 	<string>716870170992</string>
 	<key>PLIST_VERSION</key>
@@ -19,9 +19,9 @@
 	<key>BUNDLE_ID</key>
 	<string>com.bitcoinnano.infinitum</string>
 	<key>PROJECT_ID</key>
-	<string>natrium-edfa2</string>
+	<string>infinitum-4d88d</string>
 	<key>STORAGE_BUCKET</key>
-	<string>natrium-edfa2.appspot.com</string>
+	<string>infinitum-4d88d.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -35,6 +35,6 @@
 	<key>GOOGLE_APP_ID</key>
 	<string>1:895700624438:android:703780e67e8aaceb30a497</string>
 	<key>DATABASE_URL</key>
-	<string>https://natrium-edfa2.firebaseio.com</string>
+	<string>https://infinitum-4d88d.firebaseio.com</string>
 </dict>
 </plist>
