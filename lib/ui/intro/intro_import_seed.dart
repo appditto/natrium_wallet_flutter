@@ -171,7 +171,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 autocorrect: false,
                                 prefixButton: TextFieldButton(
                                   icon: AppIcons.scan,
-                                  onPressed: () {
+                                  onPressed: () async {
                                     if (NanoSeeds.isValidSeed(
                                         _seedInputController
                                             .text)) {
@@ -179,7 +179,8 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                     }
                                     // Scan QR for seed
                                     UIUtil.cancelLockEvent();
-                                    BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
+                                    try {
+                                    String result = await BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme);      
                                       if (result != null && NanoSeeds.isValidSeed(result)) {
                                         _seedInputController.text = result;
                                         setState(() {
@@ -197,7 +198,11 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                       } else {
                                         UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidSeed, context);
                                       }
-                                    });
+                                    } on PlatformException catch(e){
+                                      if (e.code == BarcodeScanner.CameraAccessDenied) {
+                                        UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidPermissions, context);
+                                      }
+                                    }
                                   },
                                 ),
                                 fadePrefixOnCondition: true,
@@ -273,14 +278,17 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                 autocorrect: false,
                                 prefixButton: TextFieldButton(
                                   icon: AppIcons.scan,
-                                  onPressed: () {
+                                  onPressed: () async {
                                     if (NanoMnemomics.validateMnemonic(
                                         _mnemonicController.text.split(' '))) {
                                       return;
                                     }
                                     // Scan QR for mnemonic
                                     UIUtil.cancelLockEvent();
-                                    BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
+                                    try {
+                                    String result = await BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme);
+
+                                    // BarcodeScanner.scan(StateContainer.of(context).curTheme.qrScanTheme).then((result) {
                                       if (result != null && NanoMnemomics.validateMnemonic(result.split(' '))) {
                                         _mnemonicController.text = result;
                                         setState(() {
@@ -298,7 +306,12 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                       } else {
                                         UIUtil.showSnackbar(AppLocalization.of(context).qrMnemonicError, context);
                                       }
-                                    });
+                                    // });
+                                    } on PlatformException catch(e) {
+                                      if (e.code == BarcodeScanner.CameraAccessDenied) {
+                                        UIUtil.showSnackbar(AppLocalization.of(context).qrInvalidPermissions, context);
+                                      }
+                                    }
                                   },
                                 ),
                                 fadePrefixOnCondition: true,
