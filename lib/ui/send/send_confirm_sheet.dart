@@ -181,7 +181,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                             ),
                           ),
                           TextSpan(
-                            text: " NANO",
+                            text: " nyano",
                             style: TextStyle(
                               color:
                                   StateContainer.of(context).curTheme.primary,

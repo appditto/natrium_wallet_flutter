@@ -1621,7 +1621,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                         AppLocalization.of(context).shareNatrium,
                         AppIcons.share, onPressed: () {
                       Share.share(
-                          "Check out Natrium - NANO Wallet for iOS and Android" +
+                          "Check out Natrium - nyano Wallet for iOS and Android" +
                               " https://natrium.io");
                     }),
                     Divider(

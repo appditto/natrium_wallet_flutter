@@ -1140,7 +1140,7 @@ class _AppHomePageState extends State<AppHomePage>
                                               context),
                                     ),
                                     TextSpan(
-                                      text: " NANO",
+                                      text: " nyano",
                                       style: AppStyles.textStyleTransactionUnit(
                                           context),
                                     ),
@@ -1256,7 +1256,7 @@ class _AppHomePageState extends State<AppHomePage>
                                       context),
                                 ),
                                 TextSpan(
-                                  text: " NANO",
+                                  text: " nyano",
                                   style: AppStyles.textStyleTransactionUnit(
                                       context),
                                 ),
@@ -1315,7 +1315,7 @@ class _AppHomePageState extends State<AppHomePage>
           style: AppStyles.textStyleTransactionWelcome(context),
         ),
         TextSpan(
-          text: "NANO",
+          text: "nyano",
           style: AppStyles.textStyleTransactionWelcomePrimary(context),
         ),
         TextSpan(

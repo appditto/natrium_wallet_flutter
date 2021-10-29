@@ -354,7 +354,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "sendAmountConfirm": "Send %1 NANO",
+  "sendAmountConfirm": "Send %1 nyano",
   "@sendAmountConfirm": {
     "description": "send_pin_description",
     "type": "text",
@@ -402,7 +402,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "minimumSend": "Minimum send amount is %1 NANO",
+  "minimumSend": "Minimum send amount is %1 nyano",
   "@minimumSend": {
     "description": "send_minimum_error",
     "type": "text",
@@ -588,7 +588,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "shareNatriumText": "Check out Natrium! A premier NANO mobile wallet!",
+  "shareNatriumText": "Check out Natrium! A premier nyano mobile wallet!",
   "@shareNatriumText": {
     "description": "share_extra",
     "type": "text",
@@ -702,7 +702,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "notificationTitle": "Received %1 NANO",
+  "notificationTitle": "Received %1 nyano",
   "@notificationTitle": {
     "description": "notification_title",
     "type": "text",
@@ -786,7 +786,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "transferQrScanHint": "Scan a Nano \nseed or private key",
+  "transferQrScanHint": "Scan a nyano \nseed or private key",
   "@transferQrScanHint": {
     "description": "transfer_qr_scan_hint",
     "type": "text",
@@ -798,13 +798,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "transferNoFunds": "This seed does not have any NANO on it",
+  "transferNoFunds": "This seed does not have any nyano on it",
   "@transferNoFunds": {
     "description": "transfer_no_funds_toast",
     "type": "text",
     "placeholders": {}
   },
-  "transferConfirmInfo": "A wallet with a balance of %1 NANO has been detected.\n",
+  "transferConfirmInfo": "A wallet with a balance of %1 nyano has been detected.\n",
   "@transferConfirmInfo": {
     "description": "transfer_confirm_info_first",
     "type": "text",
@@ -828,7 +828,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "transferComplete": "%1 NANO successfully transferred to your Natrium Wallet.\n",
+  "transferComplete": "%1 nyano successfully transferred to your Natrium Wallet.\n",
   "@transferComplete": {
     "description": "transfer_complete_text",
     "type": "text",
@@ -840,7 +840,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "scanInstructions": "Scan a Nano \naddress QR code",
+  "scanInstructions": "Scan a nyano \naddress QR code",
   "@scanInstructions": {
     "description": "scan_send_instruction_label",
     "type": "text",
@@ -948,7 +948,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "exampleCardIntro": "Welcome to Natrium. Once you receive NANO, transactions will show up like this:",
+  "exampleCardIntro": "Welcome to Natrium. Once you receive nyano, transactions will show up like this:",
   "@exampleCardIntro": {
     "description": "example_card_intro",
     "type": "text",
@@ -990,7 +990,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "newAccountIntro": "This is your new account. Once you receive NANO, transactions will show up like this:",
+  "newAccountIntro": "This is your new account. Once you receive nyano, transactions will show up like this:",
   "@newAccountIntro": {
     "description": "Alternate account intro card",
     "type": "text",

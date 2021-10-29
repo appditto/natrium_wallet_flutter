@@ -324,7 +324,7 @@ class AppLocalization {
   }
 
   String get sendAmountConfirm {
-    return Intl.message("Send %1 NANO",
+    return Intl.message("Send %1 nyano",
         desc: 'send_pin_description', name: 'sendAmountConfirm');
   }
 
@@ -370,7 +370,7 @@ class AppLocalization {
   }
 
   String get minimumSend {
-    return Intl.message("Minimum send amount is %1 NANO",
+    return Intl.message("Minimum send amount is %1 nyano",
         desc: 'send_minimum_error', name: 'minimumSend');
   }
 
@@ -531,7 +531,7 @@ class AppLocalization {
   }
 
   String get shareNatriumText {
-    return Intl.message("Check out Natrium! A premier NANO mobile wallet!",
+    return Intl.message("Check out Natrium! A premier nyano mobile wallet!",
         desc: 'share_extra', name: 'shareNatriumText');
   }
 
@@ -634,7 +634,7 @@ class AppLocalization {
   }
 
   String get notificationTitle {
-    return Intl.message("Received %1 NANO",
+    return Intl.message("Received %1 nyano",
         desc: 'notification_title', name: 'notificationTitle');
   }
 
@@ -723,7 +723,7 @@ class AppLocalization {
   }
 
   String get transferNoFunds {
-    return Intl.message("This seed does not have any NANO on it",
+    return Intl.message("This seed does not have any nyano on it",
         desc: 'transfer_no_funds_toast', name: 'transferNoFunds');
   }
 
@@ -731,7 +731,7 @@ class AppLocalization {
 
   String get transferConfirmInfo {
     return Intl.message(
-        "A wallet with a balance of %1 NANO has been detected.\n",
+        "A wallet with a balance of %1 nyano has been detected.\n",
         desc: 'transfer_confirm_info_first',
         name: 'transferConfirmInfo');
   }
@@ -756,7 +756,7 @@ class AppLocalization {
 
   String get transferComplete {
     return Intl.message(
-        "%1 NANO successfully transferred to your Natrium Wallet.\n",
+        "%1 nyano successfully transferred to your Natrium Wallet.\n",
         desc: 'transfer_complete_text',
         name: 'transferComplete');
   }
@@ -874,7 +874,7 @@ class AppLocalization {
 
   String get exampleCardIntro {
     return Intl.message(
-        "Welcome to Natrium. Once you receive NANO, transactions will show up like this:",
+        "Welcome to Natrium. Once you receive nyano, transactions will show up like this:",
         desc: 'example_card_intro',
         name: 'exampleCardIntro');
   }
@@ -916,7 +916,7 @@ class AppLocalization {
 
   String get newAccountIntro {
     return Intl.message(
-        "This is your new account. Once you receive NANO, transactions will show up like this:",
+        "This is your new account. Once you receive nyano, transactions will show up like this:",
         desc: 'Alternate account intro card',
         name: 'newAccountIntro');
   }

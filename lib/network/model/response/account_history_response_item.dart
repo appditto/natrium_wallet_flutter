@@ -47,7 +47,7 @@ class AccountHistoryResponseItem {
    * Return amount formatted for use in the UI
    */
   String getFormattedAmount() {
-    return NumberUtil.getRawAsUsableString(amount);
+    return NumberUtil.getRawAsUsableString(amount * Ratio.ratio);
   }
 
   factory AccountHistoryResponseItem.fromJson(Map<String, dynamic> json) => _$AccountHistoryResponseItemFromJson(json);

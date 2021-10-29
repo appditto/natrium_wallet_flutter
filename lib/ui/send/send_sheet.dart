@@ -361,7 +361,7 @@ class _SendSheetState extends State<SendSheet> {
                                               TextSpan(
                                                 text: _localCurrencyMode
                                                     ? ")"
-                                                    : " NANO)",
+                                                    : " nyano)",
                                                 style: TextStyle(
                                                   color:
                                                       StateContainer.of(context)
@@ -806,7 +806,7 @@ class _SendSheetState extends State<SendSheet> {
 
   void toggleLocalCurrency() {
     // Keep a cache of previous amounts because, it's kinda nice to see approx what nano is worth
-    // this way you can tap button and tap back and not end up with X.9993451 NANO
+    // this way you can tap button and tap back and not end up with X.9993451 nyano
     if (_localCurrencyMode) {
       // Switching to crypto-mode
       String cryptoAmountStr;
