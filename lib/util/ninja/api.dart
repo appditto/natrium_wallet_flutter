@@ -6,11 +6,11 @@ import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/ninja/ninja_node.dart';
 
 class NinjaAPI {
-  static const String API_URL = 'https://mynano.ninja/api';
+  static const String API_URL = 'https://kennels.paw.digital/api';
 
   static Future<String> getAndCacheAPIResponse() async {
     String url = API_URL + '/accounts/verified';
-    http.Response response = await http.get(url, headers:  {});
+    http.Response response = await http.get(url, headers: {});
     if (response.statusCode != 200) {
       return null;
     }
@@ -24,7 +24,9 @@ class NinjaAPI {
     if (httpResponseBody == null) {
       return null;
     }
-    List<NinjaNode> ninjaNodes = (json.decode(httpResponseBody) as List).map((e) => new NinjaNode.fromJson(e)).toList();
+    List<NinjaNode> ninjaNodes = (json.decode(httpResponseBody) as List)
+        .map((e) => new NinjaNode.fromJson(e))
+        .toList();
     return ninjaNodes;
   }
 
@@ -33,7 +35,9 @@ class NinjaAPI {
     if (rawJson == null) {
       return null;
     }
-    List<NinjaNode> ninjaNodes = (json.decode(rawJson) as List).map((e) => new NinjaNode.fromJson(e)).toList();
-    return ninjaNodes;    
+    List<NinjaNode> ninjaNodes = (json.decode(rawJson) as List)
+        .map((e) => new NinjaNode.fromJson(e))
+        .toList();
+    return ninjaNodes;
   }
 }

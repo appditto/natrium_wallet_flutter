@@ -40,9 +40,9 @@ import 'package:natrium_wallet_flutter/network/model/response/process_response.d
 import 'package:natrium_wallet_flutter/bus/events.dart';
 
 // Server Connection String
-const String _SERVER_ADDRESS = "wss://app.natrium.io";
-const String _SERVER_ADDRESS_HTTP = "https://app.natrium.io/api";
-const String _SERVER_ADDRESS_ALERTS = "https://app.natrium.io/alerts";
+const String _SERVER_ADDRESS = "wss://walletserver.paw.digital";
+const String _SERVER_ADDRESS_HTTP = "https://walletserver.paw.digital/api";
+const String _SERVER_ADDRESS_ALERTS = "https://walletserver.paw.digital/alerts";
 
 Map decodeJson(dynamic src) {
   return json.decode(src);
@@ -543,17 +543,15 @@ class AccountService {
 
     return await requestProcess(processRequest);
   }
-  
+
   Future<AlertResponseItem> getAlert(String lang) async {
-    http.Response response = await http.get(
-      _SERVER_ADDRESS_ALERTS + "/" + lang,
-      headers: {"Accept": "application/json"}
-    );
+    http.Response response = await http.get(_SERVER_ADDRESS_ALERTS + "/" + lang,
+        headers: {"Accept": "application/json"});
     if (response.statusCode == 200) {
       List<AlertResponseItem> alerts;
       alerts = (json.decode(response.body) as List)
-      .map((i) => AlertResponseItem.fromJson(i))
-      .toList();
+          .map((i) => AlertResponseItem.fromJson(i))
+          .toList();
       if (alerts.length > 0) {
         if (alerts[0].active) {
           return alerts[0];
