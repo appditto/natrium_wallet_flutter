@@ -206,11 +206,10 @@ class AppTransferOverviewSheet {
                             Dimens.BUTTON_BOTTOM_DIMENS,
                             onPressed: () {
                               Sheets.showAppHeightNineSheet(
-                                context: context,
-                                widget: TransferManualEntrySheet(
-                                  validSeedCallback: manualEntryCallback,
-                                )
-                              );
+                                  context: context,
+                                  widget: TransferManualEntrySheet(
+                                    validSeedCallback: manualEntryCallback,
+                                  ));
                             },
                           ),
                         ],
@@ -241,13 +240,13 @@ class AppTransferOverviewSheet {
     // Get accounts from seed
     List<String> accounts = await getAccountsFromSeed(context, seed);
     try {
-      AccountsBalancesResponse resp = await sl.get<AccountService>().requestAccountsBalances(accounts);
+      AccountsBalancesResponse resp =
+          await sl.get<AccountService>().requestAccountsBalances(accounts);
       if (_animationOpen) {
         Navigator.of(context).pop();
       }
       List<String> accountsToRemove = List();
-      resp.balances
-          .forEach((String account, AccountBalanceItem balItem) {
+      resp.balances.forEach((String account, AccountBalanceItem balItem) {
         BigInt balance = BigInt.parse(balItem.balance);
         BigInt pending = BigInt.parse(balItem.pending);
         if (balance + pending == BigInt.zero) {
@@ -275,14 +274,13 @@ class AppTransferOverviewSheet {
       if (_animationOpen) {
         Navigator.of(context).pop();
       }
-      UIUtil.showSnackbar(
-        AppLocalization.of(context).sendError,
-        context);
+      UIUtil.showSnackbar(AppLocalization.of(context).sendError, context);
     }
   }
 
   /// Get NUM_SWEEP accounts from seed to request balances for
-  Future<List<String>> getAccountsFromSeed(BuildContext context, String seed) async {
+  Future<List<String>> getAccountsFromSeed(
+      BuildContext context, String seed) async {
     List<String> accountsToRequest = List();
     String privKey;
     String address;
@@ -299,7 +297,7 @@ class AppTransferOverviewSheet {
     }
     // Also treat this seed as a private key
     address = NanoAccounts.createAccount(
-        NanoAccountType.NANO, NanoKeys.createPublicKey(seed));
+        NanoAccountType.PAW, NanoKeys.createPublicKey(seed));
     if (address != StateContainer.of(context).wallet.address) {
       privKeyBalanceMap.putIfAbsent(
           address, () => AccountBalanceItem(privKey: seed));

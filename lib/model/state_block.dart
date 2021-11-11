@@ -14,44 +14,44 @@ part 'state_block.g.dart';
 /// For running in an isolate, needs to be top-level function
 StateBlock stateBlockFromJson(String contents) {
   return StateBlock.fromJson(json.decode(contents));
-} 
+}
 
 @JsonSerializable()
 class StateBlock {
-  @JsonKey(name:'type')
+  @JsonKey(name: 'type')
   String type;
 
-  @JsonKey(name:'previous')
+  @JsonKey(name: 'previous')
   String previous;
 
-  @JsonKey(name:'account')
+  @JsonKey(name: 'account')
   String account;
 
-  @JsonKey(name:'representative')
+  @JsonKey(name: 'representative')
   String representative;
 
-  @JsonKey(name:'balance')
+  @JsonKey(name: 'balance')
   String balance;
 
-  @JsonKey(name:'link')
+  @JsonKey(name: 'link')
   String link;
 
-  @JsonKey(name:'signature')
+  @JsonKey(name: 'signature')
   String signature;
 
-  @JsonKey(ignore:true)
+  @JsonKey(ignore: true)
   String hash;
 
   // Private key is only included on this object for seed sweeping requests
-  @JsonKey(ignore:true)
+  @JsonKey(ignore: true)
   String privKey;
 
   // Represents the amount this block intends to send
   // should be used to calculate balance after this send
-  @JsonKey(ignore:true)
+  @JsonKey(ignore: true)
   String sendAmount;
   // Represents subtype of this block: send/receive/change/openm
-  @JsonKey(ignore:true)
+  @JsonKey(ignore: true)
   String subType;
   // Represents local currency value of this TX
   @JsonKey(ignore: true)
@@ -62,13 +62,20 @@ class StateBlock {
 
   /// StateBlock constructor.
   /// subtype is one of "send", "receive", "change", "open"
-  /// In the case of subtype == "send" or subtype == "receive", 
+  /// In the case of subtype == "send" or subtype == "receive",
   /// then balance should be send amount (not balance after send).
-  /// This is by design of this app, where we get previous balance in a server request 
+  /// This is by design of this app, where we get previous balance in a server request
   /// and update it later before signing
-  StateBlock({String subtype, @required String previous, @required String representative,
-              @required String balance, @required String link, @required String account,
-              this.privKey, this.localCurrencyValue, this.paymentRequest}) {
+  StateBlock(
+      {String subtype,
+      @required String previous,
+      @required String representative,
+      @required String balance,
+      @required String link,
+      @required String account,
+      this.privKey,
+      this.localCurrencyValue,
+      this.paymentRequest}) {
     this.link = link;
     this.subType = subtype;
     this.type = BlockTypes.STATE;
@@ -84,7 +91,9 @@ class StateBlock {
 
   /// Used to set balance after receiving previous balance info from server
   void setBalance(String previousBalance) {
-    if (this.sendAmount == null) { return; }
+    if (this.sendAmount == null) {
+      return;
+    }
     BigInt previous = BigInt.parse(previousBalance);
     if (this.subType == BlockTypes.SEND) {
       // Subtract sendAmount from previous balance
@@ -103,19 +112,21 @@ class StateBlock {
   /// Sign block with private key
   /// Returns signature if signed, null if this block is invalid and can't be signed
   Future<String> sign(String privateKey) async {
-    if (this.balance == null) { return null; }
+    if (this.balance == null) {
+      return null;
+    }
     this.hash = NanoBlocks.computeStateHash(
-                      NanoAccountType.NANO,
-                      this.account,
-                      this.previous,
-                      this.representative,
-                      BigInt.parse(this.balance),
-                      this.link
-                  );
+        NanoAccountType.PAW,
+        this.account,
+        this.previous,
+        this.representative,
+        BigInt.parse(this.balance),
+        this.link);
     this.signature = NanoSignatures.signBlock(this.hash, privateKey);
     return this.signature;
   }
 
-  factory StateBlock.fromJson(Map<String, dynamic> json) => _$StateBlockFromJson(json);
+  factory StateBlock.fromJson(Map<String, dynamic> json) =>
+      _$StateBlockFromJson(json);
   Map<String, dynamic> toJson() => _$StateBlockToJson(this);
 }

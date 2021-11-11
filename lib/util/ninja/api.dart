@@ -6,7 +6,7 @@ import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 import 'package:natrium_wallet_flutter/util/ninja/ninja_node.dart';
 
 class NinjaAPI {
-  static const String API_URL = 'https://kennels.paw.digital/api';
+  static const String API_URL = 'https://tribes.paw.digital/api';
 
   static Future<String> getAndCacheAPIResponse() async {
     String url = API_URL + '/accounts/verified';

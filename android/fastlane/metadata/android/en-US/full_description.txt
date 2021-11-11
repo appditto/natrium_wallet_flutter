@@ -11,7 +11,7 @@ Features:
 - Load NANO from a paper wallet or a seed.
 - Share your personal account address with a personalized QR card.
 - Personalize your experience with numerous themes.
-- Change your wallet representative.
+- Change your wallets animal tribe.
 - View your account's entire transaction history.
 - Support for over 20 different languages
 - Support for over 30 different currency conversions.

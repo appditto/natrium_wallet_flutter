@@ -402,43 +402,43 @@
     "type": "text",
     "placeholders": {}
   },
-  "changeRepAuthenticate": "Change Representative",
+  "changeRepAuthenticate": "Change Animal Tribe",
   "@changeRepAuthenticate": {
     "description": "settings_change_rep",
     "type": "text",
     "placeholders": {}
   },
-  "currentlyRepresented": "Currently Represented By",
+  "currentlyRepresented": "Current Tribe",
   "@currentlyRepresented": {
     "description": "change_representative_current_header",
     "type": "text",
     "placeholders": {}
   },
-  "changeRepSucces": "Representative Changed Successfully",
+  "changeRepSucces": "Tribe Changed Successfully",
   "@changeRepSucces": {
     "description": "change_representative_success",
     "type": "text",
     "placeholders": {}
   },
-  "repInfoHeader": "What is a representative?",
+  "repInfoHeader": "What is an animal tribe?",
   "@repInfoHeader": {
     "description": "change_representative_info_header",
     "type": "text",
     "placeholders": {}
   },
-  "repInfo": "A representative is an account that votes for network consensus. Voting power is weighted by balance, you may delegate your balance to increase the voting weight of a representative you trust. Your representative does not have spending power over your funds. You should choose a representative that has little downtime and is trustworthy.",
+  "repInfo": "An animal tribe is an account that votes for network consensus. Exposure is weighted by the balance, you may delegate your balance to increase the exposure of a tribe you trust. Your tribe does not have spending power over your funds. You should choose a tribe that has little downtime and is trustworthy.",
   "@repInfo": {
     "description": "change_representative_info",
     "type": "text",
     "placeholders": {}
   },
-  "pinRepChange": "Enter PIN to change representative.",
+  "pinRepChange": "Enter PIN to change tribe.",
   "@pinRepChange": {
     "description": "change_representative_pin",
     "type": "text",
     "placeholders": {}
   },
-  "changeRepHint": "Enter New Representative",
+  "changeRepHint": "Enter New Tribe",
   "@changeRepHint": {
     "description": "change_representative_hint",
     "type": "text",

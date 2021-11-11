@@ -430,45 +430,45 @@ class AppLocalization {
   }
 
   String get changeRepAuthenticate {
-    return Intl.message("Change Representative",
+    return Intl.message("Change Animal Tribe",
         desc: 'settings_change_rep', name: 'changeRepAuthenticate');
   }
 
   String get currentlyRepresented {
-    return Intl.message("Currently Represented By",
+    return Intl.message("Current Tribe",
         desc: 'change_representative_current_header',
         name: 'currentlyRepresented');
   }
 
   String get changeRepSucces {
-    return Intl.message("Representative Changed Successfully",
+    return Intl.message("Tribe Changed Successfully",
         desc: 'change_representative_success', name: 'changeRepSucces');
   }
 
   String get repInfoHeader {
-    return Intl.message("What is a representative?",
+    return Intl.message("What is an animal tribe?",
         desc: 'change_representative_info_header', name: 'repInfoHeader');
   }
 
   String get repInfo {
     return Intl.message(
-        "A representative is an account that votes for network consensus. Voting power is weighted by balance, you may delegate your balance to increase the voting weight of a representative you trust. Your representative does not have spending power over your funds. You should choose a representative that has little downtime and is trustworthy.",
+        "An animal tribe is an account that votes for network consensus. Exposure is weighted by the balance, you may delegate your balance to increase the exposure of a tribe you trust. Your tribe does not have spending power over your funds. You should choose a tribe that has little downtime and is trustworthy.",
         desc: 'change_representative_info',
         name: 'repInfo');
   }
 
   String get pinRepChange {
-    return Intl.message("Enter PIN to change representative.",
+    return Intl.message("Enter PIN to change tribe.",
         desc: 'change_representative_pin', name: 'pinRepChange');
   }
 
   String get changeRepHint {
-    return Intl.message("Enter New Representative",
+    return Intl.message("Enter New Animal Tribe",
         desc: 'change_representative_hint', name: 'changeRepHint');
   }
 
   String get representatives {
-    return Intl.message("Representatives",
+    return Intl.message("Animal Tribes",
         desc: 'representatives', name: 'representatives');
   }
 
@@ -478,8 +478,8 @@ class AppLocalization {
   }
 
   String get votingWeight {
-    return Intl.message("Voting Weight",
-        desc: 'Representative Voting Weight', name: 'votingWeight');
+    return Intl.message("Animal exposure",
+        desc: 'Tribes Animal Exposure', name: 'votingWeight');
   }
 
   String get uptime {
@@ -1226,22 +1226,23 @@ class AppLocalization {
 
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash, AvailableBlockExplorer explorer) {
-    if (explorer.explorer == AvailableBlockExplorerEnum.NANOLOOKER) {
+    if (explorer.explorer == AvailableBlockExplorerEnum.TRACKER) {
       return 'https://nanolooker.com/block/$hash';
-    } else if (explorer.explorer == AvailableBlockExplorerEnum.NANOCAFE) {
+    } /* else if (explorer.explorer == AvailableBlockExplorerEnum.NANOCAFE) {
       return 'https://nanocafe.cc/$hash';
-    }
-    return 'https://nanocrawler.cc/explorer/block/$hash';
+    }*/
+    return 'https://tracker.paw.digital/explorer/block/$hash'; //'https://nanocrawler.cc/explorer/block/$hash';
   }
 
   String getAccountExplorerUrl(
       String account, AvailableBlockExplorer explorer) {
-    if (explorer.explorer == AvailableBlockExplorerEnum.NANOLOOKER) {
-      return 'https://tracker.paw.digita/account/$account';
-    } else if (explorer.explorer == AvailableBlockExplorerEnum.NANOCAFE) {
+    if (explorer.explorer == AvailableBlockExplorerEnum.TRACKER) {
+      return 'https://tracker.paw.digital/account/$account';
+    } /* else if (explorer.explorer == AvailableBlockExplorerEnum.NANOCAFE) {
       return 'https://nanocafe.cc/$account';
     }
-    return 'https://nanocrawler.cc/explorer/account/$account';
+    return 'https://nanocrawler.cc/explorer/account/$account';*/
+    return 'https://tracker.paw.digital/account/$account';
   }
 
   String get eulaUrl {

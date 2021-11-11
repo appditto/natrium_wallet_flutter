@@ -32,6 +32,10 @@ void main() {
           NanoAccounts.createAccount(
               NanoAccountType.NANO, NanoKeys.createPublicKey(privKey)),
           'nano_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc');
+      expect(
+          NanoAccounts.createAccount(
+              NanoAccountType.PAW, NanoKeys.createPublicKey(privKey)),
+          'paw_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc');
     });
 
     test('test hex to byte array and back', () {

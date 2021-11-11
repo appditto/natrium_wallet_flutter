@@ -292,7 +292,7 @@ class _ChangeRepManualSheetState extends State<ChangeRepManualSheet> {
                                 .toUpperCase(),
                             Dimens.BUTTON_TOP_DIMENS,
                             onPressed: () async {
-                              if (!NanoAccounts.isValid(NanoAccountType.NANO,
+                              if (!NanoAccounts.isValid(NanoAccountType.PAW,
                                   widget.repController.text)) {
                                 return;
                               }

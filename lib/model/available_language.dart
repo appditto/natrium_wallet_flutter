@@ -4,9 +4,9 @@ import 'package:natrium_wallet_flutter/model/setting_item.dart';
 
 enum AvailableLanguage {
   DEFAULT,
-  ARABIC,
+  //ARABIC,
   ENGLISH,
-  CATALAN,
+  /*CATALAN,
   CHINESE_SIMPLIFIED,
   CHINESE_TRADITIONAL,
   DANISH,
@@ -34,7 +34,7 @@ enum AvailableLanguage {
   TURKISH,
   VIETNAMESE,
   UKRAINIAN,
-  NORWEGIAN
+  NORWEGIAN*/
 }
 
 /// Represent the available languages our app supports
@@ -46,7 +46,7 @@ class LanguageSetting extends SettingSelectionItem {
   String getDisplayName(BuildContext context) {
     switch (language) {
       case AvailableLanguage.ENGLISH:
-        return "English (en)";
+        return "English (en)"; /*
       case AvailableLanguage.ARABIC:
         return "العَرَبِيَّة‎ (ar)";
       case AvailableLanguage.BULGARIAN:
@@ -106,7 +106,7 @@ class LanguageSetting extends SettingSelectionItem {
       case AvailableLanguage.UKRAINIAN:
         return "Ukrainian (uk)";
       case AvailableLanguage.NORWEGIAN:
-        return "Norsk (no)";
+        return "Norsk (no)";*/
       default:
         return AppLocalization.of(context).systemDefault;
     }
@@ -116,7 +116,7 @@ class LanguageSetting extends SettingSelectionItem {
     switch (language) {
       case AvailableLanguage.ENGLISH:
         return "en";
-      case AvailableLanguage.ARABIC:
+      /*case AvailableLanguage.ARABIC:
         return "ar";
       case AvailableLanguage.BULGARIAN:
         return "bg";
@@ -175,7 +175,7 @@ class LanguageSetting extends SettingSelectionItem {
       case AvailableLanguage.UKRAINIAN:
         return "uk";
       case AvailableLanguage.NORWEGIAN:
-        return "no";
+        return "no";*/
       default:
         return "DEFAULT";
     }

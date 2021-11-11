@@ -14,13 +14,18 @@ class NanoUtil {
   }
 
   static String seedToAddress(String seed, int index) {
-    return NanoAccounts.createAccount(NanoAccountType.NANO, NanoKeys.createPublicKey(seedToPrivate(seed, index)));
+    return NanoAccounts.createAccount(NanoAccountType.PAW,
+        NanoKeys.createPublicKey(seedToPrivate(seed, index)));
   }
 
   Future<void> loginAccount(String seed, BuildContext context) async {
     Account selectedAcct = await sl.get<DBHelper>().getSelectedAccount(seed);
     if (selectedAcct == null) {
-      selectedAcct = Account(index: 0, lastAccess: 0, name: AppLocalization.of(context).defaultAccountName, selected: true);
+      selectedAcct = Account(
+          index: 0,
+          lastAccess: 0,
+          name: AppLocalization.of(context).defaultAccountName,
+          selected: true);
       await sl.get<DBHelper>().saveAccount(selectedAcct);
     }
     StateContainer.of(context).updateWallet(account: selectedAcct);
