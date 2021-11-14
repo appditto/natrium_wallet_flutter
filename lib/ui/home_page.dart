@@ -1134,10 +1134,11 @@ class _AppHomePageState extends State<AppHomePage>
                                   text: '',
                                   children: [
                                     TextSpan(
-                                      text: "Ӿ"+ item.getFormattedAmount(),
+                                      text: "Ӿ" + item.getFormattedAmount(),
                                       style:
                                           AppStyles.textStyleTransactionAmount(
-                                              context),
+                                        context,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -1246,9 +1247,10 @@ class _AppHomePageState extends State<AppHomePage>
                               text: '',
                               children: [
                                 TextSpan(
-                                  text: "Ӿ"+ amount,
+                                  text: amount + " NANO",
                                   style: AppStyles.textStyleTransactionAmount(
-                                      context),
+                                    context,
+                                  ),
                                 ),
                               ],
                             ),
