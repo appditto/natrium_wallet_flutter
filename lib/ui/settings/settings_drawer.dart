@@ -795,7 +795,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                       alignment: AlignmentDirectional(-1, 0),
                                       // natricon
                                       child: SvgPicture.network(
-                                        UIUtil.getNatriconURL(
+                                        UIUtil.getAnimalURL(
                                             StateContainer.of(context)
                                                 .selectedAccount
                                                 .address,
@@ -804,7 +804,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                                     StateContainer.of(context)
                                                         .selectedAccount
                                                         .address)),
-                                        key: Key(UIUtil.getNatriconURL(
+                                        key: Key(UIUtil.getAnimalURL(
                                             StateContainer.of(context)
                                                 .selectedAccount
                                                 .address,
@@ -944,7 +944,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                               width: 52,
                                               // natricon
                                               child: SvgPicture.network(
-                                                UIUtil.getNatriconURL(
+                                                UIUtil.getAnimalURL(
                                                     StateContainer.of(context)
                                                         .recentLast
                                                         .address,
@@ -954,7 +954,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                                                     context)
                                                                 .recentLast
                                                                 .address)),
-                                                key: Key(UIUtil.getNatriconURL(
+                                                key: Key(UIUtil.getAnimalURL(
                                                     StateContainer.of(context)
                                                         .recentLast
                                                         .address,
@@ -1120,7 +1120,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                               width: 52,
                                               // natricon
                                               child: SvgPicture.network(
-                                                UIUtil.getNatriconURL(
+                                                UIUtil.getAnimalURL(
                                                     StateContainer.of(context)
                                                         .recentSecondLast
                                                         .address,
@@ -1130,7 +1130,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                                                     context)
                                                                 .recentSecondLast
                                                                 .address)),
-                                                key: Key(UIUtil.getNatriconURL(
+                                                key: Key(UIUtil.getAnimalURL(
                                                     StateContainer.of(context)
                                                         .recentSecondLast
                                                         .address,
@@ -1621,8 +1621,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                         AppLocalization.of(context).shareNatrium,
                         AppIcons.share, onPressed: () {
                       Share.share(
-                          "Check out Natrium - NANO Wallet for iOS and Android" +
-                              " https://natrium.io");
+                          "Check out PAW - PAW Wallet for iOS and Android" +
+                              " https://paw.digital");
                     }),
                     Divider(
                       height: 2,

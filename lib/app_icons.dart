@@ -76,11 +76,11 @@ class AppIcons {
   static const IconData max =
       IconData(0xe81a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData nanocurrency =
-      IconData(0xe835, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe837, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData nanohorizontal =
       IconData(0xe835, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData nanologo =
-      IconData(0xe835, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe836, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData natricon =
       IconData(0xe835, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData natriumhorizontal =

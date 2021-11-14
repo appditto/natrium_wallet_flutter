@@ -408,8 +408,16 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                                         width: 64.0,
                                         height: 64.0,
                                         child: SvgPicture.network(
-                                          UIUtil.getNatriconURL(account.address, StateContainer.of(context).getNatriconNonce(account.address)),
-                                          key: Key(UIUtil.getNatriconURL(account.address, StateContainer.of(context).getNatriconNonce(account.address))),
+                                          UIUtil.getAnimalURL(
+                                              account.address,
+                                              StateContainer.of(context)
+                                                  .getNatriconNonce(
+                                                      account.address)),
+                                          key: Key(UIUtil.getAnimalURL(
+                                              account.address,
+                                              StateContainer.of(context)
+                                                  .getNatriconNonce(
+                                                      account.address))),
                                           placeholderBuilder:
                                               (BuildContext context) =>
                                                   Container(
@@ -525,7 +533,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                                   children: [
                                     // Currency Icon
                                     TextSpan(
-                                      text: account.balance != null ? "" : "",
+                                      text: account.balance != null ? "" : "",
                                       style: TextStyle(
                                         fontFamily: 'AppIcons',
                                         color: StateContainer.of(context)

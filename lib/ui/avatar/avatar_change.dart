@@ -18,8 +18,8 @@ import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'dart:math' as math;
 
 const String NATRICON_ADDRESS =
-    "nano_3natricon9grnc8caqkht19f1fwpz39r3deeyef66m3d4fch3fau7x5q57cj";
-const String NATRICON_BASE_RAW = "1234567891234567891234567891";
+    "paw_3ns1ihdrdmtys65xsntgohdu78bu7heuzkb7hpcn179q6k9qi7rg336scbit";
+const String NATRICON_BASE_RAW = "1000000000000000000000000000";
 
 class AvatarChangePage extends StatefulWidget {
   final String curAddress;
@@ -39,8 +39,9 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
   void initState() {
     super.initState();
     this.loading = true;
+        //String url = 'https://pawnimal.paw.digital/api/v1/animal/${widget.curAddress}';
     String url =
-        'https://anicon.paw.digital/api/v1/nano/nonce?address=${widget.curAddress}';
+        'https://pawnimal.paw.digital/api/v1/nano/nonce?address=${widget.curAddress}';
     http.get(url, headers: {}).then((response) {
       if (mounted) {
         if (response.statusCode != 200) {
@@ -135,7 +136,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                       ),
                       alignment: AlignmentDirectional(-1, 0),
                       child: AutoSizeText(
-                        "Change Natricon",
+                        "Change Pawnimal",
                         maxLines: 3,
                         stepGranularity: 0.5,
                         style: AppStyles.textStyleHeaderColored(context),
@@ -148,7 +149,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                           end: smallScreen(context) ? 30 : 40,
                           top: 16.0),
                       child: AutoSizeText(
-                        "You'll be asked to send 0.001~ Nano to the Natricon address to change your Natricon.",
+                        "You'll be asked to send 1~ PAW to the Pawnimal address to change your Pawnimal.",
                         style: AppStyles.textStyleParagraph(context),
                         maxLines: 3,
                         stepGranularity: 0.5,
@@ -160,7 +161,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                           end: smallScreen(context) ? 30 : 40,
                           top: 8),
                       child: AutoSizeText(
-                        "This amount will be automatically refunded completely.",
+                        "",
                         style: AppStyles.textStyleParagraphPrimary(context),
                         maxLines: 2,
                         stepGranularity: 0.5,
@@ -188,7 +189,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                   ),
                                 )
                               : SvgPicture.network(
-                                  UIUtil.getNatriconURL(
+                                  UIUtil.getAnimalURL(
                                       StateContainer.of(context)
                                           .selectedAccount
                                           .address,
@@ -212,7 +213,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                           .primary,
                                     ),
                                   ),
-                                  key: Key(UIUtil.getNatriconURL(
+                                  key: Key(UIUtil.getAnimalURL(
                                       StateContainer.of(context)
                                           .selectedAccount
                                           .address,

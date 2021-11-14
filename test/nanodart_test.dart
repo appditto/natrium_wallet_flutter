@@ -73,6 +73,10 @@ void main() {
           NanoAccounts.isValid(NanoAccountType.NANO,
               'nano_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc'),
           true);
+      expect(
+          NanoAccounts.isValid(NanoAccountType.PAW,
+              'paw_1p95xji1g5gou8auj8h6qcuezpdpcyoqmawao6mpwj4p44939oouoturkggc'),
+          true);
       // Invalid checksum
       expect(
           NanoAccounts.isValid(NanoAccountType.BANANO,

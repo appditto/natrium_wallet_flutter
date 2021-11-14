@@ -40,7 +40,7 @@ import 'package:natrium_wallet_flutter/network/model/response/process_response.d
 import 'package:natrium_wallet_flutter/bus/events.dart';
 
 // Server Connection String
-const String _SERVER_ADDRESS = "wss://walletserver.paw.digital:5074";
+const String _SERVER_ADDRESS = "wss://walletserver.paw.digital/";
 const String _SERVER_ADDRESS_HTTP = "https://walletserver.paw.digital/api";
 const String _SERVER_ADDRESS_ALERTS = "https://walletserver.paw.digital/alerts";
 

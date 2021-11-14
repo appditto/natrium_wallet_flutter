@@ -175,7 +175,7 @@ class _AppShareCardState extends State<AppShareCard> {
                               height: 18.5,
                               margin: EdgeInsetsDirectional.only(top: 1.44545),
                               child: SvgPicture.network(
-                                UIUtil.getNatriconURL(
+                                UIUtil.getAnimalURL(
                                     StateContainer.of(context)
                                         .selectedAccount
                                         .address,
@@ -183,7 +183,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                         StateContainer.of(context)
                                             .selectedAccount
                                             .address)),
-                                key: Key(UIUtil.getNatriconURL(
+                                key: Key(UIUtil.getAnimalURL(
                                     StateContainer.of(context)
                                         .selectedAccount
                                         .address,

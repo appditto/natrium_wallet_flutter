@@ -421,11 +421,11 @@ class _ContactsListState extends State<ContactsList> {
                       width: 64.0,
                       height: 64.0,
                       child: SvgPicture.network(
-                          UIUtil.getNatriconURL(
+                          UIUtil.getAnimalURL(
                               contact.address,
                               StateContainer.of(context)
                                   .getNatriconNonce(contact.address)),
-                          key: Key(UIUtil.getNatriconURL(
+                          key: Key(UIUtil.getAnimalURL(
                               contact.address,
                               StateContainer.of(context)
                                   .getNatriconNonce(contact.address))),

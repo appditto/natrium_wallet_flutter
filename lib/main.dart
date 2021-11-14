@@ -74,7 +74,7 @@ class _AppState extends State<App> {
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Natrium',
+        title: 'Paw Wallet',
         theme: ThemeData(
           dialogBackgroundColor:
               StateContainer.of(context).curTheme.backgroundDark,

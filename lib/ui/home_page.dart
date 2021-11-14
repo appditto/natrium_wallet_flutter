@@ -281,20 +281,20 @@ class _AppHomePageState extends State<AppHomePage>
     bool contactAdded = await sl.get<SharedPrefsUtil>().getFirstContactAdded();
     if (!contactAdded) {
       bool addressExists = await sl.get<DBHelper>().contactExistsWithAddress(
-          "nano_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd");
+          "paw_1qj9k17c69r9rmtjp4kw5dmxedaef6xqk6g6gp9zam98jbfso365wif88t16");
       if (addressExists) {
         return;
       }
       bool nameExists =
-          await sl.get<DBHelper>().contactExistsWithName("@NatriumDonations");
+          await sl.get<DBHelper>().contactExistsWithName("@PawDonations");
       if (nameExists) {
         return;
       }
       await sl.get<SharedPrefsUtil>().setFirstContactAdded(true);
       Contact c = Contact(
-          name: "@NatriumDonations",
+          name: "@PawDonations",
           address:
-              "nano_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd");
+              "paw_1qj9k17c69r9rmtjp4kw5dmxedaef6xqk6g6gp9zam98jbfso365wif88t16");
       await sl.get<DBHelper>().saveContact(c);
     }
   }
@@ -1140,7 +1140,7 @@ class _AppHomePageState extends State<AppHomePage>
                                               context),
                                     ),
                                     TextSpan(
-                                      text: " NANO",
+                                      text: " PAW",
                                       style: AppStyles.textStyleTransactionUnit(
                                           context),
                                     ),
@@ -1256,7 +1256,7 @@ class _AppHomePageState extends State<AppHomePage>
                                       context),
                                 ),
                                 TextSpan(
-                                  text: " NANO",
+                                  text: " PAW",
                                   style: AppStyles.textStyleTransactionUnit(
                                       context),
                                 ),
@@ -1293,14 +1293,14 @@ class _AppHomePageState extends State<AppHomePage>
     } else {
       workingStr = AppLocalization.of(context).newAccountIntro;
     }
-    if (!workingStr.contains("NANO")) {
+    if (!workingStr.contains("PAW")) {
       return TextSpan(
         text: workingStr,
         style: AppStyles.textStyleTransactionWelcome(context),
       );
     }
     // Colorize NANO
-    List<String> splitStr = workingStr.split("NANO");
+    List<String> splitStr = workingStr.split("PAW");
     if (splitStr.length != 2) {
       return TextSpan(
         text: workingStr,
@@ -1315,7 +1315,7 @@ class _AppHomePageState extends State<AppHomePage>
           style: AppStyles.textStyleTransactionWelcome(context),
         ),
         TextSpan(
-          text: "NANO",
+          text: "PAW",
           style: AppStyles.textStyleTransactionWelcomePrimary(context),
         ),
         TextSpan(
@@ -1565,11 +1565,11 @@ class _AppHomePageState extends State<AppHomePage>
   //Main Card
   Widget _buildMainCard(BuildContext context, _scaffoldKey) {
     return Container(
-      decoration: BoxDecoration(
+      /*decoration: BoxDecoration(
         color: StateContainer.of(context).curTheme.backgroundDark,
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: [StateContainer.of(context).curTheme.boxShadow],
-      ),
+      ),*/
       margin: EdgeInsets.only(
           left: 14.0,
           right: 14.0,
@@ -1666,7 +1666,7 @@ class _AppHomePageState extends State<AppHomePage>
                                         .address !=
                                     null
                                 ? SvgPicture.network(
-                                    UIUtil.getNatriconURL(
+                                    UIUtil.getAnimalURL(
                                         StateContainer.of(context)
                                             .selectedAccount
                                             .address,
@@ -1675,7 +1675,7 @@ class _AppHomePageState extends State<AppHomePage>
                                                 StateContainer.of(context)
                                                     .selectedAccount
                                                     .address)),
-                                    key: Key(UIUtil.getNatriconURL(
+                                    key: Key(UIUtil.getAnimalURL(
                                         StateContainer.of(context)
                                             .selectedAccount
                                             .address,
@@ -1903,7 +1903,7 @@ class _AppHomePageState extends State<AppHomePage>
             // Nano logo
             Center(
                 child: Container(
-                    child: Icon(AppIcons.nanologo,
+                    child: Icon(AppIcons.nanocurrency,
                         size: 32,
                         color: StateContainer.of(context).curTheme.primary)))
             : Container(
@@ -1938,7 +1938,7 @@ class _AppHomePageState extends State<AppHomePage>
                                 children: [
                                   // Currency Icon
                                   TextSpan(
-                                    text: "",
+                                    text: "",
                                     style: TextStyle(
                                       fontFamily: 'AppIcons',
                                       color: StateContainer.of(context)

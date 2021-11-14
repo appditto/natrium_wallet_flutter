@@ -300,8 +300,10 @@ class StateContainerState extends State<StateContainer> {
         EventTaxiImpl.singleton().registerTo<PriceEvent>().listen((event) {
       // PriceResponse's get pushed periodically, it wasn't a request we made so don't pop the queue
       setState(() {
-        wallet.btcPrice = event.response.btcPrice.toString();
-        wallet.localCurrencyPrice = event.response.price.toString();
+        if (wallet != null) {
+          wallet.btcPrice = event.response.btcPrice.toString();
+          wallet.localCurrencyPrice = event.response.price.toString();
+        }
       });
     });
     _connStatusSub =
@@ -776,7 +778,7 @@ class StateContainerState extends State<StateContainer> {
             }
           }
         }
-      } catch (e) {
+      } catch (e, stacktrace) {
         // TODO handle account history error
         sl.get<Logger>().e("account_history e", e);
       }

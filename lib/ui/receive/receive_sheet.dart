@@ -256,7 +256,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                                   margin: EdgeInsetsDirectional.only(
                                       top: computedMaxSize / 170),
                                   child: SvgPicture.network(
-                                    UIUtil.getNatriconURL(
+                                    UIUtil.getAnimalURL(
                                         StateContainer.of(context)
                                             .selectedAccount
                                             .address,
@@ -265,7 +265,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                                                 StateContainer.of(context)
                                                     .selectedAccount
                                                     .address)),
-                                    key: Key(UIUtil.getNatriconURL(
+                                    key: Key(UIUtil.getAnimalURL(
                                         StateContainer.of(context)
                                             .selectedAccount
                                             .address,

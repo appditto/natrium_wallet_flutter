@@ -6,7 +6,7 @@ description: Natrium - Fast, Robust & Secure NANO Wallet.
 # followed by an optional build number separated by a +.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
-version: 2.4.3+81
+version: 2.4.4+82
 
 environment:
     sdk: ">=2.11.99 <3.0.0"
@@ -212,6 +212,7 @@ flutter:
         - assets/pulltosend_animation.flr
         - assets/sheethandle_animation.flr
         - assets/ntr_placeholder_animation.flr
+        - assets/landscape.png
 
     # The following line ensures that the Material Icons font is
     # included with your application, so that you can use the icons in

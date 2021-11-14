@@ -90,7 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterAmount": MessageLookupByLibrary.simpleMessage("Enter Amount"),
         "exampleCardFrom": MessageLookupByLibrary.simpleMessage("from someone"),
         "exampleCardIntro": MessageLookupByLibrary.simpleMessage(
-            "Welcome to Natrium. Once you receive NANO, transactions will show up like this:"),
+            "Welcome to PAW. Once you receive PAW, transactions will show up like this:"),
         "exampleCardLittle": MessageLookupByLibrary.simpleMessage("A little"),
         "exampleCardLot": MessageLookupByLibrary.simpleMessage("A lot of"),
         "exampleCardTo": MessageLookupByLibrary.simpleMessage("to someone"),
@@ -138,7 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mnemonicSizeError": MessageLookupByLibrary.simpleMessage(
             "Secret phrase may only contain 24 words"),
         "newAccountIntro": MessageLookupByLibrary.simpleMessage(
-            "This is your new account. Once you receive NANO, transactions will show up like this:"),
+            "This is your new account. Once you receive PAW, transactions will show up like this:"),
         "newWallet": MessageLookupByLibrary.simpleMessage("New Wallet"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
         "noContactsExport": MessageLookupByLibrary.simpleMessage(
@@ -271,7 +271,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewDetails": MessageLookupByLibrary.simpleMessage("View Details"),
         "warning": MessageLookupByLibrary.simpleMessage("Warning"),
         "welcomeText": MessageLookupByLibrary.simpleMessage(
-            "Welcome to Natrium. To begin, you may create a new wallet or import an existing one."),
+            "Welcome to PAW. To begin, you may create a new wallet or import an existing one."),
         "xMinute": MessageLookupByLibrary.simpleMessage("After %1 minute"),
         "xMinutes": MessageLookupByLibrary.simpleMessage("After %1 minutes"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes")

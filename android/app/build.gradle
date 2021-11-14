@@ -41,7 +41,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "co.banano.natriumwallet"
+        applicationId "co.pawdigital.wallet"
         minSdkVersion 18
         targetSdkVersion 30
         multiDexEnabled true

@@ -47,7 +47,7 @@ class _AvatarPageState extends State<AvatarPage>
   @override
   Widget build(BuildContext context) {
     hasEnoughFunds = StateContainer.of(context).wallet.accountBalance >
-        BigInt.parse("1234570000000000000000000000");
+        BigInt.parse("12345700000000000000000000");
     bgColorAnimation = ColorTween(
       begin: Colors.transparent,
       end: StateContainer.of(context).curTheme.barrier,
@@ -100,7 +100,7 @@ class _AvatarPageState extends State<AvatarPage>
                                     Hero(
                                       tag: "avatar",
                                       child: SvgPicture.network(
-                                        UIUtil.getNatriconURL(
+                                        UIUtil.getAnimalURL(
                                             StateContainer.of(context)
                                                 .selectedAccount
                                                 .address,
@@ -109,7 +109,7 @@ class _AvatarPageState extends State<AvatarPage>
                                                     StateContainer.of(context)
                                                         .selectedAccount
                                                         .address)),
-                                        key: Key(UIUtil.getNatriconURL(
+                                        key: Key(UIUtil.getAnimalURL(
                                             StateContainer.of(context)
                                                 .selectedAccount
                                                 .address,

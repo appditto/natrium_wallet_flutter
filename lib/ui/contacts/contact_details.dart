@@ -176,8 +176,16 @@ class ContactDetailsSheet {
                             StateContainer.of(context).natriconOn
                                 ? Expanded(
                                     child: SvgPicture.network(
-                                      UIUtil.getNatriconURL(contact.address, StateContainer.of(context).getNatriconNonce(contact.address)),
-                                      key: Key(UIUtil.getNatriconURL(contact.address, StateContainer.of(context).getNatriconNonce(contact.address))),
+                                      UIUtil.getAnimalURL(
+                                          contact.address,
+                                          StateContainer.of(context)
+                                              .getNatriconNonce(
+                                                  contact.address)),
+                                      key: Key(UIUtil.getAnimalURL(
+                                          contact.address,
+                                          StateContainer.of(context)
+                                              .getNatriconNonce(
+                                                  contact.address))),
                                       placeholderBuilder:
                                           (BuildContext context) => Container(
                                         child: FlareActor(

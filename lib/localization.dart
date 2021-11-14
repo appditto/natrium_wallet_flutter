@@ -293,7 +293,7 @@ class AppLocalization {
 
   String get welcomeText {
     return Intl.message(
-        "Welcome to Natrium. To begin, you may create a new wallet or import an existing one.",
+        "Welcome to the PAW wallet. To begin, you may create a new wallet or import an existing one.",
         desc: 'intro_welcome_title',
         name: 'welcomeText');
   }
@@ -526,12 +526,12 @@ class AppLocalization {
   }
 
   String get shareNatrium {
-    return Intl.message("Share Natrium",
+    return Intl.message("Share PAW Wallet",
         desc: 'settings_share', name: 'shareNatrium');
   }
 
   String get shareNatriumText {
-    return Intl.message("Check out Natrium! A premier NANO mobile wallet!",
+    return Intl.message("Check out PAW! A digital currency with animals!",
         desc: 'share_extra', name: 'shareNatriumText');
   }
 
@@ -629,7 +629,7 @@ class AppLocalization {
   }
 
   String get natricon {
-    return Intl.message("Natricon",
+    return Intl.message("Pawnimals",
         desc: 'natricon_settings', name: 'natricon');
   }
 
@@ -874,7 +874,7 @@ class AppLocalization {
 
   String get exampleCardIntro {
     return Intl.message(
-        "Welcome to Natrium. Once you receive NANO, transactions will show up like this:",
+        "Welcome to the PAW wallet. Once you receive PAW, transactions will show up like this:",
         desc: 'example_card_intro',
         name: 'exampleCardIntro');
   }
@@ -916,7 +916,7 @@ class AppLocalization {
 
   String get newAccountIntro {
     return Intl.message(
-        "This is your new account. Once you receive NANO, transactions will show up like this:",
+        "This is your new account. Once you receive PAW, transactions will show up like this:",
         desc: 'Alternate account intro card',
         name: 'newAccountIntro');
   }
@@ -1119,14 +1119,15 @@ class AppLocalization {
 
   /// PARAGRAPS
   String get passwordWillBeRequiredToOpenParagraph {
-    return Intl.message("This password will be required to open Natrium.",
+    return Intl.message("This password will be required to open the wallet.",
         desc:
             'A paragraph that tells the users that the created password will be required to open Natrium.',
         name: 'passwordWillBeRequiredToOpenParagraph');
   }
 
   String get passwordNoLongerRequiredToOpenParagraph {
-    return Intl.message("You will not need a password to open Natrium anymore.",
+    return Intl.message(
+        "You will not need a password to open the wakket anymore.",
         desc:
             'An info paragraph that tells the user a password will no longer be needed to open Natrium',
         name: 'passwordNoLongerRequiredToOpenParagraph');
@@ -1170,9 +1171,9 @@ class AppLocalization {
   }
 
   String get requireAPasswordToOpenHeader {
-    return Intl.message("Require a password to open Natrium?",
+    return Intl.message("Require a password to open the wallet?",
         desc:
-            'A paragraph that asks the users if they would like a password to be required to open Natrium.',
+            'A paragraph that asks the users if they would like a password to be required to open the wallet.',
         name: 'requireAPasswordToOpenHeader');
   }
 
@@ -1227,7 +1228,7 @@ class AppLocalization {
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash, AvailableBlockExplorer explorer) {
     if (explorer.explorer == AvailableBlockExplorerEnum.TRACKER) {
-      return 'https://nanolooker.com/block/$hash';
+      return 'https://tracker.paw.digital/block/$hash';
     } /* else if (explorer.explorer == AvailableBlockExplorerEnum.NANOCAFE) {
       return 'https://nanocafe.cc/$hash';
     }*/

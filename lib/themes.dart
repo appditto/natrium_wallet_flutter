@@ -141,8 +141,8 @@ class PawTheme extends BaseTheme {
   BoxShadow boxShadow = BoxShadow(color: Colors.transparent);
   BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
 
-  OverlayTheme qrScanTheme = OverlayTheme.NATRIUM;
-  AppIconEnum appIcon = AppIconEnum.NATRIUM;
+  OverlayTheme qrScanTheme = OverlayTheme.PAW;
+  AppIconEnum appIcon = AppIconEnum.PAW;
 }
 
 class NatriumTheme extends BaseTheme {
@@ -632,7 +632,7 @@ class CarbonTheme extends BaseTheme {
   AppIconEnum appIcon = AppIconEnum.CARBON;
 }
 
-enum AppIconEnum { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM, CARBON }
+enum AppIconEnum { PAW, NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM, CARBON }
 
 class AppIcon {
   static const _channel = const MethodChannel('fappchannel');
@@ -641,7 +641,7 @@ class AppIcon {
     if (!Platform.isIOS) {
       return null;
     }
-    String iconStr = "natrium";
+    String iconStr = "paw";
     switch (iconToChange) {
       case AppIconEnum.THORIUM:
         iconStr = "thorium";
@@ -659,8 +659,11 @@ class AppIcon {
         iconStr = "carbon";
         break;
       case AppIconEnum.NATRIUM:
-      default:
         iconStr = "natrium";
+        break;
+      case AppIconEnum.PAW:
+      default:
+        iconStr = "paw";
         break;
     }
     final Map<String, dynamic> params = <String, dynamic>{
