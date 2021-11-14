@@ -171,7 +171,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                         text: '',
                         children: [
                           TextSpan(
-                            text: "$amount",
+                            text: "Ӿ$amount",
                             style: TextStyle(
                               color:
                                   StateContainer.of(context).curTheme.primary,
@@ -181,22 +181,12 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                             ),
                           ),
                           TextSpan(
-                            text: " NANO",
-                            style: TextStyle(
-                              color:
-                                  StateContainer.of(context).curTheme.primary,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w100,
-                              fontFamily: 'NunitoSans',
-                            ),
-                          ),
-                          TextSpan(
                             text: widget.localCurrency != null
                                 ? " (${widget.localCurrency})"
                                 : "",
                             style: TextStyle(
                               color:
-                                  StateContainer.of(context).curTheme.primary,
+                                  StateContainer.of(context).curTheme.primary.withOpacity(0.75),
                               fontSize: 16.0,
                               fontWeight: FontWeight.w700,
                               fontFamily: 'NunitoSans',

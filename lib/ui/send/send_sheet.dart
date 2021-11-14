@@ -345,7 +345,7 @@ class _SendSheetState extends State<SendSheet> {
                                                             locale: StateContainer
                                                                     .of(context)
                                                                 .currencyLocale)
-                                                    : StateContainer.of(context)
+                                                    : "Ӿ" + StateContainer.of(context)
                                                         .wallet
                                                         .getAccountBalanceDisplay(),
                                                 style: TextStyle(
@@ -359,9 +359,7 @@ class _SendSheetState extends State<SendSheet> {
                                                 ),
                                               ),
                                               TextSpan(
-                                                text: _localCurrencyMode
-                                                    ? ")"
-                                                    : " NANO)",
+                                                text: ")",
                                                 style: TextStyle(
                                                   color:
                                                       StateContainer.of(context)

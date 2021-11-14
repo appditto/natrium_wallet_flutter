@@ -1134,15 +1134,10 @@ class _AppHomePageState extends State<AppHomePage>
                                   text: '',
                                   children: [
                                     TextSpan(
-                                      text: item.getFormattedAmount(),
+                                      text: "Ӿ"+ item.getFormattedAmount(),
                                       style:
                                           AppStyles.textStyleTransactionAmount(
                                               context),
-                                    ),
-                                    TextSpan(
-                                      text: " NANO",
-                                      style: AppStyles.textStyleTransactionUnit(
-                                          context),
                                     ),
                                   ],
                                 ),
@@ -1251,13 +1246,8 @@ class _AppHomePageState extends State<AppHomePage>
                               text: '',
                               children: [
                                 TextSpan(
-                                  text: amount,
+                                  text: "Ӿ"+ amount,
                                   style: AppStyles.textStyleTransactionAmount(
-                                      context),
-                                ),
-                                TextSpan(
-                                  text: " NANO",
-                                  style: AppStyles.textStyleTransactionUnit(
                                       context),
                                 ),
                               ],
@@ -1924,7 +1914,6 @@ class _AppHomePageState extends State<AppHomePage>
                             style: AppStyles.textStyleCurrencyAlt(context))
                         : SizedBox(height: 0),
                     Container(
-                      margin: EdgeInsetsDirectional.only(end: 15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -1938,7 +1927,7 @@ class _AppHomePageState extends State<AppHomePage>
                                 children: [
                                   // Currency Icon
                                   TextSpan(
-                                    text: "",
+                                    text: "Ӿ",
                                     style: TextStyle(
                                       fontFamily: 'AppIcons',
                                       color: StateContainer.of(context)
@@ -1948,6 +1937,7 @@ class _AppHomePageState extends State<AppHomePage>
                                               PriceConversion.BTC
                                           ? 26.0
                                           : 20,
+                                      fontWeight: FontWeight.w900,
                                     ),
                                   ),
                                   // Main balance text

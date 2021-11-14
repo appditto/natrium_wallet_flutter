@@ -102,7 +102,7 @@ class _SendCompleteSheetState extends State<SendCompleteSheet> {
                         text: '',
                         children: [
                           TextSpan(
-                            text: "$amount",
+                            text: "Ӿ$amount",
                             style: TextStyle(
                               color: StateContainer.of(context)
                                   .curTheme
@@ -113,24 +113,13 @@ class _SendCompleteSheetState extends State<SendCompleteSheet> {
                             ),
                           ),
                           TextSpan(
-                            text: " NANO",
-                            style: TextStyle(
-                              color: StateContainer.of(context)
-                                  .curTheme
-                                  .success,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w100,
-                              fontFamily: 'NunitoSans',
-                            ),
-                          ),
-                          TextSpan(
                             text: widget.localAmount != null
                                 ? " (${widget.localAmount})"
                                 : "",
                             style: TextStyle(
                               color: StateContainer.of(context)
                                   .curTheme
-                                  .success,
+                                  .success.withOpacity(0.75),
                               fontSize: 16.0,
                               fontWeight: FontWeight.w700,
                               fontFamily: 'NunitoSans',

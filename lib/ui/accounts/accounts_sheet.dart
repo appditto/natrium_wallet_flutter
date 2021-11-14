@@ -523,20 +523,9 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                               child: AutoSizeText.rich(
                                 TextSpan(
                                   children: [
-                                    // Currency Icon
-                                    TextSpan(
-                                      text: account.balance != null ? "" : "",
-                                      style: TextStyle(
-                                        fontFamily: 'AppIcons',
-                                        color: StateContainer.of(context)
-                                            .curTheme
-                                            .text,
-                                        fontSize: 15.0,
-                                      ),
-                                    ),
                                     // Main balance text
                                     TextSpan(
-                                      text: account.balance != null &&
+                                      text: (account.balance != null ? "Ӿ" : "") + (account.balance != null &&
                                               !account.selected
                                           ? NumberUtil.getRawAsUsableString(
                                               account.balance)
@@ -544,7 +533,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                                               ? StateContainer.of(context)
                                                   .wallet
                                                   .getAccountBalanceDisplay()
-                                              : "",
+                                              : ""),
                                       style: TextStyle(
                                           fontSize: 16.0,
                                           fontFamily: "NunitoSans",
