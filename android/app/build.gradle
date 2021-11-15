@@ -90,5 +90,4 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.11"
     implementation "com.bottlerocketstudios:vault:1.4.2"
     implementation 'androidx.multidex:multidex:2.0.0'
-    implementation 'com.google.firebase:firebase-messaging:20.2.4'
 }
