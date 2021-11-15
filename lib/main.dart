@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -46,6 +47,8 @@ void main() async {
   } else {
     Logger.level = Level.debug;
   }
+  // Setup firebase
+  await Firebase.initializeApp();
   // Run app
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {

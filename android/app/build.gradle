@@ -34,7 +34,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     lintOptions {
         disable 'InvalidPackage'
@@ -42,8 +42,8 @@ android {
 
     defaultConfig {
         applicationId "co.banano.natriumwallet"
-        minSdkVersion 18
-        targetSdkVersion 30
+        minSdkVersion 19
+        targetSdkVersion 31
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
