@@ -157,7 +157,8 @@ class _AppHomePageState extends State<AppHomePage>
         sound: true, badge: true, alert: true);
     if (settings.alert == AppleNotificationSetting.enabled ||
         settings.badge == AppleNotificationSetting.enabled ||
-        settings.sound == AppleNotificationSetting.enabled) {
+        settings.sound == AppleNotificationSetting.enabled ||
+        settings.authorizationStatus == AuthorizationStatus.authorized) {
       sl.get<SharedPrefsUtil>().getNotificationsSet().then((beenSet) {
         if (!beenSet) {
           sl.get<SharedPrefsUtil>().setNotificationsOn(true);
