@@ -123,7 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mnemonicInvalidWord" : MessageLookupByLibrary.simpleMessage("%1 неправильне слово"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Мнемонічна фраза"),
     "mnemonicSizeError" : MessageLookupByLibrary.simpleMessage("Секретна фраза складається  із точно 24х слів"),
-    "natricon" : MessageLookupByLibrary.simpleMessage("Natricon"),
+    "natricon": MessageLookupByLibrary.simpleMessage("Pawnimals"),
     "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Це ваш новий гаманець. Як тільки ви отримаєте NANO, трансакції буде показано отак:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Новий гаманець"),
     "nextButton" : MessageLookupByLibrary.simpleMessage("Далі"),

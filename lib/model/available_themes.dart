@@ -13,20 +13,20 @@ class ThemeSetting extends SettingSelectionItem {
   String getDisplayName(BuildContext context) {
     switch (theme) {
       case ThemeOptions.CARBON:
-        return "Carbon";
+        return "Mountaniota";
       case ThemeOptions.THORIUM:
-        return "Thorium";
+        return "Temperiota";
       case ThemeOptions.NEPTUNIUM:
-        return "Neptunium";
+        return "Oceaniota";
       case ThemeOptions.INDIUM:
-        return "Indium";
+        return "Rainiota";
       case ThemeOptions.TITANIUM:
-        return "Titanium";
+        return "Tundriota";
       case ThemeOptions.NATRIUM:
-        return "Natrium";
+        return "Alaskaiota";
       case ThemeOptions.PAW:
       default:
-        return "Paw";
+        return "Biota";
     }
   }
 

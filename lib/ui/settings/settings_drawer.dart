@@ -1448,7 +1448,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,
                     ),
-                    AppSettings.buildSettingsListItemDoubleLine(
+                    /*AppSettings.buildSettingsListItemDoubleLine(
                         context,
                         AppLocalization.of(context).language,
                         StateContainer.of(context).curLanguage,
@@ -1457,7 +1457,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     Divider(
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,
-                    ),
+                    ),*/
                     AppSettings.buildSettingsListItemDoubleLine(
                         context,
                         AppLocalization.of(context).notifications,
@@ -1468,7 +1468,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,
                     ),
-                    AppSettings.buildSettingsListItemDoubleLine(
+                    /*AppSettings.buildSettingsListItemDoubleLine(
                         context,
                         AppLocalization.of(context).themeHeader,
                         _curThemeSetting,
@@ -1477,7 +1477,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     Divider(
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,
-                    ),
+                    ),*/
                     AppSettings.buildSettingsListItemSingleLine(
                         context,
                         AppLocalization.of(context).securityHeader,
@@ -1491,7 +1491,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,
                     ),
-                    AppSettings.buildSettingsListItemDoubleLine(
+                    /*AppSettings.buildSettingsListItemDoubleLine(
                       context,
                       AppLocalization.of(context).blockExplorer,
                       StateContainer.of(context).curBlockExplorer,
@@ -1501,7 +1501,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     Divider(
                       height: 2,
                       color: StateContainer.of(context).curTheme.text15,
-                    ),
+                    ),*/
                     // Natricon on-off
                     AppSettings.buildSettingsListItemDoubleLine(
                         context,
@@ -1621,7 +1621,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                         AppLocalization.of(context).shareNatrium,
                         AppIcons.share, onPressed: () {
                       Share.share(
-                          "Check out PAW - PAW Wallet for iOS and Android" +
+                          "Check out Biota - A PAW wallet for iOS and Android" +
                               " https://paw.digital");
                     }),
                     Divider(

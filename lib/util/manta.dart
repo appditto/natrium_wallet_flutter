@@ -16,7 +16,7 @@ class MantaUtil {
     await manta.connect();
     final RSAPublicKey cert = await manta.getCertificate();
     final PaymentRequestEnvelope payReqEnv = await manta.getPaymentRequest(
-      cryptoCurrency: "NANO");
+      cryptoCurrency: "PAW");
     if (!payReqEnv.verify(cert)) {
       throw 'Certificate verification failure';
     }

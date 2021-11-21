@@ -74,7 +74,7 @@ class _AppState extends State<App> {
       backgroundColor: StateContainer.of(context).curTheme.backgroundDark,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Paw Wallet',
+        title: 'Biota',
         theme: ThemeData(
           dialogBackgroundColor:
               StateContainer.of(context).curTheme.backgroundDark,
@@ -97,7 +97,7 @@ class _AppState extends State<App> {
             : StateContainer.of(context).curLanguage.getLocale(),
         supportedLocales: [
           const Locale('en', 'US'), // English
-          const Locale('he', 'IL'), // Hebrew
+          /*const Locale('he', 'IL'), // Hebrew
           const Locale('de', 'DE'), // German
           const Locale('da'), // Danish
           const Locale('bg'), // Bulgarian
@@ -190,7 +190,7 @@ class _AppState extends State<App> {
           const Locale("ar", "SA"), // Saudi Arabia
           const Locale("ar", "KW"), // Kuwait
           const Locale("uk", "UA"), // Ukraine
-          const Locale("no", "NO"), // Norway
+          const Locale("no", "NO"), // Norway*/
         ],
         initialRoute: '/',
         onGenerateRoute: (RouteSettings settings) {

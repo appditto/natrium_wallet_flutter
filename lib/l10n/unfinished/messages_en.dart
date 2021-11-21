@@ -1,5 +1,5 @@
 // DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
-// This is a library that provides messages for a messages locale. All the
+// This is a library that provides messages for a en locale. All the
 // messages from the main program should be duplicated here with the same
 // function name.
 
@@ -17,7 +17,7 @@ final messages = new MessageLookup();
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => 'messages';
+  String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function>{
@@ -25,8 +25,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "accounts": MessageLookupByLibrary.simpleMessage("Accounts"),
         "ackBackedUp": MessageLookupByLibrary.simpleMessage(
             "Are you sure that you\'ve backed up your secret phrase or seed?"),
-        "activeMessageHeader":
-            MessageLookupByLibrary.simpleMessage("Active Message"),
         "addAccount": MessageLookupByLibrary.simpleMessage("Add Account"),
         "addContact": MessageLookupByLibrary.simpleMessage("Add Contact"),
         "addressCopied": MessageLookupByLibrary.simpleMessage("Address Copied"),
@@ -42,15 +40,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Automatically Lock"),
         "backupConfirmButton":
             MessageLookupByLibrary.simpleMessage("I\'ve Backed It Up"),
-        "backupSecretPhrase":
-            MessageLookupByLibrary.simpleMessage("Backup Secret Phrase"),
         "backupSeed": MessageLookupByLibrary.simpleMessage("Backup Seed"),
         "backupSeedConfirm": MessageLookupByLibrary.simpleMessage(
             "Are you sure that you backed up your wallet seed?"),
         "backupYourSeed":
             MessageLookupByLibrary.simpleMessage("Backup your seed"),
         "biometricsMethod": MessageLookupByLibrary.simpleMessage("Biometrics"),
-        "blockExplorer": MessageLookupByLibrary.simpleMessage("Block Explorer"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "changeCurrency":
             MessageLookupByLibrary.simpleMessage("Change Currency"),
@@ -63,9 +58,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Tribe Changed Successfully"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
-        "confirmPasswordHint":
-            MessageLookupByLibrary.simpleMessage("Confirm the password"),
-        "connectingHeader": MessageLookupByLibrary.simpleMessage("Connecting"),
         "contactAdded":
             MessageLookupByLibrary.simpleMessage("%1 added to contacts."),
         "contactExists":
@@ -88,52 +80,25 @@ class MessageLookup extends MessageLookupByLibrary {
         "copy": MessageLookupByLibrary.simpleMessage("Copy"),
         "copyAddress": MessageLookupByLibrary.simpleMessage("Copy Address"),
         "copySeed": MessageLookupByLibrary.simpleMessage("Copy Seed"),
-        "createAPasswordHeader":
-            MessageLookupByLibrary.simpleMessage("Create a password."),
-        "createPasswordFirstParagraph": MessageLookupByLibrary.simpleMessage(
-            "You can create a password to add additional security to your wallet."),
-        "createPasswordHint":
-            MessageLookupByLibrary.simpleMessage("Create a password"),
-        "createPasswordSecondParagraph": MessageLookupByLibrary.simpleMessage(
-            "Password is optional, and your wallet will be protected with your PIN or biometrics regardless."),
-        "createPasswordSheetHeader":
-            MessageLookupByLibrary.simpleMessage("Create"),
-        "currency": MessageLookupByLibrary.simpleMessage("Currency"),
         "currentlyRepresented":
-            MessageLookupByLibrary.simpleMessage("Currently Represented By"),
+            MessageLookupByLibrary.simpleMessage("Current Tribe"),
         "defaultAccountName":
             MessageLookupByLibrary.simpleMessage("Main Account"),
         "defaultNewAccountName":
             MessageLookupByLibrary.simpleMessage("Account %1"),
-        "disablePasswordSheetHeader":
-            MessageLookupByLibrary.simpleMessage("Disable"),
-        "disablePasswordSuccess":
-            MessageLookupByLibrary.simpleMessage("Password has been disabled"),
-        "disableWalletPassword":
-            MessageLookupByLibrary.simpleMessage("Disable Wallet Password"),
-        "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
-        "encryptionFailedError": MessageLookupByLibrary.simpleMessage(
-            "Failed to set a wallet password"),
         "enterAddress": MessageLookupByLibrary.simpleMessage("Enter Address"),
         "enterAmount": MessageLookupByLibrary.simpleMessage("Enter Amount"),
-        "enterPasswordHint":
-            MessageLookupByLibrary.simpleMessage("Enter your password"),
         "exampleCardFrom": MessageLookupByLibrary.simpleMessage("from someone"),
         "exampleCardIntro": MessageLookupByLibrary.simpleMessage(
-            "Welcome to the PAW wallet. Once you receive PAW, transactions will show up like this:"),
+            "Welcome to PAW. Once you receive PAW, transactions will show up like this:"),
         "exampleCardLittle": MessageLookupByLibrary.simpleMessage("A little"),
         "exampleCardLot": MessageLookupByLibrary.simpleMessage("A lot of"),
         "exampleCardTo": MessageLookupByLibrary.simpleMessage("to someone"),
-        "exit": MessageLookupByLibrary.simpleMessage("Exit"),
         "fingerprintSeedBackup": MessageLookupByLibrary.simpleMessage(
             "Authenticate to backup seed."),
-        "goBackButton": MessageLookupByLibrary.simpleMessage("Go Back"),
         "gotItButton": MessageLookupByLibrary.simpleMessage("Got It!"),
         "hideAccountHeader":
             MessageLookupByLibrary.simpleMessage("Hide Account?"),
-        "iUnderstandTheRisks":
-            MessageLookupByLibrary.simpleMessage("I Understand the Risks"),
-        "ignore": MessageLookupByLibrary.simpleMessage("Ignore"),
         "import": MessageLookupByLibrary.simpleMessage("Import"),
         "importSecretPhrase":
             MessageLookupByLibrary.simpleMessage("Import Secret Phrase"),
@@ -150,11 +115,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Insufficient Balance"),
         "invalidAddress":
             MessageLookupByLibrary.simpleMessage("Address entered was invalid"),
-        "invalidPassword":
-            MessageLookupByLibrary.simpleMessage("Invalid Password"),
-        "kaliumWallet": MessageLookupByLibrary.simpleMessage("Natrium Wallet"),
+        "kaliumWallet": MessageLookupByLibrary.simpleMessage("Biota Wallet"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
-        "liveSupportButton": MessageLookupByLibrary.simpleMessage("Support"),
         "lockAppSetting":
             MessageLookupByLibrary.simpleMessage("Authenticate on Launch"),
         "locked": MessageLookupByLibrary.simpleMessage("Locked"),
@@ -164,56 +126,35 @@ class MessageLookup extends MessageLookupByLibrary {
         "logoutAreYouSure":
             MessageLookupByLibrary.simpleMessage("Are you sure?"),
         "logoutDetail": MessageLookupByLibrary.simpleMessage(
-            "Logging out will remove your seed and all Natrium-related data from this device. If your seed is not backed up, you will never be able to access your funds again"),
+            "Logging out will remove your seed and all Biota-related data from this device. If your seed is not backed up, you will never be able to access your funds again"),
         "logoutReassurance": MessageLookupByLibrary.simpleMessage(
             "As long as you\'ve backed up your seed you have nothing to worry about."),
         "manage": MessageLookupByLibrary.simpleMessage("Manage"),
-        "mantaError":
-            MessageLookupByLibrary.simpleMessage("Couldn\'t Verify Request"),
         "manualEntry": MessageLookupByLibrary.simpleMessage("Manual Entry"),
-        "messageHeader": MessageLookupByLibrary.simpleMessage("Message"),
-        "minimumSend": MessageLookupByLibrary.simpleMessage(
-            "Minimum send amount is %1 NANO"),
         "mnemonicInvalidWord":
             MessageLookupByLibrary.simpleMessage("%1 is not a valid word"),
         "mnemonicPhrase":
             MessageLookupByLibrary.simpleMessage("Mnemonic Phrase"),
         "mnemonicSizeError": MessageLookupByLibrary.simpleMessage(
             "Secret phrase may only contain 24 words"),
-        "natricon": MessageLookupByLibrary.simpleMessage("Natricon"),
         "newAccountIntro": MessageLookupByLibrary.simpleMessage(
             "This is your new account. Once you receive PAW, transactions will show up like this:"),
         "newWallet": MessageLookupByLibrary.simpleMessage("New Wallet"),
-        "nextButton": MessageLookupByLibrary.simpleMessage("Next"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
         "noContactsExport": MessageLookupByLibrary.simpleMessage(
             "There\'s no contacts to export."),
         "noContactsImport":
             MessageLookupByLibrary.simpleMessage("No new contacts to import."),
-        "noSkipButton": MessageLookupByLibrary.simpleMessage("No, Skip"),
         "notificationBody": MessageLookupByLibrary.simpleMessage(
-            "Open Natrium to view this transaction"),
+            "Open Biota to view this transaction"),
         "notificationHeaderSupplement":
             MessageLookupByLibrary.simpleMessage("Tap to open"),
         "notificationTitle":
-            MessageLookupByLibrary.simpleMessage("Received %1 NANO"),
+            MessageLookupByLibrary.simpleMessage("Received %1 PAW"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "off": MessageLookupByLibrary.simpleMessage("Off"),
         "onStr": MessageLookupByLibrary.simpleMessage("On"),
         "paperWallet": MessageLookupByLibrary.simpleMessage("Paper Wallet"),
-        "passwordBlank":
-            MessageLookupByLibrary.simpleMessage("Password cannot be empty"),
-        "passwordNoLongerRequiredToOpenParagraph":
-            MessageLookupByLibrary.simpleMessage(
-                "You will not need a password to open Natrium anymore."),
-        "passwordWillBeRequiredToOpenParagraph":
-            MessageLookupByLibrary.simpleMessage(
-                "This password will be required to open Natrium."),
-        "passwordsDontMatch":
-            MessageLookupByLibrary.simpleMessage("Passwords do not match"),
-        "pending": MessageLookupByLibrary.simpleMessage("pending"),
-        "pickFromList":
-            MessageLookupByLibrary.simpleMessage("Pick From a List"),
         "pinConfirmError":
             MessageLookupByLibrary.simpleMessage("Pins do not match"),
         "pinConfirmTitle":
@@ -224,24 +165,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "pinInvalid":
             MessageLookupByLibrary.simpleMessage("Invalid pin entered"),
         "pinMethod": MessageLookupByLibrary.simpleMessage("PIN"),
-        "pinRepChange": MessageLookupByLibrary.simpleMessage(
-            "Enter PIN to change representative."),
+        "pinRepChange":
+            MessageLookupByLibrary.simpleMessage("Enter PIN to change tribe."),
         "pinSeedBackup":
             MessageLookupByLibrary.simpleMessage("Enter PIN to Backup Seed"),
         "preferences": MessageLookupByLibrary.simpleMessage("Preferences"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "qrInvalidAddress": MessageLookupByLibrary.simpleMessage(
-            "QR code does not contain a valid destination"),
-        "qrInvalidPermissions": MessageLookupByLibrary.simpleMessage(
-            "Please Grant Camera Permissions to scan QR Codes"),
+            "QR code does not contain a valid address"),
         "qrInvalidSeed": MessageLookupByLibrary.simpleMessage(
             "QR code does not contain a valid seed or private key"),
         "qrMnemonicError": MessageLookupByLibrary.simpleMessage(
             "QR does not contain a valid secret phrase"),
-        "qrUnknownError":
-            MessageLookupByLibrary.simpleMessage("Could not Read QR Code"),
         "rawSeed": MessageLookupByLibrary.simpleMessage("Raw Seed"),
-        "readMore": MessageLookupByLibrary.simpleMessage("Read More"),
         "receive": MessageLookupByLibrary.simpleMessage("Receive"),
         "received": MessageLookupByLibrary.simpleMessage("Received"),
         "removeAccountText": MessageLookupByLibrary.simpleMessage(
@@ -253,14 +189,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "An animal tribe is an account that votes for network consensus. Exposure is weighted by the balance, you may delegate your balance to increase the exposure of a tribe you trust. Your tribe does not have spending power over your funds. You should choose a tribe that has little downtime and is trustworthy."),
         "repInfoHeader":
             MessageLookupByLibrary.simpleMessage("What is an animal tribe?"),
-        "representatives":
-            MessageLookupByLibrary.simpleMessage("Animal Tribes"),
-        "requireAPasswordToOpenHeader": MessageLookupByLibrary.simpleMessage(
-            "Require a password to open Natrium?"),
-        "rootWarning": MessageLookupByLibrary.simpleMessage(
-            "It appears your device is \"rooted\", \"jailbroken\", or modified in a way that compromises security. It is recommended that you reset your device to its original state before proceeding."),
         "scanInstructions": MessageLookupByLibrary.simpleMessage(
-            "Scan a Nano \naddress QR code"),
+            "Scan a PAW \naddress QR code"),
         "scanQrCode": MessageLookupByLibrary.simpleMessage("Scan QR Code"),
         "secretInfo": MessageLookupByLibrary.simpleMessage(
             "In the next screen, you will see your secret phrase. It is a password to access your funds. It is crucial that you back it up and never share it with anyone."),
@@ -285,25 +215,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "seedInvalid": MessageLookupByLibrary.simpleMessage("Seed is Invalid"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "sendAmountConfirm":
-            MessageLookupByLibrary.simpleMessage("Send %1 NANO"),
+            MessageLookupByLibrary.simpleMessage("Send %1 PAW"),
         "sendError": MessageLookupByLibrary.simpleMessage(
             "An error occurred. Try again later."),
         "sendFrom": MessageLookupByLibrary.simpleMessage("Send From"),
         "sending": MessageLookupByLibrary.simpleMessage("Sending"),
         "sent": MessageLookupByLibrary.simpleMessage("Sent"),
         "sentTo": MessageLookupByLibrary.simpleMessage("Sent To"),
-        "setPassword": MessageLookupByLibrary.simpleMessage("Set Password"),
-        "setPasswordSuccess": MessageLookupByLibrary.simpleMessage(
-            "Password has been set successfully"),
-        "setWalletPassword":
-            MessageLookupByLibrary.simpleMessage("Set Wallet Password"),
         "settingsHeader": MessageLookupByLibrary.simpleMessage("Settings"),
         "settingsTransfer":
             MessageLookupByLibrary.simpleMessage("Load from Paper Wallet"),
-        "shareNatrium": MessageLookupByLibrary.simpleMessage("Share Natrium"),
+        "shareNatrium": MessageLookupByLibrary.simpleMessage("Share Biota"),
         "shareNatriumText": MessageLookupByLibrary.simpleMessage(
-            "Check out Natrium! A premier NANO mobile wallet!"),
-        "supportButton": MessageLookupByLibrary.simpleMessage("Support"),
+            "Check out Biota! A premier PAW mobile wallet!"),
         "switchToSeed": MessageLookupByLibrary.simpleMessage("Switch to Seed"),
         "systemDefault": MessageLookupByLibrary.simpleMessage("System Default"),
         "tapToHide": MessageLookupByLibrary.simpleMessage("Tap to hide"),
@@ -317,9 +241,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "transferClose": MessageLookupByLibrary.simpleMessage(
             "Tap anywhere to close the window."),
         "transferComplete": MessageLookupByLibrary.simpleMessage(
-            "%1 NANO successfully transferred to your Natrium Wallet.\n"),
+            "%1 PAW successfully transferred to your Biota Wallet.\n"),
         "transferConfirmInfo": MessageLookupByLibrary.simpleMessage(
-            "A wallet with a balance of %1 NANO has been detected.\n"),
+            "A wallet with a balance of %1 PAW has been detected.\n"),
         "transferConfirmInfoSecond": MessageLookupByLibrary.simpleMessage(
             "Tap confirm to transfer the funds.\n"),
         "transferConfirmInfoThird": MessageLookupByLibrary.simpleMessage(
@@ -329,31 +253,27 @@ class MessageLookup extends MessageLookupByLibrary {
         "transferHeader":
             MessageLookupByLibrary.simpleMessage("Transfer Funds"),
         "transferIntro": MessageLookupByLibrary.simpleMessage(
-            "This process will transfer the funds from a paper wallet to your Natrium wallet.\n\nTap the \"%1\" button to start."),
+            "This process will transfer the funds from a paper wallet to your Biota wallet.\n\nTap the \"%1\" button to start."),
         "transferLoading": MessageLookupByLibrary.simpleMessage("Transferring"),
         "transferManualHint": MessageLookupByLibrary.simpleMessage(
             "Please enter the seed below."),
         "transferNoFunds": MessageLookupByLibrary.simpleMessage(
-            "This seed does not have any NANO on it"),
+            "This seed does not have any PAW on it"),
         "transferQrScanError": MessageLookupByLibrary.simpleMessage(
             "This QR code does not contain a valid seed."),
         "transferQrScanHint": MessageLookupByLibrary.simpleMessage(
-            "Scan a Nano \nseed or private key"),
-        "unconfirmed": MessageLookupByLibrary.simpleMessage("unconfirmed"),
+            "Scan a PAW \nseed or private key"),
         "unlock": MessageLookupByLibrary.simpleMessage("Unlock"),
         "unlockBiometrics": MessageLookupByLibrary.simpleMessage(
-            "Authenticate to Unlock Natrium"),
+            "Authenticate to Unlock Biota"),
         "unlockPin":
-            MessageLookupByLibrary.simpleMessage("Enter PIN to Unlock Natrium"),
-        "uptime": MessageLookupByLibrary.simpleMessage("Uptime"),
+            MessageLookupByLibrary.simpleMessage("Enter PIN to Unlock Biota"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("View Details"),
-        "votingWeight": MessageLookupByLibrary.simpleMessage("Voting Weight"),
         "warning": MessageLookupByLibrary.simpleMessage("Warning"),
         "welcomeText": MessageLookupByLibrary.simpleMessage(
-            "Welcome to the PAW wallet. To begin, you may create a new wallet or import an existing one."),
+            "Welcome to PAW. To begin, you may create a new wallet or import an existing one."),
         "xMinute": MessageLookupByLibrary.simpleMessage("After %1 minute"),
         "xMinutes": MessageLookupByLibrary.simpleMessage("After %1 minutes"),
-        "yes": MessageLookupByLibrary.simpleMessage("Yes"),
-        "yesButton": MessageLookupByLibrary.simpleMessage("Yes")
+        "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }

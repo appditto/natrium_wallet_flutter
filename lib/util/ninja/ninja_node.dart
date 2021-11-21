@@ -11,7 +11,7 @@ BigInt _toBigInt(v) {
   return BigInt.from(v);
 }
 
-/// Represent a node that is returned from the MyNanoNinja API
+/// Represent a node that is returned from the Tribe.PAW.DIGITAL API
 @JsonSerializable()
 class NinjaNode {
   @JsonKey(name:'votingweight', fromJson: _toBigInt)

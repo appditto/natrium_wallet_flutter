@@ -123,7 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mnemonicInvalidWord" : MessageLookupByLibrary.simpleMessage("%1 no és una paraula vàlida"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Frase mnemotècnica"),
     "mnemonicSizeError" : MessageLookupByLibrary.simpleMessage("La frase secreta només pot contenir 24 paraules"),
-    "natricon" : MessageLookupByLibrary.simpleMessage("Natricon"),
+    "natricon": MessageLookupByLibrary.simpleMessage("Pawnimals"),
     "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Aquest és el teu nou compte. Un cop hagis rebut NANO, les transaccions apareixeran així:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Nou moneder"),
     "nextButton" : MessageLookupByLibrary.simpleMessage("Següent"),

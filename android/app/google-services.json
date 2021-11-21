@@ -1,101 +1,43 @@
 {
   "project_info": {
-    "project_number": "716870170992",
-    "firebase_url": "https://natrium-edfa2.firebaseio.com",
-    "project_id": "natrium-edfa2",
-    "storage_bucket": "natrium-edfa2.appspot.com"
+    "project_number": "10521697209",
+    "project_id": "biota-8e34d",
+    "storage_bucket": "biota-8e34d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:716870170992:android:3a068f6e99bf1a7d",
+        "mobilesdk_app_id": "1:10521697209:android:d5759d5b60a56e8bcab468",
         "android_client_info": {
           "package_name": "co.pawdigital.wallet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "716870170992-t4fpqi3lbap9k9cr3m785hdsd4geagj0.apps.googleusercontent.com",
+          "client_id": "10521697209-c67dq2gkpm32sc97ckqd0febtal9k7lg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBC3NDZwVU5g9Y0JxqRj3aEnsF56r4g3nM"
+          "current_key": "AIzaSyCH-eAdY87PQ31_puP1DXIeI7m2gN-Gitw"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:716870170992:android:693a7e526e5dae98",
-        "android_client_info": {
-          "package_name": "com.avengemedia.natrium"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "716870170992-t4fpqi3lbap9k9cr3m785hdsd4geagj0.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBC3NDZwVU5g9Y0JxqRj3aEnsF56r4g3nM"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:716870170992:android:ea89e20d15da2256",
-        "android_client_info": {
-          "package_name": "com.banano.natriumwallet"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "716870170992-t4fpqi3lbap9k9cr3m785hdsd4geagj0.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBC3NDZwVU5g9Y0JxqRj3aEnsF56r4g3nM"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "10521697209-c67dq2gkpm32sc97ckqd0febtal9k7lg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "10521697209-68n8s7557bohq77vmlnc0slpjl5upqls.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.pawdigital.wallet"
+              }
+            }
+          ]
         }
       }
     }

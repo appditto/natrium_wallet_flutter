@@ -19,7 +19,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name=".MultidexApplication"
-        android:label="Paw Wallet"
+        android:label="Biota"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false">
         <meta-data

@@ -174,20 +174,20 @@ class _AvatarPageState extends State<AvatarPage>
                                                   .size
                                                   .height *
                                               0.035,
-                                          top: hasEnoughFunds ? 24 : 16),
+                                          top: hasEnoughFunds ? 24 : 24),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: <Widget>[
-                                          // If balance if below 0.0123457 Nano, don't display this button
+                                          // If balance if below 0.0123457 PAW, don't display this button
                                           hasEnoughFunds
                                               ? Row(
                                                   children: <Widget>[
                                                     AppButton.buildAppButton(
                                                         context,
                                                         AppButtonType.PRIMARY,
-                                                        "Change My Natricon",
+                                                        "Change My Pawnimal",
                                                         Dimens
                                                             .BUTTON_TOP_DIMENS,
                                                         onPressed: () {
@@ -197,14 +197,34 @@ class _AvatarPageState extends State<AvatarPage>
                                                     }),
                                                   ],
                                                 )
-                                              : SizedBox(),
-                                          Row(
+                                              : Container(
+                                                  margin: EdgeInsetsDirectional
+                                                      .only(
+                                                          start: smallScreen(
+                                                                  context)
+                                                              ? 30
+                                                              : 40,
+                                                          end: smallScreen(
+                                                                  context)
+                                                              ? 30
+                                                              : 40,
+                                                          top: 16.0),
+                                                  child: AutoSizeText(
+                                                    "1 PAW required to change pawnimal",
+                                                    style: AppStyles
+                                                        .textStyleParagraph(
+                                                            context),
+                                                    maxLines: 3,
+                                                    stepGranularity: 0.5,
+                                                  ),
+                                                )
+                                          /*Row(
                                             children: <Widget>[
                                               AppButton.buildAppButton(
                                                   context,
                                                   // Share Address Button
                                                   AppButtonType.PRIMARY_OUTLINE,
-                                                  "Turn Off Natricon",
+                                                  "Turn Off Pawnimals",
                                                   Dimens.BUTTON_BOTTOM_DIMENS,
                                                   onPressed: () {
                                                 _controller.reverse();
@@ -224,7 +244,7 @@ class _AvatarPageState extends State<AvatarPage>
                                                 Navigator.pop(context);
                                               }),
                                             ],
-                                          ),
+                                          ),*/
                                         ],
                                       ),
                                     ),

@@ -318,7 +318,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "welcomeText": "Welcome to Natrium. To begin, you may create a new wallet or import an existing one.",
+  "welcomeText": "Welcome to Biota. To begin, you may create a new wallet or import an existing one.",
   "@welcomeText": {
     "description": "intro_welcome_title",
     "type": "text",
@@ -522,9 +522,9 @@
     "type": "text",
     "placeholders": {}
   },
-  "votingWeight": "Animal Exposure",
+  "votingWeight": "Pack Size",
   "@votingWeight": {
-    "description": "Tribes Animal Exposure",
+    "description": "Tribes Pack Size",
     "type": "text",
     "placeholders": {}
   },
@@ -582,13 +582,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "shareNatrium": "Share Natrium",
+  "shareNatrium": "Share Biota",
   "@shareNatrium": {
     "description": "settings_share",
     "type": "text",
     "placeholders": {}
   },
-  "shareNatriumText": "Check out Natrium! A premier NANO mobile wallet!",
+  "shareNatriumText": "Check out Biota! A premier PAW mobile wallet!",
   "@shareNatriumText": {
     "description": "share_extra",
     "type": "text",
@@ -624,7 +624,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "logoutDetail": "Logging out will remove your seed and all Natrium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
+  "logoutDetail": "Logging out will remove your seed and all Biota-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
   "@logoutDetail": {
     "description": "settings_logout_alert_message",
     "type": "text",
@@ -696,7 +696,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "natricon": "Natricon",
+  "natricon": "Pawnimals",
   "@natricon": {
     "description": "natricon_settings",
     "type": "text",
@@ -708,7 +708,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "notificationBody": "Open Natrium to view this transaction",
+  "notificationBody": "Open Biota to view this transaction",
   "@notificationBody": {
     "description": "notification_body",
     "type": "text",
@@ -738,7 +738,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "kaliumWallet": "Natrium Wallet",
+  "kaliumWallet": "Biota Wallet",
   "@kaliumWallet": {
     "description": "kalium_wallet",
     "type": "text",
@@ -780,7 +780,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "transferIntro": "This process will transfer the funds from a paper wallet to your Natrium wallet.\n\nTap the \"%1\" button to start.",
+  "transferIntro": "This process will transfer the funds from a paper wallet to your Biota wallet.\n\nTap the \"%1\" button to start.",
   "@transferIntro": {
     "description": "transfer_intro",
     "type": "text",
@@ -828,7 +828,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "transferComplete": "%1 NANO successfully transferred to your Natrium Wallet.\n",
+  "transferComplete": "%1 PAW successfully transferred to your Biota Wallet.\n",
   "@transferComplete": {
     "description": "transfer_complete_text",
     "type": "text",
@@ -846,13 +846,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "unlockPin": "Enter PIN to Unlock Natrium",
+  "unlockPin": "Enter PIN to Unlock Biota",
   "@unlockPin": {
     "description": "unlock_kalium_pin",
     "type": "text",
     "placeholders": {}
   },
-  "unlockBiometrics": "Authenticate to Unlock Natrium",
+  "unlockBiometrics": "Authenticate to Unlock Biota",
   "@unlockBiometrics": {
     "description": "unlock_kalium_bio",
     "type": "text",
@@ -920,7 +920,7 @@
   },
   "setPassword": "Set Password",
   "@setPassword": {
-    "description": "A button that sets the wallet password",
+    "description": "A button that sets Biota password",
     "type": "text",
     "placeholders": {}
   },
@@ -948,7 +948,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "exampleCardIntro": "Welcome to Natrium. Once you receive NANO, transactions will show up like this:",
+  "exampleCardIntro": "Welcome to Biota. Once you receive PAW, transactions will show up like this:",
   "@exampleCardIntro": {
     "description": "example_card_intro",
     "type": "text",
@@ -1200,15 +1200,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "passwordWillBeRequiredToOpenParagraph": "This password will be required to open Natrium.",
+  "passwordWillBeRequiredToOpenParagraph": "This password will be required to open Biota.",
   "@passwordWillBeRequiredToOpenParagraph": {
-    "description": "A paragraph that tells the users that the created password will be required to open Natrium.",
+    "description": "A paragraph that tells the users that the created password will be required to open Biota.",
     "type": "text",
     "placeholders": {}
   },
-  "passwordNoLongerRequiredToOpenParagraph": "You will not need a password to open Natrium anymore.",
+  "passwordNoLongerRequiredToOpenParagraph": "You will not need a password to open Biota anymore.",
   "@passwordNoLongerRequiredToOpenParagraph": {
-    "description": "An info paragraph that tells the user a password will no longer be needed to open Natrium",
+    "description": "An info paragraph that tells the user a password will no longer be needed to open Biota",
     "type": "text",
     "placeholders": {}
   },
@@ -1220,7 +1220,7 @@
   },
   "createPasswordSecondParagraph": "Password is optional, and your wallet will be protected with your PIN or biometrics regardless.",
   "@createPasswordSecondParagraph": {
-    "description": "A paragraph that tells the users that the password creation is optional and the wallet will be still protected with biometrics or PIN regardless.",
+    "description": "A paragraph that tells the users that the password creation is optional and Biota will be still protected with biometrics or PIN regardless.",
     "type": "text",
     "placeholders": {}
   },
@@ -1242,9 +1242,9 @@
     "type": "text",
     "placeholders": {}
   },
-  "requireAPasswordToOpenHeader": "Require a password to open Natrium?",
+  "requireAPasswordToOpenHeader": "Require a password to open Biota?",
   "@requireAPasswordToOpenHeader": {
-    "description": "A paragraph that asks the users if they would like a password to be required to open Natrium.",
+    "description": "A paragraph that asks the users if they would like a password to be required to open Biota.",
     "type": "text",
     "placeholders": {}
   },
@@ -1286,7 +1286,7 @@
   },
   "connectingHeader": "Connecting",
   "@connectingHeader": {
-    "description": "A header to let the user now that Natrium is currently connecting to (or loading) live chat.",
+    "description": "A header to let the user now that Biota is currently connecting to (or loading) live chat.",
     "type": "text",
     "placeholders": {}
   }

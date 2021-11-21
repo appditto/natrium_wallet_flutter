@@ -123,7 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mnemonicInvalidWord" : MessageLookupByLibrary.simpleMessage("%1 er ikke et gyldigt ord"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Mnemonic sætning"),
     "mnemonicSizeError" : MessageLookupByLibrary.simpleMessage("Tilknytningskoden kan kun indeholde 24 ord"),
-    "natricon" : MessageLookupByLibrary.simpleMessage("Natricon"),
+    "natricon": MessageLookupByLibrary.simpleMessage("Pawnimals"),
     "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Dette er din nye konto. Når du modtager NANO vises transaktioner sådan:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Ny tegnebog"),
     "nextButton" : MessageLookupByLibrary.simpleMessage("Næste"),

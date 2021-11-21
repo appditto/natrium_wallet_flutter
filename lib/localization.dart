@@ -293,7 +293,7 @@ class AppLocalization {
 
   String get welcomeText {
     return Intl.message(
-        "Welcome to the PAW wallet. To begin, you may create a new wallet or import an existing one.",
+        "Welcome to Biota. To begin, you may create a new wallet or import an existing one.",
         desc: 'intro_welcome_title',
         name: 'welcomeText');
   }
@@ -324,7 +324,7 @@ class AppLocalization {
   }
 
   String get sendAmountConfirm {
-    return Intl.message("Send %1 NANO",
+    return Intl.message("Send %1 PAW",
         desc: 'send_pin_description', name: 'sendAmountConfirm');
   }
 
@@ -370,7 +370,7 @@ class AppLocalization {
   }
 
   String get minimumSend {
-    return Intl.message("Minimum send amount is %1 NANO",
+    return Intl.message("Minimum send amount is %1 PAW",
         desc: 'send_minimum_error', name: 'minimumSend');
   }
 
@@ -478,8 +478,8 @@ class AppLocalization {
   }
 
   String get votingWeight {
-    return Intl.message("Animal exposure",
-        desc: 'Tribes Animal Exposure', name: 'votingWeight');
+    return Intl.message("Pack size",
+        desc: 'Tribes Pack Size', name: 'votingWeight');
   }
 
   String get uptime {
@@ -526,12 +526,12 @@ class AppLocalization {
   }
 
   String get shareNatrium {
-    return Intl.message("Share PAW Wallet",
+    return Intl.message("Share Biota",
         desc: 'settings_share', name: 'shareNatrium');
   }
 
   String get shareNatriumText {
-    return Intl.message("Check out PAW! A digital currency with animals!",
+    return Intl.message("Check out Biota! A premier PAW mobile wallet!",
         desc: 'share_extra', name: 'shareNatriumText');
   }
 
@@ -566,7 +566,7 @@ class AppLocalization {
 
   String get logoutDetail {
     return Intl.message(
-        "Logging out will remove your seed and all Natrium-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
+        "Logging out will remove your seed and all Biota-related data from this device. If your seed is not backed up, you will never be able to access your funds again",
         desc: 'settings_logout_alert_message',
         name: 'logoutDetail');
   }
@@ -634,7 +634,7 @@ class AppLocalization {
   }
 
   String get notificationTitle {
-    return Intl.message("Received %1 NANO",
+    return Intl.message("Received %1 PAW",
         desc: 'notification_title', name: 'notificationTitle');
   }
 
@@ -707,13 +707,13 @@ class AppLocalization {
 
   String get transferIntro {
     return Intl.message(
-        "This process will transfer the funds from a paper wallet to your Natrium wallet.\n\nTap the \"%1\" button to start.",
+        "This process will transfer the funds from a paper wallet to your Biota wallet.\n\nTap the \"%1\" button to start.",
         desc: 'transfer_intro',
         name: 'transferIntro');
   }
 
   String get transferQrScanHint {
-    return Intl.message("Scan a Nano \nseed or private key",
+    return Intl.message("Scan a PAW \nseed or private key",
         desc: 'transfer_qr_scan_hint', name: 'transferQrScanHint');
   }
 
@@ -723,7 +723,7 @@ class AppLocalization {
   }
 
   String get transferNoFunds {
-    return Intl.message("This seed does not have any NANO on it",
+    return Intl.message("This seed does not have any PAW on it",
         desc: 'transfer_no_funds_toast', name: 'transferNoFunds');
   }
 
@@ -731,7 +731,7 @@ class AppLocalization {
 
   String get transferConfirmInfo {
     return Intl.message(
-        "A wallet with a balance of %1 NANO has been detected.\n",
+        "A wallet with a balance of %1 PAW has been detected.\n",
         desc: 'transfer_confirm_info_first',
         name: 'transferConfirmInfo');
   }
@@ -756,7 +756,7 @@ class AppLocalization {
 
   String get transferComplete {
     return Intl.message(
-        "%1 NANO successfully transferred to your Natrium Wallet.\n",
+        "%1 PAW successfully transferred to your Natrium Wallet.\n",
         desc: 'transfer_complete_text',
         name: 'transferComplete');
   }
@@ -771,19 +771,19 @@ class AppLocalization {
   // Scan
 
   String get scanInstructions {
-    return Intl.message("Scan a Nano \naddress QR code",
+    return Intl.message("Scan a PAW \naddress QR code",
         desc: 'scan_send_instruction_label', name: 'scanInstructions');
   }
 
   /// -- LOCK SCREEN
 
   String get unlockPin {
-    return Intl.message("Enter PIN to Unlock Natrium",
+    return Intl.message("Enter PIN to Unlock Biota",
         desc: 'unlock_kalium_pin', name: 'unlockPin');
   }
 
   String get unlockBiometrics {
-    return Intl.message("Authenticate to Unlock Natrium",
+    return Intl.message("Authenticate to Unlock Biota",
         desc: 'unlock_kalium_bio', name: 'unlockBiometrics');
   }
 
@@ -841,7 +841,7 @@ class AppLocalization {
 
   String get setPassword {
     return Intl.message("Set Password",
-        desc: 'A button that sets the wallet password', name: 'setPassword');
+        desc: 'A button that sets Biota password', name: 'setPassword');
   }
 
   String get disableWalletPassword {
@@ -874,7 +874,7 @@ class AppLocalization {
 
   String get exampleCardIntro {
     return Intl.message(
-        "Welcome to the PAW wallet. Once you receive PAW, transactions will show up like this:",
+        "Welcome to Biota. Once you receive PAW, transactions will show up like this:",
         desc: 'example_card_intro',
         name: 'exampleCardIntro');
   }
@@ -1119,9 +1119,9 @@ class AppLocalization {
 
   /// PARAGRAPS
   String get passwordWillBeRequiredToOpenParagraph {
-    return Intl.message("This password will be required to open the wallet.",
+    return Intl.message("This password will be required to open Biota.",
         desc:
-            'A paragraph that tells the users that the created password will be required to open Natrium.',
+            'A paragraph that tells the users that the created password will be required to open Biota.',
         name: 'passwordWillBeRequiredToOpenParagraph');
   }
 
@@ -1129,7 +1129,7 @@ class AppLocalization {
     return Intl.message(
         "You will not need a password to open the wakket anymore.",
         desc:
-            'An info paragraph that tells the user a password will no longer be needed to open Natrium',
+            'An info paragraph that tells the user a password will no longer be needed to open Biota',
         name: 'passwordNoLongerRequiredToOpenParagraph');
   }
 
@@ -1145,7 +1145,7 @@ class AppLocalization {
     return Intl.message(
         "Password is optional, and your wallet will be protected with your PIN or biometrics regardless.",
         desc:
-            'A paragraph that tells the users that the password creation is optional and the wallet will be still protected with biometrics or PIN regardless.',
+            'A paragraph that tells the users that the password creation is optional and Biota will be still protected with biometrics or PIN regardless.',
         name: 'createPasswordSecondParagraph');
   }
 
@@ -1171,9 +1171,9 @@ class AppLocalization {
   }
 
   String get requireAPasswordToOpenHeader {
-    return Intl.message("Require a password to open the wallet?",
+    return Intl.message("Require a password to open Biota?",
         desc:
-            'A paragraph that asks the users if they would like a password to be required to open the wallet.',
+            'A paragraph that asks the users if they would like a password to be required to open Biota.',
         name: 'requireAPasswordToOpenHeader');
   }
 
@@ -1247,11 +1247,11 @@ class AppLocalization {
   }
 
   String get eulaUrl {
-    return 'https://avengemedia.github.io/kalium/eula_natrium.html';
+    return 'https://paw.digital/mobile/eula.html';
   }
 
   String get privacyUrl {
-    return 'https://avengemedia.github.io/kalium/privacy.html';
+    return 'https://paw.digital/mobile/privacy.html';
   }
 
   /// -- END NON-TRANSLATABLE ITEMS

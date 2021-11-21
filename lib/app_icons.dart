@@ -44,7 +44,7 @@ class AppIcons {
   static const IconData btc =
       IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData changerepresentative =
-      IconData(0xe836, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe838, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData close =
       IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData contact =

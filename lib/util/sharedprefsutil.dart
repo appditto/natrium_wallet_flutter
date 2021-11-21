@@ -25,7 +25,7 @@ class SharedPrefsUtil {
   // Keys
   static const String first_launch_key = 'fkalium_first_launch';
   static const String seed_backed_up_key = 'fkalium_seed_backup';
-  static const String app_uuid_key = 'fkalium_app_uuid';
+  static const String app_uuid_key = 'co.pawdigital.wallet';
   static const String price_conversion = 'fkalium_price_conversion_pref';
   static const String auth_method = 'fkalium_auth_method';
   static const String cur_currency = 'fkalium_currency_pref';

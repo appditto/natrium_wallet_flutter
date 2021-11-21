@@ -1,24 +1,19 @@
-# Natrium - Fast, Robust & Secure NANO Wallet
+# Biota - Fast, Robust & Secure PAW Wallet
 
-[![GitHub release (latest)](https://img.shields.io/github/v/release/appditto/natrium_wallet_flutter)](https://github.com/appditto/natrium_wallet_flutter/releases) [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/appditto/natrium_wallet_flutter/blob/master/LICENSE) [![Asset License](https://img.shields.io/badge/asset%20license-proprietary-orange)](https://github.com/appditto/natrium_wallet_flutter/blob/master/LICENSE) [![CI](https://github.com/appditto/natrium_wallet_flutter/workflows/CI/badge.svg)](https://github.com/appditto/natrium_wallet_flutter/actions?query=workflow%3ACI) [![Twitter Follow](https://img.shields.io/twitter/follow/NatriumIO?style=social)](https://twitter.com/intent/follow?screen_name=NatriumIO)
+[![Twitter Follow](https://img.shields.io/twitter/follow/PAW_digital?style=social)](https://twitter.com/intent/follow?screen_name=PAW_digital)
 
 
-## What is Natrium?
+## What is Biota?
 
-Natrium is a cross-platform mobile wallet for the NANO cryptocurrency. It is written in Dart using [Flutter](https://flutter.io).
+Biota is a cross-platform mobile wallet for the PAW digital currency. It is written in Dart using [Flutter](https://flutter.io).
 
 | Link | Description |
 | :----- | :------ |
-[natrium.io](https://natrium.io) | Natrium Homepage
-[nano.org](https://nano.org) | NANO Cryptocurrency Homepage
-
-![Natrium Themes](https://natrium.io/assets/natrium-themes.jpg)
-
-![Natrium Quick Send](https://natrium.io/assets/natrium-qt-1.gif) ![Natrium Add to Contacts](https://natrium.io/assets/natrium-qt-2.gif) ![Natrium Change Representative](https://natrium.io/assets/natrium-qt-4.gif)
+[paw.digital](https://paw.digital) | PAW digital currency Homepage
 
 ## Server
 
-Natrium's backend server can be found [here](https://github.com/appditto/natrium-wallet-server)
+Biota's backend server can be found [here](https://github.com/paw-digital/paw-wallet-server)
 
 ## Contributing
 
@@ -40,7 +35,7 @@ If you need any help, feel free to file an issue if you do not manage to find a 
 
 ## License
 
-Natrium is released under the MIT License
+Biota is released under the MIT License
 
 ### Update translations:
 
@@ -50,3 +45,13 @@ flutter pub pub run intl_translation:generate_from_arb --output-dir=lib/l10n \
    --no-use-deferred-loading lib/localization.dart lib/l10n/intl_*.arb
 ```
 
+## Tools
+
+Tools that can be used for appicons generation:
+http://svg2vector.com/  for drawable android vector assets
+http://easyappicon.com/ for app icons generation
+
+For font assets:
+https://fontforge.org/ Font conversion to SVG
+https://mathew-kurian.github.io/CharacterMap/ Individual mapping of font entries
+https://www.fluttericon.com/ Generation of fonts with SVGs

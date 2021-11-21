@@ -113,7 +113,7 @@ class _SendCompleteSheetState extends State<SendCompleteSheet> {
                             ),
                           ),
                           TextSpan(
-                            text: " NANO",
+                            text: " PAW",
                             style: TextStyle(
                               color: StateContainer.of(context)
                                   .curTheme

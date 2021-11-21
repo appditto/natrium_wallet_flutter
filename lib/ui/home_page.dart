@@ -821,11 +821,21 @@ class _AppHomePageState extends State<AppHomePage>
       paintQrCode();
     }
 
-    return Scaffold(
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/landscape.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Scaffold(
       drawerEdgeDragWidth: 200,
       resizeToAvoidBottomInset: false,
       key: _scaffoldKey,
-      backgroundColor: StateContainer.of(context).curTheme.background,
+      backgroundColor:
+            StateContainer.of(context).curTheme.background.withOpacity(0.92),
       drawerScrimColor: StateContainer.of(context).curTheme.barrierWeaker,
       drawer: SizedBox(
         width: UIUtil.drawerWidth(context),
@@ -853,7 +863,7 @@ class _AppHomePageState extends State<AppHomePage>
                       //Transactions Text
                       Container(
                         margin: EdgeInsetsDirectional.fromSTEB(
-                            30.0, 20.0, 26.0, 0.0),
+                            30.0, 20.0, 26.0, 10.0),
                         child: Row(
                           children: <Widget>[
                             Text(
@@ -981,6 +991,7 @@ class _AppHomePageState extends State<AppHomePage>
           ],
         ),
       ),
+    ),
     );
   }
 

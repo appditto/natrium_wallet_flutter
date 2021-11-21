@@ -123,7 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mnemonicInvalidWord" : MessageLookupByLibrary.simpleMessage("% 1 není platné slovo"),
     "mnemonicPhrase" : MessageLookupByLibrary.simpleMessage("Mnemonická fráze"),
     "mnemonicSizeError" : MessageLookupByLibrary.simpleMessage("Tajná fráze může obsahovat pouze 24 slov"),
-    "natricon" : MessageLookupByLibrary.simpleMessage("Natricon"),
+    "natricon": MessageLookupByLibrary.simpleMessage("Pawnimals"),
     "newAccountIntro" : MessageLookupByLibrary.simpleMessage("Toto je váš nový účet. Jakmile obdržíte NANO, transakce se zobrazí takto:"),
     "newWallet" : MessageLookupByLibrary.simpleMessage("Nová peněženka"),
     "nextButton" : MessageLookupByLibrary.simpleMessage("Další"),
