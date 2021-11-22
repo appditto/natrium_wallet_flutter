@@ -56,3 +56,8 @@ For font assets:
 https://fontforge.org/ Font conversion to SVG
 https://mathew-kurian.github.io/CharacterMap/ Individual mapping of font entries
 https://www.fluttericon.com/ Generation of fonts with SVGs
+
+## Acknowledgements
+
+Special thanks to the following!
+https://github.com/appditto/natrium_wallet_flutter
