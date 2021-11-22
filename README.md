@@ -60,4 +60,5 @@ https://www.fluttericon.com/ Generation of fonts with SVGs
 ## Acknowledgements
 
 Special thanks to the following!
-https://github.com/appditto/natrium_wallet_flutter
+- [Natrium](https://github.com/appditto/natrium_wallet_flutter) - The original one
+- [Kalium](https://github.com/BananoCoin/kalium_wallet_flutter) - The second fork of Natrium
