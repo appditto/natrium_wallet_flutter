@@ -1,6 +1,6 @@
 <hr />
 <div align="center">
-    <img src="assets/logobiota.png" alt="Logo" width='150px' height='auto'/>
+    <img src="assets/biotalogo.png" alt="Logo" width='150px' height='auto'/>
 </div>
 <hr />
 
