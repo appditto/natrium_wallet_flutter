@@ -1,3 +1,9 @@
+<hr />
+<div align="center">
+    <img src="public/asset/img/biotalogo.png" alt="Logo" width='150px' height='auto'/>
+</div>
+<hr />
+
 # Biota - Fast, Robust & Secure PAW Wallet
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/PAW_digital?style=social)](https://twitter.com/intent/follow?screen_name=PAW_digital)
