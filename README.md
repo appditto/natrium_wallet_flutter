@@ -1,6 +1,7 @@
 # Biota - Fast, Robust & Secure PAW Wallet
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/PAW_digital?style=social)](https://twitter.com/intent/follow?screen_name=PAW_digital)
+[![Discord](https://img.shields.io/badge/discord-join%20chat-orange.svg?logo=discord&color=7289DA)](https://discord.gg/DjXn6bb3aE)
 
 
 ## What is Biota?
