@@ -10,7 +10,7 @@ Biota is a cross-platform mobile wallet for the PAW digital currency. It is writ
 
 | Link | Description |
 | :----- | :------ |
-[paw.digital](https://paw.digital) | PAW digital currency Homepage
+[PAW.digital](https://paw.digital) | PAW digital currency Homepage
 
 ## Server
 
