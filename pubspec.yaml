@@ -17,14 +17,14 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  # Securley store data in a keystore
-  flutter_secure_storage: ^4.1.0
+    # Securley store data in a keystore
+    flutter_secure_storage: ^5.0.2
 
   # Nano core functions
   flutter_nano_ffi: ^2.0.0
 
-  # Shared prefs
-  shared_preferences: ^2.0.5
+    # Shared prefs
+    shared_preferences: ^2.0.8
 
   # Flare for animations
   flare_flutter: ^2.0.6
@@ -32,11 +32,11 @@ dependencies:
   # Websockets
   web_socket_channel: ^1.0.9
 
-  # Platform-specific build info
-  package_info: ^2.0.0
+    # Platform-specific build info
+    package_info: ^2.0.2
 
-  # Device-specific info
-  device_info: ^2.0.0
+    # Device-specific info
+    device_info: ^2.0.3
 
   # JSON Serialization
   json_annotation: ^3.1.1
@@ -44,17 +44,17 @@ dependencies:
   # Localization
   intl: ^0.17.0
 
-  # BigDecimal alternative
-  decimal: ^1.0.0
+    # BigDecimal alternative
+    decimal: ^1.3.0
 
   # Logger
   logger: ^1.0.0
 
-  # Native webview plugin
-  flutter_webview_plugin: ^0.3.11
+    # Native webview plugin
+    flutter_webview_plugin: ^0.4.0
 
-  # SQLite
-  sqflite: ^2.0.0+3
+    # SQLite
+    sqflite: ^2.0.0+4
 
   # Android/iOS path provider
   path_provider: ^2.0.1
@@ -103,8 +103,9 @@ dependencies:
   # Toast
   oktoast: ^3.0.0
 
-  # Push notifications
-  firebase_messaging: ^7.0.3
+    # Push notifications
+    firebase_messaging: ^11.1.0
+    firebase_core: ^1.10.0
 
   # Slidable list actions
   flutter_slidable: ^0.5.7
@@ -133,11 +134,13 @@ dependencies:
   # Launch external URLs
   url_launcher: ^6.0.2
 
-  # Manta dart implementation
-  manta_dart:
-    git:
-      url: https://github.com/bbedward/manta-dart.git
-      ref: master
+    quiver: ^3.0.1+1
+
+    # Manta dart implementation
+    manta_dart:
+        git:
+            url: https://github.com/bbedward/manta-dart.git
+            ref: master
 
   devicelocale: ^0.4.1
 

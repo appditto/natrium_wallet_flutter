@@ -38,9 +38,11 @@ class _AppLockScreenState extends State<AppLockScreen> {
           .loginAccount(await StateContainer.of(context).getSeed(), context);
     }
     StateContainer.of(context).requestUpdate();
-    PriceConversion conversion = await sl.get<SharedPrefsUtil>().getPriceConversion();
+    PriceConversion conversion =
+        await sl.get<SharedPrefsUtil>().getPriceConversion();
     Navigator.of(context).pushNamedAndRemoveUntil(
-        '/home_transition', (Route<dynamic> route) => false, arguments: conversion);
+        '/home_transition', (Route<dynamic> route) => false,
+        arguments: conversion);
   }
 
   Widget _buildPinScreen(BuildContext context, String expectedPin) {
@@ -127,7 +129,10 @@ class _AppLockScreenState extends State<AppLockScreen> {
   }
 
   Future<void> authenticateWithBiometrics() async {
-    bool authenticated = await sl.get<BiometricUtil>().authenticateWithBiometrics(context, AppLocalization.of(context).unlockBiometrics);
+    bool authenticated = await sl
+        .get<BiometricUtil>()
+        .authenticateWithBiometrics(
+            context, AppLocalization.of(context).unlockBiometrics);
     if (authenticated) {
       _goHome();
     } else {
@@ -182,7 +187,8 @@ class _AppLockScreenState extends State<AppLockScreen> {
     setState(() {
       _lockedOut = false;
     });
-    AuthenticationMethod authMethod = await sl.get<SharedPrefsUtil>().getAuthMethod();
+    AuthenticationMethod authMethod =
+        await sl.get<SharedPrefsUtil>().getAuthMethod();
     bool hasBiometrics = await sl.get<BiometricUtil>().hasBiometrics();
     if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
       setState(() {
@@ -252,7 +258,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
                                       .get<SharedPrefsUtil>()
                                       .setNotificationsOn(false)
                                       .then((_) {
-                                    FirebaseMessaging()
+                                    FirebaseMessaging.instance
                                         .getToken()
                                         .then((fcmToken) {
                                       EventTaxiImpl.singleton().fire(

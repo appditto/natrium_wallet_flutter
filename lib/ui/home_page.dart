@@ -99,7 +99,7 @@ class _AppHomePageState extends State<AppHomePage>
   double mainCardHeight;
   double settingsIconMarginTop = 5;
   // FCM instance
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   // Animation for swiping to send
   ActorAnimation _sendSlideAnimation;
@@ -152,6 +152,36 @@ class _AppHomePageState extends State<AppHomePage>
     }
   }
 
+  void getNotificationPermissions() async {
+    NotificationSettings settings = await _firebaseMessaging.requestPermission(
+        sound: true, badge: true, alert: true);
+    if (settings.alert == AppleNotificationSetting.enabled ||
+        settings.badge == AppleNotificationSetting.enabled ||
+        settings.sound == AppleNotificationSetting.enabled ||
+        settings.authorizationStatus == AuthorizationStatus.authorized) {
+      sl.get<SharedPrefsUtil>().getNotificationsSet().then((beenSet) {
+        if (!beenSet) {
+          sl.get<SharedPrefsUtil>().setNotificationsOn(true);
+        }
+      });
+      _firebaseMessaging.getToken().then((String token) {
+        if (token != null) {
+          EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
+        }
+      });
+    } else {
+      sl.get<SharedPrefsUtil>().setNotificationsOn(false).then((_) {
+        _firebaseMessaging.getToken().then((String token) {
+          EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
+        });
+      });
+    }
+    String token = await _firebaseMessaging.getToken();
+    if (token != null) {
+      EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -194,49 +224,13 @@ class _AppHomePageState extends State<AppHomePage>
     _opacityAnimation.addStatusListener(_animationStatusListener);
     _placeholderCardAnimationController.forward();
     // Register push notifications
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        //print("onMessage: $message");
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        if (message.containsKey('data')) {
-          await _chooseCorrectAccountFromNotification(message['data']);
-        }
-      },
-      onResume: (Map<String, dynamic> message) async {
-        if (message.containsKey('data')) {
-          await _chooseCorrectAccountFromNotification(message['data']);
-        }
-      },
-    );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      if (settings.alert || settings.badge || settings.sound) {
-        sl.get<SharedPrefsUtil>().getNotificationsSet().then((beenSet) {
-          if (!beenSet) {
-            sl.get<SharedPrefsUtil>().setNotificationsOn(true);
-          }
-        });
-        _firebaseMessaging.getToken().then((String token) {
-          if (token != null) {
-            EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
-          }
-        });
-      } else {
-        sl.get<SharedPrefsUtil>().setNotificationsOn(false).then((_) {
-          _firebaseMessaging.getToken().then((String token) {
-            EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
-          });
-        });
-      }
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      try {
+        await _chooseCorrectAccountFromNotification(message.data);
+      } catch (e) {}
     });
-    _firebaseMessaging.getToken().then((String token) {
-      if (token != null) {
-        EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
-      }
-    });
+    // Setup notification
+    getNotificationPermissions();
   }
 
   void _animationStatusListener(AnimationStatus status) {

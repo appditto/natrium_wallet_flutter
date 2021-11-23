@@ -212,7 +212,7 @@ class AvailableCurrency extends SettingSelectionItem {
       case "VES":
         return "VES";
       case "ZAR":
-        return "R\$";
+        return "R";
       case "UAH":
         return "₴";
       case "USD":

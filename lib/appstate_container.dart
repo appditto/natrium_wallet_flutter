@@ -687,7 +687,7 @@ class StateContainerState extends State<StateContainer> {
         wallet.address != null &&
         Address(wallet.address).isValid()) {
       String uuid = await sl.get<SharedPrefsUtil>().getUuid();
-      String fcmToken = await FirebaseMessaging().getToken();
+      String fcmToken = await FirebaseMessaging.instance.getToken();
       bool notificationsEnabled =
           await sl.get<SharedPrefsUtil>().getNotificationsOn();
       sl.get<AccountService>().clearQueue();
@@ -788,7 +788,7 @@ class StateContainerState extends State<StateContainer> {
         wallet.address != null &&
         Address(wallet.address).isValid()) {
       String uuid = await sl.get<SharedPrefsUtil>().getUuid();
-      String fcmToken = await FirebaseMessaging().getToken();
+      String fcmToken = await FirebaseMessaging.instance.getToken();
       bool notificationsEnabled =
           await sl.get<SharedPrefsUtil>().getNotificationsOn();
       sl.get<AccountService>().removeSubscribeHistoryPendingFromQueue();
