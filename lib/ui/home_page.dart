@@ -1931,14 +1931,14 @@ class _AppHomePageState extends State<AppHomePage>
                                   TextSpan(
                                     text: "Ӿ",
                                     style: TextStyle(
-                                      fontFamily: 'AppIcons',
+                                      fontFamily: 'NunitSans',
                                       color: StateContainer.of(context)
                                           .curTheme
                                           .primary,
                                       fontSize: _priceConversion ==
                                               PriceConversion.BTC
-                                          ? 26.0
-                                          : 20,
+                                          ? 27.0
+                                          : 21,
                                       fontWeight: FontWeight.w900,
                                     ),
                                   ),
