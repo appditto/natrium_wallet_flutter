@@ -99,7 +99,9 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           TEMP_KEYCHAIN_NAME: ${{ secrets.TEMP_KEYCHAIN_NAME }}
           TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
-          FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}  
+          API_KEY_ID: ${{ secrets.FASTLANE_API_KEY_ID }}
+          API_KEY_ISSUER: ${{ secrets.FASTLANE_API_KEY_ISSUER }}
+          API_KEY_FILEPATH: ${{ secrets.FASTLANE_API_KEY_FILEPATH }}
           GEM_HOME: ~/.gems
         run: |
           /usr/local/bin/fastlane build_ios
@@ -155,11 +157,10 @@ jobs:
           IPA_PATH: ${{ env.workspace }}/Runner.ipa   
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}   
-          FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}  
           FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
-          FASTLANE_API_KEY_ID: ${{ secrets.FASTLANE_API_KEY_ID }}
-          FASTLANE_API_KEY_ISSUER: ${{ secrets.FASTLANE_API_KEY_ISSUER }}
-          FASTLANE_API_KEY: ${{ secrets.FASTLANE_API_KEY }}          
+          API_KEY_ID: ${{ secrets.FASTLANE_API_KEY_ID }}
+          API_KEY_ISSUER: ${{ secrets.FASTLANE_API_KEY_ISSUER }}
+          API_KEY_FILEPATH: ${{ secrets.FASTLANE_API_KEY_FILEPATH }}       
           GEM_HOME: ~/.gems
         run: |
           /usr/local/bin/fastlane deploy_ios
