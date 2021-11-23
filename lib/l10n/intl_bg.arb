@@ -50,7 +50,7 @@
   "sending": "Изпращам",
   "to": "До",
   "sendAmountConfirm": "Изпрати %1 NANO",
-  "sendError": "Възникна грешка. Опитайте отново по-късно.",
+  "sendError": "Възникна грешка. Опитайте по-късно.",
   "enterAmount": "Въведи Сума",
   "enterAddress": "Въведи Адрес",
   "invalidAddress": "Въведеният Адрес е невалиден",
@@ -221,5 +221,15 @@
   "exampleCardFromKal": "от случайна маймунка",
   "newAccountIntroKal": "Това е вашият нов акаунт. След като получите BANANO, транзакциите ще се покажат по следният начин:",
   "liveSupportButton": "Поддръжка ",
-  "connectingHeader": "Свързвам се"
+  "connectingHeader": "Свързвам се",
+  "minimumSend": "Мин сума за изпращане %1 NANO",
+  "natricon": "Натрикона",
+  "pending": "Изчакване",
+  "unconfirmed": "Непотвърдена",
+  "messageHeader": "Съобщение",
+  "readMore": "Прочети повече",
+  "ignore": "Игнорирай",
+  "dismiss": "Отхвърляне",
+  "activeMessageHeader": "Активно съобщение",
+  "blockExplorer": "Експлорер"
 }

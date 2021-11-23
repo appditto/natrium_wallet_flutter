@@ -347,7 +347,7 @@ class AccountService {
   // HTTP API
 
   Future<dynamic> makeHttpRequest(BaseRequest request) async {
-    http.Response response = await http.post(_SERVER_ADDRESS_HTTP,
+    http.Response response = await http.post(Uri.parse(_SERVER_ADDRESS_HTTP),
         headers: {'Content-type': 'application/json'},
         body: json.encode(request.toJson()));
     if (response.statusCode != 200) {
@@ -543,17 +543,16 @@ class AccountService {
 
     return await requestProcess(processRequest);
   }
-  
+
   Future<AlertResponseItem> getAlert(String lang) async {
     http.Response response = await http.get(
-      _SERVER_ADDRESS_ALERTS + "/" + lang,
-      headers: {"Accept": "application/json"}
-    );
+        Uri.parse(_SERVER_ADDRESS_ALERTS + "/" + lang),
+        headers: {"Accept": "application/json"});
     if (response.statusCode == 200) {
       List<AlertResponseItem> alerts;
       alerts = (json.decode(response.body) as List)
-      .map((i) => AlertResponseItem.fromJson(i))
-      .toList();
+          .map((i) => AlertResponseItem.fromJson(i))
+          .toList();
       if (alerts.length > 0) {
         if (alerts[0].active) {
           return alerts[0];

@@ -34,7 +34,8 @@ enum AvailableLanguage {
   TURKISH,
   VIETNAMESE,
   UKRAINIAN,
-  NORWEGIAN
+  NORWEGIAN,
+  BENGALI,
 }
 
 /// Represent the available languages our app supports
@@ -107,6 +108,8 @@ class LanguageSetting extends SettingSelectionItem {
         return "Ukrainian (uk)";
       case AvailableLanguage.NORWEGIAN:
         return "Norsk (no)";
+      case AvailableLanguage.BENGALI:
+        return "Bengali (bn)";
       default:
         return AppLocalization.of(context).systemDefault;
     }
@@ -176,6 +179,8 @@ class LanguageSetting extends SettingSelectionItem {
         return "uk";
       case AvailableLanguage.NORWEGIAN:
         return "no";
+      case AvailableLanguage.BENGALI:
+        return "bn";
       default:
         return "DEFAULT";
     }

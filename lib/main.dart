@@ -132,6 +132,7 @@ class _AppState extends State<App> {
               languageCode: 'zh', scriptCode: 'Hant'), // Chinese Traditional
           const Locale('ar'), // Arabic
           const Locale('lv'), // Latvian
+          const Locale('bn'), // Bengali
           // Currency-default requires country included
           const Locale("es", "AR"),
           const Locale("en", "AU"),
@@ -194,6 +195,8 @@ class _AppState extends State<App> {
           const Locale("ar", "KW"), // Kuwait
           const Locale("uk", "UA"), // Ukraine
           const Locale("no", "NO"), // Norway
+          const Locale("bn", "BD"), // Bangladesh
+          const Locale("bn", "IN"), // India/Bengali
         ],
         initialRoute: '/',
         onGenerateRoute: (RouteSettings settings) {

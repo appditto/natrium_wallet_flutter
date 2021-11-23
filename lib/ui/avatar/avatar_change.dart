@@ -39,8 +39,9 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
   void initState() {
     super.initState();
     this.loading = true;
-    String url = 'https://natricon.com/api/v1/nano/nonce?address=${widget.curAddress}';
-    http.get(url, headers:  {}).then((response) {
+    String url =
+        'https://natricon.com/api/v1/nano/nonce?address=${widget.curAddress}';
+    http.get(Uri.parse(url), headers: {}).then((response) {
       if (mounted) {
         if (response.statusCode != 200) {
           setState(() {
@@ -49,7 +50,8 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
           return;
         }
         try {
-          NonceResponse resp = NonceResponse.fromJson(json.decode(response.body));
+          NonceResponse resp =
+              NonceResponse.fromJson(json.decode(response.body));
           setState(() {
             this.loading = false;
             this.currentNonce = resp.nonce;
@@ -174,46 +176,48 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                   MediaQuery.of(context).size.height * 0.5,
                               maxWidth:
                                   MediaQuery.of(context).size.width * 0.75),
-                          child: this.loading ?
-                            Container(
-                              child: FlareActor(
-                                "assets/ntr_placeholder_animation.flr",
-                                animation: "main",
-                                fit: BoxFit.contain,
-                                color:
-                                    StateContainer.of(context).curTheme.primary,
-                              ),
-                            ) :                          
-                           SvgPicture.network(
-                            UIUtil.getNatriconURL(
-                                StateContainer.of(context)
-                                    .selectedAccount
-                                    .address,
-                                nonce == null && currentNonce != null ?
-                                    currentNonce.toString()
-                                    : nonce == null
-                                    ? StateContainer.of(context)
-                                        .getNatriconNonce(
-                                            StateContainer.of(context)
-                                                .selectedAccount
-                                                .address)
-                                    : nonce.toString()),
-                            placeholderBuilder: (BuildContext context) =>
-                                Container(
-                              child: FlareActor(
-                                "assets/ntr_placeholder_animation.flr",
-                                animation: "main",
-                                fit: BoxFit.contain,
-                                color:
-                                    StateContainer.of(context).curTheme.primary,
-                              ),
-                            ),
-                            key: Key(UIUtil.getNatriconURL(
-                                StateContainer.of(context)
-                                    .selectedAccount
-                                    .address,
-                                nonce.toString())),
-                          ),
+                          child: this.loading
+                              ? Container(
+                                  child: FlareActor(
+                                    "assets/ntr_placeholder_animation.flr",
+                                    animation: "main",
+                                    fit: BoxFit.contain,
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .primary,
+                                  ),
+                                )
+                              : SvgPicture.network(
+                                  UIUtil.getNatriconURL(
+                                      StateContainer.of(context)
+                                          .selectedAccount
+                                          .address,
+                                      nonce == null && currentNonce != null
+                                          ? currentNonce.toString()
+                                          : nonce == null
+                                              ? StateContainer.of(context)
+                                                  .getNatriconNonce(
+                                                      StateContainer.of(context)
+                                                          .selectedAccount
+                                                          .address)
+                                              : nonce.toString()),
+                                  placeholderBuilder: (BuildContext context) =>
+                                      Container(
+                                    child: FlareActor(
+                                      "assets/ntr_placeholder_animation.flr",
+                                      animation: "main",
+                                      fit: BoxFit.contain,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                    ),
+                                  ),
+                                  key: Key(UIUtil.getNatriconURL(
+                                      StateContainer.of(context)
+                                          .selectedAccount
+                                          .address,
+                                      nonce.toString())),
+                                ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -245,14 +249,16 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                     ? () {
                                         if (nonce == null || this.loading) {
                                           return;
-                                        } else if (nonce == -1 || (nonce == 0 && currentNonce == -1)) {
+                                        } else if (nonce == -1 ||
+                                            (nonce == 0 &&
+                                                currentNonce == -1)) {
                                           setState(() {
                                             nonce = null;
                                           });
                                         } else {
                                           setState(() {
                                             if (nonce - 1 == currentNonce) {
-                                              nonce-=2;
+                                              nonce -= 2;
                                             } else {
                                               nonce--;
                                             }
@@ -302,7 +308,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                   } else {
                                     setState(() {
                                       if (nonce + 1 == currentNonce) {
-                                        nonce+=2;
+                                        nonce += 2;
                                       } else {
                                         nonce++;
                                       }
@@ -345,7 +351,10 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                             "I Want This One",
                             Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                           showSendConfirmSheet();
-                        }, disabled: nonce == null || this.loading || nonce == currentNonce),
+                        },
+                            disabled: nonce == null ||
+                                this.loading ||
+                                nonce == currentNonce),
                       ],
                     ),
                   ),
