@@ -1921,31 +1921,18 @@ class _AppHomePageState extends State<AppHomePage>
                             child: AutoSizeText.rich(
                               TextSpan(
                                 children: [
-                                  // Currency Icon
-                                  TextSpan(
-                                    text: "Ӿ",
-                                    style: TextStyle(
-                                      fontFamily: 'NunitSans',
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .primary,
-                                      fontSize: _priceConversion ==
-                                              PriceConversion.BTC
-                                          ? 27.0
-                                          : 21,
-                                      fontWeight: FontWeight.w900,
-                                    ),
-                                  ),
                                   // Main balance text
                                   TextSpan(
-                                    text: StateContainer.of(context)
-                                        .wallet
-                                        .getAccountBalanceDisplay(),
+                                    text: "Ӿ" +
+                                        StateContainer.of(context)
+                                            .wallet
+                                            .getAccountBalanceDisplay(),
                                     style: _priceConversion ==
                                             PriceConversion.BTC
                                         ? AppStyles.textStyleCurrency(context)
                                         : AppStyles.textStyleCurrencySmaller(
-                                            context),
+                                            context,
+                                          ),
                                   ),
                                 ],
                               ),
