@@ -1,6 +1,13 @@
+<hr />
+<div align="center">
+    <img src="assets/biotalogo.png" alt="Logo" width='150px' height='auto'/>
+</div>
+<hr />
+
 # Biota - Fast, Robust & Secure PAW Wallet
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/PAW_digital?style=social)](https://twitter.com/intent/follow?screen_name=PAW_digital)
+[![Discord](https://img.shields.io/badge/discord-join%20chat-orange.svg?logo=discord&color=7289DA)](https://discord.gg/DjXn6bb3aE)
 
 
 ## What is Biota?
@@ -9,7 +16,7 @@ Biota is a cross-platform mobile wallet for the PAW digital currency. It is writ
 
 | Link | Description |
 | :----- | :------ |
-[paw.digital](https://paw.digital) | PAW digital currency Homepage
+[PAW.digital](https://paw.digital) | PAW digital currency Homepage
 
 ## Server
 
@@ -55,3 +62,9 @@ For font assets:
 https://fontforge.org/ Font conversion to SVG
 https://mathew-kurian.github.io/CharacterMap/ Individual mapping of font entries
 https://www.fluttericon.com/ Generation of fonts with SVGs
+
+## Acknowledgements
+
+Special thanks to the following!
+- [Natrium](https://github.com/appditto/natrium_wallet_flutter) - The original one
+- [Kalium](https://github.com/BananoCoin/kalium_wallet_flutter) - The second fork of Natrium
