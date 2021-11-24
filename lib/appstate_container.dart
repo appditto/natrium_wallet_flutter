@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:devicelocale/devicelocale.dart';
 import 'package:logger/logger.dart';
-import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
+import 'package:flutter_paw_ffi/flutter_paw_ffi.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/model/available_block_explorer.dart';
 import 'package:natrium_wallet_flutter/model/wallet.dart';

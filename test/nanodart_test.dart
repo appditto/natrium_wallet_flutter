@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_nano_ffi/flutter_nano_ffi.dart';
+import 'package:flutter_paw_ffi/flutter_paw_ffi.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
