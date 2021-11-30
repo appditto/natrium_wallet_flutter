@@ -1651,10 +1651,12 @@ class _SettingsSheetState extends State<SettingsSheet>
                           sl
                               .get<SharedPrefsUtil>()
                               .setNotificationsOn(false)
-                              .then((_) {
-                            FirebaseMessaging.instance
-                                .getToken()
-                                .then((fcmToken) {
+                              .then((_) async {
+                            try {
+                              String fcmToken =
+                                  await FirebaseMessaging.instance.getToken();
+                              EventTaxiImpl.singleton()
+                                  .fire(FcmUpdateEvent(token: fcmToken));
                               EventTaxiImpl.singleton()
                                   .fire(FcmUpdateEvent(token: fcmToken));
                               // Delete all data
@@ -1668,7 +1670,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                                       '/', (Route<dynamic> route) => false);
                                 });
                               });
-                            });
+                            } catch (e) {}
                           });
                         });
                       });

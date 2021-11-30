@@ -1,0 +1,4 @@
+- Use "Ӿ" currency symbol
+- Add Bengali language
+- Android 12 compatibility
+- General fixes & improvements

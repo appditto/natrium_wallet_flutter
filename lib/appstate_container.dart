@@ -687,9 +687,16 @@ class StateContainerState extends State<StateContainer> {
         wallet.address != null &&
         Address(wallet.address).isValid()) {
       String uuid = await sl.get<SharedPrefsUtil>().getUuid();
-      String fcmToken = await FirebaseMessaging.instance.getToken();
-      bool notificationsEnabled =
-          await sl.get<SharedPrefsUtil>().getNotificationsOn();
+      String fcmToken;
+      bool notificationsEnabled;
+      try {
+        fcmToken = await FirebaseMessaging.instance.getToken();
+        notificationsEnabled =
+            await sl.get<SharedPrefsUtil>().getNotificationsOn();
+      } catch (e) {
+        fcmToken = null;
+        notificationsEnabled = false;
+      }
       sl.get<AccountService>().clearQueue();
       sl.get<AccountService>().queueRequest(SubscribeRequest(
           account: wallet.address,
@@ -788,9 +795,16 @@ class StateContainerState extends State<StateContainer> {
         wallet.address != null &&
         Address(wallet.address).isValid()) {
       String uuid = await sl.get<SharedPrefsUtil>().getUuid();
-      String fcmToken = await FirebaseMessaging.instance.getToken();
-      bool notificationsEnabled =
-          await sl.get<SharedPrefsUtil>().getNotificationsOn();
+      String fcmToken;
+      bool notificationsEnabled;
+      try {
+        fcmToken = await FirebaseMessaging.instance.getToken();
+        notificationsEnabled =
+            await sl.get<SharedPrefsUtil>().getNotificationsOn();
+      } catch (e) {
+        fcmToken = null;
+        notificationsEnabled = false;
+      }
       sl.get<AccountService>().removeSubscribeHistoryPendingFromQueue();
       sl.get<AccountService>().queueRequest(SubscribeRequest(
           account: wallet.address,

@@ -153,32 +153,36 @@ class _AppHomePageState extends State<AppHomePage>
   }
 
   void getNotificationPermissions() async {
-    NotificationSettings settings = await _firebaseMessaging.requestPermission(
-        sound: true, badge: true, alert: true);
-    if (settings.alert == AppleNotificationSetting.enabled ||
-        settings.badge == AppleNotificationSetting.enabled ||
-        settings.sound == AppleNotificationSetting.enabled ||
-        settings.authorizationStatus == AuthorizationStatus.authorized) {
-      sl.get<SharedPrefsUtil>().getNotificationsSet().then((beenSet) {
-        if (!beenSet) {
-          sl.get<SharedPrefsUtil>().setNotificationsOn(true);
-        }
-      });
-      _firebaseMessaging.getToken().then((String token) {
-        if (token != null) {
-          EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
-        }
-      });
-    } else {
-      sl.get<SharedPrefsUtil>().setNotificationsOn(false).then((_) {
-        _firebaseMessaging.getToken().then((String token) {
-          EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
+    try {
+      NotificationSettings settings = await _firebaseMessaging
+          .requestPermission(sound: true, badge: true, alert: true);
+      if (settings.alert == AppleNotificationSetting.enabled ||
+          settings.badge == AppleNotificationSetting.enabled ||
+          settings.sound == AppleNotificationSetting.enabled ||
+          settings.authorizationStatus == AuthorizationStatus.authorized) {
+        sl.get<SharedPrefsUtil>().getNotificationsSet().then((beenSet) {
+          if (!beenSet) {
+            sl.get<SharedPrefsUtil>().setNotificationsOn(true);
+          }
         });
-      });
-    }
-    String token = await _firebaseMessaging.getToken();
-    if (token != null) {
-      EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
+        _firebaseMessaging.getToken().then((String token) {
+          if (token != null) {
+            EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
+          }
+        });
+      } else {
+        sl.get<SharedPrefsUtil>().setNotificationsOn(false).then((_) {
+          _firebaseMessaging.getToken().then((String token) {
+            EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
+          });
+        });
+      }
+      String token = await _firebaseMessaging.getToken();
+      if (token != null) {
+        EventTaxiImpl.singleton().fire(FcmUpdateEvent(token: token));
+      }
+    } catch (e) {
+      sl.get<SharedPrefsUtil>().setNotificationsOn(false);
     }
   }
 
