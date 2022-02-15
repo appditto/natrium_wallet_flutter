@@ -81,11 +81,11 @@ class _AppShareCardState extends State<AppShareCard> {
                     Center(
                       child: Container(
                         width:
-                            (StateContainer.of(context).curTheme is IndiumTheme)
+                            (StateContainer.of(context).curTheme is NihoniumTheme)
                                 ? 95
                                 : 100,
                         height:
-                            (StateContainer.of(context).curTheme is IndiumTheme)
+                            (StateContainer.of(context).curTheme is NihoniumTheme)
                                 ? 95
                                 : 100,
                         decoration: BoxDecoration(
@@ -108,11 +108,11 @@ class _AppShareCardState extends State<AppShareCard> {
                                 color: Colors.white,
                                 border: Border.all(
                                   width: (StateContainer.of(context).curTheme
-                                          is IndiumTheme)
+                                          is NihoniumTheme)
                                       ? 1.44545
                                       : 1.06,
                                   color: (StateContainer.of(context).curTheme
-                                          is IndiumTheme)
+                                          is NihoniumTheme)
                                       ? StateContainer.of(context)
                                           .curTheme
                                           .backgroundDark
@@ -126,11 +126,11 @@ class _AppShareCardState extends State<AppShareCard> {
                                   shape: BoxShape.circle,
                                   border: Border.all(
                                     width: (StateContainer.of(context).curTheme
-                                            is IndiumTheme)
+                                            is NihoniumTheme)
                                         ? 1.06
                                         : 1.44545,
                                     color: (StateContainer.of(context).curTheme
-                                            is IndiumTheme)
+                                            is NihoniumTheme)
                                         ? StateContainer.of(context)
                                             .curTheme
                                             .primary
@@ -201,7 +201,7 @@ class _AppShareCardState extends State<AppShareCard> {
                                       style: TextStyle(
                                         fontFamily: "AppIcons",
                                         color: StateContainer.of(context)
-                                                .curTheme is IndiumTheme
+                                                .curTheme is NihoniumTheme
                                             ? StateContainer.of(context)
                                                 .curTheme
                                                 .primary
@@ -260,7 +260,7 @@ class _AppShareCardState extends State<AppShareCard> {
                         Container(
                           width: 29,
                           child: Icon(
-                            AppIcons.nanohorizontal,
+                            AppIcons.nanocurrency,
                             color: StateContainer.of(context).curTheme.primary,
                             size: 13,
                           ),

@@ -1947,7 +1947,7 @@ class _AppHomePageState extends State<AppHomePage>
                               Icon(
                                   _priceConversion == PriceConversion.BTC
                                       ? AppIcons.btc
-                                      : AppIcons.nanocurrency,
+                                      : AppIcons.nanohorizontal,
                                   color:
                                       _priceConversion == PriceConversion.NONE
                                           ? Colors.transparent

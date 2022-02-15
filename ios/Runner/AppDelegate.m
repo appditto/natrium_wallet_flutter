@@ -42,16 +42,18 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
                                            details:nil]);
                 return;
             }
-            if ([@"natrium" isEqualToString:icon ]) {
+            if ([@"helium" isEqualToString:icon ]) {
                 [self lc_setAlternateIconName:nil];
-            } else if ([@"titanium" isEqualToString:icon]) {
-                [self lc_setAlternateIconName:@"titanium"];
-            } else if ([@"indium" isEqualToString:icon]) {
-                [self lc_setAlternateIconName:@"indium"];
-            } else if ([@"neptunium" isEqualToString:icon]) {
-                [self lc_setAlternateIconName:@"neptunium"];
-            } else if ([@"thorium" isEqualToString:icon]) {
-                [self lc_setAlternateIconName:@"thorium"];
+            } else if ([@"natrium" isEqualToString:icon ]) {
+                [self lc_setAlternateIconName:nil];
+            } else if ([@"infinitum" isEqualToString:icon]) {
+                [self lc_setAlternateIconName:@"infinitum"];
+            } else if ([@"nihonium" isEqualToString:icon]) {
+                [self lc_setAlternateIconName:@"nihonium"];
+            } else if ([@"chromium" isEqualToString:icon]) {
+                [self lc_setAlternateIconName:@"chromium"];
+            } else if ([@"adamantium" isEqualToString:icon]) {
+                [self lc_setAlternateIconName:@"adamantium"];
             }
         } else if ([@"setSecureClipboardItem" isEqualToString:call.method]) {
             NSDictionary *arguments = [call arguments];

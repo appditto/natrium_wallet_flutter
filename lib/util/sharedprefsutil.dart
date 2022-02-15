@@ -232,7 +232,7 @@ class SharedPrefsUtil {
 
   Future<ThemeSetting> getTheme() async {
     return ThemeSetting(ThemeOptions.values[
-        await get(cur_theme, defaultValue: ThemeOptions.TITANIUM.index)]);
+        await get(cur_theme, defaultValue: ThemeOptions.INFINITUM.index)]);
   }
 
   Future<void> setRepresentative(String rep) async {

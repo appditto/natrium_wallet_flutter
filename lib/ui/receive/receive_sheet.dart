@@ -149,7 +149,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                     Center(
                       child: Container(
                         width:
-                            (StateContainer.of(context).curTheme is IndiumTheme)
+                            (StateContainer.of(context).curTheme is NihoniumTheme)
                                 ? MediaQuery.of(context).size.width / 1.68
                                 : MediaQuery.of(context).size.width / 1.6,
                         decoration: BoxDecoration(
@@ -172,11 +172,11 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                                 color: Colors.white,
                                 border: Border.all(
                                   width: (StateContainer.of(context).curTheme
-                                          is IndiumTheme)
+                                          is NihoniumTheme)
                                       ? MediaQuery.of(context).size.width / 110
                                       : MediaQuery.of(context).size.width / 150,
                                   color: (StateContainer.of(context).curTheme
-                                          is IndiumTheme)
+                                          is NihoniumTheme)
                                       ? StateContainer.of(context)
                                           .curTheme
                                           .backgroundDark
@@ -190,13 +190,13 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                                   shape: BoxShape.circle,
                                   border: Border.all(
                                     width: (StateContainer.of(context).curTheme
-                                            is IndiumTheme)
+                                            is NihoniumTheme)
                                         ? MediaQuery.of(context).size.width /
                                             150
                                         : MediaQuery.of(context).size.width /
                                             110,
                                     color: (StateContainer.of(context).curTheme
-                                            is IndiumTheme)
+                                            is NihoniumTheme)
                                         ? StateContainer.of(context)
                                             .curTheme
                                             .primary

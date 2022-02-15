@@ -76,7 +76,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   UnlockSetting _curUnlockSetting = UnlockSetting(UnlockOption.NO);
   LockTimeoutSetting _curTimeoutSetting =
       LockTimeoutSetting(LockTimeoutOption.ONE);
-  ThemeSetting _curThemeSetting = ThemeSetting(ThemeOptions.TITANIUM);
+  ThemeSetting _curThemeSetting = ThemeSetting(ThemeOptions.INFINITUM);
 
   bool _securityOpen;
   bool _loadingAccounts;

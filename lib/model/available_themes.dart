@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/model/setting_item.dart';
 
-enum ThemeOptions { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM }
+enum ThemeOptions { HELIUM, INFINITUM, NIHONIUM, CHROMIUM, ADAMANTIUM }
 
 /// Represent notification on/off setting
 class ThemeSetting extends SettingSelectionItem {
@@ -12,34 +12,34 @@ class ThemeSetting extends SettingSelectionItem {
 
   String getDisplayName(BuildContext context) {
     switch (theme) {
-      case ThemeOptions.THORIUM:
-        return "Thorium";
-      case ThemeOptions.NEPTUNIUM:
-        return "Neptunium";
-      case ThemeOptions.INDIUM:
-        return "Indium";
-      case ThemeOptions.TITANIUM:
-        return "Titanium";
-      case ThemeOptions.NATRIUM:
-        return "Natrium";
+      case ThemeOptions.ADAMANTIUM:
+        return "Adamantium";
+      case ThemeOptions.CHROMIUM:
+        return "Chromium";
+      case ThemeOptions.NIHONIUM:
+        return "Nihonium";
+      case ThemeOptions.INFINITUM:
+        return "Infinitum";
+      case ThemeOptions.HELIUM:
+        return "Helium";
       default:
-        return "Titanium";
+        return "Infinitum";
     }
   }
 
   BaseTheme getTheme() {
     switch (theme) {
-      case ThemeOptions.THORIUM:
-        return ThoriumTheme();
-      case ThemeOptions.NEPTUNIUM:
-        return NeptuniumTheme();
-      case ThemeOptions.INDIUM:
-        return IndiumTheme();
-      case ThemeOptions.TITANIUM:
-        return TitaniumTheme();
-      case ThemeOptions.NATRIUM:
+      case ThemeOptions.ADAMANTIUM:
+        return AdamantiumTheme();
+      case ThemeOptions.CHROMIUM:
+        return ChromiumTheme();
+      case ThemeOptions.NIHONIUM:
+        return NihoniumTheme();
+      case ThemeOptions.INFINITUM:
+        return InfinitumTheme();
+      case ThemeOptions.HELIUM:
       default:
-        return NatriumTheme();
+        return HeliumTheme();
     }
   }
 

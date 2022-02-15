@@ -61,7 +61,81 @@ abstract class BaseTheme {
   AppIconEnum appIcon;
 }
 
-class NatriumTheme extends BaseTheme {
+class InfinitumTheme extends BaseTheme {
+  static const blueishGreen = Color(0xFF61C6AD);
+
+  static const green = Color(0xFFB5ED88);
+
+  static const greenDark = Color(0xFF5F893D);
+
+  static const tealDark = Color(0xFF041920);
+
+  static const tealLight = Color(0xFF052029);
+
+  static const tealDarkest = Color(0xFF041920); 
+
+  static const white = Color(0xFFFFFFFF);
+
+  static const black = Color(0xFF000000);
+
+  Color primary = blueishGreen;
+  Color primary60 = blueishGreen.withOpacity(0.6);
+  Color primary45 = blueishGreen.withOpacity(0.45);
+  Color primary30 = blueishGreen.withOpacity(0.3);
+  Color primary20 = blueishGreen.withOpacity(0.2);
+  Color primary15 = blueishGreen.withOpacity(0.15);
+  Color primary10 = blueishGreen.withOpacity(0.1);
+
+  Color success = green;
+  Color success60 = green.withOpacity(0.6);
+  Color success30 = green.withOpacity(0.3);
+  Color success15 = green.withOpacity(0.15);
+
+  Color successDark = greenDark;
+  Color successDark30 = greenDark.withOpacity(0.3);
+
+  Color background = tealDark;
+  Color background40 = tealDark.withOpacity(0.4);
+  Color background00 = tealDark.withOpacity(0.0);
+
+  Color backgroundDark = tealLight;
+  Color backgroundDark00 = tealLight.withOpacity(0.0);
+
+  Color backgroundDarkest = tealDarkest;
+
+  Color text = white.withOpacity(0.9);
+  Color text60 = white.withOpacity(0.6);
+  Color text45 = white.withOpacity(0.45);
+  Color text30 = white.withOpacity(0.3);
+  Color text20 = white.withOpacity(0.2);
+  Color text15 = white.withOpacity(0.15);
+  Color text10 = white.withOpacity(0.1);
+  Color text05 = white.withOpacity(0.05);
+  Color text03 = white.withOpacity(0.03);
+
+  Color overlay90 = black.withOpacity(0.9);
+  Color overlay85 = black.withOpacity(0.85);
+  Color overlay80 = black.withOpacity(0.8);
+  Color overlay70 = black.withOpacity(0.7);
+  Color overlay50 = black.withOpacity(0.5);
+  Color overlay30 = black.withOpacity(0.3);
+  Color overlay20 = black.withOpacity(0.2);
+
+  Color animationOverlayMedium = black.withOpacity(0.7);
+  Color animationOverlayStrong = black.withOpacity(0.85);
+
+  Brightness brightness = Brightness.dark;
+  SystemUiOverlayStyle statusBar =
+      SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent);
+
+  BoxShadow boxShadow = BoxShadow(color: Colors.transparent);
+  BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
+
+  OverlayTheme qrScanTheme = OverlayTheme.TITANIUM;
+  AppIconEnum appIcon = AppIconEnum.INFINITUM;
+}
+
+class HeliumTheme extends BaseTheme {
   static const brightBlue = Color(0xFFA3CDFF);
 
   static const green = Color(0xFF4AFFAE);
@@ -132,91 +206,19 @@ class NatriumTheme extends BaseTheme {
   BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
 
   OverlayTheme qrScanTheme = OverlayTheme.NATRIUM;
-  AppIconEnum appIcon = AppIconEnum.NATRIUM;
+  AppIconEnum appIcon = AppIconEnum.HELIUM;
 }
 
-class TitaniumTheme extends BaseTheme {
-  static const blueishGreen = Color(0xFF61C6AD);
-
-  static const green = Color(0xFFB5ED88);
-
-  static const greenDark = Color(0xFF5F893D);
-
-  static const tealDark = Color(0xFF041920);
-
-  static const tealLight = Color(0xFF052029);
-
-  static const tealDarkest = Color(0xFF041920);
-
-  static const white = Color(0xFFFFFFFF);
-
-  static const black = Color(0xFF000000);
-
-  Color primary = blueishGreen;
-  Color primary60 = blueishGreen.withOpacity(0.6);
-  Color primary45 = blueishGreen.withOpacity(0.45);
-  Color primary30 = blueishGreen.withOpacity(0.3);
-  Color primary20 = blueishGreen.withOpacity(0.2);
-  Color primary15 = blueishGreen.withOpacity(0.15);
-  Color primary10 = blueishGreen.withOpacity(0.1);
-
-  Color success = green;
-  Color success60 = green.withOpacity(0.6);
-  Color success30 = green.withOpacity(0.3);
-  Color success15 = green.withOpacity(0.15);
-
-  Color successDark = greenDark;
-  Color successDark30 = greenDark.withOpacity(0.3);
-
-  Color background = tealDark;
-  Color background40 = tealDark.withOpacity(0.4);
-  Color background00 = tealDark.withOpacity(0.0);
-
-  Color backgroundDark = tealLight;
-  Color backgroundDark00 = tealLight.withOpacity(0.0);
-
-  Color backgroundDarkest = tealDarkest;
-
-  Color text = white.withOpacity(0.9);
-  Color text60 = white.withOpacity(0.6);
-  Color text45 = white.withOpacity(0.45);
-  Color text30 = white.withOpacity(0.3);
-  Color text20 = white.withOpacity(0.2);
-  Color text15 = white.withOpacity(0.15);
-  Color text10 = white.withOpacity(0.1);
-  Color text05 = white.withOpacity(0.05);
-  Color text03 = white.withOpacity(0.03);
-
-  Color overlay90 = black.withOpacity(0.9);
-  Color overlay85 = black.withOpacity(0.85);
-  Color overlay80 = black.withOpacity(0.8);
-  Color overlay70 = black.withOpacity(0.7);
-  Color overlay50 = black.withOpacity(0.5);
-  Color overlay30 = black.withOpacity(0.3);
-  Color overlay20 = black.withOpacity(0.2);
-
-  Color animationOverlayMedium = black.withOpacity(0.7);
-  Color animationOverlayStrong = black.withOpacity(0.85);
-
-  Brightness brightness = Brightness.dark;
-  SystemUiOverlayStyle statusBar =
-      SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent);
-
-  BoxShadow boxShadow = BoxShadow(color: Colors.transparent);
-  BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
-
-  OverlayTheme qrScanTheme = OverlayTheme.TITANIUM;
-  AppIconEnum appIcon = AppIconEnum.TITANIUM;
-}
-
-class IndiumTheme extends BaseTheme {
+class NihoniumTheme extends BaseTheme {
   static const deepBlue = Color(0xFF0050BB);
 
-  static const green = Color(0xFF00A873);
+  static const green = Color(0xFF004D40);
 
   static const greenLight = Color(0xFF9EEDD4);
 
-  static const white = Color(0xFFFFFFFF);
+  static const white = Color(0xFFF9FBE7);
+  
+  static const lime = Color(0xFFB2DFDB);
 
   static const whiteishDark = Color(0xFFE8F0FA);
 
@@ -226,13 +228,13 @@ class IndiumTheme extends BaseTheme {
 
   static const darkDeepBlue = Color(0xFF0050BB);
 
-  Color primary = deepBlue;
-  Color primary60 = deepBlue.withOpacity(0.6);
-  Color primary45 = deepBlue.withOpacity(0.45);
-  Color primary30 = deepBlue.withOpacity(0.3);
-  Color primary20 = deepBlue.withOpacity(0.2);
-  Color primary15 = deepBlue.withOpacity(0.15);
-  Color primary10 = deepBlue.withOpacity(0.1);
+  Color primary = green;
+  Color primary60 = green.withOpacity(0.6);
+  Color primary45 = green.withOpacity(0.45);
+  Color primary30 = green.withOpacity(0.3);
+  Color primary20 = green.withOpacity(0.2);
+  Color primary15 = green.withOpacity(0.15);
+  Color primary10 = green.withOpacity(0.1);
 
   Color success = green;
   Color success60 = green.withOpacity(0.6);
@@ -242,9 +244,9 @@ class IndiumTheme extends BaseTheme {
   Color successDark = greenLight;
   Color successDark30 = greenLight.withOpacity(0.3);
 
-  Color background = white;
-  Color background40 = white.withOpacity(0.4);
-  Color background00 = white.withOpacity(0.0);
+  Color background = lime;
+  Color background40 = lime.withOpacity(0.4);
+  Color background00 = lime.withOpacity(0.0);
 
   Color backgroundDark = white;
   Color backgroundDark00 = white.withOpacity(0.0);
@@ -269,27 +271,27 @@ class IndiumTheme extends BaseTheme {
   Color overlay30 = black.withOpacity(0.3);
   Color overlay20 = black.withOpacity(0.2);
 
-  Color animationOverlayMedium = white.withOpacity(0.7);
-  Color animationOverlayStrong = white.withOpacity(0.85);
+  Color animationOverlayMedium = lime.withOpacity(0.7);
+  Color animationOverlayStrong = lime.withOpacity(0.85);
 
   Brightness brightness = Brightness.light;
   SystemUiOverlayStyle statusBar =
       SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent);
 
   BoxShadow boxShadow = BoxShadow(
-      color: darkDeepBlue.withOpacity(0.1),
+      color: green.withOpacity(0.1),
       offset: Offset(0, 5),
       blurRadius: 15);
   BoxShadow boxShadowButton = BoxShadow(
-      color: darkDeepBlue.withOpacity(0.2),
+      color: green.withOpacity(0.2),
       offset: Offset(0, 5),
       blurRadius: 15);
 
   OverlayTheme qrScanTheme = OverlayTheme.INDIUM;
-  AppIconEnum appIcon = AppIconEnum.INDIUM;
+  AppIconEnum appIcon = AppIconEnum.NIHONIUM;
 }
 
-class NeptuniumTheme extends BaseTheme {
+class ChromiumTheme extends BaseTheme {
   static const blue = Color(0xFF4A90E2);
 
   static const orange = Color(0xFFF9AE42);
@@ -360,19 +362,19 @@ class NeptuniumTheme extends BaseTheme {
   BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
 
   OverlayTheme qrScanTheme = OverlayTheme.NEPTUNIUM;
-  AppIconEnum appIcon = AppIconEnum.NEPTUNIUM;
+  AppIconEnum appIcon = AppIconEnum.CHROMIUM;
 }
 
-class ThoriumTheme extends BaseTheme {
-  static const teal = Color(0xFF75F3FF);
+class AdamantiumTheme extends BaseTheme {
+  static const teal = Color(0xFF6200EA);
 
-  static const orange = Color(0xFFFFBA59);
+  static const orange = Color(0xFFE65100);
 
   static const orangeDark = Color(0xFFBF8026);
 
-  static const purpleDark = Color(0xFF200A40);
+  static const purple = Color(0xFFEDE7F6);
 
-  static const purpleLight = Color(0xFF2A1052);
+  static const purpleLight = Color(0xFFD1C4E9);
 
   static const purpleDarkest = Color(0xFF200A40);
 
@@ -396,24 +398,24 @@ class ThoriumTheme extends BaseTheme {
   Color successDark = orangeDark;
   Color successDark30 = orangeDark.withOpacity(0.3);
 
-  Color background = purpleDark;
-  Color background40 = purpleDark.withOpacity(0.4);
-  Color background00 = purpleDark.withOpacity(0.0);
+  Color background = white;
+  Color background40 = purple.withOpacity(0.4);
+  Color background00 = purple.withOpacity(0.0);
 
-  Color backgroundDark = purpleLight;
-  Color backgroundDark00 = purpleLight.withOpacity(0.0);
+  Color backgroundDark = purple;
+  Color backgroundDark00 = purple.withOpacity(0.0);
 
-  Color backgroundDarkest = purpleDarkest;
+  Color backgroundDarkest = purple.withOpacity(0.0);
 
-  Color text = white.withOpacity(0.9);
-  Color text60 = white.withOpacity(0.6);
-  Color text45 = white.withOpacity(0.45);
-  Color text30 = white.withOpacity(0.3);
-  Color text20 = white.withOpacity(0.2);
-  Color text15 = white.withOpacity(0.15);
-  Color text10 = white.withOpacity(0.1);
-  Color text05 = white.withOpacity(0.05);
-  Color text03 = white.withOpacity(0.03);
+  Color text = black.withOpacity(0.9);
+  Color text60 = black.withOpacity(0.6);
+  Color text45 = black.withOpacity(0.45);
+  Color text30 = black.withOpacity(0.3);
+  Color text20 = black.withOpacity(0.2);
+  Color text15 = black.withOpacity(0.15);
+  Color text10 = black.withOpacity(0.1);
+  Color text05 = black.withOpacity(0.1);
+  Color text03 = black.withOpacity(0.1);
 
   Color overlay90 = black.withOpacity(0.9);
   Color overlay85 = black.withOpacity(0.85);
@@ -434,10 +436,10 @@ class ThoriumTheme extends BaseTheme {
   BoxShadow boxShadowButton = BoxShadow(color: Colors.transparent);
 
   OverlayTheme qrScanTheme = OverlayTheme.THORIUM;
-  AppIconEnum appIcon = AppIconEnum.THORIUM;
+  AppIconEnum appIcon = AppIconEnum.ADAMANTIUM;
 }
 
-enum AppIconEnum { NATRIUM, TITANIUM, INDIUM, NEPTUNIUM, THORIUM }
+enum AppIconEnum {INFINITUM, HELIUM, NIHONIUM, CHROMIUM, ADAMANTIUM }
 class AppIcon {
   static const _channel = const MethodChannel('fappchannel');
 
@@ -445,23 +447,23 @@ class AppIcon {
     if (!Platform.isIOS) {
       return null;
     }
-    String iconStr = "natrium";
+    String iconStr = "helium";
     switch (iconToChange) {
-      case AppIconEnum.THORIUM:
-        iconStr = "thorium";
+      case AppIconEnum.ADAMANTIUM:
+        iconStr = "adamantium";
         break;
-      case AppIconEnum.NEPTUNIUM:
-        iconStr = "neptunium";
+      case AppIconEnum.CHROMIUM:
+        iconStr = "chromium";
         break;
-      case AppIconEnum.INDIUM:
-        iconStr = "indium";
+      case AppIconEnum.NIHONIUM:
+        iconStr = "nihonium";
         break;
-      case AppIconEnum.TITANIUM:
-        iconStr = "titanium";
+      case AppIconEnum.HELIUM:
+        iconStr = "helium";
         break;
-      case AppIconEnum.NATRIUM:
+      case AppIconEnum.INFINITUM:
       default:
-        iconStr = "natrium";
+        iconStr = "infinitum";
         break;
     }
     final Map<String, dynamic> params = <String, dynamic>{
