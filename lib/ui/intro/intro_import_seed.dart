@@ -324,7 +324,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                             inputFormatters: [
                                               SingleSpaceInputFormatter(),
                                               LowerCaseTextFormatter(),
-                                              WhitelistingTextInputFormatter(
+                                              FilteringTextInputFormatter(
                                                   RegExp("[a-zA-Z ]")),
                                             ],
                                             textInputAction:
