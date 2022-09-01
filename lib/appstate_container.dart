@@ -704,9 +704,6 @@ class StateContainerState extends State<StateContainer> {
           uuid: uuid,
           fcmToken: fcmToken,
           notificationEnabled: notificationsEnabled));
-      sl
-          .get<AccountService>()
-          .queueRequest(AccountHistoryRequest(account: wallet.address));
       sl.get<AccountService>().processQueue();
       // Request account history
 

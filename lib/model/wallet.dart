@@ -6,10 +6,12 @@ import 'package:natrium_wallet_flutter/util/numberutil.dart';
 
 /// Main wallet object that's passed around the app via state
 class AppWallet {
-  static const String defaultRepresentative = 'nano_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd';
+  static const String defaultRepresentative =
+      'nano_1natrium1o3z5519ifou7xii8crpxpk8y65qmkih8e8bpsjri651oza8imdd';
 
   bool _loading; // Whether or not app is initially loading
-  bool _historyLoading; // Whether or not we have received initial account history response
+  bool
+      _historyLoading; // Whether or not we have received initial account history response
   String _address;
   BigInt _accountBalance;
   String _frontier;
@@ -22,10 +24,20 @@ class AppWallet {
   int confirmationHeight;
   List<AccountHistoryResponseItem> _history;
 
-
-  AppWallet({String address, BigInt accountBalance, String frontier, String openBlock, String representativeBlock,
-                String representative, String localCurrencyPrice,String btcPrice, int blockCount,
-                List<AccountHistoryResponseItem> history, bool loading, bool historyLoading, this.confirmationHeight = -1}) {
+  AppWallet(
+      {String address,
+      BigInt accountBalance,
+      String frontier,
+      String openBlock,
+      String representativeBlock,
+      String representative,
+      String localCurrencyPrice,
+      String btcPrice,
+      int blockCount,
+      List<AccountHistoryResponseItem> history,
+      bool loading,
+      bool historyLoading,
+      this.confirmationHeight = -1}) {
     this._address = address;
     this._accountBalance = accountBalance ?? BigInt.zero;
     this._frontier = frontier;
@@ -37,7 +49,7 @@ class AppWallet {
     this._blockCount = blockCount ?? 0;
     this._history = history ?? new List<AccountHistoryResponseItem>();
     this._loading = loading ?? true;
-    this._historyLoading = historyLoading  ?? true;
+    this._historyLoading = historyLoading ?? true;
   }
 
   String get address => _address;
@@ -54,16 +66,24 @@ class AppWallet {
 
   // Get pretty account balance version
   String getAccountBalanceDisplay() {
-    if (accountBalance == null) {
-      return "0";
+    try {
+      return NumberUtil.getRawAsUsableString(_accountBalance.toString());
+    } catch (e) {
+      return "N/A";
     }
-    return NumberUtil.getRawAsUsableString(_accountBalance.toString());
   }
 
-
-  String getLocalCurrencyPrice(AvailableCurrency currency, {String locale = "en_US"}) {
-    Decimal converted = Decimal.parse(_localCurrencyPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
-    return NumberFormat.currency(locale:locale, symbol: currency.getCurrencySymbol()).format(converted.toDouble());
+  String getLocalCurrencyPrice(AvailableCurrency currency,
+      {String locale = "en_US"}) {
+    try {
+      Decimal converted = Decimal.parse(_localCurrencyPrice) *
+          NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
+      return NumberFormat.currency(
+              locale: locale, symbol: currency.getCurrencySymbol())
+          .format(converted.toDouble());
+    } catch (e) {
+      return "N/A";
+    }
   }
 
   set localCurrencyPrice(String value) {
@@ -75,12 +95,19 @@ class AppWallet {
   }
 
   String get btcPrice {
-    Decimal converted = Decimal.parse(_btcPrice) * NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
-    // Show 4 decimal places for BTC price if its >= 0.0001 BTC, otherwise 6 decimals
-    if (converted >= Decimal.parse("0.0001")) {
-      return new NumberFormat("#,##0.0000", "en_US").format(converted.toDouble());
-    } else {
-      return new NumberFormat("#,##0.000000", "en_US").format(converted.toDouble());
+    try {
+      Decimal converted = Decimal.parse(_btcPrice) *
+          NumberUtil.getRawAsUsableDecimal(_accountBalance.toString());
+      // Show 4 decimal places for BTC price if its >= 0.0001 BTC, otherwise 6 decimals
+      if (converted >= Decimal.parse("0.0001")) {
+        return new NumberFormat("#,##0.0000", "en_US")
+            .format(converted.toDouble());
+      } else {
+        return new NumberFormat("#,##0.000000", "en_US")
+            .format(converted.toDouble());
+      }
+    } catch (e) {
+      return "N/A";
     }
   }
 
@@ -89,7 +116,7 @@ class AppWallet {
   }
 
   String get representative {
-   return _representative ?? defaultRepresentative;
+    return _representative ?? defaultRepresentative;
   }
 
   set representative(String value) {
