@@ -345,9 +345,11 @@ class _SendSheetState extends State<SendSheet> {
                                                             locale: StateContainer
                                                                     .of(context)
                                                                 .currencyLocale)
-                                                    : "Ӿ" + StateContainer.of(context)
-                                                        .wallet
-                                                        .getAccountBalanceDisplay(),
+                                                    : "Ӿ" +
+                                                        StateContainer.of(
+                                                                context)
+                                                            .wallet
+                                                            .getAccountBalanceDisplay(),
                                                 style: TextStyle(
                                                   color:
                                                       StateContainer.of(context)
@@ -511,7 +513,7 @@ class _SendSheetState extends State<SendSheet> {
                           context,
                           AppButtonType.PRIMARY,
                           AppLocalization.of(context).send,
-                          Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                          dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                         bool validRequest = _validateRequest();
                         if (_sendAddressController.text.startsWith("@") &&
                             validRequest) {
@@ -571,7 +573,7 @@ class _SendSheetState extends State<SendSheet> {
                           context,
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).scanQrCode,
-                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () async {
+                          dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () async {
                         UIUtil.cancelLockEvent();
                         String scanResult = await UserDataUtil.getQRData(
                             DataType.MANTA_ADDRESS, context);
@@ -852,9 +854,18 @@ class _SendSheetState extends State<SendSheet> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
-          height: 42,
-          width: double.infinity - 5,
-          child: FlatButton(
+            height: 42,
+            width: double.infinity - 5,
+            child:
+                //!FlatButton => TextButton
+                //!
+                TextButton(
+              onPressed: () {},
+              child: Text(contact.name,
+                  textAlign: TextAlign.center,
+                  style: AppStyles.textStyleAddressPrimary(context)),
+            )
+            /* FlatButton(
             onPressed: () {
               _sendAddressController.text = contact.name;
               _sendAddressFocusNode.unfocus();
@@ -868,8 +879,8 @@ class _SendSheetState extends State<SendSheet> {
             child: Text(contact.name,
                 textAlign: TextAlign.center,
                 style: AppStyles.textStyleAddressPrimary(context)),
-          ),
-        ),
+          ), */
+            ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 25),
           height: 1,

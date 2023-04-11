@@ -13,6 +13,7 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
@@ -223,7 +224,28 @@ class _AppPopupButtonState extends State<AppPopupButton> {
             width: (MediaQuery.of(context).size.width - 42) / 2,
             margin: EdgeInsetsDirectional.only(
                 start: 7, top: popupMarginBottom, end: 14.0),
-            child: FlatButton(
+            //!Changing FlatButton => TextButton
+            //!
+            child: AppButton.buildAppButton(
+              context,
+              AppButtonType.PRIMARY,
+              AppLocalization.of(context).send,
+              disabled: !(StateContainer.of(context).wallet != null &&
+                  StateContainer.of(context).wallet.accountBalance >
+                      BigInt.zero),
+              onPressed: () {
+                if (StateContainer.of(context).wallet != null &&
+                    StateContainer.of(context).wallet.accountBalance >
+                        BigInt.zero) {
+                  Sheets.showAppHeightNineSheet(
+                      context: context,
+                      widget: SendSheet(
+                          localCurrency:
+                              StateContainer.of(context).curCurrency));
+                }
+              },
+            ),
+            /* FlatButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(100.0)),
               color: StateContainer.of(context).wallet != null &&
@@ -261,7 +283,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                           BigInt.zero
                   ? StateContainer.of(context).curTheme.background40
                   : Colors.transparent,
-            ),
+            ), */
           ),
         ),
       ],

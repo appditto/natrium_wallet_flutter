@@ -188,7 +188,7 @@ class _AvatarPageState extends State<AvatarPage>
                                                         context,
                                                         AppButtonType.PRIMARY,
                                                         "Change My Natricon",
-                                                        Dimens
+                                                        dimens: Dimens
                                                             .BUTTON_TOP_DIMENS,
                                                         onPressed: () {
                                                       Navigator.of(context)
@@ -205,7 +205,7 @@ class _AvatarPageState extends State<AvatarPage>
                                                   // Share Address Button
                                                   AppButtonType.PRIMARY_OUTLINE,
                                                   "Turn Off Natricon",
-                                                  Dimens.BUTTON_BOTTOM_DIMENS,
+                                                  dimens: Dimens.BUTTON_BOTTOM_DIMENS,
                                                   onPressed: () {
                                                 _controller.reverse();
                                                 sl

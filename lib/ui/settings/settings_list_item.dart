@@ -17,13 +17,18 @@ class AppSettings {
       {bool disabled = false}) {
     return IgnorePointer(
       ignoring: disabled,
-      child: FlatButton(
-        highlightColor: StateContainer.of(context).curTheme.text15,
-        splashColor: StateContainer.of(context).curTheme.text15,
+      //!FlatButton => TextButton
+      child: TextButton(
+        style: ButtonStyle(
+            splashFactory: InkSplash.splashFactory,
+            padding: MaterialStateProperty.all(EdgeInsets.zero),
+            overlayColor: MaterialStateProperty.all(
+                StateContainer.of(context).curTheme.text30),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0)))),
         onPressed: () {
           onPressed();
         },
-        padding: EdgeInsets.all(0.0),
         child: Container(
           height: 60.0,
           margin: EdgeInsetsDirectional.only(start: 30.0),
@@ -79,22 +84,24 @@ class AppSettings {
   }
 
   //Settings item with direct functionality and two lines
-  static Widget buildSettingsListItemDoubleLineTwo(
-      BuildContext context,
-      String heading,
-      String text,
-      IconData icon,
-      Function onPressed,
+  static Widget buildSettingsListItemDoubleLineTwo(BuildContext context,
+      String heading, String text, IconData icon, Function onPressed,
       {bool disabled = false}) {
     return IgnorePointer(
       ignoring: disabled,
-      child: FlatButton(
-        highlightColor: StateContainer.of(context).curTheme.text15,
-        splashColor: StateContainer.of(context).curTheme.text15,
+      child:
+          //!FlatButton => TextButton
+          TextButton(
+        style: ButtonStyle(
+            splashFactory: InkSplash.splashFactory,
+            padding: MaterialStateProperty.all(EdgeInsets.zero),
+            overlayColor: MaterialStateProperty.all(
+                StateContainer.of(context).curTheme.text30),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(0)))),
         onPressed: () {
           onPressed();
         },
-        padding: EdgeInsets.all(0.0),
         child: Container(
           height: 60.0,
           margin: EdgeInsetsDirectional.only(start: 30.0),
@@ -153,9 +160,15 @@ class AppSettings {
   static Widget buildSettingsListItemSingleLine(
       BuildContext context, String heading, IconData settingIcon,
       {Function onPressed}) {
-    return FlatButton(
-      highlightColor: StateContainer.of(context).curTheme.text15,
-      splashColor: StateContainer.of(context).curTheme.text15,
+    //!FlatButton => TextButton
+    return TextButton(
+      style: ButtonStyle(
+          splashFactory: InkSplash.splashFactory,
+          padding: MaterialStateProperty.all(EdgeInsets.zero),
+          overlayColor: MaterialStateProperty.all(
+              StateContainer.of(context).curTheme.text30),
+          shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)))),
       onPressed: () {
         if (onPressed != null) {
           onPressed();
@@ -163,7 +176,6 @@ class AppSettings {
           return;
         }
       },
-      padding: EdgeInsets.all(0.0),
       child: Container(
         height: 60.0,
         margin: EdgeInsetsDirectional.only(start: 30.0),
@@ -185,7 +197,9 @@ class AppSettings {
                           ? 0
                           : settingIcon == AppIcons.backupseed
                               ? 1
-                              : settingIcon == AppIcons.transferfunds ? 2 : 3,
+                              : settingIcon == AppIcons.transferfunds
+                                  ? 2
+                                  : 3,
                   bottom: 3,
                   end: settingIcon == AppIcons.logout
                       ? 0
@@ -193,7 +207,9 @@ class AppSettings {
                           ? 6
                           : settingIcon == AppIcons.backupseed
                               ? 5
-                              : settingIcon == AppIcons.transferfunds ? 4 : 3,
+                              : settingIcon == AppIcons.transferfunds
+                                  ? 4
+                                  : 3,
                 ),
               ),
             ),

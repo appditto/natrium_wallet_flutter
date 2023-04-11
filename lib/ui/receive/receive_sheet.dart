@@ -324,7 +324,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                         _addressCopied
                             ? AppLocalization.of(context).addressCopied
                             : AppLocalization.of(context).copyAddress,
-                        Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                        dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                       Clipboard.setData(new ClipboardData(
                           text: StateContainer.of(context).wallet.address));
                       setState(() {
@@ -350,7 +350,7 @@ class _ReceiveSheetStateState extends State<ReceiveSheet> {
                         // Share Address Button
                         AppButtonType.PRIMARY_OUTLINE,
                         AppLocalization.of(context).addressShare,
-                        Dimens.BUTTON_BOTTOM_DIMENS,
+                        dimens: Dimens.BUTTON_BOTTOM_DIMENS,
                         disabled: _showShareCard, onPressed: () {
                       String receiveCardFileName =
                           "share_${StateContainer.of(context).wallet.address}.png";

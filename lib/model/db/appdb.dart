@@ -302,8 +302,7 @@ class DBHelper {
     if (list.length == 0) {
       return null;
     }
-    String address =
-        NanoUtil.seedToAddress(seed, list[0]["acct_index"]);
+    String address = NanoUtil.seedToAddress(seed, list[0]["acct_index"]);
     Account account = Account(
         id: list[0]["id"],
         name: list[0]["name"],
@@ -322,8 +321,7 @@ class DBHelper {
     if (list.length == 0) {
       return null;
     }
-    String address =
-        NanoUtil.seedToAddress(seed, list[0]["acct_index"]);
+    String address = NanoUtil.seedToAddress(seed, list[0]["acct_index"]);
     Account account = Account(
         id: list[0]["id"],
         name: list[0]["name"],

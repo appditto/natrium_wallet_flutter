@@ -60,32 +60,68 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                         children: <Widget>[
                           // Back Button
                           Container(
-                            margin: EdgeInsetsDirectional.only(
-                                start: smallScreen(context) ? 15 : 20),
-                            height: 50,
-                            width: 50,
-                            child: FlatButton(
-                                highlightColor:
-                                    StateContainer.of(context).curTheme.text15,
-                                splashColor:
-                                    StateContainer.of(context).curTheme.text15,
+                              margin: EdgeInsetsDirectional.only(
+                                  start: smallScreen(context) ? 15 : 20),
+                              height: 50,
+                              width: 50,
+                              child:
+                                  //!FlatButton => TextButton
+                                  //!
+                                  TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0)),
-                                padding: EdgeInsets.all(0.0),
                                 child: Icon(AppIcons.back,
                                     color: StateContainer.of(context)
                                         .curTheme
                                         .text,
-                                    size: 24)),
-                          ),
+                                    size: 24),
+                              )),
                           // Switch between Secret Phrase and Seed
                           Container(
-                            margin: EdgeInsetsDirectional.only(
-                                end: smallScreen(context) ? 15 : 20),
-                            child: FlatButton(
+                              margin: EdgeInsetsDirectional.only(
+                                  end: smallScreen(context) ? 15 : 20),
+                              child:
+                                  //!FlatButton => TextButton
+                                  //!
+                                  TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _seedMode = !_seedMode;
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      margin:
+                                          EdgeInsetsDirectional.only(end: 8),
+                                      child: Text(
+                                        _seedMode
+                                            ? AppLocalization.of(context)
+                                                .secretPhrase
+                                            : AppLocalization.of(context).seed,
+                                        style: TextStyle(
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .text,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: 'NunitoSans',
+                                        ),
+                                      ),
+                                    ),
+                                    Icon(
+                                        _seedMode
+                                            ? Icons.vpn_key
+                                            : AppIcons.seed,
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .text,
+                                        size: 18),
+                                  ],
+                                ),
+                              )
+                              /* latButton(
                               highlightColor:
                                   StateContainer.of(context).curTheme.text15,
                               splashColor:
@@ -127,8 +163,8 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                       size: 18),
                                 ],
                               ),
-                            ),
-                          ),
+                            ), */
+                              ),
                         ],
                       ),
                       // The header
@@ -325,7 +361,8 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                               SingleSpaceInputFormatter(),
                                               LowerCaseTextFormatter(),
                                               FilteringTextInputFormatter(
-                                                  RegExp("[a-zA-Z ]")),
+                                                  RegExp("[a-zA-Z ]"),
+                                                  allow: true),
                                             ],
                                             textInputAction:
                                                 TextInputAction.done,
@@ -543,7 +580,76 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                       margin: EdgeInsetsDirectional.only(end: 30),
                       height: 50,
                       width: 50,
-                      child: FlatButton(
+                      child:
+                          //!FlatButton => TextButton
+                          //!
+                          TextButton(
+                        onPressed: () {
+                          if (_seedMode) {
+                            _seedInputFocusNode.unfocus();
+                            // If seed valid, log them in
+                            if (NanoSeeds.isValidSeed(
+                                _seedInputController.text)) {
+                              sl
+                                  .get<SharedPrefsUtil>()
+                                  .setSeedBackedUp(true)
+                                  .then((result) {
+                                Navigator.pushNamed(
+                                    context, '/intro_password_on_launch',
+                                    arguments: _seedInputController.text);
+                              });
+                            } else {
+                              // Display error
+                              setState(() {
+                                _showSeedError = true;
+                              });
+                            }
+                          } else {
+                            // mnemonic mode
+                            _mnemonicFocusNode.unfocus();
+                            if (NanoMnemomics.validateMnemonic(
+                                _mnemonicController.text.split(' '))) {
+                              sl
+                                  .get<SharedPrefsUtil>()
+                                  .setSeedBackedUp(true)
+                                  .then((result) {
+                                Navigator.pushNamed(
+                                    context, '/intro_password_on_launch',
+                                    arguments: NanoMnemomics.mnemonicListToSeed(
+                                        _mnemonicController.text.split(' ')));
+                              });
+                            } else {
+                              // Show mnemonic error
+                              if (_mnemonicController.text.split(' ').length !=
+                                  24) {
+                                setState(() {
+                                  _mnemonicIsValid = false;
+                                  _mnemonicError = AppLocalization.of(context)
+                                      .mnemonicSizeError;
+                                });
+                              } else {
+                                _mnemonicController.text
+                                    .split(' ')
+                                    .forEach((word) {
+                                  if (!NanoMnemomics.isValidWord(word)) {
+                                    setState(() {
+                                      _mnemonicIsValid = false;
+                                      _mnemonicError =
+                                          AppLocalization.of(context)
+                                              .mnemonicInvalidWord
+                                              .replaceAll("%1", word);
+                                    });
+                                  }
+                                });
+                              }
+                            }
+                          }
+                        },
+                        child: Icon(AppIcons.forward,
+                            color: StateContainer.of(context).curTheme.primary,
+                            size: 50),
+                      ),
+                      /* FlatButton(
                           highlightColor:
                               StateContainer.of(context).curTheme.primary15,
                           splashColor:
@@ -619,7 +725,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                           child: Icon(AppIcons.forward,
                               color:
                                   StateContainer.of(context).curTheme.primary,
-                              size: 50)),
+                              size: 50)), */
                     ),
                   ],
                 ),

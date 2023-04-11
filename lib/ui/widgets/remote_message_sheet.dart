@@ -205,7 +205,7 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                               context,
                               AppButtonType.PRIMARY,
                               AppLocalization.of(context).readMore,
-                              Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                              dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                             if (await canLaunch(widget.alert.link)) {
                               await launch(widget.alert.link);
                               await sl
@@ -224,7 +224,7 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                               context,
                               AppButtonType.PRIMARY_OUTLINE,
                               AppLocalization.of(context).dismiss,
-                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                              dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             sl
                                 .get<SharedPrefsUtil>()
                                 .dismissAlert(widget.alert);
@@ -240,7 +240,7 @@ class _RemoteMessageSheetStateState extends State<RemoteMessageSheet> {
                               context,
                               AppButtonType.PRIMARY_OUTLINE,
                               AppLocalization.of(context).close,
-                              Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                              dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                             Navigator.pop(context);
                           }),
                         ],

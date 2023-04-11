@@ -107,7 +107,24 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
             ? Container(
                 margin: EdgeInsetsDirectional.only(top: 5),
                 padding: EdgeInsets.all(0.0),
-                child: OutlineButton(
+                child: OutlinedButton(
+                  style: ButtonStyle(
+                      overlayColor: MaterialStateProperty.all(
+                        _seedCopied
+                            ? Colors.transparent
+                            : StateContainer.of(context).curTheme.primary30,
+                      ),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100.0)),
+                      ),
+                      side: MaterialStateProperty.all(
+                        BorderSide(
+                            color: _seedCopied
+                                ? StateContainer.of(context).curTheme.success
+                                : StateContainer.of(context).curTheme.primary,
+                            width: 1.0),
+                      )),
                   onPressed: () {
                     UserDataUtil.setSecureClipboardItem(widget.seed);
                     setState(() {
@@ -123,22 +140,6 @@ class _PlainSeedDisplayState extends State<PlainSeedDisplay> {
                       });
                     });
                   },
-                  splashColor: _seedCopied
-                      ? Colors.transparent
-                      : StateContainer.of(context).curTheme.primary30,
-                  highlightColor: _seedCopied
-                      ? Colors.transparent
-                      : StateContainer.of(context).curTheme.primary15,
-                  highlightedBorderColor: _seedCopied
-                      ? StateContainer.of(context).curTheme.success
-                      : StateContainer.of(context).curTheme.primary,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100.0)),
-                  borderSide: BorderSide(
-                      color: _seedCopied
-                          ? StateContainer.of(context).curTheme.success
-                          : StateContainer.of(context).curTheme.primary,
-                      width: 1.0),
                   child: AutoSizeText(
                     _seedCopied
                         ? AppLocalization.of(context).copied

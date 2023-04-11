@@ -138,7 +138,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
 
   Future<void> _requestBalances(
       BuildContext context, List<Account> accounts) async {
-    List<String> addresses = List();
+    List<String> addresses = [];
     accounts.forEach((account) {
       if (account.address != null) {
         addresses.add(account.address);
@@ -202,16 +202,19 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                   child: Stack(
                     children: <Widget>[
                       widget.accounts == null
-                          ? Center(
-                              child: Text("Loading"),
-                            )
+                          ? Center(child: Text("Loading"))
                           : ListView.builder(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               itemCount: widget.accounts.length,
                               controller: _scrollController,
-                              itemBuilder: (BuildContext context, int index) {
-                                return _buildAccountListItem(
-                                    context, widget.accounts[index], setState);
+                              itemBuilder: (BuildContext buildContext, int index) {
+                                return Column(
+                                  children: [
+                                    SizedBox(height: 2),
+                                    _buildAccountListItem(buildContext,
+                                        widget.accounts[index], setState),
+                                  ],
+                                );
                               },
                             ),
                       //List Top Gradient
@@ -260,9 +263,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                       ),
                     ],
                   )),
-              SizedBox(
-                height: 15,
-              ),
+              SizedBox(height: 15),
               //A row with Add Account button
               Row(
                 children: <Widget>[
@@ -273,7 +274,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                           context,
                           AppButtonType.PRIMARY,
                           AppLocalization.of(context).addAccount,
-                          Dimens.BUTTON_TOP_DIMENS,
+                          dimens: Dimens.BUTTON_TOP_DIMENS,
                           disabled: _addingAccount,
                           onPressed: () {
                             if (!_addingAccount) {
@@ -330,7 +331,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                     context,
                     AppButtonType.PRIMARY_OUTLINE,
                     AppLocalization.of(context).close,
-                    Dimens.BUTTON_BOTTOM_DIMENS,
+                    dimens: Dimens.BUTTON_BOTTOM_DIMENS,
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -345,10 +346,237 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
   Widget _buildAccountListItem(
       BuildContext context, Account account, StateSetter setState) {
     return Slidable(
-      secondaryActions: _getSlideActionsForAccount(context, account, setState),
-      actionExtentRatio: 0.2,
-      actionPane: SlidableStrechActionPane(),
-      child: FlatButton(
+        endActionPane: ActionPane(
+            extentRatio: account.index > 0 ? 0.5 : 0.25,
+            motion: const ScrollMotion(),
+            children: _getSlideActionsForAccount(context, account, setState)),
+        child:
+            //!FlatButton => TextButton
+            //!
+            TextButton(
+          style: ButtonStyle(
+              padding: MaterialStateProperty.all(EdgeInsets.zero),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0)))),
+          onPressed: () {
+            if (!_accountIsChanging) {
+              // Change account
+              if (!account.selected) {
+                setState(() {
+                  _accountIsChanging = true;
+                });
+                _changeAccount(account, setState);
+              }
+            }
+          },
+          child: Container(
+            height: 70.0,
+            decoration: BoxDecoration(
+                border: Border(
+                    top: BorderSide(
+              width: 2,
+              color: StateContainer.of(context).curTheme.text15,
+            ))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                // Selected indicator
+                StateContainer.of(context).natriconOn
+                    ? Container(
+                        height: 70,
+                        width: 6,
+                        color: account.selected
+                            ? StateContainer.of(context).curTheme.primary
+                            : Colors.transparent,
+                      )
+                    : SizedBox(),
+                // Icon, Account Name, Address and Amount
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsetsDirectional.only(
+                        start: StateContainer.of(context).natriconOn ? 8 : 20,
+                        end: StateContainer.of(context).natriconOn ? 16 : 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            // natricon
+                            StateContainer.of(context).natriconOn
+                                ? Container(
+                                    width: 64.0,
+                                    height: 64.0,
+                                    child: SvgPicture.network(
+                                      UIUtil.getNatriconURL(
+                                          account.address,
+                                          StateContainer.of(context)
+                                              .getNatriconNonce(
+                                                  account.address)),
+                                      key: Key(UIUtil.getNatriconURL(
+                                          account.address,
+                                          StateContainer.of(context)
+                                              .getNatriconNonce(
+                                                  account.address))),
+                                      placeholderBuilder:
+                                          (BuildContext context) => Container(
+                                        child: FlareActor(
+                                          "assets/ntr_placeholder_animation.flr",
+                                          animation: "main",
+                                          fit: BoxFit.contain,
+                                          color: StateContainer.of(context)
+                                              .curTheme
+                                              .primary,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Center(
+                                          child: Icon(
+                                            AppIcons.accountwallet,
+                                            color: account.selected
+                                                ? StateContainer.of(context)
+                                                    .curTheme
+                                                    .success
+                                                : StateContainer.of(context)
+                                                    .curTheme
+                                                    .primary,
+                                            size: 30,
+                                          ),
+                                        ),
+                                        Center(
+                                          child: Container(
+                                            width: 40,
+                                            height: 30,
+                                            alignment:
+                                                AlignmentDirectional(0, 0.3),
+                                            child: Text(
+                                                account
+                                                    .getShortName()
+                                                    .toUpperCase(),
+                                                style: TextStyle(
+                                                  color:
+                                                      StateContainer.of(context)
+                                                          .curTheme
+                                                          .backgroundDark,
+                                                  fontSize: 12.0,
+                                                  fontWeight: FontWeight.w800,
+                                                )),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                            // Account name and address
+                            Container(
+                              width: (MediaQuery.of(context).size.width - 116) *
+                                  0.5,
+                              margin: EdgeInsetsDirectional.only(
+                                  start: StateContainer.of(context).natriconOn
+                                      ? 8.0
+                                      : 20.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  // Account name
+                                  AutoSizeText(
+                                    account.name,
+                                    style: TextStyle(
+                                      fontFamily: "NunitoSans",
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16.0,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .text,
+                                    ),
+                                    minFontSize: 8.0,
+                                    stepGranularity: 0.1,
+                                    maxLines: 1,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  // Account address
+                                  AutoSizeText(
+                                    account.address.substring(0, 12) + "...",
+                                    style: TextStyle(
+                                      fontFamily: "OverpassMono",
+                                      fontWeight: FontWeight.w100,
+                                      fontSize: 14.0,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .text60,
+                                    ),
+                                    minFontSize: 8.0,
+                                    stepGranularity: 0.1,
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          width:
+                              (MediaQuery.of(context).size.width - 116) * 0.4,
+                          alignment: AlignmentDirectional(1, 0),
+                          child: AutoSizeText.rich(
+                            TextSpan(
+                              children: [
+                                // Main balance text
+                                TextSpan(
+                                  text: (account.balance != null ? "Ӿ" : "") +
+                                      (account.balance != null &&
+                                              !account.selected
+                                          ? NumberUtil.getRawAsUsableString(
+                                              account.balance)
+                                          : account.selected
+                                              ? StateContainer.of(context)
+                                                  .wallet
+                                                  .getAccountBalanceDisplay()
+                                              : ""),
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontFamily: "NunitoSans",
+                                    fontWeight: FontWeight.w900,
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .text,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            maxLines: 1,
+                            style: TextStyle(fontSize: 16.0),
+                            stepGranularity: 0.1,
+                            minFontSize: 1,
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // Selected indicator
+                StateContainer.of(context).natriconOn
+                    ? Container(
+                        height: 70,
+                        width: 6,
+                        color: account.selected
+                            ? StateContainer.of(context).curTheme.primary
+                            : Colors.transparent,
+                      )
+                    : SizedBox()
+              ],
+            ),
+          ),
+        )
+        /* FlatButton(
           highlightColor: StateContainer.of(context).curTheme.text15,
           splashColor: StateContainer.of(context).curTheme.text15,
           onPressed: () {
@@ -581,50 +809,37 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
                 ),
               ),
             ],
-          )),
-    );
+          )), */
+        );
   }
 
   List<Widget> _getSlideActionsForAccount(
       BuildContext context, Account account, StateSetter setState) {
-    List<Widget> _actions = List();
-    _actions.add(SlideAction(
-        child: Container(
-          margin: EdgeInsetsDirectional.only(start: 2, top: 1, bottom: 1),
-          constraints: BoxConstraints.expand(),
-          decoration: BoxDecoration(
-            color: StateContainer.of(context).curTheme.primary,
-          ),
-          child: Icon(
-            Icons.edit,
-            color: StateContainer.of(context).curTheme.backgroundDark,
-          ),
-        ),
-        onTap: () {
+    List<Widget> _actions = [SizedBox(width: 2) /* for space */];
+    _actions.add(
+      SlidableAction(
+        padding: EdgeInsets.all(2),
+        onPressed: (context) {
           AccountDetailsSheet(account).mainBottomSheet(context);
-        }));
+        },
+        backgroundColor: StateContainer.of(context).curTheme.primary,
+        foregroundColor: StateContainer.of(context).curTheme.backgroundDark,
+        icon: Icons.edit,
+      ),
+    );
     if (account.index > 0) {
-      _actions.add(SlideAction(
-          child: Container(
-            margin: EdgeInsetsDirectional.only(start: 2, top: 1, bottom: 1),
-            constraints: BoxConstraints.expand(),
-            decoration: BoxDecoration(
-              color: StateContainer.of(context).curTheme.primary,
-            ),
-            child: Icon(
-              Icons.delete,
-              color: StateContainer.of(context).curTheme.backgroundDark,
-            ),
-          ),
-          onTap: () {
-            AppDialogs.showConfirmDialog(
-                context,
-                AppLocalization.of(context).hideAccountHeader,
-                AppLocalization.of(context)
+      _actions.add(SizedBox(width: 2) /* for space */);
+      _actions.add(
+        SlidableAction(
+          onPressed: (slContext) async {
+            await AppDialogs.showConfirmDialog(
+                slContext,
+                AppLocalization.of(slContext).hideAccountHeader,
+                AppLocalization.of(slContext)
                     .removeAccountText
-                    .replaceAll("%1", AppLocalization.of(context).addAccount),
+                    .replaceAll("%1", AppLocalization.of(slContext).addAccount),
                 CaseChange.toUpperCase(
-                    AppLocalization.of(context).yes, context), () {
+                    AppLocalization.of(slContext).yes, slContext), () {
               // Remove account
               sl.get<DBHelper>().deleteAccount(account).then((id) {
                 EventTaxiImpl.singleton().fire(
@@ -635,9 +850,15 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
               });
             },
                 cancelText: CaseChange.toUpperCase(
-                    AppLocalization.of(context).no, context));
-          }));
+                    AppLocalization.of(slContext).no, slContext));
+          },
+          backgroundColor: StateContainer.of(context).curTheme.primary,
+          foregroundColor: StateContainer.of(context).curTheme.backgroundDark,
+          icon: Icons.delete,
+        ),
+      );
     }
+
     return _actions;
   }
 }

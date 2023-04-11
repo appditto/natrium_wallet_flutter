@@ -104,7 +104,7 @@ class AppTransferCompleteSheet {
                           context,
                           AppButtonType.SUCCESS_OUTLINE,
                           AppLocalization.of(context).close.toUpperCase(),
-                          Dimens.BUTTON_BOTTOM_DIMENS,
+                          dimens: Dimens.BUTTON_BOTTOM_DIMENS,
                           onPressed: () {
                             Navigator.of(context).pop();
                           },

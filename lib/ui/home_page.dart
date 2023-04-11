@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flare_flutter/flare.dart';
-import 'package:flare_dart/math/mat2d.dart';
+// import 'package:flare_dart/math/mat2d.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter/material.dart';
@@ -835,114 +835,130 @@ class _AppHomePageState extends State<AppHomePage>
         minimum: EdgeInsets.only(
             top: MediaQuery.of(context).size.height * 0.045,
             bottom: MediaQuery.of(context).size.height * 0.035),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: <Widget>[
-                  //Everything else
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      //Main Card
-                      _buildMainCard(context, _scaffoldKey),
-                      //Main Card End
-                      //Transactions Text
-                      Container(
-                        margin: EdgeInsetsDirectional.fromSTEB(
-                            30.0, 20.0, 26.0, 0.0),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              CaseChange.toUpperCase(
-                                  AppLocalization.of(context).transactions,
-                                  context),
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w100,
-                                color: StateContainer.of(context).curTheme.text,
+        child: Expanded(
+          child: Column(
+            //! alignment: Alignment.bottomCenter,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              //Everything else
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    //Main Card
+                    _buildMainCard(context, _scaffoldKey),
+                    //Main Card End
+                    //Transactions Text
+                    Container(
+                      margin:
+                          EdgeInsetsDirectional.fromSTEB(30.0, 20.0, 26.0, 0.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            CaseChange.toUpperCase(
+                                AppLocalization.of(context).transactions,
+                                context),
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w100,
+                              color: StateContainer.of(context).curTheme.text,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ), //Transactions Text End
+                    //Transactions List
+                    Expanded(
+                      child: Stack(
+                        children: <Widget>[
+                          _getListWidget(context),
+                          //List Top Gradient End
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              height: 10.0,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    StateContainer.of(context)
+                                        .curTheme
+                                        .background00,
+                                    StateContainer.of(context)
+                                        .curTheme
+                                        .background
+                                  ],
+                                  begin: AlignmentDirectional(0.5, 1.0),
+                                  end: AlignmentDirectional(0.5, -1.0),
+                                ),
                               ),
                             ),
-                          ],
-                        ),
-                      ), //Transactions Text End
-                      //Transactions List
-                      Expanded(
-                        child: Stack(
-                          children: <Widget>[
-                            _getListWidget(context),
-                            //List Top Gradient End
-                            Align(
-                              alignment: Alignment.topCenter,
-                              child: Container(
-                                height: 10.0,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      StateContainer.of(context)
-                                          .curTheme
-                                          .background00,
-                                      StateContainer.of(context)
-                                          .curTheme
-                                          .background
-                                    ],
-                                    begin: AlignmentDirectional(0.5, 1.0),
-                                    end: AlignmentDirectional(0.5, -1.0),
-                                  ),
+                          ), // List Top Gradient End
+                          //List Bottom Gradient
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              height: 30.0,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    StateContainer.of(context)
+                                        .curTheme
+                                        .background00,
+                                    StateContainer.of(context)
+                                        .curTheme
+                                        .background
+                                  ],
+                                  begin: AlignmentDirectional(0.5, -1),
+                                  end: AlignmentDirectional(0.5, 0.5),
                                 ),
                               ),
-                            ), // List Top Gradient End
-                            //List Bottom Gradient
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                height: 30.0,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      StateContainer.of(context)
-                                          .curTheme
-                                          .background00,
-                                      StateContainer.of(context)
-                                          .curTheme
-                                          .background
-                                    ],
-                                    begin: AlignmentDirectional(0.5, -1),
-                                    end: AlignmentDirectional(0.5, 0.5),
-                                  ),
-                                ),
-                              ),
-                            ), //List Bottom Gradient End
-                          ],
-                        ),
-                      ), //Transactions List End
-                      //Buttons background
-                      SizedBox(
-                        height: 55,
-                        width: MediaQuery.of(context).size.width,
-                      ), //Buttons background
-                    ],
-                  ),
-                  // Buttons
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          boxShadow: [
-                            StateContainer.of(context).curTheme.boxShadowButton
-                          ],
-                        ),
-                        height: 55,
-                        width: (MediaQuery.of(context).size.width - 42) / 2,
-                        margin: EdgeInsetsDirectional.only(
-                            start: 14, top: 0.0, end: 7.0),
-                        child: FlatButton(
+                            ),
+                          ), //List Bottom Gradient End
+                        ],
+                      ),
+                    ), //Transactions List End
+                    //Buttons background
+                    SizedBox(
+                      height: 55,
+                      width: MediaQuery.of(context).size.width,
+                    ), //Buttons background
+                  ],
+                ),
+              ),
+              // Buttons
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      boxShadow: [
+                        StateContainer.of(context).curTheme.boxShadowButton
+                      ],
+                    ),
+                    height: 55,
+                    width: (MediaQuery.of(context).size.width - 42) / 2,
+                    margin: EdgeInsetsDirectional.only(
+                        start: 14, top: 0.0, end: 7.0),
+                    //!Changing FlatButton => TextButton
+                    //!
+                    child: AppButton.buildAppButton(
+                      context,
+                      AppButtonType.PRIMARY,
+                      AppLocalization.of(context).receive,
+                      onPressed: () {
+                        if (receive == null) {
+                          return;
+                        }
+                        Sheets.showAppHeightEightSheet(
+                            context: context, widget: receive);
+                      },
+                    ),
+                    /* FlatButton(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100.0)),
                           color: receive != null
@@ -968,15 +984,13 @@ class _AppHomePageState extends State<AppHomePage>
                           splashColor: receive != null
                               ? StateContainer.of(context).curTheme.background40
                               : Colors.transparent,
-                        ),
-                      ),
-                      AppPopupButton(),
-                    ],
+                        ), */
                   ),
+                  AppPopupButton(),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -1081,13 +1095,103 @@ class _AppHomePageState extends State<AppHomePage>
       child: _SizeTransitionNoClip(
         sizeFactor: animation,
         child: Container(
-          margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 14.0, 4.0),
-          decoration: BoxDecoration(
-            color: StateContainer.of(context).curTheme.backgroundDark,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [StateContainer.of(context).curTheme.boxShadow],
-          ),
-          child: FlatButton(
+            margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 14.0, 4.0),
+            decoration: BoxDecoration(
+              color: StateContainer.of(context).curTheme.backgroundDark,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [StateContainer.of(context).curTheme.boxShadow],
+            ),
+            //!Changing FlatButton => TextButton
+            //!
+            child: TextButton(
+              onPressed: () {
+                Sheets.showAppHeightEightSheet(
+                    context: context,
+                    widget: TransactionDetailsSheet(
+                        hash: item.hash,
+                        address: item.account,
+                        displayName: displayName),
+                    animationDurationMs: 175);
+              },
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 14.0, horizontal: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Container(
+                              margin: EdgeInsetsDirectional.only(end: 16.0),
+                              child: Icon(icon, color: iconColor, size: 20)),
+                          Container(
+                            width: MediaQuery.of(context).size.width / 4,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  text,
+                                  textAlign: TextAlign.start,
+                                  style: AppStyles.textStyleTransactionType(
+                                      context),
+                                ),
+                                RichText(
+                                  textAlign: TextAlign.start,
+                                  text: TextSpan(
+                                    text: '',
+                                    children: [
+                                      TextSpan(
+                                        text: "Ӿ" + item.getFormattedAmount(),
+                                        style: AppStyles
+                                            .textStyleTransactionAmount(
+                                          context,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2.4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              displayName,
+                              textAlign: TextAlign.end,
+                              style: AppStyles.textStyleTransactionAddress(
+                                  context),
+                            ),
+
+                            // TRANSACTION STATE TAG
+                            (item.confirmed != null && !item.confirmed) ||
+                                    (currentConfHeight > -1 &&
+                                        item.height != null &&
+                                        item.height > currentConfHeight)
+                                ? Container(
+                                    margin: EdgeInsetsDirectional.only(
+                                      top: 4,
+                                    ),
+                                    child: TransactionStateTag(
+                                        transactionState:
+                                            TransactionStateOptions
+                                                .UNCONFIRMED),
+                                  )
+                                : SizedBox()
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+            /* FlatButton(
             highlightColor: StateContainer.of(context).curTheme.text15,
             splashColor: StateContainer.of(context).curTheme.text15,
             color: StateContainer.of(context).curTheme.backgroundDark,
@@ -1179,8 +1283,8 @@ class _AppHomePageState extends State<AppHomePage>
                 ),
               ),
             ),
-          ),
-        ),
+          ), */
+            ),
       ),
     );
   } //Transaction Card End
@@ -1201,13 +1305,72 @@ class _AppHomePageState extends State<AppHomePage>
       iconColor = StateContainer.of(context).curTheme.primary60;
     }
     return Container(
-      margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 14.0, 4.0),
-      decoration: BoxDecoration(
-        color: StateContainer.of(context).curTheme.backgroundDark,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [StateContainer.of(context).curTheme.boxShadow],
-      ),
-      child: FlatButton(
+        margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 14.0, 4.0),
+        decoration: BoxDecoration(
+          color: StateContainer.of(context).curTheme.backgroundDark,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [StateContainer.of(context).curTheme.boxShadow],
+        ),
+        //!Changing FlatButton => TextButton
+        //!
+        child: TextButton(
+          onPressed: () {},
+          child: Center(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                          margin: EdgeInsetsDirectional.only(end: 16.0),
+                          child: Icon(icon, color: iconColor, size: 20)),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              text,
+                              textAlign: TextAlign.start,
+                              style:
+                                  AppStyles.textStyleTransactionType(context),
+                            ),
+                            RichText(
+                              textAlign: TextAlign.start,
+                              text: TextSpan(
+                                text: '',
+                                children: [
+                                  TextSpan(
+                                    text: amount + " NANO",
+                                    style: AppStyles.textStyleTransactionAmount(
+                                      context,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2.4,
+                    child: Text(
+                      address,
+                      textAlign: TextAlign.end,
+                      style: AppStyles.textStyleTransactionAddress(context),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
+        /* FlatButton(
         onPressed: () {
           return null;
         },
@@ -1270,8 +1433,8 @@ class _AppHomePageState extends State<AppHomePage>
             ),
           ),
         ),
-      ),
-    );
+      ), */
+        );
   } //Dummy Transaction Card End
 
   // Welcome Card
@@ -1379,13 +1542,173 @@ class _AppHomePageState extends State<AppHomePage>
       iconColor = StateContainer.of(context).curTheme.primary20;
     }
     return Container(
-      margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 14.0, 4.0),
-      decoration: BoxDecoration(
-        color: StateContainer.of(context).curTheme.backgroundDark,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [StateContainer.of(context).curTheme.boxShadow],
-      ),
-      child: FlatButton(
+        margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 14.0, 4.0),
+        decoration: BoxDecoration(
+          color: StateContainer.of(context).curTheme.backgroundDark,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [StateContainer.of(context).curTheme.boxShadow],
+        ),
+        //!FlatButton => TextButton
+        //!
+        child: TextButton(
+          onPressed: () {},
+          child: Center(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      // Transaction Icon
+                      Opacity(
+                        opacity: _opacityAnimation.value,
+                        child: Container(
+                            margin: EdgeInsetsDirectional.only(end: 16.0),
+                            child: Icon(icon, color: iconColor, size: 20)),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            // Transaction Type Text
+                            Container(
+                              child: Stack(
+                                alignment: AlignmentDirectional(-1, 0),
+                                children: <Widget>[
+                                  Text(
+                                    text,
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontFamily: "NunitoSans",
+                                      fontSize: AppFontSizes.small,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.transparent,
+                                    ),
+                                  ),
+                                  Opacity(
+                                    opacity: _opacityAnimation.value,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .text45,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                      ),
+                                      child: Text(
+                                        text,
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontFamily: "NunitoSans",
+                                          fontSize: AppFontSizes.small - 4,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.transparent,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Amount Text
+                            Container(
+                              child: Stack(
+                                alignment: AlignmentDirectional(-1, 0),
+                                children: <Widget>[
+                                  Text(
+                                    amount,
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                        fontFamily: "NunitoSans",
+                                        color: Colors.transparent,
+                                        fontSize: AppFontSizes.smallest,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Opacity(
+                                    opacity: _opacityAnimation.value,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .primary20,
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                      ),
+                                      child: Text(
+                                        amount,
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontFamily: "NunitoSans",
+                                            color: Colors.transparent,
+                                            fontSize: AppFontSizes.smallest - 3,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  // Address Text
+                  Container(
+                    width: MediaQuery.of(context).size.width / 2.4,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                          child: Stack(
+                            alignment: AlignmentDirectional(1, 0),
+                            children: <Widget>[
+                              Text(
+                                address,
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  fontSize: AppFontSizes.smallest,
+                                  fontFamily: 'OverpassMono',
+                                  fontWeight: FontWeight.w100,
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                              Opacity(
+                                opacity: _opacityAnimation.value,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .text20,
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: Text(
+                                    address,
+                                    textAlign: TextAlign.end,
+                                    style: TextStyle(
+                                      fontSize: AppFontSizes.smallest - 3,
+                                      fontFamily: 'OverpassMono',
+                                      fontWeight: FontWeight.w100,
+                                      color: Colors.transparent,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
+        /* FlatButton(
         onPressed: () {
           return null;
         },
@@ -1548,8 +1871,8 @@ class _AppHomePageState extends State<AppHomePage>
             ),
           ),
         ),
-      ),
-    );
+      ), */
+        );
   } // Loading Transaction Card End
 
   //Main Card
@@ -1575,59 +1898,53 @@ class _AppHomePageState extends State<AppHomePage>
             height: mainCardHeight,
             alignment: AlignmentDirectional(-1, -1),
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 200),
-              curve: Curves.easeInOut,
-              margin: EdgeInsetsDirectional.only(
-                  top: settingsIconMarginTop, start: 5),
-              height: 50,
-              width: 50,
-              child: FlatButton(
-                highlightColor: StateContainer.of(context).curTheme.text15,
-                splashColor: StateContainer.of(context).curTheme.text15,
-                onPressed: () {
-                  _scaffoldKey.currentState.openDrawer();
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0)),
-                padding: EdgeInsets.all(0.0),
-                child: Stack(
-                  children: [
-                    Icon(
-                      AppIcons.settings,
-                      color: StateContainer.of(context).curTheme.text,
-                      size: 24,
-                    ),
-                    !StateContainer.of(context).activeAlertIsRead
-                        ?
-                        // Unread message dot
-                        Positioned(
-                            top: -3,
-                            right: -3,
-                            child: Container(
-                              padding: EdgeInsets.all(3),
-                              decoration: BoxDecoration(
-                                color: StateContainer.of(context)
-                                    .curTheme
-                                    .backgroundDark,
-                                shape: BoxShape.circle,
-                              ),
+                duration: Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                margin: EdgeInsetsDirectional.only(
+                    top: settingsIconMarginTop, start: 5),
+                height: 50,
+                width: 50,
+                child: TextButton(
+                  onPressed: () {
+                    _scaffoldKey.currentState.openDrawer();
+                  },
+                  child: Stack(
+                    children: [
+                      Icon(
+                        AppIcons.settings,
+                        color: StateContainer.of(context).curTheme.text,
+                        size: 24,
+                      ),
+                      !StateContainer.of(context).activeAlertIsRead
+                          ?
+                          // Unread message dot
+                          Positioned(
+                              top: -3,
+                              right: -3,
                               child: Container(
+                                padding: EdgeInsets.all(3),
                                 decoration: BoxDecoration(
                                   color: StateContainer.of(context)
                                       .curTheme
-                                      .success,
+                                      .backgroundDark,
                                   shape: BoxShape.circle,
                                 ),
-                                height: 11,
-                                width: 11,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .success,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  height: 11,
+                                  width: 11,
+                                ),
                               ),
-                            ),
-                          )
-                        : SizedBox()
-                  ],
-                ),
-              ),
-            ),
+                            )
+                          : SizedBox()
+                    ],
+                  ),
+                )),
           ),
           AnimatedContainer(
             duration: Duration(milliseconds: 200),
@@ -1692,23 +2009,17 @@ class _AppHomePageState extends State<AppHomePage>
                       ),
                       Center(
                         child: Container(
-                          color: Colors.transparent,
-                          child: FlatButton(
-                            onPressed: () {
-                              Navigator.of(context).pushNamed('/avatar_page');
-                            },
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100.0)),
-                            highlightColor:
-                                StateContainer.of(context).curTheme.text15,
-                            splashColor:
-                                StateContainer.of(context).curTheme.text15,
-                            padding: EdgeInsets.all(0.0),
-                            child: Container(
-                              color: Colors.transparent,
-                            ),
-                          ),
-                        ),
+                            color: Colors.transparent,
+                            //!Changing => TextButton
+                            //!
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pushNamed('/avatar_page');
+                              },
+                              child: Container(
+                                color: Colors.transparent,
+                              ),
+                            )),
                       ),
                     ],
                   ),
@@ -2033,7 +2344,8 @@ class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
                             _addressCopied
                                 ? AppLocalization.of(context).addressCopied
                                 : AppLocalization.of(context).copyAddress,
-                            Dimens.BUTTON_TOP_EXCEPTION_DIMENS, onPressed: () {
+                            dimens: Dimens.BUTTON_TOP_EXCEPTION_DIMENS,
+                            onPressed: () {
                           Clipboard.setData(
                               new ClipboardData(text: widget.address));
                           if (mounted) {
@@ -2070,7 +2382,22 @@ class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
                             width: 55,
                             // Add Contact Button
                             child: !widget.displayName.startsWith("@")
-                                ? FlatButton(
+                                ?
+                                //!FlatButton => TextButton
+                                //!
+                                TextButton(
+                                    onPressed: () {},
+                                    child: Icon(AppIcons.addcontact,
+                                        size: 35,
+                                        color: _addressCopied
+                                            ? StateContainer.of(context)
+                                                .curTheme
+                                                .successDark
+                                            : StateContainer.of(context)
+                                                .curTheme
+                                                .backgroundDark),
+                                  )
+                                /* FlatButton(
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                       Sheets.showAppHeightNineSheet(
@@ -2094,7 +2421,7 @@ class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
                                             : StateContainer.of(context)
                                                 .curTheme
                                                 .backgroundDark),
-                                  )
+                                  ) */
                                 : SizedBox(),
                           ),
                         ),
@@ -2109,7 +2436,7 @@ class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
                         context,
                         AppButtonType.PRIMARY_OUTLINE,
                         AppLocalization.of(context).viewDetails,
-                        Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                        dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (BuildContext context) {
                         return UIUtil.showBlockExplorerWebview(

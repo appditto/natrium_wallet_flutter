@@ -230,7 +230,29 @@ class _AppLockScreenState extends State<AppLockScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          FlatButton(
+                          //!Changing FlatButton => TextButton
+                          //!
+                          TextButton(onPressed: (){}, child: Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(AppIcons.logout,
+                                      size: 16,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .text),
+                                  Container(
+                                    margin:
+                                        EdgeInsetsDirectional.only(start: 4),
+                                    child: Text(
+                                        AppLocalization.of(context).logout,
+                                        style: AppStyles.textStyleLogoutButton(
+                                            context)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          /* FlatButton(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(100)),
                             onPressed: () {
@@ -307,7 +329,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
                                 ],
                               ),
                             ),
-                          ),
+                          ), */
                         ],
                       ),
                     ),
@@ -361,7 +383,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
                                   _lockedOut
                                       ? _countDownTxt
                                       : AppLocalization.of(context).unlock,
-                                  Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                                  dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                                 if (!_lockedOut) {
                                   _authenticate(transitions: true);
                                 }

@@ -2,66 +2,121 @@ import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
-import 'package:natrium_wallet_flutter/themes.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
 
 class AppDialogs {
-  static void showConfirmDialog(
-      var context, var title, var content, var buttonText, Function onPressed,
-      {String cancelText, Function cancelAction}) {
+  static Future<void> showConfirmDialog(BuildContext context, var title,
+      var content, var buttonText, Function onPressed,
+      {String cancelText, Function cancelAction}) async {
     if (cancelText == null) {
       cancelText = AppLocalization.of(context).cancel.toUpperCase();
     }
-    showAppDialog(
+    //!showDialog replacing showAppDialog
+    showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return AppAlertDialog(
           title: Text(
             title,
-            style: AppStyles.textStyleButtonPrimaryOutline(context),
+            style: AppStyles.textStyleButtonPrimaryOutline(dialogContext),
           ),
-          content: Text(content, style: AppStyles.textStyleParagraph(context)),
+          content:
+              Text(content, style: AppStyles.textStyleParagraph(dialogContext)),
           actions: <Widget>[
-            FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0)),
-              padding: EdgeInsets.all(12),
-              child: Container(
-                constraints: BoxConstraints(maxWidth: 100),
-                child: Text(
-                  cancelText,
-                  style: AppStyles.textStyleDialogButtonText(context),
-                ),
-              ),
+            //!FlatButton => TextButton
+            TextButton(
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(12))),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(dialogContext).pop();
                 if (cancelAction != null) {
                   cancelAction();
                 }
               },
-            ),
-            FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4.0)),
-              padding: EdgeInsets.all(12),
               child: Container(
-                constraints: BoxConstraints(maxWidth: 100),
+                // constraints: BoxConstraints(maxWidth: 100),
                 child: Text(
-                  buttonText,
-                  style: AppStyles.textStyleDialogButtonText(context),
+                  cancelText,
+                  style: AppStyles.textStyleDialogButtonText(dialogContext),
                 ),
               ),
+            ),
+            //!FlatButton => TextButton
+            TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(dialogContext, rootNavigator: true).pop();
                 onPressed();
               },
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 100),
+                child: Container(
+                  child: Text(
+                    buttonText,
+                    style: AppStyles.textStyleDialogButtonText(dialogContext),
+                  ),
+                ),
+              ),
             ),
           ],
         );
       },
     );
+    // await showAppDialog(
+    //   context: context,
+    //   builder: (BuildContext dialogContext) {
+    //     return AppAlertDialog(
+    //       title: Text(
+    //         title,
+    //         style: AppStyles.textStyleButtonPrimaryOutline(dialogContext),
+    //       ),
+    //       content: Text(content, style: AppStyles.textStyleParagraph(dialogContext)),
+    //       actions: <Widget>[
+    //         //!FlatButton => TextButton
+    //         //!
+    //         TextButton(
+    //           style: ButtonStyle(
+    //             padding: MaterialStateProperty.all(EdgeInsets.all(12))
+    //           ),
+    //           onPressed: () {
+    //             Navigator.of(dialogContext).pop();
+    //             if (cancelAction != null) {
+    //               cancelAction();
+    //             }
+    //           },
+    //           child: Container(
+    //             // constraints: BoxConstraints(maxWidth: 100),
+    //             child: Text(
+    //               cancelText,
+    //               style: AppStyles.textStyleDialogButtonText(dialogContext),
+    //             ),
+    //           ),
+    //         ),
+
+    //         //!FlatButton => TextButton
+    //         //!
+    //         TextButton(
+    //           onPressed: () {
+    //             onPressed();
+    //             Navigator.of(dialogContext, rootNavigator: true).pop();
+    //           },
+    //           child: Container(
+    //             constraints: BoxConstraints(maxWidth: 100),
+    //             child: Container(
+    //               // constraints: BoxConstraints(maxWidth: 100),
+    //               child: Text(
+    //                 buttonText,
+    //                 style: AppStyles.textStyleDialogButtonText(dialogContext),
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+
+    //       ],
+    //     );
+    //   },
+    // );
   }
 
   static void showInfoDialog(var context, var title, var content) {
@@ -76,7 +131,22 @@ class AppDialogs {
           ),
           content: Text(content, style: AppStyles.textStyleParagraph(context)),
           actions: <Widget>[
-            FlatButton(
+            //!FlatButton => TextButton
+            //!
+            TextButton(
+              onPressed: () {},
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 100),
+                child: Container(
+                  constraints: BoxConstraints(maxWidth: 100),
+                  child: Text(
+                    AppLocalization.of(context).cancel.toUpperCase(),
+                    style: AppStyles.textStyleDialogButtonText(context),
+                  ),
+                ),
+              ),
+            ),
+            /* FlatButton(
               child: Text(
                 AppLocalization.of(context).cancel.toUpperCase(),
                 style: AppStyles.textStyleDialogButtonText(context),
@@ -84,7 +154,7 @@ class AppDialogs {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-            ),
+            ), */
           ],
         );
       },

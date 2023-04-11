@@ -353,7 +353,7 @@ class _AddContactSheetState extends State<AddContactSheet> {
                           context,
                           AppButtonType.PRIMARY,
                           AppLocalization.of(context).addContact,
-                          Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                          dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                         if (await validateForm()) {
                           Contact newContact = Contact(
                               name: _nameController.text,
@@ -384,7 +384,7 @@ class _AddContactSheetState extends State<AddContactSheet> {
                           context,
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).close,
-                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                          dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                         Navigator.pop(context);
                       }),
                     ],

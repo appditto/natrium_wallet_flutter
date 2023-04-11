@@ -66,7 +66,7 @@ class SharedPrefsUtil {
 
   Future<dynamic> get(String key, {dynamic defaultValue}) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return await sharedPreferences.get(key) ?? defaultValue;
+    return sharedPreferences.get(key) ?? defaultValue;
   }
 
   /// Set a key with an expiry, expiry is in seconds

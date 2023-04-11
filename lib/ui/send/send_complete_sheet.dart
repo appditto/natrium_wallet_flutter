@@ -252,7 +252,7 @@ class _SendCompleteSheetState extends State<SendCompleteSheet> {
                           CaseChange.toUpperCase(
                               AppLocalization.of(context).close,
                               context),
-                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                          dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                         Navigator.of(context).pop();
                       }),
                     ],

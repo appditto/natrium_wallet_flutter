@@ -447,7 +447,13 @@ class _OutlineButtonState extends State<_OutlineButton>
     return AnimatedBuilder(
       animation: _controller,
       builder: (BuildContext context, Widget child) {
-        return RaisedButton(
+        //!RaisedButton => ElevatedButton
+        //!
+        return ElevatedButton(
+          onPressed: () {},
+          child: widget.child,
+        );
+        /* RaisedButton(
           textColor: widget.textColor,
           disabledTextColor: widget.disabledTextColor,
           color: _getFillColor(),
@@ -474,7 +480,7 @@ class _OutlineButtonState extends State<_OutlineButton>
           focusNode: widget.focusNode,
           animationDuration: _kElevationDuration,
           child: widget.child,
-        );
+        ); */
       },
     );
   }

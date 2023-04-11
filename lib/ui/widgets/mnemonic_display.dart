@@ -141,11 +141,29 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
           ],
         ),
       ),
+      //copy seed
       widget.showButton
           ? Container(
               margin: EdgeInsetsDirectional.only(top: 5),
               padding: EdgeInsets.all(0.0),
-              child: OutlineButton(
+              child: OutlinedButton(
+                style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.all(
+                      _seedCopied
+                          ? Colors.transparent
+                          : StateContainer.of(context).curTheme.primary30,
+                    ),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0)),
+                    ),
+                    side: MaterialStateProperty.all(
+                      BorderSide(
+                          color: _seedCopied
+                              ? StateContainer.of(context).curTheme.success
+                              : StateContainer.of(context).curTheme.primary,
+                          width: 1.0),
+                    )),
                 onPressed: () {
                   UserDataUtil.setSecureClipboardItem(
                       widget.wordList.join(' '));
@@ -162,22 +180,6 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
                     });
                   });
                 },
-                splashColor: _seedCopied
-                    ? Colors.transparent
-                    : StateContainer.of(context).curTheme.primary30,
-                highlightColor: _seedCopied
-                    ? Colors.transparent
-                    : StateContainer.of(context).curTheme.primary15,
-                highlightedBorderColor: _seedCopied
-                    ? StateContainer.of(context).curTheme.success
-                    : StateContainer.of(context).curTheme.primary,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.0)),
-                borderSide: BorderSide(
-                    color: _seedCopied
-                        ? StateContainer.of(context).curTheme.success
-                        : StateContainer.of(context).curTheme.primary,
-                    width: 1.0),
                 child: AutoSizeText(
                   _seedCopied
                       ? AppLocalization.of(context).copied
@@ -189,8 +191,7 @@ class _MnemonicDisplayState extends State<MnemonicDisplay> {
                   maxLines: 1,
                   stepGranularity: 0.5,
                 ),
-              ),
-            )
+              ))
           : SizedBox(),
     ]);
   }

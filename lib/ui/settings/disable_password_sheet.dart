@@ -154,7 +154,7 @@ class _DisablePasswordSheetState extends State<DisablePasswordSheet> {
                           context,
                           AppButtonType.PRIMARY,
                           AppLocalization.of(context).disablePasswordSheetHeader,
-                          Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                          dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                         await submitAndDecrypt();
                       }),
                     ],
@@ -165,7 +165,7 @@ class _DisablePasswordSheetState extends State<DisablePasswordSheet> {
                           context,
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).close,
-                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                          dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                         Navigator.pop(context);
                       }),
                     ],

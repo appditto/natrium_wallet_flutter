@@ -57,7 +57,15 @@ class ContactDetailsSheet {
                           height: 50,
                           margin: EdgeInsetsDirectional.only(
                               top: 10.0, start: 10.0),
-                          child: FlatButton(
+                          child: 
+                          //!FlatButton => TextButton
+                              //!
+                              TextButton(onPressed: (){}, child: Icon(AppIcons.trashcan,
+                                size: 24,
+                                color:
+                                    StateContainer.of(context).curTheme.text),
+                          ),
+                          /* FlatButton(
                             highlightColor:
                                 StateContainer.of(context).curTheme.text15,
                             splashColor:
@@ -112,7 +120,7 @@ class ContactDetailsSheet {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(100.0)),
                             materialTapTargetSize: MaterialTapTargetSize.padded,
-                          ),
+                          ), */
                         ),
                         // The header of the sheet
                         Container(
@@ -140,7 +148,15 @@ class ContactDetailsSheet {
                           height: 50,
                           margin:
                               EdgeInsetsDirectional.only(top: 10.0, end: 10.0),
-                          child: FlatButton(
+                          child: 
+                          //!FlatButton => TextButton
+                              //!
+                              TextButton(onPressed: (){}, child: Icon(AppIcons.search,
+                                size: 24,
+                                color:
+                                    StateContainer.of(context).curTheme.text),
+                          ),
+                          /* FlatButton(
                             highlightColor:
                                 StateContainer.of(context).curTheme.text15,
                             splashColor:
@@ -160,7 +176,7 @@ class ContactDetailsSheet {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(100.0)),
                             materialTapTargetSize: MaterialTapTargetSize.padded,
-                          ),
+                          ), */
                         ),
                       ],
                     ),
@@ -295,7 +311,7 @@ class ContactDetailsSheet {
                                   context,
                                   AppButtonType.PRIMARY,
                                   AppLocalization.of(context).send,
-                                  Dimens.BUTTON_TOP_DIMENS,
+                                  dimens: Dimens.BUTTON_TOP_DIMENS,
                                   disabled: StateContainer.of(context)
                                           .wallet
                                           .accountBalance ==
@@ -318,7 +334,7 @@ class ContactDetailsSheet {
                                   context,
                                   AppButtonType.PRIMARY_OUTLINE,
                                   AppLocalization.of(context).close,
-                                  Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                                  dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                                 Navigator.pop(context);
                               }),
                             ],

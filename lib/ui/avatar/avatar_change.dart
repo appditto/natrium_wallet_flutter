@@ -103,11 +103,21 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                       children: <Widget>[
                         // Back Button
                         Container(
-                          margin: EdgeInsetsDirectional.only(
-                              start: smallScreen(context) ? 15 : 20),
-                          height: 50,
-                          width: 50,
-                          child: FlatButton(
+                            margin: EdgeInsetsDirectional.only(
+                                start: smallScreen(context) ? 15 : 20),
+                            height: 50,
+                            width: 50,
+                            child:
+                                //!FlatButton => TextButton
+                                //!
+                                TextButton(
+                              onPressed: () {},
+                              child: Icon(AppIcons.back,
+                                  color:
+                                      StateContainer.of(context).curTheme.text,
+                                  size: 24),
+                            )
+                            /* FlatButton(
                               highlightColor:
                                   StateContainer.of(context).curTheme.text15,
                               splashColor:
@@ -122,8 +132,8 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                               child: Icon(AppIcons.back,
                                   color:
                                       StateContainer.of(context).curTheme.text,
-                                  size: 24)),
-                        ),
+                                  size: 24)), */
+                            ),
                       ],
                     ),
                     // The header
@@ -240,7 +250,22 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                             .curTheme
                                             .primary20),
                               ),
-                              child: FlatButton(
+                              child:
+                                  //!FlatButton => TextButton
+                                  //!
+                                  TextButton(
+                                onPressed: () {},
+                                child: Icon(AppIcons.back,
+                                    color: nonce != null && !this.loading
+                                        ? StateContainer.of(context)
+                                            .curTheme
+                                            .primary
+                                        : StateContainer.of(context)
+                                            .curTheme
+                                            .primary20,
+                                    size: 24),
+                              ),
+                              /* FlatButton(
                                 highlightColor:
                                     StateContainer.of(context).curTheme.text15,
                                 splashColor:
@@ -278,7 +303,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                             .curTheme
                                             .primary20,
                                     size: 24),
-                              ),
+                              ), */
                             ),
                             // Next Natricon Button
                             Container(
@@ -293,7 +318,22 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                         .curTheme
                                         .primary),
                               ),
-                              child: FlatButton(
+                              child:
+                                  //!FlatButton => TextButton
+                                  //!
+                                  TextButton(
+                                onPressed: () {},
+                                child: Transform(
+                                  alignment: Alignment.center,
+                                  transform: Matrix4.rotationY(math.pi),
+                                  child: Icon(AppIcons.back,
+                                      color: StateContainer.of(context)
+                                          .curTheme
+                                          .primary,
+                                      size: 24),
+                                ),
+                              ),
+                              /* FlatButton(
                                 highlightColor:
                                     StateContainer.of(context).curTheme.text15,
                                 splashColor:
@@ -327,7 +367,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                           .primary,
                                       size: 24),
                                 ),
-                              ),
+                              ), */
                             ),
                           ],
                         ),
@@ -349,7 +389,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                             context,
                             AppButtonType.PRIMARY,
                             "I Want This One",
-                            Dimens.BUTTON_TOP_DIMENS, onPressed: () {
+                            dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                           showSendConfirmSheet();
                         },
                             disabled: nonce == null ||
@@ -365,7 +405,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                           context,
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).goBackButton,
-                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                          dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                         Navigator.of(context)
                             .popUntil((route) => route.isFirst);
                       }),

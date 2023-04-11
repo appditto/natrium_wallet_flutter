@@ -46,7 +46,7 @@ class _ContactsListState extends State<ContactsList> {
     super.initState();
     _registerBus();
     // Initial contacts list
-    _contacts = List();
+    _contacts = [];
     getApplicationDocumentsDirectory().then((directory) {
       documentsDirectory = directory.path;
       setState(() {
@@ -148,8 +148,8 @@ class _ContactsListState extends State<ContactsList> {
       try {
         String contents = await f.readAsString();
         Iterable contactsJson = json.decode(contents);
-        List<Contact> contacts = List();
-        List<Contact> contactsToAdd = List();
+        List<Contact> contacts = [];
+        List<Contact> contactsToAdd = [];
         contactsJson.forEach((contact) {
           contacts.add(Contact.fromJson(contact));
         });
@@ -225,28 +225,23 @@ class _ContactsListState extends State<ContactsList> {
                       children: <Widget>[
                         //Back button
                         Container(
-                          height: 40,
-                          width: 40,
-                          margin: EdgeInsets.only(right: 10, left: 10),
-                          child: FlatButton(
-                              highlightColor:
-                                  StateContainer.of(context).curTheme.text15,
-                              splashColor:
-                                  StateContainer.of(context).curTheme.text15,
+                            height: 40,
+                            width: 40,
+                            margin: EdgeInsets.only(right: 10, left: 10),
+                            child:
+                                //!FlatButton => TextButton
+                                TextButton(
                               onPressed: () {
                                 setState(() {
                                   widget.contactsOpen = false;
                                 });
                                 widget.contactsController.reverse();
                               },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0)),
-                              padding: EdgeInsets.all(8.0),
                               child: Icon(AppIcons.back,
                                   color:
                                       StateContainer.of(context).curTheme.text,
-                                  size: 24)),
-                        ),
+                                  size: 24),
+                            )),
                         //Contacts Header Text
                         Text(
                           AppLocalization.of(context).contactsHeader,
@@ -261,42 +256,32 @@ class _ContactsListState extends State<ContactsList> {
                           height: 40,
                           width: 40,
                           margin: EdgeInsetsDirectional.only(end: 5),
-                          child: FlatButton(
-                              highlightColor:
-                                  StateContainer.of(context).curTheme.text15,
-                              splashColor:
-                                  StateContainer.of(context).curTheme.text15,
-                              onPressed: () {
-                                _importContacts();
-                              },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0)),
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(AppIcons.import_icon,
-                                  color:
-                                      StateContainer.of(context).curTheme.text,
-                                  size: 24)),
+                          child:
+                              //!FlatButton => TextButton
+                              TextButton(
+                            onPressed: () {
+                              _importContacts();
+                            },
+                            child: Icon(AppIcons.import_icon,
+                                color: StateContainer.of(context).curTheme.text,
+                                size: 24),
+                          ),
                         ),
                         //Export button
                         Container(
                           height: 40,
                           width: 40,
                           margin: EdgeInsetsDirectional.only(end: 20),
-                          child: FlatButton(
-                              highlightColor:
-                                  StateContainer.of(context).curTheme.text15,
-                              splashColor:
-                                  StateContainer.of(context).curTheme.text15,
-                              onPressed: () {
-                                _exportContacts();
-                              },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0)),
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(AppIcons.export_icon,
-                                  color:
-                                      StateContainer.of(context).curTheme.text,
-                                  size: 24)),
+                          child:
+                              //!FlatButton => TextButton
+                              TextButton(
+                            onPressed: () {
+                              _exportContacts();
+                            },
+                            child: Icon(AppIcons.export_icon,
+                                color: StateContainer.of(context).curTheme.text,
+                                size: 24),
+                          ),
                         ),
                       ],
                     ),
@@ -384,7 +369,7 @@ class _ContactsListState extends State<ContactsList> {
                         context,
                         AppButtonType.TEXT_OUTLINE,
                         AppLocalization.of(context).addContact,
-                        Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                        dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                       Sheets.showAppHeightNineSheet(
                           context: context, widget: AddContactSheet());
                     }),
@@ -397,7 +382,86 @@ class _ContactsListState extends State<ContactsList> {
   }
 
   Widget buildSingleContact(BuildContext context, Contact contact) {
-    return FlatButton(
+    //!FlatButton => TextButton
+    return TextButton(
+      style: ButtonStyle(
+        splashFactory: InkSplash.splashFactory,
+        padding: MaterialStateProperty.all(EdgeInsets.zero),
+        overlayColor: MaterialStateProperty.all(
+            StateContainer.of(context).curTheme.text30),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+        ),
+      ),
+      onPressed: () {
+        ContactDetailsSheet(contact, documentsDirectory)
+            .mainBottomSheet(context);
+      },
+      child: Column(children: <Widget>[
+        Divider(height: 2, color: StateContainer.of(context).curTheme.text15),
+        // Main Container
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 8.0),
+          margin: new EdgeInsetsDirectional.only(start: 12.0, end: 20.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              // natricon
+              StateContainer.of(context).natriconOn
+                  ? Container(
+                      width: 64.0,
+                      height: 64.0,
+                      child: SvgPicture.network(
+                          UIUtil.getNatriconURL(
+                              contact.address,
+                              StateContainer.of(context)
+                                  .getNatriconNonce(contact.address)),
+                          key: Key(UIUtil.getNatriconURL(
+                              contact.address,
+                              StateContainer.of(context)
+                                  .getNatriconNonce(contact.address))),
+                          placeholderBuilder: (BuildContext context) =>
+                              Container(
+                                child: FlareActor(
+                                  "assets/ntr_placeholder_animation.flr",
+                                  animation: "main",
+                                  fit: BoxFit.contain,
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .primary,
+                                ),
+                              )),
+                    )
+                  : SizedBox(),
+              // Contact info
+              Expanded(
+                child: Container(
+                  height: 60,
+                  margin: EdgeInsetsDirectional.only(
+                      start:
+                          StateContainer.of(context).natriconOn ? 2.0 : 20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      //Contact name
+                      Text(contact.name,
+                          style: AppStyles.textStyleSettingItemHeader(context)),
+                      //Contact address
+                      Text(
+                        Address(contact.address).getShortString(),
+                        style: AppStyles.textStyleTransactionAddress(context),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
+    /* FlatButton(
       onPressed: () {
         ContactDetailsSheet(contact, documentsDirectory)
             .mainBottomSheet(context);
@@ -469,6 +533,6 @@ class _ContactsListState extends State<ContactsList> {
           ),
         ),
       ]),
-    );
+    ); */
   }
 }

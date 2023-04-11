@@ -50,9 +50,6 @@ import 'package:natrium_wallet_flutter/util/ninja/api.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flare_flutter/flare_actor.dart';
 
-import '../../appstate_container.dart';
-import '../../util/sharedprefsutil.dart';
-
 class SettingsSheet extends StatefulWidget {
   _SettingsSheetState createState() => _SettingsSheetState();
 }
@@ -466,7 +463,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   }
 
   List<Widget> _buildCurrencyOptions() {
-    List<Widget> ret = new List();
+    List<Widget> ret = [];
     AvailableCurrencyEnum.values.forEach((AvailableCurrencyEnum value) {
       ret.add(SimpleDialogOption(
         onPressed: () {
@@ -514,7 +511,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   }
 
   List<Widget> _buildLanguageOptions() {
-    List<Widget> ret = new List();
+    List<Widget> ret = [];
     AvailableLanguage.values.forEach((AvailableLanguage value) {
       ret.add(SimpleDialogOption(
         onPressed: () {
@@ -560,7 +557,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   }
 
   List<Widget> _buildExplorerOptions() {
-    List<Widget> ret = new List();
+    List<Widget> ret = [];
     AvailableBlockExplorerEnum.values
         .forEach((AvailableBlockExplorerEnum value) {
       ret.add(SimpleDialogOption(
@@ -609,7 +606,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   }
 
   List<Widget> _buildLockTimeoutOptions() {
-    List<Widget> ret = new List();
+    List<Widget> ret = [];
     LockTimeoutOption.values.forEach((LockTimeoutOption value) {
       ret.add(SimpleDialogOption(
         onPressed: () {
@@ -660,7 +657,7 @@ class _SettingsSheetState extends State<SettingsSheet>
   }
 
   List<Widget> _buildThemeOptions() {
-    List<Widget> ret = new List();
+    List<Widget> ret = [];
     ThemeOptions.values.forEach((ThemeOptions value) {
       ret.add(SimpleDialogOption(
         onPressed: () {
@@ -728,15 +725,14 @@ class _SettingsSheetState extends State<SettingsSheet>
     // Drawer in flutter doesn't have a built-in way to push/pop elements
     // on top of it like our Android counterpart. So we can override back button
     // presses and replace the main settings widget with contacts based on a bool
-    return new WillPopScope(
+    return WillPopScope(
       onWillPop: _onBackButtonPressed,
       child: ClipRect(
         child: Stack(
           children: <Widget>[
             Container(
-              color: StateContainer.of(context).curTheme.backgroundDark,
-              constraints: BoxConstraints.expand(),
-            ),
+                color: StateContainer.of(context).curTheme.backgroundDark,
+                constraints: BoxConstraints.expand()),
             buildMainSettings(context),
             SlideTransition(
                 position: _offsetFloat,
@@ -829,32 +825,21 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   ),
                                   Center(
                                     child: Container(
-                                      width: 64,
-                                      height: 64,
-                                      child: FlatButton(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(100.0)),
-                                        highlightColor:
-                                            StateContainer.of(context)
-                                                .curTheme
-                                                .text15,
-                                        splashColor: StateContainer.of(context)
-                                            .curTheme
-                                            .text15,
-                                        padding: EdgeInsets.all(0.0),
-                                        child: SizedBox(
-                                          width: 60,
-                                          height: 60,
-                                        ),
-                                        onPressed: () {
-                                          AccountDetailsSheet(
-                                                  StateContainer.of(context)
-                                                      .selectedAccount)
-                                              .mainBottomSheet(context);
-                                        },
-                                      ),
-                                    ),
+                                        width: 64,
+                                        height: 64,
+                                        child:
+                                            //!FlatButton => TextButton
+                                            //!
+                                            TextButton(
+                                          onPressed: () {
+                                            AccountDetailsSheet(
+                                                    StateContainer.of(context)
+                                                        .selectedAccount)
+                                                .mainBottomSheet(context);
+                                          },
+                                          child:
+                                              SizedBox(width: 60, height: 60),
+                                        )),
                                   ),
                                 ],
                               ),
@@ -900,31 +885,21 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   ),
                                   Center(
                                     child: Container(
-                                      width: 60,
-                                      height: 45,
-                                      child: FlatButton(
-                                        highlightColor:
-                                            StateContainer.of(context)
-                                                .curTheme
-                                                .backgroundDark
-                                                .withOpacity(0.75),
-                                        splashColor: StateContainer.of(context)
-                                            .curTheme
-                                            .backgroundDark
-                                            .withOpacity(0.75),
-                                        padding: EdgeInsets.all(0.0),
-                                        child: SizedBox(
-                                          width: 60,
-                                          height: 45,
-                                        ),
-                                        onPressed: () {
-                                          AccountDetailsSheet(
-                                                  StateContainer.of(context)
-                                                      .selectedAccount)
-                                              .mainBottomSheet(context);
-                                        },
-                                      ),
-                                    ),
+                                        width: 60,
+                                        height: 45,
+                                        child:
+                                            //!FlatButton => TextButton
+                                            //!
+                                            TextButton(
+                                          onPressed: () {
+                                            AccountDetailsSheet(
+                                                    StateContainer.of(context)
+                                                        .selectedAccount)
+                                                .mainBottomSheet(context);
+                                          },
+                                          child:
+                                              SizedBox(width: 60, height: 45),
+                                        )),
                                   ),
                                 ],
                               ),
@@ -982,47 +957,35 @@ class _SettingsSheetState extends State<SettingsSheet>
                                           ),
                                           Center(
                                             child: Container(
-                                              width: 52,
-                                              height: 52,
-                                              color: Colors.transparent,
-                                              child: FlatButton(
-                                                onPressed: () {
-                                                  sl
-                                                      .get<DBHelper>()
-                                                      .changeAccount(
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .recentLast)
-                                                      .then((_) {
-                                                    EventTaxiImpl.singleton()
-                                                        .fire(AccountChangedEvent(
-                                                            account:
-                                                                StateContainer.of(
-                                                                        context)
-                                                                    .recentLast,
-                                                            delayPop: true));
-                                                  });
-                                                },
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100.0)),
-                                                highlightColor:
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .text15,
-                                                splashColor:
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .text15,
-                                                padding: EdgeInsets.all(0.0),
-                                                child: Container(
-                                                  width: 52,
-                                                  height: 52,
-                                                  color: Colors.transparent,
-                                                ),
-                                              ),
-                                            ),
+                                                width: 52,
+                                                height: 52,
+                                                color: Colors.transparent,
+                                                child:
+                                                    //!FlatButton => TextButton
+                                                    //!
+                                                    TextButton(
+                                                  onPressed: () {
+                                                    sl
+                                                        .get<DBHelper>()
+                                                        .changeAccount(
+                                                            StateContainer.of(
+                                                                    context)
+                                                                .recentLast)
+                                                        .then((_) {
+                                                      EventTaxiImpl.singleton()
+                                                          .fire(AccountChangedEvent(
+                                                              account: StateContainer
+                                                                      .of(context)
+                                                                  .recentLast,
+                                                              delayPop: true));
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                      width: 52,
+                                                      height: 52,
+                                                      color:
+                                                          Colors.transparent),
+                                                )),
                                           ),
                                         ],
                                       ),
@@ -1064,45 +1027,35 @@ class _SettingsSheetState extends State<SettingsSheet>
                                           ),
                                           Center(
                                             child: Container(
-                                              width: 48,
-                                              height: 36,
-                                              color: Colors.transparent,
-                                              child: FlatButton(
-                                                onPressed: () {
-                                                  sl
-                                                      .get<DBHelper>()
-                                                      .changeAccount(
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .recentLast)
-                                                      .then((_) {
-                                                    EventTaxiImpl.singleton()
-                                                        .fire(AccountChangedEvent(
-                                                            account:
-                                                                StateContainer.of(
-                                                                        context)
-                                                                    .recentLast,
-                                                            delayPop: true));
-                                                  });
-                                                },
-                                                highlightColor:
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .backgroundDark
-                                                        .withOpacity(0.75),
-                                                splashColor:
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .backgroundDark
-                                                        .withOpacity(0.75),
-                                                padding: EdgeInsets.all(0.0),
-                                                child: Container(
-                                                  width: 48,
-                                                  height: 36,
-                                                  color: Colors.transparent,
-                                                ),
-                                              ),
-                                            ),
+                                                width: 48,
+                                                height: 36,
+                                                color: Colors.transparent,
+                                                child:
+                                                    //!FlatButton => TextButton
+                                                    //!
+                                                    TextButton(
+                                                  onPressed: () {
+                                                    sl
+                                                        .get<DBHelper>()
+                                                        .changeAccount(
+                                                            StateContainer.of(
+                                                                    context)
+                                                                .recentLast)
+                                                        .then((_) {
+                                                      EventTaxiImpl.singleton()
+                                                          .fire(AccountChangedEvent(
+                                                              account: StateContainer
+                                                                      .of(context)
+                                                                  .recentLast,
+                                                              delayPop: true));
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                      width: 48,
+                                                      height: 36,
+                                                      color:
+                                                          Colors.transparent),
+                                                )),
                                           ),
                                         ],
                                       ),
@@ -1158,46 +1111,34 @@ class _SettingsSheetState extends State<SettingsSheet>
                                           ),
                                           Center(
                                             child: Container(
-                                              width: 52,
-                                              height: 52,
-                                              color: Colors.transparent,
-                                              child: FlatButton(
-                                                onPressed: () {
-                                                  sl
-                                                      .get<DBHelper>()
-                                                      .changeAccount(
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .recentSecondLast)
-                                                      .then((_) {
-                                                    EventTaxiImpl.singleton()
-                                                        .fire(AccountChangedEvent(
-                                                            account: StateContainer
-                                                                    .of(context)
-                                                                .recentSecondLast,
-                                                            delayPop: true));
-                                                  });
-                                                },
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100.0)),
-                                                highlightColor:
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .text15,
-                                                splashColor:
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .text15,
-                                                padding: EdgeInsets.all(0.0),
-                                                child: Container(
-                                                  width: 52,
-                                                  height: 52,
-                                                  color: Colors.transparent,
-                                                ),
-                                              ),
-                                            ),
+                                                width: 52,
+                                                height: 52,
+                                                color: Colors.transparent,
+                                                child:
+                                                    //!FlatButton => TextButton
+                                                    TextButton(
+                                                  onPressed: () {
+                                                    sl
+                                                        .get<DBHelper>()
+                                                        .changeAccount(
+                                                            StateContainer.of(
+                                                                    context)
+                                                                .recentSecondLast)
+                                                        .then((_) {
+                                                      EventTaxiImpl.singleton()
+                                                          .fire(AccountChangedEvent(
+                                                              account: StateContainer
+                                                                      .of(context)
+                                                                  .recentSecondLast,
+                                                              delayPop: true));
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    width: 52,
+                                                    height: 52,
+                                                    color: Colors.transparent,
+                                                  ),
+                                                )),
                                           ),
                                         ],
                                       ),
@@ -1239,158 +1180,145 @@ class _SettingsSheetState extends State<SettingsSheet>
                                           ),
                                           Center(
                                             child: Container(
-                                              width: 48,
-                                              height: 36,
-                                              color: Colors.transparent,
-                                              child: FlatButton(
-                                                onPressed: () {
-                                                  sl
-                                                      .get<DBHelper>()
-                                                      .changeAccount(
-                                                          StateContainer.of(
-                                                                  context)
-                                                              .recentSecondLast)
-                                                      .then((_) {
-                                                    EventTaxiImpl.singleton()
-                                                        .fire(AccountChangedEvent(
-                                                            account: StateContainer
-                                                                    .of(context)
-                                                                .recentSecondLast,
-                                                            delayPop: true));
-                                                  });
-                                                },
-                                                highlightColor:
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .backgroundDark
-                                                        .withOpacity(0.75),
-                                                splashColor:
-                                                    StateContainer.of(context)
-                                                        .curTheme
-                                                        .backgroundDark
-                                                        .withOpacity(0.75),
-                                                padding: EdgeInsets.all(0.0),
-                                                child: Container(
-                                                  width: 48,
-                                                  height: 36,
-                                                  color: Colors.transparent,
-                                                ),
-                                              ),
-                                            ),
+                                                width: 48,
+                                                height: 36,
+                                                color: Colors.transparent,
+                                                child:
+                                                    //!FlatButton => TextButton
+                                                    TextButton(
+                                                  onPressed: () {
+                                                    sl
+                                                        .get<DBHelper>()
+                                                        .changeAccount(
+                                                            StateContainer.of(
+                                                                    context)
+                                                                .recentSecondLast)
+                                                        .then((_) {
+                                                      EventTaxiImpl.singleton()
+                                                          .fire(AccountChangedEvent(
+                                                              account: StateContainer
+                                                                      .of(context)
+                                                                  .recentSecondLast,
+                                                              delayPop: true));
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    width: 48,
+                                                    height: 36,
+                                                    color: Colors.transparent,
+                                                  ),
+                                                )),
                                           ),
                                         ],
                                       ),
                                     )
                               : SizedBox(),
                           // Account switcher
-                          Container(
-                            height: 36,
-                            width: 36,
-                            margin: EdgeInsets.symmetric(horizontal: 6.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: FlatButton(
-                              onPressed: () {
-                                if (!_loadingAccounts) {
-                                  setState(() {
-                                    _loadingAccounts = true;
-                                  });
-                                  StateContainer.of(context)
-                                      .getSeed()
-                                      .then((seed) {
-                                    sl
-                                        .get<DBHelper>()
-                                        .getAccounts(seed)
-                                        .then((accounts) {
-                                      setState(() {
-                                        _loadingAccounts = false;
-                                      });
-                                      AppAccountsSheet(accounts)
-                                          .mainBottomSheet(context);
+                          //!FlatButton => TextButton
+                          TextButton(
+                            style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.all(
+                                    _loadingAccounts
+                                        ? Colors.transparent
+                                        : StateContainer.of(context)
+                                            .curTheme
+                                            .text30),
+                                shape:
+                                    MaterialStateProperty.all(CircleBorder())),
+                            onPressed: () {
+                              if (!_loadingAccounts) {
+                                setState(() {
+                                  _loadingAccounts = true;
+                                });
+                                StateContainer.of(context)
+                                    .getSeed()
+                                    .then((seed) {
+                                  sl
+                                      .get<DBHelper>()
+                                      .getAccounts(seed)
+                                      .then((accounts) {
+                                    setState(() {
+                                      _loadingAccounts = false;
                                     });
+                                    AppAccountsSheet(accounts)
+                                        .mainBottomSheet(context);
                                   });
-                                }
-                              },
-                              padding: EdgeInsets.all(0.0),
-                              shape: CircleBorder(),
-                              splashColor: _loadingAccounts
-                                  ? Colors.transparent
-                                  : StateContainer.of(context).curTheme.text30,
-                              highlightColor: _loadingAccounts
-                                  ? Colors.transparent
-                                  : StateContainer.of(context).curTheme.text15,
-                              child: Icon(AppIcons.accountswitcher,
-                                  size: 36,
-                                  color: _loadingAccounts
-                                      ? StateContainer.of(context)
-                                          .curTheme
-                                          .primary60
-                                      : StateContainer.of(context)
-                                          .curTheme
-                                          .primary),
-                            ),
+                                });
+                              }
+                            },
+                            child: Icon(AppIcons.accountswitcher,
+                                size: 36,
+                                color: _loadingAccounts
+                                    ? StateContainer.of(context)
+                                        .curTheme
+                                        .primary60
+                                    : StateContainer.of(context)
+                                        .curTheme
+                                        .primary),
                           ),
+                          // ),
                         ],
                       ),
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 2),
-                    child: FlatButton(
-                      padding: EdgeInsets.all(4.0),
-                      highlightColor:
-                          StateContainer.of(context).curTheme.text15,
-                      splashColor: StateContainer.of(context).curTheme.text30,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.0)),
-                      onPressed: () {
-                        AccountDetailsSheet(
-                                StateContainer.of(context).selectedAccount)
-                            .mainBottomSheet(context);
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          // Main account name
-                          Container(
-                            child: Text(
-                              StateContainer.of(context).selectedAccount.name,
-                              style: TextStyle(
-                                fontFamily: "NunitoSans",
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16.0,
-                                color: StateContainer.of(context).curTheme.text,
+                      margin: EdgeInsets.only(top: 2),
+                      child:
+                          //!FlatButton => TextButton
+                          //!
+                          TextButton(
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(0)))),
+                        onPressed: () {
+                          AccountDetailsSheet(
+                                  StateContainer.of(context).selectedAccount)
+                              .mainBottomSheet(context);
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            // Main account name
+                            Container(
+                              child: Text(
+                                StateContainer.of(context).selectedAccount.name,
+                                style: TextStyle(
+                                  fontFamily: "NunitoSans",
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.0,
+                                  color:
+                                      StateContainer.of(context).curTheme.text,
+                                ),
                               ),
                             ),
-                          ),
-                          // Main account address
-                          Container(
-                            child: Text(
-                              StateContainer.of(context).wallet != null &&
-                                      StateContainer.of(context)
-                                              .wallet
-                                              .address !=
-                                          null
-                                  ? StateContainer.of(context)
-                                      .wallet
-                                      ?.address
-                                      ?.substring(0, 12)
-                                  : "",
-                              style: TextStyle(
-                                fontFamily: "OverpassMono",
-                                fontWeight: FontWeight.w100,
-                                fontSize: 14.0,
-                                color:
-                                    StateContainer.of(context).curTheme.text60,
+                            // Main account address
+                            Container(
+                              child: Text(
+                                StateContainer.of(context).wallet != null &&
+                                        StateContainer.of(context)
+                                                .wallet
+                                                .address !=
+                                            null
+                                    ? StateContainer.of(context)
+                                        .wallet
+                                        ?.address
+                                        ?.substring(0, 12)
+                                    : "",
+                                style: TextStyle(
+                                  fontFamily: "OverpassMono",
+                                  fontWeight: FontWeight.w100,
+                                  fontSize: 14.0,
+                                  color: StateContainer.of(context)
+                                      .curTheme
+                                      .text60,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                          ],
+                        ),
+                      )),
                 ],
               ),
             ),
@@ -1405,10 +1333,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                     StateContainer.of(context).settingsAlert != null
                         ? Container(
                             padding: EdgeInsetsDirectional.only(
-                              start: 12,
-                              end: 12,
-                              bottom: 20,
-                            ),
+                                start: 12, end: 12, bottom: 20),
                             child: RemoteMessageCard(
                               alert: StateContainer.of(context).settingsAlert,
                               onPressed: () {
@@ -1424,6 +1349,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                             ),
                           )
                         : null,
+                    //Preferences
                     Container(
                       margin:
                           EdgeInsetsDirectional.only(start: 30.0, bottom: 10),
@@ -1435,9 +1361,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   StateContainer.of(context).curTheme.text60)),
                     ),
                     Divider(
-                      height: 2,
-                      color: StateContainer.of(context).curTheme.text15,
-                    ),
+                        height: 2,
+                        color: StateContainer.of(context).curTheme.text15),
                     AppSettings.buildSettingsListItemDoubleLine(
                         context,
                         AppLocalization.of(context).changeCurrency,
@@ -1524,9 +1449,8 @@ class _SettingsSheetState extends State<SettingsSheet>
                                   StateContainer.of(context).curTheme.text60)),
                     ),
                     Divider(
-                      height: 2,
-                      color: StateContainer.of(context).curTheme.text15,
-                    ),
+                        height: 2,
+                        color: StateContainer.of(context).curTheme.text15),
                     AppSettings.buildSettingsListItemSingleLine(
                         context,
                         AppLocalization.of(context).contactsHeader,
@@ -1771,27 +1695,42 @@ class _SettingsSheetState extends State<SettingsSheet>
                     children: <Widget>[
                       //Back button
                       Container(
-                        height: 40,
-                        width: 40,
-                        margin: EdgeInsets.only(right: 10, left: 10),
-                        child: FlatButton(
-                            highlightColor:
-                                StateContainer.of(context).curTheme.text15,
-                            splashColor:
-                                StateContainer.of(context).curTheme.text15,
+                          height: 40,
+                          width: 40,
+                          margin: EdgeInsets.only(right: 10, left: 10),
+                          child:
+                              //!FlatButton => TextButton
+                              //!
+                              TextButton(
                             onPressed: () {
                               setState(() {
                                 _securityOpen = false;
                               });
                               _securityController.reverse();
                             },
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0)),
-                            padding: EdgeInsets.all(8.0),
                             child: Icon(AppIcons.back,
                                 color: StateContainer.of(context).curTheme.text,
-                                size: 24)),
-                      ),
+                                size: 24),
+                          )
+                          /* FlatButton(
+                          highlightColor:
+                              StateContainer.of(context).curTheme.text15,
+                          splashColor:
+                              StateContainer.of(context).curTheme.text15,
+                          onPressed: () {
+                            setState(() {
+                              _securityOpen = false;
+                            });
+                            _securityController.reverse();
+                          },
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0)),
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(AppIcons.back,
+                              color: StateContainer.of(context).curTheme.text,
+                              size: 24),
+                        ), */
+                          ),
                       //Security Header Text
                       Text(
                         AppLocalization.of(context).securityHeader,

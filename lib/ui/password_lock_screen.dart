@@ -58,7 +58,26 @@ class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      FlatButton(
+                      //! changing FlatButton => TextButton
+                      //!
+                      TextButton(onPressed: (){}, child: Container(
+                          child: Row(
+                            children: <Widget>[
+                              Icon(AppIcons.logout,
+                                  size: 16,
+                                  color:
+                                      StateContainer.of(context).curTheme.text),
+                              Container(
+                                margin: EdgeInsetsDirectional.only(start: 4),
+                                child: Text(AppLocalization.of(context).logout,
+                                    style: AppStyles.textStyleLogoutButton(
+                                        context)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                      /* FlatButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100)),
                         onPressed: () {
@@ -125,7 +144,7 @@ class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
                             ],
                           ),
                         ),
-                      ),
+                      ), */
                     ],
                   ),
                 ),
@@ -217,7 +236,7 @@ class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
                         context,
                         AppButtonType.PRIMARY,
                         AppLocalization.of(context).unlock,
-                        Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () async {
+                        dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () async {
                       await validateAndDecrypt();
                     }),
                   ],

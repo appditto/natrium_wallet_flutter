@@ -290,7 +290,7 @@ class _ChangeRepManualSheetState extends State<ChangeRepManualSheet> {
                             AppLocalization.of(context)
                                 .changeRepButton
                                 .toUpperCase(),
-                            Dimens.BUTTON_TOP_DIMENS,
+                            dimens: Dimens.BUTTON_TOP_DIMENS,
                             onPressed: () async {
                               if (!NanoAccounts.isValid(NanoAccountType.NANO,
                                   widget.repController.text)) {
@@ -334,7 +334,7 @@ class _ChangeRepManualSheetState extends State<ChangeRepManualSheet> {
                             AppButtonType.PRIMARY_OUTLINE,
                             CaseChange.toUpperCase(
                                 AppLocalization.of(context).close, context),
-                            Dimens.BUTTON_BOTTOM_DIMENS,
+                            dimens: Dimens.BUTTON_BOTTOM_DIMENS,
                             onPressed: () {
                               Navigator.pop(context);
                             },

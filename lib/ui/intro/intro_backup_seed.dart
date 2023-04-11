@@ -76,40 +76,32 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               start: smallScreen(context) ? 15 : 20),
                           height: 50,
                           width: 50,
-                          child: FlatButton(
-                              highlightColor:
-                                  StateContainer.of(context).curTheme.text15,
-                              splashColor:
-                                  StateContainer.of(context).curTheme.text15,
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0)),
-                              padding: EdgeInsets.all(0.0),
-                              child: Icon(AppIcons.back,
-                                  color:
-                                      StateContainer.of(context).curTheme.text,
-                                  size: 24)),
+                          child:
+                              //!FlatButton => TextButton
+                              //!
+                              TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(AppIcons.back,
+                                color: StateContainer.of(context).curTheme.text,
+                                size: 24),
+                          ),
+                          
                         ),
                         // Switch between Secret Phrase and Seed
                         Container(
                           margin: EdgeInsetsDirectional.only(
                               end: smallScreen(context) ? 15 : 20),
-                          child: FlatButton(
-                            highlightColor:
-                                StateContainer.of(context).curTheme.text15,
-                            splashColor:
-                                StateContainer.of(context).curTheme.text15,
+                          child:
+                              //!FlatButton => TextButton
+                              //!
+                              TextButton(
                             onPressed: () {
                               setState(() {
                                 _showMnemonic = !_showMnemonic;
                               });
                             },
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0)),
-                            padding: EdgeInsetsDirectional.only(
-                                top: 6, bottom: 6, start: 12, end: 12),
                             child: Row(
                               children: [
                                 Container(
@@ -140,6 +132,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               ],
                             ),
                           ),
+                          
                         ),
                       ],
                     ),
@@ -197,7 +190,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                     context,
                     AppButtonType.PRIMARY,
                     AppLocalization.of(context).backupConfirmButton,
-                    Dimens.BUTTON_BOTTOM_DIMENS,
+                    dimens: Dimens.BUTTON_BOTTOM_DIMENS,
                     onPressed: () {
                       // Update wallet
                       sl.get<DBHelper>().dropAccounts().then((_) {

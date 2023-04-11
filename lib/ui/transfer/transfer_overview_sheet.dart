@@ -178,7 +178,7 @@ class AppTransferOverviewSheet {
                             context,
                             AppButtonType.PRIMARY,
                             AppLocalization.of(context).scanQrCode,
-                            Dimens.BUTTON_TOP_DIMENS,
+                            dimens: Dimens.BUTTON_TOP_DIMENS,
                             onPressed: () {
                               UIUtil.cancelLockEvent();
                               BarcodeScanner.scan(StateContainer.of(context)
@@ -203,7 +203,7 @@ class AppTransferOverviewSheet {
                             context,
                             AppButtonType.PRIMARY_OUTLINE,
                             AppLocalization.of(context).manualEntry,
-                            Dimens.BUTTON_BOTTOM_DIMENS,
+                            dimens: Dimens.BUTTON_BOTTOM_DIMENS,
                             onPressed: () {
                               Sheets.showAppHeightNineSheet(
                                 context: context,

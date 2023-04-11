@@ -582,7 +582,7 @@ class AppSimpleDialog extends StatelessWidget {
 }
 
 Widget _buildMaterialDialogTransitions(
-    BuildContext context,
+    BuildContext dialogContext,
     Animation<double> animation,
     Animation<double> secondaryAnimation,
     Widget child) {

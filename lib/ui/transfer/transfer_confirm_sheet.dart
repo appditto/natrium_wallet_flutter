@@ -150,7 +150,7 @@ class _AppTransferConfirmSheetState extends State<AppTransferConfirmSheet> {
                           CaseChange.toUpperCase(
                               AppLocalization.of(context).confirm,
                               context),
-                          Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                          dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                         animationOpen = true;
                         Navigator.of(context).push(
                             AnimationLoadingOverlay(
@@ -176,7 +176,7 @@ class _AppTransferConfirmSheetState extends State<AppTransferConfirmSheet> {
                           AppLocalization.of(context)
                               .cancel
                               .toUpperCase(),
-                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                          dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                         Navigator.of(context).pop();
                       }),
                     ],

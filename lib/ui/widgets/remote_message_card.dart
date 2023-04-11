@@ -36,7 +36,77 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
           color: StateContainer.of(context).curTheme.success,
         ),
       ),
-      child: FlatButton(
+      child:
+          //!FlatButton => TextButton
+          //!
+          TextButton(
+        onPressed: () {},
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              widget.alert.title != null
+                  ? Container(
+                      margin: EdgeInsetsDirectional.only(
+                        bottom: widget.alert.shortDescription != null &&
+                                (widget.showDesc || widget.alert.title == null)
+                            ? 4
+                            : 0,
+                      ),
+                      child: Text(
+                        widget.alert.title,
+                        style: AppStyles.remoteMessageCardTitle(context),
+                      ),
+                    )
+                  : SizedBox(),
+              widget.alert.shortDescription != null &&
+                      (widget.showDesc || widget.alert.title == null)
+                  ? Container(
+                      margin: EdgeInsetsDirectional.only(
+                        bottom: 4,
+                      ),
+                      child: Text(
+                        widget.alert.shortDescription,
+                        style: AppStyles.remoteMessageCardShortDescription(
+                            context),
+                      ),
+                    )
+                  : SizedBox(),
+              widget.alert.timestamp != null && widget.showTimestamp
+                  ? Container(
+                      margin: EdgeInsetsDirectional.only(
+                        top: 6,
+                        bottom: 2,
+                      ),
+                      padding: EdgeInsetsDirectional.only(
+                          start: 10, end: 10, top: 2, bottom: 2),
+                      decoration: BoxDecoration(
+                        color: StateContainer.of(context).curTheme.text05,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(100),
+                        ),
+                        border: Border.all(
+                          color: StateContainer.of(context).curTheme.text10,
+                        ),
+                      ),
+                      child: Text(
+                        DateTime.fromMillisecondsSinceEpoch(
+                                    widget.alert.timestamp)
+                                .toUtc()
+                                .toString()
+                                .substring(0, 16) +
+                            " UTC",
+                        style: AppStyles.remoteMessageCardTimestamp(context),
+                      ),
+                    )
+                  : SizedBox(),
+            ],
+          ),
+        ),
+      ),
+      /* FlatButton(
         padding: EdgeInsets.all(0),
         highlightColor:
             StateContainer.of(context).curTheme.success.withOpacity(0.15),
@@ -107,7 +177,7 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
             ],
           ),
         ),
-      ),
+      ), */
     );
   }
 }

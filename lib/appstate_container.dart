@@ -783,6 +783,7 @@ class StateContainerState extends State<StateContainer> {
       } catch (e) {
         // TODO handle account history error
         sl.get<Logger>().e("account_history e", e);
+        print(e);
       }
     }
   }

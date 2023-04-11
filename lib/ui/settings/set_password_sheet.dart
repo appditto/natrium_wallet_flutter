@@ -222,7 +222,7 @@ class _SetPasswordSheetState extends State<SetPasswordSheet> {
                           context,
                           AppButtonType.PRIMARY,
                           AppLocalization.of(context).setPassword,
-                          Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                          dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                         await submitAndEncrypt();
                       }),
                     ],
@@ -233,7 +233,7 @@ class _SetPasswordSheetState extends State<SetPasswordSheet> {
                           context,
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).close,
-                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                          dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                         Navigator.pop(context);
                       }),
                     ],

@@ -37,26 +37,24 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                       children: <Widget>[
                         // Back Button
                         Container(
-                          margin: EdgeInsetsDirectional.only(
-                              start: smallScreen(context) ? 15 : 20),
-                          height: 50,
-                          width: 50,
-                          child: FlatButton(
-                              highlightColor:
-                                  StateContainer.of(context).curTheme.text15,
-                              splashColor:
-                                  StateContainer.of(context).curTheme.text15,
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0)),
-                              padding: EdgeInsets.all(0.0),
-                              child: Icon(AppIcons.back,
-                                  color:
-                                      StateContainer.of(context).curTheme.text,
-                                  size: 24)),
-                        ),
+                            margin: EdgeInsetsDirectional.only(
+                                start: smallScreen(context) ? 15 : 20),
+                            height: 50,
+                            width: 50,
+                            child:
+                                //!FlatButton => TextButton
+                                //!
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Icon(AppIcons.back,
+                                        color: StateContainer.of(context)
+                                            .curTheme
+                                            .text,
+                                        size: 24))
+                            
+                            ),
                       ],
                     ),
                     // Safety icon
@@ -127,7 +125,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                       context,
                       AppButtonType.PRIMARY,
                       AppLocalization.of(context).gotItButton,
-                      Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                      dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                     Navigator.of(context).pushNamed('/intro_backup',
                         arguments: StateContainer.of(context).encryptedSecret);
                   }),

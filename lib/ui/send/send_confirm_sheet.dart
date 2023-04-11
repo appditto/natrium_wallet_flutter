@@ -308,7 +308,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                           AppButtonType.PRIMARY,
                           CaseChange.toUpperCase(
                               AppLocalization.of(context).confirm, context),
-                          Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                          dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
                         // Authenticate
                         AuthenticationMethod authMethod = await sl.get<SharedPrefsUtil>().getAuthMethod();
                         bool hasBiometrics = await sl.get<BiometricUtil>().hasBiometrics();
@@ -346,7 +346,7 @@ class _SendConfirmSheetState extends State<SendConfirmSheet> {
                           AppButtonType.PRIMARY_OUTLINE,
                           CaseChange.toUpperCase(
                               AppLocalization.of(context).cancel, context),
-                          Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                          dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                         Navigator.of(context).pop();
                       }),
                     ],
