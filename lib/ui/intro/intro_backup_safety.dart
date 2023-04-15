@@ -41,20 +41,15 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
                                 start: smallScreen(context) ? 15 : 20),
                             height: 50,
                             width: 50,
-                            child:
-                                //!FlatButton => TextButton
-                                //!
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Icon(AppIcons.back,
-                                        color: StateContainer.of(context)
-                                            .curTheme
-                                            .text,
-                                        size: 24))
-                            
-                            ),
+                            child: TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(AppIcons.back,
+                                    color: StateContainer.of(context)
+                                        .curTheme
+                                        .text,
+                                    size: 24))),
                       ],
                     ),
                     // Safety icon
@@ -121,9 +116,7 @@ class _IntroBackupSafetyState extends State<IntroBackupSafetyPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  AppButton.buildAppButton(
-                      context,
-                      AppButtonType.PRIMARY,
+                  AppButton.buildAppButton(context, AppButtonType.PRIMARY,
                       AppLocalization.of(context).gotItButton,
                       dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
                     Navigator.of(context).pushNamed('/intro_backup',

@@ -230,31 +230,12 @@ class _AppLockScreenState extends State<AppLockScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          //!Changing FlatButton => TextButton
-                          //!
-                          TextButton(onPressed: (){}, child: Container(
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(AppIcons.logout,
-                                      size: 16,
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text),
-                                  Container(
-                                    margin:
-                                        EdgeInsetsDirectional.only(start: 4),
-                                    child: Text(
-                                        AppLocalization.of(context).logout,
-                                        style: AppStyles.textStyleLogoutButton(
-                                            context)),
-                                  ),
-                                ],
-                              ),
+                          TextButton(
+                            style: ButtonStyle(
+                              splashFactory: InkSplash.splashFactory,
+                              overlayColor: MaterialStateProperty.all(
+                                  StateContainer.of(context).curTheme.text15),
                             ),
-                          )
-                          /* FlatButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100)),
                             onPressed: () {
                               AppDialogs.showConfirmDialog(
                                   context,
@@ -304,12 +285,6 @@ class _AppLockScreenState extends State<AppLockScreen> {
                                 });
                               });
                             },
-                            highlightColor:
-                                StateContainer.of(context).curTheme.text15,
-                            splashColor:
-                                StateContainer.of(context).curTheme.text30,
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
                             child: Container(
                               child: Row(
                                 children: <Widget>[
@@ -329,7 +304,7 @@ class _AppLockScreenState extends State<AppLockScreen> {
                                 ],
                               ),
                             ),
-                          ), */
+                          )
                         ],
                       ),
                     ),
@@ -383,7 +358,8 @@ class _AppLockScreenState extends State<AppLockScreen> {
                                   _lockedOut
                                       ? _countDownTxt
                                       : AppLocalization.of(context).unlock,
-                                  dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                                  dimens: Dimens.BUTTON_BOTTOM_DIMENS,
+                                  onPressed: () {
                                 if (!_lockedOut) {
                                   _authenticate(transitions: true);
                                 }

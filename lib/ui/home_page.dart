@@ -402,8 +402,8 @@ class _AppHomePageState extends State<AppHomePage>
         .containsKey(StateContainer.of(context).wallet.address)) {
       return;
     }
-    List<int> unconfirmedUpdate = List();
-    List<int> confirmedUpdate = List();
+    List<int> unconfirmedUpdate = [];
+    List<int> confirmedUpdate = [];
     for (int i = 0;
         i <
             _historyListMap[StateContainer.of(context).wallet.address]
@@ -835,162 +835,106 @@ class _AppHomePageState extends State<AppHomePage>
         minimum: EdgeInsets.only(
             top: MediaQuery.of(context).size.height * 0.045,
             bottom: MediaQuery.of(context).size.height * 0.035),
-        child: Expanded(
-          child: Column(
-            //! alignment: Alignment.bottomCenter,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              //Everything else
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    //Main Card
-                    _buildMainCard(context, _scaffoldKey),
-                    //Main Card End
-                    //Transactions Text
-                    Container(
-                      margin:
-                          EdgeInsetsDirectional.fromSTEB(30.0, 20.0, 26.0, 0.0),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            CaseChange.toUpperCase(
-                                AppLocalization.of(context).transactions,
-                                context),
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w100,
-                              color: StateContainer.of(context).curTheme.text,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ), //Transactions Text End
-                    //Transactions List
-                    Expanded(
-                      child: Stack(
-                        children: <Widget>[
-                          _getListWidget(context),
-                          //List Top Gradient End
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: Container(
-                              height: 10.0,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    StateContainer.of(context)
-                                        .curTheme
-                                        .background00,
-                                    StateContainer.of(context)
-                                        .curTheme
-                                        .background
-                                  ],
-                                  begin: AlignmentDirectional(0.5, 1.0),
-                                  end: AlignmentDirectional(0.5, -1.0),
-                                ),
-                              ),
-                            ),
-                          ), // List Top Gradient End
-                          //List Bottom Gradient
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              height: 30.0,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    StateContainer.of(context)
-                                        .curTheme
-                                        .background00,
-                                    StateContainer.of(context)
-                                        .curTheme
-                                        .background
-                                  ],
-                                  begin: AlignmentDirectional(0.5, -1),
-                                  end: AlignmentDirectional(0.5, 0.5),
-                                ),
-                              ),
-                            ),
-                          ), //List Bottom Gradient End
-                        ],
-                      ),
-                    ), //Transactions List End
-                    //Buttons background
-                    SizedBox(
-                      height: 55,
-                      width: MediaQuery.of(context).size.width,
-                    ), //Buttons background
-                  ],
-                ),
-              ),
-              // Buttons
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            //Main Card
+            _buildMainCard(context, _scaffoldKey),
+            //Main Card End
+            //Transactions Text
+            Container(
+              margin: EdgeInsetsDirectional.fromSTEB(30.0, 20.0, 26.0, 0.0),
+              child: Row(
                 children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      boxShadow: [
-                        StateContainer.of(context).curTheme.boxShadowButton
-                      ],
+                  Text(
+                    CaseChange.toUpperCase(
+                        AppLocalization.of(context).transactions, context),
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w100,
+                      color: StateContainer.of(context).curTheme.text,
                     ),
-                    height: 55,
-                    width: (MediaQuery.of(context).size.width - 42) / 2,
-                    margin: EdgeInsetsDirectional.only(
-                        start: 14, top: 0.0, end: 7.0),
-                    //!Changing FlatButton => TextButton
-                    //!
-                    child: AppButton.buildAppButton(
+                  ),
+                ],
+              ),
+            ),
+            //Transactions Text End
+
+            //Transactions List
+            Expanded(
+              child: Stack(
+                children: <Widget>[
+                  _getListWidget(context),
+                  //List Top Gradient End
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      height: 10.0,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            StateContainer.of(context).curTheme.background00,
+                            StateContainer.of(context).curTheme.background
+                          ],
+                          begin: AlignmentDirectional(0.5, 1.0),
+                          end: AlignmentDirectional(0.5, -1.0),
+                        ),
+                      ),
+                    ),
+                  ), // List Top Gradient End
+                  //List Bottom Gradient
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 30.0,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            StateContainer.of(context).curTheme.background00,
+                            StateContainer.of(context).curTheme.background
+                          ],
+                          begin: AlignmentDirectional(0.5, -1),
+                          end: AlignmentDirectional(0.5, 0.5),
+                        ),
+                      ),
+                    ),
+                  ), //List Bottom Gradient End
+                ],
+              ),
+            ), //Transactions List End
+            //Buttons backgroun
+            //Buttons background
+            // Buttons
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                //receive button
+                Container(
+                  width: (MediaQuery.of(context).size.width - 42) / 2,
+                  margin:
+                      EdgeInsetsDirectional.only(start: 14, top: 0.0, end: 7.0),
+                  child: AppButton.buildAppButton(
                       context,
                       AppButtonType.PRIMARY,
                       AppLocalization.of(context).receive,
-                      onPressed: () {
-                        if (receive == null) {
-                          return;
-                        }
-                        Sheets.showAppHeightEightSheet(
-                            context: context, widget: receive);
-                      },
-                    ),
-                    /* FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100.0)),
-                          color: receive != null
-                              ? StateContainer.of(context).curTheme.primary
-                              : StateContainer.of(context).curTheme.primary60,
-                          child: AutoSizeText(
-                            AppLocalization.of(context).receive,
-                            textAlign: TextAlign.center,
-                            style: AppStyles.textStyleButtonPrimary(context),
-                            maxLines: 1,
-                            stepGranularity: 0.5,
-                          ),
-                          onPressed: () {
-                            if (receive == null) {
-                              return;
-                            }
-                            Sheets.showAppHeightEightSheet(
-                                context: context, widget: receive);
-                          },
-                          highlightColor: receive != null
-                              ? StateContainer.of(context).curTheme.background40
-                              : Colors.transparent,
-                          splashColor: receive != null
-                              ? StateContainer.of(context).curTheme.background40
-                              : Colors.transparent,
-                        ), */
-                  ),
-                  AppPopupButton(),
-                ],
-              ),
-            ],
-          ),
+                      isExpanded: false, onPressed: () {
+                        Navigator.of(context).pushReplacementNamed('/lock_screen');
+                    /* if (receive == null) {
+                      return;
+                    }
+                    Sheets.showAppHeightEightSheet(
+                        context: context, widget: receive); */
+                  }, disabled: receive == null),
+                ),
+                //Send Button
+                AppPopupButton(),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -1101,9 +1045,14 @@ class _AppHomePageState extends State<AppHomePage>
               borderRadius: BorderRadius.circular(10.0),
               boxShadow: [StateContainer.of(context).curTheme.boxShadow],
             ),
-            //!Changing FlatButton => TextButton
-            //!
             child: TextButton(
+              style: ButtonStyle(
+                splashFactory: InkSplash.splashFactory,
+                overlayColor: MaterialStateProperty.all(
+                    StateContainer.of(context).curTheme.text15),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0))),
+              ),
               onPressed: () {
                 Sheets.showAppHeightEightSheet(
                     context: context,
@@ -1190,101 +1139,7 @@ class _AppHomePageState extends State<AppHomePage>
                   ),
                 ),
               ),
-            )
-            /* FlatButton(
-            highlightColor: StateContainer.of(context).curTheme.text15,
-            splashColor: StateContainer.of(context).curTheme.text15,
-            color: StateContainer.of(context).curTheme.backgroundDark,
-            padding: EdgeInsets.all(0.0),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            onPressed: () {
-              Sheets.showAppHeightEightSheet(
-                  context: context,
-                  widget: TransactionDetailsSheet(
-                      hash: item.hash,
-                      address: item.account,
-                      displayName: displayName),
-                  animationDurationMs: 175);
-            },
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 14.0, horizontal: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Container(
-                            margin: EdgeInsetsDirectional.only(end: 16.0),
-                            child: Icon(icon, color: iconColor, size: 20)),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 4,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                text,
-                                textAlign: TextAlign.start,
-                                style:
-                                    AppStyles.textStyleTransactionType(context),
-                              ),
-                              RichText(
-                                textAlign: TextAlign.start,
-                                text: TextSpan(
-                                  text: '',
-                                  children: [
-                                    TextSpan(
-                                      text: "Ӿ" + item.getFormattedAmount(),
-                                      style:
-                                          AppStyles.textStyleTransactionAmount(
-                                        context,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2.4,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            displayName,
-                            textAlign: TextAlign.end,
-                            style:
-                                AppStyles.textStyleTransactionAddress(context),
-                          ),
-
-                          // TRANSACTION STATE TAG
-                          (item.confirmed != null && !item.confirmed) ||
-                                  (currentConfHeight > -1 &&
-                                      item.height != null &&
-                                      item.height > currentConfHeight)
-                              ? Container(
-                                  margin: EdgeInsetsDirectional.only(
-                                    top: 4,
-                                  ),
-                                  child: TransactionStateTag(
-                                      transactionState:
-                                          TransactionStateOptions.UNCONFIRMED),
-                                )
-                              : SizedBox()
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ), */
-            ),
+            )),
       ),
     );
   } //Transaction Card End
@@ -1311,9 +1166,14 @@ class _AppHomePageState extends State<AppHomePage>
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: [StateContainer.of(context).curTheme.boxShadow],
         ),
-        //!Changing FlatButton => TextButton
-        //!
         child: TextButton(
+          style: ButtonStyle(
+              splashFactory: InkSplash.splashFactory,
+              overlayColor: MaterialStateProperty.all(
+                  StateContainer.of(context).curTheme.text15),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0))),
+              padding: MaterialStateProperty.all(EdgeInsets.zero)),
           onPressed: () {},
           child: Center(
             child: Padding(
@@ -1369,72 +1229,7 @@ class _AppHomePageState extends State<AppHomePage>
               ),
             ),
           ),
-        )
-        /* FlatButton(
-        onPressed: () {
-          return null;
-        },
-        highlightColor: StateContainer.of(context).curTheme.text15,
-        splashColor: StateContainer.of(context).curTheme.text15,
-        color: StateContainer.of(context).curTheme.backgroundDark,
-        padding: EdgeInsets.all(0.0),
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        child: Center(
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                        margin: EdgeInsetsDirectional.only(end: 16.0),
-                        child: Icon(icon, color: iconColor, size: 20)),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 4,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            text,
-                            textAlign: TextAlign.start,
-                            style: AppStyles.textStyleTransactionType(context),
-                          ),
-                          RichText(
-                            textAlign: TextAlign.start,
-                            text: TextSpan(
-                              text: '',
-                              children: [
-                                TextSpan(
-                                  text: amount + " NANO",
-                                  style: AppStyles.textStyleTransactionAmount(
-                                    context,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 2.4,
-                  child: Text(
-                    address,
-                    textAlign: TextAlign.end,
-                    style: AppStyles.textStyleTransactionAddress(context),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ), */
-        );
+        ));
   } //Dummy Transaction Card End
 
   // Welcome Card
@@ -1501,7 +1296,7 @@ class _AppHomePageState extends State<AppHomePage>
                 boxShadow: [StateContainer.of(context).curTheme.boxShadow],
               ),
             ),
-            Flexible(
+            Expanded(
               child: Container(
                 padding: const EdgeInsets.symmetric(
                     vertical: 14.0, horizontal: 15.0),
@@ -1548,10 +1343,10 @@ class _AppHomePageState extends State<AppHomePage>
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: [StateContainer.of(context).curTheme.boxShadow],
         ),
-        //!FlatButton => TextButton
-        //!
         child: TextButton(
-          onPressed: () {},
+          onPressed: () {
+            return null;
+          },
           child: Center(
             child: Padding(
               padding:
@@ -1707,172 +1502,7 @@ class _AppHomePageState extends State<AppHomePage>
               ),
             ),
           ),
-        )
-        /* FlatButton(
-        onPressed: () {
-          return null;
-        },
-        highlightColor: StateContainer.of(context).curTheme.text15,
-        splashColor: StateContainer.of(context).curTheme.text15,
-        color: StateContainer.of(context).curTheme.backgroundDark,
-        padding: EdgeInsets.all(0.0),
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        child: Center(
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    // Transaction Icon
-                    Opacity(
-                      opacity: _opacityAnimation.value,
-                      child: Container(
-                          margin: EdgeInsetsDirectional.only(end: 16.0),
-                          child: Icon(icon, color: iconColor, size: 20)),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 4,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          // Transaction Type Text
-                          Container(
-                            child: Stack(
-                              alignment: AlignmentDirectional(-1, 0),
-                              children: <Widget>[
-                                Text(
-                                  text,
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontFamily: "NunitoSans",
-                                    fontSize: AppFontSizes.small,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.transparent,
-                                  ),
-                                ),
-                                Opacity(
-                                  opacity: _opacityAnimation.value,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text45,
-                                      borderRadius: BorderRadius.circular(100),
-                                    ),
-                                    child: Text(
-                                      text,
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontFamily: "NunitoSans",
-                                        fontSize: AppFontSizes.small - 4,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.transparent,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // Amount Text
-                          Container(
-                            child: Stack(
-                              alignment: AlignmentDirectional(-1, 0),
-                              children: <Widget>[
-                                Text(
-                                  amount,
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontFamily: "NunitoSans",
-                                      color: Colors.transparent,
-                                      fontSize: AppFontSizes.smallest,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Opacity(
-                                  opacity: _opacityAnimation.value,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .primary20,
-                                      borderRadius: BorderRadius.circular(100),
-                                    ),
-                                    child: Text(
-                                      amount,
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontFamily: "NunitoSans",
-                                          color: Colors.transparent,
-                                          fontSize: AppFontSizes.smallest - 3,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                // Address Text
-                Container(
-                  width: MediaQuery.of(context).size.width / 2.4,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        child: Stack(
-                          alignment: AlignmentDirectional(1, 0),
-                          children: <Widget>[
-                            Text(
-                              address,
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                fontSize: AppFontSizes.smallest,
-                                fontFamily: 'OverpassMono',
-                                fontWeight: FontWeight.w100,
-                                color: Colors.transparent,
-                              ),
-                            ),
-                            Opacity(
-                              opacity: _opacityAnimation.value,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: StateContainer.of(context)
-                                      .curTheme
-                                      .text20,
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                child: Text(
-                                  address,
-                                  textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                    fontSize: AppFontSizes.smallest - 3,
-                                    fontFamily: 'OverpassMono',
-                                    fontWeight: FontWeight.w100,
-                                    color: Colors.transparent,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ), */
-        );
+        ));
   } // Loading Transaction Card End
 
   //Main Card
@@ -2010,8 +1640,6 @@ class _AppHomePageState extends State<AppHomePage>
                       Center(
                         child: Container(
                             color: Colors.transparent,
-                            //!Changing => TextButton
-                            //!
                             child: TextButton(
                               onPressed: () {
                                 Navigator.of(context).pushNamed('/avatar_page');
@@ -2382,11 +2010,21 @@ class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
                             width: 55,
                             // Add Contact Button
                             child: !widget.displayName.startsWith("@")
-                                ?
-                                //!FlatButton => TextButton
-                                //!
-                                TextButton(
-                                    onPressed: () {},
+                                ? TextButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                StateContainer.of(context)
+                                                    .curTheme
+                                                    .background
+                                                    .withOpacity(0.3))),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      Sheets.showAppHeightNineSheet(
+                                          context: context,
+                                          widget: AddContactSheet(
+                                              address: widget.address));
+                                    },
                                     child: Icon(AppIcons.addcontact,
                                         size: 35,
                                         color: _addressCopied
@@ -2397,31 +2035,6 @@ class _TransactionDetailsSheetState extends State<TransactionDetailsSheet> {
                                                 .curTheme
                                                 .backgroundDark),
                                   )
-                                /* FlatButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      Sheets.showAppHeightNineSheet(
-                                          context: context,
-                                          widget: AddContactSheet(
-                                              address: widget.address));
-                                    },
-                                    splashColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(100.0)),
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10.0, horizontal: 10),
-                                    child: Icon(AppIcons.addcontact,
-                                        size: 35,
-                                        color: _addressCopied
-                                            ? StateContainer.of(context)
-                                                .curTheme
-                                                .successDark
-                                            : StateContainer.of(context)
-                                                .curTheme
-                                                .backgroundDark),
-                                  ) */
                                 : SizedBox(),
                           ),
                         ),

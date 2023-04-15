@@ -110,10 +110,43 @@ class AppChangeRepresentativeSheet {
             height: 2,
             color: StateContainer.of(context).curTheme.text15,
           ),
-          //!FlatButton => TextButton
-          //!
           TextButton(
-            onPressed: () {},
+            style: ButtonStyle(
+                splashFactory: InkSplash.splashFactory,
+                padding: MaterialStateProperty.all(EdgeInsets.zero),
+                overlayColor: MaterialStateProperty.all(
+                    StateContainer.of(context).curTheme.text30),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0)))),
+            onPressed: () async {
+              if (!NanoAccounts.isValid(NanoAccountType.NANO, rep.account)) {
+                return;
+              }
+              _rep = rep;
+              // Authenticate
+              AuthenticationMethod authMethod =
+                  await sl.get<SharedPrefsUtil>().getAuthMethod();
+              bool hasBiometrics =
+                  await sl.get<BiometricUtil>().hasBiometrics();
+              if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
+                try {
+                  bool authenticated = await sl
+                      .get<BiometricUtil>()
+                      .authenticateWithBiometrics(context,
+                          AppLocalization.of(context).changeRepAuthenticate);
+                  if (authenticated) {
+                    sl.get<HapticUtil>().fingerprintSucess();
+                    EventTaxiImpl.singleton()
+                        .fire(AuthenticatedEvent(AUTH_EVENT_TYPE.CHANGE));
+                  }
+                } catch (e) {
+                  await authenticateWithPin(rep.account, context);
+                }
+              } else {
+                // PIN Authentication
+                await authenticateWithPin(rep.account, context);
+              }
+            },
             child: Container(
               margin: EdgeInsets.symmetric(vertical: 20),
               child: Row(
@@ -256,181 +289,7 @@ class AppChangeRepresentativeSheet {
               ),
             ),
           ),
-          /* FlatButton(
-            highlightColor: StateContainer.of(context).curTheme.text15,
-            splashColor: StateContainer.of(context).curTheme.text15,
-            onPressed: () async {
-              if (!NanoAccounts.isValid(NanoAccountType.NANO, rep.account)) {
-                return;
-              }
-              _rep = rep;
-              // Authenticate
-              AuthenticationMethod authMethod =
-                  await sl.get<SharedPrefsUtil>().getAuthMethod();
-              bool hasBiometrics =
-                  await sl.get<BiometricUtil>().hasBiometrics();
-              if (authMethod.method == AuthMethod.BIOMETRICS && hasBiometrics) {
-                try {
-                  bool authenticated = await sl
-                      .get<BiometricUtil>()
-                      .authenticateWithBiometrics(context,
-                          AppLocalization.of(context).changeRepAuthenticate);
-                  if (authenticated) {
-                    sl.get<HapticUtil>().fingerprintSucess();
-                    EventTaxiImpl.singleton()
-                        .fire(AuthenticatedEvent(AUTH_EVENT_TYPE.CHANGE));
-                  }
-                } catch (e) {
-                  await authenticateWithPin(rep.account, context);
-                }
-              } else {
-                // PIN Authentication
-                await authenticateWithPin(rep.account, context);
-              }
-            },
-            padding: EdgeInsets.all(0),
-            child: Container(
-              margin: EdgeInsets.symmetric(vertical: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsetsDirectional.only(start: 24),
-                    width: MediaQuery.of(context).size.width * 0.50,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          _sanitizeAlias(rep.alias),
-                          style: TextStyle(
-                              color: StateContainer.of(context).curTheme.text,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18.0,
-                              fontFamily: 'Nunito Sans'),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 7),
-                          child: RichText(
-                            text: TextSpan(
-                              text: '',
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "${AppLocalization.of(context).votingWeight}: ",
-                                  style: TextStyle(
-                                    color: StateContainer.of(context)
-                                        .curTheme
-                                        .text,
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 14.0,
-                                    fontFamily: 'Nunito Sans',
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: NumberUtil.getPercentOfTotalSupply(
-                                      rep.votingWeight),
-                                  style: TextStyle(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .primary,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14.0,
-                                      fontFamily: 'Nunito Sans'),
-                                ),
-                                TextSpan(
-                                  text: "%",
-                                  style: TextStyle(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .primary,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14.0,
-                                      fontFamily: 'Nunito Sans'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 4),
-                          child: RichText(
-                            text: TextSpan(
-                              text: '',
-                              children: [
-                                TextSpan(
-                                  text:
-                                      "${AppLocalization.of(context).uptime}: ",
-                                  style: TextStyle(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text,
-                                      fontWeight: FontWeight.w100,
-                                      fontSize: 14.0,
-                                      fontFamily: 'Nunito Sans'),
-                                ),
-                                TextSpan(
-                                  text: (rep.uptime).toStringAsFixed(2),
-                                  style: TextStyle(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .primary,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14.0,
-                                      fontFamily: 'Nunito Sans'),
-                                ),
-                                TextSpan(
-                                  text: "%",
-                                  style: TextStyle(
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .primary,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14.0,
-                                      fontFamily: 'Nunito Sans'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsetsDirectional.only(end: 24, start: 14),
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                            child: Icon(
-                          AppIcons.score,
-                          color: StateContainer.of(context).curTheme.primary,
-                          size: 50,
-                        )),
-                        Container(
-                          alignment: AlignmentDirectional(-0.03, 0.03),
-                          width: 50,
-                          height: 50,
-                          child: Text(
-                            (rep.score).toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: StateContainer.of(context)
-                                  .curTheme
-                                  .backgroundDark,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'Nunito Sans',
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ), */
+          
         ],
       ),
     );
@@ -539,24 +398,14 @@ class AppChangeRepresentativeSheet {
                                 height: 50,
                                 margin: EdgeInsetsDirectional.only(
                                     top: 10.0, end: 10.0),
-                                child:
-                                    //!FlatButton => TextButton
-                                    //!
-                                    TextButton(
-                                  onPressed: () {},
-                                  child: Icon(AppIcons.info,
-                                      size: 24,
-                                      color: StateContainer.of(context)
-                                          .curTheme
-                                          .text),
-                                ),
-                                /* FlatButton(
-                                  highlightColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
-                                  splashColor: StateContainer.of(context)
-                                      .curTheme
-                                      .text15,
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                      overlayColor: MaterialStateProperty.all(
+                                          StateContainer.of(context)
+                                              .curTheme
+                                              .text15),
+                                      padding: MaterialStateProperty.all(
+                                          EdgeInsets.all(13.0))),
                                   onPressed: () {
                                     AppDialogs.showInfoDialog(
                                         context,
@@ -569,13 +418,7 @@ class AppChangeRepresentativeSheet {
                                       color: StateContainer.of(context)
                                           .curTheme
                                           .text),
-                                  padding: EdgeInsets.all(13.0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(100.0)),
-                                  materialTapTargetSize:
-                                      MaterialTapTargetSize.padded,
-                                ), */
+                                ),
                               ),
                             ],
                           ),

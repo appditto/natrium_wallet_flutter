@@ -104,9 +104,7 @@ class AppSeedBackupSheet {
                                   height: 50,
                                   margin: EdgeInsetsDirectional.only(
                                       top: 10.0, end: 10.0),
-                                  child:
-                                      //!FlatButton => TextButton
-                                      TextButton(
+                                  child: TextButton(
                                     onPressed: () {
                                       setState(() {
                                         showMnemonic = !showMnemonic;

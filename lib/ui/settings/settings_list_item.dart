@@ -17,7 +17,6 @@ class AppSettings {
       {bool disabled = false}) {
     return IgnorePointer(
       ignoring: disabled,
-      //!FlatButton => TextButton
       child: TextButton(
         style: ButtonStyle(
             splashFactory: InkSplash.splashFactory,
@@ -89,9 +88,7 @@ class AppSettings {
       {bool disabled = false}) {
     return IgnorePointer(
       ignoring: disabled,
-      child:
-          //!FlatButton => TextButton
-          TextButton(
+      child: TextButton(
         style: ButtonStyle(
             splashFactory: InkSplash.splashFactory,
             padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -160,7 +157,6 @@ class AppSettings {
   static Widget buildSettingsListItemSingleLine(
       BuildContext context, String heading, IconData settingIcon,
       {Function onPressed}) {
-    //!FlatButton => TextButton
     return TextButton(
       style: ButtonStyle(
           splashFactory: InkSplash.splashFactory,

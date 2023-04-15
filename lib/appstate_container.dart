@@ -99,7 +99,7 @@ class StateContainerState extends State<StateContainer> {
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
   LanguageSetting curLanguage = LanguageSetting(AvailableLanguage.DEFAULT);
   AvailableBlockExplorer curBlockExplorer =
-      AvailableBlockExplorer(AvailableBlockExplorerEnum.NANOCRAWLER);
+      AvailableBlockExplorer(AvailableBlockExplorerEnum.NANOCAFE);
   BaseTheme curTheme = NatriumTheme();
   // Currently selected account
   Account selectedAccount =
@@ -658,7 +658,7 @@ class StateContainerState extends State<StateContainer> {
   Future<void> _requestBalances() async {
     List<Account> accounts =
         await sl.get<DBHelper>().getAccounts(await getSeed());
-    List<String> addressToRequest = List();
+    List<String> addressToRequest = [];
     accounts.forEach((account) {
       if (account.address != null) {
         addressToRequest.add(account.address);

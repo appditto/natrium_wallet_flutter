@@ -64,10 +64,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                                   start: smallScreen(context) ? 15 : 20),
                               height: 50,
                               width: 50,
-                              child:
-                                  //!FlatButton => TextButton
-                                  //!
-                                  TextButton(
+                              child: TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
@@ -81,10 +78,7 @@ class _IntroImportSeedState extends State<IntroImportSeedPage> {
                           Container(
                               margin: EdgeInsetsDirectional.only(
                                   end: smallScreen(context) ? 15 : 20),
-                              child:
-                                  //!FlatButton => TextButton
-                                  //!
-                                  TextButton(
+                              child: TextButton(
                                 onPressed: () {
                                   setState(() {
                                     _seedMode = !_seedMode;

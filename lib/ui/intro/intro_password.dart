@@ -70,36 +70,21 @@ class _IntroPasswordState extends State<IntroPassword> {
                                 start: smallScreen(context) ? 15 : 20),
                             height: 50,
                             width: 50,
-                            child:
-                                //!FlatButton => TextButton
-                                //!
-                                
-                                TextButton(
-                                    onPressed: () {},
-                                    child: Icon(AppIcons.back,
-                                        color: StateContainer.of(context)
+                            child: TextButton(
+                              style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.all(
+                                        StateContainer.of(context)
                                             .curTheme
-                                            .text,
-                                        size: 24)),
-                            /* FlatButton(
-                                    highlightColor: StateContainer.of(context)
+                                            .text15)
+                              ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(AppIcons.back,
+                                    color: StateContainer.of(context)
                                         .curTheme
-                                        .text15,
-                                    splashColor: StateContainer.of(context)
-                                        .curTheme
-                                        .text15,
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0)),
-                                    padding: EdgeInsets.all(0.0),
-                                    child: Icon(AppIcons.back,
-                                        color: StateContainer.of(context)
-                                            .curTheme
-                                            .text,
-                                        size: 24)), */
+                                        .text,
+                                    size: 24)),
                           ),
                         ],
                       ),
@@ -269,11 +254,10 @@ class _IntroPasswordState extends State<IntroPassword> {
                     Row(
                       children: <Widget>[
                         // Next Button
-                        AppButton.buildAppButton(
-                            context,
-                            AppButtonType.PRIMARY,
+                        AppButton.buildAppButton(context, AppButtonType.PRIMARY,
                             AppLocalization.of(context).nextButton,
-                            dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () async {
+                            dimens: Dimens.BUTTON_TOP_DIMENS,
+                            onPressed: () async {
                           await submitAndEncrypt();
                         }),
                       ],

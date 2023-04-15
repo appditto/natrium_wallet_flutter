@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'package:natrium_wallet_flutter/model/setting_item.dart';
 
 enum AvailableBlockExplorerEnum { NANOCRAWLER, NANOLOOKER, NANOCAFE }
@@ -19,7 +18,7 @@ class AvailableBlockExplorer extends SettingSelectionItem {
       case AvailableBlockExplorerEnum.NANOCAFE:
         return "nanocafe.cc";
       default:
-        return "nanocrawler.cc";
+        return "nanocafe.cc";
     }
   }
 

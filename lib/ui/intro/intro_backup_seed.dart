@@ -76,10 +76,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                               start: smallScreen(context) ? 15 : 20),
                           height: 50,
                           width: 50,
-                          child:
-                              //!FlatButton => TextButton
-                              //!
-                              TextButton(
+                          child: TextButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -93,10 +90,7 @@ class _IntroBackupSeedState extends State<IntroBackupSeedPage> {
                         Container(
                           margin: EdgeInsetsDirectional.only(
                               end: smallScreen(context) ? 15 : 20),
-                          child:
-                              //!FlatButton => TextButton
-                              //!
-                              TextButton(
+                          child: TextButton(
                             onPressed: () {
                               setState(() {
                                 _showMnemonic = !_showMnemonic;

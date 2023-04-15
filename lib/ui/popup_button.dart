@@ -13,7 +13,6 @@ import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
-import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/util/hapticutil.dart';
@@ -125,6 +124,8 @@ class _AppPopupButtonState extends State<AppPopupButton> {
 
   @override
   Widget build(BuildContext context) {
+    bool canSend = StateContainer.of(context).wallet != null &&
+        StateContainer.of(context).wallet.accountBalance > BigInt.zero;
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
@@ -148,18 +149,14 @@ class _AppPopupButtonState extends State<AppPopupButton> {
         ),
         // Send Button
         GestureDetector(
-          onVerticalDragStart: (StateContainer.of(context).wallet != null &&
-                  StateContainer.of(context).wallet.accountBalance >
-                      BigInt.zero)
+          onVerticalDragStart: (canSend)
               ? (value) {
                   setState(() {
                     popupColor = StateContainer.of(context).curTheme.primary;
                   });
                 }
               : (value) {},
-          onVerticalDragEnd: (StateContainer.of(context).wallet != null &&
-                  StateContainer.of(context).wallet.accountBalance >
-                      BigInt.zero)
+          onVerticalDragEnd: (canSend)
               ? (value) {
                   isSendButtonColorPrimary = true;
                   firstTime = true;
@@ -175,9 +172,7 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                   });
                 }
               : (value) {},
-          onVerticalDragUpdate: (StateContainer.of(context).wallet != null &&
-                  StateContainer.of(context).wallet.accountBalance >
-                      BigInt.zero)
+          onVerticalDragUpdate: (canSend)
               ? (dragUpdateDetails) {
                   if (dragUpdateDetails.localPosition.dy < -60) {
                     isScrolledUpEnough = true;
@@ -215,76 +210,59 @@ class _AppPopupButtonState extends State<AppPopupButton> {
                 }
               : (dragUpdateDetails) {},
           child: AnimatedContainer(
-            duration: Duration(milliseconds: 100),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
-            ),
-            height: 55,
-            width: (MediaQuery.of(context).size.width - 42) / 2,
-            margin: EdgeInsetsDirectional.only(
-                start: 7, top: popupMarginBottom, end: 14.0),
-            //!Changing FlatButton => TextButton
-            //!
-            child: AppButton.buildAppButton(
-              context,
-              AppButtonType.PRIMARY,
-              AppLocalization.of(context).send,
-              disabled: !(StateContainer.of(context).wallet != null &&
-                  StateContainer.of(context).wallet.accountBalance >
-                      BigInt.zero),
-              onPressed: () {
-                if (StateContainer.of(context).wallet != null &&
-                    StateContainer.of(context).wallet.accountBalance >
-                        BigInt.zero) {
-                  Sheets.showAppHeightNineSheet(
-                      context: context,
-                      widget: SendSheet(
-                          localCurrency:
-                              StateContainer.of(context).curCurrency));
-                }
-              },
-            ),
-            /* FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0)),
-              color: StateContainer.of(context).wallet != null &&
-                      StateContainer.of(context).wallet.accountBalance >
-                          BigInt.zero
-                  ? isSendButtonColorPrimary
-                      ? StateContainer.of(context).curTheme.primary
-                      : StateContainer.of(context).curTheme.success
-                  : StateContainer.of(context).curTheme.primary60,
-              child: AutoSizeText(
-                AppLocalization.of(context).send,
-                textAlign: TextAlign.center,
-                style: AppStyles.textStyleButtonPrimary(context),
-                maxLines: 1,
-                stepGranularity: 0.5,
+              duration: Duration(milliseconds: 100),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                boxShadow: [
+                  StateContainer.of(context).curTheme.boxShadowButton
+                ],
               ),
-              onPressed: () {
-                if (StateContainer.of(context).wallet != null &&
-                    StateContainer.of(context).wallet.accountBalance >
-                        BigInt.zero) {
-                  Sheets.showAppHeightNineSheet(
-                      context: context,
-                      widget: SendSheet(
-                          localCurrency:
-                              StateContainer.of(context).curCurrency));
-                }
-              },
-              highlightColor: StateContainer.of(context).wallet != null &&
-                      StateContainer.of(context).wallet.accountBalance >
-                          BigInt.zero
-                  ? StateContainer.of(context).curTheme.background40
-                  : Colors.transparent,
-              splashColor: StateContainer.of(context).wallet != null &&
-                      StateContainer.of(context).wallet.accountBalance >
-                          BigInt.zero
-                  ? StateContainer.of(context).curTheme.background40
-                  : Colors.transparent,
-            ), */
-          ),
+              height: 55,
+              width: (MediaQuery.of(context).size.width - 42) / 2,
+              margin: EdgeInsetsDirectional.only(
+                  start: 7, top: popupMarginBottom, end: 14.0),
+              child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    boxShadow: [
+                      StateContainer.of(context).curTheme.boxShadowButton
+                    ],
+                  ),
+                  height: 55,
+                  child: TextButton(
+                    onPressed: () {
+                      if (canSend) {
+                        Sheets.showAppHeightNineSheet(
+                            context: context,
+                            widget: SendSheet(
+                                localCurrency:
+                                    StateContainer.of(context).curCurrency));
+                      }
+                    },
+                    style: ButtonStyle(
+                      splashFactory: InkSplash.splashFactory,
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0))),
+                      backgroundColor: MaterialStateProperty.all(
+                        canSend
+                            ? isSendButtonColorPrimary
+                                ? StateContainer.of(context).curTheme.primary
+                                : StateContainer.of(context).curTheme.success
+                            : StateContainer.of(context).curTheme.primary60,
+                      ),
+                      overlayColor: canSend
+                          ? MaterialStateProperty.all(Colors.transparent)
+                          : MaterialStateProperty.all(
+                              StateContainer.of(context).curTheme.background40),
+                    ),
+                    child: AutoSizeText(AppLocalization.of(context).send,
+                        textAlign: TextAlign.center,
+                        style: AppStyles.textStyleButtonPrimary(context),
+                        maxLines: 1,
+                        stepGranularity: 0.5),
+                  ))
+              
+              ),
         ),
       ],
     );

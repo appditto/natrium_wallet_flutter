@@ -50,10 +50,7 @@ class _IntroPasswordOnLaunchState extends State<IntroPasswordOnLaunch> {
                               start: smallScreen(context) ? 15 : 20),
                           height: 50,
                           width: 50,
-                          child:
-                              //!FlatButton => TextButton
-                              //!
-                              TextButton(
+                          child: TextButton(
                                   style: ButtonStyle(
                                     overlayColor: MaterialStateProperty.all(
                                         StateContainer.of(context)

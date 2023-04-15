@@ -13,7 +13,7 @@ class AppDialogs {
     if (cancelText == null) {
       cancelText = AppLocalization.of(context).cancel.toUpperCase();
     }
-    //!showDialog replacing showAppDialog
+    //!showDialog replace showAppDialog
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -25,7 +25,6 @@ class AppDialogs {
           content:
               Text(content, style: AppStyles.textStyleParagraph(dialogContext)),
           actions: <Widget>[
-            //!FlatButton => TextButton
             TextButton(
               style: ButtonStyle(
                   padding: MaterialStateProperty.all(EdgeInsets.all(12))),
@@ -43,7 +42,6 @@ class AppDialogs {
                 ),
               ),
             ),
-            //!FlatButton => TextButton
             TextButton(
               onPressed: () {
                 Navigator.of(dialogContext, rootNavigator: true).pop();
@@ -131,10 +129,10 @@ class AppDialogs {
           ),
           content: Text(content, style: AppStyles.textStyleParagraph(context)),
           actions: <Widget>[
-            //!FlatButton => TextButton
-            //!
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
               child: Container(
                 constraints: BoxConstraints(maxWidth: 100),
                 child: Container(
@@ -146,15 +144,6 @@ class AppDialogs {
                 ),
               ),
             ),
-            /* FlatButton(
-              child: Text(
-                AppLocalization.of(context).cancel.toUpperCase(),
-                style: AppStyles.textStyleDialogButtonText(context),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ), */
           ],
         );
       },

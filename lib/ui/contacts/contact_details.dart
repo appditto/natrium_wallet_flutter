@@ -57,19 +57,11 @@ class ContactDetailsSheet {
                           height: 50,
                           margin: EdgeInsetsDirectional.only(
                               top: 10.0, start: 10.0),
-                          child: 
-                          //!FlatButton => TextButton
-                              //!
-                              TextButton(onPressed: (){}, child: Icon(AppIcons.trashcan,
-                                size: 24,
-                                color:
-                                    StateContainer.of(context).curTheme.text),
-                          ),
-                          /* FlatButton(
-                            highlightColor:
-                                StateContainer.of(context).curTheme.text15,
-                            splashColor:
-                                StateContainer.of(context).curTheme.text15,
+                          child: TextButton(
+                            style: ButtonStyle(
+                              overlayColor: MaterialStateProperty.all(
+                                  StateContainer.of(context).curTheme.text15),
+                            ),
                             onPressed: () {
                               AppDialogs.showConfirmDialog(
                                   context,
@@ -116,11 +108,7 @@ class ContactDetailsSheet {
                                 size: 24,
                                 color:
                                     StateContainer.of(context).curTheme.text),
-                            padding: EdgeInsets.all(13.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100.0)),
-                            materialTapTargetSize: MaterialTapTargetSize.padded,
-                          ), */
+                          ),
                         ),
                         // The header of the sheet
                         Container(
@@ -148,19 +136,12 @@ class ContactDetailsSheet {
                           height: 50,
                           margin:
                               EdgeInsetsDirectional.only(top: 10.0, end: 10.0),
-                          child: 
-                          //!FlatButton => TextButton
-                              //!
-                              TextButton(onPressed: (){}, child: Icon(AppIcons.search,
-                                size: 24,
-                                color:
-                                    StateContainer.of(context).curTheme.text),
-                          ),
-                          /* FlatButton(
-                            highlightColor:
-                                StateContainer.of(context).curTheme.text15,
-                            splashColor:
-                                StateContainer.of(context).curTheme.text15,
+                          child: TextButton(
+                            style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.all(
+                                    StateContainer.of(context)
+                                        .curTheme
+                                        .text15)),
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (BuildContext context) {
@@ -172,11 +153,7 @@ class ContactDetailsSheet {
                                 size: 24,
                                 color:
                                     StateContainer.of(context).curTheme.text),
-                            padding: EdgeInsets.all(13.0),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(100.0)),
-                            materialTapTargetSize: MaterialTapTargetSize.padded,
-                          ), */
+                          ),
                         ),
                       ],
                     ),
@@ -192,8 +169,16 @@ class ContactDetailsSheet {
                             StateContainer.of(context).natriconOn
                                 ? Expanded(
                                     child: SvgPicture.network(
-                                      UIUtil.getNatriconURL(contact.address, StateContainer.of(context).getNatriconNonce(contact.address)),
-                                      key: Key(UIUtil.getNatriconURL(contact.address, StateContainer.of(context).getNatriconNonce(contact.address))),
+                                      UIUtil.getNatriconURL(
+                                          contact.address,
+                                          StateContainer.of(context)
+                                              .getNatriconNonce(
+                                                  contact.address)),
+                                      key: Key(UIUtil.getNatriconURL(
+                                          contact.address,
+                                          StateContainer.of(context)
+                                              .getNatriconNonce(
+                                                  contact.address))),
                                       placeholderBuilder:
                                           (BuildContext context) => Container(
                                         child: FlareActor(
@@ -334,7 +319,8 @@ class ContactDetailsSheet {
                                   context,
                                   AppButtonType.PRIMARY_OUTLINE,
                                   AppLocalization.of(context).close,
-                                  dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () {
+                                  dimens: Dimens.BUTTON_BOTTOM_DIMENS,
+                                  onPressed: () {
                                 Navigator.pop(context);
                               }),
                             ],

@@ -118,7 +118,7 @@ class _ContactsListState extends State<ContactsList> {
           AppLocalization.of(context).noContactsExport, context);
       return;
     }
-    List<Map<String, dynamic>> jsonList = List();
+    List<Map<String, dynamic>> jsonList = [];
     contacts.forEach((contact) {
       jsonList.add(contact.toJson());
     });
@@ -228,9 +228,11 @@ class _ContactsListState extends State<ContactsList> {
                             height: 40,
                             width: 40,
                             margin: EdgeInsets.only(right: 10, left: 10),
-                            child:
-                                //!FlatButton => TextButton
-                                TextButton(
+                            child: TextButton(
+                              style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.all(
+                                    StateContainer.of(context).curTheme.text30),
+                              ),
                               onPressed: () {
                                 setState(() {
                                   widget.contactsOpen = false;
@@ -256,9 +258,11 @@ class _ContactsListState extends State<ContactsList> {
                           height: 40,
                           width: 40,
                           margin: EdgeInsetsDirectional.only(end: 5),
-                          child:
-                              //!FlatButton => TextButton
-                              TextButton(
+                          child: TextButton(
+                                style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.all(
+                                    StateContainer.of(context).curTheme.text30),
+                              ),
                             onPressed: () {
                               _importContacts();
                             },
@@ -272,9 +276,11 @@ class _ContactsListState extends State<ContactsList> {
                           height: 40,
                           width: 40,
                           margin: EdgeInsetsDirectional.only(end: 20),
-                          child:
-                              //!FlatButton => TextButton
-                              TextButton(
+                          child: TextButton(
+                                style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.all(
+                                    StateContainer.of(context).curTheme.text30),
+                              ),
                             onPressed: () {
                               _exportContacts();
                             },
@@ -382,7 +388,6 @@ class _ContactsListState extends State<ContactsList> {
   }
 
   Widget buildSingleContact(BuildContext context, Contact contact) {
-    //!FlatButton => TextButton
     return TextButton(
       style: ButtonStyle(
         splashFactory: InkSplash.splashFactory,

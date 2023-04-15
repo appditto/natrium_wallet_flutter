@@ -58,9 +58,57 @@ class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      //! changing FlatButton => TextButton
-                      //!
-                      TextButton(onPressed: (){}, child: Container(
+                      TextButton(
+                        style: ButtonStyle(
+                          splashFactory: InkSplash.splashFactory,
+                          overlayColor: MaterialStateProperty.all(
+                              StateContainer.of(context).curTheme.text15),
+                        ),
+                        onPressed: () {
+                          AppDialogs.showConfirmDialog(
+                              context,
+                              CaseChange.toUpperCase(
+                                  AppLocalization.of(context).warning, context),
+                              AppLocalization.of(context).logoutDetail,
+                              AppLocalization.of(context)
+                                  .logoutAction
+                                  .toUpperCase(), () {
+                            // Show another confirm dialog
+                            AppDialogs.showConfirmDialog(
+                                context,
+                                AppLocalization.of(context).logoutAreYouSure,
+                                AppLocalization.of(context).logoutReassurance,
+                                CaseChange.toUpperCase(
+                                    AppLocalization.of(context).yes, context),
+                                () {
+                              // Unsubscribe from notifications
+                              sl
+                                  .get<SharedPrefsUtil>()
+                                  .setNotificationsOn(false)
+                                  .then((_) {
+                                FirebaseMessaging.instance
+                                    .getToken()
+                                    .then((fcmToken) {
+                                  EventTaxiImpl.singleton()
+                                      .fire(FcmUpdateEvent(token: fcmToken));
+                                  // Delete all data
+                                  sl.get<Vault>().deleteAll().then((_) {
+                                    sl
+                                        .get<SharedPrefsUtil>()
+                                        .deleteAll()
+                                        .then((result) {
+                                      StateContainer.of(context).logOut();
+                                      Navigator.of(context)
+                                          .pushNamedAndRemoveUntil('/',
+                                              (Route<dynamic> route) => false);
+                                    });
+                                  });
+                                });
+                              });
+                            });
+                          });
+                        },
+                        child: Container(
                           child: Row(
                             children: <Widget>[
                               Icon(AppIcons.logout,

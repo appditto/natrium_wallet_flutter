@@ -107,33 +107,21 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                 start: smallScreen(context) ? 15 : 20),
                             height: 50,
                             width: 50,
-                            child:
-                                //!FlatButton => TextButton
-                                //!
-                                TextButton(
-                              onPressed: () {},
-                              child: Icon(AppIcons.back,
-                                  color:
-                                      StateContainer.of(context).curTheme.text,
-                                  size: 24),
-                            )
-                            /* FlatButton(
-                              highlightColor:
+                            child: TextButton(
+                              style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.all(
                                   StateContainer.of(context).curTheme.text15,
-                              splashColor:
-                                  StateContainer.of(context).curTheme.text15,
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.of(context)
                                     .popUntil((route) => route.isFirst);
                               },
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0)),
-                              padding: EdgeInsets.all(0.0),
                               child: Icon(AppIcons.back,
                                   color:
                                       StateContainer.of(context).curTheme.text,
-                                  size: 24)), */
-                            ),
+                                  size: 24),
+                            )),
                       ],
                     ),
                     // The header
@@ -250,26 +238,15 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                             .curTheme
                                             .primary20),
                               ),
-                              child:
-                                  //!FlatButton => TextButton
-                                  //!
-                                  TextButton(
-                                onPressed: () {},
-                                child: Icon(AppIcons.back,
-                                    color: nonce != null && !this.loading
-                                        ? StateContainer.of(context)
-                                            .curTheme
-                                            .primary
-                                        : StateContainer.of(context)
-                                            .curTheme
-                                            .primary20,
-                                    size: 24),
-                              ),
-                              /* FlatButton(
-                                highlightColor:
-                                    StateContainer.of(context).curTheme.text15,
-                                splashColor:
-                                    StateContainer.of(context).curTheme.text15,
+                              child: TextButton(
+                                style: ButtonStyle(
+                                    overlayColor: MaterialStateProperty.all(
+                                      StateContainer.of(context)
+                                          .curTheme
+                                          .text15,
+                                    ),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsetsDirectional.only(end: 4))),
                                 onPressed: nonce != null
                                     ? () {
                                         if (nonce == null || this.loading) {
@@ -291,9 +268,6 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                         }
                                       }
                                     : null,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0)),
-                                padding: EdgeInsetsDirectional.only(end: 4),
                                 child: Icon(AppIcons.back,
                                     color: nonce != null && !this.loading
                                         ? StateContainer.of(context)
@@ -303,7 +277,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                             .curTheme
                                             .primary20,
                                     size: 24),
-                              ), */
+                              ),
                             ),
                             // Next Natricon Button
                             Container(
@@ -318,26 +292,15 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                         .curTheme
                                         .primary),
                               ),
-                              child:
-                                  //!FlatButton => TextButton
-                                  //!
-                                  TextButton(
-                                onPressed: () {},
-                                child: Transform(
-                                  alignment: Alignment.center,
-                                  transform: Matrix4.rotationY(math.pi),
-                                  child: Icon(AppIcons.back,
-                                      color: StateContainer.of(context)
+                              child: TextButton(
+                                style: ButtonStyle(
+                                    overlayColor: MaterialStateProperty.all(
+                                      StateContainer.of(context)
                                           .curTheme
-                                          .primary,
-                                      size: 24),
-                                ),
-                              ),
-                              /* FlatButton(
-                                highlightColor:
-                                    StateContainer.of(context).curTheme.text15,
-                                splashColor:
-                                    StateContainer.of(context).curTheme.text15,
+                                          .text15,
+                                    ),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsetsDirectional.only(start: 4))),
                                 onPressed: () {
                                   if (this.loading) {
                                     return;
@@ -355,9 +318,6 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                     });
                                   }
                                 },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(50.0)),
-                                padding: EdgeInsetsDirectional.only(start: 4),
                                 child: Transform(
                                   alignment: Alignment.center,
                                   transform: Matrix4.rotationY(math.pi),
@@ -367,7 +327,8 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                                           .primary,
                                       size: 24),
                                 ),
-                              ), */
+                              ),
+                              
                             ),
                           ],
                         ),
@@ -386,9 +347,7 @@ class _AvatarChangePageState extends State<AvatarChangePage> {
                       children: <Widget>[
                         // I want this Button
                         AppButton.buildAppButton(
-                            context,
-                            AppButtonType.PRIMARY,
-                            "I Want This One",
+                            context, AppButtonType.PRIMARY, "I Want This One",
                             dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                           showSendConfirmSheet();
                         },

@@ -248,7 +248,7 @@ class _PinScreenState extends State<PinScreen>
   }
 
   List<Widget> _buildPinDots() {
-    List<Widget> ret = List();
+    List<Widget> ret = [];
     for (int i = 0; i < _pinLength; i++) {
       ret.add(Icon(_dotStates[i],
           color: StateContainer.of(context).curTheme.primary, size: 20.0));

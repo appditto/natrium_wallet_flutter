@@ -17,76 +17,19 @@ enum AppButtonType {
 class AppButton {
   // Primary button builder
   static Widget buildAppButton(
-    BuildContext context,
-    AppButtonType type,
-    String buttonText, {
-    Function onPressed,
-    bool disabled = false,
-    List<double> dimens = const [0, 0, 0, 0],
-  }) {
+      BuildContext context, AppButtonType type, String buttonText,
+      {Function onPressed,
+      bool disabled = false,
+      List<double> dimens = const [0, 0, 0, 0],
+      bool isExpanded = true}) {
     switch (type) {
       case AppButtonType.PRIMARY:
-        return Expanded(
-          child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                boxShadow: [
-                  StateContainer.of(context).curTheme.boxShadowButton
-                ],
-              ),
-              height: 55,
-              margin: EdgeInsetsDirectional.fromSTEB(
-                  dimens[0], dimens[1], dimens[2], dimens[3]),
-              //!Changing FlatButton => TextButton
-              //!
-              child: TextButton(
-                onPressed: () {
-                  if (onPressed != null && !disabled) {
-                    onPressed();
-                  }
-                  return;
-                },
-                style: ButtonStyle(
-                    splashFactory: InkSplash.splashFactory,
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100.0))),
-                    backgroundColor: MaterialStateProperty.all(
-                      disabled
-                          ? StateContainer.of(context).curTheme.primary60
-                          : StateContainer.of(context).curTheme.primary,
-                    ),
-                    overlayColor: disabled
-                        ? MaterialStateProperty.all(Colors.transparent)
-                        : MaterialStateProperty.all(
-                            StateContainer.of(context).curTheme.background40)),
-                child: AutoSizeText(buttonText,
-                    textAlign: TextAlign.center,
-                    style: AppStyles.textStyleButtonPrimary(context),
-                    maxLines: 1,
-                    stepGranularity: 0.5),
-              )
-              /* FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0)),
-              color: disabled
-                  ? StateContainer.of(context).curTheme.primary60
-                  : StateContainer.of(context).curTheme.primary,
-              child: AutoSizeText(buttonText,
-                  textAlign: TextAlign.center,
-                  style: AppStyles.textStyleButtonPrimary(context),
-                  maxLines: 1,
-                  stepGranularity: 0.5),
-              onPressed: () {
-                if (onPressed != null && !disabled) {
-                  onPressed();
-                }
-                return;
-              },
-              highlightColor: StateContainer.of(context).curTheme.background40,
-              splashColor: StateContainer.of(context).curTheme.background40,
-            ), */
-              ),
-        );
+        return isExpanded
+            ? Expanded(
+                child: _buildPrimaryButton(
+                    context, dimens, onPressed, disabled, buttonText))
+            : _buildPrimaryButton(
+                context, dimens, onPressed, disabled, buttonText);
       case AppButtonType.PRIMARY_OUTLINE:
         return Expanded(
           child: Container(
@@ -130,14 +73,11 @@ class AppButton {
       case AppButtonType.SUCCESS:
         return Expanded(
           child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100)
-              ),
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(100)),
               height: 55,
               margin: EdgeInsetsDirectional.fromSTEB(
                   dimens[0], dimens[1], dimens[2], dimens[3]),
-              //!Changing FlatButton => TextButton
-              //!
               child: TextButton(
                 style: ButtonStyle(
                   overlayColor: MaterialStateProperty.all(
@@ -168,15 +108,44 @@ class AppButton {
       case AppButtonType.SUCCESS_OUTLINE:
         return Expanded(
           child: Container(
-            decoration: BoxDecoration(
-              color: StateContainer.of(context).curTheme.backgroundDark,
-              borderRadius: BorderRadius.circular(100),
-              boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
-            ),
-            height: 55,
-            margin: EdgeInsetsDirectional.fromSTEB(
-                dimens[0], dimens[1], dimens[2], dimens[3]),
-            child: OutlineButton(
+              decoration: BoxDecoration(
+                color: StateContainer.of(context).curTheme.backgroundDark,
+                borderRadius: BorderRadius.circular(100),
+                boxShadow: [
+                  StateContainer.of(context).curTheme.boxShadowButton
+                ],
+              ),
+              height: 55,
+              margin: EdgeInsetsDirectional.fromSTEB(
+                  dimens[0], dimens[1], dimens[2], dimens[3]),
+              child: OutlinedButton(
+                style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.all(
+                        StateContainer.of(context).curTheme.success30),
+                    splashFactory: InkSplash.splashFactory,
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0)),
+                    ),
+                    side: MaterialStateProperty.all(BorderSide(
+                        color: StateContainer.of(context).curTheme.success,
+                        width: 2.0)
+                    )),
+                onPressed: () {
+                  if (onPressed != null) {
+                    onPressed();
+                  }
+                  return;
+                },
+                child: AutoSizeText(
+                  buttonText,
+                  textAlign: TextAlign.center,
+                  style: AppStyles.textStyleButtonSuccessOutline(context),
+                  maxLines: 1,
+                  stepGranularity: 0.5,
+                ),
+              )
+              /* OutlineButton(
               color: StateContainer.of(context).curTheme.backgroundDark,
               textColor: StateContainer.of(context).curTheme.success,
               borderSide: BorderSide(
@@ -201,8 +170,8 @@ class AppButton {
                 }
                 return;
               },
-            ),
-          ),
+            ), */
+              ),
         );
       case AppButtonType.TEXT_OUTLINE:
         return Expanded(
@@ -215,14 +184,14 @@ class AppButton {
             height: 55,
             margin: EdgeInsetsDirectional.fromSTEB(
                 dimens[0], dimens[1], dimens[2], dimens[3]),
-            child: 
-            OutlinedButton(
+            child: OutlinedButton(
               style: ButtonStyle(
                 splashFactory: InkSplash.splashFactory,
-                overlayColor: MaterialStateProperty.all( StateContainer.of(context).curTheme.text30),
-                side: MaterialStateProperty.all( BorderSide(
-                      color: StateContainer.of(context).curTheme.text,
-                      width: 2.0)),
+                overlayColor: MaterialStateProperty.all(
+                    StateContainer.of(context).curTheme.text30),
+                side: MaterialStateProperty.all(BorderSide(
+                    color: StateContainer.of(context).curTheme.text,
+                    width: 2.0)),
               ),
               child: AutoSizeText(
                 buttonText,
@@ -243,5 +212,48 @@ class AppButton {
       default:
         throw new UIException("Invalid Button Type $type");
     }
+  }
+
+  static Container _buildPrimaryButton(
+      BuildContext context,
+      List<double> dimens,
+      Function onPressed,
+      bool disabled,
+      String buttonText) {
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          boxShadow: [StateContainer.of(context).curTheme.boxShadowButton],
+        ),
+        height: 55,
+        margin: EdgeInsetsDirectional.fromSTEB(
+            dimens[0], dimens[1], dimens[2], dimens[3]),
+        child: TextButton(
+          onPressed: () {
+            if (onPressed != null && !disabled) {
+              onPressed();
+            }
+            return;
+          },
+          style: ButtonStyle(
+            splashFactory: InkSplash.splashFactory,
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100.0))),
+            backgroundColor: MaterialStateProperty.all(
+              disabled
+                  ? StateContainer.of(context).curTheme.primary60
+                  : StateContainer.of(context).curTheme.primary,
+            ),
+            overlayColor: disabled
+                ? MaterialStateProperty.all(Colors.transparent)
+                : MaterialStateProperty.all(
+                    StateContainer.of(context).curTheme.background40),
+          ),
+          child: AutoSizeText(buttonText,
+              textAlign: TextAlign.center,
+              style: AppStyles.textStyleButtonPrimary(context),
+              maxLines: 1,
+              stepGranularity: 0.5),
+        ));
   } //
 }

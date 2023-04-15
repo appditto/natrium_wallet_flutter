@@ -92,7 +92,7 @@ class _SendSheetState extends State<SendSheet> {
     _sendAmountController = TextEditingController();
     _sendAddressController = TextEditingController();
     _sendAddressStyle = AddressStyle.TEXT60;
-    _contacts = List();
+    _contacts = [];
     quickSendAmount = widget.quickSendAmount;
     this.animationOpen = false;
     if (widget.contact != null) {
@@ -204,10 +204,7 @@ class _SendSheetState extends State<SendSheet> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 //Empty SizedBox
-                SizedBox(
-                  width: 60,
-                  height: 60,
-                ),
+                SizedBox(width: 60, height: 60),
 
                 // Container for the header, address and balance text
                 Column(
@@ -509,9 +506,7 @@ class _SendSheetState extends State<SendSheet> {
                   Row(
                     children: <Widget>[
                       // Send Button
-                      AppButton.buildAppButton(
-                          context,
-                          AppButtonType.PRIMARY,
+                      AppButton.buildAppButton(context, AppButtonType.PRIMARY,
                           AppLocalization.of(context).send,
                           dimens: Dimens.BUTTON_TOP_DIMENS, onPressed: () {
                         bool validRequest = _validateRequest();
@@ -573,7 +568,8 @@ class _SendSheetState extends State<SendSheet> {
                           context,
                           AppButtonType.PRIMARY_OUTLINE,
                           AppLocalization.of(context).scanQrCode,
-                          dimens: Dimens.BUTTON_BOTTOM_DIMENS, onPressed: () async {
+                          dimens: Dimens.BUTTON_BOTTOM_DIMENS,
+                          onPressed: () async {
                         UIUtil.cancelLockEvent();
                         String scanResult = await UserDataUtil.getQRData(
                             DataType.MANTA_ADDRESS, context);
@@ -856,31 +852,21 @@ class _SendSheetState extends State<SendSheet> {
         Container(
             height: 42,
             width: double.infinity - 5,
-            child:
-                //!FlatButton => TextButton
-                //!
-                TextButton(
-              onPressed: () {},
+            child: TextButton(
+              onPressed: () {
+                _sendAddressController.text = contact.name;
+                _sendAddressFocusNode.unfocus();
+                setState(() {
+                  _isContact = true;
+                  _showContactButton = false;
+                  _pasteButtonVisible = false;
+                  _sendAddressStyle = AddressStyle.PRIMARY;
+                });
+              },
               child: Text(contact.name,
                   textAlign: TextAlign.center,
                   style: AppStyles.textStyleAddressPrimary(context)),
-            )
-            /* FlatButton(
-            onPressed: () {
-              _sendAddressController.text = contact.name;
-              _sendAddressFocusNode.unfocus();
-              setState(() {
-                _isContact = true;
-                _showContactButton = false;
-                _pasteButtonVisible = false;
-                _sendAddressStyle = AddressStyle.PRIMARY;
-              });
-            },
-            child: Text(contact.name,
-                textAlign: TextAlign.center,
-                style: AppStyles.textStyleAddressPrimary(context)),
-          ), */
-            ),
+            )),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 25),
           height: 1,

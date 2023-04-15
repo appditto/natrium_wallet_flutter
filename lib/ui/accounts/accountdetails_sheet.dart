@@ -81,10 +81,7 @@ class AccountDetailsSheet {
                                         top: 10.0, start: 10.0),
                                     child: account.index == 0
                                         ? SizedBox()
-                                        :
-                                        //!FlatButton => TextButton
-                                        //!
-                                        TextButton(
+                                        : TextButton(
                                             onPressed: () {
                                               AppDialogs.showConfirmDialog(
                                                   context,
@@ -113,7 +110,7 @@ class AccountDetailsSheet {
                                                           AccountModifiedEvent(
                                                               account: account,
                                                               deleted: true));
-                                                  Navigator.of(context, rootNavigator: true).pop();
+                                                  Navigator.of(context).pop();
                                                 });
                                               },
                                                   cancelText:
@@ -129,65 +126,7 @@ class AccountDetailsSheet {
                                                     StateContainer.of(context)
                                                         .curTheme
                                                         .text),
-                                          )
-                                    /* FlatButton(
-                                          highlightColor:
-                                              StateContainer.of(context)
-                                                  .curTheme
-                                                  .text15,
-                                          splashColor:
-                                              StateContainer.of(context)
-                                                  .curTheme
-                                                  .text15,
-                                          onPressed: () {
-                                            AppDialogs.showConfirmDialog(
-                                                context,
-                                                AppLocalization.of(context)
-                                                    .hideAccountHeader,
-                                                AppLocalization.of(context)
-                                                    .removeAccountText
-                                                    .replaceAll(
-                                                        "%1",
-                                                        AppLocalization.of(
-                                                                context)
-                                                            .addAccount),
-                                                CaseChange.toUpperCase(
-                                                    AppLocalization.of(context)
-                                                        .yes,
-                                                    context), () {
-                                              // Remove account
-                                              deleted = true;
-                                              sl
-                                                  .get<DBHelper>()
-                                                  .deleteAccount(account)
-                                                  .then((id) {
-                                                EventTaxiImpl.singleton().fire(
-                                                    AccountModifiedEvent(
-                                                        account: account,
-                                                        deleted: true));
-                                                Navigator.of(context).pop();
-                                              });
-                                            },
-                                                cancelText:
-                                                    CaseChange.toUpperCase(
-                                                        AppLocalization.of(
-                                                                context)
-                                                            .no,
-                                                        context));
-                                          },
-                                          child: Icon(AppIcons.trashcan,
-                                              size: 24,
-                                              color: StateContainer.of(context)
-                                                  .curTheme
-                                                  .text),
-                                          padding: EdgeInsets.all(13.0),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(100.0)),
-                                          materialTapTargetSize:
-                                              MaterialTapTargetSize.padded,
-                                        ), */
-                                    ),
+                                          )),
                                 // The header of the sheet
                                 Container(
                                   margin: EdgeInsets.only(top: 25.0),

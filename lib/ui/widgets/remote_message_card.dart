@@ -36,11 +36,12 @@ class _RemoteMessageCardState extends State<RemoteMessageCard> {
           color: StateContainer.of(context).curTheme.success,
         ),
       ),
-      child:
-          //!FlatButton => TextButton
-          //!
-          TextButton(
-        onPressed: () {},
+      child: TextButton(
+        style: ButtonStyle(
+          overlayColor: MaterialStateProperty.all(
+                StateContainer.of(context).curTheme.success.withOpacity(0.15))
+        ),
+        onPressed: widget.onPressed,
         child: Container(
           width: double.infinity,
           padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),

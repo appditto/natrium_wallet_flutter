@@ -827,10 +827,14 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     child: Container(
                                         width: 64,
                                         height: 64,
-                                        child:
-                                            //!FlatButton => TextButton
-                                            //!
-                                            TextButton(
+                                        child: TextButton(
+                                          style: ButtonStyle(
+                                            overlayColor:
+                                                MaterialStateProperty.all(
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .text30),
+                                          ),
                                           onPressed: () {
                                             AccountDetailsSheet(
                                                     StateContainer.of(context)
@@ -887,10 +891,14 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     child: Container(
                                         width: 60,
                                         height: 45,
-                                        child:
-                                            //!FlatButton => TextButton
-                                            //!
-                                            TextButton(
+                                        child: TextButton(
+                                          style: ButtonStyle(
+                                            overlayColor:
+                                                MaterialStateProperty.all(
+                                                    StateContainer.of(context)
+                                                        .curTheme
+                                                        .text30),
+                                          ),
                                           onPressed: () {
                                             AccountDetailsSheet(
                                                     StateContainer.of(context)
@@ -960,10 +968,15 @@ class _SettingsSheetState extends State<SettingsSheet>
                                                 width: 52,
                                                 height: 52,
                                                 color: Colors.transparent,
-                                                child:
-                                                    //!FlatButton => TextButton
-                                                    //!
-                                                    TextButton(
+                                                child: TextButton(
+                                                  style: ButtonStyle(
+                                                    overlayColor:
+                                                        MaterialStateProperty
+                                                            .all(StateContainer
+                                                                    .of(context)
+                                                                .curTheme
+                                                                .text30),
+                                                  ),
                                                   onPressed: () {
                                                     sl
                                                         .get<DBHelper>()
@@ -1030,10 +1043,15 @@ class _SettingsSheetState extends State<SettingsSheet>
                                                 width: 48,
                                                 height: 36,
                                                 color: Colors.transparent,
-                                                child:
-                                                    //!FlatButton => TextButton
-                                                    //!
-                                                    TextButton(
+                                                child: TextButton(
+                                                  style: ButtonStyle(
+                                                    overlayColor:
+                                                        MaterialStateProperty
+                                                            .all(StateContainer
+                                                                    .of(context)
+                                                                .curTheme
+                                                                .text30),
+                                                  ),
                                                   onPressed: () {
                                                     sl
                                                         .get<DBHelper>()
@@ -1114,9 +1132,15 @@ class _SettingsSheetState extends State<SettingsSheet>
                                                 width: 52,
                                                 height: 52,
                                                 color: Colors.transparent,
-                                                child:
-                                                    //!FlatButton => TextButton
-                                                    TextButton(
+                                                child: TextButton(
+                                                  style: ButtonStyle(
+                                                    overlayColor:
+                                                        MaterialStateProperty
+                                                            .all(StateContainer
+                                                                    .of(context)
+                                                                .curTheme
+                                                                .text30),
+                                                  ),
                                                   onPressed: () {
                                                     sl
                                                         .get<DBHelper>()
@@ -1183,9 +1207,15 @@ class _SettingsSheetState extends State<SettingsSheet>
                                                 width: 48,
                                                 height: 36,
                                                 color: Colors.transparent,
-                                                child:
-                                                    //!FlatButton => TextButton
-                                                    TextButton(
+                                                child: TextButton(
+                                                  style: ButtonStyle(
+                                                    overlayColor:
+                                                        MaterialStateProperty
+                                                            .all(StateContainer
+                                                                    .of(context)
+                                                                .curTheme
+                                                                .text30),
+                                                  ),
                                                   onPressed: () {
                                                     sl
                                                         .get<DBHelper>()
@@ -1214,7 +1244,6 @@ class _SettingsSheetState extends State<SettingsSheet>
                                     )
                               : SizedBox(),
                           // Account switcher
-                          //!FlatButton => TextButton
                           TextButton(
                             style: ButtonStyle(
                                 overlayColor: MaterialStateProperty.all(
@@ -1263,14 +1292,14 @@ class _SettingsSheetState extends State<SettingsSheet>
                   ),
                   Container(
                       margin: EdgeInsets.only(top: 2),
-                      child:
-                          //!FlatButton => TextButton
-                          //!
-                          TextButton(
+                      child: TextButton(
                         style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0)))),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0))),
+                          overlayColor: MaterialStateProperty.all(
+                              StateContainer.of(context).curTheme.text30),
+                        ),
                         onPressed: () {
                           AccountDetailsSheet(
                                   StateContainer.of(context).selectedAccount)
@@ -1698,10 +1727,7 @@ class _SettingsSheetState extends State<SettingsSheet>
                           height: 40,
                           width: 40,
                           margin: EdgeInsets.only(right: 10, left: 10),
-                          child:
-                              //!FlatButton => TextButton
-                              //!
-                              TextButton(
+                          child: TextButton(
                             onPressed: () {
                               setState(() {
                                 _securityOpen = false;
