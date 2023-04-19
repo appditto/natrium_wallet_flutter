@@ -351,18 +351,15 @@ class AccountService {
     http.Response response = await http.post(Uri.parse(_SERVER_ADDRESS_HTTP),
         headers: {'Content-type': 'application/json'},
         body: json.encode(request.toJson()));
-    // try {
-    print("====================================>");
-    print(response.body);
+    try {
     Map decoded = json.decode(response.body);
     if (decoded.containsKey("error")) {
       return ErrorResponse.fromJson(decoded);
     }
     return decoded;
-    /* } catch (e) {
-      print("=======================================$e");
+    } catch (e) {
       return ErrorResponse(error: "Invalid response from server");
-    } */
+    }
   }
 
   Future<AccountInfoResponse> getAccountInfo(String account) async {

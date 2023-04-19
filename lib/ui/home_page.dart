@@ -13,7 +13,6 @@ import 'package:manta_dart/manta_wallet.dart';
 import 'package:manta_dart/messages.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/network/model/response/alerts_response_item.dart';
-import 'package:natrium_wallet_flutter/network/model/response/subscribe_response.dart';
 import 'package:natrium_wallet_flutter/ui/popup_button.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
@@ -918,17 +917,19 @@ class _AppHomePageState extends State<AppHomePage>
                   margin:
                       EdgeInsetsDirectional.only(start: 14, top: 0.0, end: 7.0),
                   child: AppButton.buildAppButton(
-                      context,
-                      AppButtonType.PRIMARY,
-                      AppLocalization.of(context).receive,
-                      isExpanded: false, onPressed: () {
-                        Navigator.of(context).pushReplacementNamed('/lock_screen');
-                    /* if (receive == null) {
-                      return;
-                    }
-                    Sheets.showAppHeightEightSheet(
-                        context: context, widget: receive); */
-                  }, disabled: receive == null),
+                    context,
+                    AppButtonType.PRIMARY,
+                    AppLocalization.of(context).receive,
+                    isExpanded: false,
+                    onPressed: () {
+                      if (receive == null) {
+                        return;
+                      }
+                      Sheets.showAppHeightEightSheet(
+                          context: context, widget: receive);
+                    },
+                    disabled: receive == null,
+                  ),
                 ),
                 //Send Button
                 AppPopupButton(),

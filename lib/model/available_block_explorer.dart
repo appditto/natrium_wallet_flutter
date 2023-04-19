@@ -18,7 +18,7 @@ class AvailableBlockExplorer extends SettingSelectionItem {
       case AvailableBlockExplorerEnum.NANOCAFE:
         return "nanocafe.cc";
       default:
-        return "nanocafe.cc";
+        return "nanocrawler.cc";
     }
   }
 

@@ -99,7 +99,7 @@ class StateContainerState extends State<StateContainer> {
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
   LanguageSetting curLanguage = LanguageSetting(AvailableLanguage.DEFAULT);
   AvailableBlockExplorer curBlockExplorer =
-      AvailableBlockExplorer(AvailableBlockExplorerEnum.NANOCAFE);
+      AvailableBlockExplorer(AvailableBlockExplorerEnum.NANOCRAWLER);
   BaseTheme curTheme = NatriumTheme();
   // Currently selected account
   Account selectedAccount =
@@ -783,7 +783,6 @@ class StateContainerState extends State<StateContainer> {
       } catch (e) {
         // TODO handle account history error
         sl.get<Logger>().e("account_history e", e);
-        print(e);
       }
     }
   }

@@ -125,74 +125,7 @@ class _AppPasswordLockScreenState extends State<AppPasswordLockScreen> {
                           ),
                         ),
                       )
-                      /* FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100)),
-                        onPressed: () {
-                          AppDialogs.showConfirmDialog(
-                              context,
-                              CaseChange.toUpperCase(
-                                  AppLocalization.of(context).warning, context),
-                              AppLocalization.of(context).logoutDetail,
-                              AppLocalization.of(context)
-                                  .logoutAction
-                                  .toUpperCase(), () {
-                            // Show another confirm dialog
-                            AppDialogs.showConfirmDialog(
-                                context,
-                                AppLocalization.of(context).logoutAreYouSure,
-                                AppLocalization.of(context).logoutReassurance,
-                                CaseChange.toUpperCase(
-                                    AppLocalization.of(context).yes, context),
-                                () {
-                              // Unsubscribe from notifications
-                              sl
-                                  .get<SharedPrefsUtil>()
-                                  .setNotificationsOn(false)
-                                  .then((_) {
-                                FirebaseMessaging.instance
-                                    .getToken()
-                                    .then((fcmToken) {
-                                  EventTaxiImpl.singleton()
-                                      .fire(FcmUpdateEvent(token: fcmToken));
-                                  // Delete all data
-                                  sl.get<Vault>().deleteAll().then((_) {
-                                    sl
-                                        .get<SharedPrefsUtil>()
-                                        .deleteAll()
-                                        .then((result) {
-                                      StateContainer.of(context).logOut();
-                                      Navigator.of(context)
-                                          .pushNamedAndRemoveUntil('/',
-                                              (Route<dynamic> route) => false);
-                                    });
-                                  });
-                                });
-                              });
-                            });
-                          });
-                        },
-                        highlightColor:
-                            StateContainer.of(context).curTheme.text15,
-                        splashColor: StateContainer.of(context).curTheme.text30,
-                        padding: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
-                        child: Container(
-                          child: Row(
-                            children: <Widget>[
-                              Icon(AppIcons.logout,
-                                  size: 16,
-                                  color:
-                                      StateContainer.of(context).curTheme.text),
-                              Container(
-                                margin: EdgeInsetsDirectional.only(start: 4),
-                                child: Text(AppLocalization.of(context).logout,
-                                    style: AppStyles.textStyleLogoutButton(
-                                        context)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ), */
+                      
                     ],
                   ),
                 ),
