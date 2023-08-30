@@ -6,6 +6,7 @@ import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 
 class IntroBackupSafetyPage extends StatefulWidget {
   @override

@@ -38,6 +38,7 @@ import 'package:natrium_wallet_flutter/ui/settings/contacts_widget.dart';
 import 'package:natrium_wallet_flutter/ui/transfer/transfer_overview_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/transfer/transfer_confirm_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/transfer/transfer_complete_sheet.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';

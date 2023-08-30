@@ -23,6 +23,7 @@ import 'package:natrium_wallet_flutter/model/db/contact.dart';
 import 'package:natrium_wallet_flutter/ui/contacts/add_contact.dart';
 import 'package:natrium_wallet_flutter/ui/contacts/contact_details.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -182,7 +183,7 @@ class _ContactsListState extends State<ContactsList> {
               AppLocalization.of(context).noContactsImport, context);
         }
       } catch (e) {
-        log.e(e.toString(), e);
+        log.e(e.toString(), error: e);
         UIUtil.showSnackbar(
             AppLocalization.of(context).contactsImportErr, context);
         return;

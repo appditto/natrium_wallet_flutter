@@ -27,6 +27,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/one_or_three_address_text.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/util/manta.dart';
 import 'package:natrium_wallet_flutter/util/numberutil.dart';
@@ -345,9 +346,11 @@ class _SendSheetState extends State<SendSheet> {
                                                             locale: StateContainer
                                                                     .of(context)
                                                                 .currencyLocale)
-                                                    : "Ӿ" + StateContainer.of(context)
-                                                        .wallet
-                                                        .getAccountBalanceDisplay(),
+                                                    : "Ӿ" +
+                                                        StateContainer.of(
+                                                                context)
+                                                            .wallet
+                                                            .getAccountBalanceDisplay(),
                                                 style: TextStyle(
                                                   color:
                                                       StateContainer.of(context)
@@ -599,7 +602,7 @@ class _SendSheetState extends State<SendSheet> {
                             }
                             log.e(
                                 'Failed to make manta request ${e.toString()}',
-                                e);
+                                error: e);
                             UIUtil.showSnackbar(
                                 AppLocalization.of(context).mantaError,
                                 context);

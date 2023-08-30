@@ -18,6 +18,7 @@ import 'package:natrium_wallet_flutter/ui/send/send_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';
@@ -176,8 +177,16 @@ class ContactDetailsSheet {
                             StateContainer.of(context).natriconOn
                                 ? Expanded(
                                     child: SvgPicture.network(
-                                      UIUtil.getNatriconURL(contact.address, StateContainer.of(context).getNatriconNonce(contact.address)),
-                                      key: Key(UIUtil.getNatriconURL(contact.address, StateContainer.of(context).getNatriconNonce(contact.address))),
+                                      UIUtil.getNatriconURL(
+                                          contact.address,
+                                          StateContainer.of(context)
+                                              .getNatriconNonce(
+                                                  contact.address)),
+                                      key: Key(UIUtil.getNatriconURL(
+                                          contact.address,
+                                          StateContainer.of(context)
+                                              .getNatriconNonce(
+                                                  contact.address))),
                                       placeholderBuilder:
                                           (BuildContext context) => Container(
                                         child: FlareActor(

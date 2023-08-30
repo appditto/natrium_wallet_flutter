@@ -19,6 +19,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/app_simpledialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/security.dart';
 import 'package:natrium_wallet_flutter/ui/util/routes.dart';
@@ -318,7 +319,7 @@ class AppChangeRepresentativeSheet {
             AppLocalization.of(context).changeRepSucces, context);
         Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
       } catch (e) {
-        sl.get<Logger>().e("Failed to change", e);
+        sl.get<Logger>().e("Failed to change", error: e);
         if (_animationOpen) {
           Navigator.of(context).pop();
         }

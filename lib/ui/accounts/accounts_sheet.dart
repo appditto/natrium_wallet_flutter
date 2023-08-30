@@ -15,6 +15,7 @@ import 'package:natrium_wallet_flutter/model/db/appdb.dart';
 import 'package:natrium_wallet_flutter/model/db/account.dart';
 import 'package:natrium_wallet_flutter/ui/accounts/accountdetails_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
@@ -149,7 +150,7 @@ class _AppAccountsWidgetState extends State<AppAccountsWidget> {
           await sl.get<AccountService>().requestAccountsBalances(addresses);
       await _handleAccountsBalancesResponse(resp);
     } catch (e) {
-      sl.get<Logger>().e("Error", e);
+      sl.get<Logger>().e("Error", error: e);
     }
   }
 

@@ -13,6 +13,7 @@ import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/plainseed_display.dart';
 import 'package:natrium_wallet_flutter/util/nanoutil.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/mnemonic_display.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 
 class IntroBackupSeedPage extends StatefulWidget {
   final String encryptedSeed;

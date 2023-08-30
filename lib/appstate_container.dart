@@ -215,7 +215,7 @@ class StateContainerState extends State<StateContainer> {
         updateActiveAlert(null, alert);
       }
     } catch (e) {
-      log.e("Error retrieving alert", e);
+      log.e("Error retrieving alert", error: e);
       return;
     }
   }
@@ -629,7 +629,7 @@ class StateContainerState extends State<StateContainer> {
         return resp.hash;
       } catch (e) {
         pendingRequests.remove(item.hash);
-        sl.get<Logger>().e("Error creating open", e);
+        sl.get<Logger>().e("Error creating open", error: e);
       }
     } else {
       // Publish receive
@@ -648,7 +648,7 @@ class StateContainerState extends State<StateContainer> {
         return resp.hash;
       } catch (e) {
         pendingRequests.remove(item.hash);
-        sl.get<Logger>().e("Error creating receive", e);
+        sl.get<Logger>().e("Error creating receive", error: e);
       }
     }
     return null;
@@ -658,7 +658,7 @@ class StateContainerState extends State<StateContainer> {
   Future<void> _requestBalances() async {
     List<Account> accounts =
         await sl.get<DBHelper>().getAccounts(await getSeed());
-    List<String> addressToRequest = List();
+    List<String> addressToRequest = [];
     accounts.forEach((account) {
       if (account.address != null) {
         addressToRequest.add(account.address);
@@ -782,7 +782,7 @@ class StateContainerState extends State<StateContainer> {
         }
       } catch (e) {
         // TODO handle account history error
-        sl.get<Logger>().e("account_history e", e);
+        sl.get<Logger>().e("account_history e", error: e);
       }
     }
   }

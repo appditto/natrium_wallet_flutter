@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flare_flutter/flare.dart';
-import 'package:flare_dart/math/mat2d.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flare_flutter/flare_controller.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +33,7 @@ import 'package:natrium_wallet_flutter/ui/receive/receive_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/settings/settings_drawer.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/remote_message_card.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/remote_message_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';

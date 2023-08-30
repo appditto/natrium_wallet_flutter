@@ -17,6 +17,7 @@ import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_text_field.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/dialog.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheets.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/tap_outside_unfocus.dart';
 import 'package:natrium_wallet_flutter/util/caseconverter.dart';

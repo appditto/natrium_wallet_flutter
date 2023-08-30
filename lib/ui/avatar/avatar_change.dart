@@ -14,6 +14,7 @@ import 'package:natrium_wallet_flutter/ui/avatar/nonce_response.dart';
 import 'package:natrium_wallet_flutter/ui/send/send_confirm_sheet.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/buttons.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/sheet_util.dart';
 import 'dart:math' as math;
 

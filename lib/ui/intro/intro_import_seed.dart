@@ -12,6 +12,7 @@ import 'package:natrium_wallet_flutter/service_locator.dart';
 import 'package:natrium_wallet_flutter/ui/util/formatters.dart';
 import 'package:natrium_wallet_flutter/ui/util/ui_util.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/app_text_field.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 import 'package:natrium_wallet_flutter/ui/widgets/tap_outside_unfocus.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
 

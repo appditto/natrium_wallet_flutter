@@ -34,16 +34,13 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 34
 
-    lintOptions {
-        disable 'InvalidPackage'
-    }
 
     defaultConfig {
         applicationId "co.banano.natriumwallet"
         minSdkVersion 19
-        targetSdkVersion 32
+        targetSdkVersion 34
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -74,11 +71,15 @@ android {
             }
             ndk {
                 abiFilters 'armeabi-v7a','arm64-v8a','x86_64'
-            }            
+            }
         }
     }
 
     ndkVersion "25.1.8937393"
+    namespace 'co.banano.natriumwallet'
+    lint {
+        disable 'InvalidPackage'
+    }
 }
 
 flutter {

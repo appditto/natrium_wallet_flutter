@@ -3,8 +3,9 @@
 // found in the LICENSE file.
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/raised_button.dart';
 
 // The total time to make the button's fill color opaque and change
 // its elevation. Only applies when highlightElevation > 0.0.

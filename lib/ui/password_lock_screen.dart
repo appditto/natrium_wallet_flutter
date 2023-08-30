@@ -18,6 +18,7 @@ import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/localization.dart';
 import 'package:natrium_wallet_flutter/dimens.dart';
 import 'package:natrium_wallet_flutter/util/sharedprefsutil.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 
 class AppPasswordLockScreen extends StatefulWidget {
   @override

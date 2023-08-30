@@ -380,7 +380,7 @@ class _ChangeRepManualSheetState extends State<ChangeRepManualSheet> {
             AppLocalization.of(context).changeRepSucces, context);
         Navigator.of(context).popUntil(RouteUtils.withNameLike('/home'));
       } catch (e) {
-        sl.get<Logger>().e("Failed to change", e);
+        sl.get<Logger>().e("Failed to change", error: e);
         if (_animationOpen) {
           Navigator.of(context).pop();
         }

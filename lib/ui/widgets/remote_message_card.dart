@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:natrium_wallet_flutter/appstate_container.dart';
 import 'package:natrium_wallet_flutter/network/model/response/alerts_response_item.dart';
 import 'package:natrium_wallet_flutter/styles.dart';
+import 'package:natrium_wallet_flutter/ui/widgets/flat_button.dart';
 
 class RemoteMessageCard extends StatefulWidget {
   final AlertResponseItem alert;
