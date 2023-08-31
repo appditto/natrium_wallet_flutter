@@ -1158,20 +1158,20 @@ class _AppHomePageState extends State<AppHomePage>
                                 AppStyles.textStyleTransactionAddress(context),
                           ),
 
-                          // TRANSACTION STATE TAG
-                          (item.confirmed != null && !item.confirmed) ||
-                                  (currentConfHeight > -1 &&
-                                      item.height != null &&
-                                      item.height > currentConfHeight)
-                              ? Container(
-                                  margin: EdgeInsetsDirectional.only(
-                                    top: 4,
-                                  ),
-                                  child: TransactionStateTag(
-                                      transactionState:
-                                          TransactionStateOptions.UNCONFIRMED),
-                                )
-                              : SizedBox()
+                          // // TRANSACTION STATE TAG
+                          // (item.confirmed != null && !item.confirmed) ||
+                          //         (currentConfHeight > -1 &&
+                          //             item.height != null &&
+                          //             item.height > currentConfHeight)
+                          //     ? Container(
+                          //         margin: EdgeInsetsDirectional.only(
+                          //           top: 4,
+                          //         ),
+                          //         child: TransactionStateTag(
+                          //             transactionState:
+                          //                 TransactionStateOptions.UNCONFIRMED),
+                          //       )
+                          //     : SizedBox()
                         ],
                       ),
                     ),
