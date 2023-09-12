@@ -1,7 +1,3 @@
-android/.project
-android/.settings
-android/key.properties
-android/app/release
 # Miscellaneous
 *.class
 *.lock
@@ -37,6 +33,10 @@ ios/Flutter/.last_build_id
 build/
 
 # Android related
+android/.project
+android/.settings
+android/key.properties
+android/app/release
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
 **/android/captures/
