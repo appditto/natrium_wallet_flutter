@@ -63,22 +63,6 @@ class _AppShareCardState extends State<AppShareCard> {
                         child: qrSVG,
                       ),
                     ),
-                    // Actual QR part of the QR
-                    Center(
-                      child: Container(
-                        color: Colors.white,
-                        height: 64.6,
-                        width: 64.6,
-                        padding: EdgeInsets.all(2),
-                        child: QrImage(
-                          padding: EdgeInsets.all(0.0),
-                          data: StateContainer.of(context).wallet.address,
-                          version: 6,
-                          gapless: false,
-                          errorCorrectionLevel: QrErrorCorrectLevel.Q,
-                        ),
-                      ),
-                    ),
                     // Outer Ring
                     Center(
                       child: Container(
@@ -226,6 +210,23 @@ class _AppShareCardState extends State<AppShareCard> {
                               ),
                             ),
                           ),
+                    // Foreground Actual QR part of the QR
+                    // Don't cover it up
+                    Center(
+                      child: Container(
+                        color: Colors.white,
+                        height: 64.6,
+                        width: 64.6,
+                        padding: EdgeInsets.all(2),
+                        child: QrImage(
+                          padding: EdgeInsets.all(0.0),
+                          data: StateContainer.of(context).wallet.address,
+                          version: 6,
+                          gapless: false,
+                          errorCorrectionLevel: QrErrorCorrectLevel.Q,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
