@@ -1226,22 +1226,12 @@ class AppLocalization {
 
   /// -- NON-TRANSLATABLE ITEMS
   String getBlockExplorerUrl(String hash, AvailableBlockExplorer explorer) {
-    if (explorer.explorer == AvailableBlockExplorerEnum.NANOLOOKER) {
-      return 'https://nanolooker.com/block/$hash';
-    } else if (explorer.explorer == AvailableBlockExplorerEnum.NANOCAFE) {
-      return 'https://nanocafe.cc/$hash';
-    }
-    return 'https://nanocrawler.cc/explorer/block/$hash';
+    return explorer.getBlockUrl(hash);
   }
 
   String getAccountExplorerUrl(
       String account, AvailableBlockExplorer explorer) {
-    if (explorer.explorer == AvailableBlockExplorerEnum.NANOLOOKER) {
-      return 'https://nanolooker.com/account/$account';
-    } else if (explorer.explorer == AvailableBlockExplorerEnum.NANOCAFE) {
-      return 'https://nanocafe.cc/$account';
-    }
-    return 'https://nanocrawler.cc/explorer/account/$account';
+    return explorer.getAccountUrl(account);
   }
 
   String get eulaUrl {

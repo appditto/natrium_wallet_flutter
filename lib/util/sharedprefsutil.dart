@@ -79,10 +79,7 @@ class SharedPrefsUtil {
     } else {
       expiryVal = expiry;
     }
-    Map<String, dynamic> msg = {
-      'data':value,
-      'expiry':expiryVal
-    };
+    Map<String, dynamic> msg = {'data': value, 'expiry': expiryVal};
     String serialized = json.encode(msg);
     await set(key, serialized);
   }
@@ -226,8 +223,9 @@ class SharedPrefsUtil {
   }
 
   Future<AvailableBlockExplorer> getBlockExplorer() async {
-    return AvailableBlockExplorer(AvailableBlockExplorerEnum.values[await get(cur_explorer,
-        defaultValue: AvailableBlockExplorerEnum.NANOCRAWLER.index)]);
+    return AvailableBlockExplorer(AvailableBlockExplorerEnum.values[await get(
+        cur_explorer,
+        defaultValue: AvailableBlockExplorerEnum.SPYNANO.index)]);
   }
 
   Future<ThemeSetting> getTheme() async {
@@ -380,7 +378,7 @@ class SharedPrefsUtil {
 
   Future<bool> shouldShowAlert(AlertResponseItem alert) async {
     int exists = await getWithExpiry("alert_${alert.id}");
-    return exists == null ? true: false;
+    return exists == null ? true : false;
   }
 
   // For logging out

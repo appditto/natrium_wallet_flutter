@@ -99,7 +99,7 @@ class StateContainerState extends State<StateContainer> {
   AvailableCurrency curCurrency = AvailableCurrency(AvailableCurrencyEnum.USD);
   LanguageSetting curLanguage = LanguageSetting(AvailableLanguage.DEFAULT);
   AvailableBlockExplorer curBlockExplorer =
-      AvailableBlockExplorer(AvailableBlockExplorerEnum.NANOCRAWLER);
+      AvailableBlockExplorer(AvailableBlockExplorerEnum.SPYNANO);
   BaseTheme curTheme = NatriumTheme();
   // Currently selected account
   Account selectedAccount =
